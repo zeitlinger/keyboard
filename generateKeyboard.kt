@@ -8,6 +8,25 @@ data class Symbols(val mapping: Map<String, String>) {
     fun replace(key: String): String = mapping.getOrDefault(key, key).let { it.ifBlank { "XX" } }
 }
 
+data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>) {
+    fun generate(header: String, homeRow: List<String>, thumbRow: List<String>): String {
+        return "($header\n${homeRow.joinToString(" ")}\n${thumbRow.joinToString(" ")}\n${options["Exit Layout"]}\n)\n"
+    }
+
+    fun defSrc(layerTable: List<List<String>>): String {
+        val homePos = getInputKeys(layerTable[0].drop(2))
+        val thumbPos = thumbs.map { it.inputKey }
+
+        return generate("defsrc", homePos, thumbPos)
+    }
+
+    fun defLayer(layer: Layer): String {
+        val homeRow = layer.output.map { createOutputKey(it) }
+        val thumbRow = thumbs.map { it.tab }
+
+        return generate("deflayer ${layer.name}", homeRow, thumbRow)
+    }
+}
 
 fun main(args: Array<String>) {
     val config = "/home/gregor/source/keyboard/keyboard14.md" //todo
@@ -24,36 +43,31 @@ fun main(args: Array<String>) {
     val thumbs = readThumbs(tables.single { it[0][0] == "Thumb Pos" }, symbols)
 
     val options = tables.single { it[0][0] == "Option" }.drop(1).associate { it[0] to it[1] }
+    val generator = Generator(options, thumbs)
 
-    val homePos = getInputKeys(layerTable[0].drop(2)).joinToString(" ")
-    val thumbPos = thumbs.joinToString(" ") { it.inputKey }
+    val defSrc = generator.defSrc(layerTable)
 
-    val defSrc = "(defsrc\n$homePos\n$thumbPos\n${options["Exit Layout"]}\n)\n"
-
-    val layerOutput = layers.joinToString("\n") { generateLayer(it) }
+    val layerOutput = layers.joinToString("\n") { generator.defLayer(it) }
 
     val output = "$defSrc\n$layerOutput"
     File(outputFile).writeText(output)
 }
 
-fun generateLayer(layer: Layer): String {
-    val out = layer.output.map { key ->
-        val number = key.all { it.isDigit() }
-        when {
-            key == "XX" -> key
-            number && key.length == 1 -> key
-            number || key[0].isUpperCase() -> {
-                // keycodes and custom commands are not handled yet
-                println("cannot handle $key")
-                "XX"
-            }
-            else -> {
-                key
-            }
+fun createOutputKey(key: String): String {
+    val number = key.all { it.isDigit() }
+    return when {
+        key == "XX" -> key
+        number && key.length == 1 -> key
+        number || key[0].isUpperCase() -> {
+            // keycodes and custom commands are not handled yet
+            println("cannot handle $key")
+            "XX"
         }
-    }.joinToString(" ")
 
-    return "(deflayer ${layer.name}\n$out\n)\n"
+        else -> {
+            key
+        }
+    }
 }
 
 fun readLayers(table: List<List<String>>, symbols: Symbols): List<Layer> {
