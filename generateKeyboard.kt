@@ -9,27 +9,35 @@ data class Symbols(val mapping: Map<String, String>) {
 }
 
 data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>) {
-    fun generate(header: String, homeRow: List<String>, thumbRow: List<String>): String {
-        return "($header\n${homeRow.joinToString(" ")}\n${thumbRow.joinToString(" ")}\n${options["Exit Layout"]}\n)\n"
+    fun generate(
+        header: String,
+        blockSeparator: String,
+        entrySeparator: String,
+        homeRow: List<String>,
+        thumbRow: List<String>
+    ): String {
+        return "($header\n${homeRow.joinToString(entrySeparator)}" +
+            "$blockSeparator${thumbRow.joinToString(entrySeparator)}" +
+            "$blockSeparator${options["Exit Layout"]}\n)\n"
     }
 
     fun defSrc(layerTable: List<List<String>>): String {
         val homePos = getInputKeys(layerTable[0].drop(2))
         val thumbPos = thumbs.map { it.inputKey }
 
-        return generate("defsrc", homePos, thumbPos)
+        return generate("defsrc", "\n", " ", homePos, thumbPos)
     }
 
     fun defLayer(layer: Layer): String {
         val homeRow = layer.output.map { createOutputKey(it) }
         val thumbRow = thumbs.map { it.tab }
 
-        return generate("deflayer ${layer.name}", homeRow, thumbRow)
+        return generate("deflayer ${layer.name}", "\n\n", "\n", homeRow, thumbRow)
     }
 }
 
 fun main(args: Array<String>) {
-    val config = "/home/gregor/source/keyboard/keyboard14.md" //todo
+    val config = "/home/gregor/source/keyboard/keyboard14.md"
 //    val config = args.getOrNull(0) ?: throw IllegalArgumentException("config file must be the first argument")
 //    val outputFile = args.getOrNull(1) ?: throw IllegalArgumentException("output file must be the second argument")
     val outputFile = "/home/gregor/source/keyboard/keyboard14.kbd"

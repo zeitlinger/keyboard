@@ -5,97 +5,321 @@ tab
 )
 
 (deflayer Letter0
-a r s t n e i o
-esc tab spc ent bspc del
+a
+r
+s
+t
+n
+e
+i
+o
+
+esc
+tab
+spc
+ent
+bspc
+del
+
 tab
 )
 
 (deflayer Letter1
-q w f p l u y ,
-esc tab spc ent bspc del
+q
+w
+f
+p
+l
+u
+y
+,
+
+esc
+tab
+spc
+ent
+bspc
+del
+
 tab
 )
 
 (deflayer Letter2
-z x c v h , . /
-esc tab spc ent bspc del
+z
+x
+c
+v
+h
+,
+.
+/
+
+esc
+tab
+spc
+ent
+bspc
+del
+
 tab
 )
 
 (deflayer Letter3
-spc g d b j m k ;
-esc tab spc ent bspc del
+spc
+g
+d
+b
+j
+m
+k
+;
+
+esc
+tab
+spc
+ent
+bspc
+del
+
 tab
 )
 
 (deflayer Paren
-grv 9 0 - = [ ] \
-esc tab spc ent bspc del
+grv
+9
+0
+-
+=
+[
+]
+\
+
+esc
+tab
+spc
+ent
+bspc
+del
+
 tab
 )
 
 (deflayer Num
-1 2 3 4 5 6 7 8
-esc tab spc ent bspc del
+1
+2
+3
+4
+5
+6
+7
+8
+
+esc
+tab
+spc
+ent
+bspc
+del
+
 tab
 )
 
 (deflayer Fun1
-f1 f2 f3 f4 f5 f6 f7 f8
-esc tab spc ent bspc del
+f1
+f2
+f3
+f4
+f5
+f6
+f7
+f8
+
+esc
+tab
+spc
+ent
+bspc
+del
+
 tab
 )
 
 (deflayer Fun2
-f9 f10 f11 f12 ent bspc del ins
-esc tab spc ent bspc del
+f9
+f10
+f11
+f12
+ent
+bspc
+del
+ins
+
+esc
+tab
+spc
+ent
+bspc
+del
+
 tab
 )
 
 (deflayer Nav
-ä ö ü ß left down up rght
-esc tab spc ent bspc del
+ä
+ö
+ü
+ß
+left
+down
+up
+rght
+
+esc
+tab
+spc
+ent
+bspc
+del
+
 tab
 )
 
 (deflayer Nav2
-caps prnt esc tab home pgdn pgup end
-esc tab spc ent bspc del
+caps
+prnt
+esc
+tab
+home
+pgdn
+pgup
+end
+
+esc
+tab
+spc
+ent
+bspc
+del
+
 tab
 )
 
 (deflayer Mouse1
-XX mouseright mousemid mouseleft XX XX XX XX
-esc tab spc ent bspc del
+XX
+mouseright
+mousemid
+mouseleft
+XX
+XX
+XX
+XX
+
+esc
+tab
+spc
+ent
+bspc
+del
+
 tab
 )
 
 (deflayer Mouse2
-XX XX mousebackward mouseforward XX XX XX XX
-esc tab spc ent bspc del
+XX
+XX
+mousebackward
+mouseforward
+XX
+XX
+XX
+XX
+
+esc
+tab
+spc
+ent
+bspc
+del
+
 tab
 )
 
 (deflayer Nav VI
-XX XX XX XX h j k l
-esc tab spc ent bspc del
+XX
+XX
+XX
+XX
+h
+j
+k
+l
+
+esc
+tab
+spc
+ent
+bspc
+del
+
 tab
 )
 
 (deflayer Media
-XX XX mute pp prev voldwn volu next
-esc tab spc ent bspc del
+XX
+XX
+mute
+pp
+prev
+voldwn
+volu
+next
+
+esc
+tab
+spc
+ent
+bspc
+del
+
 tab
 )
 
 (deflayer System
-XX XX XX XX XX brdown brup XX
-esc tab spc ent bspc del
+XX
+XX
+XX
+XX
+XX
+brdown
+brup
+XX
+
+esc
+tab
+spc
+ent
+bspc
+del
+
 tab
 )
 
 (deflayer Unused
-XX XX XX XX XX XX XX XX
-esc tab spc ent bspc del
+XX
+XX
+XX
+XX
+XX
+XX
+XX
+XX
+
+esc
+tab
+spc
+ent
+bspc
+del
+
 tab
 )
