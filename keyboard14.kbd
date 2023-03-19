@@ -126,12 +126,12 @@
   brdown (tap-hold-release 200 200 brdown alt)
   brup (tap-hold-release 200 200 brup ctl)
 
-  met (tap-hold-release 200 200 met @E+shft)
-  alt (tap-hold-release 200 200 alt @E)
+  esc (tap-hold-release 200 200 esc @E+shft)
+  tab (tap-hold-release 200 200 tab @E)
   spc (tap-hold-release 200 200 spc shft)
-  ralt (tap-hold-release 200 200 ralt @U)
-  prnt (tap-hold-release 200 200 prnt @L)
-  rctl (tap-hold-release 200 200 rctl @I)
+  ent (tap-hold-release 200 200 ent @U)
+  bspc (tap-hold-release 200 200 bspc @L)
+  del (tap-hold-release 200 200 del @I)
 )
 
 

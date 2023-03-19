@@ -31,7 +31,7 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
         val layerActivation =
             (layers.flatMap { getLayerActivation(it.output, homeRowHold, it.activationKeys) } +
                 listOf("") + // separator line
-                getLayerActivation(thumbs.map { it.inputKey }, thumbs.map { it.hold }, emptyList()))
+                getLayerActivation(thumbs.map { it.tab }, thumbs.map { it.hold }, emptyList()))
                 .joinToString("\n")
 
         return statement(
@@ -52,6 +52,7 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
                         hold[0].isUpperCase() -> "@$hold" // layer
                         else -> hold
                     } //todo E+shift
+                    //todo umlauts
                     "(tap-hold-release 200 200 $key $command)"
                 }
                 "  $key $def"
