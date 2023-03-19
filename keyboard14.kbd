@@ -112,10 +112,10 @@
   Wheel-down (tap-hold-release 200 200 Wheel-down alt)
   Wheel-up (tap-hold-release 200 200 Wheel-up ctl)
   Wheel-right (tap-hold-release 200 200 Wheel-right met)
-  h h
-  j (tap-hold-release 200 200 j alt)
-  k (tap-hold-release 200 200 k ctl)
-  l (tap-hold-release 200 200 l met)
+  _h h
+  _j (tap-hold-release 200 200 j alt)
+  _k (tap-hold-release 200 200 k ctl)
+  _l (tap-hold-release 200 200 l met)
   248 (tap-hold-release 200 200 248 ctl)
   mute (tap-hold-release 200 200 mute alt)
   pp pp
@@ -215,7 +215,7 @@ tab
 )
 
 (deflayer NavVI
-XX XX XX XX @h @j @k @l
+XX XX XX XX @_h @_j @_k @_l
 @esc @tab @spc @ent @bspc @del
 tab
 )

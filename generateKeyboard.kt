@@ -2,7 +2,7 @@ import java.io.File
 
 data class Layer(val name: String, val activationKeys: List<String>, val output: List<String>)
 
-data class Thumb(val inputKey: String, val tab: String, val hold: String)
+data class Thumb(val inputKey: String, val tap: String, val hold: String)
 
 private const val BLOCKED = "XX"
 
@@ -31,7 +31,7 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
         val layerActivation =
             (layers.flatMap { getLayerActivation(it.output, homeRowHold, it.activationKeys) } +
                 listOf("") + // separator line
-                getLayerActivation(thumbs.map { it.tab }, thumbs.map { it.hold }, emptyList()))
+                getLayerActivation(thumbs.map { it.tap }, thumbs.map { it.hold }, emptyList()))
                 .joinToString("\n")
 
         return statement(
@@ -48,13 +48,17 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
                 val def = if (excludeHold.contains(hold)) {
                     key
                 } else {
-                    val command = when {
+                    val holdDef = when {
                         hold[0].isUpperCase() -> "@$hold" // layer
                         else -> hold
-                    } //todo E+shift
+                    }
+                    //todo E+shift
+
                     //todo umlauts
-                    "(tap-hold-release 200 200 $key $command)"
-                }
+                    // vim letters
+                    // layer uses activation key instead of name
+                    "(tap-hold-release 200 200 $key $holdDef)"
+                }.replace("_", "") // to avoid duplicate aliases
                 "  $key $def"
             }
 
@@ -66,7 +70,7 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
 
     fun defLayer(layer: Layer): String {
         val homeRow = layer.output.map { createOutputKey(it) }
-        val thumbRow = thumbs.map { "@${it.tab}" }
+        val thumbRow = thumbs.map { "@${it.tap}" }
 
         return generate("deflayer ${layer.name}", homeRow, thumbRow)
     }
