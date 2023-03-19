@@ -27,11 +27,11 @@ fun main(args: Array<String>) {
     val homePos = getInputKeys(layerTable[0].drop(2)).joinToString(" ")
     val thumbPos = thumbs.joinToString(" ") { it.inputKey }
 
-    println("(defsrc\n$homePos\n$thumbPos\n${options["Switch Layer"]}\n)")
+    println("(defsrc\n$homePos\n$thumbPos\n${options["Exit Layout"]}\n)")
 
     for (layer in layers) {
         val mapping = layer.output.joinToString(" ")
-        println("(deflayer ${layer.name}\n$mapping\n)")
+        println("(deflayer ${layer.name}\n$mapping\n)\n")
     }
 }
 
