@@ -1,8 +1,8 @@
 import java.io.File
 import java.lang.IllegalStateException
 
-data class Layer(val name: String, val activationKeys: List<String>, val output: List<String>) {
-    val thumbHoldSuffix get() = activationKeys.joinToString("")
+data class Layer(val name: String, val activationKeys: Set<String>, val output: List<String>) {
+    val thumbHoldSuffix get() = activationKeys.sorted().joinToString("")
 }
 
 data class Thumb(val inputKey: String, val tap: String, val hold: String)
@@ -38,7 +38,7 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
                         layer,
                         thumbs.map { it.tap },
                         thumbs.map { it.hold },
-                        emptyList(),
+                        emptySet(),
                         layer.thumbHoldSuffix
                     )
             }
@@ -55,33 +55,42 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
         current: Layer,
         keys: List<String>,
         hold: List<String>,
-        excludeHold: List<String>,
+        excludeHold: Set<String>,
         layerSuffix: String
     ): List<String> =
         keys.zip(hold)
             .filterNot { it.first == BLOCKED }
             .map { (key, hold) ->
-                val def = if (excludeHold.contains(hold)) {
+                val command = if (excludeHold.contains(hold)) {
                     key
                 } else {
-                    val holdDef = when {
-                        hold[0].isUpperCase() -> getNextLayer(current, hold)
-                        else -> hold
-                    }
-                    //todo E+shift
+                    val holdDef = resolveHold(current, hold)
+                    holdDef?.let { "(tap-hold-release 200 200 $key $it)" } ?: key
 
                     //todo umlauts
-                    // todo layer uses activation key instead of name
                     // todo mouse
                     // todo direct keycode
-                    "(tap-hold-release 200 200 $key $holdDef)"
                 }.replace("_", "") // to avoid duplicate aliases
-                "  $key$layerSuffix $def"
+                "  $key$layerSuffix $command"
             }
 
-    private fun getNextLayer(current: Layer, hold: String): String {
-        //todo
-        return "@$hold"
+    private fun resolveHold(current: Layer, hold: String): String? = when {
+        hold.contains("+") -> {
+            val commands = hold
+                .split("+")
+                .map { resolveHold(current, it) }
+                .joinToString(" ")
+            "(multi $commands)"
+        }
+
+        hold[0].isUpperCase() -> getNextLayer(current, hold)
+        else -> hold
+    }
+
+    private fun getNextLayer(current: Layer, hold: String): String? {
+        val want = (current.activationKeys + listOf(hold)).toSet()
+        val next = layers.singleOrNull { it.activationKeys == want }?.name
+        return next?.let { "@$it" }
     }
 
     fun defSrc(homePos: List<String>): String {
@@ -150,7 +159,7 @@ fun readLayers(table: List<List<String>>, symbols: Symbols): List<Layer> {
             if (!name[0].isUpperCase() || !name[0].isLetter()) {
                 throw IllegalStateException("Illegal layer name (must start with upper case alpha): $name")
             }
-            val keys = layerLine[1].toCharArray().map { it.toString() }
+            val keys = layerLine[1].toCharArray().map { it.toString() }.toSet()
             val mapping = layerLine
                 .drop(2)
                 .map { symbols.replace(it.substringBefore(" ")) } // part after space is only for illustration

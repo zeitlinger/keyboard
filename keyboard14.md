@@ -30,7 +30,7 @@ Thumb positions
 | Thumb Pos | L (met) | L (alt) | L (spc) | R (ralt) | R (prnt) | R (rctl) |
 |-----------|---------|---------|---------|----------|----------|----------|
 | Tab       | esc     | tab     | spc     | ↩️️      | bspc     | del      |
-| Hold      | E+shft  | E       | shft    | U        | L        | I        |
+| Hold      | shft+E  | E       | shft    | U        | L        | I        |
     
 | Option       | Value |
 |--------------|-------|
