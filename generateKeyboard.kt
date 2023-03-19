@@ -4,8 +4,10 @@ data class Layer(val name: String, val activationKeys: List<String>, val output:
 
 data class Thumb(val inputKey: String, val tab: String, val hold: String)
 
+private const val BLOCKED = "XX"
+
 data class Symbols(val mapping: Map<String, String>) {
-    fun replace(key: String): String = mapping.getOrDefault(key, key).let { it.ifBlank { "XX" } }
+    fun replace(key: String): String = mapping.getOrDefault(key, key).let { it.ifBlank { BLOCKED } }
 }
 
 data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, val layers: List<Layer>) {
@@ -29,7 +31,8 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
     fun defAlias(homeRowHold: List<String>): String {
         val layerToggle = layers.joinToString("\n") { "  ${it.name} (layer-toggle ${it.name})" }
         val layerActivation =
-            (getLayerActivation(layers[0].output, homeRowHold) +
+            (layers.flatMap { getLayerActivation(it.output, homeRowHold) } +
+                listOf("") + // separator line
                 getLayerActivation(thumbs.map { it.inputKey }, thumbs.map { it.hold }))
                 .joinToString("\n")
 
@@ -41,7 +44,9 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
     }
 
     private fun getLayerActivation(keys: List<String>, hold: List<String>): List<String> =
-        keys.zip(hold).map { (key, hold) ->
+        keys.zip(hold)
+            .filterNot { it.first == BLOCKED }
+            .map { (key, hold) ->
             val command = when {
                 hold[0].isUpperCase() -> "@$hold" // layer
                 else -> hold
@@ -94,12 +99,12 @@ fun write(outputFile: String, vararg output: String) {
 fun createOutputKey(key: String): String {
     val number = key.all { it.isDigit() }
     return when {
-        key == "XX" -> key
+        key == BLOCKED -> key
         number && key.length == 1 -> key
         number || key[0].isUpperCase() -> {
             // keycodes and custom commands are not handled yet
             println("cannot handle $key")
-            "XX"
+            BLOCKED
         }
 
         else -> {
