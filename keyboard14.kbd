@@ -18,13 +18,21 @@
   Unused (layer-toggle Unused)
 
   ;; layer activation
-[  a (tap-hold-release 200 200 a met),   r (tap-hold-release 200 200 r ctl),   s (tap-hold-release 200 200 s alt),   t (tap-hold-release 200 200 t @O),   n (tap-hold-release 200 200 n @O),   e (tap-hold-release 200 200 e alt),   i (tap-hold-release 200 200 i ctl),   o (tap-hold-release 200 200 o met),   met (tap-hold-release 200 200 met @E+shft)
+  a (tap-hold-release 200 200 a met)
+  r (tap-hold-release 200 200 r ctl)
+  s (tap-hold-release 200 200 s alt)
+  t (tap-hold-release 200 200 t @O)
+  n (tap-hold-release 200 200 n @O)
+  e (tap-hold-release 200 200 e alt)
+  i (tap-hold-release 200 200 i ctl)
+  o (tap-hold-release 200 200 o met)
+  met (tap-hold-release 200 200 met @E+shft)
   alt (tap-hold-release 200 200 alt @E)
   spc (tap-hold-release 200 200 spc shft)
   ralt (tap-hold-release 200 200 ralt @U)
   prnt (tap-hold-release 200 200 prnt @L)
-  rctl (tap-hold-release 200 200 rctl @I)]
-
+  rctl (tap-hold-release 200 200 rctl @I)
+)
 
 
 (defsrc

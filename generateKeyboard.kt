@@ -8,21 +8,48 @@ data class Symbols(val mapping: Map<String, String>) {
     fun replace(key: String): String = mapping.getOrDefault(key, key).let { it.ifBlank { "XX" } }
 }
 
-data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>) {
-    fun generate(
+data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, val layers: List<Layer>) {
+
+    private fun statement(header: String, body: String): String = "($header\n$body\n)\n"
+
+    private fun generate(
         header: String,
         blockSeparator: String,
         entrySeparator: String,
         homeRow: List<String>,
-        thumbRow: List<String>
+        thumbRow: List<String>,
     ): String {
-        return "($header\n${homeRow.joinToString(entrySeparator)}" +
-            "$blockSeparator${thumbRow.joinToString(entrySeparator)}" +
-            "$blockSeparator${options["Exit Layout"]}\n)\n"
+        return statement(
+            header, homeRow.joinToString(entrySeparator) +
+                "$blockSeparator${thumbRow.joinToString(entrySeparator)}" +
+                "$blockSeparator${options["Exit Layout"]}"
+        )
     }
 
-    fun defSrc(layerTable: List<List<String>>): String {
-        val homePos = getInputKeys(layerTable[0].drop(2))
+    fun defAlias(homeRowHold: List<String>): String {
+        val layerToggle = layers.joinToString("\n") { "  ${it.name} (layer-toggle ${it.name})" }
+        val layerActivation =
+            (getLayerActivation(layers[0].output, homeRowHold) +
+                getLayerActivation(thumbs.map { it.inputKey }, thumbs.map { it.hold }))
+                .joinToString("\n")
+
+        return statement(
+            "defalias",
+            "  ;; layer aliases\n$layerToggle\n\n" +
+                "  ;; layer activation\n$layerActivation"
+        )
+    }
+
+    private fun getLayerActivation(keys: List<String>, hold: List<String>): List<String> =
+        keys.zip(hold).map { (key, hold) ->
+            val command = when {
+                hold[0].isUpperCase() -> "@$hold" // layer
+                else -> hold
+            } //todo E+shift
+            "  $key (tap-hold-release 200 200 $key $command)"
+        }
+
+    fun defSrc(homePos: List<String>): String {
         val thumbPos = thumbs.map { it.inputKey }
 
         return generate("defsrc", "\n", " ", homePos, thumbPos)
@@ -51,14 +78,17 @@ fun main(args: Array<String>) {
     val thumbs = readThumbs(tables.single { it[0][0] == "Thumb Pos" }, symbols)
 
     val options = tables.single { it[0][0] == "Option" }.drop(1).associate { it[0] to it[1] }
-    val generator = Generator(options, thumbs)
+    val generator = Generator(options, thumbs, layers)
 
-    val defSrc = generator.defSrc(layerTable)
-
+    val alias = generator.defAlias(layerTable[1].drop(2));
+    val defSrc = generator.defSrc(getInputKeys(layerTable[0].drop(2)))
     val layerOutput = layers.joinToString("\n") { generator.defLayer(it) }
 
-    val output = "$defSrc\n$layerOutput"
-    File(outputFile).writeText(output)
+    write(outputFile, alias, defSrc, layerOutput)
+}
+
+fun write(outputFile: String, vararg output: String) {
+    File(outputFile).writeText(output.joinToString("\n\n"))
 }
 
 fun createOutputKey(key: String): String {
