@@ -5,11 +5,7 @@ data class Layer(val name: String, val keys: List<String>, val mapping: Map<Stri
 data class Thumb(val inputKey: String, val tab: String, val hold: String)
 
 data class Symbols(val mapping: Map<String, String>) {
-    fun replace(key: String): String = mapping.getOrDefault(key, key).also {
-        if (!it.all { ch -> ch >= 32.toChar() && ch < 127.toChar() }) {
-            throw IllegalArgumentException("non ascii char detected ${it.toCharArray().joinToString(", ", transform = {it.code})}")
-        }
-    }
+    fun replace(key: String): String = mapping.getOrDefault(key, key)
 }
 
 
