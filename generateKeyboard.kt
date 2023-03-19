@@ -66,7 +66,7 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
 
     fun defLayer(layer: Layer): String {
         val homeRow = layer.output.map { createOutputKey(it) }
-        val thumbRow = thumbs.map { it.tab }
+        val thumbRow = thumbs.map { "@${it.tab}" }
 
         return generate("deflayer ${layer.name}", homeRow, thumbRow)
     }
@@ -104,16 +104,14 @@ fun createOutputKey(key: String): String {
     val number = key.all { it.isDigit() }
     return when {
         key == BLOCKED -> key
-        number && key.length == 1 -> key
+        number && key.length == 1 -> "@$key"
         number || key[0].isUpperCase() -> {
             // keycodes and custom commands are not handled yet
             println("cannot handle $key")
             BLOCKED
         }
 
-        else -> {
-            key
-        }
+        else -> "@$key"
     }
 }
 
