@@ -16,15 +16,13 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
 
     private fun generate(
         header: String,
-        blockSeparator: String,
-        entrySeparator: String,
         homeRow: List<String>,
         thumbRow: List<String>,
     ): String {
         return statement(
-            header, homeRow.joinToString(entrySeparator) +
-                "$blockSeparator${thumbRow.joinToString(entrySeparator)}" +
-                "$blockSeparator${options["Exit Layout"]}"
+            header, homeRow.joinToString(" ") +
+                "\n${thumbRow.joinToString(" ")}" +
+                "\n${options["Exit Layout"]}"
         )
     }
 
@@ -57,14 +55,14 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
     fun defSrc(homePos: List<String>): String {
         val thumbPos = thumbs.map { it.inputKey }
 
-        return generate("defsrc", "\n", " ", homePos, thumbPos)
+        return generate("defsrc", homePos, thumbPos)
     }
 
     fun defLayer(layer: Layer): String {
         val homeRow = layer.output.map { createOutputKey(it) }
         val thumbRow = thumbs.map { it.tab }
 
-        return generate("deflayer ${layer.name}", "\n\n", "\n", homeRow, thumbRow)
+        return generate("deflayer ${layer.name}", homeRow, thumbRow)
     }
 }
 
