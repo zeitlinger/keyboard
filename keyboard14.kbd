@@ -1,8 +1,38 @@
+(defalias
+  ;; layer aliases
+  Letter0 (layer-toggle Letter0)
+  Letter1 (layer-toggle Letter1)
+  Letter2 (layer-toggle Letter2)
+  Letter3 (layer-toggle Letter3)
+  Paren (layer-toggle Paren)
+  Num (layer-toggle Num)
+  Fun1 (layer-toggle Fun1)
+  Fun2 (layer-toggle Fun2)
+  Nav (layer-toggle Nav)
+  Nav2 (layer-toggle Nav2)
+  Mouse1 (layer-toggle Mouse1)
+  Mouse2 (layer-toggle Mouse2)
+  NavVI (layer-toggle NavVI)
+  Media (layer-toggle Media)
+  System (layer-toggle System)
+  Unused (layer-toggle Unused)
+
+  ;; layer activation
+[  a (tap-hold-release 200 200 a met),   r (tap-hold-release 200 200 r ctl),   s (tap-hold-release 200 200 s alt),   t (tap-hold-release 200 200 t @O),   n (tap-hold-release 200 200 n @O),   e (tap-hold-release 200 200 e alt),   i (tap-hold-release 200 200 i ctl),   o (tap-hold-release 200 200 o met),   met (tap-hold-release 200 200 met @E+shft)
+  alt (tap-hold-release 200 200 alt @E)
+  spc (tap-hold-release 200 200 spc shft)
+  ralt (tap-hold-release 200 200 ralt @U)
+  prnt (tap-hold-release 200 200 prnt @L)
+  rctl (tap-hold-release 200 200 rctl @I)]
+
+
+
 (defsrc
 caps a s d l ; ' ent
 met alt spc ralt prnt rctl
 tab
 )
+
 
 (deflayer Letter0
 a
@@ -244,7 +274,7 @@ del
 tab
 )
 
-(deflayer Nav VI
+(deflayer NavVI
 XX
 XX
 XX
