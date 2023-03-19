@@ -43,14 +43,19 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
 
     private fun getLayerActivation(keys: List<String>, hold: List<String>, excludeHold: List<String>): List<String> =
         keys.zip(hold)
-            .filterNot { it.first == BLOCKED || excludeHold.contains(it.second) }
+            .filterNot { it.first == BLOCKED }
             .map { (key, hold) ->
-            val command = when {
-                hold[0].isUpperCase() -> "@$hold" // layer
-                else -> hold
-            } //todo E+shift
-            "  $key (tap-hold-release 200 200 $key $command)"
-        }
+                val def = if (excludeHold.contains(hold)) {
+                    key
+                } else {
+                    val command = when {
+                        hold[0].isUpperCase() -> "@$hold" // layer
+                        else -> hold
+                    } //todo E+shift
+                    "(tap-hold-release 200 200 $key $command)"
+                }
+                "  $key $def"
+            }
 
     fun defSrc(homePos: List<String>): String {
         val thumbPos = thumbs.map { it.inputKey }
