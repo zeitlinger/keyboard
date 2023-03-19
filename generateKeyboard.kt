@@ -31,9 +31,9 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
     fun defAlias(homeRowHold: List<String>): String {
         val layerToggle = layers.joinToString("\n") { "  ${it.name} (layer-toggle ${it.name})" }
         val layerActivation =
-            (layers.flatMap { getLayerActivation(it.output, homeRowHold) } +
+            (layers.flatMap { getLayerActivation(it.output, homeRowHold, it.activationKeys) } +
                 listOf("") + // separator line
-                getLayerActivation(thumbs.map { it.inputKey }, thumbs.map { it.hold }))
+                getLayerActivation(thumbs.map { it.inputKey }, thumbs.map { it.hold }, emptyList()))
                 .joinToString("\n")
 
         return statement(
@@ -43,9 +43,9 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
         )
     }
 
-    private fun getLayerActivation(keys: List<String>, hold: List<String>): List<String> =
+    private fun getLayerActivation(keys: List<String>, hold: List<String>, excludeHold: List<String>): List<String> =
         keys.zip(hold)
-            .filterNot { it.first == BLOCKED }
+            .filterNot { it.first == BLOCKED || excludeHold.contains(it.second) }
             .map { (key, hold) ->
             val command = when {
                 hold[0].isUpperCase() -> "@$hold" // layer
