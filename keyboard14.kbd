@@ -1,0 +1,69 @@
+(defsrc
+caps a s d l ; ' ent
+met alt spc ralt prnt rctl
+tab
+)
+
+(deflayer Letter0
+a r s t n e i o
+)
+
+(deflayer Letter1
+q w f p l u y ,
+)
+
+(deflayer Letter2
+z x c v h , . /
+)
+
+(deflayer Letter3
+spc g d b j m k ;
+)
+
+(deflayer Paren
+grv 9 0 - = [ ] \
+)
+
+(deflayer Num
+1 2 3 4 5 6 7 8
+)
+
+(deflayer Fun1
+f1 f2 f3 f4 f5 f6 f7 f8
+)
+
+(deflayer Fun2
+f9 f10 f11 f12 ent bspc del ins
+)
+
+(deflayer Nav
+ä ö ü ß left down up rght
+)
+
+(deflayer Nav2
+caps prnt esc tab home pgdn pgup end
+)
+
+(deflayer Mouse1
+XX mouseright mousemid mouseleft XX XX XX XX
+)
+
+(deflayer Mouse2
+XX XX mousebackward mouseforward XX XX XX XX
+)
+
+(deflayer Nav VI
+XX XX XX XX h j k l
+)
+
+(deflayer Media
+XX XX mute pp prev voldwn volu next
+)
+
+(deflayer System
+XX XX XX XX XX brdown brup XX
+)
+
+(deflayer Unused
+XX XX XX XX XX XX XX XX
+)

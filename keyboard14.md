@@ -14,8 +14,8 @@ Hold Keys
 | Letter3 | I    | spc           | g          | d          | b          | j          | m          | k          | ; :          |
 | Paren   | E    | ` ~           | 9 (        | 0 )        | - _        | = +        | [ {        | ] }        | \ &#124;     |
 | Num     | EU   | 1 !           | 2 @        | 3 #        | 4 $        | 5 %        | 6 ^        | 7 &        | 8 *          |
-| Fun1    | EL   | F1            | F2         | F3         | F4         | F5         | F6         | F7         | F8           |
-| Fun2    | EI   | F9            | F10        | F11        | F12        | ↩️️        | bspc       | del        | ins          |
+| Fun1    | EL   | f1            | f2         | f3         | f4         | f5         | f6         | f7         | f8           |
+| Fun2    | EI   | f9            | f10        | f11        | f12        | ↩️️        | bspc       | del        | ins          |
 | Nav     | O    | ä             | ö          | ü          | ß          | ⬅️         | ⬇️         | ⬆️         | ➡️           |
 | Nav2    | OU   | caps          | prnt       | esc        | tab        | home       | pgdn       | pgup       | end          |
 | Mouse1  | LO   | 🖱️d          | 🖱️r       | 🖱️m       | 🖱️l       | 🖱️⬅️      | 🖱️⬇️      | 🖱️⬆️      | 🖱️➡️        |   
@@ -38,34 +38,34 @@ Thumb positions
 | Exit Layout  | tab   |
 
 
-| Symbol | Command                  |
-|--------|--------------------------|
-| `      | grv                      |
-| ↩️️    | ent                      |
-| ⬅️     | left                     |
-| ⬇️     | down                     |
-| ⬆️     | up                       |
-| ➡️     | rght                     |
-| 🖱️⬅️  |                          |
-| 🖱️⬇️  |                          |
-| 🖱️⬆️  |                          |
-| 🖱️➡️  |                          |
-| 🖲️️⬅️ | <wheel left>             |
-| 🖲️️⬇️ |                          |
-| 🖲️️⬆️ |                          |
-| 🖲️️➡️ |                          |
-| 🖱️d   | <double left>            |
-| 🖱️l   | mouseleft                |
-| 🖱️m   | mousemid                 |
-| 🖱️r   | mouseright               |
-| 🖱️b   | mousebackward            |
-| 🖱️f   | mouseforward             |
-| 🔇     | mute                     |
-| 🎤     | 248 <use direct keycode> |
-| ⏯️     | pp                       |
-| ⏮️     | prev                     |
-| ⏭️     | next                     |
-| 🔊     | volu                     |
-| 🔈     | voldwn                   |
-| 🔆     | brup                     |
-| 🔅     | brdown                   |
+| Symbol | Command           |
+|--------|-------------------|
+| `      | grv               |
+| ↩️️    | ent               |
+| ⬅️     | left              |
+| ⬇️     | down              |
+| ⬆️     | up                |
+| ➡️     | rght              |
+| 🖱️⬅️  | Mouse-move-left   |
+| 🖱️⬇️  | Mouse-move-down   |
+| 🖱️⬆️  | Mouse-move-up     |
+| 🖱️➡️  | Mouse-move-left   |
+| 🖲️️⬅️ | Wheel-left        |
+| 🖲️️⬇️ | Wheel-down        |
+| 🖲️️⬆️ | Wheel-up          |
+| 🖲️️➡️ | Wheel-right       |
+| 🖱️d   | Mouse-double-left |
+| 🖱️l   | mouseleft         |
+| 🖱️m   | mousemid          |
+| 🖱️r   | mouseright        |
+| 🖱️b   | mousebackward     |
+| 🖱️f   | mouseforward      |
+| 🔇     | mute              |
+| 🎤     | 248               |
+| ⏯️     | pp                |
+| ⏮️     | prev              |
+| ⏭️     | next              |
+| 🔊     | volu              |
+| 🔈     | voldwn            |
+| 🔆     | brup              |
+| 🔅     | brdown            |

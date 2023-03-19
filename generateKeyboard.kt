@@ -12,7 +12,8 @@ data class Symbols(val mapping: Map<String, String>) {
 fun main(args: Array<String>) {
     val config = "/home/gregor/source/keyboard/keyboard14.md" //todo
 //    val config = args.getOrNull(0) ?: throw IllegalArgumentException("config file must be the first argument")
-//    val output = args.getOrNull(1) ?: throw IllegalArgumentException("output file must be the second argument")
+//    val outputFile = args.getOrNull(1) ?: throw IllegalArgumentException("output file must be the second argument")
+    val outputFile = "/home/gregor/source/keyboard/keyboard14.kbd"
 //    val device = args.getOrNull(2) ?: throw IllegalArgumentException("device must be the third argument")
 
     val tables = readTables(config)
@@ -27,17 +28,37 @@ fun main(args: Array<String>) {
     val homePos = getInputKeys(layerTable[0].drop(2)).joinToString(" ")
     val thumbPos = thumbs.joinToString(" ") { it.inputKey }
 
-    println("(defsrc\n$homePos\n$thumbPos\n${options["Exit Layout"]}\n)")
+    val defSrc = "(defsrc\n$homePos\n$thumbPos\n${options["Exit Layout"]}\n)\n"
 
-    for (layer in layers) {
-        val mapping = layer.output.joinToString(" ")
-        println("(deflayer ${layer.name}\n$mapping\n)\n")
-    }
+    val layerOutput = layers.joinToString("\n") { generateLayer(it) }
+
+    val output = "$defSrc\n$layerOutput"
+    File(outputFile).writeText(output)
+}
+
+fun generateLayer(layer: Layer): String {
+    val out = layer.output.map { key ->
+        val number = key.all { it.isDigit() }
+        when {
+            key == "XX" -> key
+            number && key.length == 1 -> key
+            number || key[0].isUpperCase() -> {
+                // keycodes and custom commands are not handled yet
+                println("cannot handle $key")
+                "XX"
+            }
+            else -> {
+                key
+            }
+        }
+    }.joinToString(" ")
+
+    return "(deflayer ${layer.name}\n$out\n)\n"
 }
 
 fun readLayers(table: List<List<String>>, symbols: Symbols): List<Layer> {
     return table
-        .drop(1) // header
+        .drop(2) // header + Hold
         .map { layerLine ->
             val name = layerLine[0]
             val keys = layerLine[1].toCharArray().map { it.toString() }
