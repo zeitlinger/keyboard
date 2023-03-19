@@ -1,6 +1,9 @@
 import java.io.File
+import java.lang.IllegalStateException
 
-data class Layer(val name: String, val activationKeys: List<String>, val output: List<String>)
+data class Layer(val name: String, val activationKeys: List<String>, val output: List<String>) {
+    val thumbHoldSuffix get() = activationKeys.joinToString("")
+}
 
 data class Thumb(val inputKey: String, val tap: String, val hold: String)
 
@@ -27,11 +30,18 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
     }
 
     fun defAlias(homeRowHold: List<String>): String {
-        val layerToggle = layers.joinToString("\n") { "  ${it.name} (layer-toggle ${it.name})" }
+        val layerToggle = layers.joinToString("\n") { "  ${it.name} (layer-while-held ${it.name})" }
         val layerActivation =
-            (layers.flatMap { getLayerActivation(it.output, homeRowHold, it.activationKeys) } +
-                listOf("") + // separator line
-                getLayerActivation(thumbs.map { it.tap }, thumbs.map { it.hold }, emptyList()))
+            layers.flatMap { layer ->
+                getLayerActivation(layer, layer.output, homeRowHold, layer.activationKeys, "") +
+                    getLayerActivation(
+                        layer,
+                        thumbs.map { it.tap },
+                        thumbs.map { it.hold },
+                        emptyList(),
+                        layer.thumbHoldSuffix
+                    )
+            }
                 .joinToString("\n")
 
         return statement(
@@ -41,7 +51,13 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
         )
     }
 
-    private fun getLayerActivation(keys: List<String>, hold: List<String>, excludeHold: List<String>): List<String> =
+    private fun getLayerActivation(
+        current: Layer,
+        keys: List<String>,
+        hold: List<String>,
+        excludeHold: List<String>,
+        layerSuffix: String
+    ): List<String> =
         keys.zip(hold)
             .filterNot { it.first == BLOCKED }
             .map { (key, hold) ->
@@ -49,18 +65,24 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
                     key
                 } else {
                     val holdDef = when {
-                        hold[0].isUpperCase() -> "@$hold" // layer
+                        hold[0].isUpperCase() -> getNextLayer(current, hold)
                         else -> hold
                     }
                     //todo E+shift
 
                     //todo umlauts
-                    // vim letters
-                    // layer uses activation key instead of name
+                    // todo layer uses activation key instead of name
+                    // todo mouse
+                    // todo direct keycode
                     "(tap-hold-release 200 200 $key $holdDef)"
                 }.replace("_", "") // to avoid duplicate aliases
-                "  $key $def"
+                "  $key$layerSuffix $def"
             }
+
+    private fun getNextLayer(current: Layer, hold: String): String {
+        //todo
+        return "@$hold"
+    }
 
     fun defSrc(homePos: List<String>): String {
         val thumbPos = thumbs.map { it.inputKey }
@@ -70,7 +92,8 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
 
     fun defLayer(layer: Layer): String {
         val homeRow = layer.output.map { createOutputKey(it) }
-        val thumbRow = thumbs.map { "@${it.tap}" }
+        val suffix = layer.thumbHoldSuffix
+        val thumbRow = thumbs.map { "@${it.tap}$suffix" }
 
         return generate("deflayer ${layer.name}", homeRow, thumbRow)
     }
@@ -124,6 +147,9 @@ fun readLayers(table: List<List<String>>, symbols: Symbols): List<Layer> {
         .drop(2) // header + Hold
         .map { layerLine ->
             val name = layerLine[0]
+            if (!name[0].isUpperCase() || !name[0].isLetter()) {
+                throw IllegalStateException("Illegal layer name (must start with upper case alpha): $name")
+            }
             val keys = layerLine[1].toCharArray().map { it.toString() }
             val mapping = layerLine
                 .drop(2)
