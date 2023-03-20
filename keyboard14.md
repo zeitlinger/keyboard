@@ -18,12 +18,12 @@ Hold Keys
 | Fun2    | EUL  | f9            | f10        | f11        | f12        | ↩️️        | bspc       | del        | ins          |
 | Nav     | O    | ä             | ö          | ü          | ß          | ⬅️         | ⬇️         | ⬆️         | ➡️           |
 | Nav2    | OU   | caps          | prnt       | esc        | tab        | home       | pgdn       | pgup       | end          |
+| NavVI   | OE   |               |            |            |            | _h         | _j         | _k         | _l           |
 | Mouse1  | LO   | 🖱️d          | 🖱️r       | 🖱️m       | 🖱️l       | 🖱️⬅️      | 🖱️⬇️      | 🖱️⬆️      | 🖱️➡️        |   
 | Mouse2  | OLU  |               |            | 🖱️b       | 🖱️f       | 🖲️️⬅️     | 🖲️️⬇️     | 🖲️️⬆️     | 🖲️️➡️       |
-| NavVI   | OE   |               |            |            |            | _h         | _j         | _k         | _l           |
+| Mouse3  | EULO |               |            |            |            | 🖱️⬅️⬅️    | 🖱️⬇️⬇️    | 🖱️⬆️⬆️    | 🖱️➡️➡️      |   
 | Media   | EUO  |               | 🎤         | 🔇         | ⏯️         | ⏮️         | 🔈         | 🔊         | ⏭️           |
 | System  | LEO  |               |            |            |            |            | 🔅         | 🔆         |              |
-| Unused  | EULO |               |            |            |            |            |            |            |              |
                                  
 Thumb positions
 
@@ -59,34 +59,38 @@ Thumb positions
 | ß                     | (unicode ß)                        |
 
 
-| Symbol | Command           |
-|--------|-------------------|
-| `      | grv               |
-| ↩️️    | ent               |
-| ⬅️     | left              |
-| ⬇️     | down              |
-| ⬆️     | up                |
-| ➡️     | rght              |
-| 🖱️⬅️  | movemouse-left    |
-| 🖱️⬇️  | movemouse-down    |
-| 🖱️⬆️  | movemouse-up      |
-| 🖱️➡️  | movemouse-right   |
-| 🖲️️⬅️ | mwheel-left       |
-| 🖲️️⬇️ | mwheel-down       |
-| 🖲️️⬆️ | mwheel-up         |
-| 🖲️️➡️ | mwheel-right      |
-| 🖱️d   | mouse-double-left |
-| 🖱️l   | mouseleft         |
-| 🖱️m   | mousemid          |
-| 🖱️r   | mouseright        |
-| 🖱️b   | mousebackward     |
-| 🖱️f   | mouseforward      |
-| 🔇     | mute              |
-| 🎤     | mute-mic          |
-| ⏯️     | pp                |
-| ⏮️     | prev              |
-| ⏭️     | next              |
-| 🔊     | volu              |
-| 🔈     | voldwn            |
-| 🔆     | brup              |
-| 🔅     | brdown            |
+| Symbol  | Command               |
+|---------|-----------------------|
+| `       | grv                   |
+| ↩️️     | ent                   |
+| ⬅️      | left                  |
+| ⬇️      | down                  |
+| ⬆️      | up                    |
+| ➡️      | rght                  |
+| 🖱️⬅️   | movemouse-left        |
+| 🖱️⬇️   | movemouse-down        |
+| 🖱️⬆️   | movemouse-up          |
+| 🖱️➡️   | movemouse-right       |
+| 🖱️⬅️⬅️ | movemouse-accel-left  |
+| 🖱️⬇️⬇️ | movemouse-accel-down  |
+| 🖱️⬆️⬆️ | movemouse-accel-up    |
+| 🖱️➡️➡️ | movemouse-accel-right |
+| 🖲️️⬅️  | mwheel-left           |
+| 🖲️️⬇️  | mwheel-down           |
+| 🖲️️⬆️  | mwheel-up             |
+| 🖲️️➡️  | mwheel-right          |
+| 🖱️d    | mouse-double-left     |
+| 🖱️l    | mouseleft             |
+| 🖱️m    | mousemid              |
+| 🖱️r    | mouseright            |
+| 🖱️b    | mousebackward         |
+| 🖱️f    | mouseforward          |
+| 🔇      | mute                  |
+| 🎤      | mute-mic              |
+| ⏯️      | pp                    |
+| ⏮️      | prev                  |
+| ⏭️      | next                  |
+| 🔊      | volu                  |
+| 🔈      | voldwn                |
+| 🔆      | brup                  |
+| 🔅      | brdown                |

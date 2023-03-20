@@ -1,3 +1,5 @@
+;; file is generated from keyboard14.md
+
 (defalias
   ;; layer aliases
   Letter0 (layer-while-held Letter0)
@@ -10,12 +12,12 @@
   Fun2 (layer-while-held Fun2)
   Nav (layer-while-held Nav)
   Nav2 (layer-while-held Nav2)
+  NavVI (layer-while-held NavVI)
   Mouse1 (layer-while-held Mouse1)
   Mouse2 (layer-while-held Mouse2)
-  NavVI (layer-while-held NavVI)
+  Mouse3 (layer-while-held Mouse3)
   Media (layer-while-held Media)
   System (layer-while-held System)
-  Unused (layer-while-held Unused)
 
   ;; custom alias
   mouse-double-left (multi mouseleft mouseleft)
@@ -139,8 +141,8 @@
   f9 (tap-hold-release 200 200 f9 met)
   f10 (tap-hold-release 200 200 f10 ctl)
   f11 (tap-hold-release 200 200 f11 alt)
-  f12 (tap-hold-release 200 200 f12 @Unused)
-  ent (tap-hold-release 200 200 ent @Unused)
+  f12 (tap-hold-release 200 200 f12 @Mouse3)
+  ent (tap-hold-release 200 200 ent @Mouse3)
   bspc (tap-hold-release 200 200 bspc alt)
   del (tap-hold-release 200 200 del ctl)
   ins (tap-hold-release 200 200 ins met)
@@ -178,6 +180,16 @@
   entOU (tap-hold-release 200 200 ent @Nav2)
   bspcOU (tap-hold-release 200 200 bspc @Media)
   delOU (tap-hold-release 200 200 del @Media)
+  _h h
+  _j (tap-hold-release 200 200 j alt)
+  _k (tap-hold-release 200 200 k ctl)
+  _l (tap-hold-release 200 200 l met)
+  escEO (tap-hold-release 200 200 esc (multi shft @System))
+  tabEO (tap-hold-release 200 200 tab @System)
+  spcEO (tap-hold-release 200 200 spc shft)
+  entEO (tap-hold-release 200 200 ent @Media)
+  bspcEO (tap-hold-release 200 200 bspc @NavVI)
+  delEO (tap-hold-release 200 200 del @Media)
   mouse-double-left (tap-hold-release 200 200 (multi mouseleft mouseleft) met)
   mouseright (tap-hold-release 200 200 mouseright ctl)
   mousemid (tap-hold-release 200 200 mousemid alt)
@@ -191,7 +203,7 @@
   spcLO (tap-hold-release 200 200 spc shft)
   entLO (tap-hold-release 200 200 ent @Mouse2)
   bspcLO (tap-hold-release 200 200 bspc @System)
-  delLO (tap-hold-release 200 200 del @Unused)
+  delLO (tap-hold-release 200 200 del @Mouse3)
   mousebackward (tap-hold-release 200 200 mousebackward alt)
   mouseforward mouseforward
   mwheel-left (mwheel-left 50 120)
@@ -202,18 +214,18 @@
   tabLOU (tap-hold-release 200 200 tab @Mouse2)
   spcLOU (tap-hold-release 200 200 spc shft)
   entLOU (tap-hold-release 200 200 ent @Mouse2)
-  bspcLOU (tap-hold-release 200 200 bspc @Unused)
-  delLOU (tap-hold-release 200 200 del @Unused)
-  _h h
-  _j (tap-hold-release 200 200 j alt)
-  _k (tap-hold-release 200 200 k ctl)
-  _l (tap-hold-release 200 200 l met)
-  escEO (tap-hold-release 200 200 esc (multi shft @System))
-  tabEO (tap-hold-release 200 200 tab @System)
-  spcEO (tap-hold-release 200 200 spc shft)
-  entEO (tap-hold-release 200 200 ent @Media)
-  bspcEO (tap-hold-release 200 200 bspc @NavVI)
-  delEO (tap-hold-release 200 200 del @Media)
+  bspcLOU (tap-hold-release 200 200 bspc @Mouse3)
+  delLOU (tap-hold-release 200 200 del @Mouse3)
+  movemouse-accel-left (movemouse-accel-left 1 1000 1 5)
+  movemouse-accel-down (tap-hold-release 200 200 (movemouse-accel-down 1 1000 1 5) alt)
+  movemouse-accel-up (tap-hold-release 200 200 (movemouse-accel-up 1 1000 1 5) ctl)
+  movemouse-accel-right (tap-hold-release 200 200 (movemouse-accel-right 1 1000 1 5) met)
+  escELOU (tap-hold-release 200 200 esc (multi shft @Mouse3))
+  tabELOU (tap-hold-release 200 200 tab @Mouse3)
+  spcELOU (tap-hold-release 200 200 spc shft)
+  entELOU (tap-hold-release 200 200 ent @Mouse3)
+  bspcELOU (tap-hold-release 200 200 bspc @Mouse3)
+  delELOU (tap-hold-release 200 200 del @Mouse3)
   mute-mic (tap-hold-release 200 200 (arbitrary-code 248) ctl)
   mute (tap-hold-release 200 200 mute alt)
   pp pp
@@ -221,8 +233,8 @@
   voldwn (tap-hold-release 200 200 voldwn alt)
   volu (tap-hold-release 200 200 volu ctl)
   next (tap-hold-release 200 200 next met)
-  escEOU (tap-hold-release 200 200 esc (multi shft @Unused))
-  tabEOU (tap-hold-release 200 200 tab @Unused)
+  escEOU (tap-hold-release 200 200 esc (multi shft @Mouse3))
+  tabEOU (tap-hold-release 200 200 tab @Mouse3)
   spcEOU (tap-hold-release 200 200 spc shft)
   entEOU (tap-hold-release 200 200 ent @Media)
   bspcEOU (tap-hold-release 200 200 bspc @Media)
@@ -232,15 +244,9 @@
   escELO (tap-hold-release 200 200 esc (multi shft @System))
   tabELO (tap-hold-release 200 200 tab @System)
   spcELO (tap-hold-release 200 200 spc shft)
-  entELO (tap-hold-release 200 200 ent @Unused)
+  entELO (tap-hold-release 200 200 ent @Mouse3)
   bspcELO (tap-hold-release 200 200 bspc @System)
-  delELO (tap-hold-release 200 200 del @Unused)
-  escELOU (tap-hold-release 200 200 esc (multi shft @Unused))
-  tabELOU (tap-hold-release 200 200 tab @Unused)
-  spcELOU (tap-hold-release 200 200 spc shft)
-  entELOU (tap-hold-release 200 200 ent @Unused)
-  bspcELOU (tap-hold-release 200 200 bspc @Unused)
-  delELOU (tap-hold-release 200 200 del @Unused)
+  delELO (tap-hold-release 200 200 del @Mouse3)
 )
 
 
@@ -311,6 +317,12 @@ tab
 tab
 )
 
+(deflayer NavVI
+XX XX XX XX @_h @_j @_k @_l
+@escEO @tabEO @spcEO @entEO @bspcEO @delEO
+tab
+)
+
 (deflayer Mouse1
 @mouse-double-left @mouseright @mousemid @mouseleft @movemouse-left @movemouse-down @movemouse-up @movemouse-right
 @escLO @tabLO @spcLO @entLO @bspcLO @delLO
@@ -323,9 +335,9 @@ XX XX @mousebackward @mouseforward @mwheel-left @mwheel-down @mwheel-up @mwheel-
 tab
 )
 
-(deflayer NavVI
-XX XX XX XX @_h @_j @_k @_l
-@escEO @tabEO @spcEO @entEO @bspcEO @delEO
+(deflayer Mouse3
+XX XX XX XX @movemouse-accel-left @movemouse-accel-down @movemouse-accel-up @movemouse-accel-right
+@escELOU @tabELOU @spcELOU @entELOU @bspcELOU @delELOU
 tab
 )
 
@@ -338,11 +350,5 @@ tab
 (deflayer System
 XX XX XX XX XX @brdown @brup XX
 @escELO @tabELO @spcELO @entELO @bspcELO @delELO
-tab
-)
-
-(deflayer Unused
-XX XX XX XX XX XX XX XX
-@escELOU @tabELOU @spcELOU @entELOU @bspcELOU @delELOU
 tab
 )

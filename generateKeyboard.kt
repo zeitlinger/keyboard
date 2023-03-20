@@ -1,11 +1,6 @@
 import java.io.File
 import java.lang.IllegalStateException
 
-//todo
-//mouse accelerator
-//uleo layer keys
-//comment: file is generated
-
 typealias Table = List<List<String>>
 
 data class Tables(val content: List<Table>) {
@@ -156,7 +151,7 @@ fun main(args: Array<String>) {
     val defSrc = generator.defSrc(getInputKeys(layerTable[0].drop(2)))
     val layerOutput = layers.joinToString("\n") { generator.defLayer(it) }
 
-    write(outputFile, alias, defSrc, layerOutput)
+    write(outputFile, ";; file is generated from ${File(config).name}", alias, defSrc, layerOutput)
 }
 
 fun write(outputFile: String, vararg output: String) {
