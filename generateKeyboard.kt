@@ -4,6 +4,7 @@ import java.lang.IllegalStateException
 //todo
 //mouse accelerator
 //uleo layer keys
+//comment: file is generated
 
 typealias Table = List<List<String>>
 
@@ -34,7 +35,7 @@ data class Generator(
     val options: Map<String, String>,
     val thumbs: List<Thumb>,
     val layers: List<Layer>,
-    val customAlias: Map<String, String>
+    val customAlias: Map<String, String>,
 ) {
 
     private fun statement(header: String, body: String): String = "($header\n$body\n)\n"
@@ -94,26 +95,26 @@ data class Generator(
                 val command = if (excludeHold.contains(hold)) {
                     tap
                 } else {
-                    resolveHold(current, hold)?.let { "(tap-hold-release 200 200 $tap $it)" } ?: tap
+                    getHoldCommand(current, hold)?.let { "(tap-hold-release 200 200 $tap $it)" } ?: tap
                 }.replace("_", "") // to avoid duplicate aliases
                 Alias("$key$layerSuffix", command)
             }
 
-    private fun resolveHold(current: Layer, hold: String): String? = when {
-        hold.contains("+") -> {
-            val commands = hold
-                .split("+")
-                .map { resolveHold(current, it) }
-                .joinToString(" ")
-            "(multi $commands)"
-        }
+    private fun getHoldCommand(current: Layer, hold: String): String? {
+        val parts = hold.split("+")
+        val layerCommands = parts.filter { isLayerNameOrRef(it) }.toSet()
 
-        hold[0].isUpperCase() -> getNextLayer(current, hold)
-        else -> hold
+        val layer = layerCommands
+            .takeUnless { it.isEmpty() }
+            ?.let { getNextLayer(current, it) }
+
+        val commands = parts - layerCommands + listOfNotNull(layer)
+
+        return if (commands.size > 1) "(multi ${commands.joinToString(" ")})" else commands[0]
     }
 
-    private fun getNextLayer(current: Layer, hold: String): String? {
-        val want = (current.activationKeys + listOf(hold)).toSet()
+    private fun getNextLayer(current: Layer, hold: Set<String>): String? {
+        val want = (current.activationKeys + hold).toSet()
         val next = layers.singleOrNull { it.activationKeys == want }?.name
         return next?.let { "@$it" }
     }
@@ -165,7 +166,7 @@ fun write(outputFile: String, vararg output: String) {
 fun createOutputKey(key: String): String {
     return when {
         key == BLOCKED -> key
-        key[0].isUpperCase() -> throw IllegalStateException("Upper case is reserved for layers: $key")
+        isLayerNameOrRef(key) -> throw IllegalStateException("Upper case is reserved for layers: $key")
         key.all { it.isDigit() } && key.length > 1 -> throw IllegalStateException("Use custom alias for direct keycode: $key")
 
         else -> "@$key"
@@ -226,3 +227,5 @@ fun readTables(config: String): Tables = File(config)
             }
 
     }.let { Tables(it) }
+
+private fun isLayerNameOrRef(name: String) = name[0].isUpperCase()
