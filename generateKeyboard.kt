@@ -109,7 +109,7 @@ data class Generator(
 
         val commands = parts - layerCommands + listOfNotNull(layer)
 
-        return if (commands.size > 1) "(multi ${commands.joinToString(" ")})" else commands[0]
+        return if (commands.size > 1) "(multi ${commands.joinToString(" ")})" else commands.firstOrNull()
     }
 
     private fun getNextLayer(current: Layer, hold: Set<String>): String? {
