@@ -226,6 +226,7 @@
   entELOU (tap-hold-release 200 200 ent @Mouse3)
   bspcELOU (tap-hold-release 200 200 bspc @Mouse3)
   delELOU (tap-hold-release 200 200 del @Mouse3)
+  lrld (tap-hold-release 200 200 lrld met)
   mute-mic (tap-hold-release 200 200 (arbitrary-code 248) ctl)
   mute (tap-hold-release 200 200 mute alt)
   pp pp
@@ -253,102 +254,102 @@
 (defsrc
 caps a s d l ; ' ent
 met alt spc ralt prnt rctl
-tab
+lrld-next
 )
 
 
 (deflayer Letter0
 @a @r @s @t @n @e @i @o
 @esc @tab @spc @ent @bspc @del
-tab
+lrld-next
 )
 
 (deflayer Letter1
 @q @w @f @p @l @u @y @,
 @escU @tabU @spcU @entU @bspcU @delU
-tab
+lrld-next
 )
 
 (deflayer Letter2
 @z @x @c @v @h @, @. @/
 @escL @tabL @spcL @entL @bspcL @delL
-tab
+lrld-next
 )
 
 (deflayer Letter3
 @spc @g @d @b @j @m @k @;
 @escLU @tabLU @spcLU @entLU @bspcLU @delLU
-tab
+lrld-next
 )
 
 (deflayer Paren
 @grv @9 @0 @- @= @[ @] @\
 @escE @tabE @spcE @entE @bspcE @delE
-tab
+lrld-next
 )
 
 (deflayer Num
 @1 @2 @3 @4 @5 @6 @7 @8
 @escEU @tabEU @spcEU @entEU @bspcEU @delEU
-tab
+lrld-next
 )
 
 (deflayer Fun1
 @f1 @f2 @f3 @f4 @f5 @f6 @f7 @f8
 @escEL @tabEL @spcEL @entEL @bspcEL @delEL
-tab
+lrld-next
 )
 
 (deflayer Fun2
 @f9 @f10 @f11 @f12 @ent @bspc @del @ins
 @escELU @tabELU @spcELU @entELU @bspcELU @delELU
-tab
+lrld-next
 )
 
 (deflayer Nav
 @ä @ö @ü @ß @left @down @up @rght
 @escO @tabO @spcO @entO @bspcO @delO
-tab
+lrld-next
 )
 
 (deflayer Nav2
 @caps @prnt @esc @tab @home @pgdn @pgup @end
 @escOU @tabOU @spcOU @entOU @bspcOU @delOU
-tab
+lrld-next
 )
 
 (deflayer NavVI
 XX XX XX XX @_h @_j @_k @_l
 @escEO @tabEO @spcEO @entEO @bspcEO @delEO
-tab
+lrld-next
 )
 
 (deflayer Mouse1
 @mouse-double-left @mouseright @mousemid @mouseleft @movemouse-left @movemouse-down @movemouse-up @movemouse-right
 @escLO @tabLO @spcLO @entLO @bspcLO @delLO
-tab
+lrld-next
 )
 
 (deflayer Mouse2
 XX XX @mousebackward @mouseforward @mwheel-left @mwheel-down @mwheel-up @mwheel-right
 @escLOU @tabLOU @spcLOU @entLOU @bspcLOU @delLOU
-tab
+lrld-next
 )
 
 (deflayer Mouse3
 XX XX XX XX @movemouse-accel-left @movemouse-accel-down @movemouse-accel-up @movemouse-accel-right
 @escELOU @tabELOU @spcELOU @entELOU @bspcELOU @delELOU
-tab
+lrld-next
 )
 
 (deflayer Media
-XX @mute-mic @mute @pp @prev @voldwn @volu @next
+@lrld @mute-mic @mute @pp @prev @voldwn @volu @next
 @escEOU @tabEOU @spcEOU @entEOU @bspcEOU @delEOU
-tab
+lrld-next
 )
 
 (deflayer System
 XX XX XX XX XX @brdown @brup XX
 @escELO @tabELO @spcELO @entELO @bspcELO @delELO
-tab
+lrld-next
 )

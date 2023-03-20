@@ -22,7 +22,7 @@ Hold Keys
 | Mouse1  | LO   | 🖱️d          | 🖱️r       | 🖱️m       | 🖱️l       | 🖱️⬅️      | 🖱️⬇️      | 🖱️⬆️      | 🖱️➡️        |   
 | Mouse2  | OLU  |               |            | 🖱️b       | 🖱️f       | 🖲️️⬅️     | 🖲️️⬇️     | 🖲️️⬆️     | 🖲️️➡️       |
 | Mouse3  | EULO |               |            |            |            | 🖱️⬅️⬅️    | 🖱️⬇️⬇️    | 🖱️⬆️⬆️    | 🖱️➡️➡️      |   
-| Media   | EUO  |               | 🎤         | 🔇         | ⏯️         | ⏮️         | 🔈         | 🔊         | ⏭️           |
+| Media   | EUO  | lrld          | 🎤         | 🔇         | ⏯️         | ⏮️         | 🔈         | 🔊         | ⏭️           |
 | System  | LEO  |               |            |            |            |            | 🔅         | 🔆         |              |
                                  
 Thumb positions
@@ -32,10 +32,10 @@ Thumb positions
 | Tab       | esc     | tab     | spc     | ↩️️      | bspc     | del      |
 | Hold      | shft+L  | L       | shft    | U        | E        | U+E      |
     
-| Option       | Value |
-|--------------|-------|
-| Enter Layout | caps  |
-| Exit Layout  | tab   |
+| Option       | Value     |
+|--------------|-----------|
+| Enter Layout | caps      |
+| Exit Layout  | lrld-next |
                                 
 # keycodes see https://github.com/jtroo/kanata/blob/main/src/keys/mod.rs
 # commands see https://github.com/jtroo/kanata/blob/main/docs/config.adoc#configuration

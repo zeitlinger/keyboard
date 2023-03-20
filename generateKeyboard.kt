@@ -1,6 +1,10 @@
 import java.io.File
 import java.lang.IllegalStateException
 
+// todo
+// EU -> I in overview
+// auto-start https://github.com/jtroo/kanata/discussions/130
+
 typealias Table = List<List<String>>
 
 data class Tables(val content: List<Table>) {
