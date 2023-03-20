@@ -132,6 +132,10 @@ data class Generator(
     }
 
     private fun getNextLayer(current: Layer, hold: Set<String>): String? {
+        if (current.activationKeys.containsAll(hold)) {
+            return null
+        }
+
         val want = (current.activationKeys + hold).toSet()
         val next = layers.singleOrNull { it.activationKeys == want }?.name
         return next?.let { "@$it" }
