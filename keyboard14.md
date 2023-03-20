@@ -11,26 +11,26 @@ Hold Keys
 | Letter0 |      | a             | r          | s          | t          | n          | e          | i          | o            |
 | Letter1 | U    | q             | w          | f          | p          | l          | u          | y          | , "          |
 | Letter2 | L    | z             | x          | c          | v          | h          | , <        | . >        | / ?          |
-| Letter3 | I    | spc           | g          | d          | b          | j          | m          | k          | ; :          |
+| Letter3 | UL   | spc           | g          | d          | b          | j          | m          | k          | ; :          |
 | Paren   | E    | ` ~           | 9 (        | 0 )        | - _        | = +        | [ {        | ] }        | \ &#124;     |
 | Num     | EU   | 1 !           | 2 @        | 3 #        | 4 $        | 5 %        | 6 ^        | 7 &        | 8 *          |
 | Fun1    | EL   | f1            | f2         | f3         | f4         | f5         | f6         | f7         | f8           |
-| Fun2    | EI   | f9            | f10        | f11        | f12        | ↩️️        | bspc       | del        | ins          |
+| Fun2    | EUL  | f9            | f10        | f11        | f12        | ↩️️        | bspc       | del        | ins          |
 | Nav     | O    | ä             | ö          | ü          | ß          | ⬅️         | ⬇️         | ⬆️         | ➡️           |
 | Nav2    | OU   | caps          | prnt       | esc        | tab        | home       | pgdn       | pgup       | end          |
 | Mouse1  | LO   | 🖱️d          | 🖱️r       | 🖱️m       | 🖱️l       | 🖱️⬅️      | 🖱️⬇️      | 🖱️⬆️      | 🖱️➡️        |   
-| Mouse2  | OI   |               |            | 🖱️b       | 🖱️f       | 🖲️️⬅️     | 🖲️️⬇️     | 🖲️️⬆️     | 🖲️️➡️       |
+| Mouse2  | OLU  |               |            | 🖱️b       | 🖱️f       | 🖲️️⬅️     | 🖲️️⬇️     | 🖲️️⬆️     | 🖲️️➡️       |
 | NavVI   | OE   |               |            |            |            | _h         | _j         | _k         | _l           |
 | Media   | EUO  |               | 🎤         | 🔇         | ⏯️         | ⏮️         | 🔈         | 🔊         | ⏭️           |
 | System  | LEO  |               |            |            |            |            | 🔅         | 🔆         |              |
-| Unused  | EIO  |               |            |            |            |            |            |            |              |
+| Unused  | EULO |               |            |            |            |            |            |            |              |
                                  
 Thumb positions
 
 | Thumb Pos | L (met) | L (alt) | L (spc) | R (ralt) | R (prnt) | R (rctl) |
 |-----------|---------|---------|---------|----------|----------|----------|
 | Tab       | esc     | tab     | spc     | ↩️️      | bspc     | del      |
-| Hold      | shft+E  | E       | shft    | U        | L        | I        |
+| Hold      | shft+L  | L       | shft    | U        | E        | U+E      |
     
 | Option       | Value |
 |--------------|-------|
