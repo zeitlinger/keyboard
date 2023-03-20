@@ -54,103 +54,103 @@
   ent (tap-hold-release 200 200 ent @Letter1)
   bspc (tap-hold-release 200 200 bspc @Paren)
   del (tap-hold-release 200 200 del @Num)
-  U_q (tap-hold-release 200 200 q met)
-  U_w (tap-hold-release 200 200 w ctl)
-  U_f (tap-hold-release 200 200 f alt)
-  U_p (tap-hold-release 200 200 p @Nav2)
-  U_l (tap-hold-release 200 200 l @Nav2)
-  U_u (tap-hold-release 200 200 u alt)
-  U_y (tap-hold-release 200 200 y ctl)
-  U_, (tap-hold-release 200 200 , met)
+  q (tap-hold-release 200 200 q met)
+  w (tap-hold-release 200 200 w ctl)
+  f (tap-hold-release 200 200 f alt)
+  p (tap-hold-release 200 200 p @Nav2)
+  l (tap-hold-release 200 200 l @Nav2)
+  u (tap-hold-release 200 200 u alt)
+  y (tap-hold-release 200 200 y ctl)
+  , (tap-hold-release 200 200 , met)
   U_esc (tap-hold-release 200 200 esc (multi shft @Letter3))
   U_tab (tap-hold-release 200 200 tab @Letter3)
   U_spc (tap-hold-release 200 200 spc shft)
-  L_z (tap-hold-release 200 200 z met)
-  L_x (tap-hold-release 200 200 x ctl)
-  L_c (tap-hold-release 200 200 c alt)
-  L_v (tap-hold-release 200 200 v @Mouse1)
-  L_h (tap-hold-release 200 200 h @Mouse1)
+  z (tap-hold-release 200 200 z met)
+  x (tap-hold-release 200 200 x ctl)
+  c (tap-hold-release 200 200 c alt)
+  v (tap-hold-release 200 200 v @Mouse1)
+  h (tap-hold-release 200 200 h @Mouse1)
   L_, (tap-hold-release 200 200 , alt)
-  L_. (tap-hold-release 200 200 . ctl)
-  L_/ (tap-hold-release 200 200 / met)
+  . (tap-hold-release 200 200 . ctl)
+  / (tap-hold-release 200 200 / met)
   L_esc (tap-hold-release 200 200 esc shft)
   L_spc (tap-hold-release 200 200 spc shft)
   L_ent (tap-hold-release 200 200 ent @Letter3)
   L_bspc (tap-hold-release 200 200 bspc @Fun1)
   L_del (tap-hold-release 200 200 del @Fun2)
-  LU_spc (tap-hold-release 200 200 spc met)
-  LU_g (tap-hold-release 200 200 g ctl)
-  LU_d (tap-hold-release 200 200 d alt)
-  LU_b (tap-hold-release 200 200 b @Mouse2)
-  LU_j (tap-hold-release 200 200 j @Mouse2)
-  LU_m (tap-hold-release 200 200 m alt)
-  LU_k (tap-hold-release 200 200 k ctl)
-  LU_; (tap-hold-release 200 200 ; met)
+  spc (tap-hold-release 200 200 spc met)
+  g (tap-hold-release 200 200 g ctl)
+  d (tap-hold-release 200 200 d alt)
+  b (tap-hold-release 200 200 b @Mouse2)
+  j (tap-hold-release 200 200 j @Mouse2)
+  m (tap-hold-release 200 200 m alt)
+  k (tap-hold-release 200 200 k ctl)
+  ; (tap-hold-release 200 200 ; met)
   LU_esc (tap-hold-release 200 200 esc shft)
-  LU_spc (tap-hold-release 200 200 spc shft)
-  E_grv (tap-hold-release 200 200 grv met)
-  E_9 (tap-hold-release 200 200 9 ctl)
-  E_0 (tap-hold-release 200 200 0 alt)
-  E_- (tap-hold-release 200 200 - @NavVI)
-  E_= (tap-hold-release 200 200 = @NavVI)
-  E_[ (tap-hold-release 200 200 [ alt)
-  E_] (tap-hold-release 200 200 ] ctl)
-  E_\ (tap-hold-release 200 200 \ met)
+  spc (tap-hold-release 200 200 spc shft)
+  grv (tap-hold-release 200 200 grv met)
+  9 (tap-hold-release 200 200 9 ctl)
+  0 (tap-hold-release 200 200 0 alt)
+  - (tap-hold-release 200 200 - @NavVI)
+  = (tap-hold-release 200 200 = @NavVI)
+  [ (tap-hold-release 200 200 [ alt)
+  ] (tap-hold-release 200 200 ] ctl)
+  \ (tap-hold-release 200 200 \ met)
   E_esc (tap-hold-release 200 200 esc (multi shft @Fun1))
   E_tab (tap-hold-release 200 200 tab @Fun1)
   E_spc (tap-hold-release 200 200 spc shft)
-  I_1 (tap-hold-release 200 200 1 met)
-  I_2 (tap-hold-release 200 200 2 ctl)
-  I_3 (tap-hold-release 200 200 3 alt)
-  I_4 (tap-hold-release 200 200 4 @Media)
-  I_5 (tap-hold-release 200 200 5 @Media)
-  I_6 (tap-hold-release 200 200 6 alt)
-  I_7 (tap-hold-release 200 200 7 ctl)
-  I_8 (tap-hold-release 200 200 8 met)
+  1 (tap-hold-release 200 200 1 met)
+  2 (tap-hold-release 200 200 2 ctl)
+  3 (tap-hold-release 200 200 3 alt)
+  4 (tap-hold-release 200 200 4 @Media)
+  5 (tap-hold-release 200 200 5 @Media)
+  6 (tap-hold-release 200 200 6 alt)
+  7 (tap-hold-release 200 200 7 ctl)
+  8 (tap-hold-release 200 200 8 met)
   I_esc (tap-hold-release 200 200 esc (multi shft @Fun2))
   I_tab (tap-hold-release 200 200 tab @Fun2)
   I_spc (tap-hold-release 200 200 spc shft)
-  EL_f1 (tap-hold-release 200 200 f1 met)
-  EL_f2 (tap-hold-release 200 200 f2 ctl)
-  EL_f3 (tap-hold-release 200 200 f3 alt)
-  EL_f4 (tap-hold-release 200 200 f4 @System)
-  EL_f5 (tap-hold-release 200 200 f5 @System)
-  EL_f6 (tap-hold-release 200 200 f6 alt)
-  EL_f7 (tap-hold-release 200 200 f7 ctl)
-  EL_f8 (tap-hold-release 200 200 f8 met)
+  f1 (tap-hold-release 200 200 f1 met)
+  f2 (tap-hold-release 200 200 f2 ctl)
+  f3 (tap-hold-release 200 200 f3 alt)
+  f4 (tap-hold-release 200 200 f4 @System)
+  f5 (tap-hold-release 200 200 f5 @System)
+  f6 (tap-hold-release 200 200 f6 alt)
+  f7 (tap-hold-release 200 200 f7 ctl)
+  f8 (tap-hold-release 200 200 f8 met)
   EL_esc (tap-hold-release 200 200 esc shft)
   EL_spc (tap-hold-release 200 200 spc shft)
-  IL_f9 (tap-hold-release 200 200 f9 met)
-  IL_f10 (tap-hold-release 200 200 f10 ctl)
-  IL_f11 (tap-hold-release 200 200 f11 alt)
-  IL_f12 (tap-hold-release 200 200 f12 @Mouse3)
-  IL_ent (tap-hold-release 200 200 ent @Mouse3)
-  IL_bspc (tap-hold-release 200 200 bspc alt)
-  IL_del (tap-hold-release 200 200 del ctl)
-  IL_ins (tap-hold-release 200 200 ins met)
+  f9 (tap-hold-release 200 200 f9 met)
+  f10 (tap-hold-release 200 200 f10 ctl)
+  f11 (tap-hold-release 200 200 f11 alt)
+  f12 (tap-hold-release 200 200 f12 @Mouse3)
+  ent (tap-hold-release 200 200 ent @Mouse3)
+  bspc (tap-hold-release 200 200 bspc alt)
+  del (tap-hold-release 200 200 del ctl)
+  ins (tap-hold-release 200 200 ins met)
   IL_esc (tap-hold-release 200 200 esc shft)
   IL_spc (tap-hold-release 200 200 spc shft)
-  O_ä (tap-hold-release 200 200 (unicode ä) met)
-  O_ö (tap-hold-release 200 200 (unicode ö) ctl)
-  O_ü (tap-hold-release 200 200 (unicode ü) alt)
-  O_ß (unicode ß)
-  O_down (tap-hold-release 200 200 down alt)
-  O_up (tap-hold-release 200 200 up ctl)
-  O_rght (tap-hold-release 200 200 rght met)
+  ä (tap-hold-release 200 200 (unicode ä) met)
+  ö (tap-hold-release 200 200 (unicode ö) ctl)
+  ü (tap-hold-release 200 200 (unicode ü) alt)
+  ß (unicode ß)
+  down (tap-hold-release 200 200 down alt)
+  up (tap-hold-release 200 200 up ctl)
+  rght (tap-hold-release 200 200 rght met)
   O_esc (tap-hold-release 200 200 esc (multi shft @Mouse1))
   O_tab (tap-hold-release 200 200 tab @Mouse1)
   O_spc (tap-hold-release 200 200 spc shft)
   O_ent (tap-hold-release 200 200 ent @Nav2)
   O_bspc (tap-hold-release 200 200 bspc @NavVI)
   O_del (tap-hold-release 200 200 del @Media)
-  OU_caps (tap-hold-release 200 200 caps met)
-  OU_prnt (tap-hold-release 200 200 prnt ctl)
-  OU_esc (tap-hold-release 200 200 esc alt)
-  OU_pgdn (tap-hold-release 200 200 pgdn alt)
-  OU_pgup (tap-hold-release 200 200 pgup ctl)
-  OU_end (tap-hold-release 200 200 end met)
-  OU_esc (tap-hold-release 200 200 esc (multi shft @Mouse2))
-  OU_tab (tap-hold-release 200 200 tab @Mouse2)
+  caps (tap-hold-release 200 200 caps met)
+  prnt (tap-hold-release 200 200 prnt ctl)
+  esc (tap-hold-release 200 200 esc alt)
+  pgdn (tap-hold-release 200 200 pgdn alt)
+  pgup (tap-hold-release 200 200 pgup ctl)
+  end (tap-hold-release 200 200 end met)
+  esc (tap-hold-release 200 200 esc (multi shft @Mouse2))
+  tab (tap-hold-release 200 200 tab @Mouse2)
   OU_spc (tap-hold-release 200 200 spc shft)
   EO_h h
   EO_j (tap-hold-release 200 200 j alt)
@@ -159,42 +159,42 @@
   EO_esc (tap-hold-release 200 200 esc (multi shft @System))
   EO_tab (tap-hold-release 200 200 tab @System)
   EO_spc (tap-hold-release 200 200 spc shft)
-  LO_mouse-double-left (tap-hold-release 200 200 (multi mouseleft mouseleft) met)
-  LO_mouseright (tap-hold-release 200 200 mouseright ctl)
-  LO_mousemid (tap-hold-release 200 200 mousemid alt)
-  LO_movemouse-left (movemouse-left 1 1)
-  LO_movemouse-down (tap-hold-release 200 200 (movemouse-down 1 1) alt)
-  LO_movemouse-up (tap-hold-release 200 200 (movemouse-up 1 1) ctl)
-  LO_movemouse-right (tap-hold-release 200 200 (movemouse-right 1 1) met)
+  mouse-double-left (tap-hold-release 200 200 (multi mouseleft mouseleft) met)
+  mouseright (tap-hold-release 200 200 mouseright ctl)
+  mousemid (tap-hold-release 200 200 mousemid alt)
+  movemouse-left (movemouse-left 1 1)
+  movemouse-down (tap-hold-release 200 200 (movemouse-down 1 1) alt)
+  movemouse-up (tap-hold-release 200 200 (movemouse-up 1 1) ctl)
+  movemouse-right (tap-hold-release 200 200 (movemouse-right 1 1) met)
   LO_esc (tap-hold-release 200 200 esc shft)
   LO_spc (tap-hold-release 200 200 spc shft)
   LO_ent (tap-hold-release 200 200 ent @Mouse2)
   LO_bspc (tap-hold-release 200 200 bspc @System)
   LO_del (tap-hold-release 200 200 del @Mouse3)
-  LOU_mousebackward (tap-hold-release 200 200 mousebackward alt)
-  LOU_mwheel-left (mwheel-left 50 120)
-  LOU_mwheel-down (tap-hold-release 200 200 (mwheel-down 50 120) alt)
-  LOU_mwheel-up (tap-hold-release 200 200 (mwheel-up 50 120) ctl)
-  LOU_mwheel-right (tap-hold-release 200 200 (mwheel-right 50 120) met)
+  mousebackward (tap-hold-release 200 200 mousebackward alt)
+  mwheel-left (mwheel-left 50 120)
+  mwheel-down (tap-hold-release 200 200 (mwheel-down 50 120) alt)
+  mwheel-up (tap-hold-release 200 200 (mwheel-up 50 120) ctl)
+  mwheel-right (tap-hold-release 200 200 (mwheel-right 50 120) met)
   LOU_esc (tap-hold-release 200 200 esc shft)
   LOU_spc (tap-hold-release 200 200 spc shft)
-  ILO_movemouse-accel-left (movemouse-accel-left 1 1000 1 5)
-  ILO_movemouse-accel-down (tap-hold-release 200 200 (movemouse-accel-down 1 1000 1 5) alt)
-  ILO_movemouse-accel-up (tap-hold-release 200 200 (movemouse-accel-up 1 1000 1 5) ctl)
-  ILO_movemouse-accel-right (tap-hold-release 200 200 (movemouse-accel-right 1 1000 1 5) met)
+  movemouse-accel-left (movemouse-accel-left 1 1000 1 5)
+  movemouse-accel-down (tap-hold-release 200 200 (movemouse-accel-down 1 1000 1 5) alt)
+  movemouse-accel-up (tap-hold-release 200 200 (movemouse-accel-up 1 1000 1 5) ctl)
+  movemouse-accel-right (tap-hold-release 200 200 (movemouse-accel-right 1 1000 1 5) met)
   ILO_esc (tap-hold-release 200 200 esc shft)
   ILO_spc (tap-hold-release 200 200 spc shft)
-  IO_lrld (tap-hold-release 200 200 lrld met)
-  IO_mute-mic (tap-hold-release 200 200 (arbitrary-code 248) ctl)
-  IO_mute (tap-hold-release 200 200 mute alt)
-  IO_voldwn (tap-hold-release 200 200 voldwn alt)
-  IO_volu (tap-hold-release 200 200 volu ctl)
-  IO_next (tap-hold-release 200 200 next met)
+  lrld (tap-hold-release 200 200 lrld met)
+  mute-mic (tap-hold-release 200 200 (arbitrary-code 248) ctl)
+  mute (tap-hold-release 200 200 mute alt)
+  voldwn (tap-hold-release 200 200 voldwn alt)
+  volu (tap-hold-release 200 200 volu ctl)
+  next (tap-hold-release 200 200 next met)
   IO_esc (tap-hold-release 200 200 esc (multi shft @Mouse3))
   IO_tab (tap-hold-release 200 200 tab @Mouse3)
   IO_spc (tap-hold-release 200 200 spc shft)
-  ELO_brdown (tap-hold-release 200 200 brdown alt)
-  ELO_brup (tap-hold-release 200 200 brup ctl)
+  brdown (tap-hold-release 200 200 brdown alt)
+  brup (tap-hold-release 200 200 brup ctl)
   ELO_esc (tap-hold-release 200 200 esc shft)
   ELO_spc (tap-hold-release 200 200 spc shft)
 )
@@ -209,61 +209,61 @@
 
 (deflayer Letter0
   @a @r @s @t @n @e @i @o
-  @esc @tab @spc @ent @bspc @del
+  @esc @tab @spc ent bspc del
   lrld-next
 )
 
 (deflayer Letter1
-  @U_q @U_w @U_f @U_p @U_l @U_u @U_y @U_,
+  @q @w @f @p @l @u @y @,
   @U_esc @U_tab @U_spc ent bspc del
   lrld-next
 )
 
 (deflayer Letter2
-  @L_z @L_x @L_c @L_v @L_h @L_, @L_. @L_/
+  @z @x @c @v @h @L_, @. @/
   @L_esc tab @L_spc @L_ent @L_bspc @L_del
   lrld-next
 )
 
 (deflayer Letter3
-  @LU_spc @LU_g @LU_d @LU_b @LU_j @LU_m @LU_k @LU_;
-  @LU_esc tab @LU_spc ent bspc del
+  @spc @g @d @b @j @m @k @;
+  @LU_esc tab @spc ent bspc del
   lrld-next
 )
 
 (deflayer Paren
-  @E_grv @E_9 @E_0 @E_- @E_= @E_[ @E_] @E_\
+  @grv @9 @0 @- @= @[ @] @\
   @E_esc @E_tab @E_spc ent bspc del
   lrld-next
 )
 
 (deflayer Num
-  @I_1 @I_2 @I_3 @I_4 @I_5 @I_6 @I_7 @I_8
+  @1 @2 @3 @4 @5 @6 @7 @8
   @I_esc @I_tab @I_spc ent bspc del
   lrld-next
 )
 
 (deflayer Fun1
-  @EL_f1 @EL_f2 @EL_f3 @EL_f4 @EL_f5 @EL_f6 @EL_f7 @EL_f8
+  @f1 @f2 @f3 @f4 @f5 @f6 @f7 @f8
   @EL_esc tab @EL_spc ent bspc del
   lrld-next
 )
 
 (deflayer Fun2
-  @IL_f9 @IL_f10 @IL_f11 @IL_f12 ent bspc del @IL_ins
+  @f9 @f10 @f11 @f12 ent bspc del @ins
   @IL_esc tab @IL_spc ent bspc del
   lrld-next
 )
 
 (deflayer Nav
-  @O_ä @O_ö @O_ü @O_ß left @O_down @O_up @O_rght
+  @ä @ö @ü @ß left @down @up @rght
   @O_esc @O_tab @O_spc @O_ent @O_bspc @O_del
   lrld-next
 )
 
 (deflayer Nav2
-  @OU_caps @OU_prnt @OU_esc @OU_tab home @OU_pgdn @OU_pgup @OU_end
-  @OU_esc @OU_tab @OU_spc ent bspc del
+  @caps @prnt @esc @tab home @pgdn @pgup @end
+  @esc @tab @OU_spc ent bspc del
   lrld-next
 )
 
@@ -274,31 +274,31 @@
 )
 
 (deflayer Mouse1
-  @LO_mouse-double-left @LO_mouseright @LO_mousemid mouseleft @LO_movemouse-left @LO_movemouse-down @LO_movemouse-up @LO_movemouse-right
+  @mouse-double-left @mouseright @mousemid mouseleft @movemouse-left @movemouse-down @movemouse-up @movemouse-right
   @LO_esc tab @LO_spc @LO_ent @LO_bspc @LO_del
   lrld-next
 )
 
 (deflayer Mouse2
-  XX XX @LOU_mousebackward mouseforward @LOU_mwheel-left @LOU_mwheel-down @LOU_mwheel-up @LOU_mwheel-right
+  XX XX @mousebackward mouseforward @mwheel-left @mwheel-down @mwheel-up @mwheel-right
   @LOU_esc tab @LOU_spc ent bspc del
   lrld-next
 )
 
 (deflayer Mouse3
-  XX XX XX XX @ILO_movemouse-accel-left @ILO_movemouse-accel-down @ILO_movemouse-accel-up @ILO_movemouse-accel-right
+  XX XX XX XX @movemouse-accel-left @movemouse-accel-down @movemouse-accel-up @movemouse-accel-right
   @ILO_esc tab @ILO_spc ent bspc del
   lrld-next
 )
 
 (deflayer Media
-  @IO_lrld @IO_mute-mic @IO_mute pp prev @IO_voldwn @IO_volu @IO_next
+  @lrld @mute-mic @mute pp prev @voldwn @volu @next
   @IO_esc @IO_tab @IO_spc ent bspc del
   lrld-next
 )
 
 (deflayer System
-  XX XX XX XX XX @ELO_brdown @ELO_brup XX
+  XX XX XX XX XX @brdown @brup XX
   @ELO_esc tab @ELO_spc ent bspc del
   lrld-next
 )

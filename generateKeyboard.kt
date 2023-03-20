@@ -21,16 +21,19 @@ data class Alias(val name: String, val command: String, val canInline: Boolean)
 data class Layer(val name: String, val activationKeys: Set<String>, val output: List<String>) {
     private val shortName = activationKeys.sorted().joinToString("")
 
-    fun createAliasName(name: String): String = if (shortName.isEmpty()) name else  "${shortName}_${name}"
+    fun createAliasName(name: String, layers: List<Layer>): String {
+        val skipName = layers.firstOrNull { it.output.contains(name) } == this
+        return if (shortName.isEmpty() || skipName) name else "${shortName}_${name}"
+    }
 
-    fun createTapCommand(key: String, aliasMap: Map<String, Alias>): String {
+    fun createTapCommand(key: String, aliasMap: Map<String, Alias>, layers: List<Layer>): String {
         return when {
             key == BLOCKED -> key
             isLayerNameOrRef(key) -> throw IllegalStateException("Upper case is reserved for layers: $key")
             key.all { it.isDigit() } && key.length > 1 -> throw IllegalStateException("Use custom alias for direct keycode: $key")
 
             else -> {
-                val longAlias = createAliasName(key)
+                val longAlias = createAliasName(key, layers)
                 if (aliasMap.getValue(longAlias).canInline) key else "@$longAlias"
             }
         }
@@ -56,16 +59,8 @@ data class Generator(
 
     private fun generate(
         header: String,
-        homeRow: List<String>,
-        thumbRow: List<String>,
-        exit: String,
-    ): String {
-        return statement(
-            header, "  ${homeRow.joinToString(" ")}\n" +
-                "  ${thumbRow.joinToString(" ")}\n" +
-                "  $exit"
-        )
-    }
+        rows: List<List<String>>,
+    ): String = statement(header, rows.joinToString("\n") { "  ${it.joinToString(" ")}" })
 
     fun getAliasMap(
         homeRowHold: List<String>,
@@ -74,13 +69,14 @@ data class Generator(
         val layerToggle = layers.map { Alias(it.name, "(layer-while-held ${it.name})", false) }
         val layerActivation =
             layers.flatMap { layer ->
-                getLayerActivation(layer, layer.output, homeRowHold, layer.activationKeys, false) +
+                getLayerActivation(layer, layer.output, homeRowHold, layer.activationKeys, false, layers) +
                     getLayerActivation(
                         layer,
                         thumbs.map { it.tap },
                         thumbs.map { it.hold },
                         emptySet(),
-                        true
+                        true,
+                        layers
                     )
             }
 
@@ -103,12 +99,13 @@ data class Generator(
         }
         .joinToString("\n\n"))
 
-    fun getLayerActivation(
+    private fun getLayerActivation(
         current: Layer,
         keys: List<String>,
         hold: List<String>,
         excludeHold: Set<String>,
         tapIgnoresLayer: Boolean,
+        layers: List<Layer>,
     ): List<Alias> =
         keys.zip(hold)
             .filterNot { it.first == BLOCKED }
@@ -119,10 +116,10 @@ data class Generator(
                 } else {
                     getHoldCommand(current, hold)?.let { "(tap-hold-release 200 200 $tap $it)" } ?: tap
                 }
-                val firstLayerOfKey: Layer = layers.first { it.output.contains(key) }
+                val firstLayerOfKey: Layer = this.layers.first { it.output.contains(key) }
                 val primaryTap = tapIgnoresLayer || firstLayerOfKey == current
                 val canInline = key == command && primaryTap
-                Alias(current.createAliasName(key), command, canInline)
+                Alias(current.createAliasName(key, layers), command, canInline)
             }
 
     private fun getHoldCommand(current: Layer, hold: String): String? {
@@ -147,18 +144,19 @@ data class Generator(
         }
 
     fun defSrc(homePos: List<String>): String = generate(
-        "defsrc",
-        homePos,
-        thumbs.map { it.inputKey },
-        options["Exit Layout"] ?: throw IllegalStateException("Exit Layout key not defined")
+        "defsrc", listOf(
+            homePos,
+            thumbs.map { it.inputKey },
+            listOf(options["Exit Layout"] ?: throw IllegalStateException("Exit Layout key not defined"))
+        )
     )
 
-
     fun defLayer(layer: Layer, aliasMap: Map<String, Alias>): String {
-        val homeRow = layer.output.map { layer.createTapCommand(it, aliasMap) }
-        val thumbRow = thumbs.map { layer.createTapCommand(it.tap, aliasMap) }
+        val rows = listOf(layer.output, thumbs.map { it.tap })
+            .map { it.map { layer.createTapCommand(it, aliasMap, layers) } } +
+            listOf(listOf("lrld-next"))
 
-        return generate("deflayer ${layer.name}", homeRow, thumbRow, "lrld-next")
+        return generate("deflayer ${layer.name}", rows)
     }
 }
 
