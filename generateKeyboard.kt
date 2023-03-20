@@ -30,7 +30,12 @@ data class Symbols(val mapping: Map<String, String>) {
     fun replace(key: String): String = mapping.getOrDefault(key, key).let { it.ifBlank { BLOCKED } }
 }
 
-data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, val layers: List<Layer>) {
+data class Generator(
+    val options: Map<String, String>,
+    val thumbs: List<Thumb>,
+    val layers: List<Layer>,
+    val customAlias: Map<String, String>
+) {
 
     private fun statement(header: String, body: String): String = "($header\n$body\n)\n"
 
@@ -85,13 +90,11 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
         keys.zip(hold)
             .filterNot { it.first == BLOCKED }
             .map { (key, hold) ->
+                val tap = customAlias.getOrDefault(key, key)
                 val command = if (excludeHold.contains(hold)) {
-                    key
+                    tap
                 } else {
-                    val holdDef = resolveHold(current, hold)
-                    holdDef?.let { "(tap-hold-release 200 200 $key $it)" } ?: key
-
-                    //todo umlauts
+                    resolveHold(current, hold)?.let { "(tap-hold-release 200 200 $tap $it)" } ?: tap
                 }.replace("_", "") // to avoid duplicate aliases
                 Alias("$key$layerSuffix", command)
             }
@@ -146,7 +149,7 @@ fun main(args: Array<String>) {
     val thumbs = readThumbs(tables.get("Thumb Pos"), symbols)
 
     val options = tables.getMappingTable("Option")
-    val generator = Generator(options, thumbs, layers)
+    val generator = Generator(options, thumbs, layers, customAlias)
 
     val alias = generator.defAlias(layerTable[1].drop(2), customAlias);
     val defSrc = generator.defSrc(getInputKeys(layerTable[0].drop(2)))

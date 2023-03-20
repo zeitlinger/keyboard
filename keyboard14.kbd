@@ -32,6 +32,10 @@
   movemouse-accel-down (movemouse-accel-down 1 1000 1 5)
   movemouse-accel-right (movemouse-accel-right 1 1000 1 5)
   mute-mic (arbitrary-code 248)
+  ä (unicode ä)
+  ö (unicode ö)
+  ü (unicode ü)
+  ß (unicode ß)
 
   ;; layer activation
   a (tap-hold-release 200 200 a met)
@@ -146,10 +150,10 @@
   entEI ent
   bspcEI bspc
   delEI (tap-hold-release 200 200 del @Fun2)
-  ä (tap-hold-release 200 200 ä met)
-  ö (tap-hold-release 200 200 ö ctl)
-  ü (tap-hold-release 200 200 ü alt)
-  ß ß
+  ä (tap-hold-release 200 200 (unicode ä) met)
+  ö (tap-hold-release 200 200 (unicode ö) ctl)
+  ü (tap-hold-release 200 200 (unicode ü) alt)
+  ß (unicode ß)
   left left
   down (tap-hold-release 200 200 down alt)
   up (tap-hold-release 200 200 up ctl)
@@ -174,14 +178,14 @@
   entOU (tap-hold-release 200 200 ent @Nav2)
   bspcOU bspc
   delOU del
-  mouse-double-left (tap-hold-release 200 200 mouse-double-left met)
+  mouse-double-left (tap-hold-release 200 200 (multi mouseleft mouseleft) met)
   mouseright (tap-hold-release 200 200 mouseright ctl)
   mousemid (tap-hold-release 200 200 mousemid alt)
   mouseleft mouseleft
-  movemouse-left movemouse-left
-  movemouse-down (tap-hold-release 200 200 movemouse-down alt)
-  movemouse-up (tap-hold-release 200 200 movemouse-up ctl)
-  movemouse-right (tap-hold-release 200 200 movemouse-right met)
+  movemouse-left (movemouse-left 1 1)
+  movemouse-down (tap-hold-release 200 200 (movemouse-down 1 1) alt)
+  movemouse-up (tap-hold-release 200 200 (movemouse-up 1 1) ctl)
+  movemouse-right (tap-hold-release 200 200 (movemouse-right 1 1) met)
   escLO (tap-hold-release 200 200 esc (multi shft @System))
   tabLO (tap-hold-release 200 200 tab @System)
   spcLO (tap-hold-release 200 200 spc shft)
@@ -190,10 +194,10 @@
   delLO del
   mousebackward (tap-hold-release 200 200 mousebackward alt)
   mouseforward mouseforward
-  mwheel-left mwheel-left
-  mwheel-down (tap-hold-release 200 200 mwheel-down alt)
-  mwheel-up (tap-hold-release 200 200 mwheel-up ctl)
-  mwheel-right (tap-hold-release 200 200 mwheel-right met)
+  mwheel-left (mwheel-left 50 120)
+  mwheel-down (tap-hold-release 200 200 (mwheel-down 50 120) alt)
+  mwheel-up (tap-hold-release 200 200 (mwheel-up 50 120) ctl)
+  mwheel-right (tap-hold-release 200 200 (mwheel-right 50 120) met)
   escIO (tap-hold-release 200 200 esc (multi shft @Unused))
   tabIO (tap-hold-release 200 200 tab @Unused)
   spcIO (tap-hold-release 200 200 spc shft)
@@ -210,7 +214,7 @@
   entEO (tap-hold-release 200 200 ent @Media)
   bspcEO (tap-hold-release 200 200 bspc @System)
   delEO (tap-hold-release 200 200 del @Unused)
-  mute-mic (tap-hold-release 200 200 mute-mic ctl)
+  mute-mic (tap-hold-release 200 200 (arbitrary-code 248) ctl)
   mute (tap-hold-release 200 200 mute alt)
   pp pp
   prev prev

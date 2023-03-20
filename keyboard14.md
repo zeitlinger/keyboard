@@ -53,6 +53,10 @@ Thumb positions
 | movemouse-accel-down  | (movemouse-accel-down 1 1000 1 5)  |
 | movemouse-accel-right | (movemouse-accel-right 1 1000 1 5) |       
 | mute-mic              | (arbitrary-code 248)               |
+| ä                     | (unicode ä)                        |
+| ö                     | (unicode ö)                        |
+| ü                     | (unicode ü)                        |
+| ß                     | (unicode ß)                        |
 
 
 | Symbol | Command           |
