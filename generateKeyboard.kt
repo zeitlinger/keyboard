@@ -2,7 +2,6 @@ import java.io.File
 import java.lang.IllegalStateException
 
 // todo
-// EU -> I in overview
 // auto-start https://github.com/jtroo/kanata/discussions/130
 
 typealias Table = List<List<String>>
@@ -16,7 +15,7 @@ data class Tables(val content: List<Table>) {
     ): Map<String, String> = content.single { it[0][0] == name }.drop(1).associate { it[0] to it[1] }
 }
 
-data class Alias(val name: String, val command: String)
+data class Alias(val name: String, val command: String, val canInline: Boolean)
 
 data class Layer(val name: String, val activationKeys: Set<String>, val output: List<String>) {
     val thumbHoldSuffix get() = activationKeys.sorted().joinToString("")
@@ -51,8 +50,24 @@ data class Generator(
         )
     }
 
-    fun defAlias(homeRowHold: List<String>, customAlias: Map<String, String>): String {
-        val layerToggle = layers.map { Alias(it.name, "(layer-while-held ${it.name})") }
+    private fun createTapCommand(key: String, layerSuffix: String, aliasMap: Map<String, Alias>): String {
+        return when {
+            key == BLOCKED -> key
+            isLayerNameOrRef(key) -> throw IllegalStateException("Upper case is reserved for layers: $key")
+            key.all { it.isDigit() } && key.length > 1 -> throw IllegalStateException("Use custom alias for direct keycode: $key")
+
+            else -> {
+                val longAlias = "$key$layerSuffix"
+                if (aliasMap.getValue(longAlias).canInline) key else "@$longAlias"
+            }
+        }
+    }
+
+    fun getAliasMap(
+        homeRowHold: List<String>,
+        customAlias: Map<String, String>,
+    ): Map<String, List<Alias>> {
+        val layerToggle = layers.map { Alias(it.name, "(layer-while-held ${it.name})", false) }
         val layerActivation =
             layers.flatMap { layer ->
                 getLayerActivation(layer, layer.output, homeRowHold, layer.activationKeys, "") +
@@ -65,20 +80,24 @@ data class Generator(
                     )
             }
 
-        val body = mapOf(
+        return mapOf(
             "layer aliases" to layerToggle,
-            "custom alias" to customAlias.map { Alias(it.key, it.value) },
+            "custom alias" to customAlias.map { Alias(it.key, it.value, false) },
             "layer activation" to layerActivation,
         )
-            .map { entry ->
-                val section =
-                    entry.value.joinToString("\n") { alias -> "  ${alias.name} ${alias.command}" }
-                "  ;; ${entry.key}\n$section"
-            }
-            .joinToString("\n\n")
-
-        return statement("defalias", body)
     }
+
+    fun defAlias(
+        aliasMap: Map<String, List<Alias>>,
+    ) = statement("defalias", aliasMap
+        .map { entry ->
+            val section =
+                entry.value
+                    .filterNot { it.canInline }
+                    .joinToString("\n") { alias -> "  ${alias.name} ${alias.command}" }
+            "  ;; ${entry.key}\n$section"
+        }
+        .joinToString("\n\n"))
 
     private fun getLayerActivation(
         current: Layer,
@@ -96,7 +115,7 @@ data class Generator(
                 } else {
                     getHoldCommand(current, hold)?.let { "(tap-hold-release 200 200 $tap $it)" } ?: tap
                 }.replace("_", "") // to avoid duplicate aliases
-                Alias("$key$layerSuffix", command)
+                Alias("$key$layerSuffix", command, key == command)
             }
 
     private fun getHoldCommand(current: Layer, hold: String): String? {
@@ -124,10 +143,10 @@ data class Generator(
         return generate("defsrc", homePos, thumbPos)
     }
 
-    fun defLayer(layer: Layer): String {
-        val homeRow = layer.output.map { createOutputKey(it) }
-        val suffix = layer.thumbHoldSuffix
-        val thumbRow = thumbs.map { "@${it.tap}$suffix" }
+
+    fun defLayer(layer: Layer, aliasMap: Map<String, Alias>): String {
+        val homeRow = layer.output.map { createTapCommand(it, "", aliasMap) }
+        val thumbRow = thumbs.map { createTapCommand(it.tap, layer.thumbHoldSuffix, aliasMap) }
 
         return generate("deflayer ${layer.name}", homeRow, thumbRow)
     }
@@ -145,15 +164,17 @@ fun main(args: Array<String>) {
     val symbols = Symbols(tables.getMappingTable("Symbol"))
     val customAlias = tables.getMappingTable("Alias")
     val layerTable = tables.get("Layer")
-    val layers = readLayers(layerTable, symbols)
+    val layers = readLayers(layerTable.drop(2), symbols) // Header + Hold
     val thumbs = readThumbs(tables.get("Thumb Pos"), symbols)
 
     val options = tables.getMappingTable("Option")
     val generator = Generator(options, thumbs, layers, customAlias)
+    val aliasMap = generator.getAliasMap(layerTable[1].drop(2), customAlias)
 
-    val alias = generator.defAlias(layerTable[1].drop(2), customAlias);
+    val alias = generator.defAlias(aliasMap)
     val defSrc = generator.defSrc(getInputKeys(layerTable[0].drop(2)))
-    val layerOutput = layers.joinToString("\n") { generator.defLayer(it) }
+    val flatAliasMap = aliasMap.values.flatten().associateBy { it.name }
+    val layerOutput = layers.joinToString("\n") { generator.defLayer(it, flatAliasMap) }
 
     write(outputFile, ";; file is generated from ${File(config).name}", alias, defSrc, layerOutput)
 }
@@ -162,19 +183,8 @@ fun write(outputFile: String, vararg output: String) {
     File(outputFile).writeText(output.joinToString("\n\n"))
 }
 
-fun createOutputKey(key: String): String {
-    return when {
-        key == BLOCKED -> key
-        isLayerNameOrRef(key) -> throw IllegalStateException("Upper case is reserved for layers: $key")
-        key.all { it.isDigit() } && key.length > 1 -> throw IllegalStateException("Use custom alias for direct keycode: $key")
-
-        else -> "@$key"
-    }
-}
-
 fun readLayers(table: List<List<String>>, symbols: Symbols): List<Layer> {
     return table
-        .drop(2) // header + Hold
         .map { layerLine ->
             val name = layerLine[0]
             if (!name[0].isUpperCase() || !name[0].isLetter()) {
