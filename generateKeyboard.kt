@@ -92,7 +92,6 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
                     holdDef?.let { "(tap-hold-release 200 200 $key $it)" } ?: key
 
                     //todo umlauts
-                    //todo remove super alt ctl O on one O side
                 }.replace("_", "") // to avoid duplicate aliases
                 Alias("$key$layerSuffix", command)
             }
@@ -161,18 +160,10 @@ fun write(outputFile: String, vararg output: String) {
 }
 
 fun createOutputKey(key: String): String {
-    val number = key.all { it.isDigit() }
     return when {
-        key.startsWith("(") -> key // a mouse command
         key == BLOCKED -> key
-        number && key.length == 1 -> "@$key"
-        number || key[0].isUpperCase() -> {
-            // keycodes and custom commands are not handled yet
-            println("cannot handle $key")
-            //todo mouse
-            //todo keycode
-            BLOCKED
-        }
+        key[0].isUpperCase() -> throw IllegalStateException("Upper case is reserved for layers: $key")
+        key.all { it.isDigit() } && key.length > 1 -> throw IllegalStateException("Use custom alias for direct keycode: $key")
 
         else -> "@$key"
     }

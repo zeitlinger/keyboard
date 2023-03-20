@@ -39,6 +39,7 @@ Thumb positions
 
 | Alias                 | Value                              |
 |-----------------------|------------------------------------|
+| mouse-double-left     | (multi mouseleft mouseleft)        |
 | mwheel-up             | (mwheel-up 50 120)                 |
 | mwheel-down           | (mwheel-down 50 120)               |
 | mwheel-left           | (mwheel-left 50 120)               |
@@ -51,6 +52,7 @@ Thumb positions
 | movemouse-accel-left  | (movemouse-accel-left 1 1000 1 5)  |
 | movemouse-accel-down  | (movemouse-accel-down 1 1000 1 5)  |
 | movemouse-accel-right | (movemouse-accel-right 1 1000 1 5) |       
+| mute-mic              | (arbitrary-code 248)               |
 
 
 | Symbol | Command           |
@@ -69,14 +71,14 @@ Thumb positions
 | 🖲️️⬇️ | mwheel-down       |
 | 🖲️️⬆️ | mwheel-up         |
 | 🖲️️➡️ | mwheel-right      |
-| 🖱️d   | Mouse-double-left |
+| 🖱️d   | mouse-double-left |
 | 🖱️l   | mouseleft         |
 | 🖱️m   | mousemid          |
 | 🖱️r   | mouseright        |
 | 🖱️b   | mousebackward     |
 | 🖱️f   | mouseforward      |
 | 🔇     | mute              |
-| 🎤     | 248               |
+| 🎤     | mute-mic          |
 | ⏯️     | pp                |
 | ⏮️     | prev              |
 | ⏭️     | next              |

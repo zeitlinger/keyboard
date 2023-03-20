@@ -18,6 +18,7 @@
   Unused (layer-while-held Unused)
 
   ;; custom alias
+  mouse-double-left (multi mouseleft mouseleft)
   mwheel-up (mwheel-up 50 120)
   mwheel-down (mwheel-down 50 120)
   mwheel-left (mwheel-left 50 120)
@@ -30,6 +31,7 @@
   movemouse-accel-left (movemouse-accel-left 1 1000 1 5)
   movemouse-accel-down (movemouse-accel-down 1 1000 1 5)
   movemouse-accel-right (movemouse-accel-right 1 1000 1 5)
+  mute-mic (arbitrary-code 248)
 
   ;; layer activation
   a (tap-hold-release 200 200 a met)
@@ -172,7 +174,7 @@
   entOU (tap-hold-release 200 200 ent @Nav2)
   bspcOU bspc
   delOU del
-  Mouse-double-left (tap-hold-release 200 200 Mouse-double-left met)
+  mouse-double-left (tap-hold-release 200 200 mouse-double-left met)
   mouseright (tap-hold-release 200 200 mouseright ctl)
   mousemid (tap-hold-release 200 200 mousemid alt)
   mouseleft mouseleft
@@ -208,7 +210,7 @@
   entEO (tap-hold-release 200 200 ent @Media)
   bspcEO (tap-hold-release 200 200 bspc @System)
   delEO (tap-hold-release 200 200 del @Unused)
-  248 (tap-hold-release 200 200 248 ctl)
+  mute-mic (tap-hold-release 200 200 mute-mic ctl)
   mute (tap-hold-release 200 200 mute alt)
   pp pp
   prev prev
@@ -306,7 +308,7 @@ tab
 )
 
 (deflayer Mouse1
-XX @mouseright @mousemid @mouseleft @movemouse-left @movemouse-down @movemouse-up @movemouse-right
+@mouse-double-left @mouseright @mousemid @mouseleft @movemouse-left @movemouse-down @movemouse-up @movemouse-right
 @escLO @tabLO @spcLO @entLO @bspcLO @delLO
 tab
 )
@@ -324,7 +326,7 @@ tab
 )
 
 (deflayer Media
-XX XX @mute @pp @prev @voldwn @volu @next
+XX @mute-mic @mute @pp @prev @voldwn @volu @next
 @escEOU @tabEOU @spcEOU @entEOU @bspcEOU @delEOU
 tab
 )
