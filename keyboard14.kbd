@@ -203,7 +203,7 @@
 (defsrc
   caps a s d l ; ' ent
   met alt spc ralt prnt rctl
-  lrld-next
+  tab
 )
 
 

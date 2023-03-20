@@ -58,11 +58,12 @@ data class Generator(
         header: String,
         homeRow: List<String>,
         thumbRow: List<String>,
+        exit: String,
     ): String {
         return statement(
             header, "  ${homeRow.joinToString(" ")}\n" +
                 "  ${thumbRow.joinToString(" ")}\n" +
-                "  ${options["Exit Layout"]}"
+                "  $exit"
         )
     }
 
@@ -137,28 +138,27 @@ data class Generator(
         return if (commands.size > 1) "(multi ${commands.joinToString(" ")})" else commands.firstOrNull()
     }
 
-    private fun getNextLayer(current: Layer, hold: Set<String>): String? {
+    private fun getNextLayer(current: Layer, hold: Set<String>): String? =
         if (current.activationKeys.containsAll(hold)) {
-            return null
+            null
+        } else {
+            val want = (current.activationKeys + hold).toSet()
+            layers.singleOrNull { it.activationKeys == want }?.let { "@${it.name}" }
         }
 
-        val want = (current.activationKeys + hold).toSet()
-        val next = layers.singleOrNull { it.activationKeys == want }?.name
-        return next?.let { "@$it" }
-    }
-
-    fun defSrc(homePos: List<String>): String {
-        val thumbPos = thumbs.map { it.inputKey }
-
-        return generate("defsrc", homePos, thumbPos)
-    }
+    fun defSrc(homePos: List<String>): String = generate(
+        "defsrc",
+        homePos,
+        thumbs.map { it.inputKey },
+        options["Exit Layout"] ?: throw IllegalStateException("Exit Layout key not defined")
+    )
 
 
     fun defLayer(layer: Layer, aliasMap: Map<String, Alias>): String {
         val homeRow = layer.output.map { layer.createTapCommand(it, aliasMap) }
         val thumbRow = thumbs.map { layer.createTapCommand(it.tap, aliasMap) }
 
-        return generate("deflayer ${layer.name}", homeRow, thumbRow)
+        return generate("deflayer ${layer.name}", homeRow, thumbRow, "lrld-next")
     }
 }
 

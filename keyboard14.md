@@ -32,10 +32,10 @@ Thumb positions
 | Tab       | esc     | tab     | spc     | ↩️️      | bspc     | del      |
 | Hold      | shft+L  | L       | shft    | U        | E        | I        |
     
-| Option       | Value     |
-|--------------|-----------|
-| Enter Layout | caps      |
-| Exit Layout  | lrld-next |
+| Option       | Value |
+|--------------|-------|
+| Enter Layout | caps  |
+| Exit Layout  | tab   |
 
 # keycodes see https://github.com/jtroo/kanata/blob/main/src/keys/mod.rs
 # commands see https://github.com/jtroo/kanata/blob/main/docs/config.adoc#configuration
