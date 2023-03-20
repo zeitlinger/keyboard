@@ -1,6 +1,23 @@
 import java.io.File
 import java.lang.IllegalStateException
 
+//todo
+//mouse accelerator
+//uleo layer keys
+
+typealias Table = List<List<String>>
+
+data class Tables(val content: List<Table>) {
+
+    fun get(name: String): Table = content.single { it[0][0] == name }
+
+    fun getMappingTable(
+        name: String,
+    ): Map<String, String> = content.single { it[0][0] == name }.drop(1).associate { it[0] to it[1] }
+}
+
+data class Alias(val name: String, val command: String)
+
 data class Layer(val name: String, val activationKeys: Set<String>, val output: List<String>) {
     val thumbHoldSuffix get() = activationKeys.sorted().joinToString("")
 }
@@ -29,8 +46,8 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
         )
     }
 
-    fun defAlias(homeRowHold: List<String>): String {
-        val layerToggle = layers.joinToString("\n") { "  ${it.name} (layer-while-held ${it.name})" }
+    fun defAlias(homeRowHold: List<String>, customAlias: Map<String, String>): String {
+        val layerToggle = layers.map { Alias(it.name, "(layer-while-held ${it.name})") }
         val layerActivation =
             layers.flatMap { layer ->
                 getLayerActivation(layer, layer.output, homeRowHold, layer.activationKeys, "") +
@@ -42,13 +59,20 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
                         layer.thumbHoldSuffix
                     )
             }
-                .joinToString("\n")
 
-        return statement(
-            "defalias",
-            "  ;; layer aliases\n$layerToggle\n\n" +
-                "  ;; layer activation\n$layerActivation"
+        val body = mapOf(
+            "layer aliases" to layerToggle,
+            "custom alias" to customAlias.map { Alias(it.key, it.value) },
+            "layer activation" to layerActivation,
         )
+            .map { entry ->
+                val section =
+                    entry.value.joinToString("\n") { alias -> "  ${alias.name} ${alias.command}" }
+                "  ;; ${entry.key}\n$section"
+            }
+            .joinToString("\n\n")
+
+        return statement("defalias", body)
     }
 
     private fun getLayerActivation(
@@ -56,8 +80,8 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
         keys: List<String>,
         hold: List<String>,
         excludeHold: Set<String>,
-        layerSuffix: String
-    ): List<String> =
+        layerSuffix: String,
+    ): List<Alias> =
         keys.zip(hold)
             .filterNot { it.first == BLOCKED }
             .map { (key, hold) ->
@@ -68,10 +92,9 @@ data class Generator(val options: Map<String, String>, val thumbs: List<Thumb>, 
                     holdDef?.let { "(tap-hold-release 200 200 $key $it)" } ?: key
 
                     //todo umlauts
-                    // todo mouse
-                    // todo direct keycode
+                    //todo remove super alt ctl O on one O side
                 }.replace("_", "") // to avoid duplicate aliases
-                "  $key$layerSuffix $command"
+                Alias("$key$layerSuffix", command)
             }
 
     private fun resolveHold(current: Layer, hold: String): String? = when {
@@ -117,15 +140,16 @@ fun main(args: Array<String>) {
 
     val tables = readTables(config)
 
-    val symbols = Symbols(tables.single { it[0][0] == "Symbol" }.drop(1).associate { it[0] to it[1] })
-    val layerTable = tables.single { it[0][0] == "Layer" }
+    val symbols = Symbols(tables.getMappingTable("Symbol"))
+    val customAlias = tables.getMappingTable("Alias")
+    val layerTable = tables.get("Layer")
     val layers = readLayers(layerTable, symbols)
-    val thumbs = readThumbs(tables.single { it[0][0] == "Thumb Pos" }, symbols)
+    val thumbs = readThumbs(tables.get("Thumb Pos"), symbols)
 
-    val options = tables.single { it[0][0] == "Option" }.drop(1).associate { it[0] to it[1] }
+    val options = tables.getMappingTable("Option")
     val generator = Generator(options, thumbs, layers)
 
-    val alias = generator.defAlias(layerTable[1].drop(2));
+    val alias = generator.defAlias(layerTable[1].drop(2), customAlias);
     val defSrc = generator.defSrc(getInputKeys(layerTable[0].drop(2)))
     val layerOutput = layers.joinToString("\n") { generator.defLayer(it) }
 
@@ -139,11 +163,14 @@ fun write(outputFile: String, vararg output: String) {
 fun createOutputKey(key: String): String {
     val number = key.all { it.isDigit() }
     return when {
+        key.startsWith("(") -> key // a mouse command
         key == BLOCKED -> key
         number && key.length == 1 -> "@$key"
         number || key[0].isUpperCase() -> {
             // keycodes and custom commands are not handled yet
             println("cannot handle $key")
+            //todo mouse
+            //todo keycode
             BLOCKED
         }
 
@@ -184,7 +211,7 @@ fun readThumbs(table: List<List<String>>, symbols: Symbols): List<Thumb> {
 fun getInputKeys(list: List<String>): List<String> = list
     .map { it.substringAfter("(").substringBefore(")") }
 
-fun readTables(config: String): List<List<List<String>>> = File(config)
+fun readTables(config: String): Tables = File(config)
     .readText()
     .split("\n\\s*\n".toRegex())
     .filter { it.startsWith("|") }
@@ -203,4 +230,5 @@ fun readTables(config: String): List<List<List<String>>> = File(config)
                     .dropLast(1) // last |
                     .map { it.trim() }
             }
-    }
+
+    }.let { Tables(it) }

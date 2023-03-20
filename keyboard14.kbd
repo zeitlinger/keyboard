@@ -17,6 +17,20 @@
   System (layer-while-held System)
   Unused (layer-while-held Unused)
 
+  ;; custom alias
+  mwheel-up (mwheel-up 50 120)
+  mwheel-down (mwheel-down 50 120)
+  mwheel-left (mwheel-left 50 120)
+  mwheel-right (mwheel-right 50 120)
+  movemouse-up (movemouse-up 1 1)
+  movemouse-left (movemouse-left 1 1)
+  movemouse-down (movemouse-down 1 1)
+  movemouse-right (movemouse-right 1 1)
+  movemouse-accel-up (movemouse-accel-up 1 1000 1 5)
+  movemouse-accel-left (movemouse-accel-left 1 1000 1 5)
+  movemouse-accel-down (movemouse-accel-down 1 1000 1 5)
+  movemouse-accel-right (movemouse-accel-right 1 1000 1 5)
+
   ;; layer activation
   a (tap-hold-release 200 200 a met)
   r (tap-hold-release 200 200 r ctl)
@@ -162,10 +176,10 @@
   mouseright (tap-hold-release 200 200 mouseright ctl)
   mousemid (tap-hold-release 200 200 mousemid alt)
   mouseleft mouseleft
-  Mouse-move-left Mouse-move-left
-  Mouse-move-down (tap-hold-release 200 200 Mouse-move-down alt)
-  Mouse-move-up (tap-hold-release 200 200 Mouse-move-up ctl)
-  Mouse-move-left (tap-hold-release 200 200 Mouse-move-left met)
+  movemouse-left movemouse-left
+  movemouse-down (tap-hold-release 200 200 movemouse-down alt)
+  movemouse-up (tap-hold-release 200 200 movemouse-up ctl)
+  movemouse-right (tap-hold-release 200 200 movemouse-right met)
   escLO (tap-hold-release 200 200 esc (multi shft @System))
   tabLO (tap-hold-release 200 200 tab @System)
   spcLO (tap-hold-release 200 200 spc shft)
@@ -174,10 +188,10 @@
   delLO del
   mousebackward (tap-hold-release 200 200 mousebackward alt)
   mouseforward mouseforward
-  Wheel-left Wheel-left
-  Wheel-down (tap-hold-release 200 200 Wheel-down alt)
-  Wheel-up (tap-hold-release 200 200 Wheel-up ctl)
-  Wheel-right (tap-hold-release 200 200 Wheel-right met)
+  mwheel-left mwheel-left
+  mwheel-down (tap-hold-release 200 200 mwheel-down alt)
+  mwheel-up (tap-hold-release 200 200 mwheel-up ctl)
+  mwheel-right (tap-hold-release 200 200 mwheel-right met)
   escIO (tap-hold-release 200 200 esc (multi shft @Unused))
   tabIO (tap-hold-release 200 200 tab @Unused)
   spcIO (tap-hold-release 200 200 spc shft)
@@ -292,13 +306,13 @@ tab
 )
 
 (deflayer Mouse1
-XX @mouseright @mousemid @mouseleft XX XX XX XX
+XX @mouseright @mousemid @mouseleft @movemouse-left @movemouse-down @movemouse-up @movemouse-right
 @escLO @tabLO @spcLO @entLO @bspcLO @delLO
 tab
 )
 
 (deflayer Mouse2
-XX XX @mousebackward @mouseforward XX XX XX XX
+XX XX @mousebackward @mouseforward @mwheel-left @mwheel-down @mwheel-up @mwheel-right
 @escIO @tabIO @spcIO @entIO @bspcIO @delIO
 tab
 )

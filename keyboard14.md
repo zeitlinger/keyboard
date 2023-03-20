@@ -37,6 +37,21 @@ Thumb positions
 | Enter Layout | caps  |
 | Exit Layout  | tab   |
 
+| Alias                 | Value                              |
+|-----------------------|------------------------------------|
+| mwheel-up             | (mwheel-up 50 120)                 |
+| mwheel-down           | (mwheel-down 50 120)               |
+| mwheel-left           | (mwheel-left 50 120)               |
+| mwheel-right          | (mwheel-right 50 120)              |
+| movemouse-up          | (movemouse-up 1 1)                 |
+| movemouse-left        | (movemouse-left 1 1)               |
+| movemouse-down        | (movemouse-down 1 1)               |
+| movemouse-right       | (movemouse-right 1 1)              |
+| movemouse-accel-up    | (movemouse-accel-up 1 1000 1 5)    |
+| movemouse-accel-left  | (movemouse-accel-left 1 1000 1 5)  |
+| movemouse-accel-down  | (movemouse-accel-down 1 1000 1 5)  |
+| movemouse-accel-right | (movemouse-accel-right 1 1000 1 5) |       
+
 
 | Symbol | Command           |
 |--------|-------------------|
@@ -46,14 +61,14 @@ Thumb positions
 | ⬇️     | down              |
 | ⬆️     | up                |
 | ➡️     | rght              |
-| 🖱️⬅️  | Mouse-move-left   |
-| 🖱️⬇️  | Mouse-move-down   |
-| 🖱️⬆️  | Mouse-move-up     |
-| 🖱️➡️  | Mouse-move-left   |
-| 🖲️️⬅️ | Wheel-left        |
-| 🖲️️⬇️ | Wheel-down        |
-| 🖲️️⬆️ | Wheel-up          |
-| 🖲️️➡️ | Wheel-right       |
+| 🖱️⬅️  | movemouse-left    |
+| 🖱️⬇️  | movemouse-down    |
+| 🖱️⬆️  | movemouse-up      |
+| 🖱️➡️  | movemouse-right   |
+| 🖲️️⬅️ | mwheel-left       |
+| 🖲️️⬇️ | mwheel-down       |
+| 🖲️️⬆️ | mwheel-up         |
+| 🖲️️➡️ | mwheel-right      |
 | 🖱️d   | Mouse-double-left |
 | 🖱️l   | mouseleft         |
 | 🖱️m   | mousemid          |
