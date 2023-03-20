@@ -36,8 +36,11 @@ Thumb positions
 |--------------|-------|
 | Enter Layout | caps  |
 | Exit Layout  | tab   |
+                                
+# keycodes see https://github.com/jtroo/kanata/blob/main/src/keys/mod.rs
+# commands see https://github.com/jtroo/kanata/blob/main/docs/config.adoc#configuration
 
-| Alias                 | Value                              |
+| Alias                 | Command                            |
 |-----------------------|------------------------------------|
 | mouse-double-left     | (multi mouseleft mouseleft)        |
 | mwheel-up             | (mwheel-up 50 120)                 |
