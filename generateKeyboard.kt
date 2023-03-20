@@ -2,6 +2,7 @@ import java.io.File
 import java.lang.IllegalStateException
 
 // todo
+// querty with enter
 // auto-start https://github.com/jtroo/kanata/discussions/130
 
 typealias Table = List<List<String>>
@@ -18,7 +19,22 @@ data class Tables(val content: List<Table>) {
 data class Alias(val name: String, val command: String, val canInline: Boolean)
 
 data class Layer(val name: String, val activationKeys: Set<String>, val output: List<String>) {
-    val thumbHoldSuffix get() = activationKeys.sorted().joinToString("")
+    private val shortName = activationKeys.sorted().joinToString("")
+
+    fun createAliasName(name: String): String = if (shortName.isEmpty()) name else  "${shortName}_${name}"
+
+    fun createTapCommand(key: String, aliasMap: Map<String, Alias>): String {
+        return when {
+            key == BLOCKED -> key
+            isLayerNameOrRef(key) -> throw IllegalStateException("Upper case is reserved for layers: $key")
+            key.all { it.isDigit() } && key.length > 1 -> throw IllegalStateException("Use custom alias for direct keycode: $key")
+
+            else -> {
+                val longAlias = createAliasName(key)
+                if (aliasMap.getValue(longAlias).canInline) key else "@$longAlias"
+            }
+        }
+    }
 }
 
 data class Thumb(val inputKey: String, val tap: String, val hold: String)
@@ -44,23 +60,10 @@ data class Generator(
         thumbRow: List<String>,
     ): String {
         return statement(
-            header, homeRow.joinToString(" ") +
-                "\n${thumbRow.joinToString(" ")}" +
-                "\n${options["Exit Layout"]}"
+            header, "  ${homeRow.joinToString(" ")}\n" +
+                "  ${thumbRow.joinToString(" ")}\n" +
+                "  ${options["Exit Layout"]}"
         )
-    }
-
-    private fun createTapCommand(key: String, layerSuffix: String, aliasMap: Map<String, Alias>): String {
-        return when {
-            key == BLOCKED -> key
-            isLayerNameOrRef(key) -> throw IllegalStateException("Upper case is reserved for layers: $key")
-            key.all { it.isDigit() } && key.length > 1 -> throw IllegalStateException("Use custom alias for direct keycode: $key")
-
-            else -> {
-                val longAlias = "$key$layerSuffix"
-                if (aliasMap.getValue(longAlias).canInline) key else "@$longAlias"
-            }
-        }
     }
 
     fun getAliasMap(
@@ -70,13 +73,13 @@ data class Generator(
         val layerToggle = layers.map { Alias(it.name, "(layer-while-held ${it.name})", false) }
         val layerActivation =
             layers.flatMap { layer ->
-                getLayerActivation(layer, layer.output, homeRowHold, layer.activationKeys, "") +
+                getLayerActivation(layer, layer.output, homeRowHold, layer.activationKeys, false) +
                     getLayerActivation(
                         layer,
                         thumbs.map { it.tap },
                         thumbs.map { it.hold },
                         emptySet(),
-                        layer.thumbHoldSuffix
+                        true
                     )
             }
 
@@ -99,12 +102,12 @@ data class Generator(
         }
         .joinToString("\n\n"))
 
-    private fun getLayerActivation(
+    fun getLayerActivation(
         current: Layer,
         keys: List<String>,
         hold: List<String>,
         excludeHold: Set<String>,
-        layerSuffix: String,
+        tapIgnoresLayer: Boolean,
     ): List<Alias> =
         keys.zip(hold)
             .filterNot { it.first == BLOCKED }
@@ -114,8 +117,11 @@ data class Generator(
                     tap
                 } else {
                     getHoldCommand(current, hold)?.let { "(tap-hold-release 200 200 $tap $it)" } ?: tap
-                }.replace("_", "") // to avoid duplicate aliases
-                Alias("$key$layerSuffix", command, key == command)
+                }
+                val firstLayerOfKey: Layer = layers.first { it.output.contains(key) }
+                val primaryTap = tapIgnoresLayer || firstLayerOfKey == current
+                val canInline = key == command && primaryTap
+                Alias(current.createAliasName(key), command, canInline)
             }
 
     private fun getHoldCommand(current: Layer, hold: String): String? {
@@ -149,8 +155,8 @@ data class Generator(
 
 
     fun defLayer(layer: Layer, aliasMap: Map<String, Alias>): String {
-        val homeRow = layer.output.map { createTapCommand(it, "", aliasMap) }
-        val thumbRow = thumbs.map { createTapCommand(it.tap, layer.thumbHoldSuffix, aliasMap) }
+        val homeRow = layer.output.map { layer.createTapCommand(it, aliasMap) }
+        val thumbRow = thumbs.map { layer.createTapCommand(it.tap, aliasMap) }
 
         return generate("deflayer ${layer.name}", homeRow, thumbRow)
     }
