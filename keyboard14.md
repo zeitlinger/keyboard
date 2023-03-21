@@ -36,9 +36,9 @@ Thumb positions
 |--------------|-------|
 | Enter Layout | caps  |
 | Exit Layout  | tab   |
-
-# keycodes see https://github.com/jtroo/kanata/blob/main/src/keys/mod.rs
-# commands see https://github.com/jtroo/kanata/blob/main/docs/config.adoc#configuration
+   
+- [keycodes](https://github.com/jtroo/kanata/blob/main/src/keys/mod.rs)
+- [commands](https://github.com/jtroo/kanata/blob/main/docs/config.adoc#configuration)
 
 | Alias                 | Command                            |
 |-----------------------|------------------------------------|

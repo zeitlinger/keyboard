@@ -1,0 +1,9 @@
+;; file is generated from keyboard14.md
+
+(defcfg
+  process-unmapped-keys yes
+)
+
+(defsrc
+  caps
+)

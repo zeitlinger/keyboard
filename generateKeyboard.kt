@@ -5,6 +5,20 @@ import java.lang.IllegalStateException
 // querty with enter
 // auto-start https://github.com/jtroo/kanata/discussions/130
 
+fun main(args: Array<String>) {
+    val config = File("/home/gregor/source/keyboard/keyboard14.md")
+
+//    val config = args.getOrNull(0) ?: throw IllegalArgumentException("config file must be the first argument")
+//    val outputFile = args.getOrNull(1) ?: throw IllegalArgumentException("output file must be the second argument")
+    val outputFile = File("/home/gregor/source/keyboard/keyboard14.kbd")
+    val enterKeyboardFile = File("/home/gregor/source/keyboard/keyboard14-enter.kbd")
+//    val device = args.getOrNull(2) // defaults to all keyboards
+
+    run(config, outputFile, enterKeyboardFile)
+}
+
+private const val BLOCKED = "XX"
+
 typealias Table = List<List<String>>
 
 data class Tables(val content: List<Table>) {
@@ -31,8 +45,6 @@ data class Layer(val name: String, val activationKeys: Set<String>, val output: 
 
 
 data class Thumb(val inputKey: String, val tap: String, val hold: String)
-
-private const val BLOCKED = "XX"
 
 data class Symbols(val mapping: Map<String, String>) {
     fun replace(key: String): String = mapping.getOrDefault(key, key).let { it.ifBlank { BLOCKED } }
@@ -161,13 +173,7 @@ data class Generator(
     }
 }
 
-fun main(args: Array<String>) {
-    val config = "/home/gregor/source/keyboard/keyboard14.md"
-//    val config = args.getOrNull(0) ?: throw IllegalArgumentException("config file must be the first argument")
-//    val outputFile = args.getOrNull(1) ?: throw IllegalArgumentException("output file must be the second argument")
-    val outputFile = "/home/gregor/source/keyboard/keyboard14.kbd"
-//    val device = args.getOrNull(2) ?: throw IllegalArgumentException("device must be the third argument")
-
+private fun run(config: File, outputFile: File, enterKeyboardFile: File) {
     val tables = readTables(config)
 
     val symbols = Symbols(tables.getMappingTable("Symbol"))
@@ -191,11 +197,20 @@ fun main(args: Array<String>) {
     val defSrc = generator.defSrc(getInputKeys(layerTable[0].drop(2)))
     val layerOutput = generatedKeyboard.layerKeys.joinToString("\n") { generator.defLayer(it.first, it.second) }
 
-    write(outputFile, ";; file is generated from ${File(config).name}", defAlias, defSrc, layerOutput)
-}
+    outputFile.writeText(
+        listOf(
+            ";; file is generated from ${config.name}",
+            defAlias,
+            defSrc,
+            layerOutput
+        ).joinToString("\n\n")
+    )
 
-fun write(outputFile: String, vararg output: String) {
-    File(outputFile).writeText(output.joinToString("\n\n"))
+    enterKeyboardFile.writeText(
+        File("enter-keyboard-template.kbd")
+            .readText()
+            .replace("\$enterKey", options.getValue("Enter Layout"))
+    )
 }
 
 fun readLayers(table: List<List<String>>, symbols: Symbols): List<Layer> {
@@ -227,8 +242,8 @@ fun readThumbs(table: List<List<String>>, symbols: Symbols): List<Thumb> {
 
 fun getInputKeys(list: List<String>): List<String> = list.map { it.substringAfter("(").substringBefore(")") }
 
-fun readTables(config: String): Tables =
-    File(config).readText().split("\n\\s*\n".toRegex()).filter { it.startsWith("|") }.map { tableLines ->
+fun readTables(config: File): Tables =
+    config.readText().split("\n\\s*\n".toRegex()).filter { it.startsWith("|") }.map { tableLines ->
         val entries = tableLines.split("\n").filterIndexed { index, line ->
             index != 1               // below header
                 && line.isNotBlank() // last block can contain empty line at end
