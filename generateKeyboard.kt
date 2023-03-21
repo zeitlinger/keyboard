@@ -2,7 +2,6 @@ import java.io.File
 import java.lang.IllegalStateException
 
 // todo
-// reuse alias from different layer
 // querty with enter
 // auto-start https://github.com/jtroo/kanata/discussions/130
 
@@ -18,14 +17,13 @@ data class Tables(val content: List<Table>) {
 }
 
 data class LayerKey(val layer: Layer, val key: String, val command: String) {
-    fun getAliasName(allWithCommand: List<LayerKey>) =
-        if (layer.shortName.isEmpty() || allWithCommand.size == 1) key else "${layer.shortName}_$key"
+    fun getAliasName(allWithKey: List<LayerKey>) =
+        if (layer.shortName.isEmpty() || allWithKey.size == 1) key else "${layer.shortName}_$key"
 }
 
-data class Alias(val name: String, val command: String, val canInline: Boolean) {
+data class Alias(val name: String, val command: String) {
     val reference = "@$name"
 }
-
 
 data class Layer(val name: String, val activationKeys: Set<String>, val output: List<String>) {
     val shortName = activationKeys.sorted().joinToString("")
@@ -85,12 +83,9 @@ data class Generator(
 
                     val primaryCommand =
                         allWithCommand.minWith(compareBy<LayerKey> { it.command.length }.thenBy { it.command })
-                    val alias = Alias(primaryCommand.getAliasName(byKey.getValue(key)), cmd, false)
+                    val alias = Alias(primaryCommand.getAliasName(byKey.getValue(key)), cmd)
                     when {
-                        key == cmd -> {
-                            KeyWithAlias(key, null)
-                        }
-
+                        key == cmd -> KeyWithAlias(key, null)
                         command == primaryCommand -> KeyWithAlias(alias.reference, alias)
                         else -> KeyWithAlias(alias.reference, null)
                     }
@@ -106,9 +101,9 @@ data class Generator(
     fun defAlias(
         aliasMap: Map<String, List<Alias>>,
     ) = statement("defalias", aliasMap.map { entry ->
-            val section = entry.value.joinToString("\n") { alias -> "  ${alias.name} ${alias.command}" }
-            "  ;; ${entry.key}\n$section"
-        }.joinToString("\n\n"))
+        val section = entry.value.joinToString("\n") { alias -> "  ${alias.name} ${alias.command}" }
+        "  ;; ${entry.key}\n$section"
+    }.joinToString("\n\n"))
 
     private fun getLayerKeys(
         current: Layer,
@@ -116,23 +111,23 @@ data class Generator(
         hold: List<String>,
         excludeHold: Set<String>,
     ): List<LayerKey> = keys.zip(hold).map { (key, hold) ->
-            when {
-                key == BLOCKED -> Unit
-                isLayerNameOrRef(key) -> throw IllegalStateException("Upper case is reserved for layers: $key")
-                key.all { it.isDigit() } && key.length > 1 -> throw IllegalStateException("Use custom alias for direct keycode: $key")
-            }
-
-            val tap = customAlias.getOrDefault(key, key)
-            val holdCommand = getHoldCommand(current, hold)
-            val noHold = excludeHold.contains(hold) || holdCommand == null
-            val isBlocked = tap == BLOCKED
-            when {
-                noHold && isBlocked -> LayerKey(current, BLOCKED, BLOCKED)
-                noHold -> LayerKey(current, key, tap)
-                isBlocked -> LayerKey(current, holdCommand!!, holdCommand)
-                else -> LayerKey(current, key, (holdCommand?.let { "(tap-hold-release 200 200 $tap $it)" } ?: tap))
-            }
+        when {
+            key == BLOCKED -> Unit
+            isLayerNameOrRef(key) -> throw IllegalStateException("Upper case is reserved for layers: $key")
+            key.all { it.isDigit() } && key.length > 1 -> throw IllegalStateException("Use custom alias for direct keycode: $key")
         }
+
+        val tap = customAlias.getOrDefault(key, key)
+        val holdCommand = getHoldCommand(current, hold)
+        val noHold = excludeHold.contains(hold) || holdCommand == null
+        val isBlocked = tap == BLOCKED
+        when {
+            noHold && isBlocked -> LayerKey(current, BLOCKED, BLOCKED)
+            noHold -> LayerKey(current, key, tap)
+            isBlocked -> LayerKey(current, holdCommand!!, holdCommand)
+            else -> LayerKey(current, key, (holdCommand?.let { "(tap-hold-release 200 200 $tap $it)" } ?: tap))
+        }
+    }
 
     private fun getHoldCommand(current: Layer, hold: String): String? {
         val parts = hold.split("+")
@@ -184,7 +179,7 @@ fun main(args: Array<String>) {
     val options = tables.getMappingTable("Option")
     val generator = Generator(options, thumbs, layers, customAlias)
     val homeRowHold = layerTable[1].drop(2)
-    val layerToggle = generator.layers.map { Alias(it.name, "(layer-while-held ${it.name})", false) }
+    val layerToggle = generator.layers.map { Alias(it.name, "(layer-while-held ${it.name})") }
     val generatedKeyboard = generator.generatedKeyboard(homeRowHold)
 
     val aliasMap = mapOf(
@@ -205,15 +200,15 @@ fun write(outputFile: String, vararg output: String) {
 
 fun readLayers(table: List<List<String>>, symbols: Symbols): List<Layer> {
     return table.map { layerLine ->
-            val name = layerLine[0]
-            if (!name[0].isUpperCase() || !name[0].isLetter()) {
-                throw IllegalStateException("Illegal layer name (must start with upper case alpha): $name")
-            }
-            val keys = layerLine[1].toCharArray().map { it.toString() }.toSet()
-            val mapping = layerLine.drop(2)
-                .map { symbols.replace(it.substringBefore(" ")) } // part after space is only for illustration
-            Layer(name, keys, mapping)
+        val name = layerLine[0]
+        if (!name[0].isUpperCase() || !name[0].isLetter()) {
+            throw IllegalStateException("Illegal layer name (must start with upper case alpha): $name")
         }
+        val keys = layerLine[1].toCharArray().map { it.toString() }.toSet()
+        val mapping = layerLine.drop(2)
+            .map { symbols.replace(it.substringBefore(" ")) } // part after space is only for illustration
+        Layer(name, keys, mapping)
+    }
 }
 
 fun readThumbs(table: List<List<String>>, symbols: Symbols): List<Thumb> {
@@ -234,17 +229,17 @@ fun getInputKeys(list: List<String>): List<String> = list.map { it.substringAfte
 
 fun readTables(config: String): Tables =
     File(config).readText().split("\n\\s*\n".toRegex()).filter { it.startsWith("|") }.map { tableLines ->
-            val entries = tableLines.split("\n").filterIndexed { index, line ->
-                    index != 1               // below header
-                        && line.isNotBlank() // last block can contain empty line at end
-                }
-            entries.map { tableLine ->
-                    tableLine.split("|").drop(1) // initial |
-                        .dropLast(1) // last |
-                        .map { it.trim() }
-                }
+        val entries = tableLines.split("\n").filterIndexed { index, line ->
+            index != 1               // below header
+                && line.isNotBlank() // last block can contain empty line at end
+        }
+        entries.map { tableLine ->
+            tableLine.split("|").drop(1) // initial |
+                .dropLast(1) // last |
+                .map { it.trim() }
+        }
 
-        }.let { Tables(it) }
+    }.let { Tables(it) }
 
 private fun isLayerNameOrRef(name: String) = name[0].isUpperCase()
 
