@@ -2,7 +2,6 @@ import java.io.File
 import java.lang.IllegalStateException
 
 // todo
-// querty with enter
 // auto-start https://github.com/jtroo/kanata/discussions/130
 
 fun main(args: Array<String>) {
