@@ -2,6 +2,7 @@ import java.io.File
 import java.lang.IllegalStateException
 
 // todo
+// reuse alias from different layer
 // querty with enter
 // auto-start https://github.com/jtroo/kanata/discussions/130
 
@@ -16,29 +17,23 @@ data class Tables(val content: List<Table>) {
     ): Map<String, String> = content.single { it[0][0] == name }.drop(1).associate { it[0] to it[1] }
 }
 
-data class Alias(val name: String, val command: String, val canInline: Boolean)
+data class LayerCommand(val layer: Layer, val key: String, val command: String){
+    val aliasName = if (layer.shortName.isEmpty()) key else "${layer.shortName}_$key"
+}
+
+data class Alias(val name: String, val command: String, val canInline: Boolean) {
+    val reference = "@$name"
+}
+
+typealias LayerAliases = List<List<Alias>>
+data class LayerKey(val name: String, val alias: Alias?)
+
+data class LayerKeys(val layer: Layer, val keys: List<List<LayerKey>>)
 
 data class Layer(val name: String, val activationKeys: Set<String>, val output: List<String>) {
-    private val shortName = activationKeys.sorted().joinToString("")
-
-    fun createAliasName(name: String, layers: List<Layer>): String {
-        val skipName = layers.firstOrNull { it.output.contains(name) } == this
-        return if (shortName.isEmpty() || skipName) name else "${shortName}_${name}"
-    }
-
-    fun createTapCommand(key: String, aliasMap: Map<String, Alias>, layers: List<Layer>): String {
-        return when {
-            key == BLOCKED -> key
-            isLayerNameOrRef(key) -> throw IllegalStateException("Upper case is reserved for layers: $key")
-            key.all { it.isDigit() } && key.length > 1 -> throw IllegalStateException("Use custom alias for direct keycode: $key")
-
-            else -> {
-                val longAlias = createAliasName(key, layers)
-                if (aliasMap.getValue(longAlias).canInline) key else "@$longAlias"
-            }
-        }
-    }
+    val shortName = activationKeys.sorted().joinToString("")
 }
+
 
 data class Thumb(val inputKey: String, val tap: String, val hold: String)
 
@@ -62,29 +57,50 @@ data class Generator(
         rows: List<List<String>>,
     ): String = statement(header, rows.joinToString("\n") { "  ${it.joinToString(" ")}" })
 
-    fun getAliasMap(
-        homeRowHold: List<String>,
-        customAlias: Map<String, String>,
-    ): Map<String, List<Alias>> {
-        val layerToggle = layers.map { Alias(it.name, "(layer-while-held ${it.name})", false) }
+    fun getAllLayerKeys(homeRowHold: List<String>): List<LayerKeys> {
         val layerActivation =
-            layers.flatMap { layer ->
-                getLayerActivation(layer, layer.output, homeRowHold, layer.activationKeys, false, layers) +
-                    getLayerActivation(
-                        layer,
-                        thumbs.map { it.tap },
-                        thumbs.map { it.hold },
-                        emptySet(),
-                        true,
-                        layers
-                    )
+            layers.map { layer ->
+                val homeRow = layerCommands(layer, layer.output, homeRowHold, layer.activationKeys, false)
+                val thumbRow = layerCommands(
+                    layer,
+                    thumbs.map { it.tap },
+                    thumbs.map { it.hold },
+                    emptySet(),
+                    true
+                )
+                val exitRow = listOf(LayerCommand(layer, "lrld-next", "lrld-next"))
+
+                layer to listOf(homeRow, thumbRow, exitRow)
             }
 
-        return mapOf(
-            "layer aliases" to layerToggle,
-            "custom alias" to customAlias.map { Alias(it.key, it.value, false) },
-            "layer activation" to layerActivation,
-        )
+        val byCommand = layerActivation.flatMap { it.second }
+            .flatten()
+            .groupBy { it.command }
+
+        val optimizedActivation = layerActivation.map { row ->
+            val layer = row.first
+            LayerKeys(layer, row.second.map { commands ->
+                commands.map { command ->
+                    //todo
+                    //layercommand -> layerkey ?
+                    val key = command.key
+                    val cmd = command.command
+                    val allWithCommand = byCommand.getValue(cmd)
+
+                    val primaryCommand = primaryCommand(allWithCommand)
+                    val alias = Alias(primaryCommand.aliasName, cmd, false)
+                    when {
+                        key == cmd -> {
+                            LayerKey(key, null)
+                        }
+
+                        command == primaryCommand -> LayerKey(alias.reference, alias)
+                        else -> LayerKey(alias.reference, null)
+                    }
+                }
+            })
+        }
+        return optimizedActivation
     }
 
     fun defAlias(
@@ -93,33 +109,45 @@ data class Generator(
         .map { entry ->
             val section =
                 entry.value
-                    .filterNot { it.canInline }
                     .joinToString("\n") { alias -> "  ${alias.name} ${alias.command}" }
             "  ;; ${entry.key}\n$section"
         }
         .joinToString("\n\n"))
 
-    private fun getLayerActivation(
+    private fun layerCommands(
         current: Layer,
         keys: List<String>,
         hold: List<String>,
         excludeHold: Set<String>,
         tapIgnoresLayer: Boolean,
-        layers: List<Layer>,
-    ): List<Alias> =
+    ): List<LayerCommand> =
         keys.zip(hold)
-            .filterNot { it.first == BLOCKED }
+//            .filterNot { it.first == BLOCKED }
             .map { (key, hold) ->
-                val tap = customAlias.getOrDefault(key, key)
-                val command = if (excludeHold.contains(hold)) {
-                    tap
-                } else {
-                    getHoldCommand(current, hold)?.let { "(tap-hold-release 200 200 $tap $it)" } ?: tap
+                when {
+                    key == BLOCKED -> Unit
+                    isLayerNameOrRef(key) -> throw IllegalStateException("Upper case is reserved for layers: $key")
+                    key.all { it.isDigit() } && key.length > 1 -> throw IllegalStateException("Use custom alias for direct keycode: $key")
                 }
-                val firstLayerOfKey: Layer = this.layers.first { it.output.contains(key) }
-                val primaryTap = tapIgnoresLayer || firstLayerOfKey == current
-                val canInline = key == command && primaryTap
-                Alias(current.createAliasName(key, layers), command, canInline)
+
+                val tap = customAlias.getOrDefault(key, key)
+                val holdCommand = getHoldCommand(current, hold)
+                val noHold = excludeHold.contains(hold) || holdCommand == null
+                val isBlocked = tap == BLOCKED
+                when {
+                    noHold && isBlocked -> LayerCommand(current, BLOCKED, BLOCKED)
+                    noHold -> LayerCommand(current, key, tap)
+                    isBlocked -> LayerCommand(current, holdCommand!!, holdCommand)
+                    else -> (holdCommand?.let { "(tap-hold-release 200 200 $tap $it)" } ?: tap).let { LayerCommand(current, key, it) }
+                }
+//                val firstLayerOfKey: Layer = this.layers.first { it.output.contains(key) }
+//                val primaryTap = tapIgnoresLayer || firstLayerOfKey == current // tapIgnoresLayer needed?
+//                val canInline = key == command && primaryTap
+//                when {
+//                    canInline -> LayerKey(key, null)
+//
+//                }
+
             }
 
     private fun getHoldCommand(current: Layer, hold: String): String? {
@@ -151,12 +179,9 @@ data class Generator(
         )
     )
 
-    fun defLayer(layer: Layer, aliasMap: Map<String, Alias>): String {
-        val rows = listOf(layer.output, thumbs.map { it.tap })
-            .map { it.map { layer.createTapCommand(it, aliasMap, layers) } } +
-            listOf(listOf("lrld-next"))
-
-        return generate("deflayer ${layer.name}", rows)
+    fun defLayer(layerKeys: LayerKeys): String {
+        return generate("deflayer ${layerKeys.layer.name}",
+            layerKeys.keys.map { row -> row.map { it.name } })
     }
 }
 
@@ -177,14 +202,21 @@ fun main(args: Array<String>) {
 
     val options = tables.getMappingTable("Option")
     val generator = Generator(options, thumbs, layers, customAlias)
-    val aliasMap = generator.getAliasMap(layerTable[1].drop(2), customAlias)
+    val homeRowHold = layerTable[1].drop(2)
+    val layerToggle = generator.layers.map { Alias(it.name, "(layer-while-held ${it.name})", false) }
+    val layerKeys = generator.getAllLayerKeys(homeRowHold)
 
-    val alias = generator.defAlias(aliasMap)
+    val aliasMap = mapOf(
+        "layer aliases" to layerToggle,
+        "layer keys" to layerKeys.flatMap { it.keys }.flatten().mapNotNull { it.alias },
+    )
+
+    val defAlias = generator.defAlias(aliasMap)
     val defSrc = generator.defSrc(getInputKeys(layerTable[0].drop(2)))
     val flatAliasMap = aliasMap.values.flatten().associateBy { it.name }
-    val layerOutput = layers.joinToString("\n") { generator.defLayer(it, flatAliasMap) }
+    val layerOutput = layerKeys.joinToString("\n") { generator.defLayer(it) }
 
-    write(outputFile, ";; file is generated from ${File(config).name}", alias, defSrc, layerOutput)
+    write(outputFile, ";; file is generated from ${File(config).name}", defAlias, defSrc, layerOutput)
 }
 
 fun write(outputFile: String, vararg output: String) {
@@ -246,3 +278,12 @@ fun readTables(config: String): Tables = File(config)
     }.let { Tables(it) }
 
 private fun isLayerNameOrRef(name: String) = name[0].isUpperCase()
+
+fun primaryCommand(aliases: List<LayerCommand>): LayerCommand =
+    aliases
+        .minWith(compareBy<LayerCommand> { it.command.length }.thenBy { it.command })
+
+fun createName(withLayer: Boolean, layer: Layer, name: String): String {
+    return if (withLayer) "${layer.shortName}_$name" else name
+}
+

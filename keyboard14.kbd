@@ -19,26 +19,6 @@
   Media (layer-while-held Media)
   System (layer-while-held System)
 
-  ;; custom alias
-  mouse-double-left (multi mouseleft mouseleft)
-  mwheel-up (mwheel-up 50 120)
-  mwheel-down (mwheel-down 50 120)
-  mwheel-left (mwheel-left 50 120)
-  mwheel-right (mwheel-right 50 120)
-  movemouse-up (movemouse-up 1 1)
-  movemouse-left (movemouse-left 1 1)
-  movemouse-down (movemouse-down 1 1)
-  movemouse-right (movemouse-right 1 1)
-  movemouse-accel-up (movemouse-accel-up 1 1000 1 5)
-  movemouse-accel-left (movemouse-accel-left 1 1000 1 5)
-  movemouse-accel-down (movemouse-accel-down 1 1000 1 5)
-  movemouse-accel-right (movemouse-accel-right 1 1000 1 5)
-  mute-mic (arbitrary-code 248)
-  ä (unicode ä)
-  ö (unicode ö)
-  ü (unicode ü)
-  ß (unicode ß)
-
   ;; layer keys
   a (tap-hold-release 200 200 a met)
   r (tap-hold-release 200 200 r ctl)
@@ -123,6 +103,7 @@
   O_ä (tap-hold-release 200 200 (unicode ä) met)
   O_ö (tap-hold-release 200 200 (unicode ö) ctl)
   O_ü (tap-hold-release 200 200 (unicode ü) alt)
+  O_ß (unicode ß)
   O_down (tap-hold-release 200 200 down alt)
   O_up (tap-hold-release 200 200 up ctl)
   O_rght (tap-hold-release 200 200 rght met)
@@ -146,6 +127,7 @@
   LO_mouse-double-left (tap-hold-release 200 200 (multi mouseleft mouseleft) met)
   LO_mouseright (tap-hold-release 200 200 mouseright ctl)
   LO_mousemid (tap-hold-release 200 200 mousemid alt)
+  LO_movemouse-left (movemouse-left 1 1)
   LO_movemouse-down (tap-hold-release 200 200 (movemouse-down 1 1) alt)
   LO_movemouse-up (tap-hold-release 200 200 (movemouse-up 1 1) ctl)
   LO_movemouse-right (tap-hold-release 200 200 (movemouse-right 1 1) met)
@@ -153,9 +135,11 @@
   LO_bspc (tap-hold-release 200 200 bspc @Mouse3)
   LO_del (tap-hold-release 200 200 del @System)
   LOU_mousebackward (tap-hold-release 200 200 mousebackward alt)
+  LOU_mwheel-left (mwheel-left 50 120)
   LOU_mwheel-down (tap-hold-release 200 200 (mwheel-down 50 120) alt)
   LOU_mwheel-up (tap-hold-release 200 200 (mwheel-up 50 120) ctl)
   LOU_mwheel-right (tap-hold-release 200 200 (mwheel-right 50 120) met)
+  ELO_movemouse-accel-left (movemouse-accel-left 1 1000 1 5)
   ELO_movemouse-accel-down (tap-hold-release 200 200 (movemouse-accel-down 1 1000 1 5) alt)
   ELO_movemouse-accel-up (tap-hold-release 200 200 (movemouse-accel-up 1 1000 1 5) ctl)
   ELO_movemouse-accel-right (tap-hold-release 200 200 (movemouse-accel-right 1 1000 1 5) met)
@@ -228,7 +212,7 @@
 )
 
 (deflayer Nav
-  @O_ä @O_ö @O_ü (unicode ß) left @O_down @O_up @O_rght
+  @O_ä @O_ö @O_ü @O_ß left @O_down @O_up @O_rght
   @O_esc @O_tab @spc @O_ent @O_bspc @O_del
   lrld-next
 )
@@ -246,19 +230,19 @@
 )
 
 (deflayer Mouse1
-  @LO_mouse-double-left @LO_mouseright @LO_mousemid mouseleft (movemouse-left 1 1) @LO_movemouse-down @LO_movemouse-up @LO_movemouse-right
+  @LO_mouse-double-left @LO_mouseright @LO_mousemid mouseleft @LO_movemouse-left @LO_movemouse-down @LO_movemouse-up @LO_movemouse-right
   @L_esc tab @spc @LO_ent @LO_bspc @LO_del
   lrld-next
 )
 
 (deflayer Mouse2
-  met ctl @LOU_mousebackward mouseforward (mwheel-left 50 120) @LOU_mwheel-down @LOU_mwheel-up @LOU_mwheel-right
+  met ctl @LOU_mousebackward mouseforward @LOU_mwheel-left @LOU_mwheel-down @LOU_mwheel-up @LOU_mwheel-right
   @L_esc tab @spc ent bspc del
   lrld-next
 )
 
 (deflayer Mouse3
-  met ctl alt XX (movemouse-accel-left 1 1000 1 5) @ELO_movemouse-accel-down @ELO_movemouse-accel-up @ELO_movemouse-accel-right
+  met ctl alt XX @ELO_movemouse-accel-left @ELO_movemouse-accel-down @ELO_movemouse-accel-up @ELO_movemouse-accel-right
   @L_esc tab @spc ent bspc del
   lrld-next
 )
