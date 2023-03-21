@@ -5,7 +5,7 @@ Hold Keys
 - E = Extra
 - O = Other
 
-| Layer   | Keys | 4&nbsp;(caps) | 3&nbsp;(a) | 2&nbsp;(s) | 1&nbsp;(d) | 1&nbsp;(l) | 2&nbsp;(;) | 3&nbsp;(') | 4&nbsp;(ent) |
+| Layer   | Keys | 4&nbsp;(caps) | 3&nbsp;(q) | 2&nbsp;(w) | 1&nbsp;(d) | 1&nbsp;(l) | 2&nbsp;(p) | 3&nbsp;(]) | 4&nbsp;(ent) |
 |---------|------|---------------|------------|------------|------------|------------|------------|------------|--------------|
 | Hold    |      | met           | ctl        | alt        | O          | O          | alt        | ctl        | met          |
 | Letter0 |      | a             | r          | s          | t          | n          | e          | i          | o            |
@@ -24,19 +24,21 @@ Hold Keys
 | Mouse3  | OLE  |               |            |            |            | 🖱️⬅️⬅️    | 🖱️⬇️⬇️    | 🖱️⬆️⬆️    | 🖱️➡️➡️      |   
 | Media   | OI   | lrld          | 🎤         | 🔇         | ⏯️         | ⏮️         | 🔈         | 🔊         | ⏭️           |
 | System  | OLI  |               |            |            |            |            | 🔅         | 🔆         |              |
-                                 
+
 Thumb positions
 
 | Thumb Pos | L (met) | L (alt) | L (spc) | R (ralt) | R (prnt) | R (rctl) |
 |-----------|---------|---------|---------|----------|----------|----------|
 | Tab       | esc     | tab     | spc     | ↩️️      | bspc     | del      |
-| Hold      | shft+L  | L       | shft    | U        | E        | I        |
-    
+| Hold      | shft+L  | shft    | L       | U        | E        | I        |
+
 | Option       | Value |
 |--------------|-------|
 | Enter Layout | caps  |
 | Exit Layout  | tab   |
-   
+| Tap Timeout  | 100   |
+| Hold Timeout | 200   |
+
 - [keycodes](https://github.com/jtroo/kanata/blob/main/src/keys/mod.rs)
 - [commands](https://github.com/jtroo/kanata/blob/main/docs/config.adoc#configuration)
 

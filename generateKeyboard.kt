@@ -138,11 +138,13 @@ data class Generator(
         val holdCommand = getHoldCommand(current, hold)
         val noHold = excludeHold.contains(hold) || holdCommand == null
         val isBlocked = tap == BLOCKED
+        val tapTimeout = options.getValue("Tap Timeout")
+        val holdTimeout = options.getValue("Hold Timeout")
         when {
             noHold && isBlocked -> LayerKey(current, BLOCKED, BLOCKED)
             noHold -> LayerKey(current, key, tap)
             isBlocked -> LayerKey(current, holdCommand!!, holdCommand)
-            else -> LayerKey(current, key, (holdCommand?.let { "(tap-hold-release 200 200 $tap $it)" } ?: tap))
+            else -> LayerKey(current, key, (holdCommand?.let { "(tap-hold-release $tapTimeout $holdTimeout $tap $it)" } ?: tap))
         }
     }
 
