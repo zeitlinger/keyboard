@@ -56,7 +56,7 @@
   L_ent (tap-hold-release 200 200 ent @Letter3)
   L_bspc (tap-hold-release 200 200 bspc @Fun1)
   L_del (tap-hold-release 200 200 del @Fun2)
-  LU_spc (tap-hold-release 200 200 spc met)
+  LU_spc3 (tap-hold-release 200 200 spc met)
   g (tap-hold-release 200 200 g ctl)
   d (tap-hold-release 200 200 d alt)
   b (tap-hold-release 200 200 b @Mouse2)
@@ -96,9 +96,9 @@
   f10 (tap-hold-release 200 200 f10 ctl)
   f11 (tap-hold-release 200 200 f11 alt)
   f12 (tap-hold-release 200 200 f12 @System)
-  IL_ent (tap-hold-release 200 200 ent @System)
-  IL_bspc (tap-hold-release 200 200 bspc alt)
-  IL_del (tap-hold-release 200 200 del ctl)
+  IL_ent7 (tap-hold-release 200 200 ent @System)
+  IL_bspc7 (tap-hold-release 200 200 bspc alt)
+  IL_del7 (tap-hold-release 200 200 del ctl)
   ins (tap-hold-release 200 200 ins met)
   ä (tap-hold-release 200 200 (unicode ä) met)
   ö (tap-hold-release 200 200 (unicode ö) ctl)
@@ -114,12 +114,12 @@
   O_del (tap-hold-release 200 200 del @Media)
   caps (tap-hold-release 200 200 caps met)
   prnt (tap-hold-release 200 200 prnt ctl)
-  OU_esc (tap-hold-release 200 200 esc alt)
+  OU_esc9 (tap-hold-release 200 200 esc alt)
   pgdn (tap-hold-release 200 200 pgdn alt)
   pgup (tap-hold-release 200 200 pgup ctl)
   end (tap-hold-release 200 200 end met)
-  OU_esc (tap-hold-release 200 200 esc (multi shft @Mouse2))
-  OU_tab (tap-hold-release 200 200 tab @Mouse2)
+  OU_esc10 (tap-hold-release 200 200 esc (multi shft @Mouse2))
+  OU_tab10 (tap-hold-release 200 200 tab @Mouse2)
   EO_j (tap-hold-release 200 200 j alt)
   EO_l (tap-hold-release 200 200 l met)
   EO_esc (tap-hold-release 200 200 esc (multi shft @Mouse3))
@@ -182,7 +182,7 @@
 )
 
 (deflayer Letter3
-  @LU_spc @g @d @b @LU_j @m @LU_k @;
+  @LU_spc3 @g @d @b @LU_j @m @LU_k @;
   @L_esc tab @spc ent bspc del
   lrld-next
 )
@@ -206,7 +206,7 @@
 )
 
 (deflayer Fun2
-  @f9 @f10 @f11 @f12 @IL_ent @IL_bspc @IL_del @ins
+  @f9 @f10 @f11 @f12 @IL_ent7 @IL_bspc7 @IL_del7 @ins
   @L_esc tab @spc ent bspc del
   lrld-next
 )
@@ -218,8 +218,8 @@
 )
 
 (deflayer Nav2
-  @caps @prnt @OU_esc tab home @pgdn @pgup @end
-  @OU_esc @OU_tab @spc ent bspc del
+  @caps @prnt @OU_esc9 tab home @pgdn @pgup @end
+  @OU_esc10 @OU_tab10 @spc ent bspc del
   lrld-next
 )
 

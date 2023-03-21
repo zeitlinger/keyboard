@@ -31,7 +31,13 @@ data class Tables(val content: List<Table>) {
 
 data class LayerKey(val layer: Layer, val key: String, val command: String) {
     fun getAliasName(allWithKey: List<LayerKey>) =
-        if (layer.shortName.isEmpty() || allWithKey.size == 1) key else "${layer.shortName}_$key"
+        when {
+            layer.shortName.isEmpty() || allWithKey.size == 1 -> key
+            allWithKey.filter { it.layer == layer }.size > 1 -> {
+                "${layer.shortName}_$key${allWithKey.indexOf(this)}"
+            }
+            else -> "${layer.shortName}_$key"
+        }
 }
 
 data class Alias(val name: String, val command: String) {
