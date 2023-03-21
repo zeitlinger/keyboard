@@ -18,14 +18,13 @@ data class Tables(val content: List<Table>) {
 }
 
 data class LayerCommand(val layer: Layer, val key: String, val command: String){
-    val aliasName = if (layer.shortName.isEmpty()) key else "${layer.shortName}_$key"
+    fun getAliasName(allWithCommand: List<LayerCommand>) = if (layer.shortName.isEmpty() || allWithCommand.size == 1) key else "${layer.shortName}_$key"
 }
 
 data class Alias(val name: String, val command: String, val canInline: Boolean) {
     val reference = "@$name"
 }
 
-typealias LayerAliases = List<List<Alias>>
 data class LayerKey(val name: String, val alias: Alias?)
 
 data class LayerKeys(val layer: Layer, val keys: List<List<LayerKey>>)
@@ -60,13 +59,12 @@ data class Generator(
     fun getAllLayerKeys(homeRowHold: List<String>): List<LayerKeys> {
         val layerActivation =
             layers.map { layer ->
-                val homeRow = layerCommands(layer, layer.output, homeRowHold, layer.activationKeys, false)
+                val homeRow = layerCommands(layer, layer.output, homeRowHold, layer.activationKeys)
                 val thumbRow = layerCommands(
                     layer,
                     thumbs.map { it.tap },
                     thumbs.map { it.hold },
-                    emptySet(),
-                    true
+                    emptySet()
                 )
                 val exitRow = listOf(LayerCommand(layer, "lrld-next", "lrld-next"))
 
@@ -76,6 +74,10 @@ data class Generator(
         val byCommand = layerActivation.flatMap { it.second }
             .flatten()
             .groupBy { it.command }
+
+        val byKey = layerActivation.flatMap { it.second }
+            .flatten()
+            .groupBy { it.key }
 
         val optimizedActivation = layerActivation.map { row ->
             val layer = row.first
@@ -87,8 +89,9 @@ data class Generator(
                     val cmd = command.command
                     val allWithCommand = byCommand.getValue(cmd)
 
-                    val primaryCommand = primaryCommand(allWithCommand)
-                    val alias = Alias(primaryCommand.aliasName, cmd, false)
+                    val primaryCommand = allWithCommand
+                        .minWith(compareBy<LayerCommand> { it.command.length }.thenBy { it.command })
+                    val alias = Alias(primaryCommand.getAliasName(byKey.getValue(key)), cmd, false)
                     when {
                         key == cmd -> {
                             LayerKey(key, null)
@@ -119,10 +122,8 @@ data class Generator(
         keys: List<String>,
         hold: List<String>,
         excludeHold: Set<String>,
-        tapIgnoresLayer: Boolean,
     ): List<LayerCommand> =
         keys.zip(hold)
-//            .filterNot { it.first == BLOCKED }
             .map { (key, hold) ->
                 when {
                     key == BLOCKED -> Unit
@@ -138,16 +139,9 @@ data class Generator(
                     noHold && isBlocked -> LayerCommand(current, BLOCKED, BLOCKED)
                     noHold -> LayerCommand(current, key, tap)
                     isBlocked -> LayerCommand(current, holdCommand!!, holdCommand)
-                    else -> (holdCommand?.let { "(tap-hold-release 200 200 $tap $it)" } ?: tap).let { LayerCommand(current, key, it) }
+                    else -> LayerCommand(current, key,
+                        (holdCommand?.let { "(tap-hold-release 200 200 $tap $it)" } ?: tap))
                 }
-//                val firstLayerOfKey: Layer = this.layers.first { it.output.contains(key) }
-//                val primaryTap = tapIgnoresLayer || firstLayerOfKey == current // tapIgnoresLayer needed?
-//                val canInline = key == command && primaryTap
-//                when {
-//                    canInline -> LayerKey(key, null)
-//
-//                }
-
             }
 
     private fun getHoldCommand(current: Layer, hold: String): String? {
@@ -278,10 +272,6 @@ fun readTables(config: String): Tables = File(config)
     }.let { Tables(it) }
 
 private fun isLayerNameOrRef(name: String) = name[0].isUpperCase()
-
-fun primaryCommand(aliases: List<LayerCommand>): LayerCommand =
-    aliases
-        .minWith(compareBy<LayerCommand> { it.command.length }.thenBy { it.command })
 
 fun createName(withLayer: Boolean, layer: Layer, name: String): String {
     return if (withLayer) "${layer.shortName}_$name" else name
