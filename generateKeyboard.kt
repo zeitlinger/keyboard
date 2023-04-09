@@ -2,15 +2,18 @@ import java.io.File
 import java.lang.IllegalStateException
 
 // todo
+// data class for table (header, body, dropFirstCol)
+// detect half layers
+// shift layers
 // auto-start https://github.com/jtroo/kanata/discussions/130
 
 fun main(args: Array<String>) {
-    val config = File("/home/gregor/source/keyboard/keyboard14.md")
+    val config = File("/home/gregor/source/keyboard/keyboard34.md")
 
 //    val config = args.getOrNull(0) ?: throw IllegalArgumentException("config file must be the first argument")
 //    val outputFile = args.getOrNull(1) ?: throw IllegalArgumentException("output file must be the second argument")
-    val outputFile = File("/home/gregor/source/keyboard/keyboard14.kbd")
-    val enterKeyboardFile = File("/home/gregor/source/keyboard/keyboard14-enter.kbd")
+    val outputFile = File("/home/gregor/source/keyboard/keyboard34.kbd")
+    val enterKeyboardFile = File("/home/gregor/source/keyboard/keyboard34-enter.kbd")
 //    val device = args.getOrNull(2) // defaults to all keyboards
 
     run(config, outputFile, enterKeyboardFile)
@@ -45,7 +48,7 @@ data class Alias(val name: String, val command: String) {
     val reference = "@$name"
 }
 
-data class Layer(val name: String, val activationKeys: Set<String>, val output: List<String>) {
+data class Layer(val name: String, val activationKeys: Set<String>, val output: List<List<String>>) {
     val shortName = activationKeys.sorted().joinToString("")
 }
 
@@ -63,7 +66,7 @@ data class Generator(
     val thumbs: List<Thumb>,
     val layers: List<Layer>,
     val customAlias: Map<String, String>,
-    val homeRowInputKeys: List<String>,
+    val keys: List<List<String>>,
 ) {
 
     private fun statement(header: String, body: String): String = "($header\n$body\n)\n"
@@ -74,19 +77,18 @@ data class Generator(
     ): String = statement(header, rows.joinToString("\n") { "  ${it.joinToString(" ")}" })
 
 
-    fun generatedKeyboard(homeRowHold: List<String>): GeneratedKeyboard {
+    fun generatedKeyboard(holdKeys: List<List<String>>): GeneratedKeyboard {
         val layerActivation = layers.map { layer ->
-            val homeRow = getLayerKeys(layer, layer.output, homeRowHold, layer.activationKeys)
-            val thumbRow = getLayerKeys(layer, thumbs.map { it.tap }, thumbs.map { it.hold }, emptySet()
-            )
-            val exitRow = listOf(LayerKey(layer, "lrld-next", "lrld-next"))
+            val mainRow = getLayerKeys(layer, layer.output, holdKeys, layer.activationKeys)
+            val thumbRow = getLayerKeys(layer, listOf(thumbs.map { it.tap }), listOf(thumbs.map { it.hold }), emptySet())
+            val exitRow = listOf(listOf(LayerKey(layer, "lrld-next", "lrld-next")))
 
-            layer to listOf(homeRow, thumbRow, exitRow)
+            layer to listOf(mainRow, thumbRow, exitRow).flatten()
         }
 
-        val byCommand = layerActivation.flatMap { it.second }.flatten().groupBy { it.command }
-
-        val byKey = layerActivation.flatMap { it.second }.flatten().groupBy { it.key }
+        val flatLayerKeys = layerActivation.flatMap { it.second }.flatten()
+        val byCommand = flatLayerKeys.groupBy { it.command }
+        val byKey = flatLayerKeys.groupBy { it.key }
 
         data class KeyWithAlias(val key: String, val alias: Alias?)
 
@@ -96,19 +98,19 @@ data class Generator(
             val layer = row.first
             LayerKeyWithAlias(layer, row.second.map { commands ->
                 commands.map { command ->
-                    val key = command.key
-                    val cmd = command.command
-                    val allWithCommand = byCommand.getValue(cmd)
+                        val key = command.key
+                        val cmd = command.command
+                        val allWithCommand = byCommand.getValue(cmd)
 
-                    val primaryCommand =
-                        allWithCommand.minWith(compareBy<LayerKey> { it.command.length }.thenBy { it.command })
-                    val alias = Alias(primaryCommand.getAliasName(byKey.getValue(key)), cmd)
-                    when {
-                        key == cmd -> KeyWithAlias(key, null)
-                        command == primaryCommand -> KeyWithAlias(alias.reference, alias)
-                        else -> KeyWithAlias(alias.reference, null)
+                        val primaryCommand =
+                            allWithCommand.minWith(compareBy<LayerKey> { it.command.length }.thenBy { it.command })
+                        val alias = Alias(primaryCommand.getAliasName(byKey.getValue(key)), cmd)
+                        when {
+                            key == cmd -> KeyWithAlias(key, null)
+                            command == primaryCommand -> KeyWithAlias(alias.reference, alias)
+                            else -> KeyWithAlias(alias.reference, null)
+                        }
                     }
-                }
             })
         }
         val aliases = keyWithAlias.flatMap { it.keys }.flatten().mapNotNull { it.alias }
@@ -126,34 +128,40 @@ data class Generator(
 
     private fun getLayerKeys(
         current: Layer,
-        keys: List<String>,
-        hold: List<String>,
+        keys: List<List<String>>,
+        holdKeys: List<List<String>>,
         excludeHold: Set<String>,
-    ): List<LayerKey> = keys.zip(hold).mapIndexed { index, (key, hold) ->
-        when {
-            key == BLOCKED -> Unit
-            isLayerNameOrRef(key) -> throw IllegalStateException("Upper case is reserved for layers: $key")
-            key.all { it.isDigit() } && key.length > 1 -> throw IllegalStateException("Use custom alias for direct keycode: $key")
-        }
+    ): List<List<LayerKey>> = keys.zip(holdKeys).map { (keyRow, holdRow) ->
+        keyRow.zip(holdRow).mapIndexed { index, (key, hold) ->
+            when {
+                key == BLOCKED -> Unit
+                isLayerNameOrRef(key) -> throw IllegalStateException("Upper case is reserved for layers: $key")
+                key.all { it.isDigit() } && key.length > 1 -> throw IllegalStateException("Use custom alias for direct keycode: $key")
+            }
 
-        val tap = customAlias.getOrDefault(key, key)
-        val holdCommand = getHoldCommand(current, hold)
-        val noHold = excludeHold.contains(hold) || holdCommand == null
-        val isBlocked = tap == BLOCKED
-        val tapTimeout = options.getValue("Tap Timeout")
-        val holdTimeout = options.getValue("Hold Timeout")
-        val earlyTapKeys = (if (index < 4) homeRowInputKeys.take(4) else homeRowInputKeys.drop(4)).joinToString(" ")
-        when {
-            noHold && isBlocked -> LayerKey(current, BLOCKED, BLOCKED)
-            noHold -> LayerKey(current, key, tap)
-            isBlocked -> LayerKey(current, holdCommand!!, holdCommand)
-            else -> LayerKey(current, key, (holdCommand?.let {
-                "(tap-hold-release-keys $tapTimeout $holdTimeout $tap $it ($earlyTapKeys))"
-            } ?: tap))
+            val tap = customAlias.getOrDefault(key, key)
+            val holdCommand = getHoldCommand(current, hold)
+            val noHold = excludeHold.contains(hold) || holdCommand == null
+            val isBlocked = tap == BLOCKED
+            val tapTimeout = options.getValue("Tap Timeout")
+            val holdTimeout = options.getValue("Hold Timeout")
+            val half = keyRow.size / 2
+            val earlyTapKeys = (if (index < half) keyRow.take(half) else keyRow.drop(half)).joinToString(" ")
+            when {
+                noHold && isBlocked -> LayerKey(current, BLOCKED, BLOCKED)
+                noHold -> LayerKey(current, key, tap)
+                isBlocked -> LayerKey(current, holdCommand!!, holdCommand)
+                else -> LayerKey(current, key, (holdCommand?.let {
+                    "(tap-hold-release-keys $tapTimeout $holdTimeout $tap $it ($earlyTapKeys))"
+                } ?: tap))
+            }
         }
     }
 
     private fun getHoldCommand(current: Layer, hold: String): String? {
+        if (hold.isBlank()) {
+            return null
+        }
         val parts = hold.split("+")
         val layerCommands = parts.filter { isLayerNameOrRef(it) }.toSet()
 
@@ -172,9 +180,8 @@ data class Generator(
             layers.singleOrNull { it.activationKeys == want }?.let { "@${it.name}" }
         }
 
-    fun defSrc(homePos: List<String>): String = generate(
-        "defsrc", listOf(
-            homePos,
+    fun defSrc(pos: List<List<String>>): String = generate(
+        "defsrc", pos + listOf(
             thumbs.map { it.inputKey },
             listOf(options["Exit Layout"] ?: throw IllegalStateException("Exit Layout key not defined"))
         )
@@ -191,15 +198,20 @@ private fun run(config: File, outputFile: File, enterKeyboardFile: File) {
     val symbols = Symbols(tables.getMappingTable("Symbol"))
     val customAlias = tables.getMappingTable("Alias")
     val layerTable = tables.get("Layer")
-    val layers = readLayers(layerTable.drop(2), symbols) // Header + Hold
+    val layerContent = layerTable.drop(1) // Header
+        .groupBy { it[0] }
+        .mapValues { it.value.map { it.drop(1) } }
+        .toMutableMap()
+    val holdKeys = dropFirstCol(layerContent.remove("Hold")!!)
+    val homeRowInputKeys = dropFirstCol(layerContent.remove("Position")!!)
+
+    val layers = readLayers(layerContent, symbols)
     val thumbs = readThumbs(tables.get("Thumb Pos"), symbols)
 
     val options = tables.getMappingTable("Option")
-    val homeRowInputKeys = getInputKeys(layerTable[0].drop(2))
     val generator = Generator(options, thumbs, layers, customAlias, homeRowInputKeys)
-    val homeRowHold = layerTable[1].drop(2)
     val layerToggle = generator.layers.map { Alias(it.name, "(layer-while-held ${it.name})") }
-    val generatedKeyboard = generator.generatedKeyboard(homeRowHold)
+    val generatedKeyboard = generator.generatedKeyboard(holdKeys)
 
     val aliasMap = mapOf(
         "layer aliases" to layerToggle,
@@ -226,18 +238,20 @@ private fun run(config: File, outputFile: File, enterKeyboardFile: File) {
     )
 }
 
-fun readLayers(table: List<List<String>>, symbols: Symbols): List<Layer> {
-    return table.map { layerLine ->
-        val name = layerLine[0]
-        if (!name[0].isUpperCase() || !name[0].isLetter()) {
+fun readLayers(table: Map<String,List<List<String>>>, symbols: Symbols): List<Layer> {
+    return table.map { (name, content) ->
+        if (!name[0].isUpperCase() || !name[0].isLetter() || name.contains(" ")) {
             throw IllegalStateException("Illegal layer name (must start with upper case alpha): $name")
         }
-        val keys = layerLine[1].toCharArray().map { it.toString() }.toSet()
-        val mapping = layerLine.drop(2)
-            .map { symbols.replace(it.substringBefore(" ")) } // part after space is only for illustration
+        val keys = content[0][0].toCharArray().map { it.toString() }.toSet()
+        val mapping = dropFirstCol(content)
+            .map { it.map { symbols.replace(it.substringBefore(" ")) } } // part after space is only for illustration
         Layer(name, keys, mapping)
     }
 }
+
+private fun dropFirstCol(hold: List<List<String>>): List<List<String>> =
+    hold.map { it.drop(1) }
 
 fun readThumbs(table: List<List<String>>, symbols: Symbols): List<Thumb> {
     val lines = table.map { it.drop(1) } // discard the row header

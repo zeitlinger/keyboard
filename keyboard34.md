@@ -1,5 +1,5 @@
 Hold Keys
-- L = Symbol
+- Y = Symbol
 - O = Mouse
 - V = Navigation
 - N = Number
@@ -13,22 +13,24 @@ Hold Keys
 
 | Layer    | Keys | 4    | 3    | 2    | 1    | 1e   | 1e   | 1       | 2       | 3       | 4        |
 |----------|------|------|------|------|------|------|------|---------|---------|---------|----------|
+| Hold     |      |      |      |      |      |      |      |         |         |         |          |
+| Hold     |      | ctl  | alt  | V    | Y    |      |      | N       | F       | alt     | ctl      |
+| Hold     |      |      |      |      |      |      |      |         |         |         |          |
 | Position |      | tab  | q    | w    | e    | r    | u    | i       | o       | p       | [        |
 | Position |      | caps | a    | s    | d    | f    | j    | k       | l       | ;       | '        |
 | Position |      | shft | z    | x    | c    | v    | m    | ,       | .       | /       | rshft    |
-| Hold     |      | ctl  | alt  | Y    | V    |      |      | N       | F       | alt     | ctl      |
 | Base     |      | x    | l    | d    | p    | g    | z    | k       | o       | u       | ; :      |
 | Base     |      | n    | r    | t    | s    | w    | y    | h       | e       | i       | a        |
 | Base     |      | q    | j    | m    | c    | v    | b    | f       | ' "     | , !     | . ?      |
 | Umlaute  | U    | esc  |      | del  | meta | prnt |      |         |         |         |          |
 | Umlaute  | U    | ü    | ö    | ä    | ß    |      |      |         |         |         |          |
-| Umlaute  | U    |      | spc  | tab  |  ️️  | caps |      |         |         |         |          |
+| Umlaute  | U    |      | spc  | tab  | ️️   | caps |      |         |         |         |          |
 | Numbers  | N    |      | 7    | 8    | 9    |      |      |         |         |         |          |
 | Numbers  | N    | 0    | 1    | 2    | 3    |      |      |         |         |         |          |
 | Numbers  | N    |      | 4    | 5    | 6    |      |      |         |         |         |          |
-| FN Keys  | F    | f12  | f7   | f8   | f9   |      |      |         |         |         |          |
-| FN Keys  | F    | f11  | f1   | f2   | f3   |      |      |         |         |         |          |
-| FN Keys  | F    | f10  | f4   | f5   | f6   |      |      |         |         |         |          |
+| FN       | F    | f12  | f7   | f8   | f9   |      |      |         |         |         |          |
+| FN       | F    | f11  | f1   | f2   | f3   |      |      |         |         |         |          |
+| FN       | F    | f10  | f4   | f5   | f6   |      |      |         |         |         |          |
 | Symbol   | Y    |      |      |      |      |      |      | = +     | [ {     | ] }     | ` ~      |
 | Symbol   | Y    |      |      |      |      |      |      | - _     | ( <     | ) >     | \ &#124; |
 | Symbol   | Y    |      |      |      |      |      |      | $ *     | @ #     | & %     | / ^      |
@@ -39,8 +41,8 @@ Hold Keys
 | Mouse    | O    | 🖱️d | 🖱️r | 🖱️m | 🖱️l |      |      | 🖱️⬅️   | 🖱️⬇️   | 🖱️⬆️   | 🖱️➡️    |   
 | Mouse    | O    |      |      | 🖱️b | 🖱️f |      |      | 🖲️️⬅️  | 🖲️️⬇️  | 🖲️️⬆️  | 🖲️️➡️   |
 | System   | YV   |      |      |      |      |      |      |         | 🔅      | 🔆      |          |
-| Media    | YV   |      |      |      | ️    |      |      | ⏮️      | 🔈      | 🔊      | ⏭️       |
-| Media    | YV   |      |      |      |      |      |      | lrld    | 🎤      | 🔇      | ⏯️       |       
+| System   | YV   |      |      |      | ️    |      |      | ⏮️      | 🔈      | 🔊      | ⏭️       |
+| System   | YV   |      |      |      |      |      |      | lrld    | 🎤      | 🔇      | ⏯️       |       
 
 Thumb positions
 
