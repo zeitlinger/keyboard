@@ -24,7 +24,7 @@ Hold Keys
 | Base     |      | q    | j    | m    | c    | v    | b    | f       | ' "     | , !     | . ?      |
 | Umlaute  | U    | esc  |      | del  | meta | prnt |      |         |         |         |          |
 | Umlaute  | U    | ü    | ö    | ä    | ß    |      |      |         |         |         |          |
-| Umlaute  | U    |      | spc  | tab  | ️️   | caps |      |         |         |         |          |
+| Umlaute  | U    |      | spc  | tab  |      | caps |      |         |         |         |          |
 | Numbers  | N    |      | 7    | 8    | 9    |      |      |         |         |         |          |
 | Numbers  | N    | 0    | 1    | 2    | 3    |      |      |         |         |         |          |
 | Numbers  | N    |      | 4    | 5    | 6    |      |      |         |         |         |          |

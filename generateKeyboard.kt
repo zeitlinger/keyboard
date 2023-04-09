@@ -74,7 +74,7 @@ data class Generator(
     private fun generate(
         header: String,
         rows: List<List<String>>,
-    ): String = statement(header, rows.joinToString("\n") { "  ${it.joinToString(" ")}" })
+    ): String = statement(header, rows.joinToString("\n") { "  ${it.joinToString(" ") { it.padStart(8) } }" })
 
 
     fun generatedKeyboard(holdKeys: List<List<String>>): GeneratedKeyboard {
