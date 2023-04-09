@@ -80,7 +80,8 @@ data class Generator(
     fun generatedKeyboard(holdKeys: List<List<String>>): GeneratedKeyboard {
         val layerActivation = layers.map { layer ->
             val mainRow = getLayerKeys(layer, layer.output, holdKeys, layer.activationKeys)
-            val thumbRow = getLayerKeys(layer, listOf(thumbs.map { it.tap }), listOf(thumbs.map { it.hold }), emptySet())
+            val thumbRow =
+                getLayerKeys(layer, listOf(thumbs.map { it.tap }), listOf(thumbs.map { it.hold }), emptySet())
             val exitRow = listOf(listOf(LayerKey(layer, "lrld-next", "lrld-next")))
 
             layer to listOf(mainRow, thumbRow, exitRow).flatten()
@@ -98,19 +99,19 @@ data class Generator(
             val layer = row.first
             LayerKeyWithAlias(layer, row.second.map { commands ->
                 commands.map { command ->
-                        val key = command.key
-                        val cmd = command.command
-                        val allWithCommand = byCommand.getValue(cmd)
+                    val key = command.key
+                    val cmd = command.command
+                    val allWithCommand = byCommand.getValue(cmd)
 
-                        val primaryCommand =
-                            allWithCommand.minWith(compareBy<LayerKey> { it.command.length }.thenBy { it.command })
-                        val alias = Alias(primaryCommand.getAliasName(byKey.getValue(key)), cmd)
-                        when {
-                            key == cmd -> KeyWithAlias(key, null)
-                            command == primaryCommand -> KeyWithAlias(alias.reference, alias)
-                            else -> KeyWithAlias(alias.reference, null)
-                        }
+                    val primaryCommand =
+                        allWithCommand.minWith(compareBy<LayerKey> { it.command.length }.thenBy { it.command })
+                    val alias = Alias(primaryCommand.getAliasName(byKey.getValue(key)), cmd)
+                    when {
+                        key == cmd -> KeyWithAlias(key, null)
+                        command == primaryCommand -> KeyWithAlias(alias.reference, alias)
+                        else -> KeyWithAlias(alias.reference, null)
                     }
+                }
             })
         }
         val aliases = keyWithAlias.flatMap { it.keys }.flatten().mapNotNull { it.alias }
@@ -131,29 +132,34 @@ data class Generator(
         keys: List<List<String>>,
         holdKeys: List<List<String>>,
         excludeHold: Set<String>,
-    ): List<List<LayerKey>> = keys.zip(holdKeys).map { (keyRow, holdRow) ->
-        keyRow.zip(holdRow).mapIndexed { index, (key, hold) ->
-            when {
-                key == BLOCKED -> Unit
-                isLayerNameOrRef(key) -> throw IllegalStateException("Upper case is reserved for layers: $key")
-                key.all { it.isDigit() } && key.length > 1 -> throw IllegalStateException("Use custom alias for direct keycode: $key")
-            }
+    ): List<List<LayerKey>> {
+        val halfLayer =
+            keys.all { row -> row.take(row.size / 2).all { it == BLOCKED } } ||
+            keys.all { row -> row.drop(row.size / 2).all { it == BLOCKED } }
+        return keys.zip(holdKeys).map { (keyRow, holdRow) ->
+            keyRow.zip(holdRow).mapIndexed { index, (key, hold) ->
+                when {
+                    key == BLOCKED -> Unit
+                    isLayerNameOrRef(key) -> throw IllegalStateException("Upper case is reserved for layers: $key")
+                    key.all { it.isDigit() } && key.length > 1 -> throw IllegalStateException("Use custom alias for direct keycode: $key")
+                }
 
-            val tap = customAlias.getOrDefault(key, key)
-            val holdCommand = getHoldCommand(current, hold)
-            val noHold = excludeHold.contains(hold) || holdCommand == null
-            val isBlocked = tap == BLOCKED
-            val tapTimeout = options.getValue("Tap Timeout")
-            val holdTimeout = options.getValue("Hold Timeout")
-            val half = keyRow.size / 2
-            val earlyTapKeys = (if (index < half) keyRow.take(half) else keyRow.drop(half)).joinToString(" ")
-            when {
-                noHold && isBlocked -> LayerKey(current, BLOCKED, BLOCKED)
-                noHold -> LayerKey(current, key, tap)
-                isBlocked -> LayerKey(current, holdCommand!!, holdCommand)
-                else -> LayerKey(current, key, (holdCommand?.let {
-                    "(tap-hold-release-keys $tapTimeout $holdTimeout $tap $it ($earlyTapKeys))"
-                } ?: tap))
+                val tap = customAlias.getOrDefault(key, key)
+                val holdCommand = getHoldCommand(current, hold)?.takeUnless { halfLayer && hold[0].isLowerCase() }
+                val noHold = excludeHold.contains(hold) || holdCommand == null
+                val isBlocked = tap == BLOCKED
+                val tapTimeout = options.getValue("Tap Timeout")
+                val holdTimeout = options.getValue("Hold Timeout")
+                val half = keyRow.size / 2
+                val earlyTapKeys = (if (index < half) keyRow.take(half) else keyRow.drop(half)).joinToString(" ")
+                when {
+                    noHold && isBlocked -> LayerKey(current, BLOCKED, BLOCKED)
+                    noHold -> LayerKey(current, key, tap)
+                    isBlocked -> LayerKey(current, holdCommand!!, holdCommand)
+                    else -> LayerKey(current, key, (holdCommand?.let {
+                        "(tap-hold-release-keys $tapTimeout $holdTimeout $tap $it ($earlyTapKeys))"
+                    } ?: tap))
+                }
             }
         }
     }
@@ -238,7 +244,7 @@ private fun run(config: File, outputFile: File, enterKeyboardFile: File) {
     )
 }
 
-fun readLayers(table: Map<String,List<List<String>>>, symbols: Symbols): List<Layer> {
+fun readLayers(table: Map<String, List<List<String>>>, symbols: Symbols): List<Layer> {
     return table.map { (name, content) ->
         if (!name[0].isUpperCase() || !name[0].isLetter() || name.contains(" ")) {
             throw IllegalStateException("Illegal layer name (must start with upper case alpha): $name")

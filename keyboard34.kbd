@@ -24,23 +24,15 @@
   spc (tap-hold-release-keys 100 200 spc shft (tab spc))
   ent (tap-hold-release-keys 100 200 ent @Umlaute (ent bspc))
   bspc (tap-hold-release-keys 100 200 bspc shft (ent bspc))
-  ü (tap-hold-release-keys 100 200 (unicode ü) ctl (ü ö ä ß XX))
-  ö (tap-hold-release-keys 100 200 (unicode ö) alt (ü ö ä ß XX))
+  ü (unicode ü)
+  ö (unicode ö)
   ä (unicode ä)
   ß (unicode ß)
-  0 (tap-hold-release-keys 100 200 0 ctl (0 1 2 3 XX))
-  1 (tap-hold-release-keys 100 200 1 alt (0 1 2 3 XX))
-  f11 (tap-hold-release-keys 100 200 f11 ctl (f11 f1 f2 f3 XX))
-  f1 (tap-hold-release-keys 100 200 f1 alt (f11 f1 f2 f3 XX))
-  ) (tap-hold-release-keys 100 200 ) alt (XX - ( ) \))
-  \ (tap-hold-release-keys 100 200 \ ctl (XX - ( ) \))
   redo C-S-z
   paste C-v
   copy C-c
   cut C-x
   undo C-z
-  up (tap-hold-release-keys 100 200 up alt (XX left down up rght))
-  rght (tap-hold-release-keys 100 200 rght ctl (XX left down up rght))
   movemouse-accel-left (movemouse-accel-left 1 1000 1 5)
   movemouse-accel-down (movemouse-accel-down 1 1000 1 5)
   movemouse-accel-up (movemouse-accel-up 1 1000 1 5)
@@ -55,8 +47,6 @@
   mwheel-down (mwheel-down 50 120)
   mwheel-up (mwheel-up 50 120)
   mwheel-right (mwheel-right 50 120)
-  volu (tap-hold-release-keys 100 200 volu alt (XX prev voldwn volu next))
-  next (tap-hold-release-keys 100 200 next ctl (XX prev voldwn volu next))
   mute-mic (arbitrary-code 248)
 )
 
@@ -80,7 +70,7 @@
 
 (deflayer Umlaute
   esc XX del meta prnt XX XX XX XX XX
-  @ü @ö @ä @ß XX XX XX XX alt ctl
+  @ü @ö @ä @ß XX XX XX XX XX XX
   XX spc tab ️️ caps XX XX XX XX XX
   tab @spc ent @bspc
   lrld-next
@@ -88,7 +78,7 @@
 
 (deflayer Numbers
   XX 7 8 9 XX XX XX XX XX XX
-  @0 @1 2 3 XX XX XX XX alt ctl
+  0 1 2 3 XX XX XX XX XX XX
   XX 4 5 6 XX XX XX XX XX XX
   tab @spc ent @bspc
   lrld-next
@@ -96,7 +86,7 @@
 
 (deflayer FN
   f12 f7 f8 f9 XX XX XX XX XX XX
-  @f11 @f1 f2 f3 XX XX XX XX alt ctl
+  f11 f1 f2 f3 XX XX XX XX XX XX
   f10 f4 f5 f6 XX XX XX XX XX XX
   tab @spc ent @bspc
   lrld-next
@@ -104,7 +94,7 @@
 
 (deflayer Symbol
   XX XX XX XX XX XX = [ ] grv
-  ctl alt @System XX XX XX - ( @) @\
+  XX XX @System XX XX XX - ( ) \
   XX XX XX XX XX XX $ @ & /
   tab @spc ent @bspc
   lrld-next
@@ -112,7 +102,7 @@
 
 (deflayer Nav
   XX XX XX XX XX @redo @paste @copy @cut @undo
-  ctl alt XX @System XX XX left down @up @rght
+  XX XX XX @System XX XX left down up rght
   XX XX XX XX XX ins home pgdn pgup end
   tab @spc ent @bspc
   lrld-next
@@ -128,7 +118,7 @@
 
 (deflayer System
   XX XX XX XX XX XX XX brdown brup XX
-  ctl alt XX ️ XX XX prev voldwn @volu @next
+  XX XX XX XX XX XX prev voldwn volu next
   XX XX XX XX XX XX lrld @mute-mic mute pp
   tab @spc ent @bspc
   lrld-next
