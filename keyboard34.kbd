@@ -33,93 +33,97 @@
   copy C-c
   cut C-x
   undo C-z
-  movemouse-accel-left (movemouse-accel-left 1 1000 1 5)
-  movemouse-accel-down (movemouse-accel-down 1 1000 1 5)
-  movemouse-accel-up (movemouse-accel-up 1 1000 1 5)
-  movemouse-accel-right (movemouse-accel-right 1 1000 1 5)
-  mouse-double-left (tap-hold-release-keys 100 200 (multi mouseleft mouseleft) ctl (mouse-double-left mouseright mousemid mouseleft XX))
-  mouseright (tap-hold-release-keys 100 200 mouseright alt (mouse-double-left mouseright mousemid mouseleft XX))
-  movemouse-left (movemouse-left 1 1)
-  movemouse-down (movemouse-down 1 1)
-  movemouse-up (tap-hold-release-keys 100 200 (movemouse-up 1 1) alt (XX movemouse-left movemouse-down movemouse-up movemouse-right))
-  movemouse-right (tap-hold-release-keys 100 200 (movemouse-right 1 1) ctl (XX movemouse-left movemouse-down movemouse-up movemouse-right))
-  mwheel-left (mwheel-left 50 120)
-  mwheel-down (mwheel-down 50 120)
-  mwheel-up (mwheel-up 50 120)
-  mwheel-right (mwheel-right 50 120)
+  ma-left (movemouse-accel-left 1 1000 1 5)
+  ma-down (movemouse-accel-down 1 1000 1 5)
+  ma-up (movemouse-accel-up 1 1000 1 5)
+  ma-right (movemouse-accel-right 1 1000 1 5)
+  mb-dleft (tap-hold-release-keys 100 200 (multi mouseleft mouseleft) ctl (mb-dleft mb-right mb-mid mb-left XX))
+  mb-right (tap-hold-release-keys 100 200 mouseright alt (mb-dleft mb-right mb-mid mb-left XX))
+  mb-mid mousemid
+  mb-left mouseleft
+  m-left (movemouse-left 1 1)
+  m-down (movemouse-down 1 1)
+  m-up (tap-hold-release-keys 100 200 (movemouse-up 1 1) alt (XX m-left m-down m-up m-right))
+  m-right (tap-hold-release-keys 100 200 (movemouse-right 1 1) ctl (XX m-left m-down m-up m-right))
+  mb-back mousebackward
+  mb-forw mouseforward
+  wh-left (mwheel-left 50 120)
+  wh-down (mwheel-down 50 120)
+  wh-up (mwheel-up 50 120)
+  wh-right (mwheel-right 50 120)
   mute-mic (arbitrary-code 248)
 )
 
 
 (defsrc
-       tab        q        w        e        r        u        i        o        p        [
-      caps        a        s        d        f        j        k        l        ;        '
-      shft        z        x        c        v        m        ,        .        /    rshft
-       alt      spc     ralt     prnt
-         `
+         tab          q          w          e          r          u          i          o          p          [
+        caps          a          s          d          f          j          k          l          ;          '
+        shft          z          x          c          v          m          ,          .          /      rshft
+         alt        spc       ralt       prnt
+           `
 )
 
 
 (deflayer Base
-         x        l        d        p        g        z        k        o        u        ;
-        @n       @r       @t       @s        w        y       @h       @e       @i       @a
-         q        j        m        c        v        b        f        '        ,        .
-      @tab     @spc     @ent    @bspc
-  lrld-next
+           x          l          d          p          g          z          k          o          u          ;
+          @n         @r         @t         @s          w          y         @h         @e         @i         @a
+           q          j          m          c          v          b          f          '          ,          .
+        @tab       @spc       @ent      @bspc
+   lrld-next
 )
 
 (deflayer Umlaute
-       esc       XX      del     meta     prnt       XX       XX       XX       XX       XX
-        @ü       @ö       @ä       @ß       XX       XX       XX       XX       XX       XX
-        XX      spc      tab       XX     caps       XX       XX       XX       XX       XX
-       tab     @spc      ent    @bspc
-  lrld-next
+         esc         XX        del       meta       prnt         XX         XX         XX         XX         XX
+          @ü         @ö         @ä         @ß         XX         XX         XX         XX         XX         XX
+          XX        spc        tab         XX       caps         XX         XX         XX         XX         XX
+         tab       @spc        ent      @bspc
+   lrld-next
 )
 
 (deflayer Numbers
-        XX        7        8        9       XX       XX       XX       XX       XX       XX
-         0        1        2        3       XX       XX       XX       XX       XX       XX
-        XX        4        5        6       XX       XX       XX       XX       XX       XX
-       tab     @spc      ent    @bspc
-  lrld-next
+          XX          7          8          9         XX         XX         XX         XX         XX         XX
+           0          1          2          3         XX         XX         XX         XX         XX         XX
+          XX          4          5          6         XX         XX         XX         XX         XX         XX
+         tab       @spc        ent      @bspc
+   lrld-next
 )
 
 (deflayer FN
-       f12       f7       f8       f9       XX       XX       XX       XX       XX       XX
-       f11       f1       f2       f3       XX       XX       XX       XX       XX       XX
-       f10       f4       f5       f6       XX       XX       XX       XX       XX       XX
-       tab     @spc      ent    @bspc
-  lrld-next
+         f12         f7         f8         f9         XX         XX         XX         XX         XX         XX
+         f11         f1         f2         f3         XX         XX         XX         XX         XX         XX
+         f10         f4         f5         f6         XX         XX         XX         XX         XX         XX
+         tab       @spc        ent      @bspc
+   lrld-next
 )
 
 (deflayer Symbol
-        XX       XX       XX       XX       XX       XX        =        [        ]      grv
-        XX       XX  @System       XX       XX       XX        -        (        )        \
-        XX       XX       XX       XX       XX       XX        $        @        &        /
-       tab     @spc      ent    @bspc
-  lrld-next
+          XX         XX         XX         XX         XX         XX          =          [          ]        grv
+          XX         XX    @System         XX         XX         XX          -          (          )          \
+          XX         XX         XX         XX         XX         XX          $          @          &          /
+         tab       @spc        ent      @bspc
+   lrld-next
 )
 
 (deflayer Nav
-        XX       XX       XX       XX       XX    @redo   @paste    @copy     @cut    @undo
-        XX       XX       XX  @System       XX       XX     left     down       up     rght
-        XX       XX       XX       XX       XX      ins     home     pgdn     pgup      end
-       tab     @spc      ent    @bspc
-  lrld-next
+          XX         XX         XX         XX         XX      @redo     @paste      @copy       @cut      @undo
+          XX         XX         XX    @System         XX         XX       left       down         up       rght
+          XX         XX         XX         XX         XX        ins       home       pgdn       pgup        end
+         tab       @spc        ent      @bspc
+   lrld-next
 )
 
 (deflayer Mouse
-        XX       XX       XX       XX       XX       XX @movemouse-accel-left @movemouse-accel-down @movemouse-accel-up @movemouse-accel-right
-  @mouse-double-left @mouseright mousemid mouseleft       XX       XX @movemouse-left @movemouse-down @movemouse-up @movemouse-right
-        XX       XX mousebackward mouseforward       XX       XX @mwheel-left @mwheel-down @mwheel-up @mwheel-right
-       tab     @spc      ent    @bspc
-  lrld-next
+          XX         XX         XX         XX         XX         XX   @ma-left   @ma-down     @ma-up  @ma-right
+   @mb-dleft  @mb-right    @mb-mid   @mb-left         XX         XX    @m-left    @m-down      @m-up   @m-right
+          XX         XX   @mb-back   @mb-forw         XX         XX   @wh-left   @wh-down     @wh-up  @wh-right
+         tab       @spc        ent      @bspc
+   lrld-next
 )
 
 (deflayer System
-        XX       XX       XX       XX       XX       XX       XX   brdown     brup       XX
-        XX       XX       XX       XX       XX       XX     prev   voldwn     volu     next
-        XX       XX       XX       XX       XX       XX     lrld @mute-mic     mute       pp
-       tab     @spc      ent    @bspc
-  lrld-next
+          XX         XX         XX         XX         XX         XX         XX     brdown       brup         XX
+          XX         XX         XX         XX         XX         XX       prev     voldwn       volu       next
+          XX         XX         XX         XX         XX         XX       lrld  @mute-mic       mute         pp
+         tab       @spc        ent      @bspc
+   lrld-next
 )
