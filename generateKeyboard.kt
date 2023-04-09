@@ -36,6 +36,7 @@ data class LayerKey(val layer: Layer, val key: String, val command: String) {
             allWithKey.filter { it.layer == layer }.size > 1 -> {
                 "${layer.shortName}_$key${allWithKey.indexOf(this)}"
             }
+
             else -> "${layer.shortName}_$key"
         }
 }
@@ -62,6 +63,7 @@ data class Generator(
     val thumbs: List<Thumb>,
     val layers: List<Layer>,
     val customAlias: Map<String, String>,
+    val homeRowInputKeys: List<String>,
 ) {
 
     private fun statement(header: String, body: String): String = "($header\n$body\n)\n"
@@ -127,7 +129,7 @@ data class Generator(
         keys: List<String>,
         hold: List<String>,
         excludeHold: Set<String>,
-    ): List<LayerKey> = keys.zip(hold).map { (key, hold) ->
+    ): List<LayerKey> = keys.zip(hold).mapIndexed { index, (key, hold) ->
         when {
             key == BLOCKED -> Unit
             isLayerNameOrRef(key) -> throw IllegalStateException("Upper case is reserved for layers: $key")
@@ -140,11 +142,14 @@ data class Generator(
         val isBlocked = tap == BLOCKED
         val tapTimeout = options.getValue("Tap Timeout")
         val holdTimeout = options.getValue("Hold Timeout")
+        val earlyTapKeys = (if (index < 4) homeRowInputKeys.take(4) else homeRowInputKeys.drop(4)).joinToString(" ")
         when {
             noHold && isBlocked -> LayerKey(current, BLOCKED, BLOCKED)
             noHold -> LayerKey(current, key, tap)
             isBlocked -> LayerKey(current, holdCommand!!, holdCommand)
-            else -> LayerKey(current, key, (holdCommand?.let { "(tap-hold-release $tapTimeout $holdTimeout $tap $it)" } ?: tap))
+            else -> LayerKey(current, key, (holdCommand?.let {
+                "(tap-hold-release-keys $tapTimeout $holdTimeout $tap $it ($earlyTapKeys))"
+            } ?: tap))
         }
     }
 
@@ -190,7 +195,8 @@ private fun run(config: File, outputFile: File, enterKeyboardFile: File) {
     val thumbs = readThumbs(tables.get("Thumb Pos"), symbols)
 
     val options = tables.getMappingTable("Option")
-    val generator = Generator(options, thumbs, layers, customAlias)
+    val homeRowInputKeys = getInputKeys(layerTable[0].drop(2))
+    val generator = Generator(options, thumbs, layers, customAlias, homeRowInputKeys)
     val homeRowHold = layerTable[1].drop(2)
     val layerToggle = generator.layers.map { Alias(it.name, "(layer-while-held ${it.name})") }
     val generatedKeyboard = generator.generatedKeyboard(homeRowHold)
@@ -201,7 +207,7 @@ private fun run(config: File, outputFile: File, enterKeyboardFile: File) {
     )
 
     val defAlias = generator.defAlias(aliasMap)
-    val defSrc = generator.defSrc(getInputKeys(layerTable[0].drop(2)))
+    val defSrc = generator.defSrc(homeRowInputKeys)
     val layerOutput = generatedKeyboard.layerKeys.joinToString("\n") { generator.defLayer(it.first, it.second) }
 
     outputFile.writeText(
