@@ -117,12 +117,12 @@ data class Generator(
         excludeHold: Set<String>,
     ): List<List<LayerKey>> {
         val halfLayer =
-            keys.all { row -> row.take(row.size / 2).all { it == BLOCKED } } ||
-            keys.all { row -> row.drop(row.size / 2).all { it == BLOCKED } }
+            keys.all { row -> row.take(row.size / 2).all { it == blocked } } ||
+            keys.all { row -> row.drop(row.size / 2).all { it == blocked } }
         return keys.zip(holdKeys).map { (keyRow, holdRow) ->
             keyRow.zip(holdRow).mapIndexed { index, (key, hold) ->
                 when {
-                    key == BLOCKED -> Unit
+                    key == blocked -> Unit
                     isLayerNameOrRef(key) -> throw IllegalStateException("Upper case is reserved for layers: $key")
                     key.all { it.isDigit() } && key.length > 1 -> throw IllegalStateException("Use custom alias for direct keycode: $key")
                 }
@@ -130,13 +130,13 @@ data class Generator(
                 val tap = customAlias.getOrDefault(key, key)
                 val holdCommand = getHoldCommand(current, hold)?.takeUnless { halfLayer && hold[0].isLowerCase() }
                 val noHold = excludeHold.contains(hold) || holdCommand == null
-                val isBlocked = tap == BLOCKED
+                val isBlocked = tap == blocked
                 val tapTimeout = options.getValue("Tap Timeout")
                 val holdTimeout = options.getValue("Hold Timeout")
                 val half = keyRow.size / 2
                 val earlyTapKeys = (if (index < half) keyRow.take(half) else keyRow.drop(half)).joinToString(" ")
                 when {
-                    noHold && isBlocked -> LayerKey(current, BLOCKED, BLOCKED)
+                    noHold && isBlocked -> LayerKey(current, blocked, blocked)
                     noHold -> LayerKey(current, key, tap)
                     isBlocked -> LayerKey(current, holdCommand!!, holdCommand)
                     else -> LayerKey(current, key, (holdCommand?.let {

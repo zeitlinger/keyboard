@@ -1,7 +1,7 @@
 import java.io.File
 
 
-const val BLOCKED = "XX"
+const val blocked = "XX"
 
 fun readTables(config: File): Tables =
         config.readText().split("\n\\s*\n".toRegex()).filter { it.startsWith("|") }.map { tableLines ->
@@ -20,8 +20,8 @@ fun readTables(config: File): Tables =
 
 data class Symbols(val mapping: Map<String, String>) {
     fun replace(key: String): String = mapping.getOrDefault(key, key)
-            .let { it.ifBlank { BLOCKED } }
-            .let { if (it == "❌") BLOCKED else it }
+            .let { it.ifBlank { blocked } }
+            .let { if (it == "❌") blocked else it }
 }
 
 typealias Table = List<List<String>>
