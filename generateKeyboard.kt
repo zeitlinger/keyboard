@@ -19,19 +19,6 @@ fun main(args: Array<String>) {
     run(config, outputFile, enterKeyboardFile)
 }
 
-private const val BLOCKED = "XX"
-
-typealias Table = List<List<String>>
-
-data class Tables(val content: List<Table>) {
-
-    fun get(name: String): Table = content.single { it[0][0] == name }
-
-    fun getMappingTable(
-        name: String,
-    ): Map<String, String> = content.single { it[0][0] == name }.drop(1).associate { it[0] to it[1] }
-}
-
 data class LayerKey(val layer: Layer, val key: String, val command: String) {
     fun getAliasName(allWithKey: List<LayerKey>) =
         when {
@@ -54,10 +41,6 @@ data class Layer(val name: String, val activationKeys: Set<String>, val output: 
 
 
 data class Thumb(val inputKey: String, val tap: String, val hold: String)
-
-data class Symbols(val mapping: Map<String, String>) {
-    fun replace(key: String): String = mapping.getOrDefault(key, key).let { it.ifBlank { BLOCKED } }
-}
 
 data class GeneratedKeyboard(val aliases: List<Alias>, val layerKeys: List<Pair<Layer, List<List<String>>>>)
 
@@ -274,20 +257,6 @@ fun readThumbs(table: List<List<String>>, symbols: Symbols): List<Thumb> {
 }
 
 fun getInputKeys(list: List<String>): List<String> = list.map { it.substringAfter("(").substringBefore(")") }
-
-fun readTables(config: File): Tables =
-    config.readText().split("\n\\s*\n".toRegex()).filter { it.startsWith("|") }.map { tableLines ->
-        val entries = tableLines.split("\n").filterIndexed { index, line ->
-            index != 1               // below header
-                && line.isNotBlank() // last block can contain empty line at end
-        }
-        entries.map { tableLine ->
-            tableLine.split("|").drop(1) // initial |
-                .dropLast(1) // last |
-                .map { it.trim() }
-        }
-
-    }.let { Tables(it) }
 
 private fun isLayerNameOrRef(name: String) = name[0].isUpperCase()
 
