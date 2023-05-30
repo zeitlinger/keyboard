@@ -8,6 +8,8 @@
 | Right | p | m | w | y  | 4  | 5 | 6 | 7 |
 | Right | ❌ |   |   | ❌  | ❌  | x |   | ❌ |
 | Right |   |   |   | 💎 | 💎 |   |   |   |
+| Left  | ❌ | k | b | 8  | 1  | 2 | 3 | ❌ |
+| Left  | p | m | w | y  | 4  | 5 | 6 | 7 |
 
 
 | Umlaute |  esc  |      | del  | meta |         |         |         |          |

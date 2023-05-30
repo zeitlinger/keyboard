@@ -8,10 +8,12 @@ import java.io.File
 
 fun main() {
     val config = File("/home/gregor/source/keyboard/combo14.md")
+    val layoutTemplate = File("/home/gregor/source/keyboard/combo/layout.h")
 
-    val outputFile = File("/home/gregor/source/mini-ryoku/qmk/combos.def")
+    val comboFile = File("/home/gregor/source/mini-ryoku/qmk/combos.def")
+    val layoutFile = File("/home/gregor/source/mini-ryoku/qmk/layout.h")
 
-    run(config, outputFile)
+    run(config, comboFile, layoutFile, layoutTemplate)
 }
 
 private val layerTriggers: Map<String, List<String>> = mapOf(
@@ -22,6 +24,8 @@ private val layerTriggers: Map<String, List<String>> = mapOf(
 )
 
 const val comboDef = "COMB(%s, %s, %s)"
+
+const val mainLayerTemplate = "\t[%d] = LAYOUT_split_3x5_2(KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s, %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s, LT(2,KC_SPC), LT(4,KC_ESC), LT(3,KC_ENT), LT(1,KC_BSPC)),"
 
 data class Hand(val name: String, val skip: Int, val opposingSkip: Int, val translateComboIndex: (Int) -> Int)
 
@@ -36,7 +40,7 @@ enum class Modifier {
 
 data class ModTrigger(val mods: List<Modifier>, val triggers: List<Int>, val command: String, val name: String)
 
-private const val customCombo = "KC_NO"
+private const val qmkNo = "KC_NO"
 
 private val modTriggers: List<ModTrigger> = listOf(
         ModTrigger(listOf(Modifier.Shift), listOf(1, 2), "LM(%d, MOD_LSFT)", "S"),
@@ -61,7 +65,7 @@ data class ComboInput(val base: List<String>, val opposingBase: List<String>,
     fun generate(hand: Hand, layerTrigger: List<String>, layerName: String, layerIndex: Int): List<Combo> {
         val comboIndexes = definition.mapIndexedNotNull { index, s -> if (s == comboTrigger) index else null }
 
-        return comboWithMods(Combo(layerName, customCombo, layerTrigger), opposingBase, hand, layerName, layerIndex) +
+        return comboWithMods(Combo(layerName, qmkNo, layerTrigger), opposingBase, hand, layerName, layerIndex) +
                 definition.flatMapIndexed { comboIndex, key ->
                     if (!(key.isBlank() || key == blocked || key == comboTrigger)) {
                         val layerKeys = layerBase
@@ -114,11 +118,20 @@ data class Generator(
         val customAlias: Map<String, String>,
 ) {
 
+    fun generateBase(): String {
+        return layers.mapIndexed { index, layer ->
+            val def = layer.output.take(2).flatten()
+                    .map { toQmk(it) }
+                    .map { if (it == blocked) qmkNo else it }
 
-    fun generatedKeyboard(): List<Combo> {
+            mainLayerTemplate.format(*listOf(index).plus<Any>(def).toTypedArray())
+        }.joinToString("\n")
+    }
+
+    fun generateCombos(): List<Combo> {
         val base = layers[0].output.take(2)
 
-        val combos = layers.flatMap { layer ->
+        return layers.flatMap { layer ->
             val activationParts = layer.output.chunked(2)
             val layerBase = activationParts[0]
 
@@ -131,11 +144,10 @@ data class Generator(
                 }
             }.distinct()
         }
-        return combos
     }
 }
 
-private fun run(config: File, outputFile: File) {
+private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate: File) {
     val tables = readTables(config)
 
     val symbols = Symbols(tables.getMappingTable("Symbol"))
@@ -143,14 +155,12 @@ private fun run(config: File, outputFile: File) {
     val layerTable = tables.get("Layer")
     val layerContent = layerTable.drop(1) // Header
             .groupBy { it[0] }
-//            .mapValues { it.value.map { it.drop(1) } }
             .toMutableMap()
 
     val layers = readLayers(layerContent, symbols)
 
     val generator = Generator(layers, customAlias)
-    val combos = generator.generatedKeyboard()
-    val defs = combos.map { combo ->
+    val defs = generator.generateCombos().map { combo ->
         comboDef.format(
                 combo.name.padEnd(20),
                 combo.result.padEnd(50),
@@ -158,8 +168,14 @@ private fun run(config: File, outputFile: File) {
                         .joinToString(", "))
     }
 
-    outputFile.writeText(
-            (listOf("// file is generated from ${config.name} using /home/gregor/source/keyboard/combo/generateCombos.kt") + defs).joinToString("\n")
+    val base = layoutTemplate.readText()
+            .replace("\${configName}", config.name)
+            .replace("\${layers}", generator.generateBase())
+
+    layoutFile.writeText(base)
+
+    comboFile.writeText(
+            (listOf("// file is generated from ${config.name} using https://github.com/zeitlinger/keyboard/blob/main/combo/generateCombos.kt") + defs).joinToString("\n")
     )
 
 }
