@@ -1,10 +1,14 @@
 package  combo
 
-import blocked
 import Symbols
+import blocked
+import org.hjson.JsonValue
 import readTables
 import java.io.File
+import java.io.FileReader
 
+//todo
+//direct shortcut for combos
 
 fun main() {
     val config = File("/home/gregor/source/keyboard/combo14.md")
@@ -16,132 +20,167 @@ fun main() {
     run(config, comboFile, layoutFile, layoutTemplate)
 }
 
-private val layerTriggers: Map<String, List<String>> = mapOf(
-        "Base" to emptyList(),
-        "Right" to listOf("LT(1,KC_BSPC)"),
-        "Left" to listOf("LT(2,KC_SPC)"),
-        "Both" to listOf("LT(1,KC_BSPC)", "LT(2,KC_SPC)")
-)
-
 const val comboDef = "COMB(%s, %s, %s)"
 
-const val mainLayerTemplate = "\t[%d] = LAYOUT_split_3x5_2(KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s, %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s, LT(2,KC_SPC), LT(4,KC_ESC), LT(3,KC_ENT), LT(1,KC_BSPC)),"
+const val mainLayerTemplate =
+    "\t[%d] = LAYOUT_split_3x5_2(KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s, %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s, %s, %s, %s, %s),"
 
-data class Hand(val name: String, val skip: Int, val opposingSkip: Int, val translateComboIndex: (Int) -> Int)
+data class Hand(val name: String, val skip: Int, val opposingSkip: Int, val translateComboIndex: (Int) -> Int) {
+    val isRight = this.name == "right"
+}
+
+data class Thumb(val name: String, val position: Int, val keyTemplate: String)
 
 val hands = listOf(
-        Hand("left", 0, 4) { i -> i + 3 },
-        Hand("right", 4, 0) { i -> 8 - i },
+    Hand("left", 0, 4) { i -> i + 3 },
+    Hand("right", 4, 0) { i -> 8 - i },
 )
 
 enum class Modifier {
     Alt, Shift, Ctrl
 }
 
-data class ModTrigger(val mods: List<Modifier>, val triggers: List<Int>, val command: String, val name: String)
+data class ModTrigger(val mods: List<Modifier>, val triggers: List<Int>, val command: String, val name: String?)
 
 private const val qmkNo = "KC_NO"
 
 private val modTriggers: List<ModTrigger> = listOf(
-        ModTrigger(listOf(Modifier.Shift), listOf(1, 2), "LM(%d, MOD_LSFT)", "S"),
-        ModTrigger(listOf(Modifier.Ctrl), listOf(2, 3), "LM(%d, MOD_LCTL)", "C"),
-        ModTrigger(listOf(Modifier.Alt), listOf(3, 4), "LM(%d, MOD_LALT)", "A"),
-        ModTrigger(listOf(Modifier.Shift, Modifier.Ctrl), listOf(1, 2, 3), "LM(%d, MOD_LCTL | MOD_LSFT)", "CS"),
-        ModTrigger(listOf(Modifier.Shift, Modifier.Alt), listOf(1, 4), "LM(%d, MOD_LSFT | MOD_LALT)", "SA"),
-        ModTrigger(listOf(Modifier.Ctrl, Modifier.Alt), listOf(2, 3, 4), "LM(%d, MOD_LCTL | MOD_LALT)", "CA"),
-        ModTrigger(listOf(Modifier.Shift, Modifier.Shift, Modifier.Alt), listOf(1, 2, 3, 4), "LM(%d, MOD_LCTL | MOD_LALT | MOD_LSFT)", "CSA"),
+    ModTrigger(emptyList(), emptyList(), "MO(%d)", null),
+    ModTrigger(listOf(Modifier.Shift), listOf(1, 2), "LM(%d, MOD_LSFT)", "S"),
+    ModTrigger(listOf(Modifier.Ctrl), listOf(2, 3), "LM(%d, MOD_LCTL)", "C"),
+    ModTrigger(listOf(Modifier.Alt), listOf(3, 4), "LM(%d, MOD_LALT)", "A"),
+    ModTrigger(listOf(Modifier.Shift, Modifier.Ctrl), listOf(1, 2, 3), "LM(%d, MOD_LCTL | MOD_LSFT)", "CS"),
+    ModTrigger(listOf(Modifier.Shift, Modifier.Alt), listOf(1, 4), "LM(%d, MOD_LSFT | MOD_LALT)", "SA"),
+    ModTrigger(listOf(Modifier.Ctrl, Modifier.Alt), listOf(2, 3, 4), "LM(%d, MOD_LCTL | MOD_LALT)", "CA"),
+    ModTrigger(
+        listOf(Modifier.Shift, Modifier.Shift, Modifier.Alt),
+        listOf(1, 2, 3, 4),
+        "LM(%d, MOD_LCTL | MOD_LALT | MOD_LSFT)",
+        "CSA"
+    ),
 )
 
-data class Layer(val name: String, val output: List<List<String>>)
+typealias Rows = List<List<String>>
+
+data class Layer(
+    val number: Int,
+    val name: String,
+    val baseRows: Rows,
+    val combos: List<Rows>,
+    val activation: Set<Thumb>
+)
 
 private const val comboTrigger = "\uD83D\uDC8E"
 
 
 data class Combo(val name: String, val result: String, val triggers: List<String>)
 
-data class ComboInput(val base: List<String>, val opposingBase: List<String>,
-                      val layerBase: List<String>, val opposingLayerBase: List<String>,
-                      val definition: List<String>) {
-    fun generate(hand: Hand, layerTrigger: List<String>, layerName: String, layerIndex: Int): List<Combo> {
-        val comboIndexes = definition.mapIndexedNotNull { index, s -> if (s == comboTrigger) index else null }
+fun generateModCombos(layerTrigger: List<String>, opposingBase: List<String>, layer: Layer, hand: Hand): List<Combo> {
+    return comboWithMods(
+        opposingBase, hand,
+        layer.name, layer.number, layerTrigger
+    )
+}
 
-        return comboWithMods(Combo(layerName, qmkNo, layerTrigger), opposingBase, hand, layerName, layerIndex) +
-                definition.flatMapIndexed { comboIndex, key ->
-                    if (!(key.isBlank() || key == blocked || key == comboTrigger)) {
-                        val layerKeys = layerBase
-                                .filterIndexed { index, _ -> index == comboIndex || index in comboIndexes }
-                                .map { toQmk(it) }
+fun generateCustomCombos(def: Rows, layerBase: List<String>, layer: Layer, hand: Hand): List<Combo> {
+    val definition = getLayerPart(def, hand.skip)
+    val comboIndexes = definition.mapIndexedNotNull { index, s -> if (s == comboTrigger) index else null }
 
-                        listOf(Combo(comboName(layerName, key), toQmk(key), layerKeys))
-                    } else emptyList()
-                }.filter { it.triggers.size > 1 }
+    return definition.flatMapIndexed { comboIndex, key ->
+        if (!(key.isBlank() || key == blocked || key == comboTrigger)) {
+            val layerKeys = layerBase
+                .filterIndexed { index, _ -> index == comboIndex || index in comboIndexes }
+                .map { toQmk(it) }
+
+            listOf(Combo(comboName(layer.name, key), toQmk(key), layerKeys))
+        } else emptyList()
+    }.filter { it.triggers.size > 1 }
+}
+
+fun comboName(vararg parts: String?): String {
+    return "C_${parts.filterNotNull().joinToString("_") { it.uppercase() }}"
+}
+
+fun comboWithMods(
+    base: List<String>,
+    hand: Hand,
+    layerName: String,
+    layerIndex: Int,
+    layerTrigger: List<String>
+): List<Combo> {
+    return modTriggers.mapNotNull { modTrigger ->
+        val comboKeys = modTrigger.triggers.map { base[hand.translateComboIndex(it)] }
+            .map { toQmk(it) }
+
+        val command = modTrigger.command.format(layerIndex)
+        val allKeys = layerTrigger + comboKeys
+
+        when {
+            allKeys.size < 2 -> null //no combo needed
+            comboKeys.isEmpty() -> Combo(comboName(layerName), command, allKeys).takeUnless { hand.isRight } // combo for layer is only needed once
+            else -> Combo(comboName(layerName, hand.name, modTrigger.name), command, allKeys)
+        }
     }
 }
 
-fun comboName(layer: String, key: String): String {
-    return "C_${layer.uppercase()}_${key.uppercase()}"
-}
-
-fun comboWithMods(combo: Combo, base: List<String>, hand: Hand, layerName: String, layerIndex: Int): List<Combo> {
-    return listOfNotNull(combo.takeIf { it.triggers.size > 1 }) +
-            modTriggers.map { modTrigger ->
-                val keys = modTrigger.triggers.map { base[hand.translateComboIndex(it)] }
-                        .map { toQmk(it) }
-
-                val command = modTrigger.command.format(layerIndex)
-                Combo(comboName("${layerName}_${hand.name}", modTrigger.name), command, combo.triggers + keys)
-            }
-}
-
-fun comboInput(base: List<List<String>>, layerBase: List<List<String>>, definition: List<List<String>>,
-               skip: Int, opposingSkip: Int): ComboInput =
-        ComboInput(
-                getLayerPart(base, skip), getLayerPart(base, opposingSkip),
-                getLayerPart(layerBase, skip), getLayerPart(layerBase, opposingSkip),
-                getLayerPart(definition, skip))
-
 private fun getLayerPart(layerBase: List<List<String>>, skip: Int) =
-        layerBase.map { it.drop(skip).take(4) }.flatten()
+    layerBase.map { it.drop(skip).take(4) }.flatten()
 
 fun toQmk(key: String): String {
     return when {
-        key == blocked || key == comboTrigger -> key
-        "a" <= key && key <= "z" -> "KC_${key.uppercase()}"
-        "0" <= key && key <= "9" -> "KC_${key.uppercase()}"
+        key == blocked || key == comboTrigger || key.startsWith("KC_") || key.startsWith("LT(") -> key
         else -> throw IllegalStateException("key not translated $key")
     }
 }
 
 
 data class Generator(
-        val layers: List<Layer>,
-        val customAlias: Map<String, String>,
+    val layers: List<Layer>,
+    val customAlias: Map<String, String>,
+    val thumbs: List<Thumb>,
 ) {
 
     fun generateBase(): String {
-        return layers.mapIndexed { index, layer ->
-            val def = layer.output.take(2).flatten()
-                    .map { toQmk(it) }
-                    .map { if (it == blocked) qmkNo else it }
+        return layers.map { layer ->
+            val def = layer.baseRows.flatten() +
+                    thumbs.map { thumb -> translateThumb(thumb, layer) }
+            val qmk = def
+                .map { toQmk(it) }
+                .map { if (it == blocked) qmkNo else it }
 
-            mainLayerTemplate.format(*listOf(index).plus<Any>(def).toTypedArray())
+            mainLayerTemplate.format(*listOf(layer.number).plus<Any>(qmk).toTypedArray())
         }.joinToString("\n")
     }
 
+    private fun translateThumb(thumb: Thumb, layer: Layer): String {
+        val targetLayer = targetLayer(thumb, layer, layers)
+        return targetLayer?.let { thumb.keyTemplate.format(it.number) } ?: "KC_TRNS"
+    }
+
+    private fun targetLayer(thumb: Thumb, currentLayer: Layer, layers: List<Layer>): Layer? {
+        val wantSize = currentLayer.activation.size + 1
+        val want = currentLayer.activation + setOf(thumb)
+        return layers.singleOrNull { it.activation.size == wantSize && it.activation == want }
+    }
+
     fun generateCombos(): List<Combo> {
-        val base = layers[0].output.take(2)
+        val base = layers[0].baseRows
 
         return layers.flatMap { layer ->
-            val activationParts = layer.output.chunked(2)
-            val layerBase = activationParts[0]
+            val activationParts = layer.combos
+            val layerBase = layer.baseRows
 
-            val layerIndex = layerTriggers.keys.indexOf(layer.name)
-            val layerTrigger = layerTriggers.getValue(layer.name)
+            val layerTrigger = layer.activation.map { translateThumb(it, layers[0]) }
 
-            activationParts.flatMap { def ->
-                hands.flatMap { hand ->
-                    comboInput(base, layerBase, def, hand.skip, hand.opposingSkip).generate(hand, layerTrigger, layer.name, layerIndex)
-                }
+            hands.flatMap { hand ->
+                generateModCombos(layerTrigger, getLayerPart(base, hand.opposingSkip), layer, hand) +
+                        activationParts.flatMap { def ->
+                            generateCustomCombos(
+                                def,
+                                getLayerPart(layerBase, hand.skip),
+                                layer, hand,
+                            )
+                        }
             }.distinct()
         }
     }
@@ -153,43 +192,76 @@ private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate:
     val symbols = Symbols(tables.getMappingTable("Symbol"))
     val customAlias = tables.getMappingTable("Alias")
     val layerTable = tables.get("Layer")
+    val thumbs = tables.get("Thumb").drop(1).mapIndexed { index, line ->
+        Thumb(line[0], index, line[1])
+    }
+    val layerActivation = tables.getMappingTable("Layer Activation")
+        .mapValues {
+            it.value.toCharArray().map { thumbName -> thumbs.single { thumb -> thumb.name == thumbName.toString() } }
+                .toSet()
+        }
     val layerContent = layerTable.drop(1) // Header
-            .groupBy { it[0] }
-            .toMutableMap()
+        .groupBy { it[0] }
+        .toMap()
 
-    val layers = readLayers(layerContent, symbols)
+    val layers = readLayers(layerContent, symbols, layerActivation)
 
-    val generator = Generator(layers, customAlias)
+    val generator = Generator(layers, customAlias, thumbs)
     val defs = generator.generateCombos().map { combo ->
         comboDef.format(
-                combo.name.padEnd(20),
-                combo.result.padEnd(50),
-                combo.triggers
-                        .joinToString(", "))
+            combo.name.padEnd(20),
+            combo.result.padEnd(50),
+            combo.triggers
+                .joinToString(", ")
+        )
     }
 
     val base = layoutTemplate.readText()
-            .replace("\${configName}", config.name)
-            .replace("\${layers}", generator.generateBase())
+        .replace("\${configName}", config.name)
+        .replace("\${layers}", generator.generateBase())
 
     layoutFile.writeText(base)
 
     comboFile.writeText(
-            (listOf("// file is generated from ${config.name} using https://github.com/zeitlinger/keyboard/blob/main/combo/generateCombos.kt") + defs).joinToString("\n")
+        (listOf("// file is generated from ${config.name} using https://github.com/zeitlinger/keyboard/blob/main/combo/generateCombos.kt") + defs).joinToString(
+            "\n"
+        )
     )
 
 }
 
-fun readLayers(table: Map<String, List<List<String>>>, symbols: Symbols): List<Layer> {
-    return table.map { (name, content) ->
-        val mapping = dropFirstCol(content)
-                .map { it.map { symbols.replace(it.substringBefore(" ")) } } // part after space is only for illustration
-        Layer(name, mapping)
+fun readLayers(
+    table: Map<String, List<List<String>>>,
+    symbols: Symbols,
+    layerActivation: Map<String, Set<Thumb>>
+): List<Layer> {
+    val files = mapOf(
+        "/home/gregor/qmk_firmware/data/constants/keycodes/keycodes_0.0.1_basic.hjson" to "keycodes",
+        "/home/gregor/qmk_firmware/data/constants/keycodes/extras/keycodes_us_0.0.1.hjson" to "aliases",
+    )
+    val map = files.flatMap { file ->
+        val aliases = JsonValue.readHjson(FileReader(file.key))
+            .asObject().get(file.value).asObject()
+        aliases.mapNotNull {
+            val o = it.value.asObject()
+            val key = o.get("key").asString()
+            key.takeUnless { it.contains("KP_") }?.let { o.get("label").asString() to it }
+        }
+    }.toMap()
+
+    fun translateQmk(key: String): String = map.getOrDefault(key.replaceFirstChar { it.titlecase() }, key)
+
+    return table.entries.mapIndexed { index, (name, content) ->
+        val data = dropFirstCol(content)
+            .map { it.map { s -> translateQmk(symbols.replace(s.substringBefore(" "))) } } // part after space is only for illustration
+        val base = data.take(2)
+        val combos = data.drop(2).chunked(2)
+        Layer(index, name, base, combos, layerActivation.getValue(name))
     }
 }
 
 private fun dropFirstCol(hold: List<List<String>>): List<List<String>> =
-        hold.map { it.drop(1) }
+    hold.map { it.drop(1) }
 
 
 

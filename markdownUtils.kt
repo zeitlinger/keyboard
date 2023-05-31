@@ -32,5 +32,5 @@ data class Tables(val content: List<Table>) {
 
     fun getMappingTable(
             name: String,
-    ): Map<String, String> = content.single { it[0][0] == name }.drop(1).associate { it[0] to it[1] }
+    ): Map<String, String> = get(name).drop(1).associate { it[0] to it[1] }
 }
