@@ -117,7 +117,11 @@ fun comboWithMods(
 
         when {
             allKeys.size < 2 -> null //no combo needed
-            comboKeys.isEmpty() -> Combo(comboName(layerName), command, allKeys).takeUnless { hand.isRight } // combo for layer is only needed once
+            comboKeys.isEmpty() -> Combo(
+                comboName(layerName),
+                command,
+                allKeys
+            ).takeUnless { hand.isRight } // combo for layer is only needed once
             else -> Combo(comboName(layerName, hand.name, modTrigger.name), command, allKeys)
         }
     }
@@ -153,18 +157,11 @@ data class Generator(
     }
 
     private fun translateThumb(thumb: Thumb, layer: Layer): String {
-        val targetLayer = targetLayer(thumb, layer, layers)
-        return targetLayer?.let { thumb.keyTemplate.format(it.number) } ?: "KC_TRNS"
-    }
-
-    private fun targetLayer(thumb: Thumb, currentLayer: Layer, layers: List<Layer>): Layer? {
-        val wantSize = currentLayer.activation.size + 1
-        val want = currentLayer.activation + setOf(thumb)
-        return layers.singleOrNull { it.activation.size == wantSize && it.activation == want }
+        return targetLayer(thumb, layer, layers)?.let { thumb.keyTemplate.format(it.number) } ?: "KC_TRNS"
     }
 
     fun generateCombos(): List<Combo> {
-        val base = layers[0].baseRows
+        val baseRows = layers[0].baseRows
 
         return layers.flatMap { layer ->
             val activationParts = layer.combos
@@ -172,8 +169,12 @@ data class Generator(
 
             val layerTrigger = layer.activation.map { translateThumb(it, layers[0]) }
 
-            hands.flatMap { hand ->
-                generateModCombos(layerTrigger, getLayerPart(base, hand.opposingSkip), layer, hand) +
+            layerBase.flatten().zip(baseRows.flatten()).mapNotNull { (layerKey, baseKey) ->
+                if ("KC_A" <= layerKey && layerKey <= "KC_Z" && layerKey != baseKey) {
+                    Combo(comboName(layerKey), layerKey, listOf(baseKey) + layerTrigger)
+                } else null
+            } + hands.flatMap { hand ->
+                generateModCombos(layerTrigger, getLayerPart(baseRows, hand.opposingSkip), layer, hand) +
                         activationParts.flatMap { def ->
                             generateCustomCombos(
                                 def,
@@ -184,6 +185,13 @@ data class Generator(
             }.distinct()
         }
     }
+}
+
+
+private fun targetLayer(thumb: Thumb, currentLayer: Layer, layers: List<Layer>): Layer? {
+    val wantSize = currentLayer.activation.size + 1
+    val want = currentLayer.activation + setOf(thumb)
+    return layers.singleOrNull { it.activation.size == wantSize && it.activation == want }
 }
 
 private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate: File) {
@@ -245,7 +253,7 @@ fun readLayers(
         aliases.mapNotNull {
             val o = it.value.asObject()
             val key = o.get("key").asString()
-            key.takeUnless { it.contains("KP_") }?.let { o.get("label").asString() to it }
+            key.takeUnless { it.contains("KP_") || it.contains("NONUS_") }?.let { o.get("label").asString() to it }
         }
     }.toMap()
 
