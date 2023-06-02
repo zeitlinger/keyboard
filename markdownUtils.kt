@@ -18,10 +18,12 @@ fun readTables(config: File): Tables =
         }.let { Tables(it) }
 
 
+const val inputBlocked = "❌"
+
 data class Symbols(val mapping: Map<String, String>) {
     fun replace(key: String): String = mapping.getOrDefault(key, key)
             .let { it.ifBlank { blocked } }
-            .let { if (it == "❌") blocked else it }
+            .let { if (it == inputBlocked) blocked else it }
 }
 
 typealias Table = List<List<String>>
