@@ -34,7 +34,7 @@ const val comboDef = "COMB(%s, %s, %s)"
 const val mainLayerTemplate =
     "\t[%d] = LAYOUT_split_3x5_2(KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s, %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s, %s, %s, %s, %s),"
 
-class QmkTranslator() {
+class QmkTranslator {
 
     private val map: Map<String, String>
 
@@ -57,7 +57,7 @@ class QmkTranslator() {
     fun toQmk(key: String): String = map.getOrDefault(key.replaceFirstChar { it.titlecase() }, key)
 
     //    fun toQmk(key: String): String = map.getOrDefault(key, key)
-    fun toLabel(key: String): String = map.entries.firstOrNull { it.value == key }?.let { it.key } ?: key
+    fun toLabel(key: String): String = map.entries.firstOrNull { it.value == key }?.key ?: key
 
 }
 
@@ -193,14 +193,14 @@ data class Generator(
 ) {
 
     fun generateBase(): String {
-        return layers.map { layer ->
+        return layers.joinToString("\n") { layer ->
             val def = layer.baseRows.flatten() + layer.thumbs.map { it.key }
             val qmk = def
                 .map { assertQmk(it) }
                 .map { if (it == blocked) qmkNo else it }
 
             mainLayerTemplate.format(*listOf(layer.number).plus<Any>(qmk).toTypedArray())
-        }.joinToString("\n")
+        }
     }
 
     fun generateCombos(): List<Combo> {
@@ -212,7 +212,8 @@ data class Generator(
 
             val layerTrigger = layer.activation.map { it.key }
 
-            val directCombos = layerBase.flatten().zip(baseRows.flatten()).mapNotNull { (layerKey, baseKey) ->
+            val zip = layerBase.flatten().zip(baseRows.flatten())
+            val directCombos = zip.mapNotNull { (layerKey, baseKey) ->
                 when {
                     layer.name == mouseLayer -> null
                     layerKey != baseKey -> Combo(comboName(layerKey), layerKey, listOf(baseKey) + layerTrigger)
@@ -282,7 +283,7 @@ private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate:
             }
         }
 
-    val layers = readLayers(layerContent, symbols, thumbMap, translator, layerActivation)
+    val layers = readLayers(layerContent, symbols, thumbMap, translator, layerActivation).sortedBy { it.number }
 
     printMissingAndUnexpected(translator, layers, symbols, thumbs)
 
@@ -347,19 +348,20 @@ fun readLayers(
 ): List<Layer> {
     val baseLayerName = layerActivation.single { it.number == 0 }.name
     val baseThumbs = thumbs.getValue(baseLayerName)
-    return table.entries.mapIndexed { index, (name, content) ->
-        val data = dropFirstCol(content)
+    return table.entries.map { (name, content) ->
+        if (content.take(2).flatten().any { it.isBlank() } && name != mouseLayer) {
+            throw IllegalStateException("base row key missing in $name")
+        }
+
+        val data = content.map { it.drop(1) }
             .map { it.map { s -> translator.toQmk(symbols.replace(s.substringBefore(" "))) } } // part after space is only for illustration
         val base = data.take(2)
         val combos = data.drop(2).chunked(2)
         val inputLayer = layerActivation.single { it.name == name }
         val activation = inputLayer.activation.map { thumb -> baseThumbs.single { it.name == thumb.name } }.toSet()
-        Layer(index, name, base, combos, thumbs.getValue(name), activation)
+        Layer(inputLayer.number, name, base, combos, thumbs.getValue(name), activation)
     }
 }
-
-private fun dropFirstCol(hold: List<List<String>>): List<List<String>> =
-    hold.map { it.drop(1) }
 
 
 
