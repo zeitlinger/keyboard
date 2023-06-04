@@ -56,7 +56,7 @@ class QmkTranslator(val symbols: Symbols) {
 
     fun toQmk(key: String): String = key
         .let { symbols.replace(it) }
-        .let { translatedKey -> map.getOrDefault(  translatedKey.replaceFirstChar { it.titlecase() }, translatedKey)}
+        .let { translatedKey -> map.getOrDefault(translatedKey.replaceFirstChar { it.titlecase() }, translatedKey) }
 
     fun toLabel(key: String): String = map.entries.firstOrNull { it.value == key }?.key ?: key
 
@@ -242,7 +242,8 @@ private fun translateThumb(
     translator: QmkTranslator
 ): Thumb {
     val key =
-        targetLayer(thumb, inputLayers, layer)?.let { "LT(%d,%s)".format(it.number, translator.toQmk(thumb.baseKey)) } ?: "KC_TRNS"
+        targetLayer(thumb, inputLayers, layer)?.let { "LT(%d,%s)".format(it.number, translator.toQmk(thumb.baseKey)) }
+            ?: "KC_TRNS"
     return Thumb(thumb.name, thumb.position, key)
 }
 
@@ -337,7 +338,8 @@ private fun printMissingAndUnexpected(
     println("expected: ${want.size}")
     println("missing: $missing")
     println("unexpected: $unexpected")
-    val dups = gotKeys.filter { k -> gotKeys.filter { k == it }.size > 1 }.map { translator.toLabel(it) }
+    val dups = gotKeys.filter { k -> gotKeys.filter { k == it }.size > 1 }
+        .map { translator.toLabel(it) }.distinct()
     println("duplicates: $dups")
 }
 
