@@ -34,7 +34,7 @@ const val comboDef = "COMB(%s, %s, %s)"
 const val mainLayerTemplate =
     "\t[%d] = LAYOUT_split_3x5_2(KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s, %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s, %s, %s, %s, %s),"
 
-class QmkTranslator {
+class QmkTranslator(val symbols: Symbols) {
 
     private val map: Map<String, String>
 
@@ -54,9 +54,10 @@ class QmkTranslator {
         }.toMap()
     }
 
-    fun toQmk(key: String): String = map.getOrDefault(key.replaceFirstChar { it.titlecase() }, key)
+    fun toQmk(key: String): String = key
+        .let { symbols.replace(it) }
+        .let { translatedKey -> map.getOrDefault(  translatedKey.replaceFirstChar { it.titlecase() }, translatedKey)}
 
-    //    fun toQmk(key: String): String = map.getOrDefault(key, key)
     fun toLabel(key: String): String = map.entries.firstOrNull { it.value == key }?.key ?: key
 
 }
@@ -237,10 +238,11 @@ data class Generator(
 private fun translateThumb(
     thumb: InputThumb,
     inputLayers: List<InputLayer>,
-    layer: InputLayer
+    layer: InputLayer,
+    translator: QmkTranslator
 ): Thumb {
     val key =
-        targetLayer(thumb, inputLayers, layer)?.let { "LT(%d,%s)".format(it.number, thumb.baseKey) } ?: "KC_TRNS"
+        targetLayer(thumb, inputLayers, layer)?.let { "LT(%d,%s)".format(it.number, translator.toQmk(thumb.baseKey)) } ?: "KC_TRNS"
     return Thumb(thumb.name, thumb.position, key)
 }
 
@@ -274,16 +276,16 @@ private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate:
         .groupBy { it[0] }
         .toMap()
 
-    val translator = QmkTranslator()
+    val translator = QmkTranslator(symbols)
 
     val thumbMap =
         layerActivation.associate { layer ->
             layer.name to thumbs.map { thumb ->
-                translateThumb(thumb, layerActivation, layer)
+                translateThumb(thumb, layerActivation, layer, translator)
             }
         }
 
-    val layers = readLayers(layerContent, symbols, thumbMap, translator, layerActivation).sortedBy { it.number }
+    val layers = readLayers(layerContent, thumbMap, translator, layerActivation).sortedBy { it.number }
 
     printMissingAndUnexpected(translator, layers, symbols, thumbs)
 
@@ -317,7 +319,7 @@ private fun printMissingAndUnexpected(
     symbols: Symbols,
     thumbs: List<InputThumb>
 ) {
-    val gotKeys = thumbs.map { it.baseKey } +
+    val gotKeys = thumbs.map { translator.toQmk(it.baseKey) } +
             layers.map { it.baseRows.flatten() + it.combos.flatten().flatten() }.flatten()
                 .filterNot { it == blocked || it == comboTrigger }
 
@@ -341,7 +343,6 @@ private fun printMissingAndUnexpected(
 
 fun readLayers(
     table: Map<String, List<List<String>>>,
-    symbols: Symbols,
     thumbs: Map<String, List<Thumb>>,
     translator: QmkTranslator,
     layerActivation: List<InputLayer>
@@ -354,7 +355,7 @@ fun readLayers(
         }
 
         val data = content.map { it.drop(1) }
-            .map { it.map { s -> translator.toQmk(symbols.replace(s.substringBefore(" "))) } } // part after space is only for illustration
+            .map { it.map { s -> translator.toQmk(s) } }
         val base = data.take(2)
         val combos = data.drop(2).chunked(2)
         val inputLayer = layerActivation.single { it.name == name }
