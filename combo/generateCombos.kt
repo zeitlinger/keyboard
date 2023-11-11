@@ -182,7 +182,7 @@ private fun getLayerPart(layerBase: List<List<String>>, hand: Hand) =
     layerBase.map { it.drop(hand.skip).take(hand.columns / 2) }.flatten()
 
 val qmkPrefixes = setOf(
-    "KC_", "LT(", "MO(", "LCTL(", "RCS(", "RALT(", "LALT(", "LALT_T(", "LCTL_T(", "RCTL_T(", "RALT_T(",
+    "KC_", "LT(", "MO(", "LCTL(", "RCS(", "RALT(", "LALT(", "LALT_T(", "LCTL_T(", "RCTL_T(", "RALT_T(", "LSFT_T(", "RSFT_T(",
 )
 
 fun assertQmk(key: String): String {
@@ -306,30 +306,53 @@ fun readLayers(
     thumbs: Map<String, List<List<String>>>,
     translator: QmkTranslator
 ): List<Layer> {
-    val table = layerContent.drop(1) // Header
+    val layerByName = layerContent.drop(1) // Header
         .groupBy { it[0] }
         .toMap()
 //    val baseLayerName = layerContent[1][0]
 
-    return table.entries.map { (name, content) ->
-        if (content.take(keyboardRows).flatten().any { it.isBlank() } && name !in sparseLayers) {
-            throw IllegalStateException("base row key missing in $name")
+    return layerByName.entries.mapIndexed { layerNumber, (layerName, content) ->
+        if (content.take(keyboardRows).flatten().any { it.isBlank() } && layerName !in sparseLayers) {
+            throw IllegalStateException("base row key missing in $layerName")
         }
 
         val data = translateTable(content, translator)
-        val base = data.take(keyboardRows)
+        val base = data.take(keyboardRows).mapIndexed { row, def ->
+            if (row == 1 && layerNumber > 0) {
+                addModTab(def)
+            } else {
+                def
+            }
+        }
         val combos = data.drop(keyboardRows).chunked(keyboardRows)
 
-        val thumbData = translateTable(thumbs.getValue(name), translator)
+        val thumbData = translateTable(thumbs.getValue(layerName), translator)
         val baseThumb = listOf(thumbData[0])
         val comboThumb = listOf(thumbData.drop(1))
 
 //        val inputLayer = layerActivation.single { it.name == name }
 //        val activation = inputLayer.activation.map { thumb -> baseThumbs.single { it.name == thumb.name } }.toSet()
         Layer(
-            name, base + baseThumb,
+            layerName, base + baseThumb,
             combos + comboThumb
         )
+    }
+}
+
+fun addModTab(row: List<String>): List<String> {
+    return row.mapIndexed { index, key ->
+        if ("(" in key || key == blocked) {
+            key
+        } else {
+            when (index) {
+                1, 8 -> "LALT_T($key)"
+                2 -> "LCTL_T($key)"
+                3 -> "LSFT_T($key)"
+                6 -> "RSFT_T($key)"
+                7 -> "RCTL_T($key)"
+                else -> key
+            }
+        }
     }
 }
 
