@@ -16,7 +16,7 @@
 |  Base  |                |              |              |                |          |          |                |              |              |         |
 |  Base  |                |              |              |                |          |          |                |              |              |         |
 | Shift  |       🪜       |      🪜      |      🪜      |       🪜       |    🪜    |    🪜    |       🪜       |      🪜      |      🪜      |   🪜    |
-| Shift  | LT(Media,KC_R) | LAlt_T(KC_S) | LCtl_T(KC_T) | LT(Shift,KC_H) |    🪜    |    🪜    | LT(Shift,KC_N) | RCtl_T(KC_A) | LAlt_T(KC_I) |   🪜    |
+| Shift  | LT(Media,KC_R) | LALT_T(KC_S) | LCTL_T(KC_T) | LT(Shift,KC_H) |    🪜    |    🪜    | LT(Shift,KC_N) | RCTL_T(KC_A) | LALT_T(KC_I) |   🪜    |
 | Shift  |       🪜       |      🪜      |      🪜      |       🪜       |    🪜    |    🪜    |       🪜       |      🪜      |      🪜      |   🪜    |
 | NumNav |       8        |      7       |      6       |       5        |    ❌     |   Prt    |      ⬅️⬅️      |     ⬆️⬆️     |     ⬇️⬇️     |  ➡️➡️   |
 | NumNav |       4        |      3       |      2       |       1        |    %     |   Esc    |       ⬅️       |      ⬆️      |      ⬇️      |   ➡️    |
@@ -27,6 +27,9 @@
 | FnSym  |       f8       |      f7      |      f6      |       f5       |    ❌     |    ä     |       !        |      (       |      )       |    *    |
 | FnSym  |       f4       |      f3      |      f2      |       f1       |    ß     |    ö     |       ;        |      [       |      ]       |    \    |    
 | FnSym  |      f12       |     f11      |     f10      |       f9       |    ❌     |    ü     |       =        |      ~       |      $       |    &    |
+| Media  |                |              |              |                |          |          |                |              |              |         |
+| Media  |                |              |              |                |          |          |                |              |              |         |
+| Media  |                |              |              |                |          |          |                |              |              |         |
 
 | Thumb  | Left Inner | Left Outer |    Right Outer     | Right Inner |
 |:------:|:----------:|:----------:|:------------------:|:-----------:|
@@ -36,6 +39,7 @@
 | NumNav |     0      |    Tab     |         🪜         |     🪜      |
 | ComboM |     🪜     |     🪜     |                    |             |
 | FnSym  |    Spc     |            |         🪜         |     🪜      |
+| Media  |    Spc     |            |                    |             |
 
 | Symbol  | Command     |
 |---------|-------------|

@@ -182,7 +182,7 @@ private fun getLayerPart(layerBase: List<List<String>>, hand: Hand) =
     layerBase.map { it.drop(hand.skip).take(hand.columns / 2) }.flatten()
 
 val qmkPrefixes = setOf(
-    "KC_", "LT(", "MO(", "LCTL(", "RCS(", "RALT(", "LALT(", "LAlt_T(", "LCtl_T(", "RCtl_T(", "RAlt_T(",
+    "KC_", "LT(", "MO(", "LCTL(", "RCS(", "RALT(", "LALT(", "LALT_T(", "LCTL_T(", "RCTL_T(", "RALT_T(",
 )
 
 fun assertQmk(key: String): String {
@@ -193,7 +193,7 @@ fun assertQmk(key: String): String {
 }
 
 
-private const val mouseLayer = "ComboM"
+private val sparseLayers = listOf("ComboM", "Media")
 
 data class Generator(
     val layers: List<Layer>,
@@ -312,7 +312,7 @@ fun readLayers(
 //    val baseLayerName = layerContent[1][0]
 
     return table.entries.map { (name, content) ->
-        if (content.take(keyboardRows).flatten().any { it.isBlank() } && name != mouseLayer) {
+        if (content.take(keyboardRows).flatten().any { it.isBlank() } && name !in sparseLayers) {
             throw IllegalStateException("base row key missing in $name")
         }
 
