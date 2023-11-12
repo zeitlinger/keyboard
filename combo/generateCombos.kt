@@ -8,18 +8,6 @@ import readTables
 import java.io.File
 import java.io.FileReader
 
-//SUBS(C_THE,   "the ",    KC_F13)
-//SUBS(C_AND,   "and ",    KC_F14)
-//SUBS(C_ING,   "ing",    KC_F15)
-//SUBS(C_ING,   "that ",    KC_F16)
-//SUBS(C_ING,   "have ",    KC_F17)
-//SUBS(C_ING,   "with ",    KC_F19)
-//SUBS(C_ING,   "this ",    KC_F20)
-//SUBS(C_ING,   "from ",    KC_F21)
-//SUBS(C_ING,   "they ",    KC_F22)
-//SUBS(C_ING,   "you ",    KC_F23)
-
-
 fun main() {
     val config = File("/home/gregor/source/keyboard/aptex.md")
     val layoutTemplate = File("/home/gregor/source/keyboard/combo/layout.h")
@@ -29,8 +17,6 @@ fun main() {
 
     run(config, comboFile, layoutFile, layoutTemplate)
 }
-
-const val comboDef = "COMB(%s, %s, %s)"
 
 const val mainLayerTemplate =
     "\t[%d] = LAYOUT_split_3x5_2(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s),"
@@ -120,7 +106,14 @@ data class Layer(
 
 private const val comboTrigger = "\uD83D\uDC8E" // 💎
 
-data class Combo(val name: String, val result: String, val triggers: List<String>)
+private fun getSubstitutionCombo(key: String): String? =
+    if (key.startsWith("\"") && key.endsWith("\"")) key else null
+
+enum class ComboType(val template: String) {
+    Combo("COMB(%s, %s, %s)"), Subtitution("SUBS(%s, %s, %s)")
+}
+
+data class Combo(val type: ComboType, val name: String, val result: String, val triggers: List<String>)
 
 fun generateModCombos(layerTrigger: List<String>, opposingBase: List<String>, layer: Layer, hand: Hand): List<Combo> {
     return if (layer.name in specialLayers) emptyList() else comboWithMods(
@@ -139,15 +132,19 @@ fun generateCustomCombos(def: Rows, layerBase: List<String>, layer: Layer, hand:
                 .filterIndexed { index, _ -> index == comboIndex || index in comboIndexes }
                 .map { assertQmk(it) }
 
-            listOf(Combo(comboName(layer.name, key), assertQmk(key), layerKeys))
-        } else emptyList()
+            val substitutionCombo = getSubstitutionCombo(key)
+            val type = if (substitutionCombo != null) ComboType.Subtitution else ComboType.Combo
+            val name = comboName(layer.name, key)
+            val content = substitutionCombo ?: assertQmk(key)
+            listOf(Combo(type, name, content, layerKeys)) } else emptyList()
     }.filter { it.triggers.size > 1 }
 }
 
 fun comboName(vararg parts: String?): String {
     return "C_${
         parts.filterNotNull().joinToString("_") {
-            it.uppercase().replace("(", "").replace(")", "")
+            it.uppercase()
+                .replace(Regex("[()\"]"), "")
         }
     }"
 }
@@ -169,11 +166,12 @@ fun comboWithMods(
         when {
             allKeys.size < 2 -> null //no combo needed
             comboKeys.isEmpty() -> Combo(
+                ComboType.Combo,
                 comboName(layerName),
                 command,
                 allKeys
             ).takeUnless { hand.isRight } // combo for layer is only needed once
-            else -> Combo(comboName(layerName, hand.name, modTrigger.name), command, allKeys)
+            else -> Combo(ComboType.Combo,comboName(layerName, hand.name, modTrigger.name), command, allKeys)
         }
     }
 }
@@ -199,7 +197,7 @@ val qmkPrefixes = setOf(
 
 fun assertQmk(key: String): String {
     return when {
-        key == blocked || key == comboTrigger || qmkPrefixes.any { key.startsWith(it) } -> key
+        key == blocked || key == comboTrigger || qmkPrefixes.any { key.startsWith(it) }  -> key
         else -> throw IllegalStateException("key not translated $key")
     }
 }
@@ -270,7 +268,7 @@ private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate:
 
     val generator = Generator(layers)
     val combos = generator.generateCombos().map { combo ->
-        comboDef.format(
+        combo.type.template.format(
             combo.name.padEnd(20),
             combo.result.padEnd(50),
             combo.triggers
@@ -328,8 +326,6 @@ fun readLayers(
     val layerByName = layerContent.drop(1) // Header
         .groupBy { it[0] }
         .toMap()
-//    val baseLayerName = layerContent[1][0]
-
     return layerByName.entries.mapIndexed { layerNumber, (layerName, content) ->
         if (content.take(keyboardRows).flatten().any { it.isBlank() } && layerName !in specialLayers) {
             throw IllegalStateException("base row key missing in $layerName")
