@@ -43,7 +43,6 @@ class QmkTranslator(private val symbols: Symbols, private val layerNames: Map<St
         .let { translatedKey -> map.getOrDefault(translatedKey.replaceFirstChar { it.titlecase() }, translatedKey) }
 
     fun toLabel(key: String): String = map.entries.firstOrNull { it.value == key }?.key ?: key
-
 }
 
 data class Hand(
@@ -73,22 +72,6 @@ data class ModTrigger(val mods: List<Modifier>, val triggers: List<Int>, val com
 
 private const val qmkNo = "KC_NO"
 
-private val modTriggers: List<ModTrigger> = listOf(
-    ModTrigger(emptyList(), emptyList(), "MO(%d)", null),
-    ModTrigger(listOf(Modifier.Shift), listOf(3, 4), "LM(%d, MOD_LSFT)", "S"),
-    ModTrigger(listOf(Modifier.Ctrl), listOf(2, 3), "LM(%d, MOD_LCTL)", "C"),
-    ModTrigger(listOf(Modifier.Alt), listOf(1, 2), "LM(%d, MOD_LALT)", "A"),
-    ModTrigger(listOf(Modifier.Shift, Modifier.Ctrl), listOf(2, 3, 4), "LM(%d, MOD_LCTL | MOD_LSFT)", "CS"),
-    ModTrigger(listOf(Modifier.Shift, Modifier.Alt), listOf(1, 4), "LM(%d, MOD_LSFT | MOD_LALT)", "SA"),
-    ModTrigger(listOf(Modifier.Ctrl, Modifier.Alt), listOf(1, 2, 3), "LM(%d, MOD_LCTL | MOD_LALT)", "CA"),
-    ModTrigger(
-        listOf(Modifier.Shift, Modifier.Shift, Modifier.Alt),
-        listOf(1, 2, 3, 4),
-        "LM(%d, MOD_LCTL | MOD_LALT | MOD_LSFT)",
-        "CSA"
-    ),
-)
-
 typealias Rows = List<List<String>>
 
 data class Layer(
@@ -97,81 +80,6 @@ data class Layer(
     val combos: List<Rows>,
     val number: Int,
 )
-
-private const val comboTrigger = "\uD83D\uDC8E" // 💎
-
-private fun getSubstitutionCombo(key: String): String? =
-    if (key.startsWith("\"") && key.endsWith("\"")) key else null
-
-enum class ComboType(val template: String) {
-    Combo("COMB(%s, %s, %s)"), Subtitution("SUBS(%s, %s, %s)")
-}
-
-data class Combo(val type: ComboType, val name: String, val result: String, val triggers: List<String>)
-
-fun generateModCombos(layerTrigger: List<String>, opposingBase: List<String>, layer: Layer, hand: Hand): List<Combo> {
-    return if (layer.name in specialLayers) emptyList() else comboWithMods(
-        opposingBase, hand,
-        layer.name, layer.number, layerTrigger
-    )
-}
-
-fun generateCustomCombos(def: Rows, layerBase: List<String>, layer: Layer, hand: Hand): List<Combo> {
-    val definition = getLayerPart(def, hand)
-    val comboIndexes = definition.mapIndexedNotNull { index, s -> if (s == comboTrigger) index else null }
-
-    return definition.flatMapIndexed { comboIndex, key ->
-        if (!(key.isBlank() || key == blocked || key == comboTrigger)) {
-            val layerKeys = layerBase
-                .filterIndexed { index, _ -> index == comboIndex || index in comboIndexes }
-                .map { assertQmk(it) }
-
-            val substitutionCombo = getSubstitutionCombo(key)
-            val type = if (substitutionCombo != null) ComboType.Subtitution else ComboType.Combo
-            val name = comboName(layer.name, key)
-            val content = substitutionCombo ?: assertQmk(key)
-            listOf(Combo(type, name, content, layerKeys)) } else emptyList()
-    }.filter { it.triggers.size > 1 }
-}
-
-fun comboName(vararg parts: String?): String {
-    return "C_${
-        parts.filterNotNull().joinToString("_") {
-            it.uppercase()
-                .replace(Regex("[()\"]"), "")
-        }
-    }"
-}
-
-fun comboWithMods(
-    base: List<String>,
-    hand: Hand,
-    layerName: String,
-    layerIndex: Int,
-    layerTrigger: List<String>
-): List<Combo> {
-    return modTriggers.mapNotNull { modTrigger ->
-        val comboKeys = modTrigger.triggers.map { base[hand.translateComboIndex(it)] }
-            .map { assertQmk(it) }
-
-        val command = modTrigger.command.format(layerIndex)
-        val allKeys = layerTrigger + comboKeys
-
-        when {
-            allKeys.size < 2 -> null //no combo needed
-            comboKeys.isEmpty() -> Combo(
-                ComboType.Combo,
-                comboName(layerName),
-                command,
-                allKeys
-            ).takeUnless { hand.isRight } // combo for layer is only needed once
-            else -> Combo(ComboType.Combo, comboName(layerName, hand.name, modTrigger.name), command, allKeys)
-        }
-    }
-}
-
-private fun getLayerPart(layerBase: List<List<String>>, hand: Hand) =
-    layerBase.map { it.drop(hand.skip).take(hand.columns / 2) }.flatten()
 
 val qmkPrefixes = setOf(
     "KC_",
@@ -197,7 +105,7 @@ fun assertQmk(key: String): String {
 }
 
 
-private val specialLayers = listOf("ComboM", "Media")
+val specialLayers = listOf("ComboM", "Media")
 
 data class Generator(
     val layers: List<Layer>,
@@ -214,34 +122,6 @@ data class Generator(
         }.joinToString("\n")
     }
 
-    fun generateCombos(): List<Combo> {
-        val baseRows = layers[0].baseRows
-
-        return layers.flatMap { layer ->
-            val activationParts = layer.combos
-            val layerBase = layer.baseRows
-
-            hands.flatMap { hand ->
-                val modCombos =
-                    if (layer.number == 0 && !hand.isThumb) {
-                        generateModCombos(listOf(), getLayerPart(baseRows, hand), layer, hand)
-                    } else {
-                        emptyList()
-                    }
-
-                val customCombos = activationParts
-                    .map { it.filter { hand.columns == it.size } }
-                    .flatMap { def ->
-                        generateCustomCombos(
-                            def,
-                            getLayerPart(layerBase.drop(hand.baseLayerRowSkip), hand),
-                            layer, hand,
-                        )
-                    }
-                customCombos + modCombos
-            }.distinct()
-        }
-    }
 }
 
 private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate: File) {
@@ -261,7 +141,7 @@ private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate:
 //    printMissingAndUnexpected(translator, layers, symbols)
 
     val generator = Generator(layers)
-    val combos = generator.generateCombos().map { combo ->
+    val combos = generateCombos(generator.layers).map { combo ->
         combo.type.template.format(
             combo.name.padEnd(20),
             combo.result.padEnd(50),
