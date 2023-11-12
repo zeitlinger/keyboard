@@ -1,16 +1,10 @@
-package  combo
-
-import Symbols
-import Table
-import blocked
 import org.hjson.JsonValue
-import readTables
 import java.io.File
 import java.io.FileReader
 
 fun main() {
     val config = File("/home/gregor/source/keyboard/aptex.md")
-    val layoutTemplate = File("/home/gregor/source/keyboard/combo/layout.h")
+    val layoutTemplate = File("/home/gregor/source/keyboard/layout.h")
 
     val comboFile = File("/home/gregor/source/mini-ryoku/qmk/combos.def")
     val layoutFile = File("/home/gregor/source/mini-ryoku/qmk/layout.h")
@@ -171,7 +165,7 @@ fun comboWithMods(
                 command,
                 allKeys
             ).takeUnless { hand.isRight } // combo for layer is only needed once
-            else -> Combo(ComboType.Combo,comboName(layerName, hand.name, modTrigger.name), command, allKeys)
+            else -> Combo(ComboType.Combo, comboName(layerName, hand.name, modTrigger.name), command, allKeys)
         }
     }
 }
@@ -276,17 +270,16 @@ private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate:
         )
     }
 
+    val generationNote =
+        "file is generated from ${config.name} using https://github.com/zeitlinger/keyboard/blob/main/generateKeyboard.kt"
+
     val base = layoutTemplate.readText()
-        .replace("\${configName}", config.name)
+        .replace("\${generationNote}", generationNote)
         .replace("\${layers}", generator.generateBase())
 
     layoutFile.writeText(base)
 
-    comboFile.writeText(
-        (listOf("// file is generated from ${config.name} using https://github.com/zeitlinger/keyboard/blob/main/combo/generateCombos.kt") + combos).joinToString(
-            "\n"
-        )
-    )
+    comboFile.writeText((listOf("// $generationNote") + combos).joinToString("\n"))
 
 }
 //

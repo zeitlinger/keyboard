@@ -3,7 +3,7 @@
 
 /* THIS FILE WAS GENERATED!
  *
- * file is generated from ${configName} using https://github.com/zeitlinger/keyboard/blob/main/combo/generateCombos.kt
+ * ${generationNote}
  */
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
