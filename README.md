@@ -1,3 +1,23 @@
+# APTex keyboard
+
+Features
+
+- 34 keys
+- [APTex](https://github.com/Apsu/APTex) layout with slight modifications
+- Combos for keys in the two center columns, 
+  so lateral movement is not needed, except for special combos like `Ctrl+B`
+- Combos for the most common bigrams, reducing SFBs from 0.70% to 0.26%
+
+Notes
+
+- Generated keyboard can be found in a 
+  [fork of mini-ryoku](https://github.com/zeitlinger/mini-ryoku/blob/main/qmk/layout.h), because this is easy to integrate with many keyboards (Tested with Ferris Sweep).
+- [TODos](TODO.md)
+                        
+## Layout
+
+> **Note**: The layout is generated from this file directly.
+
 | Layer  |    == 4 ==     | == 3 == | == 2 == |    == 1 ==     | == 1E == | ## 1E ## |    ## 1 ##     | ## 2 ## | ## 3 ## | ## 4 ## |
 |:------:|:--------------:|:-------:|:-------:|:--------------:|:--------:|:--------:|:--------------:|:-------:|:-------:|:-------:|
 |  Base  |       /        |    c    |    m    |       f        |    q     |    z     |       y        |    o    |    u    |    -    |
@@ -84,8 +104,6 @@
 | Media  |                |         |         |                |          |          |                |         |         |         |
 | Media  |                |         |         |                |          |          |                |         |         |         |
 |        | -------------- | ------- | ------- | -------------- | -------- | -------- | -------------  | ------- | ------- | ------- |
-                               
-
 
 | Thumb  | Left Inner | Left Outer |    Right Outer     | Right Inner |
 |:------:|:----------:|:----------:|:------------------:|:-----------:|
@@ -140,145 +158,3 @@
 | ß       | RALT(KC_S)  |
 | 🪜      | KC_TRNS     |
 | .spc    | KC_F24      |
-
-| ui      | KC_F20      |
- | oa      | KC_F21      |
- | ny      | KC_F22      |
- | sc      | KC_F23      |
- 
-
-TODOs
-
-- [ ] remove shift layer if not needed
-- [ ] add mouse layer
-- [ ] add system/media layer
-- [ ] dictionary for words
-- [ ] add combos for symbols and numbers
-- [ ] caps word and num words
-- [ ] customize combo timeouts
-
-
-2 combo layers for numbers and symbols
-symbols 32
-numbers 10
-need    42
-have    48
-
-opposing combos for full dictionary above
-left how row and ring, middle on top as activation keys
-= 6 x 12 = 72 words
- 
-words
-the   #
-and   #
-have  #
-that  #
-for   #
-you   #
-with  #
-say    
-this  #
-they   =
-but    =
-his
-from   =
-not
-she
-what
-their
-can
-who
-get
-would
-her
-all
-make
-about
-know
-will
-one
-time
-there
-year
-think
-when
-which
-them    
-some
-people
-take
-out
-into
-just
-see
-him
-your
-come
-could
-now
-than
-like
-other
-how
-then
-its
-our
-two
-these
-want
-way
-look
-first
-also
-new
-because
-day
-use
-give
-well
-only
-even
-back
-any
-good
-
-
-
-
-                           
-
-old words
-
-|        | -------------- | ------- | ------- | -------------- | -------- | -------- | -------------  | ------- | ------- | ------- |
-|  Base  |                |         |         |       💎       |          |          |       💎       |         |         |         |
-|  Base  |                |         |         |    "this "     |          |          |       ny       |         |         |         |
-|  Base  |                |         |         |                |          |          |                |         |         |         |
-|        | -------------- | ------- | ------- | -------------- | -------- | -------- | -------------  | ------- | ------- | ------- |
-|  Base  |                |         |   💎    |                |          |          |                |   💎    |         |         |
-|  Base  |                |         | "the "  |                |          |          |                |   oa    |         |         |
-|  Base  |                |         |         |                |          |          |                |         |         |         |
-|        | -------------- | ------- | ------- | -------------- | -------- | -------- | -------------  | ------- | ------- | ------- |
-|  Base  |                |   💎    |         |                |          |          |                |         |   💎    |         |
-|  Base  |                |   sc    |         |                |          |          |                |         |   ui    |         |
-|  Base  |                |         |         |                |          |          |                |         |         |         |
-|        | -------------- | ------- | ------- | -------------- | -------- | -------- | -------------  | ------- | ------- | ------- |
-|  Base  |       💎       |         |         |                |          |          |                |         |         |   💎    |
-|  Base  |       <        |         |         |                |          |          |                |         |         |    >    |
-|  Base  |                |         |         |                |          |          |                |         |         |         |
-|        | -------------- | ------- | ------- | -------------- | -------- | -------- | -------------  | ------- | ------- | ------- |
-|  Base  |                |         |         |                |          |          |                |         |         |         |
-|  Base  |                |         |         |    "have "     |          |          |     "you "     |         |         |         |
-|  Base  |                |         |         |       💎       |          |          |       💎       |         |         |         |
-|        | -------------- | ------- | ------- | -------------- | -------- | -------- | -------------  | ------- | ------- | ------- |
-|  Base  |                |         |         |                |          |          |                |         |         |         |
-|  Base  |                |         | "that " |                |          |          |                | "and "  |         |         |
-|  Base  |                |         |   💎    |                |          |          |                |   💎    |         |         |
-|        | -------------- | ------- | ------- | -------------- | -------- | -------- | -------------  | ------- | ------- | ------- |
-|  Base  |                |         |         |                |          |          |                |         |         |         |
-|  Base  |                | "with " |         |                |          |          |                |         |  "ing"  |         |
-|  Base  |                |   💎    |         |                |          |          |                |         |   💎    |         |
-|        | -------------- | ------- | ------- | -------------- | -------- | -------- | -------------  | ------- | ------- | ------- |
-|  Base  |                |         |         |                |          |          |                |         |         |         |
-|  Base  |     "for "     |         |         |                |          |          |                |         |         |  .spc   |
-|  Base  |       💎       |         |         |                |          |          |                |         |         |   💎    |
-|        | -------------- | ------- | ------- | -------------- | -------- | -------- | -------------  | ------- | ------- | ------- |

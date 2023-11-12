@@ -3,7 +3,7 @@ import java.io.File
 import java.io.FileReader
 
 fun main() {
-    val config = File("/home/gregor/source/keyboard/aptex.md")
+    val config = File("/home/gregor/source/keyboard/README.md")
     val layoutTemplate = File("/home/gregor/source/keyboard/layout.h")
 
     val comboFile = File("/home/gregor/source/mini-ryoku/qmk/combos.def")
