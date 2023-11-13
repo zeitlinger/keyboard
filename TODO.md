@@ -1,12 +1,13 @@
 # TODOs
 
 - [ ] remove shift layer if not needed
-- [ ] add mouse layer
+- [ ] add mouse layer with one-handed combos for left hand (copy, paste, undo, redo, etc)
 - [ ] add system/media layer
 - [ ] dictionary for words
 - [ ] add combos for symbols and numbers
 - [ ] caps word and num words
 - [ ] customize combo timeouts
+- [ ] repeat key on p?
 
 ## Symbol Layers
 
@@ -21,6 +22,7 @@ have    48
 opposing combos for full dictionary above
 left how row and ring, middle on top as activation keys
 = 6 x 12 = 72 words
+or even 12 x 12 = 144 words
  
 words
 the   

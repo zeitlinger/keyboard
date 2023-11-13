@@ -4,21 +4,56 @@ Features
 
 - 34 keys
 - [APTex](https://github.com/Apsu/APTex) layout with slight modifications
+- Home row mods (Alt, Ctrl, Shift) on all layers, 
+  except the base layer where combos are used instead to avoid timing issues (see [Modifiers](#modifiers))
 - Combos for keys in the two center columns, 
   so lateral movement is not needed, except for special combos like `Ctrl+B`
 - Combos for the most common bigrams, reducing SFBs from 0.70% to 0.26%
+- Combos for the most common trigrams
+- "Next sentence" key (". ", capitalizes the next letter)
 
 Notes
-
-- Generated keyboard can be found in a 
+  
+- The keyboard layout is generated using [generateKeyboard](generateKeyboard.kt) from this file.
+- The generated keyboard can be found in a 
   [fork of mini-ryoku](https://github.com/zeitlinger/mini-ryoku/blob/main/qmk/layout.h), because this is easy to integrate with many keyboards (Tested with Ferris Sweep).
 - [TODos](TODO.md)
+
+## Modifiers
+
+Base Layer Modifiers
+                    
+| Modifiers      | Fingers                    |
+|----------------|----------------------------|
+| Shift          | Middle, Index              |
+| Ctrl           | Ring, Middle               |
+| Alt            | Pinky, Ring                |
+| Ctrl-Shift     | Ring, Middle, Index        |
+| Alt-Shift      | Pinky, Index               |
+| Ctrl-Alt       | Pinky, Ring, Middle        |
+| Ctrl-Alt-Shift | Pinky, Ring, Middle, Index |
+
+Modifier for all other layers
+                 
+| Modifier | Finger |
+|----------|--------|
+| Alt      | Ring   |
+| Ctrl     | Middle |
+| Shift    | Index  |
+
                         
 ## Layout
+                                                                            
+How to read this layout:
+                      
+- 💎 = combo key (e.g. middle and index finger in top row pressed together produce "b")
+- 🪜 = transparent key
+- "that" = combo that produces "that"
+- The symbol table at the bottom shows the meaning of the symbols used in the layout.
 
 > **Note**: The layout is generated from this file directly.
 
-| Layer  |    == 4 ==     | == 3 == | == 2 == |    == 1 ==     | == 1E == | ## 1E ## |    ## 1 ##     | ## 2 ## | ## 3 ## | ## 4 ## |
+| Layer  |   Left Pinky   | L. Ring | L. Mid. |   Left Index   | L. Index | R. Index |  Right Index   | R. Mid. | R. Ring | R. Pin. |
 |:------:|:--------------:|:-------:|:-------:|:--------------:|:--------:|:--------:|:--------------:|:-------:|:-------:|:-------:|
 |  Base  |       /        |    c    |    m    |       f        |    q     |    z     |       y        |    o    |    u    |    -    |
 |  Base  |       r        |    s    |    t    |       h        |    v     |    b     |       n        |    a    |    i    |    l    |
