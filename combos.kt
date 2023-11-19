@@ -8,12 +8,12 @@ const val comboTrigger = "\uD83D\uDC8E" // 💎
 
 private val modTriggers: List<ModTrigger> = listOf(
     ModTrigger(emptyList(), emptyList(), "MO(%d)", null),
-    ModTrigger(listOf(Modifier.Shift), listOf(3, 4), "LM(%d, MOD_LSFT)", "S"),
-    ModTrigger(listOf(Modifier.Ctrl), listOf(2, 3), "LM(%d, MOD_LCTL)", "C"),
-    ModTrigger(listOf(Modifier.Alt), listOf(1, 2), "LM(%d, MOD_LALT)", "A"),
-    ModTrigger(listOf(Modifier.Shift, Modifier.Ctrl), listOf(2, 3, 4), "LM(%d, MOD_LCTL | MOD_LSFT)", "CS"),
-    ModTrigger(listOf(Modifier.Shift, Modifier.Alt), listOf(1, 4), "LM(%d, MOD_LSFT | MOD_LALT)", "SA"),
-    ModTrigger(listOf(Modifier.Ctrl, Modifier.Alt), listOf(1, 2, 3), "LM(%d, MOD_LCTL | MOD_LALT)", "CA"),
+    ModTrigger(listOf(Modifier.Shift), listOf(1, 2), "LM(%d, MOD_LSFT)", "S"),
+    ModTrigger(listOf(Modifier.Ctrl), listOf(2, 4), "LM(%d, MOD_LCTL)", "C"),
+    ModTrigger(listOf(Modifier.Alt), listOf(1, 4), "LM(%d, MOD_LALT)", "A"),
+    ModTrigger(listOf(Modifier.Shift, Modifier.Ctrl), listOf(1, 2, 3), "LM(%d, MOD_LCTL | MOD_LSFT)", "CS"),
+    ModTrigger(listOf(Modifier.Shift, Modifier.Alt), listOf(1, 2, 4), "LM(%d, MOD_LSFT | MOD_LALT)", "SA"),
+    ModTrigger(listOf(Modifier.Ctrl, Modifier.Alt), listOf(2, 3, 4), "LM(%d, MOD_LCTL | MOD_LALT)", "CA"),
     ModTrigger(
         listOf(Modifier.Shift, Modifier.Shift, Modifier.Alt),
         listOf(1, 2, 3, 4),
@@ -25,7 +25,7 @@ private val modTriggers: List<ModTrigger> = listOf(
 private fun getSubstitutionCombo(key: String): String? =
     if (key.startsWith("\"") && key.endsWith("\"")) key else null
 
-fun generateCombos(layers: List<Layer>): List<Combo> {
+fun generateCombos(layers: List<Layer>, features: Set<Feature>): List<Combo> {
     val baseRows = layers[0].baseRows
 
     return layers.flatMap { layer ->
@@ -34,7 +34,7 @@ fun generateCombos(layers: List<Layer>): List<Combo> {
 
         hands.flatMap { hand ->
             val modCombos =
-                if (layer.number == 0 && !hand.isThumb) {
+                if (features.contains(Feature.ModCombo) && layer.number == 0 && !hand.isThumb) {
                     generateModCombos(listOf(), getLayerPart(baseRows, hand), layer, hand)
                 } else {
                     emptyList()
@@ -83,6 +83,7 @@ private fun comboName(vararg parts: String?): String {
     return "C_${
         parts.filterNotNull().joinToString("_") {
             it.uppercase()
+                .replace(".", "_")
                 .replace(Regex("[()\"]"), "")
         }
     }"

@@ -8,14 +8,19 @@ fun main() {
 
     val comboFile = File("/home/gregor/source/mini-ryoku/qmk/combos.def")
     val layoutFile = File("/home/gregor/source/mini-ryoku/qmk/layout.h")
+    val features = setOf<Feature>()
 
-    run(config, comboFile, layoutFile, layoutTemplate)
+    run(config, comboFile, layoutFile, layoutTemplate, features)
 }
 
 const val mainLayerTemplate =
     "\t[%d] = LAYOUT_split_3x5_2(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s),"
 
 const val keyboardRows = 3
+
+enum class Feature {
+    ModCombo
+}
 
 class QmkTranslator(private val symbols: Symbols, private val layerNames: Map<String, Int>) {
 
@@ -124,7 +129,7 @@ data class Generator(
 
 }
 
-private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate: File) {
+private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate: File, features: Set<Feature>) {
     val tables = readTables(config)
 
     val symbols = Symbols(tables.getMappingTable("Symbol"))
@@ -141,7 +146,7 @@ private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate:
 //    printMissingAndUnexpected(translator, layers, symbols)
 
     val generator = Generator(layers)
-    val combos = generateCombos(generator.layers).map { combo ->
+    val combos = generateCombos(generator.layers, features).map { combo ->
         combo.type.template.format(
             combo.name.padEnd(20),
             combo.result.padEnd(50),
