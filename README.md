@@ -16,7 +16,8 @@ Notes
   
 - The keyboard layout is generated using [generateKeyboard](generateKeyboard.kt) from this file.
 - The generated keyboard can be found in a 
-  [fork of mini-ryoku](https://github.com/zeitlinger/mini-ryoku/blob/main/qmk/layout.h), because this is easy to integrate with many keyboards (tested with Ferris Sweep).
+  [fork of mini-ryoku](https://github.com/zeitlinger/mini-ryoku/blob/main/qmk/layout.h), because this is easy to integrate with many keyboards 
+  (tested with [Ferris Sweep](https://keebmaker.com/products/ferris-sweep)).
 - [TODos](TODO.md)
 
 ## Modifiers
@@ -59,10 +60,6 @@ How to read this layout:
 |  Base  |       r        |    s    |    t    |       h        |    b     |    v     |       n        |    a    |    i    |    l    |
 |  Base  |       b        |    c    |    g    |       d        |    k     |    j     |       p        |    '    |    ,    |    .    |
 |        | -------------- | ------- | ------- | -------------- | -------- | -------- | -------------  | ------- | ------- | ------- |
-|  Base  |                |         |         |                |          |    ß     |       💎       |         |         |         |
-|  Base  |                |         |         |                |          |          |                |         |         |         |
-|  Base  |                |         |         |                |          |          |                |         |         |         |
-|        | -------------- | ------- | ------- | -------------- | -------- | -------- | -------------  | ------- | ------- | ------- |
 |  Base  |                |         |   💎    |       z        |          |          |       ä        |   💎    |         |         |
 |  Base  |                |         |         |                |          |          |                |         |         |         |
 |  Base  |                |         |         |                |          |          |                |         |         |         |
@@ -85,10 +82,10 @@ How to read this layout:
 |        | -------------- | ------- | ------- | -------------- | -------- | -------- | -------------  | ------- | ------- | ------- |
 |  Base  |                |         |         |                |          |          |                |         |         |         |
 |  Base  |                |         |         |                |          |          |                |         |         |         |
-|  Base  |       💎       |    x    |         |                |          |          |                |         |   ↩️️   |   💎    |
+|  Base  |       💎       |    ß    |         |                |          |          |                |         |   ↩️️   |   💎    |
 |        | -------------- | ------- | ------- | -------------- | -------- | -------- | -------------  | ------- | ------- | ------- |
 |  Base  |                |         |         |       💎       |          |          |       💎       |         |         |         |
-|  Base  |                |         |         |      "mb"      |          |          |      "ny"      |         |         |         |
+|  Base  |                |         |         |      "qu"      |          |          |      "ny"      |         |         |         |
 |  Base  |                |         |         |                |          |          |                |         |         |         |
 |        | -------------- | ------- | ------- | -------------- | -------- | -------- | -------------  | ------- | ------- | ------- |
 |  Base  |                |         |   💎    |                |          |          |                |   💎    |         |         |
@@ -104,11 +101,11 @@ How to read this layout:
 |  Base  |                |         |         |                |          |          |                |         |         |         |
 |        | -------------- | ------- | ------- | -------------- | -------- | -------- | -------------  | ------- | ------- | ------- |
 |  Base  |                |         |         |                |          |          |                |         |         |         |
-|  Base  |                |         |         |     "for"      |          |          |      "yp"      |         |         |         |
+|  Base  |                |         |         |       x        |          |          |      "yp"      |         |         |         |
 |  Base  |                |         |         |       💎       |          |          |       💎       |         |         |         |
 |        | -------------- | ------- | ------- | -------------- | -------- | -------- | -------------  | ------- | ------- | ------- |
 |  Base  |                |         |         |                |          |          |                |         |         |         |
-|  Base  |                |         |  "cs"   |                |          |          |                |  "and"  |         |         |
+|  Base  |                |         |  "cs"   |                |          |          |                |  "ing"  |         |         |
 |  Base  |                |         |   💎    |                |          |          |                |   💎    |         |         |
 |        | -------------- | ------- | ------- | -------------- | -------- | -------- | -------------  | ------- | ------- | ------- |
 |  Base  |                |         |         |                |          |          |                |         |         |         |
@@ -140,15 +137,15 @@ How to read this layout:
 | Media  |                |         |         |                |          |          |                |         |         |         |
 |        | -------------- | ------- | ------- | -------------- | -------- | -------- | -------------  | ------- | ------- | ------- |
 
-| Thumb  | Left Inner | Left Outer |    Right Outer     | Right Inner |
-|:------:|:----------:|:----------:|:------------------:|:-----------:|
-|  Base  |    Spc     |   MO(1)    | LT(NumNav,KC_BSPC) |      e      |
-|  Base  | MO(ComboM) |     💎     |         💎         |  MO(FnSym)  |
-| Shift  |     🪜     |     🪜     |        Bspc        |     🪜      |
-| NumNav |     0      |    Tab     |         🪜         |     🪜      |
-| ComboM |     🪜     |     🪜     |                    |             |
-| FnSym  |    Spc     |            |         🪜         |     🪜      |
-| Media  |    Spc     |            |                    |             |
+| Thumb  | Left Inner | Left Outer | Right Outer |    Right Inner     |
+|:------:|:----------:|:----------:|:-----------:|:------------------:|
+|  Base  |   MO(1)    |    Spc     |      e      | LT(NumNav,KC_BSPC) |
+|  Base  |     💎     | MO(ComboM) |  MO(FnSym)  |         💎         |  
+| Shift  |     🪜     |     🪜     |     🪜      |        Bspc        |  
+| NumNav |    Tab     |     0      |     🪜      |         🪜         | 
+| ComboM |     🪜     |     🪜     |             |                    |  
+| FnSym  |            |    Spc     |     🪜      |         🪜         | 
+| Media  |            |    Spc     |             |                    |
 
 | Symbol  | Command     |
 |---------|-------------|
