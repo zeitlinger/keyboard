@@ -14,7 +14,11 @@ fun main() {
 }
 
 const val mainLayerTemplate =
-    "\t[%d] = LAYOUT_split_3x5_2(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s),"
+    "\t[%d] = LAYOUT_split_3x5_2(" +
+            "%s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s, " +
+            "%s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s, " +
+            "%s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s, " +
+            "%s, %s, %s, %s),"
 
 const val keyboardRows = 3
 
@@ -63,8 +67,8 @@ data class Hand(
 }
 
 val hands = listOf(
-    Hand("left", 10, 0, 0, 5) { i -> i + 4 },
-    Hand("right", 10, 0, 5, 0) { i -> 10 - i },
+    Hand("left", 8, 0, 0, 4) { i -> i + 3 },
+    Hand("right", 8, 0, 4, 0) { i -> 8 - i },
     Hand("left thumb", 4, 3, 0, 2) { i -> i + 1 },
     Hand("right thumb", 4, 3, 2, 0) { i -> 4 - i },
 )
@@ -237,11 +241,11 @@ fun addModTab(row: List<String>): List<String> {
             key
         } else {
             when (index) {
-                1, 8 -> "LALT_T($key)"
+                1, 6 -> "LALT_T($key)"
                 2 -> "LCTL_T($key)"
                 3 -> "LSFT_T($key)"
-                6 -> "RSFT_T($key)"
-                7 -> "RCTL_T($key)"
+                4 -> "RSFT_T($key)"
+                5 -> "RCTL_T($key)"
                 else -> key
             }
         }
