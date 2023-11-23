@@ -21,6 +21,7 @@ const val mainLayerTemplate =
             "%s, %s, %s, %s),"
 
 const val keyboardRows = 3
+const val thumbRows = 1
 
 enum class Feature {
     ModCombo
@@ -59,18 +60,39 @@ data class Hand(
     val columns: Int,
     val baseLayerRowSkip: Int,
     val skip: Int,
-    val opposingSkip: Int,
     val translateComboIndex: (Int) -> Int
 ) {
+    fun applies(rows: Rows): Boolean {
+        if (this.columns != rows[0].size) {
+            return false
+        }
+
+        val half = this.columns / 2
+        val halves = listOf(0, half).map { drop ->
+            rows.map { it.drop(drop).take(half) }.flatten()
+        }
+
+        val isFull = halves
+            .any {
+                val comboTriggers = it.filter { it == comboTrigger }.size
+                val used = it.filter { it != blocked }.size
+                used > 0 && comboTriggers == used
+            }
+        return this.isFull == isFull
+    }
+
     val isRight = this.name.startsWith("right")
     val isThumb = this.name.contains("thumb")
+    private val isFull = this.name.contains("both")
+    val comboColumns = if (isFull) this.columns else this.columns / 2
 }
 
 val hands = listOf(
-    Hand("left", 8, 0, 0, 4) { i -> i + 3 },
-    Hand("right", 8, 0, 4, 0) { i -> 8 - i },
-    Hand("left thumb", 4, 3, 0, 2) { i -> i + 1 },
-    Hand("right thumb", 4, 3, 2, 0) { i -> 4 - i },
+    Hand("left", 8, 0, 0) { i -> i + 3 },
+    Hand("right", 8, 0, 4) { i -> 8 - i },
+    Hand("left thumb", 4, 3, 0) { i -> i + 1 },
+    Hand("right thumb", 4, 3, 2) { i -> 4 - i },
+    Hand("both thumbs", 4, 3, 0) { i -> i },
 )
 
 enum class Modifier {
@@ -108,7 +130,7 @@ val qmkPrefixes = setOf(
 
 fun assertQmk(key: String): String {
     return when {
-        key == blocked || key == comboTrigger || qmkPrefixes.any { key.startsWith(it) }  -> key
+        key == blocked || key == comboTrigger || qmkPrefixes.any { key.startsWith(it) } -> key
         else -> throw IllegalStateException("key not translated $key")
     }
 }
@@ -225,7 +247,7 @@ fun readLayers(
 
         val thumbData = translateTable(thumbs.getValue(layerName), translator)
         val baseThumb = listOf(thumbData[0])
-        val comboThumb = listOf(thumbData.drop(1))
+        val comboThumb = thumbData.drop(thumbRows).chunked(thumbRows)
 
         Layer(
             layerName, base + baseThumb,

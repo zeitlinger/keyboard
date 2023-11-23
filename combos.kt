@@ -41,7 +41,7 @@ fun generateCombos(layers: List<Layer>, features: Set<Feature>): List<Combo> {
                 }
 
             val customCombos = activationParts
-                .map { it.filter { hand.columns == it.size } }
+                .filter { hand.applies(it) }
                 .flatMap { def ->
                     generateCustomCombos(
                         def,
@@ -54,7 +54,12 @@ fun generateCombos(layers: List<Layer>, features: Set<Feature>): List<Combo> {
     }
 }
 
-private fun generateModCombos(layerTrigger: List<String>, opposingBase: List<String>, layer: Layer, hand: Hand): List<Combo> {
+private fun generateModCombos(
+    layerTrigger: List<String>,
+    opposingBase: List<String>,
+    layer: Layer,
+    hand: Hand
+): List<Combo> {
     return if (layer.name in specialLayers) emptyList() else comboWithMods(
         opposingBase, hand,
         layer.name, layer.number, layerTrigger
@@ -75,7 +80,8 @@ private fun generateCustomCombos(def: Rows, layerBase: List<String>, layer: Laye
             val type = if (substitutionCombo != null) ComboType.Substitution else ComboType.Combo
             val name = comboName(layer.name, key)
             val content = substitutionCombo ?: assertQmk(key)
-            listOf(Combo(type, name, content, layerKeys)) } else emptyList()
+            listOf(Combo(type, name, content, layerKeys))
+        } else emptyList()
     }.filter { it.triggers.size > 1 }
 }
 
@@ -117,4 +123,4 @@ private fun comboWithMods(
 }
 
 private fun getLayerPart(layerBase: List<List<String>>, hand: Hand) =
-    layerBase.map { it.drop(hand.skip).take(hand.columns / 2) }.flatten()
+    layerBase.map { it.drop(hand.skip).take(hand.comboColumns) }.flatten()
