@@ -138,7 +138,7 @@ fun assertQmk(key: String): String {
 }
 
 
-val specialLayers = listOf("ComboM", "Media", "Alt", "Ctrl")
+val specialLayers = listOf("FnMou", "Sym", "Media", "Alt", "Ctrl")
 
 data class Generator(
     val layers: List<Layer>,
