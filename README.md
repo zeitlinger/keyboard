@@ -86,7 +86,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |  "qu"   |  "ny"   |         |         |         |
 |  Base  |         |         |         |   💎    |   💎    |         |         |
-|  Base  |         |         |         |    x    |  "yp"   |         |         |         |
+|  Base  |         |         |         |         |  "yp"   |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |  "tm"   |         |         |  "oa"   |         |         |
 |  Base  |         |         |   💎    |         |         |   💎    |         |         |
@@ -160,8 +160,7 @@ How to read this layout:
 | Thumb  | Left Inner | Left Outer | Right Outer |             Right Inner             |
 |:------:|:----------:|:----------:|:-----------:|:-----------------------------------:|
 |  Base  | MO(Shift)  |    Spc     |      e      | ComboLayer:FnSym LT(NumNav,KC_BSPC) |
-|  Base  |     💎     | MO(ComboM) |  MO(FnSym)  |                 💎                  |  
-|  Base  |     💎     |            |  MO(FnSym)  |              MO(FnSym)              |  
+|  Base  |     💎     |            |  MO(FnSym)  |                                     |  
 |  Base  |            | MO(ComboM) |             |                 💎                  |  
 | Shift  |     🪜     |     🪜     |     🪜      |                Bspc                 |  
 | NumNav |    Tab     |     0      |     🪜      |                 🪜                  | 

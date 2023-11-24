@@ -29,11 +29,16 @@ fun generateCombos(layers: List<Layer>, features: Set<Feature>): List<Combo> {
     val baseLayer = layers[0]
 
     return layers.flatMap { layer ->
-        val activationParts = layer.combos
 
-        val combos = generateCombos(features, layer, activationParts, layer.baseRows, listOf())
+        val combos = generateCombos(features, layer, layer.combos, layer.baseRows, listOf())
         val baseLayerCombos = layer.comboTrigger?.let { trigger ->
-            generateCombos(features, baseLayer, activationParts, baseLayer.baseRows, listOf(trigger))
+            generateCombos(
+                features,
+                baseLayer,
+                listOf(layer.baseRows) + layer.combos,
+                baseLayer.baseRows,
+                listOf(trigger)
+            )
         } ?: emptyList()
         combos + baseLayerCombos
     }
@@ -90,7 +95,7 @@ private fun generateCustomCombos(
     val comboIndexes = definition.mapIndexedNotNull { index, s -> if (s == comboTrigger) index else null }
 
     return definition.flatMapIndexed { comboIndex, key ->
-        if (!(key.isBlank() || key == blocked || key == comboTrigger)) {
+        if (!(key.isBlank() || key == blocked || key == comboTrigger || key == "KC_TRNS")) {
             val keys = layerBase
                 .filterIndexed { index, _ -> index == comboIndex || index in comboIndexes }
                 .map { assertQmk(it) } + extraKeys
