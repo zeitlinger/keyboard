@@ -110,6 +110,7 @@ data class Layer(
     val baseRows: Rows,
     val combos: List<Rows>,
     val number: Int,
+    val comboTrigger: String?,
 )
 
 val qmkPrefixes = setOf(
@@ -230,6 +231,7 @@ fun readLayers(
     thumbs: Map<String, List<List<String>>>,
     translator: QmkTranslator
 ): List<Layer> {
+    val comboLayerTrigger = mutableMapOf<Int, String>()
     val layerByName = layerContent.drop(1) // Header
         .groupBy { it[0] }
         .toMap()
@@ -239,23 +241,40 @@ fun readLayers(
         }
 
         val data = translateTable(content, translator)
-        val base = data.take(keyboardRows).mapIndexed { row, def ->
-            if (row == 1 && layerNumber > 0) {
-                addModTab(def)
-            } else {
-                def
+        val base = data.take(keyboardRows)
+            .mapIndexed { row, def ->
+                if (row == 1 && layerNumber > 0) {
+                    addModTab(def)
+                } else {
+                    def
+                }
             }
-        }
+
+
         val combos = data.drop(keyboardRows).chunked(keyboardRows)
 
         val thumbData = translateTable(thumbs.getValue(layerName), translator)
         val baseThumb = listOf(thumbData[0])
         val comboThumb = thumbData.drop(thumbRows).chunked(thumbRows)
 
+        val baseRows = (base + baseThumb).map {
+            it.map {
+                if (it.startsWith("ComboLayer:")) {
+                    val parts = it.split(" ")
+                    val trigger = parts[0].split(":")[1]
+                    val key = parts[1]
+                    comboLayerTrigger[trigger.toInt()] = key
+                    key
+                } else {
+                    it
+                }
+            }
+        }
         Layer(
-            layerName, base + baseThumb,
+            layerName, baseRows,
             combos + comboThumb,
-            layerNumber
+            layerNumber,
+            comboLayerTrigger[layerNumber]
         )
     }
 }

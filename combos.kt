@@ -26,33 +26,46 @@ private fun getSubstitutionCombo(key: String): String? =
     if (key.startsWith("\"") && key.endsWith("\"")) key else null
 
 fun generateCombos(layers: List<Layer>, features: Set<Feature>): List<Combo> {
-    val baseRows = layers[0].baseRows
+    val baseLayer = layers[0]
 
     return layers.flatMap { layer ->
         val activationParts = layer.combos
-        val layerBase = layer.baseRows
 
-        hands.flatMap { hand ->
-            val modCombos =
-                if (features.contains(Feature.ModCombo) && layer.number == 0 && !hand.isThumb) {
-                    generateModCombos(listOf(), getLayerPart(baseRows, hand), layer, hand)
-                } else {
-                    emptyList()
-                }
-
-            val customCombos = activationParts
-                .filter { hand.applies(it) }
-                .flatMap { def ->
-                    generateCustomCombos(
-                        def,
-                        getLayerPart(layerBase.drop(hand.baseLayerRowSkip), hand),
-                        layer, hand,
-                    )
-                }
-            customCombos + modCombos
-        }.distinct()
+        val combos = generateCombos(features, layer, activationParts, layer.baseRows, listOf())
+        val baseLayerCombos = layer.comboTrigger?.let { trigger ->
+            generateCombos(features, baseLayer, activationParts, baseLayer.baseRows, listOf(trigger))
+        } ?: emptyList()
+        combos + baseLayerCombos
     }
 }
+
+private fun generateCombos(
+    features: Set<Feature>,
+    layer: Layer,
+    activationParts: List<Rows>,
+    layerBase: Rows,
+    extraKeys: List<String>
+): List<Combo> = hands.flatMap { hand ->
+    val modCombos =
+        if (features.contains(Feature.ModCombo) && layer.number == 0 && !hand.isThumb && extraKeys.isEmpty()) {
+            generateModCombos(listOf(), getLayerPart(layer.baseRows, hand), layer, hand)
+        } else {
+            emptyList()
+        }
+
+    val customCombos = activationParts
+        .filter { hand.applies(it) }
+        .flatMap { def ->
+            generateCustomCombos(
+                def,
+                getLayerPart(layerBase.drop(hand.baseLayerRowSkip), hand),
+                layer,
+                hand,
+                extraKeys,
+            )
+        }
+    customCombos + modCombos
+}.distinct()
 
 private fun generateModCombos(
     layerTrigger: List<String>,
@@ -66,21 +79,27 @@ private fun generateModCombos(
     )
 }
 
-private fun generateCustomCombos(def: Rows, layerBase: List<String>, layer: Layer, hand: Hand): List<Combo> {
+private fun generateCustomCombos(
+    def: Rows,
+    layerBase: List<String>,
+    layer: Layer,
+    hand: Hand,
+    extraKeys: List<String>
+): List<Combo> {
     val definition = getLayerPart(def, hand)
     val comboIndexes = definition.mapIndexedNotNull { index, s -> if (s == comboTrigger) index else null }
 
     return definition.flatMapIndexed { comboIndex, key ->
         if (!(key.isBlank() || key == blocked || key == comboTrigger)) {
-            val layerKeys = layerBase
+            val keys = layerBase
                 .filterIndexed { index, _ -> index == comboIndex || index in comboIndexes }
-                .map { assertQmk(it) }
+                .map { assertQmk(it) } + extraKeys
 
             val substitutionCombo = getSubstitutionCombo(key)
             val type = if (substitutionCombo != null) ComboType.Substitution else ComboType.Combo
             val name = comboName(layer.name, key)
             val content = substitutionCombo ?: assertQmk(key)
-            listOf(Combo(type, name, content, layerKeys))
+            listOf(Combo(type, name, content, keys))
         } else emptyList()
     }.filter { it.triggers.size > 1 }
 }
