@@ -120,6 +120,7 @@ val qmkPrefixes = setOf(
     "RCS(",
     "RALT(",
     "LALT(",
+    "LSFT(",
     "LALT_T(",
     "LCTL_T(",
     "RCTL_T(",
@@ -136,7 +137,7 @@ fun assertQmk(key: String): String {
 }
 
 
-val specialLayers = listOf("ComboM", "Media")
+val specialLayers = listOf("ComboM", "Media", "Alt", "Ctrl")
 
 data class Generator(
     val layers: List<Layer>,
@@ -168,6 +169,7 @@ private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate:
     val translator = QmkTranslator(symbols, layerNames)
 
     val layers = readLayers(layerContent, thumbs, translator)
+    val layerNumbers = layers.joinToString("\n") { "#define _${it.name.uppercase()} ${it.number}" }
 
 //    printMissingAndUnexpected(translator, layers, symbols)
 
@@ -187,6 +189,7 @@ private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate:
     val base = layoutTemplate.readText()
         .replace("\${generationNote}", generationNote)
         .replace("\${layers}", generator.generateBase())
+        .replace("\${layerNumbers}", layerNumbers)
 
     layoutFile.writeText(base)
 

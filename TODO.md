@@ -3,10 +3,10 @@
 - [ ] remove shift layer if not needed
 - [ ] add mouse layer with one-handed combos for left hand (copy, paste, undo, redo, etc)
 - [ ] add system/media layer
-- [ ] dictionary for words
+- [ ] dictionary for words?
 - [ ] add combos for symbols and numbers
 - [ ] caps word and num words
-- [ ] customize combo timeouts
+- [ ] customize combo timeouts?
 - [ ] repeat key on p?
 
 ## Symbol Layers
