@@ -160,8 +160,8 @@ How to read this layout:
 | Thumb  | Left Inner | Left Outer | Right Outer |             Right Inner             |
 |:------:|:----------:|:----------:|:-----------:|:-----------------------------------:|
 |  Base  | MO(Shift)  |    Spc     |      e      | ComboLayer:FnSym LT(NumNav,KC_BSPC) |
-|  Base  |     💎     |            |  MO(FnSym)  |                                     |  
-|  Base  |            | MO(ComboM) |             |                 💎                  |  
+|  Base  | MO(FnSym)  |            |     💎      |                                     |  
+|  Base  |            |     💎     |             |             MO(ComboM)              |  
 | Shift  |     🪜     |     🪜     |     🪜      |                Bspc                 |  
 | NumNav |    Tab     |     0      |     🪜      |                 🪜                  | 
 | ComboM |     🪜     |     🪜     |             |                                     |  
