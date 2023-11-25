@@ -330,9 +330,9 @@ fun addModTab(row: List<String>, modifierTypes: List<String>): List<String> {
             index < 4 && left -> {
                 if (key == blocked) {
                     when (index) {
-                        1 -> "LALT"
-                        2 -> "LCTL"
-                        3 -> "LSFT"
+                        1 -> "KC_LALT"
+                        2 -> "KC_LCTL"
+                        3 -> "KC_LSFT"
                         else -> key
                     }
                 } else {
@@ -348,9 +348,9 @@ fun addModTab(row: List<String>, modifierTypes: List<String>): List<String> {
             index >= 4 && right -> {
                 if (key == blocked) {
                     when (index) {
-                        4 -> "RSFT"
-                        5 -> "RCTL"
-                        6 -> "RALT"
+                        4 -> "KC_RSFT"
+                        5 -> "KC_RCTL"
+                        6 -> "KC_RALT"
                         else -> key
                     }
                 } else {
