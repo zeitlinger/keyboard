@@ -81,7 +81,7 @@ data class Hand(
             .any {
                 val comboTriggers = it.filter { it == comboTrigger }.size
                 val used = it.filter { it != blocked }.size
-                used > 0 && comboTriggers == used
+                used > 0 && comboTriggers == 0
             }
         return this.isFull == isFull
     }
@@ -95,6 +95,7 @@ data class Hand(
 val hands = listOf(
     Hand("left", 8, 0, 0) { i -> i + 3 },
     Hand("right", 8, 0, 4) { i -> 8 - i },
+    Hand("both", 8, 0, 0) { i -> i },
     Hand("left thumb", 4, 3, 0) { i -> i + 1 },
     Hand("right thumb", 4, 3, 2) { i -> 4 - i },
     Hand("both thumbs", 4, 3, 0) { i -> i },
@@ -190,7 +191,7 @@ private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate:
             combo.triggers
                 .joinToString(", ")
         )
-    }
+    }.sorted()
 
     val generationNote =
         "file is generated from ${config.name} using https://github.com/zeitlinger/keyboard/blob/main/generateKeyboard.kt"
@@ -258,7 +259,7 @@ fun readLayers(
 
         val combos = data.drop(keyboardRows).chunked(keyboardRows)
 
-        val thumbData = translateTable(thumbs[layerName] ?: listOf(List(5) { " "}), translator, comboLayerTrigger)
+        val thumbData = translateTable(thumbs[layerName] ?: listOf(List(5) { " " }), translator, comboLayerTrigger)
 //        val baseThumb = listOf(thumbData.getOrElse(0) { _ -> listOf(" ").repeat(4) })
         val baseThumb = listOf(thumbData[0])
         val comboThumb = thumbData.drop(thumbRows).chunked(thumbRows)
@@ -322,25 +323,43 @@ fun addModTab(row: List<String>, modifierTypes: List<String>): List<String> {
     val right = modifierTypes[1] == "HomeRow"
     return row.mapIndexed { index, key ->
         when {
-            "(" in key || key == blocked -> {
+            "(" in key -> {
                 key
             }
 
             index < 4 && left -> {
-                when (index) {
-                    1 -> "LALT_T($key)"
-                    2 -> "LCTL_T($key)"
-                    3 -> "LSFT_T($key)"
-                    else -> key
+                if (key == blocked) {
+                    when (index) {
+                        1 -> "LALT"
+                        2 -> "LCTL"
+                        3 -> "LSFT"
+                        else -> key
+                    }
+                } else {
+                    when (index) {
+                        1 -> "LALT_T($key)"
+                        2 -> "LCTL_T($key)"
+                        3 -> "LSFT_T($key)"
+                        else -> key
+                    }
                 }
             }
 
             index >= 4 && right -> {
-                when (index) {
-                    4 -> "RSFT_T($key)"
-                    5 -> "RCTL_T($key)"
-                    6 -> "LALT_T($key)"
-                    else -> key
+                if (key == blocked) {
+                    when (index) {
+                        4 -> "RSFT"
+                        5 -> "RCTL"
+                        6 -> "RALT"
+                        else -> key
+                    }
+                } else {
+                    when (index) {
+                        4 -> "RSFT_T($key)"
+                        5 -> "RCTL_T($key)"
+                        6 -> "LALT_T($key)"
+                        else -> key
+                    }
                 }
             }
 
