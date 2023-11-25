@@ -78,7 +78,7 @@ private fun generateModCombos(
     layer: Layer,
     hand: Hand
 ): List<Combo> {
-    return if (layer.name in specialLayers) emptyList() else comboWithMods(
+    return comboWithMods(
         opposingBase, hand,
         layer.name, layer.number, layerTrigger
     )

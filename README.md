@@ -49,6 +49,9 @@ How to read this layout:
                       
 - 💎 = combo key (e.g. middle and index finger in top row pressed together produce "b")
 - 🪜 = transparent key
+- Alt = capitalized words are layer names
+- /+Ctrl = tab-mod - / on tab and CTRL on hold
+- C-w = Ctrl-w (same for Alt and Shift)
 - "that" = combo that produces "that"
 - The symbol table at the bottom shows the meaning of the symbols used in the layout.
 
@@ -58,7 +61,7 @@ How to read this layout:
 |:------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
 |  Base  | /+Ctrl  |  w+Alt  |    m    |    f    |    y    |    o    |    u    |    -    |
 |  Base  |    r    |    s    |    t    |    h    |    n    |    a    |    i    |    l    |
-|  Base  |    b    |    c    |    g    |    d    |    p    |    '    |    ,    |    .    |
+|  Base  |  b+Sym  | c+Mouse |    g    |    d    |    p    |    '    |  ,+Sym  |  .+Fn   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |   💎    |    z    |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
@@ -74,11 +77,11 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |         |   💎    |    k    |  Bspc   |   💎    |         |         |
+ |  Base  |         |         |   💎    |    k    |  bspc   |   💎    |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |   💎    |    j    |    x    |         |   Tab   |   💎    |         |
+|  Base  |         |   💎    |    j    |    x    |         |   tab   |   💎    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |   cut   |  copy   |  paste  |         |         |         |         |
@@ -106,7 +109,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | NumNav |    8    |    7    |    6    |    5    |  ⬅️⬅️   |  ⬆️⬆️   |  ⬇️⬇️   |  ➡️➡️   |
 | NumNav |    4    |    3    |    2    |    1    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
-| NumNav |   Prt   |   Tab   |   Esc   |    9    |   ↩️️   |   Ins   |   Del   |   Win   |
+| NumNav |   prt   |   tab   |   esc   |    9    |   ↩️️   |   ins   |   del   |   win   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |   Fn   |   f8    |   f7    |   f6    |   f5    |         |         |         |         |
 |   Fn   |   f4    |   f3    |   f2    |   f1    |         |         |         |         |    
@@ -117,35 +120,33 @@ How to read this layout:
 | Mouse  |         |         |         |         | 🖲️️⬅️  | 🖲️️⬆️  | 🖲️️⬇️  | 🖲️️➡️  |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Sym   |         |    ~    |    +    |    %    |    !    |    {    |    }    |         |
-|  Sym   |    $    |    (    |    )    |    `    |    ;    |    [    |    ]    |    \    |    
-|  Sym   |    ^    |    #    |    @    |    =    |    :    |    *    |  Pipe   |    &    |
+|  Sym   |    $    |    (    |    )    |    :    |    ;    |    [    |    ]    |    \    |    
+|  Sym   |    ^    |    #    |    @    |    *    |    `    |    =    |  pipe   |    &    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Media  |         |         |         |         |         |         |         |         |
 | Media  |   🪜    |         |         |         |         |         |         |         |
 | Media  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Alt   |         |   🪜    |   Tab   |  S-Tab  |         |         |         |         |
+|  Alt   |         |   🪜    |   tab   |  S-tab  |         |         |         |         |
 |  Alt   |         |         |         |         |         |         |         |         |
 |  Alt   |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Ctrl  |   🪜    |   Tab   |         |  S-Tab  |         |         |         |         |
+|  Ctrl  |   🪜    | CS-f12  |   tab   |  S-tab  |         |         |         |         |
 |  Ctrl  |         |         |         |         |         |         |         |         |
 |  Ctrl  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
-| Thumb  | Left Inner | Left Outer | Right Outer |            Right Inner            |
-|:------:|:----------:|:----------:|:-----------:|:---------------------------------:|
-|  Base  | MO(Shift)  |    Spc     |      e      | ComboLayer:Sym LT(NumNav,KC_BSPC) |
-|  Base  |  MO(Sym)   |            |     💎      |                                   |  
-|  Base  |            |     💎     |             |              MO(Fn)               |  
-|  Base  |     💎     |            |             |             MO(Mouse)             |  
-| Shift  |     🪜     |     🪜     |     🪜      |               Bspc                |  
-| NumNav |    Tab     |     0      |     🪜      |                🪜                 | 
-| FnMou  |     🪜     |     🪜     |             |                                   |  
-|  Sym   |            |            |     🪜      |                🪜                 | 
-| Media  |     🪜     |     🪜     |             |                                   |
-|  Alt   |            |            |             |                                   |
-|  Ctrl  |            |            |             |                                   |
+| Thumb  | Left Inner | Left Outer | Right Outer |        Right Inner         |
+|:------:|:----------:|:----------:|:-----------:|:--------------------------:|
+|  Base  | MO(Shift)  |    spc     |      e      | ComboLayer:Sym bspc+NumNav |
+| Shift  |     🪜     |     🪜     |     🪜      |            bspc            |  
+| NumNav |    tab     |     0      |     🪜      |             🪜             | 
+|   Fn   |     🪜     |     🪜     |             |                            |  
+| Mouse  |     🪜     |     🪜     |             |                            |  
+|  Sym   |            |            |             |                            | 
+| Media  |     🪜     |     🪜     |             |                            |
+|  Alt   |            |            |             |                            |
+|  Ctrl  |            |            |             |                            |
 
 | Symbol  | Command           |
 |---------|-------------------|
@@ -157,17 +158,16 @@ How to read this layout:
 | ⬆️⬆️    | KC_PGUP           |
 | ➡️      | KC_RIGHT          |
 | ➡️➡️    | KC_END            |
-| Ins     | KC_INS            |
-| Del     | KC_DEL            |
-| Spc     | KC_SPC            |
-| Esc     | KC_ESC            |
+| ins     | KC_INS            |
+| del     | KC_DEL            |
+| spc     | KC_SPC            |
+| esc     | KC_ESC            |
 | ↩️️     | KC_ENT            |
-| Bspc    | KC_BSPC           |
-| Win     | KC_LGUI           |
-| Tab     | KC_TAB            |
-| S-Tab   | LSFT(KC_TAB)      |
-| Prt     | KC_PSCR           |
-| Pipe    | KC_PIPE           |
+| bspc    | KC_BSPC           |
+| win     | KC_LGUI           |
+| tab     | KC_TAB            |
+| prt     | KC_PSCR           |
+| pipe    | KC_PIPE           |
 | 🖱️⬅️   | KC_MS_L           |
 | 🖱️⬇️   | KC_MS_D           |
 | 🖱️⬆️   | KC_MS_U           |
@@ -185,16 +185,9 @@ How to read this layout:
 | paste   | LCTL(KC_V)        |
 | S-paste | RCS(KC_V)         |
 | cut     | LCTL(KC_X)        |
-| A-F7    | LALT(KC_F7)       |
-| A-w     | LALT(KC_W)        |
 | ä       | RALT(KC_Q)        |
 | ö       | RALT(KC_P)        |
 | ü       | RALT(KC_Y)        |
 | ß       | RALT(KC_S)        |
 | 🪜      | KC_TRNS           |
 | .spc    | KC_F24            |
-| r+Media | LT(Media,KC_R)    |
-| h+Shift | LT(Shift,KC_H)    |
-| n+Shift | LT(Shift,KC_N)    |
-| /+Ctrl  | LT(Ctrl,KC_SLASH) |
-| w+Alt   | LT(Alt,KC_W)      |
