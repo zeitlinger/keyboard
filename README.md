@@ -138,7 +138,7 @@ How to read this layout:
 
 | Thumb  | Left Inner | Left Outer | Right Outer |        Right Inner         |
 |:------:|:----------:|:----------:|:-----------:|:--------------------------:|
-|  Base  | MO(Shift)  |    spc     |      e      | ComboLayer:Sym bspc+NumNav |
+|  Base  |   Shift    |    spc     |      e      | ComboLayer:Sym bspc+NumNav |
 | Shift  |     🪜     |     🪜     |     🪜      |            bspc            |  
 | NumNav |    tab     |     0      |     🪜      |             🪜             | 
 |   Fn   |     🪜     |     🪜     |             |                            |  

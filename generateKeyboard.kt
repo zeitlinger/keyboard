@@ -49,8 +49,13 @@ class QmkTranslator(val symbols: Symbols, private val layerNames: Map<String, In
 
     fun toQmk(key: String): String = key
         .let { symbols.replace(it) }
-        .let { layerNames.entries.fold(it) { acc, name -> acc.replace(name.key, "${name.value}") } }
         .let { translatedKey -> map.getOrDefault(translatedKey.replaceFirstChar { it.titlecase() }, translatedKey) }
+        .let {
+            when {
+                getSubstitutionCombo(it) != null -> it
+                else -> assertQmk(it)
+            }
+        }
 
     fun mustTranslateLayer(key: String): Int = layerNames.getValue(key)
 }
@@ -148,7 +153,6 @@ data class Generator(
         return layers.mapIndexed { index, layer ->
             val def = layer.baseRows.flatten()
             val qmk = def
-                .map { assertQmk(it) }
                 .map { if (it == blocked) qmkNo else it }
 
             mainLayerTemplate.format(*listOf(index).plus<Any>(qmk).toTypedArray())
@@ -231,7 +235,7 @@ fun readLayers(
     thumbs: Map<String, List<List<String>>>,
     translator: QmkTranslator
 ): List<Layer> {
-    val comboLayerTrigger = mutableMapOf<String, String>()
+    val comboLayerTrigger = mutableMapOf<Int, String>()
     val layerByName = layerContent.drop(1) // Header
         .groupBy { it[0] }
         .toMap()
@@ -258,30 +262,33 @@ fun readLayers(
             layerName, baseRows,
             combos + comboThumb,
             layerNumber,
-            comboLayerTrigger[layerName]
+            comboLayerTrigger[layerNumber]
         )
     }
 }
 
 private fun translateCommand(
     command: String,
-    comboLayerTrigger: MutableMap<String, String>,
+    comboLayerTrigger: MutableMap<Int, String>,
     translator: QmkTranslator
 ): String = when {
     translator.symbols.mapping.containsKey(command) -> {
         command // is translated later
     }
+
     command.startsWith("ComboLayer:") -> {
         val parts = command.split(" ")
-        val trigger = parts[0].split(":")[1]
+        val trigger = translator.mustTranslateLayer(parts[0].split(":")[1])
         val key = translateCommand(parts[1], comboLayerTrigger, translator)
         comboLayerTrigger[trigger] = key
         key
     }
+
     command.contains("+") && command.length > 1 -> {
         val parts = command.split("+")
         "LT(${translator.mustTranslateLayer(parts[1])},${translator.toQmk(parts[0])})"
     }
+
     command.contains("-") && command.length > 1 -> {
         val parts = command.split("-")
         val modifier = parts[0]
@@ -294,6 +301,11 @@ private fun translateCommand(
             else -> throw IllegalStateException("unknown modifier $modifier")
         }
     }
+
+    command.isNotBlank() && command[0].isUpperCase() -> {
+        "MO(${translator.mustTranslateLayer(command)})"
+    }
+
     else -> {
         command
     }
@@ -319,11 +331,12 @@ fun addModTab(row: List<String>): List<String> {
 private fun translateTable(
     content: List<List<String>>,
     translator: QmkTranslator,
-    comboLayerTrigger: MutableMap<String, String>
+    comboLayerTrigger: MutableMap<Int, String>
 ) = content.map { it.drop(1) }
-    .map { row -> row
-        .map { translateCommand(it, comboLayerTrigger, translator) }
-        .map { translator.toQmk(it) }
+    .map { row ->
+        row
+            .map { translateCommand(it, comboLayerTrigger, translator) }
+            .map { translator.toQmk(it) }
     }
 
 

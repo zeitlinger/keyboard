@@ -22,7 +22,7 @@ private val modTriggers: List<ModTrigger> = listOf(
     ),
 )
 
-private fun getSubstitutionCombo(key: String): String? =
+fun getSubstitutionCombo(key: String): String? =
     if (key.startsWith("\"") && key.endsWith("\"")) key else null
 
 fun generateCombos(layers: List<Layer>, features: Set<Feature>): List<Combo> {
@@ -97,13 +97,12 @@ private fun generateCustomCombos(
     return definition.flatMapIndexed { comboIndex, key ->
         if (!(key.isBlank() || key == blocked || key == comboTrigger || key == "KC_TRNS")) {
             val keys = layerBase
-                .filterIndexed { index, _ -> index == comboIndex || index in comboIndexes }
-                .map { assertQmk(it) } + extraKeys
+                .filterIndexed { index, _ -> index == comboIndex || index in comboIndexes } + extraKeys
 
             val substitutionCombo = getSubstitutionCombo(key)
             val type = if (substitutionCombo != null) ComboType.Substitution else ComboType.Combo
             val name = comboName(layer.name, key)
-            val content = substitutionCombo ?: assertQmk(key)
+            val content = substitutionCombo ?: key
             listOf(Combo(type, name, content, keys))
         } else emptyList()
     }.filter { it.triggers.size > 1 }
@@ -128,7 +127,6 @@ private fun comboWithMods(
 ): List<Combo> {
     return modTriggers.mapNotNull { modTrigger ->
         val comboKeys = modTrigger.triggers.map { base[hand.translateComboIndex(it)] }
-            .map { assertQmk(it) }
 
         val command = modTrigger.command.format(layerIndex)
         val allKeys = layerTrigger + comboKeys
