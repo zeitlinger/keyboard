@@ -186,8 +186,8 @@ private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate:
     val generator = Generator(layers)
     val combos = generateCombos(generator.layers, features).map { combo ->
         combo.type.template.format(
-            combo.name.padEnd(20),
-            combo.result.padEnd(50),
+            combo.name.padEnd(35),
+            combo.result.padEnd(35),
             combo.triggers
                 .joinToString(", ")
         )
@@ -350,7 +350,7 @@ fun addModTab(row: List<String>, modifierTypes: List<String>): List<String> {
                     when (index) {
                         4 -> "KC_RSFT"
                         5 -> "KC_RCTL"
-                        6 -> "KC_RALT"
+                        6 -> "KC_LALT"
                         else -> key
                     }
                 } else {
