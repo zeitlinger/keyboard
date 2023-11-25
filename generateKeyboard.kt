@@ -170,10 +170,14 @@ private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate:
         .toMap()
     val layerContent = tables.get("Layer")
     val layerNames = layerContent.drop(1).map { it[0] }.toSet().mapIndexed { index, s -> s to index }.toMap()
+    val modifierTypes = tables.get("Modifiers")
+        .drop(1)
+        .associateBy { it[0] }
+        .mapValues { it.value.drop(1) }
 
     val translator = QmkTranslator(symbols, layerNames)
 
-    val layers = readLayers(layerContent, thumbs, translator)
+    val layers = readLayers(layerContent, thumbs, translator, modifierTypes)
     val layerNumbers = layers.joinToString("\n") { "#define _${it.name.uppercase()} ${it.number}" }
 
 //    printMissingAndUnexpected(translator, layers, symbols)
@@ -233,7 +237,8 @@ private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate:
 fun readLayers(
     layerContent: Table,
     thumbs: Map<String, List<List<String>>>,
-    translator: QmkTranslator
+    translator: QmkTranslator,
+    modifierTypes: Map<String, List<String>>
 ): List<Layer> {
     val comboLayerTrigger = mutableMapOf<Int, String>()
     val layerByName = layerContent.drop(1) // Header
@@ -243,8 +248,8 @@ fun readLayers(
         val data = translateTable(content, translator, comboLayerTrigger)
         val base = data.take(keyboardRows)
             .mapIndexed { row, def ->
-                if (row == 1 && layerNumber > 0) {
-                    addModTab(def)
+                if (row == 1) {
+                    addModTab(def, modifierTypes.getValue(layerName))
                 } else {
                     def
                 }
@@ -253,7 +258,8 @@ fun readLayers(
 
         val combos = data.drop(keyboardRows).chunked(keyboardRows)
 
-        val thumbData = translateTable(thumbs.getValue(layerName), translator, comboLayerTrigger)
+        val thumbData = translateTable(thumbs[layerName] ?: listOf(List(5) { " "}), translator, comboLayerTrigger)
+//        val baseThumb = listOf(thumbData.getOrElse(0) { _ -> listOf(" ").repeat(4) })
         val baseThumb = listOf(thumbData[0])
         val comboThumb = thumbData.drop(thumbRows).chunked(thumbRows)
 
@@ -311,19 +317,34 @@ private fun translateCommand(
     }
 }
 
-fun addModTab(row: List<String>): List<String> {
+fun addModTab(row: List<String>, modifierTypes: List<String>): List<String> {
+    val left = modifierTypes[0] == "HomeRow"
+    val right = modifierTypes[1] == "HomeRow"
     return row.mapIndexed { index, key ->
-        if ("(" in key || key == blocked) {
-            key
-        } else {
-            when (index) {
-                1, 6 -> "LALT_T($key)"
-                2 -> "LCTL_T($key)"
-                3 -> "LSFT_T($key)"
-                4 -> "RSFT_T($key)"
-                5 -> "RCTL_T($key)"
-                else -> key
+        when {
+            "(" in key || key == blocked -> {
+                key
             }
+
+            index < 4 && left -> {
+                when (index) {
+                    1 -> "LALT_T($key)"
+                    2 -> "LCTL_T($key)"
+                    3 -> "LSFT_T($key)"
+                    else -> key
+                }
+            }
+
+            index >= 4 && right -> {
+                when (index) {
+                    4 -> "RSFT_T($key)"
+                    5 -> "RCTL_T($key)"
+                    6 -> "LALT_T($key)"
+                    else -> key
+                }
+            }
+
+            else -> key
         }
     }
 }
