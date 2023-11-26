@@ -54,7 +54,7 @@ How to read this layout:
 |:------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
 |  Base  |    /    |    w    |    m    |    f    |    y    |    o    |    u    |    -    |
 |  Base  |    r    |    s    |    t    |    h    |    n    |    a    |    i    |    l    |
-|  Base  |  b+Sym  |    c    |    g    |    d    |    p    |    '    |  ,+Sym  |  .+Fn   |
+|  Base  | b+SymL  |    c    |    g    |    d    |    p    |    '    |  ,+Sym  |  .+Fn   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |   💎    |    z    |         |    ö    |    ü    |         |
 |  Base  |         |         |         |         |         |    ä    |         |    ß    |
@@ -74,7 +74,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |  redo   |   💎    |   💎    |  undo   |    !    |   💎    |   💎    |    ?    |
+|  Base  |         |         |         |         |    !    |   💎    |   💎    |    ?    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
@@ -85,8 +85,8 @@ How to read this layout:
 |  Base  |         |   💎    |    j    |    x    |         |   tab   |   💎    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         | altTab  |  copy   |   A-w   |         |         |         |         |
-|  Base  |   💎    | ctrlTab |  paste  |         |         |         |   ↩️️   |   💎    |
+|  Base  |         |         |  copy   |         |         |         |         |         |
+|  Base  |   💎    |         |  paste  |         |         |         |   ↩️️   |   💎    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |   💎    |   cut   |         |         |         |         |
@@ -132,17 +132,13 @@ How to read this layout:
 |  Sym   |    $    |    (    |    )    |    :    |    ;    |    [    |    ]    |    \    |    
 |  Sym   |    ^    |    #    |    @    |    *    |    `    |    =    |  pipe   |    &    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  SymL  |         |         |   A-w   |         |         |         |         |         |
+|  SymL  |         |  asTab  | altTab  |  undo   |         |         |         |         |
+|  SymL  |    ❌    |  acTab  | ctrlTab |  redo   |         |         |         |         |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Media  |         |         |         |         |         |         |         |         |
 | Media  |    ❌    |         |         |         |         |         |         |         |
 | Media  |         |         |         |         |         |         |         |         |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Alt   |         |         |         |         |         |         |         |         |
-|  Alt   |         |    ❌    |   tab   |  S-tab  |         |         |         |         |
-|  Alt   |    ❌    |         |         |         |         |         |         |         |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Ctrl  |         |         |         |         |         |         |         |         |
-|  Ctrl  |         |         |         |         |         |         |         |         |
-|  Ctrl  |    ❌    |    ❌    |   tab   |  S-tab  |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
 | Thumb  | Left Inner | Left Outer | Right Outer |        Right Inner         |
@@ -150,17 +146,16 @@ How to read this layout:
 |  Base  |   Shift    |    spc     |      e      | ComboLayer:Sym bspc+NumNav |
 | NumNav |    tab     |     0      |      ❌      |             ❌              | 
 
-| Modifiers |  Left   | Right   |
-|:---------:|:-------:|---------|
-|   Base    |         |         |
-|   Shift   | HomeRow | HomeRow |  
-|  NumNav   | HomeRow | HomeRow | 
-|    Fn     |         | HomeRow |  
-|   Mouse   | HomeRow |         |  
-|    Sym    | HomeRow | HomeRow | 
-|   Media   |         |         |
-|    Alt    |         |         |
-|   Ctrl    |         |         |
+| Options | Modifiers Left | Modifiers Right | Fallback |
+|:-------:|:--------------:|:---------------:|:--------:|
+|  Base   |                |                 |          |
+|  Shift  |    HomeRow     |     HomeRow     |          |  
+| NumNav  |    HomeRow     |     HomeRow     |          | 
+|   Fn    |                |     HomeRow     |          |  
+|  Mouse  |    HomeRow     |                 |          |  
+|   Sym   |    HomeRow     |     HomeRow     |          | 
+|  SymL   |    HomeRow     |                 |   Sym    | 
+|  Media  |                |                 |          |
 
 | Symbol  | Command    |
 |---------|------------|
@@ -204,7 +199,9 @@ How to read this layout:
 | ü       | RALT(KC_Y) |
 | ß       | RALT(KC_S) |
 | 🪜      | KC_TRNS    |
-| Mouse   | KC_F21     |
-| altTab  | KC_F22     |
-| ctrlTab | KC_F23     |
-| .spc    | KC_F24     |
+| altTab  | KC_F13     |
+| asTab   | KC_F14     |
+| ctrlTab | KC_F15     |
+| acTab   | KC_F16     |
+| Mouse   | KC_F17     |
+| .spc    | KC_F18     |

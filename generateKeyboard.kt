@@ -24,10 +24,13 @@ const val keyboardRows = 3
 const val thumbRows = 1
 
 const val layerBlocked = "❌"
+const val baseLayerName = "Base"
 
 enum class Feature {
     ModCombo
 }
+
+data class Option(val leftModifier: ModifierType, val rightModifier: ModifierType, val fallbackLayer: String)
 
 class QmkTranslator(val symbols: Symbols, private val layerNames: Map<String, Int>) {
 
@@ -107,6 +110,15 @@ enum class Modifier {
     Alt, Shift, Ctrl
 }
 
+enum class ModifierType {
+    HomeRow, None
+}
+
+fun modifierType(s: String): ModifierType = when (s) {
+    "HomeRow" -> ModifierType.HomeRow
+    else -> ModifierType.None
+}
+
 data class ModTrigger(val mods: List<Modifier>, val triggers: List<Int>, val command: String, val name: String?)
 
 private const val qmkNo = "KC_NO"
@@ -145,30 +157,40 @@ fun assertQmk(key: String): String {
     }
 }
 
+fun generateBase(layers: List<Layer>, options: Map<String, Option>): String {
+    val fallback = layers.associateBy { it.name }.mapValues { it.value.baseRows.flatten() }
 
-val specialLayers = listOf("FnMou", "Sym", "Media", "Alt", "Ctrl")
+    return layers.mapIndexed { layerNumber, layer ->
+        val def = layer.baseRows.flatten()
+        val qmk = def
+            .mapIndexed { keyIndex, key ->
+                getFallback(key, layer.name, fallback, options, keyIndex)
+            }
 
-data class Generator(
-    val layers: List<Layer>,
-) {
+        mainLayerTemplate.format(*listOf(layerNumber).plus<Any>(qmk).toTypedArray())
+    }.joinToString("\n")
+}
 
-    fun generateBase(): String {
-        val baseLayer = layers[0].baseRows.flatten()
-        return layers.mapIndexed { layerNumber, layer ->
-            val def = layer.baseRows.flatten()
-            val qmk = def
-                .mapIndexed { keyIndex, key ->
-                    when {
-                        key.isBlocked() && layerNumber == 0 -> qmkNo
-                        key.isBlocked() -> baseLayer[keyIndex]
-                        else -> key
-                    }
-                }
+private fun getFallback(
+    key: String,
+    layer: String,
+    fallback: Map<String, List<String>>,
+    options: Map<String, Option>,
+    keyIndex: Int
+): String {
+    val option = options.getValue(layer)
+    return when {
+        key.isBlocked() && layer == baseLayerName -> qmkNo
+        key.isBlocked() -> getFallback(
+            fallback.getValue(option.fallbackLayer)[keyIndex],
+            option.fallbackLayer,
+            fallback,
+            options,
+            keyIndex
+        )
 
-            mainLayerTemplate.format(*listOf(layerNumber).plus<Any>(qmk).toTypedArray())
-        }.joinToString("\n")
+        else -> key
     }
-
 }
 
 private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate: File, features: Set<Feature>) {
@@ -180,20 +202,25 @@ private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate:
         .toMap()
     val layerContent = tables.get("Layer")
     val layerNames = layerContent.drop(1).map { it[0] }.toSet().mapIndexed { index, s -> s to index }.toMap()
-    val modifierTypes = tables.get("Modifiers")
+    val options = tables.get("Options")
         .drop(1)
         .associateBy { it[0] }
-        .mapValues { it.value.drop(1) }
+        .mapValues {
+            Option(
+                modifierType(it.value[1]),
+                modifierType(it.value[2]),
+                it.value[3].ifEmpty { baseLayerName }
+            )
+        }
 
     val translator = QmkTranslator(symbols, layerNames)
 
-    val layers = readLayers(layerContent, thumbs, translator, modifierTypes)
+    val layers = readLayers(layerContent, thumbs, translator, options)
     val layerNumbers = layers.joinToString("\n") { "#define _${it.name.uppercase()} ${it.number}" }
 
 //    printMissingAndUnexpected(translator, layers, symbols)
 
-    val generator = Generator(layers)
-    val combos = generateCombos(generator.layers, features).map { combo ->
+    val combos = generateCombos(layers, features).map { combo ->
         combo.type.template.format(
             combo.name.padEnd(35),
             combo.result.padEnd(35),
@@ -207,7 +234,7 @@ private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate:
 
     val base = layoutTemplate.readText()
         .replace("\${generationNote}", generationNote)
-        .replace("\${layers}", generator.generateBase())
+        .replace("\${layers}", generateBase(layers, options))
         .replace("\${layerNumbers}", layerNumbers)
 
     layoutFile.writeText(base)
@@ -248,7 +275,7 @@ fun readLayers(
     layerContent: Table,
     thumbs: Map<String, List<List<String>>>,
     translator: QmkTranslator,
-    modifierTypes: Map<String, List<String>>
+    options: Map<String, Option>
 ): List<Layer> {
     val comboLayerTrigger = mutableMapOf<Int, String>()
     val layerByName = layerContent.drop(1) // Header
@@ -259,7 +286,7 @@ fun readLayers(
         val base = data.take(keyboardRows)
             .mapIndexed { row, def ->
                 if (row == 1) {
-                    addModTab(def, modifierTypes.getValue(layerName))
+                    addModTab(def, options.getValue(layerName))
                 } else {
                     def
                 }
@@ -327,16 +354,14 @@ private fun translateCommand(
     }
 }
 
-fun addModTab(row: List<String>, modifierTypes: List<String>): List<String> {
-    val left = modifierTypes[0] == "HomeRow"
-    val right = modifierTypes[1] == "HomeRow"
+fun addModTab(row: List<String>, option: Option): List<String> {
     return row.mapIndexed { index, key ->
         when {
             "(" in key || key == layerBlocked -> {
                 key
             }
 
-            index < 4 && left -> {
+            index < 4 && option.leftModifier == ModifierType.HomeRow -> {
                 if (key == blocked) {
                     when (index) {
                         1 -> "KC_LALT"
@@ -354,7 +379,7 @@ fun addModTab(row: List<String>, modifierTypes: List<String>): List<String> {
                 }
             }
 
-            index >= 4 && right -> {
+            index >= 4 && option.rightModifier == ModifierType.HomeRow -> {
                 if (key == blocked) {
                     when (index) {
                         4 -> "KC_RSFT"
