@@ -1,4 +1,3 @@
-
 fun readLayers(
     layerContent: Table,
     thumbs: Map<String, List<List<String>>>,
@@ -13,11 +12,7 @@ fun readLayers(
         val data = translateTable(content, translator, comboLayerTrigger)
         val base = data.take(keyboardRows)
             .mapIndexed { row, def ->
-                if (row == 1) {
-                    addModTab(def, options.getValue(layerName))
-                } else {
-                    def
-                }
+                addModTab(row, def, options.getValue(layerName))
             }
 
 

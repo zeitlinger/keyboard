@@ -4,24 +4,32 @@ enum class Modifier {
 }
 
 enum class ModifierType {
-    HomeRow, None
+    HomeRow, BottomRow, None;
+
+    fun matchesRow(row: Int): Boolean = when (this) {
+        HomeRow -> row == 1
+        BottomRow -> row == 2
+        None -> false
+    }
 }
 
 fun modifierType(s: String): ModifierType = when (s) {
     "HomeRow" -> ModifierType.HomeRow
-    else -> ModifierType.None
+    "BottomRow" -> ModifierType.BottomRow
+    "" -> ModifierType.None
+    else -> throw IllegalStateException("unknown modifier type $s")
 }
 
 data class ModTrigger(val mods: List<Modifier>, val triggers: List<Int>, val command: String, val name: String?)
 
-fun addModTab(row: List<String>, option: Option): List<String> {
+fun addModTab(rowNumber: Int, row: List<String>, option: Option): List<String> {
     return row.mapIndexed { index, key ->
         when {
             "(" in key || key == layerBlocked -> {
                 key
             }
 
-            index < 4 && option.leftModifier == ModifierType.HomeRow -> {
+            index < 4 && option.leftModifier.matchesRow(rowNumber) -> {
                 if (key == blocked) {
                     when (index) {
                         1 -> "KC_LALT"
@@ -39,7 +47,7 @@ fun addModTab(row: List<String>, option: Option): List<String> {
                 }
             }
 
-            index >= 4 && option.rightModifier == ModifierType.HomeRow -> {
+            index >= 4 && option.rightModifier.matchesRow(rowNumber) -> {
                 if (key == blocked) {
                     when (index) {
                         4 -> "KC_RSFT"
