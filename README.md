@@ -132,9 +132,9 @@ How to read this layout:
 |  Sym   |    $    |    (    |    )    |    :    |    ;    |    [    |    ]    |    \    |    
 |  Sym   |    ^    |    #    |    @    |    *    |    `    |    =    |  pipe   |    &    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  SymL  |         |         |   A-w   |         |         |         |         |         |
-|  SymL  |         |  asTab  | altTab  |  undo   |         |         |         |         |
-|  SymL  |    ❌    |  acTab  | ctrlTab |  redo   |         |         |         |         |
+|  SymL  |         |         |         |         |         |         |         |         |
+|  SymL  |         |         |  redo   |  sTab   |         |         |         |         |
+|  SymL  |    ❌    |   A-w   |  undo   |  sTab   |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Media  |         |         |         |         |         |         |         |         |
 | Media  |    ❌    |         |         |         |         |         |         |         |
@@ -157,51 +157,49 @@ How to read this layout:
 |  SymL   |    HomeRow     |                 |   Sym    | 
 |  Media  |                |                 |          |
 
-| Symbol  | Command    |
-|---------|------------|
-| ⬅️      | KC_LEFT    |
-| ⬅️⬅️    | KC_HOME    |
-| ⬇️      | KC_DOWN    |
-| ⬇️⬇️    | KC_PGDN    |
-| ⬆️      | KC_UP      |
-| ⬆️⬆️    | KC_PGUP    |
-| ➡️      | KC_RIGHT   |
-| ➡️➡️    | KC_END     |
-| ins     | KC_INS     |
-| del     | KC_DEL     |
-| spc     | KC_SPC     |
-| esc     | KC_ESC     |
-| ↩️️     | KC_ENT     |
-| bspc    | KC_BSPC    |
-| win     | KC_LGUI    |
-| tab     | KC_TAB     |
-| prt     | KC_PSCR    |
-| pipe    | KC_PIPE    |
-| 🖱️⬅️   | KC_MS_L    |
-| 🖱️⬇️   | KC_MS_D    |
-| 🖱️⬆️   | KC_MS_U    |
-| 🖱️➡️   | KC_MS_R    |
-| 🖲️️⬅️  | KC_WH_L    |
-| 🖲️️⬇️  | KC_WH_D    |
-| 🖲️️⬆️  | KC_WH_U    |
-| 🖲️️➡️  | KC_WH_R    |
-| 🖱️1    | KC_BTN1    |
-| 🖱️2    | KC_BTN2    |
-| 🖱️3    | KC_BTN3    |
-| redo    | RCS(KC_Z)  |
-| undo    | LCTL(KC_Z) |
-| copy    | LCTL(KC_C) |
-| paste   | LCTL(KC_V) |
-| S-paste | RCS(KC_V)  |
-| cut     | LCTL(KC_X) |
-| ä       | RALT(KC_Q) |
-| ö       | RALT(KC_P) |
-| ü       | RALT(KC_Y) |
-| ß       | RALT(KC_S) |
-| 🪜      | KC_TRNS    |
-| altTab  | KC_F13     |
-| asTab   | KC_F14     |
-| ctrlTab | KC_F15     |
-| acTab   | KC_F16     |
-| Mouse   | KC_F17     |
-| .spc    | KC_F18     |
+| Symbol  | Command      |
+|---------|--------------|
+| ⬅️      | KC_LEFT      |
+| ⬅️⬅️    | KC_HOME      |
+| ⬇️      | KC_DOWN      |
+| ⬇️⬇️    | KC_PGDN      |
+| ⬆️      | KC_UP        |
+| ⬆️⬆️    | KC_PGUP      |
+| ➡️      | KC_RIGHT     |
+| ➡️➡️    | KC_END       |
+| ins     | KC_INS       |
+| del     | KC_DEL       |
+| spc     | KC_SPC       |
+| esc     | KC_ESC       |
+| ↩️️     | KC_ENT       |
+| bspc    | KC_BSPC      |
+| win     | KC_LGUI      |
+| alt     | KC_LALT      |
+| tab     | KC_TAB       |
+| sTab    | LSFT(KC_TAB) |
+| prt     | KC_PSCR      |
+| pipe    | KC_PIPE      |
+| 🖱️⬅️   | KC_MS_L      |
+| 🖱️⬇️   | KC_MS_D      |
+| 🖱️⬆️   | KC_MS_U      |
+| 🖱️➡️   | KC_MS_R      |
+| 🖲️️⬅️  | KC_WH_L      |
+| 🖲️️⬇️  | KC_WH_D      |
+| 🖲️️⬆️  | KC_WH_U      |
+| 🖲️️➡️  | KC_WH_R      |
+| 🖱️1    | KC_BTN1      |
+| 🖱️2    | KC_BTN2      |
+| 🖱️3    | KC_BTN3      |
+| redo    | RCS(KC_Z)    |
+| undo    | LCTL(KC_Z)   |
+| copy    | LCTL(KC_C)   |
+| paste   | LCTL(KC_V)   |
+| S-paste | RCS(KC_V)    |
+| cut     | LCTL(KC_X)   |
+| ä       | RALT(KC_Q)   |
+| ö       | RALT(KC_P)   |
+| ü       | RALT(KC_Y)   |
+| ß       | RALT(KC_S)   |
+| 🪜      | KC_TRNS      |
+| Mouse   | KC_F17       |
+| .spc    | KC_F18       |

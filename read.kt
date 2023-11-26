@@ -13,7 +13,7 @@ fun readLayers(
         val data = translateTable(content, translator, comboLayerTrigger)
         val base = data.take(keyboardRows)
             .mapIndexed { row, def ->
-                if (row == 1) {
+                if (row == 1 || row == 2) {
                     addModTab(def, options.getValue(layerName))
                 } else {
                     def
