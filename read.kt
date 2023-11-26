@@ -11,6 +11,7 @@ fun readLayers(
     return layerByName.entries.mapIndexed { layerNumber, (layerName, content) ->
         val data = translateTable(content, translator, comboLayerTrigger)
         val base = data.take(keyboardRows)
+        val baseWithMods = base
             .mapIndexed { row, def ->
                 addModTab(row, def, options.getValue(layerName))
             }
@@ -23,9 +24,10 @@ fun readLayers(
         val baseThumb = listOf(thumbData[0])
         val comboThumb = thumbData.drop(thumbRows).chunked(thumbRows)
 
-        val baseRows = (base + baseThumb)
         Layer(
-            layerName, baseRows,
+            layerName,
+            (base + baseThumb),
+            (baseWithMods + baseThumb),
             combos + comboThumb,
             layerNumber,
             comboLayerTrigger[layerNumber]

@@ -14,13 +14,13 @@ fun generateCombos(layers: List<Layer>, features: Set<Feature>): List<Combo> {
 
     return layers.flatMap { layer ->
 
-        val combos = generateCombos(features, layer, layer.combos, layer.baseRows, listOf())
+        val combos = generateCombos(features, layer, layer.combos, layer.baseRowsWithMods, listOf())
         val baseLayerCombos = layer.comboTrigger?.let { trigger ->
             generateCombos(
                 features,
                 baseLayer,
                 listOf(layer.baseRows) + layer.combos,
-                baseLayer.baseRows,
+                baseLayer.baseRowsWithMods,
                 listOf(trigger)
             )
         } ?: emptyList()
@@ -37,7 +37,7 @@ private fun generateCombos(
 ): List<Combo> = hands.flatMap { hand ->
     val modCombos =
         if (features.contains(Feature.ModCombo) && layer.number == 0 && !hand.isThumb && extraKeys.isEmpty()) {
-            generateModCombos(listOf(), getLayerPart(layer.baseRows, hand), layer, hand)
+            generateModCombos(listOf(), getLayerPart(layer.baseRowsWithMods, hand), layer, hand)
         } else {
             emptyList()
         }
@@ -91,5 +91,5 @@ fun comboName(vararg parts: String?): String {
 }
 
 
-private fun getLayerPart(layerBase: List<List<String>>, hand: Hand) =
+private fun getLayerPart(layerBase: List<List<String>>, hand: Hand): List<String> =
     layerBase.map { it.drop(hand.skip).take(hand.comboColumns) }.flatten()

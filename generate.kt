@@ -3,8 +3,7 @@ fun generateBase(layers: List<Layer>, options: Map<String, Option>): String {
     val fallback = layers.associateBy { it.name }.mapValues { it.value.baseRows }
 
     return layers.mapIndexed { layerNumber, layer ->
-        val def = layer.baseRows
-        val qmk = def
+        val qmk = layer.baseRowsWithMods
             .mapIndexed { rowIndex, row ->
                 row.mapIndexed { columnIndex, key ->
                     val left = columnIndex < row.size / 2

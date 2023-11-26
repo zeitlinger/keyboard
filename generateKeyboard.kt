@@ -77,6 +77,7 @@ typealias Rows = List<List<String>>
 data class Layer(
     val name: String,
     val baseRows: Rows,
+    val baseRowsWithMods: Rows,
     val combos: List<Rows>,
     val number: Int,
     val comboTrigger: String?,
