@@ -23,6 +23,8 @@ const val mainLayerTemplate =
 const val keyboardRows = 3
 const val thumbRows = 1
 
+const val layerBlocked = "❌"
+
 enum class Feature {
     ModCombo
 }
@@ -80,7 +82,7 @@ data class Hand(
         val isFull = halves
             .any {
                 val comboTriggers = it.filter { it == comboTrigger }.size
-                val used = it.filter { it != blocked }.size
+                val used = it.filter { !it.isBlocked() }.size
                 used > 0 && comboTriggers == 0
             }
         return this.isFull == isFull
@@ -138,7 +140,7 @@ val qmkPrefixes = setOf(
 
 fun assertQmk(key: String): String {
     return when {
-        key == blocked || key == comboTrigger || qmkPrefixes.any { key.startsWith(it) } -> key
+        key.isBlocked() || key == comboTrigger || qmkPrefixes.any { key.startsWith(it) } -> key
         else -> throw IllegalStateException("key not translated $key")
     }
 }
@@ -154,7 +156,7 @@ data class Generator(
         return layers.mapIndexed { index, layer ->
             val def = layer.baseRows.flatten()
             val qmk = def
-                .map { if (it == blocked) qmkNo else it }
+                .map { if (it.isBlocked()) qmkNo else it }
 
             mainLayerTemplate.format(*listOf(index).plus<Any>(qmk).toTypedArray())
         }.joinToString("\n")
@@ -323,7 +325,7 @@ fun addModTab(row: List<String>, modifierTypes: List<String>): List<String> {
     val right = modifierTypes[1] == "HomeRow"
     return row.mapIndexed { index, key ->
         when {
-            "(" in key -> {
+            "(" in key || key == layerBlocked -> {
                 key
             }
 
@@ -379,5 +381,6 @@ private fun translateTable(
             .map { translator.toQmk(it) }
     }
 
+fun String.isBlocked() = this == blocked || this == layerBlocked
 
 

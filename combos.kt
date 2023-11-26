@@ -95,7 +95,7 @@ private fun generateCustomCombos(
     val comboIndexes = definition.mapIndexedNotNull { index, s -> if (s == comboTrigger) index else null }
 
     return definition.flatMapIndexed { comboIndex, key ->
-        if (!(key.isBlank() || key == blocked || key == comboTrigger || key == "KC_TRNS")) {
+        if (!(key.isBlank() || key.isBlocked() || key == comboTrigger || key == "KC_TRNS")) {
             val keys = layerBase
                 .filterIndexed { index, _ -> index == comboIndex || index in comboIndexes } + extraKeys
 
