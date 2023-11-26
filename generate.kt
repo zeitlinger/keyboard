@@ -1,13 +1,16 @@
 
 fun generateBase(layers: List<Layer>, options: Map<String, Option>): String {
-    val fallback = layers.associateBy { it.name }.mapValues { it.value.baseRows.flatten() }
+    val fallback = layers.associateBy { it.name }.mapValues { it.value.baseRows }
 
     return layers.mapIndexed { layerNumber, layer ->
-        val def = layer.baseRows.flatten()
+        val def = layer.baseRows
         val qmk = def
-            .mapIndexed { keyIndex, key ->
-                getFallback(key, layer.name, fallback, options, keyIndex)
-            }
+            .mapIndexed { rowIndex, row ->
+                row.mapIndexed { columnIndex, key ->
+                    val left = columnIndex < row.size / 2
+                    getFallback(key, layer.name, fallback, options, rowIndex, columnIndex, left)
+                }
+            }.flatten()
 
         mainLayerTemplate.format(*listOf(layerNumber).plus<Any>(qmk).toTypedArray())
     }.joinToString("\n")
@@ -16,21 +19,27 @@ fun generateBase(layers: List<Layer>, options: Map<String, Option>): String {
 private fun getFallback(
     key: String,
     layer: String,
-    fallback: Map<String, List<String>>,
+    fallback: Map<String, Rows>,
     options: Map<String, Option>,
-    keyIndex: Int
+    rowIndex: Int,
+    columnIndex: Int,
+    left: Boolean
 ): String {
     val option = options.getValue(layer)
+    if (!key.isBlocked()) {
+        return key
+    }
+    val fallbackLayer = if (left) option.leftFallbackLayer else option.rightFallbackLayer
     return when {
-        key.isBlocked() && layer == baseLayerName -> qmkNo
-        key.isBlocked() -> getFallback(
-            fallback.getValue(option.fallbackLayer)[keyIndex],
-            option.fallbackLayer,
+        fallbackLayer == null || layer == baseLayerName -> qmkNo
+        else -> getFallback(
+            fallback.getValue(fallbackLayer)[rowIndex][columnIndex],
+            fallbackLayer,
             fallback,
             options,
-            keyIndex
+            rowIndex,
+            columnIndex,
+            left
         )
-
-        else -> key
     }
 }

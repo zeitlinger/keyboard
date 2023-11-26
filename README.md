@@ -85,8 +85,8 @@ How to read this layout:
 |  Base  |         |   💎    |    j    |    x    |         |   tab   |   💎    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |         |  copy   |   cut   |         |         |         |         |
-|  Base  |   💎    |         |  paste  | S-paste |         |         |   ↩️️   |   💎    |
+|  Base  |         |         |   cut   | S-paste |         |         |         |         |
+|  Base  |   💎    |         |  copy   |  paste  |         |         |   ↩️️   |   💎    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |  "qu"   |  "ny"   |         |         |         |
 |  Base  |         |         |         |   💎    |   💎    |         |         |
@@ -139,16 +139,16 @@ How to read this layout:
 | NumNav |            |     0      |      ❌      |             ❌              | 
 |  SymL  |    undo    |    tab     |             |                            |
 
-| Options | Modifiers Left | Modifiers Right | Fallback |
-|:-------:|:--------------:|:---------------:|:--------:|
-|  Base   |                |                 |          |
-|  Shift  |    HomeRow     |     HomeRow     |          |  
-| NumNav  |    HomeRow     |     HomeRow     |          | 
-|   Fn    |                |    BottomRow    |          |  
-|  Mouse  |    HomeRow     |                 |          |  
-|   Sym   |    HomeRow     |     HomeRow     |          | 
-|  SymL   |   BottomRow    |                 |   Sym    | 
-|  Media  |                |                 |          |
+| Options | Modifiers Left | Modifiers Right | Fallback Left | Fallback Right |
+|:-------:|:--------------:|:---------------:|:-------------:|:--------------:|
+|  Base   |                |                 |               |                |
+|  Shift  |    HomeRow     |     HomeRow     |     Base      |      Base      |  
+| NumNav  |    HomeRow     |     HomeRow     |               |                | 
+|   Fn    |                |    BottomRow    |               |                |  
+|  Mouse  |    HomeRow     |                 |               |                |  
+|   Sym   |    HomeRow     |     HomeRow     |               |                | 
+|  SymL   |   BottomRow    |                 |               |      Sym       | 
+|  Media  |                |                 |               |                |
 
 | Symbol  | Command      |
 |---------|--------------|

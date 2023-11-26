@@ -30,7 +30,12 @@ enum class Feature {
     ModCombo
 }
 
-data class Option(val leftModifier: ModifierType, val rightModifier: ModifierType, val fallbackLayer: String)
+data class Option(
+    val leftModifier: ModifierType,
+    val rightModifier: ModifierType,
+    val leftFallbackLayer: String?,
+    val rightFallbackLayer: String?
+)
 
 class QmkTranslator(val symbols: Symbols, private val layerNames: Map<String, Int>) {
 
@@ -117,7 +122,8 @@ private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate:
             Option(
                 modifierType(it.value[1]),
                 modifierType(it.value[2]),
-                it.value[3].ifEmpty { baseLayerName }
+                it.value[3].ifBlank { null },
+                it.value[4].ifBlank { null },
             )
         }
 
