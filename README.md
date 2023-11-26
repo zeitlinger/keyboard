@@ -54,7 +54,7 @@ How to read this layout:
 |:------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
 |  Base  |    /    |    w    |    m    |    f    |    y    |    o    |    u    |    -    |
 |  Base  |    r    |    s    |    t    |    h    |    n    |    a    |    i    |    l    |
-|  Base  | b+SymL  |    c    |    g    |    d    |    p    |    '    |  ,+Sym  |  .+Fn   |
+|  Base  | b+SymR  |    c    |    g    |    d    |    p    |    '    |  ,+Sym  |  .+Fn   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |   💎    |    z    |         |    ö    |    ü    |         |
 |  Base  |         |         |         |         |         |    ä    |         |    ß    |
@@ -124,9 +124,9 @@ How to read this layout:
 |  Sym   |    $    |    (    |    )    |    :    |    ;    |    [    |    ]    |    \    |    
 |  Sym   |    ^    |    #    |    @    |    *    |    `    |    =    |  pipe   |    &    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  SymL  |         |         |         |         |         |         |         |         |
-|  SymL  |         |         |   win   |   A-w   |         |         |         |         |
-|  SymL  |    ❌    |         |         |         |         |         |         |         |
+|  SymR  |         |         |         |         |         |         |         |         |
+|  SymR  |         |         |   win   |   A-w   |         |         |         |         |
+|  SymR  |    ❌    |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Media  |         |         |         |         |         |         |         |         |
 | Media  |    ❌    |   prt   |         |         |         |         |         |         |
@@ -138,7 +138,7 @@ How to read this layout:
 |  Base  |   Shift    |    spc     |      e      | ComboLayer:Sym bspc+NumNav |
 | NumNav |            |     0      |      ❌      |             ❌              | 
 |   Fn   |            |    f11     |     f12     |                            |
-|  SymL  |    undo    |    tab     |             |                            |
+|  SymR  |    undo    |    tab     |             |                            |
 
 | Options | Modifiers Left | Modifiers Right | Fallback Left | Fallback Right |
 |:-------:|:--------------:|:---------------:|:-------------:|:--------------:|
@@ -148,7 +148,7 @@ How to read this layout:
 |   Fn    |                |    BottomRow    |               |                |  
 |  Mouse  |    HomeRow     |                 |               |                |  
 |   Sym   |    HomeRow     |     HomeRow     |               |                | 
-|  SymL   |   BottomRow    |                 |               |      Sym       | 
+|  SymR   |   BottomRow    |                 |               |      Sym       | 
 |  Media  |                |                 |               |                |
 
 | Symbol  | Command      |
