@@ -153,12 +153,19 @@ data class Generator(
 ) {
 
     fun generateBase(): String {
-        return layers.mapIndexed { index, layer ->
+        val baseLayer = layers[0].baseRows.flatten()
+        return layers.mapIndexed { layerNumber, layer ->
             val def = layer.baseRows.flatten()
             val qmk = def
-                .map { if (it.isBlocked()) qmkNo else it }
+                .mapIndexed { keyIndex, key ->
+                    when {
+                        key.isBlocked() && layerNumber == 0 -> qmkNo
+                        key.isBlocked() -> baseLayer[keyIndex]
+                        else -> key
+                    }
+                }
 
-            mainLayerTemplate.format(*listOf(index).plus<Any>(qmk).toTypedArray())
+            mainLayerTemplate.format(*listOf(layerNumber).plus<Any>(qmk).toTypedArray())
         }.joinToString("\n")
     }
 

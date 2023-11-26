@@ -5,6 +5,7 @@ Features
 - 34 keys
 - [APTex](https://github.com/Apsu/APTex) layout with slight modifications
 - Home row mods (Alt, Ctrl, Shift) on all layers, except the base layer 
+- In the shift layer, you can disable shift with the index finger that would usually enable shift.
 - Combos for keys in the two center columns,
   so lateral movement is not needed, except for special combos like `Ctrl+B`
 - Combos for the most common bigrams, reducing SFBs from 0.70% to 0.26%
@@ -22,6 +23,11 @@ Notes
 
 ## Modifiers
 
+Home row mods (Alt, Ctrl, Shift) on all layers, except the base layer.
+
+If you want modifiers for the base layer, use the shift layer.
+In the shift layer, you can disable shift with the index finger that would usually enable shift.
+
 | Modifier | Finger |
 |----------|--------|
 | Alt      | Ring   |
@@ -35,6 +41,7 @@ How to read this layout:
 - 💎 = combo key (e.g. middle and index finger in top row pressed together produce "b")
 - 🪜 = transparent key
 - ❌ = key can't be used because the layer was activated with that key
+- empty = use key from base layer
 - Alt = capitalized words are layer names
 - /+Ctrl = tab-mod - / on tab and CTRL on hold
 - C-w = Ctrl-w (same for Alt and Shift)
@@ -101,9 +108,9 @@ How to read this layout:
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
 |  Base  |  "br"   |         |         |         |         |         |         |  .spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Shift  |   🪜    |   🪜    |   🪜    |   🪜    |   🪜    |   🪜    |   🪜    |   🪜    |
-| Shift  | r+Media |    s    |    t    | h+Shift | n+Shift |    a    |    i    |   🪜    |
-| Shift  |   🪜    |   🪜    |   🪜    |   🪜    |   🪜    |   🪜    |   🪜    |   🪜    |
+| Shift  |         |         |         |         |         |         |         |         |
+| Shift  | r+Media |    s    |    t    | h+Shift | n+Shift |    a    |    i    |         |
+| Shift  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | NumNav |    8    |    7    |    6    |    5    |  ⬅️⬅️   |  ⬆️⬆️   |  ⬇️⬇️   |  ➡️➡️   |
 | NumNav |    4    |    3    |    2    |    1    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
