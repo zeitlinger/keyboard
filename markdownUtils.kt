@@ -20,7 +20,7 @@ fun readTables(config: File): Tables =
     }.let { Tables(it) }
 
 
-data class Symbols(val mapping: Map<String, String>) {
+data class Symbols(val mapping: Map<String, String>, val userKeycodes: List<String>) {
     fun replace(key: String): String = mapping.getOrDefault(key, key)
         .let { it.ifBlank { blocked } }
 }

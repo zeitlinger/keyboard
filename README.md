@@ -82,11 +82,11 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |   💎    |    j    |    x    |         |   ↩️️   |   💎    |         |
+|  Base  |         |   💎    |    j    |    x    |         | repeat  |   💎    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |   cut   | S-paste |         |         |         |         |
-|  Base  |   💎    |         |  copy   |  paste  |         |         | sEnter  |   💎    |
+|  Base  |   💎    |         |  copy   |  paste  |         |         |   ↩️️   |   💎    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |  "qu"   |  "ny"   |         |         |         |
 |  Base  |         |         |         |   💎    |   💎    |         |         |
@@ -166,7 +166,6 @@ How to read this layout:
 | spc     | KC_SPC       |
 | esc     | KC_ESC       |
 | ↩️️     | KC_ENT       |
-| sEnter  | LSFT(KC_ENT) |
 | bspc    | KC_BSPC      |
 | win     | KC_LGUI      |
 | alt     | KC_LALT      |
@@ -196,5 +195,6 @@ How to read this layout:
 | ü       | RALT(KC_Y)   |
 | ß       | RALT(KC_S)   |
 | 🪜      | KC_TRNS      |
-| Mouse   | KC_F17       |
-| .spc    | KC_F18       |
+| repeat  | user:REPEAT  |
+| Mouse   | user:MOUSE   |
+| .spc    | user:DOT_SPC |

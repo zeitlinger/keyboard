@@ -62,7 +62,7 @@ class QmkTranslator(val symbols: Symbols, private val layerNames: Map<String, In
         .let { translatedKey -> map.getOrDefault(translatedKey.replaceFirstChar { it.titlecase() }, translatedKey) }
         .let {
             when {
-                getSubstitutionCombo(it) != null -> it
+                getSubstitutionCombo(it) != null || symbols.userKeycodes.contains(it) -> it
                 else -> assertQmk(it)
             }
         }
@@ -110,7 +110,7 @@ fun assertQmk(key: String): String {
 private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate: File, features: Set<Feature>) {
     val tables = readTables(config)
 
-    val symbols = Symbols(tables.getMappingTable("Symbol"))
+    val symbols = readSymbols(tables)
     val thumbs = tables.get("Thumb").drop(1) // Header
         .groupBy { it[0] }
         .toMap()
@@ -129,7 +129,6 @@ private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate:
         }
 
     val translator = QmkTranslator(symbols, layerNames)
-
     val layers = readLayers(layerContent, thumbs, translator, options)
     val layerNumbers = layers.joinToString("\n") { "#define _${it.name.uppercase()} ${it.number}" }
 
@@ -151,11 +150,29 @@ private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate:
         .replace("\${generationNote}", generationNote)
         .replace("\${layers}", generateBase(layers, options))
         .replace("\${layerNumbers}", layerNumbers)
+        .replace("\${custom0}", symbols.userKeycodes[0])
+        .replace("\${customRest}", symbols.userKeycodes.drop(1).joinToString(",\n    "))
 
     layoutFile.writeText(base)
 
     comboFile.writeText((listOf("// $generationNote") + combos).joinToString("\n"))
+}
 
+private fun readSymbols(tables: Tables): Symbols {
+    val userKeycodes = mutableListOf<String>()
+    val symTable = tables.getMappingTable("Symbol").mapValues {
+        val command = it.value
+        when {
+            command.startsWith("user:") -> {
+                val key = command.split(":")[1]
+                userKeycodes.add(key)
+                key
+            }
+
+            else -> command
+        }
+    }
+    return Symbols(symTable, userKeycodes)
 }
 //
 //private fun printMissingAndUnexpected(

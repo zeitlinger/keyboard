@@ -19,7 +19,11 @@ fun readLayers(
 
         val combos = data.drop(keyboardRows).chunked(keyboardRows)
 
-        val thumbData = translateTable(thumbs[layerName] ?: listOf(List(5) { " " }), translator, comboLayerTrigger)
+        val thumbData = translateTable(
+            thumbs[layerName] ?: listOf(List(5) { " " }),
+            translator,
+            comboLayerTrigger
+        )
 //        val baseThumb = listOf(thumbData.getOrElse(0) { _ -> listOf(" ").repeat(4) })
         val baseThumb = listOf(thumbData[0])
         val comboThumb = thumbData.drop(thumbRows).chunked(thumbRows)
