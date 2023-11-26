@@ -14,11 +14,11 @@ fun main() {
 }
 
 const val mainLayerTemplate =
-    "\t[%d] = LAYOUT_split_3x5_2(" +
-            "%s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s, " +
-            "%s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s, " +
-            "%s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s, " +
-            "%s, %s, %s, %s),"
+    "\t[%d] = LAYOUT_split_3x5_2(\n" +
+            "            %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s,\n" +
+            "            %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s,\n" +
+            "            %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s,\n" +
+            "                            %s, %s, %s, %s),"
 
 const val keyboardRows = 3
 const val thumbRows = 1
