@@ -1,24 +1,25 @@
-
 enum class Modifier {
     Alt, Shift, Ctrl
 }
 
 enum class ModifierType {
-    HomeRow, BottomRow, None;
+    HomeRow, BottomRow;
 
     fun matchesRow(row: Int): Boolean = when (this) {
         HomeRow -> row == 1
         BottomRow -> row == 2
-        None -> false
     }
 }
 
-fun modifierType(s: String): ModifierType = when (s) {
-    "HomeRow" -> ModifierType.HomeRow
-    "BottomRow" -> ModifierType.BottomRow
-    "" -> ModifierType.None
-    else -> throw IllegalStateException("unknown modifier type $s")
-}
+fun modifierTypes(s: String): List<ModifierType> = s.split(",")
+    .filter { it.isNotBlank() }
+    .map { mod ->
+        when (mod.trim()) {
+            "HomeRow" -> ModifierType.HomeRow
+            "BottomRow" -> ModifierType.BottomRow
+            else -> throw IllegalStateException("unknown modifier type $mod")
+        }
+    }
 
 data class ModTrigger(val mods: List<Modifier>, val triggers: List<Int>, val command: String, val name: String?)
 
@@ -29,7 +30,7 @@ fun addModTab(rowNumber: Int, row: List<String>, option: Option): List<String> {
                 key
             }
 
-            index < 4 && option.leftModifier.matchesRow(rowNumber) -> {
+            index < 4 && option.leftModifier.any { it.matchesRow(rowNumber) } -> {
                 if (key == blocked) {
                     when (index) {
                         1 -> "KC_LALT"
@@ -47,7 +48,7 @@ fun addModTab(rowNumber: Int, row: List<String>, option: Option): List<String> {
                 }
             }
 
-            index >= 4 && option.rightModifier.matchesRow(rowNumber) -> {
+            index >= 4 && option.rightModifier.any { it.matchesRow(rowNumber) } -> {
                 if (key == blocked) {
                     when (index) {
                         4 -> "KC_RSFT"
@@ -85,6 +86,7 @@ private val modTriggers: List<ModTrigger> = listOf(
         "CSA"
     ),
 )
+
 fun generateModCombos(
     layerTrigger: List<String>,
     opposingBase: List<String>,

@@ -140,61 +140,61 @@ How to read this layout:
 |   Fn   |            |    f11     |     f12     |                            |
 |  SymR  |    undo    |    tab     |             |                            |
 
-| Options | Modifiers Left | Modifiers Right | Fallback Left | Fallback Right |
-|:-------:|:--------------:|:---------------:|:-------------:|:--------------:|
-|  Base   |                |                 |               |                |
-|  Shift  |    HomeRow     |     HomeRow     |     Base      |      Base      |  
-| NumNav  |    HomeRow     |     HomeRow     |               |                | 
-|   Fn    |                |    BottomRow    |               |                |  
-|  Mouse  |    HomeRow     |                 |               |                |  
-|   Sym   |    HomeRow     |     HomeRow     |               |                | 
-|  SymR   |   BottomRow    |                 |               |      Sym       | 
-|  Media  |                |                 |               |                |
+| Options | Modifiers Left |  Modifiers Right   | Fallback Left | Fallback Right |
+|:-------:|:--------------:|:------------------:|:-------------:|:--------------:|
+|  Base   |                |                    |               |                |
+|  Shift  |    HomeRow     |      HomeRow       |     Base      |      Base      |  
+| NumNav  |    HomeRow     |      HomeRow       |               |                | 
+|   Fn    |                | HomeRow, BottomRow |               |                |  
+|  Mouse  |    HomeRow     |                    |               |                |  
+|   Sym   |    HomeRow     |      HomeRow       |               |                | 
+|  SymR   |   BottomRow    |                    |               |      Sym       | 
+|  Media  |                |                    |               |                |
 
-| Symbol  | Command      |
-|---------|--------------|
-| ⬅️      | KC_LEFT      |
-| ⬅️⬅️    | KC_HOME      |
-| ⬇️      | KC_DOWN      |
-| ⬇️⬇️    | KC_PGDN      |
-| ⬆️      | KC_UP        |
-| ⬆️⬆️    | KC_PGUP      |
-| ➡️      | KC_RIGHT     |
-| ➡️➡️    | KC_END       |
-| ins     | KC_INS       |
-| del     | KC_DEL       |
-| spc     | KC_SPC       |
-| esc     | KC_ESC       |
-| ↩️️     | KC_ENT       |
-| bspc    | KC_BSPC      |
-| win     | KC_LGUI      |
-| alt     | KC_LALT      |
-| tab     | KC_TAB       |
-| sTab    | LSFT(KC_TAB) |
-| prt     | KC_PSCR      |
-| pipe    | KC_PIPE      |
-| 🖱️⬅️   | KC_MS_L      |
-| 🖱️⬇️   | KC_MS_D      |
-| 🖱️⬆️   | KC_MS_U      |
-| 🖱️➡️   | KC_MS_R      |
-| 🖲️️⬅️  | KC_WH_L      |
-| 🖲️️⬇️  | KC_WH_D      |
-| 🖲️️⬆️  | KC_WH_U      |
-| 🖲️️➡️  | KC_WH_R      |
-| 🖱️1    | KC_BTN1      |
-| 🖱️2    | KC_BTN2      |
-| 🖱️3    | KC_BTN3      |
-| redo    | RCS(KC_Z)    |
-| undo    | LCTL(KC_Z)   |
-| copy    | LCTL(KC_C)   |
-| paste   | LCTL(KC_V)   |
-| S-paste | RCS(KC_V)    |
-| cut     | LCTL(KC_X)   |
-| ä       | RALT(KC_Q)   |
-| ö       | RALT(KC_P)   |
-| ü       | RALT(KC_Y)   |
-| ß       | RALT(KC_S)   |
-| 🪜      | KC_TRNS      |
-| repeat  | user:REPEAT  |
-| Mouse   | user:MOUSE   |
-| .spc    | user:DOT_SPC |
+| Symbol  | Command        |
+|---------|----------------|
+| ⬅️      | KC_LEFT        |
+| ⬅️⬅️    | KC_HOME        |
+| ⬇️      | KC_DOWN        |
+| ⬇️⬇️    | KC_PGDN        |
+| ⬆️      | KC_UP          |
+| ⬆️⬆️    | KC_PGUP        |
+| ➡️      | KC_RIGHT       |
+| ➡️➡️    | KC_END         |
+| ins     | KC_INS         |
+| del     | KC_DEL         |
+| spc     | KC_SPC         |
+| esc     | KC_ESC         |
+| ↩️️     | KC_ENT         |
+| bspc    | KC_BSPC        |
+| win     | KC_LGUI        |
+| alt     | KC_LALT        |
+| tab     | KC_TAB         |
+| sTab    | LSFT(KC_TAB)   |
+| prt     | KC_PSCR        |
+| pipe    | KC_PIPE        |
+| 🖱️⬅️   | KC_MS_L        |
+| 🖱️⬇️   | KC_MS_D        |
+| 🖱️⬆️   | KC_MS_U        |
+| 🖱️➡️   | KC_MS_R        |
+| 🖲️️⬅️  | KC_WH_L        |
+| 🖲️️⬇️  | KC_WH_D        |
+| 🖲️️⬆️  | KC_WH_U        |
+| 🖲️️➡️  | KC_WH_R        |
+| 🖱️1    | KC_BTN1        |
+| 🖱️2    | KC_BTN2        |
+| 🖱️3    | KC_BTN3        |
+| redo    | RCS(KC_Z)      |
+| undo    | LCTL(KC_Z)     |
+| copy    | LCTL(KC_C)     |
+| paste   | LCTL(KC_V)     |
+| S-paste | RCS(KC_V)      |
+| cut     | LCTL(KC_X)     |
+| ä       | RALT(KC_Q)     |
+| ö       | RALT(KC_P)     |
+| ü       | RALT(KC_Y)     |
+| ß       | RALT(KC_S)     |
+| 🪜      | KC_TRNS        |
+| repeat  | custom:REPEAT  |
+| Mouse   | custom:MOUSE   |
+| .spc    | custom:DOT_SPC |

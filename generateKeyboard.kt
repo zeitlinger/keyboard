@@ -31,8 +31,8 @@ enum class Feature {
 }
 
 data class Option(
-    val leftModifier: ModifierType,
-    val rightModifier: ModifierType,
+    val leftModifier: List<ModifierType>,
+    val rightModifier: List<ModifierType>,
     val leftFallbackLayer: String?,
     val rightFallbackLayer: String?
 )
@@ -121,8 +121,8 @@ private fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate:
         .associateBy { it[0] }
         .mapValues {
             Option(
-                modifierType(it.value[1]),
-                modifierType(it.value[2]),
+                modifierTypes(it.value[1]),
+                modifierTypes(it.value[2]),
                 it.value[3].ifBlank { null },
                 it.value[4].ifBlank { null },
             )
@@ -163,7 +163,7 @@ private fun readSymbols(tables: Tables): Symbols {
     val symTable = tables.getMappingTable("Symbol").mapValues {
         val command = it.value
         when {
-            command.startsWith("user:") -> {
+            command.startsWith("custom:") -> {
                 val key = command.split(":")[1]
                 userKeycodes.add(key)
                 key
