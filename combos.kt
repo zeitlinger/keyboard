@@ -4,16 +4,32 @@ enum class ComboType(val template: String) {
 
 data class Combo(val type: ComboType, val name: String, val result: String, val triggers: List<String>)
 
+data class HomeRowCombo(val targetLayer: String, val key: String)
+
 const val comboTrigger = "\uD83D\uDC8E" // 💎
 
 fun getSubstitutionCombo(key: String): String? =
     if (key.startsWith("\"") && key.endsWith("\"")) key else null
 
-fun generateCombos(layers: List<Layer>, features: Set<Feature>): List<Combo> {
+fun generateAllCombos(layers: List<Layer>, features: Set<Feature>, homeRowCombo: HomeRowCombo?): List<Combo> {
     val baseLayer = layers[0]
 
-    return layers.flatMap { layer ->
+    val homeRowCombos = homeRowCombo?.let { hr ->
+        val homeRowLayer =
+            layers.find { it.name == hr.targetLayer } ?: throw IllegalStateException("unknown layer ${hr.targetLayer}")
 
+        hands.filter { !it.isThumb && !it.isFull }.flatMap { hand ->
+            generateModCombos(
+                listOf(hr.key),
+                getLayerPart(baseLayer.baseRowsWithMods, hand),
+                homeRowLayer,
+                hand,
+                homeRowTriggers
+            )
+        }
+    } ?: emptyList()
+
+    return homeRowCombos + layers.flatMap { layer ->
         val combos = generateCombos(features, layer, layer.combos, layer.baseRowsWithMods, listOf())
         val baseLayerCombos = layer.comboTrigger?.let { trigger ->
             generateCombos(
@@ -37,7 +53,7 @@ private fun generateCombos(
 ): List<Combo> = hands.flatMap { hand ->
     val modCombos =
         if (features.contains(Feature.ModCombo) && layer.number == 0 && !hand.isThumb && extraKeys.isEmpty()) {
-            generateModCombos(listOf(), getLayerPart(layer.baseRowsWithMods, hand), layer, hand)
+            generateModCombos(listOf(), getLayerPart(layer.baseRowsWithMods, hand), layer, hand, modTriggers)
         } else {
             emptyList()
         }

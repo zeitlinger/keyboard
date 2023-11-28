@@ -3,7 +3,12 @@ import java.io.FileReader
 
 const val qmkNo = "KC_NO"
 
-class QmkTranslator(val symbols: Symbols, private val layerNames: Map<String, Int>) {
+class QmkTranslator(
+    val symbols: Symbols,
+    private val layerNames: Map<String, Int>,
+    val comboLayerTrigger: MutableMap<String, String> = mutableMapOf(),
+    var homeRowCombo: HomeRowCombo? = null,
+) {
 
     private val map: Map<String, String>
 

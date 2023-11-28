@@ -21,7 +21,7 @@ fun modifierTypes(s: String): List<ModifierType> = s.split(",")
         }
     }
 
-data class ModTrigger(val mods: List<Modifier>, val triggers: List<Int>, val command: String, val name: String?)
+data class ModTrigger(val triggers: List<Int>, val command: String, val name: String?)
 
 fun addModTab(rowNumber: Int, row: List<String>, option: LayerOption): List<String> {
     return row.mapIndexed { index, key ->
@@ -71,17 +71,31 @@ fun addModTab(rowNumber: Int, row: List<String>, option: LayerOption): List<Stri
     }
 }
 
-private val modTriggers: List<ModTrigger> = listOf(
-    ModTrigger(emptyList(), emptyList(), "MO(%d)", null),
-    ModTrigger(listOf(Modifier.Shift), listOf(1, 2), "LM(%d, MOD_LSFT)", "S"),
-    ModTrigger(listOf(Modifier.Ctrl), listOf(2, 4), "LM(%d, MOD_LCTL)", "C"),
-    ModTrigger(listOf(Modifier.Alt), listOf(1, 4), "LM(%d, MOD_LALT)", "A"),
-    ModTrigger(listOf(Modifier.Shift, Modifier.Ctrl), listOf(1, 2, 3), "LM(%d, MOD_LCTL | MOD_LSFT)", "CS"),
-    ModTrigger(listOf(Modifier.Shift, Modifier.Alt), listOf(1, 2, 4), "LM(%d, MOD_LSFT | MOD_LALT)", "SA"),
-    ModTrigger(listOf(Modifier.Ctrl, Modifier.Alt), listOf(2, 3, 4), "LM(%d, MOD_LCTL | MOD_LALT)", "CA"),
+val modTriggers: List<ModTrigger> = listOf(
+    ModTrigger(emptyList(), "MO(%d)", null),
+    ModTrigger(listOf(1, 2), "LM(%d, MOD_LSFT)", "S"),
+    ModTrigger(listOf(2, 4), "LM(%d, MOD_LCTL)", "C"),
+    ModTrigger(listOf(1, 4), "LM(%d, MOD_LALT)", "A"),
+    ModTrigger(listOf(1, 2, 3), "LM(%d, MOD_LCTL | MOD_LSFT)", "CS"),
+    ModTrigger(listOf(1, 2, 4), "LM(%d, MOD_LSFT | MOD_LALT)", "SA"),
+    ModTrigger(listOf(2, 3, 4), "LM(%d, MOD_LCTL | MOD_LALT)", "CA"),
     ModTrigger(
-        listOf(Modifier.Shift, Modifier.Shift, Modifier.Alt),
         listOf(1, 2, 3, 4),
+        "LM(%d, MOD_LCTL | MOD_LALT | MOD_LSFT)",
+        "CSA"
+    ),
+)
+
+val homeRowTriggers: List<ModTrigger> = listOf(
+    ModTrigger(emptyList(), "MO(%d)", null),
+    ModTrigger(listOf(1), "LM(%d, MOD_LALT)", "A"),
+    ModTrigger(listOf(2), "LM(%d, MOD_LCTL)", "C"),
+    ModTrigger(listOf(3), "LM(%d, MOD_LSFT)", "S"),
+    ModTrigger(listOf(2, 3), "LM(%d, MOD_LCTL | MOD_LSFT)", "CS"),
+    ModTrigger(listOf(1, 3), "LM(%d, MOD_LSFT | MOD_LALT)", "SA"),
+    ModTrigger(listOf(1, 2), "LM(%d, MOD_LCTL | MOD_LALT)", "CA"),
+    ModTrigger(
+        listOf(1, 2, 3),
         "LM(%d, MOD_LCTL | MOD_LALT | MOD_LSFT)",
         "CSA"
     ),
@@ -91,23 +105,13 @@ fun generateModCombos(
     layerTrigger: List<String>,
     opposingBase: List<String>,
     layer: Layer,
-    hand: Hand
-): List<Combo> {
-    return comboWithMods(
-        opposingBase, hand,
-        layer.name, layer.number, layerTrigger
-    )
-}
-
-private fun comboWithMods(
-    base: List<String>,
     hand: Hand,
-    layerName: String,
-    layerIndex: Int,
-    layerTrigger: List<String>
+    template: List<ModTrigger>
 ): List<Combo> {
-    return modTriggers.mapNotNull { modTrigger ->
-        val comboKeys = modTrigger.triggers.map { base[hand.translateComboIndex(it)] }
+    val layerName = layer.name
+    val layerIndex = layer.number
+    return template.mapNotNull { modTrigger ->
+        val comboKeys = modTrigger.triggers.map { opposingBase[hand.translateComboIndex(it)] }
 
         val command = modTrigger.command.format(layerIndex)
         val allKeys = layerTrigger + comboKeys
@@ -124,3 +128,4 @@ private fun comboWithMods(
         }
     }
 }
+

@@ -83,7 +83,7 @@ fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate: File, f
 
 //    printMissingAndUnexpected(translator, layers, symbols)
 
-    val combos = generateCombos(layers, features).map { combo ->
+    val combos = generateAllCombos(layers, features, translator.homeRowCombo).map { combo ->
         combo.type.template.format(
             combo.name.padEnd(35),
             combo.result.padEnd(35),

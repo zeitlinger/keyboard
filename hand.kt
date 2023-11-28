@@ -27,13 +27,13 @@ data class Hand(
 
     val isRight = this.name.startsWith("right")
     val isThumb = this.name.contains("thumb")
-    private val isFull = this.name.contains("both")
+    val isFull = this.name.contains("both")
     val comboColumns = if (isFull) this.columns else this.columns / 2
 }
 
 val hands = listOf(
-    Hand("left", 8, 0, 0) { i -> i + 3 },
-    Hand("right", 8, 0, 4) { i -> 8 - i },
+    Hand("left", 8, 0, 0) { i -> i + 4 },
+    Hand("right", 8, 0, 4) { i -> 7 - i },
     Hand("both", 8, 0, 0) { i -> i },
     Hand("left thumb", 4, 3, 0) { i -> i + 1 },
     Hand("right thumb", 4, 3, 2) { i -> 4 - i },

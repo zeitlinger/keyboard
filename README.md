@@ -105,6 +105,10 @@ How to read this layout:
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
 |  Base  |  "br"   |         |         |         |         |         |         |  .spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  Mods  |         |         |         |         |         |         |         |         |
+|  Mods  |         |         |         |         |         |         |         |         |
+|  Mods  |         |         |         |         |         |         |         |         |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Shift  |         |         |         |         |         |         |         |         |
 | Shift  | r+Media |    s    |    t    | h+Shift | n+Shift |    a    |    i    |         |
 | Shift  |         |         |         |         |         |         |         |         |
@@ -138,18 +142,20 @@ How to read this layout:
 | Media  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
-| Thumb  | Left Inner | Left Outer | Right Outer |        Right Inner         |
-|:------:|:----------:|:----------:|:-----------:|:--------------------------:|
-|  Base  |   Shift    |    spc     |      e      | ComboLayer:Sym bspc+NumNav |
-| NumNav |            |     0      |      ❌      |             ❌              | 
-|   Fn   |            |    f11     |     f12     |                            |
-|  SymL  |            |            |             |                            |
-|  SymR  |    undo    |    tab     |             |                            |
+| Thumb  | Left Inner |      Left Outer      | Right Outer |        Right Inner         |
+|:------:|:----------:|:--------------------:|:-----------:|:--------------------------:|
+|  Base  |   Shift    | HomeRowMods:Mods spc |      e      | ComboLayer:Sym bspc+NumNav |
+|  Mods  |            |                      |             |            tab             |
+| NumNav |            |          0           |      ❌      |             ❌              | 
+|   Fn   |            |         f11          |     f12     |                            |
+|  SymL  |            |                      |             |                            |
+|  SymR  |    undo    |         tab          |             |                            |
 
 | Options | Modifiers Left |  Modifiers Right   | Fallback Left | Fallback Right | Flags  |
 |:-------:|:--------------:|:------------------:|:-------------:|:--------------:|--------|
 |  Base   |                |                    |               |                |        |
 |  Shift  |    HomeRow     |      HomeRow       |     Base      |      Base      |        |  
+|  Mods   |    HomeRow     |      HomeRow       |     Base      |      Base      |        |  
 | NumNav  |    HomeRow     |      HomeRow       |               |                |        | 
 |   Fn    |                | HomeRow, BottomRow |               |                |        |  
 |  Mouse  |    HomeRow     |                    |               |                |        |  
