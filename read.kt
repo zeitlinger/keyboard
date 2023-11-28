@@ -1,19 +1,25 @@
+
+const val keyboardRows = 3
+const val thumbRows = 1
+
 fun readLayers(
     layerContent: Table,
     thumbs: Map<String, List<List<String>>>,
     translator: QmkTranslator,
-    options: Map<String, Option>
+    options: Map<String, LayerOption>
 ): List<Layer> {
-    val comboLayerTrigger = mutableMapOf<Int, String>()
+    val comboLayerTrigger = mutableMapOf<String, String>()
     val layerByName = layerContent.drop(1) // Header
         .groupBy { it[0] }
         .toMap()
-    return layerByName.entries.mapIndexed { layerNumber, (layerName, content) ->
+    var layerNumber = -1
+    return layerByName.entries.map { (layerName, content) ->
         val data = translateTable(content, translator, comboLayerTrigger)
         val base = data.take(keyboardRows)
+        val option = options.getValue(layerName)
         val baseWithMods = base
             .mapIndexed { row, def ->
-                addModTab(row, def, options.getValue(layerName))
+                addModTab(row, def, option)
             }
 
 
@@ -28,20 +34,25 @@ fun readLayers(
         val baseThumb = listOf(thumbData[0])
         val comboThumb = thumbData.drop(thumbRows).chunked(thumbRows)
 
+        if (!option.flags.contains(LayerFlag.Hidden)) {
+            layerNumber++
+        }
+
         Layer(
             layerName,
             (base + baseThumb),
             (baseWithMods + baseThumb),
             combos + comboThumb,
             layerNumber,
-            comboLayerTrigger[layerNumber]
+            comboLayerTrigger[layerName],
+            option
         )
     }
 }
 
 private fun translateCommand(
     command: String,
-    comboLayerTrigger: MutableMap<Int, String>,
+    comboLayerTrigger: MutableMap<String, String>,
     translator: QmkTranslator
 ): String = when {
     translator.symbols.mapping.containsKey(command) -> {
@@ -50,7 +61,7 @@ private fun translateCommand(
 
     command.startsWith("ComboLayer:") -> {
         val parts = command.split(" ")
-        val trigger = translator.mustTranslateLayer(parts[0].split(":")[1])
+        val trigger = parts[0].split(":")[1]
         val key = translateCommand(parts[1], comboLayerTrigger, translator)
         comboLayerTrigger[trigger] = key
         key
@@ -86,7 +97,7 @@ private fun translateCommand(
 private fun translateTable(
     content: List<List<String>>,
     translator: QmkTranslator,
-    comboLayerTrigger: MutableMap<Int, String>
+    comboLayerTrigger: MutableMap<String, String>
 ) = content.map { it.drop(1) }
     .map { row ->
         row

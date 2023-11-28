@@ -23,7 +23,7 @@ fun modifierTypes(s: String): List<ModifierType> = s.split(",")
 
 data class ModTrigger(val mods: List<Modifier>, val triggers: List<Int>, val command: String, val name: String?)
 
-fun addModTab(rowNumber: Int, row: List<String>, option: Option): List<String> {
+fun addModTab(rowNumber: Int, row: List<String>, option: LayerOption): List<String> {
     return row.mapIndexed { index, key ->
         when {
             "(" in key || key == layerBlocked -> {

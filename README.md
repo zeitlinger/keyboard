@@ -19,6 +19,7 @@ Notes
   [fork of mini-ryoku](https://github.com/zeitlinger/mini-ryoku/blob/main/qmk/layout.h), because this is easy to
   integrate with many keyboards
   (tested with [Ferris Sweep](https://keebmaker.com/products/ferris-sweep)).
+- Use [US international keyboard layout with dead keys](https://dry.sailingissues.com/us-international-keyboard-layout.html) for German umlauts.
 - [TODos](TODO.md)
 
 ## Modifiers
@@ -54,7 +55,7 @@ How to read this layout:
 |:------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
 |  Base  |    /    |    w    |    m    |    f    |    y    |    o    |    u    |    -    |
 |  Base  |    r    |    s    |    t    |    h    |    n    |    a    |    i    |    l    |
-|  Base  | b+SymR  |    c    |    g    |    d    |    p    |    '    |  ,+Sym  |  .+Fn   |
+|  Base  | b+SymR  |    c    |    g    |    d    |    p    |    '    | ,+SymL  |  .+Fn   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |   💎    |    z    |         |    ö    |    ü    |         |
 |  Base  |         |         |         |         |         |    ä    |         |    ß    |
@@ -88,19 +89,19 @@ How to read this layout:
 |  Base  |         |         |   cut   | S-paste |         |         |         |         |
 |  Base  |   💎    |         |  copy   |  paste  |         |         |   ↩️️   |   💎    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |         |         |  "qu"   |  "ny"   |         |         |         |
+|  Base  |         |         |         |  "for"  |  "ny"   |         |         |         |
 |  Base  |         |         |         |   💎    |   💎    |         |         |
-|  Base  |         |         |         |         |  "yp"   |         |         |         |
+|  Base  |         |         |         |  "qu"   |  "ent"  |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |         |  "tm"   |         |         |  "oa"   |         |         |
+|  Base  |         |         | "the "  |         |         |  "oa"   |         |         |
 |  Base  |         |         |   💎    |         |         |   💎    |         |         |
-|  Base  |         |         |  "cs"   |         |         |  "ing"  |         |         |
+|  Base  |         |         | "and "  |         |         |  "ing"  |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |  "ws"   |         |         |         |         |  "ui"   |         |
 |  Base  |         |   💎    |         |         |         |         |   💎    |         |
 |  Base  |         |  "sc"   |         |         |         |         |  "ion"  |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |  "sw"   |         |         |         |         |         |         |  "l."   |
+|  Base  |  "tio"  |         |         |         |         |         |         |  "l."   |
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
 |  Base  |  "br"   |         |         |         |         |         |         |  .spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -124,8 +125,12 @@ How to read this layout:
 |  Sym   |    $    |    (    |    )    |    :    |    ;    |    [    |    ]    |    \    |    
 |  Sym   |    ^    |    #    |    @    |    *    |    `    |    =    |  pipe   |    &    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  SymL  |         |         |         |         |         |         |         |         |
+|  SymL  |         |         |         |         |         |         |         |         |
+|  SymL  |         |         |         |         |         |         |    ❌    |         |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  SymR  |         |         |         |         |         |         |         |         |
-|  SymR  |         |         |   win   |   A-w   |         |         |         |         |
+|  SymR  |         |  A-f4   |   win   |   C-w   |         |         |         |         |
 |  SymR  |    ❌    |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Media  |         |         |         |         |         |         |         |         |
@@ -138,18 +143,20 @@ How to read this layout:
 |  Base  |   Shift    |    spc     |      e      | ComboLayer:Sym bspc+NumNav |
 | NumNav |            |     0      |      ❌      |             ❌              | 
 |   Fn   |            |    f11     |     f12     |                            |
+|  SymL  |            |            |             |                            |
 |  SymR  |    undo    |    tab     |             |                            |
 
-| Options | Modifiers Left |  Modifiers Right   | Fallback Left | Fallback Right |
-|:-------:|:--------------:|:------------------:|:-------------:|:--------------:|
-|  Base   |                |                    |               |                |
-|  Shift  |    HomeRow     |      HomeRow       |     Base      |      Base      |  
-| NumNav  |    HomeRow     |      HomeRow       |               |                | 
-|   Fn    |                | HomeRow, BottomRow |               |                |  
-|  Mouse  |    HomeRow     |                    |               |                |  
-|   Sym   |    HomeRow     |      HomeRow       |               |                | 
-|  SymR   |   BottomRow    |                    |               |      Sym       | 
-|  Media  |                |                    |               |                |
+| Options | Modifiers Left |  Modifiers Right   | Fallback Left | Fallback Right | Flags  |
+|:-------:|:--------------:|:------------------:|:-------------:|:--------------:|--------|
+|  Base   |                |                    |               |                |        |
+|  Shift  |    HomeRow     |      HomeRow       |     Base      |      Base      |        |  
+| NumNav  |    HomeRow     |      HomeRow       |               |                |        | 
+|   Fn    |                | HomeRow, BottomRow |               |                |        |  
+|  Mouse  |    HomeRow     |                    |               |                |        |  
+|   Sym   |    HomeRow     |      HomeRow       |               |                | Hidden | 
+|  SymL   |                |                    |      Sym      |                |        | 
+|  SymR   |   BottomRow    |                    |               |      Sym       |        | 
+|  Media  |                |                    |               |                |        |
 
 | Symbol  | Command        |
 |---------|----------------|
@@ -194,6 +201,10 @@ How to read this layout:
 | ö       | RALT(KC_P)     |
 | ü       | RALT(KC_Y)     |
 | ß       | RALT(KC_S)     |
+| '       | RALT(KC_QUOTE) |
+| "       | RSA(KC_QUOTE)  |
+| `       | RALT(KC_TILD)  |
+| ~       | RSA(KC_TILD)   |
 | 🪜      | KC_TRNS        |
 | repeat  | custom:REPEAT  |
 | Mouse   | custom:MOUSE   |
