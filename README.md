@@ -4,7 +4,9 @@ Features
 
 - 34 keys
 - [APTex](https://github.com/Apsu/APTex) layout with slight modifications
-- Home row mods (Alt, Ctrl, Shift) on all layers, except the base layer 
+- Home row mods (Alt, Ctrl, Shift) on all layers, except the base layer
+- In the base layer, you have to press space and the modifier key at the same time to activate the modifier.
+  This is to avoid accidental activation of the modifier.
 - In the shift layer, you can disable shift with the index finger that would usually enable shift.
 - Combos for keys in the two center columns,
   so lateral movement is not needed, except for special combos like `Ctrl+B`
