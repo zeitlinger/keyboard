@@ -99,7 +99,7 @@ fun translateKey(
             )
         }
 
-        def.isNotBlank() && def[0].isUpperCase() -> {
+        def.isNotBlank() && def[0].isUpperCase() && !def.contains("_") -> { //skip QMK keycodes
             Key("MO(${translator.mustTranslateLayer(def)})")
         }
 
