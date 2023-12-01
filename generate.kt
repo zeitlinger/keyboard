@@ -22,7 +22,7 @@ fun getFallback(
     pos: KeyPosition
 ): String {
     val option = translator.options.getValue(pos.layerName)
-    if (!key.isBlocked()) {
+    if (!(key.isBlank() || key == layerBlocked)) {
         return key
     }
     val left = pos.column < pos.columns / 2

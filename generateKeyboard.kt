@@ -32,7 +32,7 @@ data class Key(
     val key: String,
     val keyWithModifier: String = key,
 ) {
-    fun isBlocked(): Boolean = keyWithModifier.isBlocked()
+    fun isBlocked(): Boolean = keyWithModifier == qmkNo
 }
 
 
@@ -75,8 +75,5 @@ data class Layer(
 //        .map { translator.toLabel(it) }.distinct()
 //    println("duplicates: $dups")
 //}
-
-
-fun String.isBlocked() = this.isBlank() || this == layerBlocked || this == qmkNo
 
 

@@ -50,7 +50,7 @@ fun translateKey(
 ): Key = getFallback(s, translator, pos).let { def ->
     when {
         //comes first, so that we can override the meaning of + and -
-        translator.symbols.mapping.containsKey(def) -> translateSimpleKey(translator, def, pos)
+        def == qmkNo || translator.symbols.mapping.containsKey(def) -> translateSimpleKey(translator, def, pos)
 
         def.contains(" ") && !def.startsWith("\"") -> {
             val parts = def.split(" ")
@@ -102,7 +102,7 @@ fun translateKey(
             )
         }
 
-        def.isNotBlank() && !def.isBlocked() && def[0].isUpperCase() -> {
+        def.isNotBlank() && def[0].isUpperCase() -> {
             Key("MO(${translator.mustTranslateLayer(def)})")
         }
 

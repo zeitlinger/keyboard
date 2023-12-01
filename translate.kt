@@ -52,7 +52,7 @@ class QmkTranslator(
 
 fun assertQmk(key: String): String {
     return when {
-        key.isBlocked() || key == comboTrigger || qmkPrefixes.any { key.startsWith(it) } -> key
+        key == comboTrigger || qmkPrefixes.any { key.startsWith(it) } -> key
         else -> throw IllegalStateException("key not translated $key")
     }
 }
