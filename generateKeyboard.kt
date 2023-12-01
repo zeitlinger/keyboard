@@ -3,11 +3,11 @@ import java.io.File
 fun main() {
     val config = File("/home/gregor/source/keyboard/README.md")
     val layoutTemplate = File("/home/gregor/source/keyboard/layout.h")
-    val timerTemplate = File("/home/gregor/source/keyboard/timer.c")
+    val timerTemplate = File("/home/gregor/source/keyboard/timeout.c")
 
     val comboFile = File("/home/gregor/source/mini-ryoku/qmk/combos.def")
     val layoutFile = File("/home/gregor/source/mini-ryoku/qmk/layout.h")
-    val timeoutFile = File("/home/gregor/source/mini-ryoku/qmk/timeout.c")
+    val timeoutFile = File("/home/gregor/source/mini-ryoku/qmk/custom_timeout.c")
 
     run(config, comboFile, layoutFile, layoutTemplate, timeoutFile, timerTemplate)
 }

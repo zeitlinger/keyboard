@@ -4,6 +4,10 @@
  */
 
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
+  switch(index) {
     ${timeouts}
-    return COMBO_TERM;
+    default:
+      return COMBO_TERM;
+  }
 }
+
