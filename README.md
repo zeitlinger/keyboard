@@ -49,7 +49,7 @@ How to read this layout:
 - /+Ctrl = tab-mod - / on tab and CTRL on hold
 - C-w = Ctrl-w (same for Alt and Shift)
 - "that" = combo that produces "that"
-- c80 custom timeout for combo
+- t80 custom timeout for combo
 - The symbol table at the bottom shows the meaning of the symbols used in the layout.
 
 > **Note**: The layout is generated from this file directly.
@@ -82,7 +82,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |         |   💎    |  k c80  |  bspc   |   💎    |         |         |
+|  Base  |         |         |   💎    |  k t80  |  bspc   |   💎    |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
@@ -93,7 +93,7 @@ How to read this layout:
 |  Base  |   💎    |         |  copy   |  paste  |         |         |   ↩️️   |   💎    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |  "for"  |  "ny"   |         |         |         |
-|  Base  |         |         |         |   💎    |   💎    |         |         |
+|  Base  |         |         |         |   💎    |   💎    |         |         |         |
 |  Base  |         |         |         |  "qu"   |  "ent"  |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         | "the "  |         |         |  "oa"   |         |         |

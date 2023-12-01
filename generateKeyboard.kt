@@ -3,12 +3,14 @@ import java.io.File
 fun main() {
     val config = File("/home/gregor/source/keyboard/README.md")
     val layoutTemplate = File("/home/gregor/source/keyboard/layout.h")
+    val timerTemplate = File("/home/gregor/source/keyboard/timer.c")
 
     val comboFile = File("/home/gregor/source/mini-ryoku/qmk/combos.def")
     val layoutFile = File("/home/gregor/source/mini-ryoku/qmk/layout.h")
+    val timeoutFile = File("/home/gregor/source/mini-ryoku/qmk/timeout.c")
     val features = setOf<Feature>()
 
-    run(config, comboFile, layoutFile, layoutTemplate, features)
+    run(config, comboFile, layoutFile, layoutTemplate, timeoutFile, timerTemplate, features)
 }
 
 const val layerBlocked = "❌"
@@ -31,6 +33,7 @@ data class LayerOption(
 data class Key(
     val key: String,
     val keyWithModifier: String = key,
+    val comboTimeout: Int? = null,
 ) {
     fun isBlocked(): Boolean = keyWithModifier == qmkNo
 }

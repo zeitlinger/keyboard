@@ -116,9 +116,10 @@ fun generateModCombos(
                 ComboType.Combo,
                 comboName(layerName),
                 command,
-                allKeys
+                allKeys,
+                null
             ).takeUnless { hand.isRight } // combo for layer is only needed once
-            else -> Combo(ComboType.Combo, comboName(layerName, hand.name, modTrigger.name), command, allKeys)
+            else -> Combo(ComboType.Combo, comboName(layerName, hand.name, modTrigger.name), command, allKeys, null)
         }
     }
 }

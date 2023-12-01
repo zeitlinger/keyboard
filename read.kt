@@ -69,12 +69,9 @@ fun translateKey(
                     key
                 }
 
-                parts.size == 2 && parts[1].startsWith("c") -> {
-                    val key = translateKey(translator, pos, parts[0])
-                    val timeout = parts[1].drop(1).toInt()
-                    //todo
-//                translator.comboTimeout[key] = timeout
-                    key
+                parts.size == 2 && parts[1].startsWith("t") -> {
+                    translateKey(translator, pos, parts[0])
+                        .copy(comboTimeout = parts[1].drop(1).toInt())
                 }
 
                 else -> throw IllegalArgumentException("unknown command '$pos'")

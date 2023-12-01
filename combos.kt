@@ -2,7 +2,7 @@ enum class ComboType(val template: String) {
     Combo("COMB(%s, %s, %s)"), Substitution("SUBS(%s, %s, %s)")
 }
 
-data class Combo(val type: ComboType, val name: String, val result: String, val triggers: List<Key>)
+data class Combo(val type: ComboType, val name: String, val result: String, val triggers: List<Key>, val timeout: Int?)
 
 data class HomeRowCombo(val targetLayer: String, val key: Key)
 
@@ -92,7 +92,7 @@ private fun generateCustomCombos(
             val type = if (substitutionCombo != null) ComboType.Substitution else ComboType.Combo
             val name = comboName(layer.name, key)
             val content = substitutionCombo ?: key
-            listOf(Combo(type, name, content, keys))
+            listOf(Combo(type, name, content, keys, k.comboTimeout))
         } else emptyList()
     }.filter { it.triggers.size > 1 }
 }

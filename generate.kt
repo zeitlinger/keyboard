@@ -40,7 +40,15 @@ fun getFallback(
     }
 }
 
-fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate: File, features: Set<Feature>) {
+fun run(
+    config: File,
+    comboFile: File,
+    layoutFile: File,
+    layoutTemplate: File,
+    timeoutFile: File,
+    timerTemplate: File,
+    features: Set<Feature>
+) {
     val tables = readTables(config)
 
     val symbols = readSymbols(tables)
@@ -70,7 +78,8 @@ fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate: File, f
 
 //    printMissingAndUnexpected(translator, layers, symbols)
 
-    val combos = generateAllCombos(layers, features, translator.homeRowCombo).map { combo ->
+    val combos = generateAllCombos(layers, features, translator.homeRowCombo)
+    val comboLines = combos.map { combo ->
         combo.type.template.format(
             combo.name.padEnd(35),
             combo.result.padEnd(35),
@@ -78,20 +87,38 @@ fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate: File, f
         )
     }.sorted()
 
+    val timeouts = combos.filter { it.timeout != null }.map {
+        "case ${it.name}: return ${it.timeout};"
+    }.sorted()
+
     val generationNote =
         "file is generated from ${config.name} using https://github.com/zeitlinger/keyboard/blob/main/generateKeyboard.kt"
 
-    val base = layoutTemplate.readText()
-        .replace("\${generationNote}", generationNote)
-        .replace("\${layers}", generateBase(layers))
-        .replace("\${layerNumbers}", layerNumbers.entries
-            .joinToString("\n") { "#define _${it.key.uppercase()} ${it.value}" })
-        .replace("\${custom0}", symbols.userKeycodes[0])
-        .replace("\${customRest}", symbols.userKeycodes.drop(1).joinToString(",\n    "))
+    replaceTemplate(
+        layoutTemplate, layoutFile, mapOf(
+            "generationNote" to generationNote,
+            "layers" to generateBase(layers),
+            "layerNumbers" to layerNumbers.entries
+                .joinToString("\n") { "#define _${it.key.uppercase()} ${it.value}" },
+            "custom0" to symbols.userKeycodes[0],
+            "customRest" to symbols.userKeycodes.drop(1).joinToString(",\n    ")
+        )
+    )
 
-    layoutFile.writeText(base)
+    replaceTemplate(
+        timerTemplate, timeoutFile, mapOf(
+            "generationNote" to generationNote,
+            "timeouts" to timeouts.joinToString("\n")
+        )
+    )
 
-    comboFile.writeText((listOf("// $generationNote") + combos).joinToString("\n"))
+    comboFile.writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
+}
+
+private fun replaceTemplate(src: File, dst: File, vars: Map<String, String>) {
+    dst.writeText(vars.entries.fold(src.readText()) { acc, entry ->
+        acc.replace("\${${entry.key}}", entry.value)
+    })
 }
 
 private fun getKeyTable(layerContent: Table): Map<String, List<List<String>>> = layerContent.drop(1) // Header
