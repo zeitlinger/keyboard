@@ -77,6 +77,6 @@ data class Layer(
 //}
 
 
-fun String.isBlocked() = this == blocked || this == layerBlocked
+fun String.isBlocked() = this.isBlank() || this == layerBlocked || this == qmkNo
 
 

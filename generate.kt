@@ -7,49 +7,36 @@ const val mainLayerTemplate =
             "            %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s,\n" +
             "                            %s, %s, %s, %s),"
 
-fun generateBase(layers: List<Layer>, options: Map<String, LayerOption>): String {
-    val fallback = layers.associateBy { it.name }.mapValues { it.value.baseRows }
-
+fun generateBase(layers: List<Layer>): String {
     return layers
         .filter { !it.option.flags.contains(LayerFlag.Hidden) }
         .joinToString("\n") { layer ->
-            val qmk = layer.baseRows
-                .mapIndexed { rowIndex, row ->
-                    row.mapIndexed { columnIndex, key ->
-                        val left = columnIndex < row.size / 2
-                        getFallback(key, layer.name, fallback, options, rowIndex, columnIndex, left).keyWithModifier
-                    }
-                }.flatten()
-
-            mainLayerTemplate.format(*listOf(layer.number).plus<Any>(qmk).toTypedArray())
+            mainLayerTemplate.format(*listOf(layer.number).plus(layer.baseRows.map { it.map { it.keyWithModifier } }
+                .flatten()).toTypedArray())
         }
 }
 
-private fun getFallback(
-    key: Key,
-    layer: String,
-    fallback: Map<String, Rows>,
-    options: Map<String, LayerOption>,
-    rowIndex: Int,
-    columnIndex: Int,
-    left: Boolean
-): Key {
-    val option = options.getValue(layer)
+fun getFallback(
+    key: String,
+    translator: QmkTranslator,
+    pos: KeyPosition
+): String {
+    val option = translator.options.getValue(pos.layerName)
     if (!key.isBlocked()) {
         return key
     }
+    val left = pos.column < pos.columns / 2
     val fallbackLayer = if (left) option.leftFallbackLayer else option.rightFallbackLayer
     return when {
-        fallbackLayer == null || layer == baseLayerName -> Key(qmkNo)
-        else -> getFallback(
-            fallback.getValue(fallbackLayer)[rowIndex][columnIndex],
-            fallbackLayer,
-            fallback,
-            options,
-            rowIndex,
-            columnIndex,
-            left
-        )
+        fallbackLayer == null || pos.layerName == baseLayerName -> qmkNo
+        else -> {
+            val newPos = pos.copy(layerName = fallbackLayer)
+            getFallback(
+                translator.getKey(newPos),
+                translator,
+                newPos
+            )
+        }
     }
 }
 
@@ -57,11 +44,7 @@ fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate: File, f
     val tables = readTables(config)
 
     val symbols = readSymbols(tables)
-    val thumbs = tables.get("Thumb").drop(1) // Header
-        .groupBy { it[0] }
-        .toMap()
-    val layerContent = tables.get("Layer")
-    val layerNames = layerContent.drop(1).map { it[0] }.toSet().mapIndexed { index, s -> s to index }.toMap()
+    val thumbs = getKeyTable(tables.get("Thumb"))
     val options = tables.get("Options")
         .drop(1)
         .associateBy { it[0] }
@@ -75,11 +58,15 @@ fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate: File, f
             )
         }
 
-    val translator = QmkTranslator(symbols, layerNames, options)
-    val layers = readLayers(layerContent, thumbs, translator, options)
-    val layerNumbers = layers
-        .filter { !it.option.flags.contains(LayerFlag.Hidden) }
-        .joinToString("\n") { "#define _${it.name.uppercase()} ${it.number}" }
+    val nonThumbs = getKeyTable(tables.get("Layer"))
+    val layerNumbers = options
+        .filterNot { it.value.flags.contains(LayerFlag.Hidden) }
+        .asIterable().mapIndexed { index, entry -> entry.key to index }.toMap()
+    val translator = QmkTranslator(symbols, options, nonThumbs, thumbs, layerNumbers, mutableMapOf(), null)
+
+    val layers = nonThumbs.entries.map { (layerName, content) ->
+        readLayer(content, translator, layerName, layerNumbers.getOrDefault(layerName, -1))
+    }
 
 //    printMissingAndUnexpected(translator, layers, symbols)
 
@@ -96,8 +83,9 @@ fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate: File, f
 
     val base = layoutTemplate.readText()
         .replace("\${generationNote}", generationNote)
-        .replace("\${layers}", generateBase(layers, options))
-        .replace("\${layerNumbers}", layerNumbers)
+        .replace("\${layers}", generateBase(layers))
+        .replace("\${layerNumbers}", layerNumbers.entries
+            .joinToString("\n") { "#define _${it.key.uppercase()} ${it.value}" })
         .replace("\${custom0}", symbols.userKeycodes[0])
         .replace("\${customRest}", symbols.userKeycodes.drop(1).joinToString(",\n    "))
 
@@ -105,6 +93,11 @@ fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate: File, f
 
     comboFile.writeText((listOf("// $generationNote") + combos).joinToString("\n"))
 }
+
+private fun getKeyTable(layerContent: Table): Map<String, List<List<String>>> = layerContent.drop(1) // Header
+    .groupBy { it[0] }
+    .mapValues { it.value.map { it.drop(1) } } // First column
+    .toMap()
 
 private fun readSymbols(tables: Tables): Symbols {
     val userKeycodes = mutableListOf<String>()

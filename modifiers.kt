@@ -29,7 +29,7 @@ fun addModTab(key: String, pos: KeyPosition, option: LayerOption): String {
     return when {
         key == layerBlocked -> key
 
-        column < 4 && option.leftModifier.any { it.matchesRow(row) } -> if (key == blocked) {
+        column < pos.columns / 2 && option.leftModifier.any { it.matchesRow(row) } -> if (key.isBlocked()) {
             when (column) {
                 1 -> "KC_LALT"
                 2 -> "KC_LCTL"
@@ -45,7 +45,7 @@ fun addModTab(key: String, pos: KeyPosition, option: LayerOption): String {
             }
         }
 
-        column >= 4 && option.rightModifier.any { it.matchesRow(row) } -> if (key == blocked) {
+        column >= pos.columns / 2 && option.rightModifier.any { it.matchesRow(row) } -> if (key.isBlocked()) {
             when (column) {
                 4 -> "KC_RSFT"
                 5 -> "KC_RCTL"
