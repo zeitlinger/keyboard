@@ -10,7 +10,7 @@ class QmkTranslator(
     private val thumbs: Map<String, List<List<String>>>,
     private val layerNumbers: Map<String, Int>,
     val comboLayerTrigger: MutableMap<String, Key>,
-    var homeRowCombo: HomeRowCombo?,
+    var homeRowThumbCombo: HomeRowCombo?,
 ) {
 
     private val map: Map<String, String>

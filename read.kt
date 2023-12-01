@@ -62,10 +62,10 @@ fun translateKey(
                     key
                 }
 
-                def.startsWith("HomeRowMods:") -> {
+                def.startsWith("HomeRowThumbCombo:") -> {
                     val targetLayer = parts[0].split(":")[1]
                     val key = translateKey(translator, pos, parts[1])
-                    translator.homeRowCombo = HomeRowCombo(targetLayer, key)
+                    translator.homeRowThumbCombo = HomeRowCombo(targetLayer, key)
                     key
                 }
 

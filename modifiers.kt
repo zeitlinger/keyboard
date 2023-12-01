@@ -65,22 +65,22 @@ fun addModTab(key: String, pos: KeyPosition, option: LayerOption): String {
     }
 }
 
-val modTriggers: List<ModTrigger> = listOf(
+val homeRowTriggers: List<ModTrigger> = listOf(
     ModTrigger(emptyList(), "MO(%d)", null),
     ModTrigger(listOf(1, 2), "LM(%d, MOD_LSFT)", "S"),
-    ModTrigger(listOf(2, 4), "LM(%d, MOD_LCTL)", "C"),
-    ModTrigger(listOf(1, 4), "LM(%d, MOD_LALT)", "A"),
+    ModTrigger(listOf(2, 3), "LM(%d, MOD_LCTL)", "C"),
+    ModTrigger(listOf(0, 1), "LM(%d, MOD_LALT)", "A"),
     ModTrigger(listOf(1, 2, 3), "LM(%d, MOD_LCTL | MOD_LSFT)", "CS"),
-    ModTrigger(listOf(1, 2, 4), "LM(%d, MOD_LSFT | MOD_LALT)", "SA"),
-    ModTrigger(listOf(2, 3, 4), "LM(%d, MOD_LCTL | MOD_LALT)", "CA"),
+    ModTrigger(listOf(0, 1, 2), "LM(%d, MOD_LSFT | MOD_LALT)", "SA"),
+    ModTrigger(listOf(0, 3), "LM(%d, MOD_LCTL | MOD_LALT)", "CA"),
     ModTrigger(
-        listOf(1, 2, 3, 4),
+        listOf(0, 1, 2, 3),
         "LM(%d, MOD_LCTL | MOD_LALT | MOD_LSFT)",
         "CSA"
     ),
 )
 
-val homeRowTriggers: List<ModTrigger> = listOf(
+val homeRowThumbTriggers: List<ModTrigger> = listOf(
     ModTrigger(emptyList(), "MO(%d)", null),
     ModTrigger(listOf(1), "LM(%d, MOD_LALT)", "A"),
     ModTrigger(listOf(2), "LM(%d, MOD_LCTL)", "C"),
@@ -100,7 +100,8 @@ fun generateModCombos(
     opposingBase: List<Key>,
     layer: Layer,
     hand: Hand,
-    template: List<ModTrigger>
+    template: List<ModTrigger>,
+    timeout: Int?
 ): List<Combo> {
     val layerName = layer.name
     val layerIndex = layer.number
@@ -119,7 +120,7 @@ fun generateModCombos(
                 allKeys,
                 null
             ).takeUnless { hand.isRight } // combo for layer is only needed once
-            else -> Combo(ComboType.Combo, comboName(layerName, hand.name, modTrigger.name), command, allKeys, null)
+            else -> Combo(ComboType.Combo, comboName(layerName, hand.name, modTrigger.name), command, allKeys, timeout)
         }
     }
 }

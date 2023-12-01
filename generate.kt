@@ -46,14 +46,19 @@ fun run(
     layoutFile: File,
     layoutTemplate: File,
     timeoutFile: File,
-    timerTemplate: File,
-    features: Set<Feature>
+    timerTemplate: File
 ) {
     val tables = readTables(config)
 
     val symbols = readSymbols(tables)
     val thumbs = getKeyTable(tables.get("Thumb"))
-    val options = tables.get("Options")
+    val optionMap = tables.getMappingTable("Options")
+    val options = Options(
+        optionMap["HomeRowComboTimeout"]?.toIntOrNull()?.takeIf { optionMap["HomeRowCombos"] == "yes" },
+        optionMap["HomeRowThumbComboTimeout"]?.toIntOrNull(),
+    )
+
+    val layerOptions = tables.get("LayerOptions")
         .drop(1)
         .associateBy { it[0] }
         .mapValues {
@@ -67,10 +72,10 @@ fun run(
         }
 
     val nonThumbs = getKeyTable(tables.get("Layer"))
-    val layerNumbers = options
+    val layerNumbers = layerOptions
         .filterNot { it.value.flags.contains(LayerFlag.Hidden) }
         .asIterable().mapIndexed { index, entry -> entry.key to index }.toMap()
-    val translator = QmkTranslator(symbols, options, nonThumbs, thumbs, layerNumbers, mutableMapOf(), null)
+    val translator = QmkTranslator(symbols, layerOptions, nonThumbs, thumbs, layerNumbers, mutableMapOf(), null)
 
     val layers = nonThumbs.entries.map { (layerName, content) ->
         readLayer(content, translator, layerName, layerNumbers.getOrDefault(layerName, -1))
@@ -78,7 +83,7 @@ fun run(
 
 //    printMissingAndUnexpected(translator, layers, symbols)
 
-    val combos = generateAllCombos(layers, features, translator.homeRowCombo)
+    val combos = generateAllCombos(layers, options, translator.homeRowThumbCombo)
     val comboLines = combos.map { combo ->
         combo.type.template.format(
             combo.name.padEnd(35),
@@ -108,7 +113,7 @@ fun run(
     replaceTemplate(
         timerTemplate, timeoutFile, mapOf(
             "generationNote" to generationNote,
-            "timeouts" to timeouts.joinToString("\n")
+            "timeouts" to timeouts.joinToString("\n    ")
         )
     )
 

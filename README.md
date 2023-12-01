@@ -4,7 +4,7 @@ Features
 
 - 34 keys
 - [APTex](https://github.com/Apsu/APTex) layout with slight modifications
-- Home row mods (Alt, Ctrl, Shift) on all layers, except the base layer
+- Home row mods (Alt, Ctrl, Shift) on all layers, except the base layer where combos are used instead to avoid timing issues (see [Modifiers](#modifiers))
 - In the base layer, you have to press space and the modifier key at the same time to activate the modifier.
   This is to avoid accidental activation of the modifier.
 - In the shift layer, you can disable shift with the index finger that would usually enable shift.
@@ -26,16 +26,41 @@ Notes
 
 ## Modifiers
 
+Base Layer Modifiers
+        
+todo update once fixed
+            
+| Modifiers      | Fingers                    |
+|----------------|----------------------------|
+| Shift          | Middle, Index              |
+| Ctrl           | Ring, Middle               |
+| Alt            | Pinky, Ring                |
+| Ctrl-Shift     | Ring, Middle, Index        |
+| Alt-Shift      | Pinky, Index               |
+| Ctrl-Alt       | Pinky, Ring, Middle        |
+| Ctrl-Alt-Shift | Pinky, Ring, Middle, Index |
+
 Home row mods (Alt, Ctrl, Shift) on all layers, except the base layer.
 
 If you want modifiers for the base layer, use the shift layer.
 In the shift layer, you can disable shift with the index finger that would usually enable shift.
+
+Modifier for all other layers
 
 | Modifier | Finger |
 |----------|--------|
 | Alt      | Ring   |
 | Ctrl     | Middle |
 | Shift    | Index  |
+
+## Options
+
+| Options                  | Value |
+|--------------------------|-------|
+| HomeRowCombos            | yes   |
+| HomeRowComboTimeout      | 10    |
+| HomeRowThumbComboTimeout | 25    |
+
 
 ## Layout
 
@@ -145,27 +170,27 @@ How to read this layout:
 | Media  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
-| Thumb  | Left Inner |      Left Outer      | Right Outer |        Right Inner         |
-|:------:|:----------:|:--------------------:|:-----------:|:--------------------------:|
-|  Base  |   Shift    | HomeRowMods:Mods spc |      e      | ComboLayer:Sym bspc+NumNav |
-|  Mods  |            |                      |             |            tab             |
-| NumNav |            |          0           |      ❌      |             ❌              | 
-|   Fn   |            |         f11          |     f12     |                            |
-|  SymL  |            |                      |             |                            |
-|  SymR  |    undo    |         tab          |             |                            |
+| Thumb  | Left Inner |         Left Outer         | Right Outer |        Right Inner         |
+|:------:|:----------:|:--------------------------:|:-----------:|:--------------------------:|
+|  Base  |   Shift    | HomeRowThumbCombo:Mods spc |      e      | ComboLayer:Sym bspc+NumNav |
+|  Mods  |            |                            |             |            tab             |
+| NumNav |            |             0              |      ❌      |             ❌              | 
+|   Fn   |            |            f11             |     f12     |                            |
+|  SymL  |            |                            |             |                            |
+|  SymR  |    undo    |            tab             |             |                            |
 
-| Options | Modifiers Left |  Modifiers Right   | Fallback Left | Fallback Right | Flags  |
-|:-------:|:--------------:|:------------------:|:-------------:|:--------------:|--------|
-|  Base   |                |                    |               |                |        |
-|  Mods   |    HomeRow     |      HomeRow       |     Base      |      Base      |        |  
-|  Shift  |    HomeRow     |      HomeRow       |     Base      |      Base      |        |  
-| NumNav  |    HomeRow     |      HomeRow       |               |                |        | 
-|   Fn    |                | HomeRow, BottomRow |               |                |        |  
-|  Mouse  |    HomeRow     |                    |               |                |        |  
-|   Sym   |    HomeRow     |      HomeRow       |               |                | Hidden | 
-|  SymL   |                |                    |      Sym      |                |        | 
-|  SymR   |   BottomRow    |                    |               |      Sym       |        | 
-|  Media  |                |                    |               |                |        |
+| LayerOptions | Modifiers Left |  Modifiers Right   | Fallback Left | Fallback Right | Flags  |
+|:------------:|:--------------:|:------------------:|:-------------:|:--------------:|--------|
+|     Base     |                |                    |               |                |        |
+|     Mods     |    HomeRow     |      HomeRow       |     Base      |      Base      |        |  
+|    Shift     |    HomeRow     |      HomeRow       |     Base      |      Base      |        |  
+|    NumNav    |    HomeRow     |      HomeRow       |               |                |        | 
+|      Fn      |                | HomeRow, BottomRow |               |                |        |  
+|    Mouse     |    HomeRow     |                    |               |                |        |  
+|     Sym      |    HomeRow     |      HomeRow       |               |                | Hidden | 
+|     SymL     |                |                    |      Sym      |                |        | 
+|     SymR     |   BottomRow    |                    |               |      Sym       |        | 
+|    Media     |                |                    |               |                |        |
 
 | Symbol  | Command        |
 |---------|----------------|

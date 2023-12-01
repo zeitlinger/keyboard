@@ -8,17 +8,17 @@ fun main() {
     val comboFile = File("/home/gregor/source/mini-ryoku/qmk/combos.def")
     val layoutFile = File("/home/gregor/source/mini-ryoku/qmk/layout.h")
     val timeoutFile = File("/home/gregor/source/mini-ryoku/qmk/timeout.c")
-    val features = setOf<Feature>()
 
-    run(config, comboFile, layoutFile, layoutTemplate, timeoutFile, timerTemplate, features)
+    run(config, comboFile, layoutFile, layoutTemplate, timeoutFile, timerTemplate)
 }
 
 const val layerBlocked = "❌"
 const val baseLayerName = "Base"
 
-enum class Feature {
-    ModCombo
-}
+data class Options(
+    val homeRowComboTimeout: Int?,
+    val homeRowThumbComboTimeout: Int?,
+)
 
 enum class LayerFlag { Hidden }
 

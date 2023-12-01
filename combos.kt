@@ -11,7 +11,7 @@ const val comboTrigger = "\uD83D\uDC8E" // 💎
 fun getSubstitutionCombo(key: String): String? =
     if (key.startsWith("\"") && key.endsWith("\"")) key else null
 
-fun generateAllCombos(layers: List<Layer>, features: Set<Feature>, homeRowCombo: HomeRowCombo?): List<Combo> {
+fun generateAllCombos(layers: List<Layer>, options: Options, homeRowCombo: HomeRowCombo?): List<Combo> {
     val baseLayer = layers[0]
 
     val homeRowCombos = homeRowCombo?.let { hr ->
@@ -24,16 +24,17 @@ fun generateAllCombos(layers: List<Layer>, features: Set<Feature>, homeRowCombo:
                 getLayerPart(baseLayer.baseRows, hand),
                 homeRowLayer,
                 hand,
-                homeRowTriggers
+                homeRowThumbTriggers,
+                options.homeRowComboTimeout,
             )
         }
     } ?: emptyList()
 
     return homeRowCombos + layers.flatMap { layer ->
-        val combos = generateCombos(features, layer, layer.combos, layer.baseRows, listOf())
+        val combos = generateCombos(options, layer, layer.combos, layer.baseRows, listOf())
         val baseLayerCombos = layer.comboTrigger?.let { trigger ->
             generateCombos(
-                features,
+                options,
                 baseLayer,
                 listOf(layer.baseRows) + layer.combos,
                 baseLayer.baseRows,
@@ -45,15 +46,15 @@ fun generateAllCombos(layers: List<Layer>, features: Set<Feature>, homeRowCombo:
 }
 
 private fun generateCombos(
-    features: Set<Feature>,
+    options: Options,
     layer: Layer,
     activationParts: List<Rows>,
     layerBase: Rows,
     extraKeys: List<Key>
 ): List<Combo> = hands.flatMap { hand ->
     val modCombos =
-        if (features.contains(Feature.ModCombo) && layer.number == 0 && !hand.isThumb && extraKeys.isEmpty()) {
-            generateModCombos(listOf(), getLayerPart(layer.baseRows, hand), layer, hand, modTriggers)
+        if (options.homeRowComboTimeout != null && layer.number == 0 && !hand.isThumb && !hand.isFull && extraKeys.isEmpty()) {
+            generateModCombos(listOf(), getLayerPart(layer.baseRows, hand), layer, hand, homeRowTriggers, options.homeRowComboTimeout)
         } else {
             emptyList()
         }
