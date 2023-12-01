@@ -1,6 +1,4 @@
-import org.hjson.JsonValue
 import java.io.File
-import java.io.FileReader
 
 fun main() {
     val config = File("/home/gregor/source/keyboard/README.md")
@@ -30,16 +28,22 @@ data class LayerOption(
     val flags: Set<LayerFlag>,
 )
 
+data class Key(
+    val key: String,
+    val keyWithModifier: String = key,
+) {
+    fun isBlocked(): Boolean = keyWithModifier.isBlocked()
+}
 
-typealias Rows = List<List<String>>
+
+typealias Rows = List<List<Key>>
 
 data class Layer(
     val name: String,
     val baseRows: Rows,
-    val baseRowsWithMods: Rows,
     val combos: List<Rows>,
     val number: Int,
-    val comboTrigger: String?,
+    val comboTrigger: Key?,
     val option: LayerOption,
 )
 

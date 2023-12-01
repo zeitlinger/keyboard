@@ -45,10 +45,11 @@ How to read this layout:
 - 🪜 = transparent key
 - ❌ = key can't be used because the layer was activated with that key
 - empty = use key from base layer
-- Alt = capitalized words are layer names
+- Fn = capitalized words are layer names
 - /+Ctrl = tab-mod - / on tab and CTRL on hold
 - C-w = Ctrl-w (same for Alt and Shift)
 - "that" = combo that produces "that"
+- c80 custom timeout for combo
 - The symbol table at the bottom shows the meaning of the symbols used in the layout.
 
 > **Note**: The layout is generated from this file directly.
@@ -81,7 +82,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |         |   💎    |    k    |  bspc   |   💎    |         |         |
+|  Base  |         |         |   💎    |  k c80  |  bspc   |   💎    |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
@@ -156,8 +157,8 @@ How to read this layout:
 | Options | Modifiers Left |  Modifiers Right   | Fallback Left | Fallback Right | Flags  |
 |:-------:|:--------------:|:------------------:|:-------------:|:--------------:|--------|
 |  Base   |                |                    |               |                |        |
-|  Shift  |    HomeRow     |      HomeRow       |     Base      |      Base      |        |  
 |  Mods   |    HomeRow     |      HomeRow       |     Base      |      Base      |        |  
+|  Shift  |    HomeRow     |      HomeRow       |     Base      |      Base      |        |  
 | NumNav  |    HomeRow     |      HomeRow       |               |                |        | 
 |   Fn    |                | HomeRow, BottomRow |               |                |        |  
 |  Mouse  |    HomeRow     |                    |               |                |        |  

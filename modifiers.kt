@@ -23,51 +23,45 @@ fun modifierTypes(s: String): List<ModifierType> = s.split(",")
 
 data class ModTrigger(val triggers: List<Int>, val command: String, val name: String?)
 
-fun addModTab(rowNumber: Int, row: List<String>, option: LayerOption): List<String> {
-    return row.mapIndexed { index, key ->
-        when {
-            "(" in key || key == layerBlocked -> {
-                key
-            }
+fun addModTab(key: String, pos: KeyPosition, option: LayerOption): String {
+    val column = pos.column
+    val row = pos.row
+    return when {
+        key == layerBlocked -> key
 
-            index < 4 && option.leftModifier.any { it.matchesRow(rowNumber) } -> {
-                if (key == blocked) {
-                    when (index) {
-                        1 -> "KC_LALT"
-                        2 -> "KC_LCTL"
-                        3 -> "KC_LSFT"
-                        else -> key
-                    }
-                } else {
-                    when (index) {
-                        1 -> "LALT_T($key)"
-                        2 -> "LCTL_T($key)"
-                        3 -> "LSFT_T($key)"
-                        else -> key
-                    }
-                }
+        column < 4 && option.leftModifier.any { it.matchesRow(row) } -> if (key == blocked) {
+            when (column) {
+                1 -> "KC_LALT"
+                2 -> "KC_LCTL"
+                3 -> "KC_LSFT"
+                else -> key
             }
-
-            index >= 4 && option.rightModifier.any { it.matchesRow(rowNumber) } -> {
-                if (key == blocked) {
-                    when (index) {
-                        4 -> "KC_RSFT"
-                        5 -> "KC_RCTL"
-                        6 -> "KC_LALT"
-                        else -> key
-                    }
-                } else {
-                    when (index) {
-                        4 -> "RSFT_T($key)"
-                        5 -> "RCTL_T($key)"
-                        6 -> "LALT_T($key)"
-                        else -> key
-                    }
-                }
+        } else {
+            when (column) {
+                1 -> "LALT_T($key)"
+                2 -> "LCTL_T($key)"
+                3 -> "LSFT_T($key)"
+                else -> key
             }
-
-            else -> key
         }
+
+        column >= 4 && option.rightModifier.any { it.matchesRow(row) } -> if (key == blocked) {
+            when (column) {
+                4 -> "KC_RSFT"
+                5 -> "KC_RCTL"
+                6 -> "KC_LALT"
+                else -> key
+            }
+        } else {
+            when (column) {
+                4 -> "RSFT_T($key)"
+                5 -> "RCTL_T($key)"
+                6 -> "LALT_T($key)"
+                else -> key
+            }
+        }
+
+        else -> key
     }
 }
 
@@ -102,8 +96,8 @@ val homeRowTriggers: List<ModTrigger> = listOf(
 )
 
 fun generateModCombos(
-    layerTrigger: List<String>,
-    opposingBase: List<String>,
+    layerTrigger: List<Key>,
+    opposingBase: List<Key>,
     layer: Layer,
     hand: Hand,
     template: List<ModTrigger>

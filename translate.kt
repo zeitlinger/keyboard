@@ -6,7 +6,8 @@ const val qmkNo = "KC_NO"
 class QmkTranslator(
     val symbols: Symbols,
     private val layerNames: Map<String, Int>,
-    val comboLayerTrigger: MutableMap<String, String> = mutableMapOf(),
+    val options: Map<String, LayerOption>,
+    val comboLayerTrigger: MutableMap<String, Key> = mutableMapOf(),
     var homeRowCombo: HomeRowCombo? = null,
 ) {
 

@@ -17,9 +17,9 @@ data class Hand(
         }
 
         val isFull = halves
-            .any {
-                val comboTriggers = it.filter { it == comboTrigger }.size
-                val used = it.filter { !it.isBlocked() }.size
+            .any { row ->
+                val comboTriggers = row.filter { it.key == comboTrigger }.size
+                val used = row.filter { !it.isBlocked() }.size
                 used > 0 && comboTriggers == 0
             }
         return this.isFull == isFull

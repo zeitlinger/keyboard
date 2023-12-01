@@ -12,35 +12,35 @@ fun generateBase(layers: List<Layer>, options: Map<String, LayerOption>): String
 
     return layers
         .filter { !it.option.flags.contains(LayerFlag.Hidden) }
-        .map { layer ->
-        val qmk = layer.baseRowsWithMods
-            .mapIndexed { rowIndex, row ->
-                row.mapIndexed { columnIndex, key ->
-                    val left = columnIndex < row.size / 2
-                    getFallback(key, layer.name, fallback, options, rowIndex, columnIndex, left)
-                }
-            }.flatten()
+        .joinToString("\n") { layer ->
+            val qmk = layer.baseRows
+                .mapIndexed { rowIndex, row ->
+                    row.mapIndexed { columnIndex, key ->
+                        val left = columnIndex < row.size / 2
+                        getFallback(key, layer.name, fallback, options, rowIndex, columnIndex, left).keyWithModifier
+                    }
+                }.flatten()
 
-        mainLayerTemplate.format(*listOf(layer.number).plus<Any>(qmk).toTypedArray())
-    }.joinToString("\n")
+            mainLayerTemplate.format(*listOf(layer.number).plus<Any>(qmk).toTypedArray())
+        }
 }
 
 private fun getFallback(
-    key: String,
+    key: Key,
     layer: String,
     fallback: Map<String, Rows>,
     options: Map<String, LayerOption>,
     rowIndex: Int,
     columnIndex: Int,
     left: Boolean
-): String {
+): Key {
     val option = options.getValue(layer)
     if (!key.isBlocked()) {
         return key
     }
     val fallbackLayer = if (left) option.leftFallbackLayer else option.rightFallbackLayer
     return when {
-        fallbackLayer == null || layer == baseLayerName -> qmkNo
+        fallbackLayer == null || layer == baseLayerName -> Key(qmkNo)
         else -> getFallback(
             fallback.getValue(fallbackLayer)[rowIndex][columnIndex],
             fallbackLayer,
@@ -75,7 +75,7 @@ fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate: File, f
             )
         }
 
-    val translator = QmkTranslator(symbols, layerNames)
+    val translator = QmkTranslator(symbols, layerNames, options)
     val layers = readLayers(layerContent, thumbs, translator, options)
     val layerNumbers = layers
         .filter { !it.option.flags.contains(LayerFlag.Hidden) }
@@ -87,8 +87,7 @@ fun run(config: File, comboFile: File, layoutFile: File, layoutTemplate: File, f
         combo.type.template.format(
             combo.name.padEnd(35),
             combo.result.padEnd(35),
-            combo.triggers
-                .joinToString(", ")
+            combo.triggers.joinToString(", ") { it.keyWithModifier }
         )
     }.sorted()
 

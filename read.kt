@@ -1,6 +1,11 @@
-
 const val keyboardRows = 3
 const val thumbRows = 1
+
+data class KeyPosition(
+    val row: Int,
+    val column: Int,
+    val layerName: String
+)
 
 fun readLayers(
     layerContent: Table,
@@ -13,20 +18,16 @@ fun readLayers(
         .toMap()
     var layerNumber = -1
     return layerByName.entries.map { (layerName, content) ->
-        val data = translateTable(content, translator)
+        val data = translateTable(content, translator, layerName)
         val base = data.take(keyboardRows)
         val option = options.getValue(layerName)
-        val baseWithMods = base
-            .mapIndexed { row, def ->
-                addModTab(row, def, option)
-            }
-
 
         val combos = data.drop(keyboardRows).chunked(keyboardRows)
 
         val thumbData = translateTable(
-            thumbs[layerName] ?: listOf(List(5) { " " }),
-            translator
+            thumbs[layerName] ?: listOf(List(5) { "" }),
+            translator,
+            layerName
         )
 //        val baseThumb = listOf(thumbData.getOrElse(0) { _ -> listOf(" ").repeat(4) })
         val baseThumb = listOf(thumbData[0])
@@ -39,7 +40,6 @@ fun readLayers(
         Layer(
             layerName,
             (base + baseThumb),
-            (baseWithMods + baseThumb),
             combos + comboThumb,
             layerNumber,
             translator.comboLayerTrigger[layerName],
@@ -49,62 +49,82 @@ fun readLayers(
 }
 
 private fun translateCommand(
-    command: String,
-    translator: QmkTranslator
-): String = when {
-    translator.symbols.mapping.containsKey(command) -> {
-        command // is translated later
-    }
+    translator: QmkTranslator,
+    pos: KeyPosition,
+    def: String,
+): Key =
+    //comes first, so that we can override the meaning of + and -
+    when {
+    translator.symbols.mapping.containsKey(def) -> translateSimpleKey(translator, def, pos)
 
-    command.startsWith("ComboLayer:") -> {
-        val parts = command.split(" ")
-        val trigger = parts[0].split(":")[1]
-        val key = translateCommand(parts[1], translator)
-        translator.comboLayerTrigger[trigger] = key
-        key
-    }
+    def.contains(" ") && !def.startsWith("\"") -> {
+        val parts = def.split(" ")
+        when {
+            def.startsWith("ComboLayer:") -> {
+                val trigger = parts[0].split(":")[1]
+                val key = translateCommand(translator, pos, parts[1])
+                translator.comboLayerTrigger[trigger] = key
+                key
+            }
 
-    command.startsWith("HomeRowMods:") -> {
-        val parts = command.split(" ")
-        val targetLayer = parts[0].split(":")[1]
-        val key = translateCommand(parts[1], translator)
-        translator.homeRowCombo = HomeRowCombo(targetLayer, key)
-        key
-    }
+            def.startsWith("HomeRowMods:") -> {
+                val targetLayer = parts[0].split(":")[1]
+                val key = translateCommand(translator, pos, parts[1])
+                translator.homeRowCombo = HomeRowCombo(targetLayer, key)
+                key
+            }
 
-    command.contains("+") && command.length > 1 -> {
-        val parts = command.split("+")
-        "LT(${translator.mustTranslateLayer(parts[1])},${translator.toQmk(parts[0])})"
-    }
+            parts.size == 2 && parts[1].startsWith("c") -> {
+                val key = translateCommand(translator, pos, parts[0])
+                val timeout = parts[1].drop(1).toInt()
+                //todo
+//                translator.comboTimeout[key] = timeout
+                key
+            }
 
-    command.contains("-") && command.length > 1 -> {
-        val parts = command.split("-")
-        val modifier = parts[0]
-        val key = translator.toQmk(parts[1])
-        when (modifier) {
-            "A" -> "LALT(${key})"
-            "C" -> "LCTL(${key})"
-            "S" -> "LSFT(${key})"
-            "CS" -> "RCS(${key})"
-            else -> throw IllegalStateException("unknown modifier $modifier")
+            else -> throw IllegalArgumentException("unknown command '$pos'")
         }
     }
 
-    command.isNotBlank() && command[0].isUpperCase() -> {
-        "MO(${translator.mustTranslateLayer(command)})"
+    def.contains("+") && def.length > 1 -> {
+        val parts = def.split("+")
+        val key = translateCommand(translator, pos, parts[0]).key
+        Key("LT(${translator.mustTranslateLayer(parts[1])},$key)")
     }
 
-    else -> {
-        command
+    def.contains("-") && def.length > 1 -> {
+        val parts = def.split("-")
+        val modifier = parts[0]
+        val key = translateCommand(translator, pos, parts[1]).key
+        Key(
+            when (modifier) {
+                "A" -> "LALT(${key})"
+                "C" -> "LCTL(${key})"
+                "S" -> "LSFT(${key})"
+                "CS" -> "RCS(${key})"
+                else -> throw IllegalStateException("unknown modifier $modifier")
+            }
+        )
     }
+
+    def.isNotBlank() && def[0].isUpperCase() -> {
+        Key("MO(${translator.mustTranslateLayer(def)})")
+    }
+
+    else -> translateSimpleKey(translator, def, pos)
+}
+
+private fun translateSimpleKey(translator: QmkTranslator, def: String, pos: KeyPosition): Key {
+    val key = translator.toQmk(def)
+    return Key(key, addModTab(key, pos, translator.options.getValue(pos.layerName)))
 }
 
 private fun translateTable(
     content: List<List<String>>,
-    translator: QmkTranslator
-) = content.map { it.drop(1) }
-    .map { row ->
+    translator: QmkTranslator,
+    layerName: String
+): Rows = content.map { it.drop(1) }
+    .mapIndexed { rowNumber, row ->
         row
-            .map { translateCommand(it, translator) }
-            .map { translator.toQmk(it) }
+            .mapIndexed { column, def -> translateCommand(translator, KeyPosition(rowNumber, column, layerName), def) }
     }
