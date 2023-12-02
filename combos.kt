@@ -12,11 +12,17 @@ fun getSubstitutionCombo(key: String): String? =
         if (key.startsWith("\"") && key.endsWith("\"")) key else null
 
 fun generateAllCombos(layers: List<Layer>, options: Options, homeRowCombo: HomeRowCombo?): List<Combo> =
-        homeRowCombos(homeRowCombo, layers, options) + layerCombos(layers, options).also { combos ->
-            combos.groupBy { it.triggers }.filter { it.value.size > 1 }.forEach { (triggers, combos) ->
-                throw IllegalStateException("duplicate triggers ${triggers.joinToString(", ") { it.key }} in ${combos.joinToString(", ") { it.name }}")
-            }
-        }
+        (homeRowCombos(homeRowCombo, layers, options) + layerCombos(layers, options))
+                .also { combos ->
+                    combos.groupBy { it.triggers }.filter { it.value.size > 1 }.forEach { (triggers, combos) ->
+                        throw IllegalStateException("duplicate triggers ${triggers.joinToString(", ") { it.key }} in ${combos.joinToString(", ") { it.name }}")
+                    }
+                }
+                .also { combos ->
+                    combos.groupBy { it.name }.filter { it.value.size > 1 }.forEach { (name, combos) ->
+                        throw IllegalStateException("duplicate combo name $name in ${combos.joinToString(", ") { it.name }}")
+                    }
+                }
 
 private fun layerCombos(layers: List<Layer>, options: Options) = layers.flatMap { layer ->
     val combos = generateCombos(options, layer, layer.combos, layer.baseRows, listOf())

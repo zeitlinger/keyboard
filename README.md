@@ -56,10 +56,10 @@ Modifier for all other layers
 ## Options
 
 | Options                  | Value |
-|--------------------------|-------|
-| HomeRowCombos            | yes   |
-| HomeRowComboTimeout      | 12    |
-| HomeRowThumbComboTimeout | 35    |  
+|--------------------------|----|
+| HomeRowCombos            | yes |
+| HomeRowComboTimeout      | 10 |
+| HomeRowThumbComboTimeout | 35 |  
 
                                                                     
 ## Layout
@@ -78,7 +78,7 @@ How to read this layout:
 - The symbol table at the bottom shows the meaning of the symbols used in the layout.
 
 > **Note**: The layout is generated from this file directly.
-
+                                                                      
 | Layer  | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
 |  Base  |    /    |    w    |    m    |    f    |    y    |    o    |    u    |    -    |
@@ -115,7 +115,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         | cut 100 | S-paste |         |         |         |         |
-|  Base  |   💎    |         |  copy   |  paste  |         |         |   ↩️️   |   💎    |
+|  Base  |   💎    |         |  copy   |  paste  |         |         |  .spc   |   💎    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |  "for"  |  "ny"   |         |         |         |
 |  Base  |         |         |         |   💎    |   💎    |         |         |         |
@@ -131,7 +131,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |  "tio"  |         |         |         |         |         |         |  "l."   |
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
-|  Base  |  "br"   |         |         |         |         |         |         |  .spc   |
+|  Base  |  "br"   |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Mods  |         |         |         |         |         |         |         |         |
 |  Mods  |         |         |         |         |         |         |         |         |
