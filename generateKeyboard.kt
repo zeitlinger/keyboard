@@ -18,8 +18,10 @@ const val layerBlocked = "❌"
 const val baseLayerName = "Base"
 
 data class Options(
-    val homeRowComboTimeout: Int?,
-    val homeRowThumbComboTimeout: Int,
+        val homeRowComboTimeout: Int?,
+        val homeRowThumbComboTimeout: Int,
+        val homeRowOneShotTriggers: List<ModTrigger>,
+        val homeRowThumbCombos: List<ModTrigger>,
 )
 
 enum class LayerFlag { Hidden }

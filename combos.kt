@@ -64,7 +64,7 @@ private fun homeRowCombos(
                     getLayerPart(layers[0].baseRows, hand),
                     homeRowLayer,
                     hand,
-                    homeRowThumbTriggers,
+                    options.homeRowThumbCombos,
                     options.homeRowThumbComboTimeout,
             )
         }
@@ -87,7 +87,7 @@ private fun generateCombos(
                         getLayerPart(layer.baseRows, hand),
                         layer,
                         hand,
-                        homeRowTriggers,
+                        options.homeRowOneShotTriggers,
                         options.homeRowComboTimeout
                 )
             } else {

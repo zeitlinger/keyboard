@@ -65,32 +65,55 @@ fun addModTab(key: String, pos: KeyPosition, option: LayerOption): String {
     }
 }
 
-val homeRowTriggers: List<ModTrigger> = listOf(
-        ModTrigger(listOf(1, 2), "OSM(MOD_LSFT)", "S"),
-        ModTrigger(listOf(2, 3), "OSM(MOD_LCTL)", "C"),
-        ModTrigger(listOf(0, 1), "OSM(MOD_LALT)", "A",20),
-        ModTrigger(listOf(1, 2, 3), "OSM(MOD_LCTL | MOD_LSFT)", "CS"),
-        ModTrigger(listOf(0, 1, 2), "OSM(MOD_LSFT | MOD_LALT)", "SA"),
-        ModTrigger(listOf(0, 3), "OSM(MOD_LCTL | MOD_LALT)", "CA",20),
-        ModTrigger(
-                listOf(0, 1, 2, 3),
-                "OSM(MOD_LCTL | MOD_LALT | MOD_LSFT)",
-                "CSA"
-        ),
+fun createModTriggers(mappingTable: Table, template: Map<String, String>): List<ModTrigger> =
+        mappingTable.drop(1).map { (triggers, fingers, timeoutDelta) ->
+            val key = triggers.split("-").map {
+                when (it) {
+                    "Shift" -> "S"
+                    "Ctrl" -> "C"
+                    "Alt" -> "A"
+                    else -> throw IllegalStateException("unknown modifier $it")
+                }
+            }.sortedBy {
+                when (it) {
+                    "C" -> 0
+                    "S" -> 1
+                    "A" -> 2
+                    else -> throw IllegalStateException("unknown modifier $it")
+                }
+            }.joinToString("")
+
+            val fingerIndexes = fingers.split(", ").map { finger ->
+                when (finger) {
+                    "Pinky" -> 0
+                    "Ring" -> 1
+                    "Middle" -> 2
+                    "Index" -> 3
+                    else -> throw IllegalStateException("unknown finger $finger")
+                }
+            }
+
+            ModTrigger(fingerIndexes, template.getValue(key), key, timeoutDelta.toIntOrNull() ?: 0)
+        }
+
+val homeRowOneShotTriggers: Map<String, String> = mapOf(
+        "A" to "OSM(MOD_LALT)",
+        "C" to "OSM(MOD_LCTL)",
+        "S" to "OSM(MOD_LSFT)",
+        "CS" to "OSM(MOD_LCTL | MOD_LSFT)",
+        "SA" to "OSM(MOD_LSFT | MOD_LALT)",
+        "CA" to "OSM(MOD_LCTL | MOD_LALT)",
+        "CSA" to "OSM(MOD_LCTL | MOD_LALT | MOD_LSFT)"
 )
 
-val homeRowThumbTriggers: List<ModTrigger> = listOf(
-        ModTrigger(listOf(1), "LM(%d, MOD_LALT)", "A"),
-        ModTrigger(listOf(2), "LM(%d, MOD_LCTL)", "C"),
-        ModTrigger(listOf(3), "LM(%d, MOD_LSFT)", "S"),
-        ModTrigger(listOf(2, 3), "LM(%d, MOD_LCTL | MOD_LSFT)", "CS"),
-        ModTrigger(listOf(1, 3), "LM(%d, MOD_LSFT | MOD_LALT)", "SA"),
-        ModTrigger(listOf(1, 2), "LM(%d, MOD_LCTL | MOD_LALT)", "CA"),
-        ModTrigger(
-                listOf(1, 2, 3),
-                "LM(%d, MOD_LCTL | MOD_LALT | MOD_LSFT)",
-                "CSA"
-        ),
+val homeRowThumbTriggers: Map<String, String> = mapOf(
+        "A" to "LM(%d, MOD_LALT)",
+        "C" to "LM(%d, MOD_LCTL)",
+        "S" to "LM(%d, MOD_LSFT)",
+        "CS" to "LM(%d, MOD_LCTL | MOD_LSFT)",
+        "SA" to "LM(%d, MOD_LSFT | MOD_LALT)",
+        "CA" to "LM(%d, MOD_LCTL | MOD_LALT)",
+        "CSA" to "LM(%d, MOD_LCTL | MOD_LALT | MOD_LSFT)"
 )
 
 fun generateModCombos(
@@ -118,7 +141,7 @@ fun generateModCombos(
                     allKeys,
                     null
             ).takeUnless { hand.isRight } // combo for layer is only needed once
-            else -> Combo(ComboType.Combo, comboName(name, hand.name, modTrigger.name), command, allKeys, timeout+modTrigger.timeoutDelta)
+            else -> Combo(ComboType.Combo, comboName(name, hand.name, modTrigger.name), command, allKeys, timeout + modTrigger.timeoutDelta)
         }
     }
 }

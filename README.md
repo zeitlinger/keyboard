@@ -27,18 +27,32 @@ Notes
 ## Modifiers
 
 Base Layer Modifiers
-        
-todo update once fixed
+
+| Options                  | Value |
+|--------------------------|-------|
+| HomeRowCombos            | yes   |
+| HomeRowComboTimeout      | 10    |
+| HomeRowThumbComboTimeout | 35    |  
             
-| Modifiers      | Fingers                    |
-|----------------|----------------------------|
-| Shift          | Middle, Index              |
-| Ctrl           | Ring, Middle               |
-| Alt            | Pinky, Ring                |
-| Ctrl-Shift     | Ring, Middle, Index        |
-| Alt-Shift      | Pinky, Index               |
-| Ctrl-Alt       | Pinky, Ring, Middle        |
-| Ctrl-Alt-Shift | Pinky, Ring, Middle, Index |
+| Base Layer One Shot Mod Combos | Fingers                    | Timeout Delta |
+|--------------------------------|----------------------------|:-------------:|
+| Shift                          | Ring, Middle               |               |
+| Ctrl                           | Middle, Index              |               |
+| Alt                            | Pinky, Ring                |      20       |
+| Ctrl-Shift                     | Ring, Middle, Index        |               |
+| Alt-Shift                      | Pinky, Ring, Middle        |               |
+| Ctrl-Alt                       | Pinky, Index               |      20       |
+| Ctrl-Alt-Shift                 | Pinky, Ring, Middle, Index |               |
+            
+| Base Layer Thumb Mod Combos | Fingers             | Timeout Delta |
+|-----------------------------|---------------------|:-------------:|
+| Shift                       | Index               |               |
+| Ctrl                        | Middle              |               |
+| Alt                         | Ring                |               |
+| Ctrl-Shift                  | Middle, Index       |               |
+| Alt-Shift                   | Ring, Index         |               |
+| Ctrl-Alt                    | Ring, Middle        |               |
+| Ctrl-Alt-Shift              | Ring, Middle, Index |               |
 
 Home row mods (Alt, Ctrl, Shift) on all layers, except the base layer.
 
@@ -54,12 +68,6 @@ Modifier for all other layers
 | Shift    | Index  |
 
 ## Options
-
-| Options                  | Value |
-|--------------------------|-------|
-| HomeRowCombos            | yes   |
-| HomeRowComboTimeout      | 10    |
-| HomeRowThumbComboTimeout | 35    |  
 
                                                                     
 ## Layout
