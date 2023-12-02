@@ -70,7 +70,7 @@ How to read this layout:
 - /+Ctrl = tab-mod - / on tab and CTRL on hold
 - C-w = Ctrl-w (same for Alt and Shift)
 - "that" = combo that produces "that"
-- t80 custom timeout for combo
+- 80 custom timeout for combo
 - The symbol table at the bottom shows the meaning of the symbols used in the layout.
 
 > **Note**: The layout is generated from this file directly.
@@ -81,15 +81,15 @@ How to read this layout:
 |  Base  |    r    |    s    |    t    |    h    |    n    |    a    |    i    |    l    |
 |  Base  | b+SymR  |    c    |    g    |    d    |    p    |    '    | ,+SymL  |  .+Fn   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |         |   💎    |    z    |         |    ö    |    ü    |         |
-|  Base  |         |         |         |         |    -    |    ä    |    _    |    ß    |
+|  Base  |         |         |   💎    |    z    |    ß    |    ö    |    ü    |         |
+|  Base  |         |         |         |         |    -    |    ä    |    _    |    &    |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |   💎    |   tab   |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |   💎    |    v    |   f4    |         |   💎    |   ↩️️   |         |
+|  Base  |         |   💎    |    v    |   f4    |         |   💎    | ↩️️ 20  |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -110,8 +110,8 @@ How to read this layout:
 |  Base  |         |   💎    |    j    |    x    |         |   rep   |   💎    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |         | cut 100 | S-paste |         |         |         |         |
-|  Base  |   💎    |  A-f7   |  copy   |  paste  |         |         |  capsW  |   💎    |
+|  Base  |         |         |  A-f7   | S-paste |         |         |         |         |
+|  Base  |   💎    | cut 100 |  copy   |  paste  |         |         |  capsW  |   💎    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |  "for"  |  "ny"   |         |         |         |
 |  Base  |         |         |         |   💎    |   💎    |         |         |         |
@@ -146,12 +146,12 @@ How to read this layout:
 |   Fn   |   f10   |   f9    |   f8    |   f7    |         |         |         |    ❌    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Mouse  |         |         |         |         |  🖱️3   |  🖱️1   |  🖱️2   |         |
-| Mouse  |    ❌    |    ❌    |  🖱️2   |  🖱️1   |  🖱️⬅️  |  🖱️⬆️  |  🖱️⬇️  |  🖱️➡️  |    
+| Mouse  |         |         |  🖱️2   |  🖱️1   |  🖱️⬅️  |  🖱️⬆️  |  🖱️⬇️  |  🖱️➡️  |    
 | Mouse  |         |         |         |         | 🖲️️⬅️  | 🖲️️⬆️  | 🖲️️⬇️  | 🖲️️➡️  |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Sym   |         |    ~    |    +    |    %    |    /    |    {    |    }    |         |
 |  Sym   |    $    |    (    |    )    |    :    |    ;    |    [    |    ]    |    \    |    
-|  Sym   |    ^    |    #    |    @    |    *    |    `    |    =    |  pipe   |    &    |
+|  Sym   |    ^    |    #    |    @    |    *    |    `    |    "    |    =    |  pipe   |        
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  SymL  |         |         |         |         |         |         |         |         |
 |  SymL  |         |         |         |         |         |         |         |         |
@@ -159,10 +159,10 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  SymR  |         |         |         |         |         |         |         |         |
 |  SymR  |         |  A-f4   |   win   |   C-w   |         |         |         |         |
-|  SymR  |    ❌    |         |         |         |         |         |         |         |
+|  SymR  |    ❌    |   alt   | s/undo  | c/redo  |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Media  |         |         |         |         |         |         |         |         |
-| Media  |    ❌    |   prt   |         |         |         |         |         |         |
+| Media  |         |         |   prt   |         |         |   🔅    |   🔆    |         |
+| Media  |    ❌    |   🔈    |   🔊    |   🔇    |   ⏯️    |   ⏮️    |   ⏭️    |         |
 | Media  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
@@ -185,7 +185,7 @@ How to read this layout:
 |    NumNav    |    HomeRow     |      HomeRow       |               |                |        | 
 |      Fn      |                | HomeRow, BottomRow |               |                |        |  
 |    Mouse     |    HomeRow     |                    |               |                |        |  
-|     Sym      |    HomeRow     |      HomeRow       |               |                | Hidden | 
+|     Sym      |                |                    |               |                | Hidden | 
 |     SymL     |                |                    |      Sym      |                |        | 
 |     SymR     |   BottomRow    |                    |               |      Sym       |        | 
 |    Media     |                |                    |               |                |        |
@@ -204,7 +204,7 @@ How to read this layout:
 | del     | KC_DEL              |
 | spc     | KC_SPC              |
 | esc     | KC_ESC              |
-| ↩️️     | KC_ENT              |
+| ↩️️     | KC_ENT              |                           
 | bspc    | KC_BSPC             |
 | win     | KC_LGUI             |
 | alt     | KC_LALT             |
@@ -218,28 +218,40 @@ How to read this layout:
 | 🖱️➡️   | KC_MS_R             |
 | 🖲️️⬅️  | KC_WH_L             |
 | 🖲️️⬇️  | KC_WH_D             |
-| 🖲️️⬆️  | KC_WH_U             |
+| 🖲️️⬆️  | KC_WH_U             |        
 | 🖲️️➡️  | KC_WH_R             |
 | 🖱️1    | KC_BTN1             |
 | 🖱️2    | KC_BTN2             |
 | 🖱️3    | KC_BTN3             |
+| 🔇      | KC_MUTE             |
+| ⏯️      | KC_MPLY             |
+| ⏮️      | KC_MPRV             |
+| ⏭️      | KC_MNXT             |
+| 🔊      | KC_VOLU             |
+| 🔈      | KC_VOLD             |
+| 🔆      | KC_BRIU             |
+| 🔅      | KC_BRID             |
 | redo    | RCS(KC_Z)           |
 | undo    | LCTL(KC_Z)          |
+| c/redo  | LCTL(KC_AGAIN)      |
+| s/undo  | LSFT(KC_UNDO)       |
 | copy    | LCTL(KC_C)          |
 | paste   | LCTL(KC_V)          |
 | S-paste | RCS(KC_V)           |
 | cut     | LCTL(KC_X)          |
 | ä       | RALT(KC_Q)          |
-| ö       | RALT(KC_P)          |
+| ö       | RALT(KC_P)          |                                         
 | ü       | RALT(KC_Y)          |
 | ß       | RALT(KC_S)          |
 | '       | RALT(KC_QUOTE)      |
-| "       | RSA(KC_QUOTE)       |
-| `       | RALT(KC_TILD)       |
-| ~       | RSA(KC_TILD)        |
+| "       | RALT(KC_DQUO)       |
+| `       | RALT(KC_GRV)        |
+| ~       | RALT(KC_TILD)       |
+| ^       | RALT(KC_CIRC)       |
 | 🪜      | KC_TRNS             |
 | rep     | QK_REPEAT_KEY       |
 | aRep    | QK_ALT_REPEAT_KEY   |
 | capsW   | QK_CAPS_WORD_TOGGLE |
 | Mouse   | custom:MOUSE        |
 | .spc    | custom:DOT_SPC      |
+                                                                
