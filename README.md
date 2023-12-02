@@ -33,7 +33,7 @@ Base Layer Modifiers
 | Timeout                        | 10                         |               |
 | Shift                          | Ring, Middle               |               |
 | Ctrl                           | Middle, Index              |               |
-| Alt                            | Ring, Index                |               |
+| Alt                            | Ring, Index                |      10       |
 | Ctrl-Shift                     | Ring, Middle, Index        |               |
 | Alt-Shift                      | Pinky, Ring, Middle        |               |
 | Ctrl-Alt                       | Pinky, Index               |      20       |
@@ -89,7 +89,7 @@ How to read this layout:
 |  Base  |   💎    |   tab   |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |   💎    |    v    |         |         |   💎    |   ↩️️   |         |
+|  Base  |         |   💎    |    v    |   f4    |         |   💎    |   ↩️️   |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -111,7 +111,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         | cut 100 | S-paste |         |         |         |         |
-|  Base  |   💎    |         |  copy   |  paste  |         |         |  capsW  |   💎    |
+|  Base  |   💎    |  A-f7   |  copy   |  paste  |         |         |  capsW  |   💎    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |  "for"  |  "ny"   |         |         |         |
 |  Base  |         |         |         |   💎    |   💎    |         |         |         |
@@ -139,7 +139,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | NumNav |         |    6    |    5    |         |   esc   |  ⬆️⬆️   |  ⬇️⬇️   |         |
 | NumNav |    4    |    3    |    2    |    1    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
-| NumNav |   ins   |    9    |    8    |    7    |  ⬅️⬅️   |  bspc   |   del   |  ➡️➡️   |
+| NumNav |         |    9    |    8    |    7    |  ⬅️⬅️   |  bspc   |   del   |  ➡️➡️   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |   Fn   |         |   f6    |   f5    |         |         |         |         |         |
 |   Fn   |   f4    |   f3    |   f2    |   f1    |         |         |         |         |    
@@ -171,8 +171,8 @@ How to read this layout:
 |  Base  |   Shift    | HomeRowThumbCombo:Mods spc |      e      | ComboLayer:Sym bspc+NumNav |
 |  Base  |     💎     |                            |             |           Mouse            |
 |  Mods  |            |                            |             |            tab             |
-| Shift  |            |                            |             |            spc             |
-| NumNav |            |             0              |      ❌      |             ❌              | 
+| Shift  |     ❌      |             ❌              |             |            spc             |
+| NumNav |    ins     |             0              |      ❌      |             ❌              | 
 |   Fn   |            |            f11             |     f12     |                            |
 |  SymL  |            |                            |             |                            |
 |  SymR  |    undo    |            tab             |     spc     |            redo            |
