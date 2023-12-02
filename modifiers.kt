@@ -80,7 +80,6 @@ val homeRowTriggers: List<ModTrigger> = listOf(
 )
 
 val homeRowThumbTriggers: List<ModTrigger> = listOf(
-        ModTrigger(emptyList(), "MO(%d)", null),
         ModTrigger(listOf(1), "LM(%d, MOD_LALT)", "A"),
         ModTrigger(listOf(2), "LM(%d, MOD_LCTL)", "C"),
         ModTrigger(listOf(3), "LM(%d, MOD_LSFT)", "S"),
