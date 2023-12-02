@@ -1,13 +1,15 @@
 import java.io.File
 
 fun main() {
-    val config = File("/home/gregor/source/keyboard/README.md")
-    val layoutTemplate = File("/home/gregor/source/keyboard/layout.h")
-    val timerTemplate = File("/home/gregor/source/keyboard/timeout.c")
+    val target = "/home/gregor/source/mini-ryoku"
+    val src = "$target/keyboard"
+    val config = File("$src/README.md")
+    val layoutTemplate = File("$src/layout.h")
+    val timerTemplate = File("$src/timeout.c")
 
-    val comboFile = File("/home/gregor/source/mini-ryoku/qmk/combos.def")
-    val layoutFile = File("/home/gregor/source/mini-ryoku/qmk/layout.h")
-    val timeoutFile = File("/home/gregor/source/mini-ryoku/qmk/custom_timeout.c")
+    val comboFile = File("$target/qmk/combos.def")
+    val layoutFile = File("$target/qmk/layout.h")
+    val timeoutFile = File("$target/qmk/custom_timeout.c")
 
     run(config, comboFile, layoutFile, layoutTemplate, timeoutFile, timerTemplate)
 }
