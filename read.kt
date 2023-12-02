@@ -90,9 +90,9 @@ fun translateKey(
             val key = translateKey(translator, pos, parts[1]).key
             Key(
                 when (modifier) {
-                    "A" -> "LALT(${key})"
-                    "C" -> "LCTL(${key})"
-                    "S" -> "LSFT(${key})"
+                    "A" -> "A(${key})"
+                    "C" -> "C(${key})"
+                    "S" -> "S(${key})"
                     "CS" -> "RCS(${key})"
                     else -> throw IllegalStateException("unknown modifier $modifier")
                 }

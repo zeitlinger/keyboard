@@ -36,38 +36,24 @@ fun addModTab(key: String, pos: KeyPosition, translator: QmkTranslator): String 
     return when {
         key == layerBlocked -> key
 
-        column < pos.columns / 2 && layerOption.leftModifier.any { it.matchesRow(row) } -> if (key == qmkNo) {
-            when (mod) {
-                alt -> "KC_LALT"
-                ctrl -> "KC_LCTL"
-                shift -> "KC_LSFT"
-                else -> key
-            }
-        } else {
-            when (mod) {
-                alt -> "LALT_T($key)"
-                ctrl -> "LCTL_T($key)"
-                shift -> "LSFT_T($key)"
-                else -> key
-            }
-        }
+        column < pos.columns / 2 && layerOption.leftModifier.any { it.matchesRow(row) } -> applyModTap(key, mod)
+        column >= pos.columns / 2 && layerOption.rightModifier.any { it.matchesRow(row) } -> applyModTap(key, mod)
+        else -> key
+    }
+}
 
-        column >= pos.columns / 2 && layerOption.rightModifier.any { it.matchesRow(row) } -> if (key == qmkNo) {
-            when (mod) {
-                shift -> "KC_RSFT"
-                ctrl -> "KC_RCTL"
-                alt -> "KC_LALT"
-                else -> key
-            }
-        } else {
-            when (mod) {
-                shift -> "RSFT_T($key)"
-                ctrl -> "RCTL_T($key)"
-                alt -> "LALT_T($key)"
-                else -> key
-            }
-        }
-
+private fun applyModTap(key: String, mod: String?) = if (key == qmkNo) {
+    when (mod) {
+        alt -> "KC_LALT"
+        ctrl -> "KC_LCTL"
+        shift -> "KC_LSFT"
+        else -> key
+    }
+} else {
+    when (mod) {
+        alt -> "ALT_T($key)"
+        ctrl -> "CTL_T($key)"
+        shift -> "SFT_T($key)"
         else -> key
     }
 }
