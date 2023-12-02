@@ -56,10 +56,10 @@ Modifier for all other layers
 ## Options
 
 | Options                  | Value |
-|--------------------------|----|
-| HomeRowCombos            | yes |
-| HomeRowComboTimeout      | 10 |
-| HomeRowThumbComboTimeout | 35 |  
+|--------------------------|-------|
+| HomeRowCombos            | yes   |
+| HomeRowComboTimeout      | 10    |
+| HomeRowThumbComboTimeout | 35    |  
 
                                                                     
 ## Layout
