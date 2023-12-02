@@ -24,40 +24,47 @@ fun modifierTypes(s: String): List<ModifierType> = s.split(",")
 data class ModTriggers(val timeout: Int, val triggers: List<ModTrigger>)
 data class ModTrigger(val triggers: List<Int>, val command: String, val name: String, val timeoutDelta: Int = 0)
 
-fun addModTab(key: String, pos: KeyPosition, option: LayerOption): String {
+fun addModTab(key: String, pos: KeyPosition, translator: QmkTranslator): String {
+    val layerOption = translator.layerOption.getValue(pos.layerName)
     val column = pos.column
+    val fingerIndex = if (pos.column >= pos.columns / 2) {
+        pos.columns - pos.column - 1
+    } else {
+        pos.column
+    }
+    val mod = translator.options.homeRowPositions[fingerIndex]
     val row = pos.row
     return when {
         key == layerBlocked -> key
 
-        column < pos.columns / 2 && option.leftModifier.any { it.matchesRow(row) } -> if (key == qmkNo) {
-            when (column) {
-                1 -> "KC_LALT"
-                2 -> "KC_LCTL"
-                3 -> "KC_LSFT"
+        column < pos.columns / 2 && layerOption.leftModifier.any { it.matchesRow(row) } -> if (key == qmkNo) {
+            when (mod) {
+                "Alt" -> "KC_LALT"
+                "Ctrl" -> "KC_LCTL"
+                "Shift" -> "KC_LSFT"
                 else -> key
             }
         } else {
-            when (column) {
-                1 -> "LALT_T($key)"
-                2 -> "LCTL_T($key)"
-                3 -> "LSFT_T($key)"
+            when (mod) {
+                "Alt" -> "LALT_T($key)"
+                "Ctrl" -> "LCTL_T($key)"
+                "Shift" -> "LSFT_T($key)"
                 else -> key
             }
         }
 
-        column >= pos.columns / 2 && option.rightModifier.any { it.matchesRow(row) } -> if (key == qmkNo) {
-            when (column) {
-                4 -> "KC_RSFT"
-                5 -> "KC_RCTL"
-                6 -> "KC_LALT"
+        column >= pos.columns / 2 && layerOption.rightModifier.any { it.matchesRow(row) } -> if (key == qmkNo) {
+            when (mod) {
+                "Shift" -> "KC_RSFT"
+                "Ctrl" -> "KC_RCTL"
+                "Alt" -> "KC_LALT"
                 else -> key
             }
         } else {
-            when (column) {
-                4 -> "RSFT_T($key)"
-                5 -> "RCTL_T($key)"
-                6 -> "LALT_T($key)"
+            when (mod) {
+                "Shift" -> "RSFT_T($key)"
+                "Ctrl" -> "RCTL_T($key)"
+                "Alt" -> "LALT_T($key)"
                 else -> key
             }
         }
@@ -86,18 +93,20 @@ fun createModTriggers(mappingTable: Table, template: Map<String, String>): ModTr
         }.joinToString("")
 
         val fingerIndexes = fingers.split(", ").map { finger ->
-            when (finger) {
-                "Pinky" -> 0
-                "Ring" -> 1
-                "Middle" -> 2
-                "Index" -> 3
-                else -> throw IllegalStateException("unknown finger $finger")
-            }
+            fingerPos(finger)
         }
 
         ModTrigger(fingerIndexes, template.getValue(key), key, timeoutDelta.toIntOrNull() ?: 0)
     }
     return ModTriggers(timeout, modTriggers)
+}
+
+fun fingerPos(finger: String) = when (finger) {
+    "Pinky" -> 0
+    "Ring" -> 1
+    "Middle" -> 2
+    "Index" -> 3
+    else -> throw IllegalStateException("unknown finger $finger")
 }
 
 val homeRowOneShotTriggers: Map<String, String> = mapOf(

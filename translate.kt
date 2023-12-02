@@ -4,13 +4,14 @@ import java.io.FileReader
 const val qmkNo = "KC_NO"
 
 class QmkTranslator(
-    val symbols: Symbols,
-    val options: Map<String, LayerOption>,
-    private val nonThumbs: Map<String, List<List<String>>>,
-    private val thumbs: Map<String, List<List<String>>>,
-    private val layerNumbers: Map<String, Int>,
-    val comboLayerTrigger: MutableMap<String, Key>,
-    var homeRowThumbCombo: HomeRowCombo?,
+        val symbols: Symbols,
+        val layerOption: Map<String, LayerOption>,
+        private val nonThumbs: Map<String, List<List<String>>>,
+        private val thumbs: Map<String, List<List<String>>>,
+        private val layerNumbers: Map<String, Int>,
+        val comboLayerTrigger: MutableMap<String, Key>,
+        var homeRowThumbCombo: HomeRowCombo?,
+        val options: Options,
 ) {
 
     private val map: Map<String, String>

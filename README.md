@@ -42,21 +42,21 @@ Base Layer Modifiers
 | Base Layer Thumb Mod Combos | Fingers             | Timeout Delta |
 |-----------------------------|---------------------|:-------------:|
 | Timeout                     | 35                  |               |
-| Shift                       | Index               |               |
-| Ctrl                        | Middle              |               |
 | Alt                         | Ring                |               |
+| Shift                       | Middle              |               |
+| Ctrl                        | Index               |               |
 | Ctrl-Shift                  | Middle, Index       |               |
-| Alt-Shift                   | Ring, Index         |               |
-| Ctrl-Alt                    | Ring, Middle        |               |
+| Alt-Shift                   | Ring, Middle        |               |
+| Ctrl-Alt                    | Ring, Index         |               |
 | Ctrl-Alt-Shift              | Ring, Middle, Index |               |
 
 On all other layers, the modifiers are as shown in the table below.
 
-| Modifier | Finger |
-|----------|--------|
-| Alt      | Ring   |
-| Ctrl     | Middle |
-| Shift    | Index  |
+| Home Row Modifiers | Finger |
+|--------------------|--------|
+| Alt                | Ring   |
+| Shift              | Middle |
+| Ctrl               | Index  |
 
 ## Layout
 

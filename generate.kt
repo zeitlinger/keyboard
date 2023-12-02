@@ -21,7 +21,7 @@ fun getFallback(
     translator: QmkTranslator,
     pos: KeyPosition
 ): String {
-    val option = translator.options.getValue(pos.layerName)
+    val option = translator.layerOption.getValue(pos.layerName)
     if (!(key.isBlank() || key == layerBlocked)) {
         return key
     }
@@ -55,6 +55,7 @@ fun run(
     val options = Options(
             createModTriggers(tables.get("Base Layer One Shot Mod Combos"), homeRowOneShotTriggers),
             createModTriggers(tables.get("Base Layer Thumb Mod Combos"), homeRowThumbTriggers),
+            tables.get("Home Row Modifiers").drop(1).associate { fingerPos(it[1]) to it[0] }
     )
 
     val layerOptions = tables.get("LayerOptions")
@@ -74,7 +75,7 @@ fun run(
     val layerNumbers = layerOptions
         .filterNot { it.value.flags.contains(LayerFlag.Hidden) }
         .asIterable().mapIndexed { index, entry -> entry.key to index }.toMap()
-    val translator = QmkTranslator(symbols, layerOptions, nonThumbs, thumbs, layerNumbers, mutableMapOf(), null)
+    val translator = QmkTranslator(symbols, layerOptions, nonThumbs, thumbs, layerNumbers, mutableMapOf(), null, options)    // TODO null
 
     val layers = nonThumbs.entries.map { (layerName, content) ->
         readLayer(content, translator, layerName, layerNumbers.getOrDefault(layerName, -1))

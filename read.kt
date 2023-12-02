@@ -20,7 +20,7 @@ fun readLayer(
 ): Layer {
     val data = translateTable(content, translator, layerName, false)
     val base = data.take(keyboardRows)
-    val option = translator.options.getValue(layerName)
+    val option = translator.layerOption.getValue(layerName)
 
     val combos = data.drop(keyboardRows).chunked(keyboardRows)
 
@@ -109,7 +109,7 @@ fun translateKey(
 
 private fun translateSimpleKey(translator: QmkTranslator, def: String, pos: KeyPosition): Key {
     val key = translator.toQmk(def)
-    return Key(key, addModTab(key, pos, translator.options.getValue(pos.layerName)))
+    return Key(key, addModTab(key, pos, translator))
 }
 
 private fun translateTable(
