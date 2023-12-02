@@ -86,7 +86,11 @@ How to read this layout:
 |  Base  | b+SymR  |    c    |    g    |    d    |    p    |    '    | ,+SymL  |  .+Fn   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |   💎    |    z    |         |    ö    |    ü    |         |
-|  Base  |         |         |         |         |         |    ä    |         |    ß    |
+|  Base  |         |         |         |         |    -    |    ä    |    _    |    ß    |
+|  Base  |         |         |         |         |         |         |         |         |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  Base  |         |         |         |         |  aRep   |   💎    | rep t20 |         |
+|  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |   💎    |    v    |         |         |         |         |         |
@@ -95,10 +99,6 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |   💎    |    q    |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |         |         |         |         |         |         |         |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |         |         |         |         |         |         |         |
-|  Base  |  Mouse  |   💎    |   💎    | CW_TOGG |    _    |   💎    |   💎    |    -    |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
@@ -111,7 +111,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |   💎    |    j    |    x    |         | repeat  |   💎    |         |
+|  Base  |         |   💎    |    j    |    x    |         |  capsW  |   💎    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |   cut   | S-paste |         |         |         |         |
@@ -173,6 +173,7 @@ How to read this layout:
 | Thumb  | Left Inner |         Left Outer         | Right Outer |        Right Inner         |
 |:------:|:----------:|:--------------------------:|:-----------:|:--------------------------:|
 |  Base  |   Shift    | HomeRowThumbCombo:Mods spc |      e      | ComboLayer:Sym bspc+NumNav |
+|  Base  |     💎     |                            |             |           Mouse            |
 |  Mods  |            |                            |             |            tab             |
 | NumNav |            |             0              |      ❌      |             ❌              | 
 |   Fn   |            |            f11             |     f12     |                            |
@@ -192,54 +193,56 @@ How to read this layout:
 |     SymR     |   BottomRow    |                    |               |      Sym       |        | 
 |    Media     |                |                    |               |                |        |
 
-| Symbol  | Command        |
-|---------|----------------|
-| ⬅️      | KC_LEFT        |
-| ⬅️⬅️    | KC_HOME        |
-| ⬇️      | KC_DOWN        |
-| ⬇️⬇️    | KC_PGDN        |
-| ⬆️      | KC_UP          |
-| ⬆️⬆️    | KC_PGUP        |
-| ➡️      | KC_RIGHT       |
-| ➡️➡️    | KC_END         |
-| ins     | KC_INS         |
-| del     | KC_DEL         |
-| spc     | KC_SPC         |
-| esc     | KC_ESC         |
-| ↩️️     | KC_ENT         |
-| bspc    | KC_BSPC        |
-| win     | KC_LGUI        |
-| alt     | KC_LALT        |
-| tab     | KC_TAB         |
-| sTab    | LSFT(KC_TAB)   |
-| prt     | KC_PSCR        |
-| pipe    | KC_PIPE        |
-| 🖱️⬅️   | KC_MS_L        |
-| 🖱️⬇️   | KC_MS_D        |
-| 🖱️⬆️   | KC_MS_U        |
-| 🖱️➡️   | KC_MS_R        |
-| 🖲️️⬅️  | KC_WH_L        |
-| 🖲️️⬇️  | KC_WH_D        |
-| 🖲️️⬆️  | KC_WH_U        |
-| 🖲️️➡️  | KC_WH_R        |
-| 🖱️1    | KC_BTN1        |
-| 🖱️2    | KC_BTN2        |
-| 🖱️3    | KC_BTN3        |
-| redo    | RCS(KC_Z)      |
-| undo    | LCTL(KC_Z)     |
-| copy    | LCTL(KC_C)     |
-| paste   | LCTL(KC_V)     |
-| S-paste | RCS(KC_V)      |
-| cut     | LCTL(KC_X)     |
-| ä       | RALT(KC_Q)     |
-| ö       | RALT(KC_P)     |
-| ü       | RALT(KC_Y)     |
-| ß       | RALT(KC_S)     |
-| '       | RALT(KC_QUOTE) |
-| "       | RSA(KC_QUOTE)  |
-| `       | RALT(KC_TILD)  |
-| ~       | RSA(KC_TILD)   |
-| 🪜      | KC_TRNS        |
-| repeat  | custom:REPEAT  |
-| Mouse   | custom:MOUSE   |
-| .spc    | custom:DOT_SPC |
+| Symbol  | Command             |
+|---------|---------------------|
+| ⬅️      | KC_LEFT             |
+| ⬅️⬅️    | KC_HOME             |
+| ⬇️      | KC_DOWN             |
+| ⬇️⬇️    | KC_PGDN             |
+| ⬆️      | KC_UP               |
+| ⬆️⬆️    | KC_PGUP             |
+| ➡️      | KC_RIGHT            |
+| ➡️➡️    | KC_END              |
+| ins     | KC_INS              |
+| del     | KC_DEL              |
+| spc     | KC_SPC              |
+| esc     | KC_ESC              |
+| ↩️️     | KC_ENT              |
+| bspc    | KC_BSPC             |
+| win     | KC_LGUI             |
+| alt     | KC_LALT             |
+| tab     | KC_TAB              |
+| sTab    | LSFT(KC_TAB)        |
+| prt     | KC_PSCR             |
+| pipe    | KC_PIPE             |
+| 🖱️⬅️   | KC_MS_L             |
+| 🖱️⬇️   | KC_MS_D             |
+| 🖱️⬆️   | KC_MS_U             |
+| 🖱️➡️   | KC_MS_R             |
+| 🖲️️⬅️  | KC_WH_L             |
+| 🖲️️⬇️  | KC_WH_D             |
+| 🖲️️⬆️  | KC_WH_U             |
+| 🖲️️➡️  | KC_WH_R             |
+| 🖱️1    | KC_BTN1             |
+| 🖱️2    | KC_BTN2             |
+| 🖱️3    | KC_BTN3             |
+| redo    | RCS(KC_Z)           |
+| undo    | LCTL(KC_Z)          |
+| copy    | LCTL(KC_C)          |
+| paste   | LCTL(KC_V)          |
+| S-paste | RCS(KC_V)           |
+| cut     | LCTL(KC_X)          |
+| ä       | RALT(KC_Q)          |
+| ö       | RALT(KC_P)          |
+| ü       | RALT(KC_Y)          |
+| ß       | RALT(KC_S)          |
+| '       | RALT(KC_QUOTE)      |
+| "       | RSA(KC_QUOTE)       |
+| `       | RALT(KC_TILD)       |
+| ~       | RSA(KC_TILD)        |
+| 🪜      | KC_TRNS             |
+| rep     | QK_REPEAT_KEY       |
+| aRep    | QK_ALT_REPEAT_KEY   |
+| capsW   | QK_CAPS_WORD_TOGGLE |
+| Mouse   | custom:MOUSE        |
+| .spc    | custom:DOT_SPC      |

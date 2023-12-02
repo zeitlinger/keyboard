@@ -58,7 +58,7 @@ fun assertQmk(key: String): String {
 }
 
 val qmkPrefixes = setOf(
-    "CW_",
+    "QK_",
     "KC_",
     "LT(",
     "MO(",

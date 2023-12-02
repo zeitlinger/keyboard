@@ -11,9 +11,41 @@ const val comboTrigger = "\uD83D\uDC8E" // 💎
 fun getSubstitutionCombo(key: String): String? =
     if (key.startsWith("\"") && key.endsWith("\"")) key else null
 
-fun generateAllCombos(layers: List<Layer>, options: Options, homeRowCombo: HomeRowCombo?): List<Combo> {
-    val baseLayer = layers[0]
+fun generateAllCombos(layers: List<Layer>, options: Options, homeRowCombo: HomeRowCombo?): List<Combo> =
+    homeRowCombos(homeRowCombo, layers, options) + layerCombos(layers, options).also { combos ->
+        combos.groupBy { it.triggers }.filter { it.value.size > 1 }.forEach { (triggers, combos) ->
+            throw IllegalStateException("duplicate triggers ${triggers.joinToString(", ") { it.key }} in ${combos.joinToString(", ") { it.name }}")
+        }
+    }
 
+private fun layerCombos(layers: List<Layer>, options: Options) = layers.flatMap { layer ->
+    val combos = generateCombos(options, layer, layer.combos, layer.baseRows, listOf())
+    val baseLayerCombos = directLayerCombos(layer, options, layers)
+    combos + baseLayerCombos
+}
+
+private fun directLayerCombos(
+    layer: Layer,
+    options: Options,
+    layers: List<Layer>
+): List<Combo> {
+    val baseLayerCombos = layer.comboTrigger?.let { trigger ->
+        generateCombos(
+            options,
+            layers[0],
+            listOf(layer.baseRows) + layer.combos,
+            layers[0].baseRows,
+            listOf(trigger)
+        )
+    } ?: emptyList()
+    return baseLayerCombos
+}
+
+private fun homeRowCombos(
+    homeRowCombo: HomeRowCombo?,
+    layers: List<Layer>,
+    options: Options
+): List<Combo> {
     val homeRowCombos = homeRowCombo?.let { hr ->
         val homeRowLayer =
             layers.find { it.name == hr.targetLayer } ?: throw IllegalStateException("unknown layer ${hr.targetLayer}")
@@ -21,7 +53,7 @@ fun generateAllCombos(layers: List<Layer>, options: Options, homeRowCombo: HomeR
         hands.filter { !it.isThumb && !it.isFull }.flatMap { hand ->
             generateModCombos(
                 listOf(hr.key),
-                getLayerPart(baseLayer.baseRows, hand),
+                getLayerPart(layers[0].baseRows, hand),
                 homeRowLayer,
                 hand,
                 homeRowThumbTriggers,
@@ -29,20 +61,7 @@ fun generateAllCombos(layers: List<Layer>, options: Options, homeRowCombo: HomeR
             )
         }
     } ?: emptyList()
-
-    return homeRowCombos + layers.flatMap { layer ->
-        val combos = generateCombos(options, layer, layer.combos, layer.baseRows, listOf())
-        val baseLayerCombos = layer.comboTrigger?.let { trigger ->
-            generateCombos(
-                options,
-                baseLayer,
-                listOf(layer.baseRows) + layer.combos,
-                baseLayer.baseRows,
-                listOf(trigger)
-            )
-        } ?: emptyList()
-        combos + baseLayerCombos
-    }
+    return homeRowCombos
 }
 
 private fun generateCombos(
@@ -54,7 +73,14 @@ private fun generateCombos(
 ): List<Combo> = hands.flatMap { hand ->
     val modCombos =
         if (options.homeRowComboTimeout != null && layer.number == 0 && !hand.isThumb && !hand.isFull && extraKeys.isEmpty()) {
-            generateModCombos(listOf(), getLayerPart(layer.baseRows, hand), layer, hand, homeRowTriggers, options.homeRowComboTimeout)
+            generateModCombos(
+                listOf(),
+                getLayerPart(layer.baseRows, hand),
+                layer,
+                hand,
+                homeRowTriggers,
+                options.homeRowComboTimeout
+            )
         } else {
             emptyList()
         }
