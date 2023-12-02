@@ -59,7 +59,7 @@ private fun homeRowCombos(
                     homeRowLayer,
                     hand,
                     homeRowThumbTriggers,
-                    options.homeRowComboTimeout,
+                    options.homeRowThumbComboTimeout,
             )
         }
     } ?: emptyList()

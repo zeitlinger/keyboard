@@ -54,8 +54,8 @@ fun run(
     val thumbs = getKeyTable(tables.get("Thumb"))
     val optionMap = tables.getMappingTable("Options")
     val options = Options(
-        optionMap["HomeRowComboTimeout"]?.toIntOrNull()?.takeIf { optionMap["HomeRowCombos"] == "yes" },
-        optionMap["HomeRowThumbComboTimeout"]?.toIntOrNull(),
+        optionMap["HomeRowComboTimeout"]!!.toInt().takeIf { optionMap["HomeRowCombos"] == "yes" },
+        optionMap["HomeRowThumbComboTimeout"]!!.toInt(),
     )
 
     val layerOptions = tables.get("LayerOptions")

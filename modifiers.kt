@@ -21,7 +21,7 @@ fun modifierTypes(s: String): List<ModifierType> = s.split(",")
             }
         }
 
-data class ModTrigger(val triggers: List<Int>, val command: String, val name: String?)
+data class ModTrigger(val triggers: List<Int>, val command: String, val name: String, val timeoutDelta: Int = 0)
 
 fun addModTab(key: String, pos: KeyPosition, option: LayerOption): String {
     val column = pos.column
@@ -68,10 +68,10 @@ fun addModTab(key: String, pos: KeyPosition, option: LayerOption): String {
 val homeRowTriggers: List<ModTrigger> = listOf(
         ModTrigger(listOf(1, 2), "OSM(MOD_LSFT)", "S"),
         ModTrigger(listOf(2, 3), "OSM(MOD_LCTL)", "C"),
-        ModTrigger(listOf(0, 1), "OSM(MOD_LALT)", "A"),
+        ModTrigger(listOf(0, 1), "OSM(MOD_LALT)", "A",20),
         ModTrigger(listOf(1, 2, 3), "OSM(MOD_LCTL | MOD_LSFT)", "CS"),
         ModTrigger(listOf(0, 1, 2), "OSM(MOD_LSFT | MOD_LALT)", "SA"),
-        ModTrigger(listOf(0, 3), "OSM(MOD_LCTL | MOD_LALT)", "CA"),
+        ModTrigger(listOf(0, 3), "OSM(MOD_LCTL | MOD_LALT)", "CA",20),
         ModTrigger(
                 listOf(0, 1, 2, 3),
                 "OSM(MOD_LCTL | MOD_LALT | MOD_LSFT)",
@@ -100,7 +100,7 @@ fun generateModCombos(
         layer: Layer?,
         hand: Hand,
         template: List<ModTrigger>,
-        timeout: Int?
+        timeout: Int,
 ): List<Combo> {
     val layerIndex = layer?.number
     return template.mapNotNull { modTrigger ->
@@ -118,7 +118,7 @@ fun generateModCombos(
                     allKeys,
                     null
             ).takeUnless { hand.isRight } // combo for layer is only needed once
-            else -> Combo(ComboType.Combo, comboName(name, hand.name, modTrigger.name), command, allKeys, timeout)
+            else -> Combo(ComboType.Combo, comboName(name, hand.name, modTrigger.name), command, allKeys, timeout+modTrigger.timeoutDelta)
         }
     }
 }

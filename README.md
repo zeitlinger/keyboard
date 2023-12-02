@@ -58,7 +58,7 @@ Modifier for all other layers
 | Options                  | Value |
 |--------------------------|-------|
 | HomeRowCombos            | yes   |
-| HomeRowComboTimeout      | 10    |
+| HomeRowComboTimeout      | 12    |
 | HomeRowThumbComboTimeout | 35    |  
 
                                                                     

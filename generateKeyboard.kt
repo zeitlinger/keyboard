@@ -19,7 +19,7 @@ const val baseLayerName = "Base"
 
 data class Options(
     val homeRowComboTimeout: Int?,
-    val homeRowThumbComboTimeout: Int?,
+    val homeRowThumbComboTimeout: Int,
 )
 
 enum class LayerFlag { Hidden }
