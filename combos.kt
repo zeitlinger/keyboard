@@ -14,8 +14,8 @@ fun getSubstitutionCombo(key: String): String? =
 fun generateAllCombos(layers: List<Layer>, options: Options, homeRowCombo: HomeRowCombo?): List<Combo> =
         (homeRowCombos(homeRowCombo, layers, options) + layerCombos(layers, options))
                 .also { combos ->
-                    combos.groupBy { it.triggers }.filter { it.value.size > 1 }.forEach { (triggers, combos) ->
-                        throw IllegalStateException("duplicate triggers ${triggers.joinToString(", ") { it.key }} in ${combos.joinToString(", ") { it.name }}")
+                    combos.groupBy { it.triggers.map { it.keyWithModifier }.sorted() }.filter { it.value.size > 1 }.forEach { (triggers, combos) ->
+                        throw IllegalStateException("duplicate triggers ${triggers.joinToString(", ")} in ${combos.joinToString(", ") { it.name }}")
                     }
                 }
                 .also { combos ->
