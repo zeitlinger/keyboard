@@ -21,6 +21,7 @@ fun modifierTypes(s: String): List<ModifierType> = s.split(",")
             }
         }
 
+data class ModTriggers(val timeout: Int, val triggers: List<ModTrigger>)
 data class ModTrigger(val triggers: List<Int>, val command: String, val name: String, val timeoutDelta: Int = 0)
 
 fun addModTab(key: String, pos: KeyPosition, option: LayerOption): String {
@@ -65,36 +66,39 @@ fun addModTab(key: String, pos: KeyPosition, option: LayerOption): String {
     }
 }
 
-fun createModTriggers(mappingTable: Table, template: Map<String, String>): List<ModTrigger> =
-        mappingTable.drop(1).map { (triggers, fingers, timeoutDelta) ->
-            val key = triggers.split("-").map {
-                when (it) {
-                    "Shift" -> "S"
-                    "Ctrl" -> "C"
-                    "Alt" -> "A"
-                    else -> throw IllegalStateException("unknown modifier $it")
-                }
-            }.sortedBy {
-                when (it) {
-                    "C" -> 0
-                    "S" -> 1
-                    "A" -> 2
-                    else -> throw IllegalStateException("unknown modifier $it")
-                }
-            }.joinToString("")
-
-            val fingerIndexes = fingers.split(", ").map { finger ->
-                when (finger) {
-                    "Pinky" -> 0
-                    "Ring" -> 1
-                    "Middle" -> 2
-                    "Index" -> 3
-                    else -> throw IllegalStateException("unknown finger $finger")
-                }
+fun createModTriggers(mappingTable: Table, template: Map<String, String>): ModTriggers {
+    val timeout = mappingTable[1][1].toIntOrNull() ?: 0
+    val modTriggers = mappingTable.drop(2).map { (triggers, fingers, timeoutDelta) ->
+        val key = triggers.split("-").map {
+            when (it) {
+                "Shift" -> "S"
+                "Ctrl" -> "C"
+                "Alt" -> "A"
+                else -> throw IllegalStateException("unknown modifier $it")
             }
+        }.sortedBy {
+            when (it) {
+                "C" -> 0
+                "S" -> 1
+                "A" -> 2
+                else -> throw IllegalStateException("unknown modifier $it")
+            }
+        }.joinToString("")
 
-            ModTrigger(fingerIndexes, template.getValue(key), key, timeoutDelta.toIntOrNull() ?: 0)
+        val fingerIndexes = fingers.split(", ").map { finger ->
+            when (finger) {
+                "Pinky" -> 0
+                "Ring" -> 1
+                "Middle" -> 2
+                "Index" -> 3
+                else -> throw IllegalStateException("unknown finger $finger")
+            }
         }
+
+        ModTrigger(fingerIndexes, template.getValue(key), key, timeoutDelta.toIntOrNull() ?: 0)
+    }
+    return ModTriggers(timeout, modTriggers)
+}
 
 val homeRowOneShotTriggers: Map<String, String> = mapOf(
         "A" to "OSM(MOD_LALT)",
@@ -122,11 +126,10 @@ fun generateModCombos(
         opposingBase: List<Key>,
         layer: Layer?,
         hand: Hand,
-        template: List<ModTrigger>,
-        timeout: Int,
+        triggers: ModTriggers,
 ): List<Combo> {
     val layerIndex = layer?.number
-    return template.mapNotNull { modTrigger ->
+    return triggers.triggers.mapNotNull { modTrigger ->
         val comboKeys = modTrigger.triggers.map { opposingBase[hand.translateComboIndex(it)] }
 
         val command = layer?.let { modTrigger.command.format(layerIndex) } ?: modTrigger.command
@@ -141,7 +144,7 @@ fun generateModCombos(
                     allKeys,
                     null
             ).takeUnless { hand.isRight } // combo for layer is only needed once
-            else -> Combo(ComboType.Combo, comboName(name, hand.name, modTrigger.name), command, allKeys, timeout + modTrigger.timeoutDelta)
+            else -> Combo(ComboType.Combo, comboName(name, hand.name, modTrigger.name), command, allKeys, triggers.timeout + modTrigger.timeoutDelta)
         }
     }
 }

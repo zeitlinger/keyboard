@@ -28,14 +28,9 @@ Notes
 
 Base Layer Modifiers
 
-| Options                  | Value |
-|--------------------------|-------|
-| HomeRowCombos            | yes   |
-| HomeRowComboTimeout      | 10    |
-| HomeRowThumbComboTimeout | 35    |  
-            
 | Base Layer One Shot Mod Combos | Fingers                    | Timeout Delta |
 |--------------------------------|----------------------------|:-------------:|
+| Timeout                        | 10                         |               |
 | Shift                          | Ring, Middle               |               |
 | Ctrl                           | Middle, Index              |               |
 | Alt                            | Pinky, Ring                |      20       |
@@ -46,6 +41,7 @@ Base Layer Modifiers
             
 | Base Layer Thumb Mod Combos | Fingers             | Timeout Delta |
 |-----------------------------|---------------------|:-------------:|
+| Timeout                     | 35                  |               |
 | Shift                       | Index               |               |
 | Ctrl                        | Middle              |               |
 | Alt                         | Ring                |               |
@@ -54,12 +50,7 @@ Base Layer Modifiers
 | Ctrl-Alt                    | Ring, Middle        |               |
 | Ctrl-Alt-Shift              | Ring, Middle, Index |               |
 
-Home row mods (Alt, Ctrl, Shift) on all layers, except the base layer.
-
-If you want modifiers for the base layer, use the shift layer.
-In the shift layer, you can disable shift with the index finger that would usually enable shift.
-
-Modifier for all other layers
+On all other layers, the modifiers are as shown in the table below.
 
 | Modifier | Finger |
 |----------|--------|
@@ -67,9 +58,6 @@ Modifier for all other layers
 | Ctrl     | Middle |
 | Shift    | Index  |
 
-## Options
-
-                                                                    
 ## Layout
 
 How to read this layout:
@@ -183,6 +171,7 @@ How to read this layout:
 |  Base  |   Shift    | HomeRowThumbCombo:Mods spc |      e      | ComboLayer:Sym bspc+NumNav |
 |  Base  |     💎     |                            |             |           Mouse            |
 |  Mods  |            |                            |             |            tab             |
+| Shift  |            |                            |             |            spc             |
 | NumNav |            |             0              |      ❌      |             ❌              | 
 |   Fn   |            |            f11             |     f12     |                            |
 |  SymL  |            |                            |             |                            |

@@ -64,8 +64,7 @@ private fun homeRowCombos(
                     getLayerPart(layers[0].baseRows, hand),
                     homeRowLayer,
                     hand,
-                    options.homeRowThumbCombos,
-                    options.homeRowThumbComboTimeout,
+                    options.homeRowThumbCombos
             )
         }
     } ?: emptyList()
@@ -80,15 +79,14 @@ private fun generateCombos(
         extraKeys: List<Key>
 ): List<Combo> = hands.flatMap { hand ->
     val modCombos =
-            if (options.homeRowComboTimeout != null && layer.number == 0 && !hand.isThumb && !hand.isFull && extraKeys.isEmpty()) {
+            if (layer.number == 0 && !hand.isThumb && !hand.isFull && extraKeys.isEmpty()) {
                 generateModCombos(
                         "OSM",
                         listOf(),
                         getLayerPart(layer.baseRows, hand),
                         layer,
                         hand,
-                        options.homeRowOneShotTriggers,
-                        options.homeRowComboTimeout
+                        options.homeRowOneShotTriggers
                 )
             } else {
                 emptyList()

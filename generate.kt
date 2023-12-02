@@ -52,10 +52,7 @@ fun run(
 
     val symbols = readSymbols(tables)
     val thumbs = getKeyTable(tables.get("Thumb"))
-    val optionMap = tables.getMappingTable("Options")
     val options = Options(
-            optionMap["HomeRowComboTimeout"]!!.toInt().takeIf { optionMap["HomeRowCombos"] == "yes" },
-            optionMap["HomeRowThumbComboTimeout"]!!.toInt(),
             createModTriggers(tables.get("Base Layer One Shot Mod Combos"), homeRowOneShotTriggers),
             createModTriggers(tables.get("Base Layer Thumb Mod Combos"), homeRowThumbTriggers),
     )
