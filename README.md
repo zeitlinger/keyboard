@@ -59,9 +59,9 @@ Modifier for all other layers
 |--------------------------|-------|
 | HomeRowCombos            | yes   |
 | HomeRowComboTimeout      | 10    |
-| HomeRowThumbComboTimeout | 25    |
+| HomeRowThumbComboTimeout | 35    |  
 
-
+                                                                    
 ## Layout
 
 How to read this layout:
@@ -175,10 +175,10 @@ How to read this layout:
 |  Base  |   Shift    | HomeRowThumbCombo:Mods spc |      e      | ComboLayer:Sym bspc+NumNav |
 |  Base  |     💎     |                            |             |           Mouse            |
 |  Mods  |            |                            |             |            tab             |
-| NumNav |    spc     |             0              |      ❌      |             ❌              | 
+| NumNav |            |             0              |      ❌      |             ❌              | 
 |   Fn   |            |            f11             |     f12     |                            |
 |  SymL  |            |                            |             |                            |
-|  SymR  |    undo    |            tab             |             |                            |
+|  SymR  |    undo    |            tab             |     spc     |            redo            |
 
 | LayerOptions | Modifiers Left |  Modifiers Right   | Fallback Left | Fallback Right | Flags  |
 |:------------:|:--------------:|:------------------:|:-------------:|:--------------:|--------|
