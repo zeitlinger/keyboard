@@ -69,12 +69,12 @@ fun translateKey(
                     key
                 }
 
-                parts.size == 2 && parts[1].startsWith("t") -> {
+                parts.size == 2 && parts[1][0].isDigit() -> {
                     translateKey(translator, pos, parts[0])
-                        .copy(comboTimeout = parts[1].drop(1).toInt())
+                        .copy(comboTimeout = parts[1].toInt())
                 }
 
-                else -> throw IllegalArgumentException("unknown command '$pos'")
+                else -> throw IllegalArgumentException("unknown command '$def' in $pos")
             }
         }
 
