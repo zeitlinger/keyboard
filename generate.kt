@@ -75,7 +75,7 @@ fun run(
     val layerNumbers = layerOptions
         .filterNot { it.value.flags.contains(LayerFlag.Hidden) }
         .asIterable().mapIndexed { index, entry -> entry.key to index }.toMap()
-    val translator = QmkTranslator(symbols, layerOptions, nonThumbs, thumbs, layerNumbers, mutableMapOf(), null, options)    // TODO null
+    val translator = QmkTranslator(symbols, layerOptions, nonThumbs, thumbs, layerNumbers, mutableMapOf(), null, options)
 
     val layers = nonThumbs.entries.map { (layerName, content) ->
         readLayer(content, translator, layerName, layerNumbers.getOrDefault(layerName, -1))

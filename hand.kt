@@ -1,10 +1,9 @@
 
 data class Hand(
-    val name: String,
-    val columns: Int,
-    val baseLayerRowSkip: Int,
-    val skip: Int,
-    val translateComboIndex: (Int) -> Int
+        val name: String,
+        val columns: Int,
+        val baseLayerRowSkip: Int,
+        val skip: Int
 ) {
     fun applies(rows: Rows): Boolean {
         if (this.columns != rows[0].size) {
@@ -32,10 +31,10 @@ data class Hand(
 }
 
 val hands = listOf(
-    Hand("left", 8, 0, 0) { i -> i + 4 },
-    Hand("right", 8, 0, 4) { i -> 7 - i },
-    Hand("both", 8, 0, 0) { i -> i },
-    Hand("left thumb", 4, 3, 0) { i -> i + 1 },
-    Hand("right thumb", 4, 3, 2) { i -> 4 - i },
-    Hand("both thumbs", 4, 3, 0) { i -> i },
+    Hand("left", 8, 0, 0),
+    Hand("right", 8, 0, 4),
+    Hand("both", 8, 0, 0),
+    Hand("left thumb", 4, 3, 0),
+    Hand("right thumb", 4, 3, 2),
+    Hand("both thumbs", 4, 3, 0),
 )
