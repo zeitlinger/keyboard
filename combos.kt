@@ -2,7 +2,13 @@ enum class ComboType(val template: String) {
     Combo("COMB(%s, %s, %s)"), Substitution("SUBS(%s, %s, %s)")
 }
 
-data class Combo(val type: ComboType, val name: String, val result: String, val triggers: List<Key>, val timeout: Int?)
+data class Combo(val type: ComboType, val name: String, val result: String, val triggers: List<Key>, val timeout: Int?){
+    companion object {
+        fun of(type: ComboType, name: String, result: String, triggers: List<Key>, timeout: Int? = 0): Combo {
+            return Combo(type, name, result, triggers.sortedBy { it.keyWithModifier }, timeout)
+        }
+    }
+}
 
 data class HomeRowCombo(val targetLayer: String, val key: Key)
 
@@ -14,7 +20,7 @@ fun getSubstitutionCombo(key: String): String? =
 fun generateAllCombos(layers: List<Layer>, options: Options, homeRowCombo: HomeRowCombo?): List<Combo> =
         (homeRowCombos(homeRowCombo, layers, options) + layerCombos(layers, options))
                 .also { combos ->
-                    combos.groupBy { it.triggers.map { it.keyWithModifier }.sorted() }.filter { it.value.size > 1 }.forEach { (triggers, combos) ->
+                    combos.groupBy { it.triggers }.filter { it.value.size > 1 }.forEach { (triggers, combos) ->
                         throw IllegalStateException("duplicate triggers ${triggers.joinToString(", ")} in ${combos.joinToString(", ") { it.name }}")
                     }
                 }
@@ -126,7 +132,7 @@ private fun generateCustomCombos(
             val type = if (substitutionCombo != null) ComboType.Substitution else ComboType.Combo
             val name = comboName(layer.name, key)
             val content = substitutionCombo ?: key
-            listOf(Combo(type, name, content, keys, k.comboTimeout))
+            listOf(Combo.of(type, name, content, keys, k.comboTimeout))
         } else emptyList()
     }.filter { it.triggers.size > 1 }
 }

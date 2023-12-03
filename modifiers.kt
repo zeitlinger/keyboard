@@ -1,5 +1,5 @@
 enum class Modifier {
-    Alt, Shift, Ctrl;
+    Ctrl, Shift, Alt;
 
     val short = this.name[0].uppercase()
 
@@ -76,13 +76,7 @@ fun createModTriggers(mappingTable: Table, template: Map<String, String>): ModTr
     val modTriggers = mappingTable.drop(1).map { (triggers, fingers, timeoutDelta) ->
         val key = triggers.split("-").map {
             Modifier.ofLong(it)
-        }.sortedBy {
-            when (it) {
-                Modifier.Ctrl -> 0
-                Modifier.Shift -> 1
-                Modifier.Alt -> 2
-            }
-        }.joinToString("") { it.short }
+        }.sorted().joinToString("") { it.short }
 
         val fingerIndexes = fingers.split(", ").map { finger ->
             fingerPos(finger)
@@ -157,14 +151,14 @@ fun generateModCombos(
 
         when {
             allKeys.size < 2 -> null //no combo needed
-            comboKeys.isEmpty() -> Combo(
+            comboKeys.isEmpty() -> Combo.of(
                     ComboType.Combo,
                     comboName(name),
                     command,
                     allKeys,
                     null
             ).takeUnless { hand.isRight } // combo for layer is only needed once
-            else -> Combo(ComboType.Combo, comboName(name, hand.name, modTrigger.name), command, allKeys, triggers.timeout + modTrigger.timeoutDelta)
+            else -> Combo.of(ComboType.Combo, comboName(name, hand.name, modTrigger.name), command, allKeys, triggers.timeout + modTrigger.timeoutDelta)
         }
     }
 }
