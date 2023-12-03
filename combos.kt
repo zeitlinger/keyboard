@@ -102,7 +102,7 @@ private fun generateCombos(
             .filter { hand.applies(it) }
             .flatMap { def ->
                 generateCustomCombos(
-                        def.filter { it.size == nonThumbColumns },
+                        def.filter { it.size == options.nonThumbColumns },
                         getLayerPart(layerBase.drop(hand.baseLayerRowSkip), hand),
                         layer,
                         hand,

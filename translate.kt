@@ -45,7 +45,7 @@ class QmkTranslator(
     fun mustTranslateLayer(layerName: String): Int = layerNumbers.getValue(layerName)
 
     fun getThumbContent(layerName: String): List<List<String>> =
-        thumbs[layerName] ?: listOf(List(thumbColumns) { "" })
+        thumbs[layerName] ?: listOf(List(options.thumbColumns) { "" })
 
     fun getKey(pos: KeyPosition): String =
         (if (pos.thumb) getThumbContent(pos.layerName) else nonThumbs.getValue(pos.layerName))[pos.row][pos.column]

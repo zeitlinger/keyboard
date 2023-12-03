@@ -18,6 +18,8 @@ const val layerBlocked = "❌"
 const val baseLayerName = "Base"
 
 data class Options(
+        val nonThumbColumns: Int,
+        val thumbColumns: Int,
         val homeRowOneShotTriggers: ModTriggers,
         val homeRowThumbCombos: ModTriggers,
         val homeRowPositions: Map<Int, Modifier>,

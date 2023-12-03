@@ -51,10 +51,13 @@ fun run(
     val tables = readTables(config)
 
     val symbols = readSymbols(tables)
+    val nonThumbs = getKeyTable(tables.getWithoutHeader("Layer"))
     val thumbs = getKeyTable(tables.getWithoutHeader("Thumb"))
     val homeRowPositions = tables.getWithoutHeader("Home Row Modifiers")
             .associate { fingerPos(it[1]) to Modifier.ofLong(it[0]) }
     val options = Options(
+            nonThumbs.entries.first().value[0].size,
+            thumbs.entries.first().value[0].size,
             createModTriggers(tables.getWithoutHeader("Base Layer One Shot Mod Combos"), homeRowOneShotTriggers),
             createThumbModTriggers(tables.getWithoutHeader("Base Layer Thumb Mod Combos"), homeRowThumbTriggers, homeRowPositions),
             homeRowPositions
@@ -72,7 +75,6 @@ fun run(
             )
         }
 
-    val nonThumbs = getKeyTable(tables.getWithoutHeader("Layer"))
     val layerNumbers = layerOptions
         .filterNot { it.value.flags.contains(LayerFlag.Hidden) }
         .asIterable().mapIndexed { index, entry -> entry.key to index }.toMap()

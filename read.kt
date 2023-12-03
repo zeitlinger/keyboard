@@ -1,22 +1,19 @@
 const val keyboardRows = 3
 const val thumbRows = 1
-const val nonThumbColumns = 8
-const val thumbColumns = 4
 
 data class KeyPosition(
-    val row: Int,
-    val column: Int,
-    val layerName: String,
-    val thumb: Boolean,
-) {
-    val columns = if (thumb) thumbColumns else nonThumbColumns
-}
+        val row: Int,
+        val column: Int,
+        val layerName: String,
+        val thumb: Boolean,
+        val columns: Int,
+)
 
 fun readLayer(
-    content: List<List<String>>,
-    translator: QmkTranslator,
-    layerName: String,
-    layerIndex: Int
+        content: List<List<String>>,
+        translator: QmkTranslator,
+        layerName: String,
+        layerIndex: Int
 ): Layer {
     val data = translateTable(content, translator, layerName, false)
     val base = data.take(keyboardRows)
@@ -25,28 +22,28 @@ fun readLayer(
     val combos = data.drop(keyboardRows).chunked(keyboardRows)
 
     val thumbData = translateTable(
-        translator.getThumbContent(layerName),
-        translator,
-        layerName,
-        true,
+            translator.getThumbContent(layerName),
+            translator,
+            layerName,
+            true,
     )
     val baseThumb = listOf(thumbData[0])
     val comboThumb = thumbData.drop(thumbRows).chunked(thumbRows)
 
     return Layer(
-        layerName,
-        (base + baseThumb),
-        combos + comboThumb,
-        layerIndex,
-        translator.comboLayerTrigger[layerName],
-        option
+            layerName,
+            (base + baseThumb),
+            combos + comboThumb,
+            layerIndex,
+            translator.comboLayerTrigger[layerName],
+            option
     )
 }
 
 fun translateKey(
-    translator: QmkTranslator,
-    pos: KeyPosition,
-    s: String,
+        translator: QmkTranslator,
+        pos: KeyPosition,
+        s: String,
 ): Key = getFallback(s, translator, pos).let { def ->
     when {
         //comes first, so that we can override the meaning of + and -
@@ -71,7 +68,7 @@ fun translateKey(
 
                 parts.size == 2 && parts[1][0].isDigit() -> {
                     translateKey(translator, pos, parts[0])
-                        .copy(comboTimeout = parts[1].toInt())
+                            .copy(comboTimeout = parts[1].toInt())
                 }
 
                 else -> throw IllegalArgumentException("unknown command '$def' in $pos")
@@ -89,13 +86,13 @@ fun translateKey(
             val modifier = parts[0]
             val key = translateKey(translator, pos, parts[1]).key
             Key(
-                when (modifier) {
-                    "A" -> "A(${key})"
-                    "C" -> "C(${key})"
-                    "S" -> "S(${key})"
-                    "CS" -> "RCS(${key})"
-                    else -> throw IllegalStateException("unknown modifier $modifier")
-                }
+                    when (modifier) {
+                        "A" -> "A(${key})"
+                        "C" -> "C(${key})"
+                        "S" -> "S(${key})"
+                        "CS" -> "RCS(${key})"
+                        else -> throw IllegalStateException("unknown modifier $modifier")
+                    }
             )
         }
 
@@ -113,12 +110,14 @@ private fun translateSimpleKey(translator: QmkTranslator, def: String, pos: KeyP
 }
 
 private fun translateTable(
-    content: List<List<String>>,
-    translator: QmkTranslator,
-    layerName: String,
-    thumb: Boolean,
-): Rows = content
-    .mapIndexed { rowNumber, row ->
-        row
-            .mapIndexed { column, def -> translateKey(translator, KeyPosition(rowNumber, column, layerName, thumb), def) }
+        content: List<List<String>>,
+        translator: QmkTranslator,
+        layerName: String,
+        thumb: Boolean,
+): Rows = content.mapIndexed { rowNumber, row ->
+    row.mapIndexed { column, def ->
+        translateKey(translator, KeyPosition(rowNumber, column, layerName, thumb,
+                if (thumb) translator.options.thumbColumns else translator.options.nonThumbColumns), def)
     }
+}
+
