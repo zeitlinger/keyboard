@@ -51,7 +51,7 @@ fun run(
     val tables = readTables(config)
 
     val symbols = readSymbols(tables)
-    val thumbs = getKeyTable(tables.get("Thumb"))
+    val thumbs = getKeyTable(tables.getWithoutHeader("Thumb"))
     val homeRowPositions = tables.getWithoutHeader("Home Row Modifiers")
             .associate { fingerPos(it[1]) to Modifier.ofLong(it[0]) }
     val options = Options(
@@ -60,8 +60,7 @@ fun run(
             homeRowPositions
     )
 
-    val layerOptions = tables.get("LayerOptions")
-        .drop(1)
+    val layerOptions = tables.getWithoutHeader("LayerOptions")
         .associateBy { it[0] }
         .mapValues {
             LayerOption(
@@ -73,7 +72,7 @@ fun run(
             )
         }
 
-    val nonThumbs = getKeyTable(tables.get("Layer"))
+    val nonThumbs = getKeyTable(tables.getWithoutHeader("Layer"))
     val layerNumbers = layerOptions
         .filterNot { it.value.flags.contains(LayerFlag.Hidden) }
         .asIterable().mapIndexed { index, entry -> entry.key to index }.toMap()
@@ -128,7 +127,7 @@ private fun replaceTemplate(src: File, dst: File, vars: Map<String, String>) {
     })
 }
 
-private fun getKeyTable(layerContent: Table): Map<String, List<List<String>>> = layerContent.drop(1) // Header
+private fun getKeyTable(layerContent: Table): Map<String, List<List<String>>> = layerContent
     .groupBy { it[0] }
     .mapValues { it.value.map { it.drop(1) } } // First column
     .toMap()

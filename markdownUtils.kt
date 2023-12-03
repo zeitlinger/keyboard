@@ -32,5 +32,5 @@ data class Tables(val content: List<Table>) {
 
     fun getMappingTable(
         name: String,
-    ): Map<String, String> = get(name).drop(1).associate { it[0] to it[1] }
+    ): Map<String, String> = getWithoutHeader(name).associate { it[0] to it[1] }
 }
