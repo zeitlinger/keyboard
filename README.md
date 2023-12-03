@@ -250,4 +250,3 @@ How to read this layout:
 | capsW   | QK_CAPS_WORD_TOGGLE |
 | Mouse   | custom:MOUSE        |
 | .spc    | custom:DOT_SPC      |
-                                                                

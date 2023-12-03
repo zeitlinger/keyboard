@@ -51,17 +51,9 @@ fun run(
     val tables = readTables(config)
 
     val symbols = readSymbols(tables)
-    val nonThumbs = getKeyTable(tables.getWithoutHeader("Layer"))
-    val thumbs = getKeyTable(tables.getWithoutHeader("Thumb"))
-    val homeRowPositions = tables.getWithoutHeader("Home Row Modifiers")
-            .associate { fingerPos(it[1]) to Modifier.ofLong(it[0]) }
-    val options = Options(
-            nonThumbs.entries.first().value[0].size,
-            thumbs.entries.first().value[0].size,
-            createModTriggers(tables.getWithoutHeader("Base Layer One Shot Mod Combos"), homeRowOneShotTriggers),
-            createThumbModTriggers(tables.getWithoutHeader("Base Layer Thumb Mod Combos"), homeRowThumbTriggers, homeRowPositions),
-            homeRowPositions
-    )
+    val nonThumbs = getKeyTable(tables.getMultiWithoutHeader("Layer"))
+    val thumbs = getKeyTable(tables.getWithoutHeader("Thumb").chunked(thumbRows))
+    val options = options(tables, nonThumbs, thumbs)
 
     val layerOptions = tables.getWithoutHeader("LayerOptions")
         .associateBy { it[0] }
@@ -123,15 +115,30 @@ fun run(
     comboFile.writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
 }
 
+private fun options(tables: Tables, nonThumbs: Map<String, MultiTable>, thumbs: Map<String, MultiTable>): Options {
+    val homeRowPositions = tables.getWithoutHeader("Home Row Modifiers")
+            .associate { fingerPos(it[1]) to Modifier.ofLong(it[0]) }
+    val firstNonThumb = nonThumbs.entries.first().value[0]
+    val firstThumb = thumbs.entries.first().value[0]
+    return Options(
+            firstNonThumb.size,
+            firstNonThumb[0].size,
+            firstThumb[0].size,
+            createModTriggers(tables.getWithoutHeader("Base Layer One Shot Mod Combos"), homeRowOneShotTriggers),
+            createThumbModTriggers(tables.getWithoutHeader("Base Layer Thumb Mod Combos"), homeRowThumbTriggers, homeRowPositions),
+            homeRowPositions
+    )
+}
+
 private fun replaceTemplate(src: File, dst: File, vars: Map<String, String>) {
     dst.writeText(vars.entries.fold(src.readText()) { acc, entry ->
         acc.replace("\${${entry.key}}", entry.value)
     })
 }
 
-private fun getKeyTable(layerContent: Table): Map<String, List<List<String>>> = layerContent
-    .groupBy { it[0] }
-    .mapValues { it.value.map { it.drop(1) } } // First column
+private fun getKeyTable(layerContent: MultiTable): Map<String, MultiTable> = layerContent
+    .groupBy { it[0][0] }
+    .mapValues { it.value.map { it.map { it.drop(1) } } } // First column
     .toMap()
 
 private fun readSymbols(tables: Tables): Symbols {

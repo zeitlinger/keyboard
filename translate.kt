@@ -6,8 +6,8 @@ const val qmkNo = "KC_NO"
 class QmkTranslator(
         val symbols: Symbols,
         val layerOption: Map<String, LayerOption>,
-        private val nonThumbs: Map<String, List<List<String>>>,
-        private val thumbs: Map<String, List<List<String>>>,
+        private val nonThumbs: Map<String, MultiTable>,
+        private val thumbs: Map<String, MultiTable>,
         private val layerNumbers: Map<String, Int>,
         val comboLayerTrigger: MutableMap<String, Key>,
         var homeRowThumbCombo: HomeRowCombo?,
@@ -44,11 +44,11 @@ class QmkTranslator(
 
     fun mustTranslateLayer(layerName: String): Int = layerNumbers.getValue(layerName)
 
-    fun getThumbContent(layerName: String): List<List<String>> =
-        thumbs[layerName] ?: listOf(List(options.thumbColumns) { "" })
+    fun getThumbContent(layerName: String): MultiTable =
+        thumbs[layerName] ?: listOf(listOf(List(options.thumbColumns) { "" })) // empty thumb layer
 
     fun getKey(pos: KeyPosition): String =
-        (if (pos.thumb) getThumbContent(pos.layerName) else nonThumbs.getValue(pos.layerName))[pos.row][pos.column]
+        (if (pos.thumb) getThumbContent(pos.layerName) else nonThumbs.getValue(pos.layerName))[0][pos.row][pos.column]
 }
 
 fun assertQmk(key: String): String {

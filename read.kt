@@ -1,4 +1,3 @@
-const val keyboardRows = 3
 const val thumbRows = 1
 
 data class KeyPosition(
@@ -10,16 +9,16 @@ data class KeyPosition(
 )
 
 fun readLayer(
-        content: List<List<String>>,
+        content: MultiTable,
         translator: QmkTranslator,
         layerName: String,
         layerIndex: Int
 ): Layer {
     val data = translateTable(content, translator, layerName, false)
-    val base = data.take(keyboardRows)
+    val base = data[0]
     val option = translator.layerOption.getValue(layerName)
 
-    val combos = data.drop(keyboardRows).chunked(keyboardRows)
+    val combos = data.drop(1)
 
     val thumbData = translateTable(
             translator.getThumbContent(layerName),
@@ -27,8 +26,8 @@ fun readLayer(
             layerName,
             true,
     )
-    val baseThumb = listOf(thumbData[0])
-    val comboThumb = thumbData.drop(thumbRows).chunked(thumbRows)
+    val baseThumb = thumbData[0]
+    val comboThumb = thumbData.drop(1)
 
     return Layer(
             layerName,
@@ -110,14 +109,16 @@ private fun translateSimpleKey(translator: QmkTranslator, def: String, pos: KeyP
 }
 
 private fun translateTable(
-        content: List<List<String>>,
+        tables: MultiTable,
         translator: QmkTranslator,
         layerName: String,
         thumb: Boolean,
-): Rows = content.mapIndexed { rowNumber, row ->
-    row.mapIndexed { column, def ->
-        translateKey(translator, KeyPosition(rowNumber, column, layerName, thumb,
-                if (thumb) translator.options.thumbColumns else translator.options.nonThumbColumns), def)
+): List<Rows> = tables.map { table ->
+    table.mapIndexed { rowNumber, row ->
+        row.mapIndexed { column, def ->
+            translateKey(translator, KeyPosition(rowNumber, column, layerName, thumb,
+                    if (thumb) translator.options.thumbColumns else translator.options.nonThumbColumns), def)
+        }
     }
 }
 
