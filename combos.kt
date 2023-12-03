@@ -26,7 +26,7 @@ fun generateAllCombos(layers: List<Layer>, options: Options, homeRowCombo: HomeR
                 }
                 .also { combos ->
                     combos.groupBy { it.name }.filter { it.value.size > 1 }.forEach { (name, combos) ->
-                        throw IllegalStateException("duplicate combo name $name in ${combos.joinToString(", ") { it.name }}")
+                        throw IllegalStateException("duplicate combo name $name in ${combos.joinToString(", ")}")
                     }
                 }
 
@@ -102,7 +102,7 @@ private fun generateCombos(
             .filter { hand.applies(it) }
             .flatMap { def ->
                 generateCustomCombos(
-                        def,
+                        def.filter { it.size == nonThumbColumns },
                         getLayerPart(layerBase.drop(hand.baseLayerRowSkip), hand),
                         layer,
                         hand,
