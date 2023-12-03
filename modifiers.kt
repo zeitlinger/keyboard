@@ -1,5 +1,13 @@
 enum class Modifier {
-    Alt, Shift, Ctrl
+    Alt, Shift, Ctrl;
+
+    val short = this.name[0].uppercase()
+
+    companion object {
+        fun ofShort(value: String): Modifier = entries.single { it.short == value }
+
+        fun ofLong(value: String): Modifier = valueOf(value)
+    }
 }
 
 enum class ModifierType {
@@ -22,11 +30,7 @@ fun modifierTypes(s: String): List<ModifierType> = s.split(",")
         }
 
 data class ModTriggers(val timeout: Int, val triggers: List<ModTrigger>)
-data class ModTrigger(val triggers: List<Int>, val command: String, val name: String, val timeoutDelta: Int = 0)
-
-private const val alt = "Alt"
-private const val ctrl = "Ctrl"
-private const val shift = "Shift"
+data class ModTrigger(val fingers: List<Int>, val command: String, val name: String, val timeoutDelta: Int)
 
 fun addModTab(key: String, pos: KeyPosition, translator: QmkTranslator): String {
     val layerOption = translator.layerOption.getValue(pos.layerName)
@@ -42,18 +46,18 @@ fun addModTab(key: String, pos: KeyPosition, translator: QmkTranslator): String 
     }
 }
 
-private fun applyModTap(key: String, mod: String?) = if (key == qmkNo) {
+private fun applyModTap(key: String, mod: Modifier?) = if (key == qmkNo) {
     when (mod) {
-        alt -> "KC_LALT"
-        ctrl -> "KC_LCTL"
-        shift -> "KC_LSFT"
+        Modifier.Alt -> "KC_LALT"
+        Modifier.Ctrl -> "KC_LCTL"
+        Modifier.Shift -> "KC_LSFT"
         else -> key
     }
 } else {
     when (mod) {
-        alt -> "ALT_T($key)"
-        ctrl -> "CTL_T($key)"
-        shift -> "SFT_T($key)"
+        Modifier.Alt -> "ALT_T($key)"
+        Modifier.Ctrl -> "CTL_T($key)"
+        Modifier.Shift -> "SFT_T($key)"
         else -> key
     }
 }
@@ -68,23 +72,17 @@ private fun fingerIndex(column: Int, columns: Int): Int {
 }
 
 fun createModTriggers(mappingTable: Table, template: Map<String, String>): ModTriggers {
-    val timeout = mappingTable[1][1].toIntOrNull() ?: 0
-    val modTriggers = mappingTable.drop(2).map { (triggers, fingers, timeoutDelta) ->
+    val timeout = getModTimeout(mappingTable)
+    val modTriggers = mappingTable.drop(1).map { (triggers, fingers, timeoutDelta) ->
         val key = triggers.split("-").map {
-            when (it) {
-                shift -> "S"
-                ctrl -> "C"
-                alt -> "A"
-                else -> throw IllegalStateException("unknown modifier $it")
-            }
+            Modifier.ofLong(it)
         }.sortedBy {
             when (it) {
-                "C" -> 0
-                "S" -> 1
-                "A" -> 2
-                else -> throw IllegalStateException("unknown modifier $it")
+                Modifier.Ctrl -> 0
+                Modifier.Shift -> 1
+                Modifier.Alt -> 2
             }
-        }.joinToString("")
+        }.joinToString("") { it.short }
 
         val fingerIndexes = fingers.split(", ").map { finger ->
             fingerPos(finger)
@@ -94,6 +92,20 @@ fun createModTriggers(mappingTable: Table, template: Map<String, String>): ModTr
     }
     return ModTriggers(timeout, modTriggers)
 }
+
+private fun getModTimeout(mappingTable: Table) = mappingTable[0][1].toIntOrNull() ?: 0
+
+fun createThumbModTriggers(mappingTable: Table, template: Map<String, String>, homeRowPositions: Map<Int, Modifier>): ModTriggers {
+    val modTriggers = template.map { (keys, command) ->
+        val fingers = keys.toCharArray().map { key ->
+            val mod = Modifier.ofShort(key.toString())
+            homeRowPositions.entries.single { it.value == mod }.key
+        }
+        ModTrigger(fingers, command, keys, 0)
+    }
+    return ModTriggers(getModTimeout(mappingTable), modTriggers)
+}
+
 
 fun fingerPos(finger: String) = when (finger) {
     "Pinky" -> 0
@@ -133,7 +145,7 @@ fun generateModCombos(
 ): List<Combo> {
     val layerIndex = layer?.number
     return triggers.triggers.mapNotNull { modTrigger ->
-        val comboKeys = modTrigger.triggers.map {
+        val comboKeys = modTrigger.fingers.map {
             opposingBase[
                     if (hand.isRight)
                         hand.columns - it - 1

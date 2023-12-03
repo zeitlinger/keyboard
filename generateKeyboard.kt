@@ -20,7 +20,7 @@ const val baseLayerName = "Base"
 data class Options(
         val homeRowOneShotTriggers: ModTriggers,
         val homeRowThumbCombos: ModTriggers,
-        val homeRowPositions: Map<Int, String>,
+        val homeRowPositions: Map<Int, Modifier>,
 )
 
 enum class LayerFlag { Hidden }

@@ -28,6 +28,8 @@ data class Tables(val content: List<Table>) {
 
     fun get(name: String): Table = content.single { it[0][0] == name }
 
+    fun getWithoutHeader(name: String): Table = get(name).drop(1)
+
     fun getMappingTable(
         name: String,
     ): Map<String, String> = get(name).drop(1).associate { it[0] to it[1] }

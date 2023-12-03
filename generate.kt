@@ -52,10 +52,12 @@ fun run(
 
     val symbols = readSymbols(tables)
     val thumbs = getKeyTable(tables.get("Thumb"))
+    val homeRowPositions = tables.getWithoutHeader("Home Row Modifiers")
+            .associate { fingerPos(it[1]) to Modifier.ofLong(it[0]) }
     val options = Options(
-            createModTriggers(tables.get("Base Layer One Shot Mod Combos"), homeRowOneShotTriggers),
-            createModTriggers(tables.get("Base Layer Thumb Mod Combos"), homeRowThumbTriggers),
-            tables.get("Home Row Modifiers").drop(1).associate { fingerPos(it[1]) to it[0] }
+            createModTriggers(tables.getWithoutHeader("Base Layer One Shot Mod Combos"), homeRowOneShotTriggers),
+            createThumbModTriggers(tables.getWithoutHeader("Base Layer Thumb Mod Combos"), homeRowThumbTriggers, homeRowPositions),
+            homeRowPositions
     )
 
     val layerOptions = tables.get("LayerOptions")

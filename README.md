@@ -28,6 +28,8 @@ Notes
 
 Base Layer Modifiers
 
+.. with combos on the home row:
+
 | Base Layer One Shot Mod Combos | Fingers                    | Timeout Delta |
 |--------------------------------|----------------------------|:-------------:|
 | Timeout                        | 10                         |               |
@@ -38,17 +40,15 @@ Base Layer Modifiers
 | Alt-Shift                      | Pinky, Ring, Middle        |               |
 | Ctrl-Alt                       | Pinky, Index               |      20       |
 | Ctrl-Alt-Shift                 | Pinky, Ring, Middle, Index |               |
-            
-| Base Layer Thumb Mod Combos | Fingers             | Timeout Delta |
-|-----------------------------|---------------------|:-------------:|
-| Timeout                     | 35                  |               |
-| Alt                         | Ring                |               |
-| Shift                       | Middle              |               |
-| Ctrl                        | Index               |               |
-| Ctrl-Shift                  | Middle, Index       |               |
-| Alt-Shift                   | Ring, Middle        |               |
-| Ctrl-Alt                    | Ring, Index         |               |
-| Ctrl-Alt-Shift              | Ring, Middle, Index |               |
+
+.. with thumb combos:
+
+- The thumb is defined in the layout table below as "HomeRowThumbCombo".
+- The other fingers are the same as in the table above.
+
+| Base Layer Thumb Mod Combos | Fingers             |
+|-----------------------------|---------------------|
+| Timeout                     | 35                  |
 
 On all other layers, the modifiers are as shown in the table below.
 
