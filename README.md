@@ -38,6 +38,8 @@ You can edit the tables to adjust the modifiers to your needs.
 
 ### One Shot Mods
 
+Remove this table to disable one shot mods.
+
 | Base Layer One Shot Mod Combos | Fingers                    | Timeout Delta |
 |--------------------------------|----------------------------|:-------------:|
 | Timeout                        | 10                         |               |
@@ -53,6 +55,8 @@ You can edit the tables to adjust the modifiers to your needs.
 
 - The thumb is defined in the layout table below as "HomeRowThumbCombo".
 - The other fingers are the same as in the table above.
+
+Remove this table to disable thumb combos.
 
 | Base Layer Thumb Mod Combos | Fingers             |
 |-----------------------------|---------------------|

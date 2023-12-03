@@ -2,7 +2,7 @@ enum class ComboType(val template: String) {
     Combo("COMB(%s, %s, %s)"), Substitution("SUBS(%s, %s, %s)")
 }
 
-data class Combo(val type: ComboType, val name: String, val result: String, val triggers: List<Key>, val timeout: Int?){
+data class Combo(val type: ComboType, val name: String, val result: String, val triggers: List<Key>, val timeout: Int?) {
     companion object {
         fun of(type: ComboType, name: String, result: String, triggers: List<Key>, timeout: Int? = 0): Combo {
             return Combo(type, name, result, triggers.sortedBy { it.keyWithModifier }, timeout)
@@ -58,10 +58,17 @@ private fun homeRowCombos(
         layers: List<Layer>,
         options: Options
 ): List<Combo> {
+    val homeRowThumbCombos = options.homeRowThumbCombos
+    if (homeRowThumbCombos == null) {
+        if (homeRowCombo != null) {
+            throw IllegalStateException("homeRowThumbCombos not defined but needed for 'HomeRowThumbCombo'")
+        }
+        return emptyList()
+    }
+
     val homeRowCombos = homeRowCombo?.let { hr ->
-        val homeRowLayer =
-                layers.find { it.name == hr.targetLayer }
-                        ?: throw IllegalStateException("unknown layer ${hr.targetLayer}")
+        val homeRowLayer = layers.find { it.name == hr.targetLayer }
+                ?: throw IllegalStateException("unknown layer ${hr.targetLayer}")
 
         hands.filter { !it.isThumb && !it.isFull }.flatMap { hand ->
             generateModCombos(
@@ -70,7 +77,7 @@ private fun homeRowCombos(
                     getLayerPart(layers[0].baseRows, hand),
                     homeRowLayer,
                     hand,
-                    options.homeRowThumbCombos
+                    homeRowThumbCombos
             )
         }
     } ?: emptyList()
@@ -84,19 +91,19 @@ private fun generateCombos(
         layerBase: Rows,
         extraKeys: List<Key>
 ): List<Combo> = hands.flatMap { hand ->
-    val modCombos =
-            if (layer.number == 0 && !hand.isThumb && !hand.isFull && extraKeys.isEmpty()) {
-                generateModCombos(
-                        "OSM",
-                        listOf(),
-                        getLayerPart(layer.baseRows, hand),
-                        layer,
-                        hand,
-                        options.homeRowOneShotTriggers
-                )
-            } else {
-                emptyList()
-            }
+    val modTriggers = options.homeRowOneShotTriggers
+    val modCombos = if (modTriggers != null && layer.number == 0 && !hand.isThumb && !hand.isFull && extraKeys.isEmpty()) {
+        generateModCombos(
+                "OSM",
+                listOf(),
+                getLayerPart(layer.baseRows, hand),
+                layer,
+                hand,
+                modTriggers
+        )
+    } else {
+        emptyList()
+    }
 
     val customCombos = activationParts
             .filter { hand.applies(it) }
