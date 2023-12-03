@@ -90,7 +90,7 @@ fun translateKey(
                         "C" -> "C(${key})"
                         "S" -> "S(${key})"
                         "CS" -> "RCS(${key})"
-                        else -> throw IllegalStateException("unknown modifier $modifier")
+                        else -> throw IllegalStateException("unknown modifier '$modifier'")
                     }
             )
         }

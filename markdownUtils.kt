@@ -5,24 +5,31 @@ fun readTables(config: File): Tables = config
         .readText()
         .split("\n\\s*\n".toRegex())
         .filter { it.startsWith("|") }
-        .map { tableLines ->
-            val map = tableLines
+        .associate { tableLines ->
+            val lines = tableLines
                     .split("\n")
-//                    .drop(1) // header
-                    .filter { it.isNotBlank() && !it.contains(":--") && !it.contains("|--") }// last block can contain empty line at end
+                    .filter { validLine(it) }
+            val header = tableLine(lines[0])
+            val map = lines
+                    .drop(1)
                     .split { it.contains("| --") }
                     .filter { it.isNotEmpty() }
-                    .map(::toTable)
-            val name = map[0][0][0]
-            name to map
-        }.toMap().let { Tables(it) }
+                    .map { it.map(::tableLine) }
+            header[0] to MultiTableWithHeader(header, map)
+        }.let { Tables(it) }
 
-private fun toTable(tableLines: List<String>): Table = tableLines.map { tableLine ->
-    tableLine.split("|")
-            .drop(1) // initial |
-            .dropLast(1) // last |
-            .map { it.trim() }
+private fun validLine(line: String) = when {
+    line.isBlank() -> false
+    line.contains("| --") -> true
+    line.contains("---") -> false
+    line.contains("|--") -> false
+    else -> true
 }
+
+private fun tableLine(tableLine: String) = tableLine.split("|")
+        .drop(1) // initial |
+        .dropLast(1) // last |
+        .map { it.trim() }
 
 data class Symbols(val mapping: Map<String, String>, val userKeycodes: List<String>) {
     fun replace(key: String): String = mapping.getOrDefault(key, key)
@@ -32,18 +39,18 @@ typealias Table = List<List<String>>
 
 typealias MultiTable = List<Table>
 
-data class Tables(val content: Map<String, MultiTable>) {
+data class MultiTableWithHeader(val header: List<String>, val content: MultiTable)
 
-    fun get(name: String): MultiTable = content.getValue(name)
+data class Tables(val content: Map<String, MultiTableWithHeader>) {
 
-    fun getWithoutHeader(name: String): Table = get(name).single().drop(1)
-    fun getMultiWithoutHeader(name: String): MultiTable = get(name).mapIndexed { index, lists ->
-        lists.drop(if (index == 0) 1 else 0)
-    }
+    fun get(name: String): MultiTableWithHeader = content.getValue(name)
+
+    fun getSingle(name: String): Table = get(name).content.single()
+    fun getMulti(name: String): MultiTableWithHeader = get(name)
 
     fun getMappingTable(
             name: String,
-    ): Map<String, String> = getWithoutHeader(name).associate { it[0] to it[1] }
+    ): Map<String, String> = getSingle(name).associate { it[0] to it[1] }
 }
 
 fun <T> List<T>.split(predicate: (T) -> Boolean): List<List<T>> {

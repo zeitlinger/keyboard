@@ -51,11 +51,11 @@ fun run(
     val tables = readTables(config)
 
     val symbols = readSymbols(tables)
-    val nonThumbs = getKeyTable(tables.getMultiWithoutHeader("Layer"))
-    val thumbs = getKeyTable(tables.getWithoutHeader("Thumb").chunked(thumbRows))
+    val nonThumbs = getKeyTable(tables.getMulti("Layer").content)
+    val thumbs = getKeyTable(tables.getSingle("Thumb").chunked(thumbRows))
     val options = options(tables, nonThumbs, thumbs)
 
-    val layerOptions = tables.getWithoutHeader("LayerOptions")
+    val layerOptions = tables.getSingle("LayerOptions")
         .associateBy { it[0] }
         .mapValues {
             LayerOption(
@@ -116,7 +116,7 @@ fun run(
 }
 
 private fun options(tables: Tables, nonThumbs: Map<String, MultiTable>, thumbs: Map<String, MultiTable>): Options {
-    val homeRowPositions = tables.getWithoutHeader("Home Row Modifiers")
+    val homeRowPositions = tables.getSingle("Home Row Modifiers")
             .associate { fingerPos(it[1]) to Modifier.ofLong(it[0]) }
     val firstNonThumb = nonThumbs.entries.first().value[0]
     val firstThumb = thumbs.entries.first().value[0]
@@ -124,8 +124,8 @@ private fun options(tables: Tables, nonThumbs: Map<String, MultiTable>, thumbs: 
             firstNonThumb.size,
             firstNonThumb[0].size,
             firstThumb[0].size,
-            createModTriggers(tables.getWithoutHeader("Base Layer One Shot Mod Combos"), homeRowOneShotTriggers),
-            createThumbModTriggers(tables.getWithoutHeader("Base Layer Thumb Mod Combos"), homeRowThumbTriggers, homeRowPositions),
+            createModTriggers(tables.getSingle("Base Layer One Shot Mod Combos"), homeRowOneShotTriggers),
+            createThumbModTriggers(tables.getSingle("Base Layer Thumb Mod Combos"), homeRowThumbTriggers, homeRowPositions),
             homeRowPositions
     )
 }
