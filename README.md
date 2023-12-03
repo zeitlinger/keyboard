@@ -129,13 +129,13 @@ How to read this layout:
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
 |  Base  |  "br"   |         |         |         |         |         |         |  .spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Mods  |         |         |         |         |         |         |         |         |
-|  Mods  |         |         |         |         |         |         |         |         |
-|  Mods  |         |         |         |         |         |         |         |         |
+|  ModC  |         |         |         |         |         |         |         |         |
+|  ModC  |         |         |         |         |         |         |         |         |
+|  ModC  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Shift  |         |         |         |         |         |         |         |         |
-| Shift  | r+Media |         |         |         |         |         |         |         |
-| Shift  |         |         |         |         |         |         |         |         |
+|  Mods  |         |         |         |         |         |         |         |         |
+|  Mods  | r+Media |         |         |         |         |         |         |         |
+|  Mods  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | NumNav |         |    6    |    5    |         |   esc   |  ⬆️⬆️   |  ⬇️⬇️   |         |
 | NumNav |    4    |    3    |    2    |    1    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
@@ -168,10 +168,10 @@ How to read this layout:
 
 | Thumb  | Left Inner |         Left Outer         | Right Outer |        Right Inner         |
 |:------:|:----------:|:--------------------------:|:-----------:|:--------------------------:|
-|  Base  |   Shift    | HomeRowThumbCombo:Mods spc |      e      | ComboLayer:Sym bspc+NumNav |
+|  Base  |    Mods    | HomeRowThumbCombo:ModC spc |      e      | ComboLayer:Sym bspc+NumNav |
 |  Base  |     💎     |                            |             |           Mouse            |
-|  Mods  |            |                            |             |            tab             |
-| Shift  |     ❌      |             ❌              |             |            spc             |
+|  ModC  |            |                            |             |            tab             |
+|  Mods  |     ❌      |             ❌              |             |            spc             |
 | NumNav |    ins     |             0              |      ❌      |             ❌              | 
 |   Fn   |            |            f11             |     f12     |                            |
 |  SymL  |            |                            |             |                            |
@@ -180,8 +180,8 @@ How to read this layout:
 | LayerOptions | Modifiers Left |  Modifiers Right   | Fallback Left | Fallback Right | Flags  |
 |:------------:|:--------------:|:------------------:|:-------------:|:--------------:|--------|
 |     Base     |                |                    |               |                |        |
+|     ModC     |    HomeRow     |      HomeRow       |     Base      |      Base      |        |  
 |     Mods     |    HomeRow     |      HomeRow       |     Base      |      Base      |        |  
-|    Shift     |    HomeRow     |      HomeRow       |     Base      |      Base      |        |  
 |    NumNav    |    HomeRow     |      HomeRow       |               |                |        | 
 |      Fn      |                | HomeRow, BottomRow |               |                |        |  
 |    Mouse     |    HomeRow     |                    |               |                |        |  
