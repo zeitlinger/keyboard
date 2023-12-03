@@ -26,9 +26,17 @@ Notes
 
 ## Modifiers
 
-Base Layer Modifiers
+For the base layer, there are several options for modifiers for different typing speeds and personal preferences:
 
-.. with combos on the home row:
+- One shot mods with a low timeout - so they don't interfere with typing fast
+- Thumb combos - they can be pressed more easily compared to the one shot mods - if you want slower typing speed
+- Mod layer - an extra layer with home row mods, which are even easier to press than the thumb combos  
+
+Then you can also enable Home row mods "Layer Options" (currently disabled, because of timing issues).
+                                                                                                      
+You can edit the tables to adjust the modifiers to your needs.
+
+### One Shot Mods
 
 | Base Layer One Shot Mod Combos | Fingers                    | Timeout Delta |
 |--------------------------------|----------------------------|:-------------:|
@@ -40,8 +48,8 @@ Base Layer Modifiers
 | Alt-Shift                      | Pinky, Ring, Middle        |               |
 | Ctrl-Alt                       | Pinky, Index               |      20       |
 | Ctrl-Alt-Shift                 | Pinky, Ring, Middle, Index |               |
-
-.. with thumb combos:
+                                                                                           
+### Thumb Combos
 
 - The thumb is defined in the layout table below as "HomeRowThumbCombo".
 - The other fingers are the same as in the table above.
@@ -49,6 +57,12 @@ Base Layer Modifiers
 | Base Layer Thumb Mod Combos | Fingers             |
 |-----------------------------|---------------------|
 | Timeout                     | 35                  |
+
+### Mod Layer
+
+The Mod layer is defined in the Layer table below as "Mod".
+
+### Home Row Mods
 
 On all other layers, the modifiers are as shown in the table below.
 
@@ -172,6 +186,8 @@ How to read this layout:
 | NumNav |         ins          |             0              |      ❌      |             ❌              | 
 |   Fn   |                      |            f11             |     f12     |                            |
 |  SymR  |         undo         |            tab             |     spc     |            redo            |
+              
+## Options
 
 | LayerOptions | Modifiers Left |  Modifiers Right   | Fallback Left | Fallback Right | Flags  |
 |:------------:|:--------------:|:------------------:|:-------------:|:--------------:|--------|
