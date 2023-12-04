@@ -107,7 +107,7 @@ How to read this layout:
 |  Base  |   💎    |   tab   |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |   💎    |    v    |   f4    |         |         |         |         |
+|  Base  |         |   💎    |    v    |   f4    |         |   💎    | ↩️️ 20  |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -145,37 +145,41 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | ParNav |         |    #    |    @    |    %    |   esc   |  ⬆️⬆️   |  ⬇️⬇️   |         |
 | ParNav |    $    |    (    |    )    |    !    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
-| ParNav |         |    ^    |    &    |    *    |   ↩️️   |   del   |  ⬅️⬅️   |  ➡️➡️   |
+| ParNav |         |    ^    |    &    |    *    |   ↩️️   |   del   |  ⬅️⬅️   |  ➡️➡️   | 
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnBra  |         |   f6    |   f5    |         |    `    |    -    |    =    |         |
 | FnBra  |   f4    |   f3    |   f2    |   f1    |    '    |    [    |    ]    |    \    |    
-| FnBra  |   f10   |   f9    |   f8    |   f7    |    ;    |  aRep   |    .    |    /    |
+| FnBra  |   f10   |   f9    |   f8    |   f7    |    ;    |  aRep   |         |    /    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | NumCur |         |    6    |    5    |         |    ~    |    _    |    +    |         |
 | NumCur |    4    |    3    |    2    |    1    |    "    |    {    |    }    |  pipe   |
 | NumCur |         |    9    |    8    |    7    |    :    |    <    |    >    |    ?    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Mouse  |         |  🖱️2   |  🖱️1   |  🖱️3   |  🖱️3   |  🖱️1   |  🖱️2   |         |
-| Mouse  |  Media  |  OSM-A  |  OSM-S  |  OSM-C  |  🖱️⬅️  |  🖱️⬆️  |  🖱️⬇️  |  🖱️➡️  |    
+| Mouse  |         |         |         |         |  🖱️3   |  🖱️1   |  🖱️2   |         |
+| Mouse  |  Media  |  🖱️3   |  🖱️2   |  🖱️1   |  🖱️⬅️  |  🖱️⬆️  |  🖱️⬇️  |  🖱️➡️  |    
 | Mouse  |         |         |         |         | 🖲️️⬅️  | 🖲️️⬆️  | 🖲️️⬇️  | 🖲️️➡️  |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Tab   |         |         |         |         |         |         |         |         |
 |  Tab   |         |  A-f4   |   win   |   C-w   |         |         |         |         |
 |  Tab   |    ❌    |   alt   | s/undo  | c/redo  |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|   Fn   |         |         |         |         |         |         |         |         |
+|   Fn   |         |         |         |         |  OSM-C  |  OSM-S  |  OSM-A  |         |
+|   Fn   |         |         |         |         |  OSM-C  |  OSM-S  |  OSM-A  |    ❌    |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Media  |         |         |   prt   |         |         |   🔅    |   🔆    |         |
 | Media  |    ❌    |   🔈    |   🔊    |   🔇    |   ⏯️    |   ⏮️    |   ⏭️    |         |
 | Media  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
-| Thumb  |        Left Inner        |         Left Outer          | Right Outer |          Right Inner          |
-|:------:|:------------------------:|:---------------------------:|:-----------:|:-----------------------------:|
-|  Base  | ComboLayer:ParBra ParNav | spc+osm Mod/mouse/onehanded |   e+FnBra   | ComboLayer:NumCur bspc+NumCur |
-|  Base  |            💎            |                             |             |             Mouse             |
-|  Base  |                          |              0              |             |              💎               |
-| ParNav |           ins            |              0              |      ❌      |               ❌               | 
-| FnBra  |                          |             f11             |     f12     |                               |
-|  Tab   |           undo           |             tab             |      e      |             redo              |
+| Thumb  | Left Inner |      Left Outer       |     Right Outer     | Right Inner |                         
+|:------:|:----------:|:---------------------:|:-------------------:|:-----------:|
+|  Base  |   ParNav   | ComboLayer:ParBra spc | ComboLayer:NumCur e | bspc+NumCur |
+|  Base  |     💎     |                       |                     |    Mouse    |
+|  Base  |            |           0           |                     |     💎      |
+| ParNav |     ❌      |           ❌           |         tab         |    bspc     | 
+| NumCur |    spc     |           0           |          ❌          |      ❌      |
+|   Fn   |            |          f11          |         f12         |             |
 
 ## Options
 
@@ -185,16 +189,17 @@ Par = Parentheses        (
 Cur = Curly Parentheses  {
 Bra = Brackets           [
 
-| LayerOptions | Modifiers Left | Modifiers Right | Fallback Left | Fallback Right | Flags  |
-|:------------:|:--------------:|:---------------:|:-------------:|:--------------:|--------|
-|     Base     |                |                 |               |                |        |
-|    ParNav    |    HomeRow     |     HomeRow     |               |                |        | 
-|    FnBra     |    HomeRow     |     HomeRow     |               |                |        |  
-|    NumCur    |    HomeRow     |     HomeRow     |               |                |        |
-|    Mouse     |    HomeRow     |                 |               |                |        |  
-|     Tab      |   BottomRow    |                 |               |                |        |
-|    Media     |                |                 |               |                |        |
-|    ParBra    |                |                 |    ParNav     |     FnBra      | Hidden | 
+| LayerOptions | Modifiers Left |  Modifiers Right   | Fallback Left | Fallback Right | Flags  |
+|:------------:|:--------------:|:------------------:|:-------------:|:--------------:|--------|
+|     Base     |                |                    |               |                |        |
+|    ParNav    |    HomeRow     |      HomeRow       |               |                |        |
+|    FnBra     |                |                    |               |                | Hidden |
+|    NumCur    |    HomeRow     |      HomeRow       |               |                |        |
+|      Fn      |                | HomeRow, BottomRow |     FnBra     |                |        |
+|    Mouse     |    HomeRow     |                    |               |                |        |
+|     Tab      |   BottomRow    |                    |               |     FnBra      |        |
+|    Media     |                |                    |               |                |        |
+|    ParBra    |                |                    |    ParNav     |     FnBra      | Hidden | 
 
 | Symbol  | Command             |                                     
 |---------|---------------------|

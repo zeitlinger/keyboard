@@ -72,4 +72,5 @@ val qmkPrefixes = setOf(
     "ALT_T(",
     "CTL_T(",
     "SFT_T(",
+    "OSM(",
 )
