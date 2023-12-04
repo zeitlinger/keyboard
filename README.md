@@ -1,4 +1,17 @@
 # APTex keyboard
+                                 
+Goals
+
+- Fast typing
+  - No home row mods on base layer that easily interfere with typing
+  - No auto shift or tap dance 
+  - combos for the most common bigrams and trigrams
+  - combos for the most common same finger bigrams
+- No lateral movement
+  - Inner columns are not used
+- All modifiers can be used with all keys
+  - All modifiers except GUI can be used with all keys
+- Support for German umlauts and the most common IntelliJ shortcuts
 
 Features
 
@@ -13,6 +26,11 @@ Features
 - Combos for the most common bigrams, reducing SFBs from 0.70% to 0.26%
 - Combos for the most common trigrams
 - "Next sentence" key (". ", capitalizes the next letter)
+
+Credits
+
+- [The T-34 keyboard layout](https://www.jonashietala.se/blog/2021/06/03/the-t-34-keyboard-layout/)
+- [APTex](https://github.com/Apsu/APTex)
 
 Notes
 
