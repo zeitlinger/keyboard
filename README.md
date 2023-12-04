@@ -15,7 +15,7 @@ Goals
 
 Features
 
-- 34 keys
+- 34 keys, but only 26 keys are needed for typing
 - [APTex](https://github.com/Apsu/APTex) layout with slight modifications
 - Home row mods (Alt, Ctrl, Shift) on all layers, except the base layer where combos are used instead to avoid timing issues (see [Modifiers](#modifiers))
 - In the base layer, you have to press space and the modifier key at the same time to activate the modifier.
@@ -60,7 +60,7 @@ Remove this table to disable one shot mods.
 
 | Base Layer One Shot Mod Combos | Fingers                    | Timeout Delta |
 |--------------------------------|----------------------------|:-------------:|
-| Timeout                        | 10                         |               |
+| Timeout                        | 12                         |               |
 | Shift                          | Ring, Middle               |               |
 | Ctrl                           | Middle, Index              |               |
 | Alt                            | Ring, Index                |      10       |
@@ -131,7 +131,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |         |   💎    |  k 80   |         |         |         |         |
+|  Base  |         |         |   💎    |  k 120  |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
@@ -194,6 +194,7 @@ How to read this layout:
 |:------:|:----------:|:------------------------:|:----------------------:|:-----------:|
 |  Base  | tab+ParNav | ComboLayer:ParBra,20 spc | ComboLayer:NumCur,20 e | bspc+NumCur |
 |  Base  |     💎     |                          |                        |    Mouse    |
+|  Base  |            |            💎            |       Parnav 20        |             |
 |  Base  |            |            0             |                        |     💎      |
 | ParNav |     ❌      |            ❌             |          tab           |    bspc     | 
  | NumCur |    spc     |            0             |           ❌            |      ❌      |
@@ -282,6 +283,7 @@ Bra = Brackets           [
 | aRep    | QK_ALT_REPEAT_KEY   |
 | capsW   | QK_CAPS_WORD_TOGGLE |
 | Mouse   | custom:MOUSE        |
+| Parnav  | custom:PARNAV       |
 | .spc    | custom:DOT_SPC      |
 | OSM-A   | OSM(MOD_LALT)       |
 | OSM-S   | OSM(MOD_LSFT)       |
