@@ -107,7 +107,7 @@ How to read this layout:
 |  Base  |   💎    |   tab   |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |   💎    |    v    |   f4    |         |   💎    | ↩️️ 20  |         |
+|  Base  |         |   💎    |    v    |   f4    |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -125,7 +125,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |  A-f7   | S-paste |         |         |         |         |
-|  Base  |   💎    | cut 100 |  copy   |  paste  |         |         |   ↩️    |   💎    |
+|  Base  |   💎    | cut 100 |  copy   |  paste  |         |         |   ↩️️   |   💎    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |  "for"  |  "ny"   |         |         |         |
 |  Base  |         |         |         |   💎    |   💎    |         |         |         |
@@ -143,17 +143,17 @@ How to read this layout:
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
 |  Base  |  "br"   |         |         |         |         |         |         |  .spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| ParNav |         |    #    |    @    |    %    |   esc   |  ⬆️⬆️   |  ⬇️⬇️   |         |
-| ParNav |    $    |    (    |    )    |    !    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
-| ParNav |         |    ^    |    &    |    *    |   ↩️️   |   del   |  ⬅️⬅️   |  ➡️➡️   | 
+| ParNav |    ^    |  redo   |  undo   |    @    |   esc   |  ⬆️⬆️   |  ⬇️⬇️   |         |
+| ParNav | $+ctrl  |    (    |    )    |   tab   |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
+| ParNav |    #    |    &    |    *    |  sTab   |   ↩️️   |   del   |  ⬅️⬅️   |  ➡️➡️   | 
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnBra  |         |   f6    |   f5    |         |    `    |    -    |    =    |         |
 | FnBra  |   f4    |   f3    |   f2    |   f1    |    '    |    [    |    ]    |    \    |    
-| FnBra  |   f10   |   f9    |   f8    |   f7    |    ;    |  aRep   |         |    /    |
+| FnBra  |   f10   |   f9    |   f8    |   f7    |    ;    |  aRep   |    !    |    /    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | NumCur |         |    6    |    5    |         |    ~    |    _    |    +    |         |
 | NumCur |    4    |    3    |    2    |    1    |    "    |    {    |    }    |  pipe   |
-| NumCur |         |    9    |    8    |    7    |    :    |    <    |    >    |    ?    |
+| NumCur |    %    |    9    |    8    |    7    |    :    |    <    |    >    |    ?    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Mouse  |         |         |         |         |  🖱️3   |  🖱️1   |  🖱️2   |         |
 | Mouse  |  Media  |  🖱️3   |  🖱️2   |  🖱️1   |  🖱️⬅️  |  🖱️⬆️  |  🖱️⬇️  |  🖱️➡️  |    
@@ -172,15 +172,15 @@ How to read this layout:
 | Media  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
-| Thumb  | Left Inner  |      Left Outer       |     Right Outer     | Right Inner |                         
-|:------:|:-----------:|:---------------------:|:-------------------:|:-----------:|
-|  Base  | undo+ParNav | ComboLayer:ParBra spc | ComboLayer:NumCur e | bspc+NumCur |
-|  Base  |     💎      |                       |                     |    Mouse    |
-|  Base  |             |           0           |                     |     💎      |
-| ParNav |      ❌      |           ❌           |         tab         |    bspc     | 
- | NumCur |     spc     |           0           |          ❌          |      ❌      |
-|   Fn   |             |          f11          |         f12         |             |
-|  Tab   |    sTab     |          tab          |        undo         |    redo     |
+| Thumb  | Left Inner |      Left Outer       |     Right Outer     | Right Inner |                         
+|:------:|:----------:|:---------------------:|:-------------------:|:-----------:|
+|  Base  | tab+ParNav | ComboLayer:ParBra spc | ComboLayer:NumCur e | bspc+NumCur |
+|  Base  |     💎     |                       |                     |    Mouse    |
+|  Base  |            |           0           |                     |     💎      |
+| ParNav |     ❌      |           ❌           |         tab         |    bspc     | 
+ | NumCur |    spc     |           0           |          ❌          |      ❌      |
+|   Fn   |            |          f11          |         f12         |             |
+|  Tab   |    sTab    |          tab          |        undo         |    redo     |
 
 ## Options
 
@@ -193,9 +193,9 @@ Bra = Brackets           [
 | LayerOptions | Modifiers Left |  Modifiers Right   | Fallback Left | Fallback Right | Flags  |
 |:------------:|:--------------:|:------------------:|:-------------:|:--------------:|--------|
 |     Base     |                |                    |               |                |        |
-|    ParNav    |    HomeRow     |      HomeRow       |               |                |        |
+|    ParNav    |    HomeRow     |                    |               |                |        |
 |    FnBra     |                |                    |               |                | Hidden |
-|    NumCur    |    HomeRow     |      HomeRow       |               |                |        |
+|    NumCur    |                |      HomeRow       |               |                |        |
 |      Fn      |                | HomeRow, BottomRow |     FnBra     |                |        |
 |    Mouse     |    HomeRow     |                    |               |                |        |
 |     Tab      |   BottomRow    |                    |               |     FnBra      |        |
@@ -247,6 +247,7 @@ Bra = Brackets           [
 | undo    | C(KC_Z)             |
 | c/redo  | C(KC_AGAIN)         |
 | s/undo  | S(KC_UNDO)          |
+| $+ctrl |  CTL_T(KC_DLR)       |
 | copy    | C(KC_C)             |
 | paste   | C(KC_V)             |
 | S-paste | RCS(KC_V)           |

@@ -104,7 +104,7 @@ fun translateKey(
 }
 
 private fun translateSimpleKey(translator: QmkTranslator, def: String, pos: KeyPosition): Key {
-    val key = translator.toQmk(def)
+    val key = translator.toQmk(def, pos)
     return Key(key, addModTab(key, pos, translator))
 }
 

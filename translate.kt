@@ -32,13 +32,13 @@ class QmkTranslator(
         }.toMap()
     }
 
-    fun toQmk(key: String): String = key
+    fun toQmk(key: String, pos: KeyPosition): String = key
         .let { symbols.replace(it) }
         .let { translatedKey -> map.getOrDefault(translatedKey.replaceFirstChar { it.titlecase() }, translatedKey) }
         .let {
             when {
                 getSubstitutionCombo(it) != null || symbols.userKeycodes.contains(it) -> it
-                else -> assertQmk(it)
+                else -> assertQmk(it, pos)
             }
         }
 
@@ -51,10 +51,10 @@ class QmkTranslator(
         (if (pos.thumb) getThumbContent(pos.layerName) else nonThumbs.getValue(pos.layerName))[0][pos.row][pos.column]
 }
 
-fun assertQmk(key: String): String {
+fun assertQmk(key: String, pos: KeyPosition): String {
     return when {
         key == comboTrigger || qmkPrefixes.any { key.startsWith(it) } -> key
-        else -> throw IllegalStateException("key not translated $key")
+        else -> throw IllegalStateException("key not translated $key in $pos")
     }
 }
 
