@@ -245,8 +245,6 @@ Bra = Brackets           [
 | 🔅      | KC_BRID             |
 | redo    | RCS(KC_Z)           |
 | undo    | C(KC_Z)             |
-| c/redo  | C(KC_AGAIN)         |
-| s/undo  | S(KC_UNDO)          |
 | $+ctrl  | CTL_T(KC_DLR)       |
 | copy    | C(KC_C)             |
 | paste   | C(KC_V)             |

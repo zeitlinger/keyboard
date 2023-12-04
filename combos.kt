@@ -89,10 +89,10 @@ private fun generateCombos(
         layer: Layer,
         activationParts: List<Rows>,
         layerBase: Rows,
-        extraKeys: List<Key>
+        directLayerTrigger: List<Key>
 ): List<Combo> = hands.flatMap { hand ->
     val modTriggers = options.homeRowOneShotTriggers
-    val modCombos = if (modTriggers != null && layer.number == 0 && !hand.isThumb && !hand.isFull && extraKeys.isEmpty()) {
+    val modCombos = if (modTriggers != null && layer.number == 0 && !hand.isThumb && !hand.isFull && directLayerTrigger.isEmpty()) {
         generateModCombos(
                 "OSM",
                 listOf(),
@@ -109,11 +109,11 @@ private fun generateCombos(
             .filter { hand.applies(it) }
             .flatMap { def ->
                 generateCustomCombos(
-                        def.filter { it.size == options.nonThumbColumns },
+                        def.filter { it.size == options.nonThumbColumns || directLayerTrigger.isEmpty() },
                         getLayerPart(layerBase.drop(hand.baseLayerRowSkip), hand),
                         layer,
                         hand,
-                        extraKeys,
+                        directLayerTrigger,
                 )
             }
     customCombos + modCombos
@@ -124,7 +124,7 @@ private fun generateCustomCombos(
         layerBase: List<Key>,
         layer: Layer,
         hand: Hand,
-        extraKeys: List<Key>
+        directLayerTrigger: List<Key>
 ): List<Combo> {
     val definition = getLayerPart(def, hand)
     val comboIndexes = definition.mapIndexedNotNull { index, s -> if (s.key == comboTrigger) index else null }
@@ -133,13 +133,13 @@ private fun generateCustomCombos(
         val key = k.key
         if (!(k.isBlocked() || key == comboTrigger || key == "KC_TRNS")) {
             val keys = layerBase
-                    .filterIndexed { index, _ -> index == comboIndex || index in comboIndexes } + extraKeys
+                    .filterIndexed { index, _ -> index == comboIndex || index in comboIndexes } + directLayerTrigger
 
             val substitutionCombo = getSubstitutionCombo(key)
             val type = if (substitutionCombo != null) ComboType.Substitution else ComboType.Combo
             val name = comboName(layer.name, key)
             val content = substitutionCombo ?: key
-            listOf(Combo.of(type, name, content, keys, k.comboTimeout ?: extraKeys.firstNotNullOfOrNull { it.comboTimeout }))
+            listOf(Combo.of(type, name, content, keys, k.comboTimeout ?: directLayerTrigger.firstNotNullOfOrNull { it.comboTimeout }))
         } else emptyList()
     }.filter { it.triggers.size > 1 }
 }
