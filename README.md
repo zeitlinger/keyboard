@@ -97,7 +97,7 @@ How to read this layout:
 |:------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
 |  Base  |    /    |    w    |    m    |    f    |    y    |    o    |    u    |    -    |
 |  Base  |    r    |    s    |    t    |    h    |    n    |    a    |    i    |    l    |
-|  Base  |  b+Tab  |    c    |    g    |    d    |    p    |   rep   |    ,    |    .    |
+|  Base  |  b+Tab  |    c    |    g    |    d    |    p    |   rep   |    ,    |  .+Fn   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |   💎    |    z    |         |    ö    |    ü    |         |
 |  Base  |         |         |         |         |         |    ä    |         |    ß    |
@@ -121,11 +121,11 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |   💎    |    j    |    x    |         |         |         |         |
+|  Base  |         |   💎    |    j    |    x    |         |  capsW  |   💎    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |  A-f7   | S-paste |         |         |         |         |
-|  Base  |   💎    | cut 100 |  copy   |  paste  |         |         |  capsW  |   💎    |
+|  Base  |   💎    | cut 100 |  copy   |  paste  |         |         |   ↩️    |   💎    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |  "for"  |  "ny"   |         |         |         |
 |  Base  |         |         |         |   💎    |   💎    |         |         |         |
@@ -161,7 +161,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Tab   |         |         |         |         |         |         |         |         |
 |  Tab   |         |  A-f4   |   win   |   C-w   |         |         |         |         |
-|  Tab   |    ❌    |   alt   | s/undo  | c/redo  |         |         |         |         |
+|  Tab   |    ❌    |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |   Fn   |         |         |         |         |         |         |         |         |
 |   Fn   |         |         |         |         |  OSM-C  |  OSM-S  |  OSM-A  |         |
@@ -172,14 +172,15 @@ How to read this layout:
 | Media  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
-| Thumb  | Left Inner |      Left Outer       |     Right Outer     | Right Inner |                         
-|:------:|:----------:|:---------------------:|:-------------------:|:-----------:|
-|  Base  |   ParNav   | ComboLayer:ParBra spc | ComboLayer:NumCur e | bspc+NumCur |
-|  Base  |     💎     |                       |                     |    Mouse    |
-|  Base  |            |           0           |                     |     💎      |
-| ParNav |     ❌      |           ❌           |         tab         |    bspc     | 
-| NumCur |    spc     |           0           |          ❌          |      ❌      |
-|   Fn   |            |          f11          |         f12         |             |
+| Thumb  | Left Inner  |      Left Outer       |     Right Outer     | Right Inner |                         
+|:------:|:-----------:|:---------------------:|:-------------------:|:-----------:|
+|  Base  | undo+ParNav | ComboLayer:ParBra spc | ComboLayer:NumCur e | bspc+NumCur |
+|  Base  |     💎      |                       |                     |    Mouse    |
+|  Base  |             |           0           |                     |     💎      |
+| ParNav |      ❌      |           ❌           |         tab         |    bspc     | 
+ | NumCur |     spc     |           0           |          ❌          |      ❌      |
+|   Fn   |             |          f11          |         f12         |             |
+|  Tab   |    sTab     |          tab          |        undo         |    redo     |
 
 ## Options
 
