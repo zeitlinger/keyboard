@@ -172,15 +172,15 @@ How to read this layout:
 | Media  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
-| Thumb  | Left Inner |      Left Outer       |     Right Outer     | Right Inner |                         
-|:------:|:----------:|:---------------------:|:-------------------:|:-----------:|
-|  Base  | tab+ParNav | ComboLayer:ParBra spc | ComboLayer:NumCur e | bspc+NumCur |
-|  Base  |     💎     |                       |                     |    Mouse    |
-|  Base  |            |           0           |                     |     💎      |
-| ParNav |     ❌      |           ❌           |         tab         |    bspc     | 
- | NumCur |    spc     |           0           |          ❌          |      ❌      |
-|   Fn   |            |          f11          |         f12         |             |
-|  Tab   |    sTab    |          tab          |        undo         |    redo     |
+| Thumb  | Left Inner |        Left Outer        |      Right Outer       | Right Inner |                         
+|:------:|:----------:|:------------------------:|:----------------------:|:-----------:|
+|  Base  | tab+ParNav | ComboLayer:ParBra,20 spc | ComboLayer:NumCur,20 e | bspc+NumCur |
+|  Base  |     💎     |                          |                        |    Mouse    |
+|  Base  |            |            0             |                        |     💎      |
+| ParNav |     ❌      |            ❌             |          tab           |    bspc     | 
+ | NumCur |    spc     |            0             |           ❌            |      ❌      |
+|   Fn   |            |           f11            |          f12           |             |
+|  Tab   |    sTab    |           tab            |          undo          |    redo     |
 
 ## Options
 

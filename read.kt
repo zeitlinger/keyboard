@@ -50,24 +50,30 @@ fun translateKey(
 
         def.contains(" ") && !def.startsWith("\"") -> {
             val parts = def.split(" ")
+            val right = parts[1]
+            val left = parts[0]
             when {
                 def.startsWith("ComboLayer:") -> {
-                    val trigger = parts[0].split(":")[1]
-                    val key = translateKey(translator, pos, parts[1])
-                    translator.comboLayerTrigger[trigger] = key
-                    key
+                    val trigger = left.split(":")[1]        .split(",")
+                    val layerName = trigger[0]
+                    val timeout = trigger.getOrNull(1)?.toIntOrNull()
+                    translator.layerOption[layerName]?.let {
+                        val key = translateKey(translator, pos, right)
+                        translator.comboLayerTrigger[layerName] = key.copy(comboTimeout = timeout)
+                        key
+                    } ?: throw IllegalArgumentException("unknown layer $layerName in $pos")
                 }
 
                 def.startsWith("HomeRowThumbCombo:") -> {
-                    val targetLayer = parts[0].split(":")[1]
-                    val key = translateKey(translator, pos, parts[1])
+                    val targetLayer = left.split(":")[1]
+                    val key = translateKey(translator, pos, right)
                     translator.homeRowThumbCombo = HomeRowCombo(targetLayer, key)
                     key
                 }
 
-                parts.size == 2 && parts[1][0].isDigit() -> {
-                    translateKey(translator, pos, parts[0])
-                            .copy(comboTimeout = parts[1].toInt())
+                parts.size == 2 && right[0].isDigit() -> {
+                    translateKey(translator, pos, left)
+                            .copy(comboTimeout = right.toInt())
                 }
 
                 else -> throw IllegalArgumentException("unknown command '$def' in $pos")

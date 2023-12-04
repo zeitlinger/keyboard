@@ -139,7 +139,7 @@ private fun generateCustomCombos(
             val type = if (substitutionCombo != null) ComboType.Substitution else ComboType.Combo
             val name = comboName(layer.name, key)
             val content = substitutionCombo ?: key
-            listOf(Combo.of(type, name, content, keys, k.comboTimeout))
+            listOf(Combo.of(type, name, content, keys, k.comboTimeout ?: extraKeys.firstNotNullOfOrNull { it.comboTimeout }))
         } else emptyList()
     }.filter { it.triggers.size > 1 }
 }
