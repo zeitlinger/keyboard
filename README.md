@@ -84,7 +84,7 @@ How to read this layout:
 - 🪜 = transparent key
 - ❌ = key can't be used because the layer was activated with that key
 - empty = use key from base layer
-- Fn = capitalized words are layer names
+- FnBra = capitalized words are layer names
 - /+Ctrl = tab-mod - / on tab and CTRL on hold
 - C-w = Ctrl-w (same for Alt and Shift)
 - "that" = combo that produces "that"
@@ -97,7 +97,7 @@ How to read this layout:
 |:------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
 |  Base  |    /    |    w    |    m    |    f    |    y    |    o    |    u    |    -    |
 |  Base  |    r    |    s    |    t    |    h    |    n    |    a    |    i    |    l    |
-|  Base  | b+SymR  |    c    |    g    |    d    |    p    |   rep   |  aRep   | ↩️️+Fn  |
+|  Base  |  b+Tab  |    c    |    g    |    d    |    p    |   rep   |    ,    |    .    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |   💎    |    z    |         |    ö    |    ü    |         |
 |  Base  |         |         |         |         |         |    ä    |         |    ß    |
@@ -143,68 +143,58 @@ How to read this layout:
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
 |  Base  |  "br"   |         |         |         |         |         |         |  .spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  ModC  |         |         |         |         |         |         |         |         |
-|  ModC  |         |         |         |         |         |         |         |         |
-|  ModC  |         |         |         |         |         |         |         |         |
+| ParNav |         |    #    |    @    |    %    |   esc   |  ⬆️⬆️   |  ⬇️⬇️   |         |
+| ParNav |    $    |    (    |    )    |    !    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
+| ParNav |         |    ^    |    &    |    *    |   ↩️️   |   del   |  ⬅️⬅️   |  ➡️➡️   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Mods  |         |         |         |         |         |         |         |         |
-|  Mods  | r+Media |         |         |         |         |         |         |         |
-|  Mods  |         |         |         |         |         |         |         |         |
+| FnBra  |         |   f6    |   f5    |         |    `    |    -    |    =    |         |
+| FnBra  |   f4    |   f3    |   f2    |   f1    |    '    |    [    |    ]    |    \    |    
+| FnBra  |   f10   |   f9    |   f8    |   f7    |    ;    |  aRep   |    .    |    /    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| NumNav |         |    6    |    5    |         |   esc   |  ⬆️⬆️   |  ⬇️⬇️   |         |
-| NumNav |    4    |    3    |    2    |    1    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
-| NumNav |         |    9    |    8    |    7    |  ⬅️⬅️   |  bspc   |   del   |  ➡️➡️   |
+| NumCur |         |    6    |    5    |         |    ~    |    _    |    +    |         |
+| NumCur |    4    |    3    |    2    |    1    |    "    |    {    |    }    |  pipe   |
+| NumCur |         |    9    |    8    |    7    |    :    |    <    |    >    |    ?    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|   Fn   |         |   f6    |   f5    |         |         |         |         |         |
-|   Fn   |   f4    |   f3    |   f2    |   f1    |         |         |         |         |    
-|   Fn   |   f10   |   f9    |   f8    |   f7    |         |         |         |    ❌    |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Mouse  |         |         |         |         |  🖱️3   |  🖱️1   |  🖱️2   |         |
-| Mouse  |         |         |  🖱️2   |  🖱️1   |  🖱️⬅️  |  🖱️⬆️  |  🖱️⬇️  |  🖱️➡️  |    
+| Mouse  |         |  🖱️2   |  🖱️1   |  🖱️3   |  🖱️3   |  🖱️1   |  🖱️2   |         |
+| Mouse  |  Media  |  OSM-A  |  OSM-S  |  OSM-C  |  🖱️⬅️  |  🖱️⬆️  |  🖱️⬇️  |  🖱️➡️  |    
 | Mouse  |         |         |         |         | 🖲️️⬅️  | 🖲️️⬆️  | 🖲️️⬇️  | 🖲️️➡️  |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Sym   |         |         |         |         |    `    |    -    |    =    |         |
-|  Sym   |         |         |         |         |    '    |    [    |    ]    |    \    |    
-|  Sym   |         |         |         |         |    ;    |    ,    |    .    |    /    |        
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Sym2  |         |    #    |    @    |    %    |    ~    |    _    |    +    |         |
-|  Sym2  |    $    |    (    |    )    |    !    |    "    |    {    |    }    |  pipe   |
-|  Sym2  |         |    ^    |    &    |    *    |    :    |    <    |    >    |    ?    |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  SymR  |         |         |         |         |         |         |         |         |
-|  SymR  |         |  A-f4   |   win   |   C-w   |         |         |         |         |
-|  SymR  |    ❌    |   alt   | s/undo  | c/redo  |         |         |         |         |
+|  Tab   |         |         |         |         |         |         |         |         |
+|  Tab   |         |  A-f4   |   win   |   C-w   |         |         |         |         |
+|  Tab   |    ❌    |   alt   | s/undo  | c/redo  |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Media  |         |         |   prt   |         |         |   🔅    |   🔆    |         |
 | Media  |    ❌    |   🔈    |   🔊    |   🔇    |   ⏯️    |   ⏮️    |   ⏭️    |         |
 | Media  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
-| Thumb  |      Left Inner      |         Left Outer         | Right Outer |        Right Inner         |
-|:------:|:--------------------:|:--------------------------:|:-----------:|:--------------------------:|
-|  Base  | ComboLayer:Sym2 Mods | HomeRowThumbCombo:ModC spc |      e      | ComboLayer:Sym bspc+NumNav |
-|  Base  |          💎          |                            |             |           Mouse            |
-|  Base  |                      |             0              |             |             💎             |
-|  ModC  |                      |                            |             |            tab             |
-|  Mods  |          ❌           |             ❌              |             |            spc             |
-| NumNav |         ins          |             0              |      ❌      |             ❌              | 
-|   Fn   |                      |            f11             |     f12     |                            |
-|  SymR  |         undo         |            tab             |     spc     |            redo            |
-              
+| Thumb  |        Left Inner        |         Left Outer          | Right Outer |          Right Inner          |
+|:------:|:------------------------:|:---------------------------:|:-----------:|:-----------------------------:|
+|  Base  | ComboLayer:ParBra ParNav | spc+osm Mod/mouse/onehanded |   e+FnBra   | ComboLayer:NumCur bspc+NumCur |
+|  Base  |            💎            |                             |             |             Mouse             |
+|  Base  |                          |              0              |             |              💎               |
+| ParNav |           ins            |              0              |      ❌      |               ❌               | 
+| FnBra  |                          |             f11             |     f12     |                               |
+|  Tab   |           undo           |             tab             |      e      |             redo              |
+
 ## Options
 
-| LayerOptions | Modifiers Left |  Modifiers Right   | Fallback Left | Fallback Right | Flags  |
-|:------------:|:--------------:|:------------------:|:-------------:|:--------------:|--------|
-|     Base     |                |                    |               |                |        |
-|     ModC     |    HomeRow     |      HomeRow       |     Base      |      Base      |        |  
-|     Mods     |    HomeRow     |      HomeRow       |     Base      |      Base      |        |  
-|    NumNav    |    HomeRow     |      HomeRow       |               |                |        | 
-|      Fn      |                | HomeRow, BottomRow |               |                |        |  
-|    Mouse     |    HomeRow     |                    |               |                |        |  
-|     Sym      |                |                    |    NumNav     |                | Hidden | 
-|     Sym2     |                |                    |               |                | Hidden |
-|     SymR     |   BottomRow    |                    |               |      Sym       |        | 
-|    Media     |                |                    |               |                |        |
+A note on layer names:
+
+Par = Parentheses        (
+Cur = Curly Parentheses  {
+Bra = Brackets           [
+
+| LayerOptions | Modifiers Left | Modifiers Right | Fallback Left | Fallback Right | Flags  |
+|:------------:|:--------------:|:---------------:|:-------------:|:--------------:|--------|
+|     Base     |                |                 |               |                |        |
+|    ParNav    |    HomeRow     |     HomeRow     |               |                |        | 
+|    FnBra     |    HomeRow     |     HomeRow     |               |                |        |  
+|    NumCur    |    HomeRow     |     HomeRow     |               |                |        |
+|    Mouse     |    HomeRow     |                 |               |                |        |  
+|     Tab      |   BottomRow    |                 |               |                |        |
+|    Media     |                |                 |               |                |        |
+|    ParBra    |                |                 |    ParNav     |     FnBra      | Hidden | 
 
 | Symbol  | Command             |                                     
 |---------|---------------------|
@@ -270,3 +260,6 @@ How to read this layout:
 | capsW   | QK_CAPS_WORD_TOGGLE |
 | Mouse   | custom:MOUSE        |
 | .spc    | custom:DOT_SPC      |
+| OSM-A   | OSM(MOD_LALT)       |
+| OSM-S   | OSM(MOD_LSFT)       |
+| OSM-C   | OSM(MOD_LCTL)       |
