@@ -26,7 +26,7 @@ fun generateAllCombos(layers: List<Layer>, options: Options, homeRowCombo: HomeR
                 }
                 .also { combos ->
                     combos.groupBy { it.name }.filter { it.value.size > 1 }.forEach { (name, combos) ->
-                        throw IllegalStateException("duplicate combo name $name in ${combos.joinToString(", ")}")
+                        throw IllegalStateException("duplicate combo name $name in ${combos.map { it.triggers.map { it.key } }.joinToString(", ")}")
                     }
                 }
 
