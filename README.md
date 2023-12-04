@@ -157,9 +157,9 @@ How to read this layout:
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
 |  Base  |  "br"   |         |         |         |         |         |         |  .spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| ParNav |         |  redo   |  undo   |         |   ins   |  ⬆️⬆️   |  ⬇️⬇️   |         |
-| ParNav | $+ctrl  |         |         |   tab   |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
-| ParNav |  ⬅️⬅️   |         |         |  sTab   |   ↩️️   |  bspc   |   del   |  ➡️➡️   | 
+| TabNav |  A-f4   |  redo   |  undo   |  A-f7   |   ins   |  ⬆️⬆️   |  ⬇️⬇️   |         |
+| TabNav | $+ctrl  |         |         |   tab   |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
+| TabNav |  ⬅️⬅️   |   C-w   |         |  sTab   |   ↩️️   |  bspc   |   del   |  ➡️➡️   | 
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |  
 | NumCur |         |    6    |    5    |    ^    |    ~    |    _    |    +    |         |
 | NumCur |    4    |    3    |    2    |    1    |    "    |    {    |    }    |  pipe   |
@@ -175,7 +175,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | ParBra |         |         |         |    @    |    `    |    -    |    =    |         |
 | ParBra |    $    |    (    |    )    |    0    |    '    |    [    |    ]    |    \    |
-| ParBra |    #    |    &    |    *    |         |    ;    |  aRep   |    !    |    /    |
+| ParBra |    #    |    &    |    *    |   win   |    ;    |  aRep   |    !    |    /    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |   Fn   |         |   f6    |   f5    |         |         |         |         |         |
 |   Fn   |   f4    |   f3    |   f2    |   f1    |  OSM-C  |  OSM-S  |  OSM-A  |         |
@@ -188,10 +188,10 @@ How to read this layout:
 
 | Thumb  | Left Inner |        Left Outer        |      Right Outer       | Right Inner |                         
 |:------:|:----------:|:------------------------:|:----------------------:|:-----------:|
-|  Base  | tab+ParNav | ComboLayer:ParBra,20 spc | ComboLayer:NumCur,20 e | bspc+NumCur |
+|  Base  | tab+TabNav | ComboLayer:ParBra,20 spc | ComboLayer:NumCur,20 e | bspc+NumCur |
 |  Base  |     💎     |                          |                        |    Mouse    |
-|  Base  |            |            💎            |       Parnav 30        |             |
-| ParNav |     ❌      |            ❌             |          tab           |    bspc     | 
+|  Base  |            |            💎            |       TabNav 30        |             |
+| TabNav |     ❌      |            ❌             |          tab           |    bspc     | 
  | NumCur |    spc     |            0             |           ❌            |      ❌      |
 |   Fn   |            |           f11            |          f12           |             |
 |  Tab   |    sTab    |           tab            |          undo          |    redo     |
@@ -207,7 +207,7 @@ Bra = Brackets           [
 | LayerOptions | Modifiers Left | Modifiers Right | Fallback Left | Fallback Right | Flags  |
 |:------------:|:--------------:|:---------------:|:-------------:|:--------------:|--------|
 |     Base     |                |                 |               |                |        |
-|    ParNav    |    HomeRow     |     HomeRow     |    ParBra     |                |        |
+|    TabNav    |    HomeRow     |     HomeRow     |    ParBra     |                |        |
 |    FnBra     |                |                 |               |     ParBra     | Hidden |
 |    NumCur    |                |     HomeRow     |               |                |        |
 |      Fn      |                |                 |     FnBra     |                |        |
@@ -278,7 +278,7 @@ Bra = Brackets           [
 | aRep    | QK_ALT_REPEAT_KEY   |
 | capsW   | QK_CAPS_WORD_TOGGLE |
 | Mouse   | custom:MOUSE        |
-| Parnav  | custom:PARNAV       |
+| TabNav  | custom:TABNAV       |
 | .spc    | custom:DOT_SPC      |
 | OSM-A   | OSM(MOD_LALT)       |
 | OSM-S   | OSM(MOD_LSFT)       |
