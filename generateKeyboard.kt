@@ -21,7 +21,7 @@ data class Options(
         val nonThumbRows: Int,
         val nonThumbColumns: Int,
         val thumbColumns: Int,
-        val homeRowOneShotTriggers: ModTriggers?,
+        val oneShotTriggers: ModTriggers?,
         val homeRowThumbCombos: ModTriggers?,
         val homeRowPositions: Map<Int, Modifier>,
 )

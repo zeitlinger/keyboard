@@ -91,7 +91,7 @@ private fun generateCombos(
         layerBase: Rows,
         directLayerTrigger: List<Key>
 ): List<Combo> = hands.flatMap { hand ->
-    val modTriggers = options.homeRowOneShotTriggers
+    val modTriggers = options.oneShotTriggers
     val modCombos = if (modTriggers != null && layer.number == 0 && !hand.isThumb && !hand.isFull && directLayerTrigger.isEmpty()) {
         generateModCombos(
                 "OSM",

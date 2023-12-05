@@ -58,16 +58,16 @@ You can edit the tables to adjust the modifiers to your needs.
 
 Remove this table to disable one shot mods.
 
-| Base Layer One Shot Mod Combos | Fingers                    | Timeout Delta |
-|--------------------------------|----------------------------|:-------------:|
-| Timeout                        | 12                         |               |
-| Shift                          | Ring, Middle               |               |
-| Ctrl                           | Middle, Index              |               |
-| Alt                            | Ring, Index                |      10       |
-| Ctrl-Shift                     | Ring, Middle, Index        |               |
-| Alt-Shift                      | Pinky, Ring, Middle        |               |
-| Ctrl-Alt                       | Pinky, Index               |      20       |
-| Ctrl-Alt-Shift                 | Pinky, Ring, Middle, Index |               |
+| Base Layer One Shot Mod Combos | Fingers             | Timeout Delta |
+|--------------------------------|---------------------|:-------------:|
+| Timeout                        | 12                  |               |
+| Shift                          | Ring, Middle        |               |
+| Ctrl                           | Middle, Index       |               |
+| Alt                            | Ring, Index         |      10       |
+| Ctrl-Shift                     | Middle, Lower Index |      20       |
+| Alt-Shift                      | Ring, Lower Index   |      20       |
+| Ctrl-Alt                       | Pinky, Lower Index  |      20       |
+| Ctrl-Alt-Shift                 | Pinky, Middle       |      30       |
                                                                                            
 ### Thumb Combos
 

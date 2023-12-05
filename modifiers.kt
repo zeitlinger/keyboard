@@ -101,11 +101,12 @@ fun createThumbModTriggers(mappingTable: Table, template: Map<String, String>, h
 }
 
 
-fun fingerPos(finger: String) = when (finger) {
-    "Pinky" -> 0
-    "Ring" -> 1
-    "Middle" -> 2
-    "Index" -> 3
+fun fingerPos(finger: String): Int = when (finger) {
+    "Pinky" -> 4
+    "Ring" -> 5
+    "Middle" -> 6
+    "Index" -> 7
+    "Lower Index" -> 11
     else -> throw IllegalStateException("unknown finger $finger")
 }
 
@@ -138,12 +139,13 @@ fun generateModCombos(
         triggers: ModTriggers,
 ): List<Combo> {
     val layerIndex = layer?.number
+    val columns = hand.columns / 2
     return triggers.triggers.mapNotNull { modTrigger ->
         val comboKeys = modTrigger.fingers.map {
-            opposingBase[
-                    if (hand.isRight)
-                        hand.columns - it - 1
-                    else it + hand.columns / 2]
+            val row = it / columns
+            val column = it % columns
+            val targetCol = if (hand.isRight) columns - column - 1 else column
+            opposingBase[row * columns + targetCol]
         }
 
         val command = layer?.let { modTrigger.command.format(layerIndex) } ?: modTrigger.command
