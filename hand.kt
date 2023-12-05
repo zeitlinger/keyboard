@@ -1,16 +1,16 @@
 
 data class Hand(
-        val name: String,
-        val columns: Int,
-        val baseLayerRowSkip: Int,
-        val skip: Int
+    val name: String
 ) {
-    fun applies(rows: Rows): Boolean {
-        if (this.columns != rows[0].size) {
+    fun skip(options: Options) = if (isRight) columns(options) / 2 else 0
+
+    fun applies(rows: Rows, options: Options): Boolean {
+        val cols = columns(options)
+        if (cols != rows[0].size) {
             return false
         }
 
-        val half = this.columns / 2
+        val half = cols / 2
         val halves = listOf(0, half).map { drop ->
             rows.map { it.drop(drop).take(half) }.flatten()
         }
@@ -24,17 +24,21 @@ data class Hand(
         return this.isFull == isFull
     }
 
+    fun columns(options: Options): Int {
+        return if (isThumb) options.thumbColumns else options.nonThumbColumns
+    }
+
     val isRight = this.name.startsWith("right")
     val isThumb = this.name.contains("thumb")
     val isFull = this.name.contains("both")
-    val comboColumns = if (isFull) this.columns else this.columns / 2
+    fun comboColumns(options: Options) = if (isFull) this.columns(options) else this.columns(options) / 2
 }
 
 val hands = listOf(
-    Hand("left", 8, 0, 0),
-    Hand("right", 8, 0, 4),
-    Hand("both", 8, 0, 0),
-    Hand("left thumb", 4, 3, 0),
-    Hand("right thumb", 4, 3, 2),
-    Hand("both thumbs", 4, 3, 0),
+    Hand("left"),
+    Hand("right"),
+    Hand("both"),
+    Hand("left thumb"),
+    Hand("right thumb"),
+    Hand("both thumbs"),
 )

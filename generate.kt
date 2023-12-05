@@ -117,9 +117,10 @@ fun run(
 }
 
 private fun options(tables: Tables, nonThumbs: Map<String, MultiTable>, thumbs: Map<String, MultiTable>): Options {
-    val homeRowPositions = tables.getSingle("Home Row Modifiers")
-            .associate { fingerPos(it[1]) - 4 to Modifier.ofLong(it[0]) } // we ignore the row
     val firstNonThumb = nonThumbs.entries.first().value[0]
+
+    val homeRowPositions = tables.getSingle("Home Row Modifiers")
+            .associate { fingerPos(it[1]) - firstNonThumb[0].size / 2 to Modifier.ofLong(it[0]) } // we ignore the first row
     val firstThumb = thumbs.entries.first().value[0]
     return Options(
             firstNonThumb.size,

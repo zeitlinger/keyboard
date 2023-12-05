@@ -128,15 +128,16 @@ val homeRowThumbTriggers: Map<String, String> = mapOf(
 )
 
 fun generateModCombos(
-        name: String,
-        layerTrigger: List<Key>,
-        opposingBase: List<Key>,
-        layer: Layer?,
-        hand: Hand,
-        triggers: ModTriggers,
+    name: String,
+    layerTrigger: List<Key>,
+    opposingBase: List<Key>,
+    layer: Layer?,
+    hand: Hand,
+    triggers: ModTriggers,
+    options: Options,
 ): List<Combo> {
     val layerIndex = layer?.number
-    val columns = hand.columns / 2
+    val columns = hand.columns(options) / 2
     return triggers.triggers.mapNotNull { modTrigger ->
         val comboKeys = modTrigger.fingers.map {
             val row = it / columns
