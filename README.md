@@ -188,7 +188,7 @@ How to read this layout:
 
 | Thumb  | Left Inner |        Left Outer        |      Right Outer       | Right Inner |                         
 |:------:|:----------:|:------------------------:|:----------------------:|:-----------:|
-|  Base  | tab+TabNav | ComboLayer:ParBra,20 spc | ComboLayer:NumCur,20 e | bspc+NumCur |
+|  Base  | tab+TabNav | ComboLayer:ParBra,30 spc | ComboLayer:NumCur,30 e | bspc+NumCur |
 |  Base  |     💎     |                          |                        |    Mouse    |
 |  Base  |            |            💎            |       TabNav 30        |             |
 | TabNav |     ❌      |            ❌             |          tab           |    bspc     | 
@@ -259,7 +259,7 @@ Bra = Brackets           [
 | 🔅      | KC_BRID             |
 | redo    | RCS(KC_Z)           |
 | undo    | C(KC_Z)             |
-| cut/ctl | C(custom:CUT)       |
+| cut/ctl | CTL_T(custom:CUT)   |
 | copy    | custom:COPY         |
 | paste   | custom:PASTE        |
 | S-paste | RCS(KC_V)           |
