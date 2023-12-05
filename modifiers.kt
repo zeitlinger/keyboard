@@ -62,13 +62,10 @@ private fun applyModTap(key: String, mod: Modifier?) = if (key == qmkNo) {
     }
 }
 
-private fun fingerIndex(column: Int, columns: Int): Int {
-    val fingerIndex = if (column >= columns / 2) {
-        columns - column - 1
-    } else {
-        column
-    }
-    return fingerIndex
+private fun fingerIndex(column: Int, columns: Int): Int = if (column >= columns / 2) {
+    columns - column - 1
+} else {
+    column
 }
 
 fun createModTriggers(mappingTable: Table, template: Map<String, String>): ModTriggers {
