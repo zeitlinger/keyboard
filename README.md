@@ -158,8 +158,8 @@ How to read this layout:
 |  Base  |  "br"   |         |         |         |         |         |         |  .spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | TabNav |  A-f4   |  redo   |  undo   |  A-f7   |   ins   |  ⬆️⬆️   |  ⬇️⬇️   |         |
-| TabNav | $+ctrl  |         |         |   tab   |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
-| TabNav |  ⬅️⬅️   |   C-w   |         |  sTab   |   ↩️️   |  bspc   |   del   |  ➡️➡️   | 
+| TabNav | cut/ctl |  copy   |  paste  |   tab   |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
+| TabNav |  ⬅️⬅️   |   C-w   | S-paste |  sTab   |   ↩️️   |  bspc   |   del   |  ➡️➡️   | 
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |  
 | NumCur |         |    6    |    5    |    ^    |    ~    |    _    |    +    |         |
 | NumCur |    4    |    3    |    2    |    1    |    "    |    {    |    }    |  pipe   |
@@ -216,66 +216,66 @@ Bra = Brackets           [
 |    Media     |                |                 |               |                |        |
 |    ParBra    |                |                 |               |                | Hidden | 
 
-| Symbol  | Command             |                                     
-|---------|---------------------|
-| ⬅️      | KC_LEFT             |
-| ⬅️⬅️    | KC_HOME             |                                     
-| ⬇️      | KC_DOWN             |
-| ⬇️⬇️    | KC_PGDN             |
-| ⬆️      | KC_UP               |
-| ⬆️⬆️    | KC_PGUP             |
-| ➡️      | KC_RIGHT            |
-| ➡️➡️    | KC_END              |
-| ins     | KC_INS              |
-| del     | KC_DEL              |
-| spc     | KC_SPC              |
-| esc     | KC_ESC              |
-| ↩️️     | KC_ENT              |                           
-| bspc    | KC_BSPC             |
-| win     | KC_LGUI             |
-| alt     | KC_LALT             |
-| tab     | KC_TAB              |
-| sTab    | S(KC_TAB)           |
-| prt     | KC_PSCR             |
-| pipe    | KC_PIPE             |
-| 🖱️⬅️   | KC_MS_L             |
-| 🖱️⬇️   | KC_MS_D             |
-| 🖱️⬆️   | KC_MS_U             |
-| 🖱️➡️   | KC_MS_R             |
-| 🖲️️⬅️  | KC_WH_L             |
-| 🖲️️⬇️  | KC_WH_D             |
-| 🖲️️⬆️  | KC_WH_U             |        
-| 🖲️️➡️  | KC_WH_R             |
-| 🖱️1    | KC_BTN1             |
-| 🖱️2    | KC_BTN2             |
-| 🖱️3    | KC_BTN3             |
-| 🔇      | KC_MUTE             |
-| ⏯️      | KC_MPLY             |
-| ⏮️      | KC_MPRV             |
-| ⏭️      | KC_MNXT             |
-| 🔊      | KC_VOLU             |
-| 🔈      | KC_VOLD             |
-| 🔆      | KC_BRIU             |
-| 🔅      | KC_BRID             |
-| redo    | RCS(KC_Z)           |
-| undo    | C(KC_Z)             |
-| $+ctrl  | CTL_T(KC_DLR)       |
-| copy    | C(KC_C)             |
-| paste   | C(KC_V)             |
-| S-paste | RCS(KC_V)           |
-| cut     | C(KC_X)             |
-| ä       | ALGR(KC_Q)          |
-| ö       | ALGR(KC_P)          |                                         
-| ü       | ALGR(KC_Y)          |
-| ß       | ALGR(KC_S)          |
-| '       | ALGR(KC_QUOTE)      |
-| "       | ALGR(KC_DQUO)       |
-| `       | ALGR(KC_GRV)        |
-| ~       | ALGR(KC_TILD)       |
-| ^       | ALGR(KC_CIRC)       |
-| 🪜      | KC_TRNS             |
-| rep     | QK_REPEAT_KEY       |
-| aRep    | QK_ALT_REPEAT_KEY   |
+| Symbol  | Command       |                                     
+|---------|---------------|
+| ⬅️      | KC_LEFT       |
+| ⬅️⬅️    | KC_HOME       |                                     
+| ⬇️      | KC_DOWN       |
+| ⬇️⬇️    | KC_PGDN       |
+| ⬆️      | KC_UP         |
+| ⬆️⬆️    | KC_PGUP       |
+| ➡️      | KC_RIGHT      |
+| ➡️➡️    | KC_END        |
+| ins     | KC_INS        |
+| del     | KC_DEL        |
+| spc     | KC_SPC        |
+| esc     | KC_ESC        |
+| ↩️️     | KC_ENT        |                           
+| bspc    | KC_BSPC       |
+| win     | KC_LGUI       |
+| alt     | KC_LALT       |
+| tab     | KC_TAB        |
+| sTab    | S(KC_TAB)     |
+| prt     | KC_PSCR       |
+| pipe    | KC_PIPE       |
+| 🖱️⬅️   | KC_MS_L       |
+| 🖱️⬇️   | KC_MS_D       |
+| 🖱️⬆️   | KC_MS_U       |
+| 🖱️➡️   | KC_MS_R       |
+| 🖲️️⬅️  | KC_WH_L       |
+| 🖲️️⬇️  | KC_WH_D       |
+| 🖲️️⬆️  | KC_WH_U       |        
+| 🖲️️➡️  | KC_WH_R       |
+| 🖱️1    | KC_BTN1       |
+| 🖱️2    | KC_BTN2       |
+| 🖱️3    | KC_BTN3       |
+| 🔇      | KC_MUTE       |
+| ⏯️      | KC_MPLY       |
+| ⏮️      | KC_MPRV       |
+| ⏭️      | KC_MNXT       |
+| 🔊      | KC_VOLU       |
+| 🔈      | KC_VOLD       |
+| 🔆      | KC_BRIU       |
+| 🔅      | KC_BRID       |
+| redo    | RCS(KC_Z)     |
+| undo    | C(KC_Z)       |
+| cut/ctl | C(custom:CUT) |
+| copy    | custom:COPY   |
+| paste   | custom:PASTE  |
+| S-paste | RCS(KC_V)     |
+| cut     | C(KC_X)       |
+| ä       | ALGR(KC_Q)    |
+| ö       | ALGR(KC_P)    |                                         
+| ü       | ALGR(KC_Y)    |
+| ß       | ALGR(KC_S)    |
+| '       | ALGR(KC_QUOTE) |
+| "       | ALGR(KC_DQUO) |
+| `       | ALGR(KC_GRV)  |
+| ~       | ALGR(KC_TILD) |
+| ^       | ALGR(KC_CIRC) |
+| 🪜      | KC_TRNS       |
+| rep     | QK_REPEAT_KEY |
+| aRep    | QK_ALT_REPEAT_KEY |
 | capsW   | QK_CAPS_WORD_TOGGLE |
 | Mouse   | custom:MOUSE        |
 | TabNav  | custom:TABNAV       |

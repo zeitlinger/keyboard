@@ -147,15 +147,10 @@ private fun readSymbols(tables: Tables): Symbols {
     val userKeycodes = mutableListOf<String>()
     val symTable = tables.getMappingTable("Symbol").mapValues {
         val command = it.value
-        when {
-            command.startsWith("custom:") -> {
-                val key = command.split(":")[1]
-                userKeycodes.add(key)
-                key
-            }
-
-            else -> command
-        }
+                """custom:([A-Z_]+)""".toRegex().find(command)?.let {
+                    userKeycodes.add(it.groupValues[1])
+                    command.replace("custom:", "")
+                } ?: command
     }
     return Symbols(symTable, userKeycodes)
 }
