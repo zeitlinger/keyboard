@@ -130,6 +130,10 @@ How to read this layout:
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
+|  Base  |   💎    | Bra 30  |         |         |         |         |  Fn 30  |   💎    |       
+|  Base  |         |         |         |         |         |         |         |         |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |   💎    |  k 120  |   esc   |   💎    |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -174,8 +178,12 @@ How to read this layout:
 | ParBra |    #    |    &    |    *    |   win   |    ;    |  aRep   |    !    |    /    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |   Fn   |         |   f6    |   f5    |         |         |         |         |         |
-|   Fn   |   f4    |   f3    |   f2    |   f1    |  OSM-C  |  OSM-S  |  OSM-A  |         |
-|   Fn   |   f10   |   f9    |   f8    |   f7    |  OSM-C  |  OSM-S  |  OSM-A  |    ❌    |
+|   Fn   |   f4    |   f3    |   f2    |   f1    |         |         |    ❌    |    ❌    |
+|   Fn   |   f10   |   f9    |   f8    |   f7    |         |         |         |         |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  Bra   |         |         |         |         |         |         |         |         |
+|  Bra   |         |         |         |         |         |         |         |         |
+|  Bra   |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Media  |         |         |   prt   |         |         |   🔅    |   🔆    |         |
 | Media  |    ❌    |   🔈    |   🔊    |   🔇    |   ⏯️    |   ⏮️    |   ⏭️    |         |
@@ -188,9 +196,9 @@ How to read this layout:
 |  Base  |     💎     |                          |                        |    Mouse    |
 |  Base  |            |            💎            |       TabNav 30        |             |
 | TabNav |     ❌      |            ❌             |          tab           |    bspc     | 
- | NumCur |    spc     |            0             |           ❌            |      ❌      |
-|   Fn   |            |           f11            |          f12           |             |
-|  Tab   |    sTab    |           tab            |          undo          |    redo     |
+| NumCur |    spc     |            0             |           ❌            |      ❌      |
+|   Fn   |    f11     |           f12            |          alt           |             |
+|  Bra   |            |           alt            |                        |             |
 
 ## Options
 
@@ -204,11 +212,10 @@ Bra = Brackets           [
 |:------------:|:--------------:|:---------------:|:-------------:|:--------------:|--------|
 |     Base     |                |                 |               |                |        |
 |    TabNav    |    HomeRow     |     HomeRow     |               |                |        |
-|    FnBra     |                |                 |               |     ParBra     | Hidden |
 |    NumCur    |                |     HomeRow     |               |                |        |
-|      Fn      |                |                 |     FnBra     |                |        |
+|      Fn      |                |     HomeRow     |               |                |        |
+|     Bra      |    HomeRow     |                 |               |     ParBra     |        |
 |    Mouse     |    HomeRow     |                 |               |                |        |
-|     Tab      |   BottomRow    |                 |               |     ParBra     |        |
 |    Media     |                |                 |               |                |        |
 |    ParBra    |                |                 |               |                | Hidden | 
 
@@ -275,6 +282,8 @@ Bra = Brackets           [
 | capsW   | QK_CAPS_WORD_TOGGLE |
 | Mouse   | custom:MOUSE        |
 | TabNav  | custom:TABNAV       |
+| Fn      | custom:FN           |
+| Bra     | custom:BRA          |
 | .spc    | custom:DOT_SPC      |
 | OSM-A   | OSM(MOD_LALT)       |
 | OSM-S   | OSM(MOD_LSFT)       |

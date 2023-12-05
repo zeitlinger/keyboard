@@ -21,7 +21,7 @@ fun getFallback(
         translator: QmkTranslator,
         pos: KeyPosition
 ): String {
-    val option = translator.layerOption.getValue(pos.layerName)
+    val option = translator.layerOption[pos.layerName]?:throw IllegalStateException("can't find layer at $pos")
     if (!(key.isBlank() || key == layerBlocked)) {
         return key
     }
