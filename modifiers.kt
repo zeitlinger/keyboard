@@ -1,5 +1,5 @@
-enum class Modifier {
-    Ctrl, Shift, Alt;
+enum class Modifier(val mask: String) {
+    Ctrl("MOD_LCTL"), Shift("MOD_LSFT"), Alt("MOD_LALT");
 
     val short = this.name[0].uppercase()
 
@@ -20,14 +20,14 @@ enum class ModifierType {
 }
 
 fun modifierTypes(s: String): List<ModifierType> = s.split(",")
-        .filter { it.isNotBlank() }
-        .map { mod ->
-            when (mod.trim()) {
-                "HomeRow" -> ModifierType.HomeRow
-                "BottomRow" -> ModifierType.BottomRow
-                else -> throw IllegalStateException("unknown modifier type $mod")
-            }
+    .filter { it.isNotBlank() }
+    .map { mod ->
+        when (mod.trim()) {
+            "HomeRow" -> ModifierType.HomeRow
+            "BottomRow" -> ModifierType.BottomRow
+            else -> throw IllegalStateException("unknown modifier type $mod")
         }
+    }
 
 data class ModTriggers(val timeout: Int, val triggers: List<ModTrigger>)
 data class ModTrigger(val fingers: List<Int>, val command: String, val name: String, val timeoutDelta: Int)
@@ -86,7 +86,11 @@ fun createModTriggers(mappingTable: Table, template: Map<String, String>): ModTr
 
 private fun getModTimeout(mappingTable: Table) = mappingTable[0][1].toIntOrNull() ?: 0
 
-fun createThumbModTriggers(mappingTable: Table, template: Map<String, String>, homeRowPositions: Map<Int, Modifier>): ModTriggers {
+fun createThumbModTriggers(
+    mappingTable: Table,
+    template: Map<String, String>,
+    homeRowPositions: Map<Int, Modifier>
+): ModTriggers {
     val modTriggers = template.map { (keys, command) ->
         val fingers = keys.toCharArray().map { key ->
             val mod = Modifier.ofShort(key.toString())
@@ -107,25 +111,24 @@ fun fingerPos(finger: String): Int = when (finger) {
     else -> throw IllegalStateException("unknown finger $finger")
 }
 
-val homeRowOneShotTriggers: Map<String, String> = mapOf(
-        "A" to "OSM(MOD_LALT)",
-        "C" to "OSM(MOD_LCTL)",
-        "S" to "OSM(MOD_LSFT)",
-        "CS" to "OSM(MOD_LCTL | MOD_LSFT)",
-        "SA" to "OSM(MOD_LSFT | MOD_LALT)",
-        "CA" to "OSM(MOD_LCTL | MOD_LALT)",
-        "CSA" to "OSM(MOD_LCTL | MOD_LALT | MOD_LSFT)"
+val modifierPermutations = listOf(
+    listOf(Modifier.Alt),
+    listOf(Modifier.Ctrl),
+    listOf(Modifier.Shift),
+    listOf(Modifier.Alt, Modifier.Ctrl),
+    listOf(Modifier.Shift, Modifier.Alt),
+    listOf(Modifier.Ctrl, Modifier.Alt),
+    listOf(Modifier.Shift, Modifier.Alt, Modifier.Ctrl)
 )
 
-val homeRowThumbTriggers: Map<String, String> = mapOf(
-        "A" to "LM(%d, MOD_LALT)",
-        "C" to "LM(%d, MOD_LCTL)",
-        "S" to "LM(%d, MOD_LSFT)",
-        "CS" to "LM(%d, MOD_LCTL | MOD_LSFT)",
-        "SA" to "LM(%d, MOD_LSFT | MOD_LALT)",
-        "CA" to "LM(%d, MOD_LCTL | MOD_LALT)",
-        "CSA" to "LM(%d, MOD_LCTL | MOD_LALT | MOD_LSFT)"
-)
+fun createModTemplate(template: String): Map<String, String> {
+    return modifierPermutations.associate { mods ->
+        mods.joinToString("") { it.short } to template.format(mods.joinToString(" | ") { it.mask })
+    }
+}
+
+val homeRowOneShotTriggers: Map<String, String> = createModTemplate("OSM(%s)")
+val homeRowThumbTriggers: Map<String, String> = createModTemplate("LM(%%d, %s)")
 
 fun generateModCombos(
     name: String,
@@ -152,13 +155,19 @@ fun generateModCombos(
         when {
             allKeys.size < 2 -> null //no combo needed
             comboKeys.isEmpty() -> Combo.of(
-                    ComboType.Combo,
-                    comboName(name),
-                    command,
-                    allKeys,
-                    null
+                ComboType.Combo,
+                comboName(name),
+                command,
+                allKeys,
+                null
             ).takeUnless { hand.isRight } // combo for layer is only needed once
-            else -> Combo.of(ComboType.Combo, comboName(name, hand.name, modTrigger.name), command, allKeys, triggers.timeout + modTrigger.timeoutDelta)
+            else -> Combo.of(
+                ComboType.Combo,
+                comboName(name, hand.name, modTrigger.name),
+                command,
+                allKeys,
+                triggers.timeout + modTrigger.timeoutDelta
+            )
         }
     }
 }
