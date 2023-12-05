@@ -143,7 +143,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |  A-f7   | S-paste |         |         |         |         |
-|  Base  |   💎    | cut 100 |  copy   |  paste  |         |         |   ↩️️   |   💎    |
+|  Base  |   💎    |         |         |         |         |         |   ↩️️   |   💎    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |  "for"  |  "ny"   |         |         |         |
 |  Base  |         |         |         |   💎    |   💎    |         |         |         |
@@ -165,17 +165,17 @@ How to read this layout:
 | TabNav |   ctl   |    ❌    |    ❌    |   tab   |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
 | TabNav |   cut   |  copy   |  paste  |  sTab   |   ↩️️   |  bspc   |   del   |  ⬇️⬇️   | 
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |  
-| NumCur |         |    6    |    5    |    ^    |    ~    |    _    |    +    |         |
+| NumCur |         |    6    |    5    |    0    |    ~    |    _    |    +    |         |
 | NumCur |    4    |    3    |    2    |    1    |    "    |    {    |    }    |  pipe   |
-| NumCur |    %    |    9    |    8    |    7    |    :    |    <    |    >    |    ?    |
+| NumCur |         |    9    |    8    |    7    |    :    |    <    |    >    |    ?    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Mouse  |         |         |         |         |   esc   |  🖱️1   |  🖱️2   |  🖱️3   |
 | Mouse  |  Media  |  🖱️3   |  🖱️2   |  🖱️1   |  🖱️⬅️  |  🖱️⬆️  |  🖱️⬇️  |  🖱️➡️  |    
 | Mouse  |         |         |         |         | 🖲️️⬅️  | 🖲️️⬆️  | 🖲️️⬇️  | 🖲️️➡️  | 
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| ParBra |         |         |         |    @    |    `    |    -    |    =    |         |
-| ParBra |    $    |    (    |    )    |    0    |    '    |    [    |    ]    |    \    |
-| ParBra |    #    |    &    |    *    |   win   |    ;    |  aRep   |    !    |    /    |
+| ParBra |         |    #    |    *    |         |    `    |    -    |    =    |         |
+| ParBra |    $    |    (    |    )    |    @    |    '    |    [    |    ]    |    \    |
+| ParBra |    %    |    &    |    ^    |   win   |    ;    |  aRep   |    !    |    /    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |   Fn   |         |   f6    |   f5    |         |         |         |         |         |
 |   Fn   |   f4    |   f3    |   f2    |   f1    |         |         |    ❌    |    ❌    |
@@ -185,6 +185,10 @@ How to read this layout:
 |  Bra   |         |         |         |         |         |         |         |         |
 |  Bra   |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  Num   |         |         |         |         |         |         |         |         |
+|  Num   |         |         |         |         |  OSM-C  |  OSM-S  |  OSM-A  |         |
+|  Num   |         |         |         |         |         |         |         |         |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Media  |         |         |   prt   |         |         |   🔅    |   🔆    |         |
 | Media  |    ❌    |   🔈    |   🔊    |   🔇    |   ⏯️    |   ⏮️    |   ⏭️    |         |
 | Media  |         |         |         |         |         |  DT_UP  | DT_DOWN | DT_PRNT |
@@ -192,11 +196,11 @@ How to read this layout:
 
 | Thumb  | Left Inner |        Left Outer        |      Right Outer       | Right Inner |                         
 |:------:|:----------:|:------------------------:|:----------------------:|:-----------:|
-|  Base  | tab+TabNav | ComboLayer:ParBra,30 spc | ComboLayer:NumCur,30 e | bspc+NumCur |
+|  Base  | tab+TabNav | ComboLayer:ParBra,30 spc | ComboLayer:NumCur,30 e |  bspc+Num   |
 |  Base  |     💎     |                          |                        |    Mouse    |
 |  Base  |            |            💎            |       TabNav 30        |             |
 | TabNav |     ❌      |            ❌             |          tab           |    bspc     | 
-| NumCur |    spc     |            0             |           ❌            |      ❌      |
+|  Num   |    spc     |            0             |           ❌            |      ❌      |
 |   Fn   |    f11     |           f12            |          alt           |             |
 |  Bra   |            |           alt            |                        |             |
 
@@ -208,16 +212,17 @@ Par = Parentheses        (
 Cur = Curly Parentheses  {
 Bra = Brackets           [
 
-| LayerOptions | Modifiers Left | Modifiers Right | Fallback Left | Fallback Right | Flags  |
-|:------------:|:--------------:|:---------------:|:-------------:|:--------------:|--------|
-|     Base     |                |                 |               |                |        |
-|    TabNav    |    HomeRow     |     HomeRow     |               |                |        |
-|    NumCur    |                |     HomeRow     |               |                |        |
-|      Fn      |                |     HomeRow     |               |                |        |
-|     Bra      |    HomeRow     |                 |               |     ParBra     |        |
-|    Mouse     |    HomeRow     |                 |               |                |        |
-|    Media     |                |                 |               |                |        |
-|    ParBra    |                |                 |               |                | Hidden | 
+| LayerOptions | Modifiers Left | Modifiers Right | Fallback Left | Fallback Right | Flags   |
+|:------------:|:--------------:|:---------------:|:-------------:|:--------------:|---------|
+|     Base     |                |                 |               |                |         |
+|    TabNav    |    HomeRow     |                 |               |                |         |
+|     Num      |                |                 |    NumCur     |                |         |
+|    NumCur    |                |                 |               |                | Hidden  |
+|      Fn      |                |     HomeRow     |               |                |         |
+|     Bra      |    HomeRow     |                 |               |     ParBra     |         |
+|    Mouse     |    HomeRow     |                 |               |                |         |
+|    Media     |                |                 |               |                |         |
+|    ParBra    |                |                 |               |                | Hidden  | 
 
 | Symbol  | Command             |                                     
 |---------|---------------------|

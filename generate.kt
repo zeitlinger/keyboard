@@ -10,6 +10,7 @@ const val mainLayerTemplate =
 fun generateBase(layers: List<Layer>): String {
     return layers
             .filter { !it.option.flags.contains(LayerFlag.Hidden) }
+            .sortedBy { it.number }
             .joinToString("\n") { layer ->
                 mainLayerTemplate.format(*listOf(layer.number).plus(layer.baseRows.map { it.map { it.keyWithModifier } }
                         .flatten()).toTypedArray())
