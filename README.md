@@ -183,7 +183,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Media  |         |         |   prt   |         |         |   🔅    |   🔆    |         |
 | Media  |    ❌    |   🔈    |   🔊    |   🔇    |   ⏯️    |   ⏮️    |   ⏭️    |         |
-| Media  |         |         |         |         |         |         |         |         |
+| Media  |         |         |         |         |         |  DT_UP  | DT_DOWN | DT_PRNT |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
 | Thumb  | Left Inner |        Left Outer        |      Right Outer       | Right Inner |                         
