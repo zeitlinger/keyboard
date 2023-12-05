@@ -1,5 +1,3 @@
-const val thumbRows = 1
-
 data class KeyPosition(
         val row: Int,
         val column: Int,

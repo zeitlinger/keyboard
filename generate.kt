@@ -53,7 +53,7 @@ fun run(
 
     val symbols = readSymbols(tables)
     val nonThumbs = getKeyTable(tables.getMulti("Layer").content)
-    val thumbs = getKeyTable(tables.getSingle("Thumb").chunked(thumbRows))
+    val thumbs = getKeyTable(tables.getMulti("Thumb").content)
     val options = options(tables, nonThumbs, thumbs)
 
     val layerOptions = tables.getSingle("LayerOptions")
