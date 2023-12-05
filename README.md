@@ -34,7 +34,7 @@ Credits
 
 Notes
 
-- The keyboard layout is generated using [generateKeyboard](generateKeyboard.kt) from this file.
+- The keyboard layout is generated using [generateKeyboard](generateKeyboard.kt) from this file.  => link to [Generator](#generator)
 - The generated keyboard can be found in a
   [fork of mini-ryoku](https://github.com/zeitlinger/mini-ryoku/blob/main/qmk/layout.h), because this is easy to
   integrate with many keyboards
@@ -121,7 +121,7 @@ How to read this layout:
 |  Base  |         |         |         |         |         |    ä    |         |    ß    |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |   💎    |    v    |   f4    |         |  undo   |   💎    |         |
+|  Base  |         |   💎    |    v    |   f4    |         | undo 20 |   💎    |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -159,7 +159,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | TabNav |  A-f4   |  redo   |  undo   |  A-f7   |   ins   |  ⬆️⬆️   |  ⬇️⬇️   |         |
 | TabNav | cut/ctl |  copy   |  paste  |   tab   |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
-| TabNav |  ⬅️⬅️   |   C-w   | S-paste |  sTab   |   ↩️️   |  bspc   |   del   |  ➡️➡️   | 
+| TabNav |         |   C-w   | S-paste |  sTab   |  ⬅️⬅️   |  bspc   |   del   |  ➡️➡️   | 
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |  
 | NumCur |         |    6    |    5    |    ^    |    ~    |    _    |    +    |         |
 | NumCur |    4    |    3    |    2    |    1    |    "    |    {    |    }    |  pipe   |
@@ -283,3 +283,11 @@ Bra = Brackets           [
 | OSM-A   | OSM(MOD_LALT)       |
 | OSM-S   | OSM(MOD_LSFT)       |
 | OSM-C   | OSM(MOD_LCTL)       |
+
+
+
+## Generator
+
+- should be usable with any keyboard layout
+
+qmk flash -kb ferris/sweep -km zeitlinger -bl avrdude-split-left
