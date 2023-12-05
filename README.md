@@ -64,6 +64,9 @@ Remove this table to disable one shot mods.
 | Shift                          | Ring, Middle        |               |
 | Ctrl                           | Middle, Index       |               |
 | Alt                            | Ring, Index         |      10       |
+
+more combos if you want to use the pinky finger for mods:
+
 | Ctrl-Shift                     | Middle, Lower Index |      20       |
 | Alt-Shift                      | Ring, Lower Index   |      20       |
 | Ctrl-Alt                       | Pinky, Lower Index  |      20       |
@@ -121,7 +124,7 @@ How to read this layout:
 |  Base  |         |         |         |         |         |    ä    |         |    ß    |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |   💎    |    v    |   f4    |         | undo 20 |   💎    |         |
+|  Base  |         |   💎    |    v    |   f4    |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -198,11 +201,10 @@ How to read this layout:
 |:------:|:----------:|:------------------------:|:----------------------:|:-----------:|
 |  Base  | tab+TabNav | ComboLayer:ParBra,30 spc | ComboLayer:NumCur,30 e |  bspc+Num   |
 |  Base  |     💎     |                          |                        |    Mouse    |
-|  Base  |            |            💎            |       TabNav 30        |             |
 | TabNav |     ❌      |            ❌             |          tab           |    bspc     | 
 |  Num   |    spc     |            0             |           ❌            |      ❌      |
-|   Fn   |    f11     |           f12            |          alt           |             |
-|  Bra   |            |           alt            |                        |             |
+|   Fn   |    f11     |           f12            |          alt           |     alt     |
+|  Bra   |    alt     |           alt            |                        |             |
 
 ## Options
 
@@ -286,7 +288,6 @@ Bra = Brackets           [
 | aRep    | QK_ALT_REPEAT_KEY   |
 | capsW   | QK_CAPS_WORD_TOGGLE |
 | Mouse   | custom:MOUSE        |
-| TabNav  | custom:TABNAV       |
 | Fn      | custom:FN           |
 | Bra     | custom:BRA          |
 | .spc    | custom:DOT_SPC      |
