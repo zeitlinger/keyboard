@@ -47,9 +47,13 @@ Notes
 
 For the base layer, there are several options for modifiers for different typing speeds and personal preferences:
 
-- One shot mods with a low timeout - so they don't interfere with typing fast
-- Thumb combos - they can be pressed more easily compared to the one shot mods - if you want slower typing speed
+- One shot mods with a low timeout - so they don't interfere with typing fast 
+  (currently only used for alt, ctrl and shift, but not any combination of those)
+- Thumb combos - they can be pressed more easily compared to the one shot mods - 
+  if you want slower typing speed (currently used)
 - Mod layer - an extra layer with home row mods, which are even easier to press than the thumb combos
+  (currently unused)
+- One shot mods on a layer
 
 Then you can also enable Home row mods "Layer Options" (currently disabled, because of timing issues).
 
@@ -97,6 +101,12 @@ On all other layers, the modifiers are as shown in the table below.
 | Alt                | Ring   |
 | Shift              | Middle |
 | Ctrl               | Index  |
+
+### Window and Tab switching
+
+- win ➡️ and  tab ➡️ are used to switch windows and tabs.
+- Once you press any of those keys, you're in switcher mode, where all other keys are replaced by shift-tab.
+- Switcher mode is exited when you go back to the base layer.
 
 ## Layout
 
@@ -159,7 +169,7 @@ How to read this layout:
 |  Base  |  "br"   |         |         |         |         |         |         |  .spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | TabNav |         |   C-w   |  undo   |  redo   |   esc   |   tab   |   ins   |         |
-| TabNav |  Nav2   | tab ➡️  | win ➡️  |  S-tab  |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
+| TabNav |  Nav2   | tab ➡️  | win ➡️  |         |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
 | TabNav | S-paste |  copy   |  paste  |   cut   |   ↩️️   |  bspc   |   del   |   spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav2  |         |         |         |         |         |         |         |         |
