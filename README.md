@@ -136,7 +136,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |   💎    |    j    |    x    |         |  capsW  |   💎    |         |
+|  Base  |         |   💎    |    j    |    x    |  O-🖱️  |  capsW  |   💎    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
@@ -287,6 +287,7 @@ Bra = Brackets           [
 | tab ➡️  | custom:NEXT_TAB        |
 | win ➡️  | custom:NEXT_WINDOW     |
 | NumBra  | custom:NUMBRA          |
+| O-🖱️   | custom:ONE_SHOT_MOUSE  |
 | .spc    | custom:DOT_SPC         |
 | OSM-A   | OSM(MOD_LALT)          |
 | OSM-S   | OSM(MOD_LSFT)          |
