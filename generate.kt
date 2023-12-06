@@ -55,17 +55,8 @@ fun run(
     val thumbs = getKeyTable(tables.getMulti("Thumb").content)
     val options = options(tables, nonThumbs, thumbs)
 
-    val layerOptions = tables.getSingle("LayerOptions")
-        .associateBy { it[0] }
-        .mapValues {
-            LayerOption(
-                modifierTypes(it.value[1]),
-                modifierTypes(it.value[2]),
-                it.value[3].ifBlank { null },
-                it.value[4].ifBlank { null },
-                if (it.value[5] == "Hidden") setOf(LayerFlag.Hidden) else emptySet()
-            )
-        }
+    val layerOptions = layerOption(tables)
+    printUnexpectedEntries(layerOptions, nonThumbs, thumbs)
 
     val layerNumbers = layerOptions
         .filterNot { it.value.flags.contains(LayerFlag.Hidden) }
@@ -115,6 +106,34 @@ fun run(
     )
 
     comboFile.writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
+}
+
+fun printUnexpectedEntries(
+    layerOptions: Map<String, LayerOption>,
+    nonThumbs: Map<String, List<List<List<String>>>>,
+    thumbs: Map<String, List<List<List<String>>>>
+) {
+    nonThumbs.keys.subtract(layerOptions.keys).forEach {
+        throw IllegalStateException("unexpected layer $it")
+    }
+    thumbs.keys.subtract(layerOptions.keys).forEach {
+        throw IllegalStateException("unexpected thumb layer $it")
+    }
+}
+
+private fun layerOption(tables: Tables): Map<String, LayerOption> {
+    val layerOptions = tables.getSingle("LayerOptions")
+        .associateBy { it[0] }
+        .mapValues {
+            LayerOption(
+                modifierTypes(it.value[1]),
+                modifierTypes(it.value[2]),
+                it.value[3].ifBlank { null },
+                it.value[4].ifBlank { null },
+                if (it.value[5] == "Hidden") setOf(LayerFlag.Hidden) else emptySet()
+            )
+        }
+    return layerOptions
 }
 
 private fun options(tables: Tables, nonThumbs: Map<String, MultiTable>, thumbs: Map<String, MultiTable>): Options {

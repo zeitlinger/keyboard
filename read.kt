@@ -52,14 +52,7 @@ fun translateKey(
             val left = parts[0]
             when {
                 def.startsWith("ComboLayer:") -> {
-                    val trigger = left.split(":")[1]        .split(",")
-                    val layerName = trigger[0]
-                    val timeout = trigger.getOrNull(1)?.toIntOrNull()
-                    translator.layerOption[layerName]?.let {
-                        val key = translateKey(translator, pos, right)
-                        translator.comboLayerTrigger[layerName] = key.copy(comboTimeout = timeout)
-                        key
-                    } ?: throw IllegalArgumentException("unknown layer $layerName in $pos")
+                    comboLayer(left, translator, pos, right)
                 }
 
                 def.startsWith("HomeRowThumbCombo:") -> {
@@ -85,18 +78,7 @@ fun translateKey(
         }
 
         def.contains("-") && def.length > 1 -> {
-            val parts = def.split("-")
-            val modifier = parts[0]
-            val key = translateKey(translator, pos, parts[1]).key
-            Key(
-                    when (modifier) {
-                        "A" -> "A(${key})"
-                        "C" -> "C(${key})"
-                        "S" -> "S(${key})"
-                        "CS" -> "RCS(${key})"
-                        else -> throw IllegalStateException("unknown modifier '$modifier'")
-                    }
-            )
+            keyWithModifier(def, translator, pos)
         }
 
         def.startsWith("=") && def.length > 1 ->{
@@ -109,6 +91,32 @@ fun translateKey(
 
         else -> translateSimpleKey(translator, def, pos)
     }
+}
+
+private fun comboLayer(left: String, translator: QmkTranslator, pos: KeyPosition, right: String): Key {
+    val trigger = left.split(":")[1].split(",")
+    val layerName = trigger[0]
+    val timeout = trigger.getOrNull(1)?.toIntOrNull()
+    return translator.layerOption[layerName]?.let {
+        val key = translateKey(translator, pos, right)
+        translator.comboLayerTrigger[layerName] = key.copy(comboTimeout = timeout)
+        key
+    } ?: throw IllegalArgumentException("unknown layer $layerName in $pos")
+}
+
+private fun keyWithModifier(def: String, translator: QmkTranslator, pos: KeyPosition): Key {
+    val parts = def.split("-")
+    val modifier = parts[0]
+    val key = translateKey(translator, pos, parts[1]).key
+    return Key(
+        when (modifier) {
+            "A" -> "A(${key})"
+            "C" -> "C(${key})"
+            "S" -> "S(${key})"
+            "CS" -> "RCS(${key})"
+            else -> throw IllegalStateException("unknown modifier '$modifier'")
+        }
+    )
 }
 
 private fun translateSimpleKey(translator: QmkTranslator, def: String, pos: KeyPosition): Key {
