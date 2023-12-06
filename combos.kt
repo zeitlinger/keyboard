@@ -25,26 +25,31 @@ fun getSubstitutionCombo(key: String): String? =
 
 fun generateAllCombos(layers: List<Layer>, options: Options, homeRowCombo: HomeRowCombo?): List<Combo> =
     (homeRowCombos(homeRowCombo, layers, options) + layerCombos(layers, options))
-        .also { combos ->
-            combos.groupBy { it.triggers }.filter { it.value.size > 1 }.forEach { (triggers, combos) ->
-                throw IllegalStateException(
-                    "duplicate triggers ${triggers.joinToString(", ")} in ${
-                        combos.joinToString(
-                            ", "
-                        ) { it.name }
-                    }"
-                )
-            }
+        .also { checkForDuplicateCombos(it) }
+
+private fun checkForDuplicateCombos(combos: List<Combo>) {
+    combos.groupBy { it.triggers }
+        .filter { it.value.size > 1 }
+        .forEach { (triggers, combos) ->
+            throw IllegalStateException(
+                "duplicate triggers ${triggers.joinToString(", ")} in ${
+                    combos.joinToString(
+                        ", "
+                    ) { it.name }
+                }"
+            )
         }
-        .also { combos ->
-            combos.groupBy { it.name }.filter { it.value.size > 1 }.forEach { (name, combos) ->
-                throw IllegalStateException(
-                    "duplicate combo name $name in ${
-                        combos.map { it.triggers.map { it.key } }.joinToString(", ")
-                    }"
-                )
-            }
+
+    combos.groupBy { it.name }
+        .filter { it.value.size > 1 }
+        .forEach { (name, combos) ->
+            throw IllegalStateException(
+                "duplicate combo name $name in ${
+                    combos.map { it.triggers.map { it.key } }.joinToString(", ")
+                }"
+            )
         }
+}
 
 private fun layerCombos(layers: List<Layer>, options: Options) = layers.flatMap { layer ->
     val combos = generateCombos(options, layer, layer.combos, layer.baseRows, listOf())
