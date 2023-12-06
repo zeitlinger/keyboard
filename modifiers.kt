@@ -68,18 +68,18 @@ private fun fingerIndex(column: Int, columns: Int): Int = if (column >= columns 
     column
 }
 
-fun createModTriggers(mappingTable: Table, template: Map<String, String>): ModTriggers {
+fun createModTriggers(mappingTable: Table, template: Map<List<Modifier>, String>): ModTriggers {
     val timeout = getModTimeout(mappingTable)
     val modTriggers = mappingTable.drop(1).map { (triggers, fingers, timeoutDelta) ->
-        val key = triggers.split("-").map {
+        val modifiers = triggers.split("-").map {
             Modifier.ofLong(it)
-        }.sorted().joinToString("") { it.short }
+        }.sorted()
 
         val fingerIndexes = fingers.split(", ").map { finger ->
             fingerPos(finger)
         }
 
-        ModTrigger(fingerIndexes, template.getValue(key), key, timeoutDelta.toIntOrNull() ?: 0)
+        ModTrigger(fingerIndexes, template.getValue(modifiers), modPrefix(modifiers), timeoutDelta.toIntOrNull() ?: 0)
     }
     return ModTriggers(timeout, modTriggers)
 }
@@ -88,18 +88,19 @@ private fun getModTimeout(mappingTable: Table) = mappingTable[0][1].toIntOrNull(
 
 fun createThumbModTriggers(
     mappingTable: Table,
-    template: Map<String, String>,
+    template: Map<List<Modifier>, String>,
     homeRowPositions: Map<Int, Modifier>
 ): ModTriggers {
-    val modTriggers = template.map { (keys, command) ->
-        val fingers = keys.toCharArray().map { key ->
-            val mod = Modifier.ofShort(key.toString())
+    val modTriggers = template.map { (modifiers, command) ->
+        val fingers = modifiers.map { mod ->
             homeRowPositions.entries.single { it.value == mod }.key
         }
-        ModTrigger(fingers, command, keys, 0)
+        ModTrigger(fingers, command, modPrefix(modifiers), 0)
     }
     return ModTriggers(getModTimeout(mappingTable), modTriggers)
 }
+
+private fun modPrefix(keys: List<Modifier>) = keys.joinToString("") { it.short }
 
 
 fun fingerPos(finger: String): Int = when (finger) {
@@ -121,14 +122,12 @@ val modifierPermutations = listOf(
     listOf(Modifier.Shift, Modifier.Alt, Modifier.Ctrl)
 )
 
-fun createModTemplate(template: String): Map<String, String> {
-    return modifierPermutations.associate { mods ->
-        mods.joinToString("") { it.short } to template.format(mods.joinToString(" | ") { it.mask })
-    }
+fun createModTemplate(template: String): Map<List<Modifier>, String> {
+    return modifierPermutations.associateWith { mods -> template.format(mods.joinToString(" | ") { it.mask }) }
 }
 
-val homeRowOneShotTriggers: Map<String, String> = createModTemplate("OSM(%s)")
-val homeRowThumbTriggers: Map<String, String> = createModTemplate("LM(%%d, %s)")
+val homeRowOneShotTriggers: Map<List<Modifier>, String> = createModTemplate("OSM(%s)")
+val homeRowThumbTriggers: Map<List<Modifier>, String> = createModTemplate("LM(%%d, %s)")
 
 fun generateModCombos(
     name: String,
