@@ -99,6 +99,10 @@ fun translateKey(
             )
         }
 
+        def.startsWith("=") && def.length > 1 ->{
+            Key("TG(${translator.mustTranslateLayer(def.substring(1))})")
+        }
+
         def.isNotBlank() && def[0].isUpperCase() && !def.contains("_") -> { //skip QMK keycodes
             Key("MO(${translator.mustTranslateLayer(def)})")
         }

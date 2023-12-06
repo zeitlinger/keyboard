@@ -1,10 +1,10 @@
 # APTex keyboard
-                                 
+
 Goals
 
 - Fast typing
   - No home row mods on base layer that easily interfere with typing
-  - No auto shift or tap dance 
+  - No auto shift or tap dance
   - combos for the most common bigrams and trigrams
   - combos for the most common same finger bigrams
 - No lateral movement
@@ -26,6 +26,7 @@ Features
 - Combos for the most common bigrams, reducing SFBs from 0.70% to 0.26%
 - Combos for the most common trigrams
 - "Next sentence" key (". ", capitalizes the next letter)
+- Needs https://github.com/bdaase/remove-alt-tab-delay on Ubuntu
 
 Credits
 
@@ -48,10 +49,10 @@ For the base layer, there are several options for modifiers for different typing
 
 - One shot mods with a low timeout - so they don't interfere with typing fast
 - Thumb combos - they can be pressed more easily compared to the one shot mods - if you want slower typing speed
-- Mod layer - an extra layer with home row mods, which are even easier to press than the thumb combos  
+- Mod layer - an extra layer with home row mods, which are even easier to press than the thumb combos
 
 Then you can also enable Home row mods "Layer Options" (currently disabled, because of timing issues).
-                                                                                                      
+
 You can edit the tables to adjust the modifiers to your needs.
 
 ### One Shot Mods
@@ -71,7 +72,7 @@ more combos if you want to use the pinky finger for mods:
 | Alt-Shift                      | Ring, Lower Index   |      20       |
 | Ctrl-Alt                       | Pinky, Lower Index  |      20       |
 | Ctrl-Alt-Shift                 | Pinky, Middle       |      30       |
-                                                                                           
+
 ### Thumb Combos
 
 - The thumb is defined in the layout table below as "HomeRowThumbCombo".
@@ -105,15 +106,16 @@ How to read this layout:
 - 🪜 = transparent key
 - ❌ = key can't be used because the layer was activated with that key
 - empty = use key from base layer
-- FnBra = capitalized words are layer names
+- FnBra = capitalized words are layer names - if they are a key, the layer is activated while the key is held
 - /+Ctrl = tab-mod - / on tab and CTRL on hold
+- =Mouse = set mouse layer active/inactive on tap (toggle)
 - C-w = Ctrl-w (same for Alt and Shift)
 - "that" = combo that produces "that"
 - 80 custom timeout for combo
 - The symbol table at the bottom shows the meaning of the symbols used in the layout.
 
 > **Note**: The layout is generated from this file directly.
-                                                                      
+
 | Layer  | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
 |  Base  |    q    |    w    |    m    |    f    |    y    |    o    |    u    |    -    |
@@ -126,10 +128,6 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |   💎    |    v    |   f4    |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |         |         |         |         |         |         |         |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |         |         |         |         |         |         |         |
-|  Base  |   💎    | Bra 30  |         |         |         |         |  Fn 30  |   💎    |       
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
@@ -160,44 +158,48 @@ How to read this layout:
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
 |  Base  |  "br"   |         |         |         |         |         |         |  .spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| TabNav |         |   C-w   |  undo   |  redo   |   ins   |  ⬅️⬅️   |  ➡️➡️   |  ⬆️⬆️   |
-| TabNav |   ctl   |    ❌    |    ❌    |   tab   |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
-| TabNav |   cut   |  copy   |  paste  |  sTab   |   ↩️️   |  bspc   |   del   |  ⬇️⬇️   | 
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |  
-| NumCur |         |    7    |    6    |    5    |    ~    |    _    |    +    |         |
-| NumCur |    4    |    3    |    2    |    1    |    "    |    {    |    }    |  pipe   |
-| NumCur |         |    9    |    8    |    0    |    :    |    <    |    >    |    ?    |
+| TabNav |         |   C-w   |  undo   |  redo   |   esc   |   tab   |   ins   |         |
+| TabNav |  Nav2   | tab ➡️  | win ➡️  |  S-tab  |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
+| TabNav | S-paste |  copy   |  paste  |   cut   |   ↩️️   |  bspc   |   del   |   spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Mouse  |         |  🖱️2   |  🖱️1   |  🖱️3   |   esc   |  🖱️1   |  🖱️2   |  🖱️3   |
-| Mouse  |  Media  | KC_ACL0 | KC_ACL1 | KC_ACL2 |  🖱️⬅️  |  🖱️⬆️  |  🖱️⬇️  |  🖱️➡️  |    
-| Mouse  |         |         |         |         | 🖲️️⬅️  | 🖲️️⬆️  | 🖲️️⬇️  | 🖲️️➡️  | 
+|  Nav2  |         |         |         |         |         |         |         |         |
+|  Nav2  |         |         |         |         |  ⬅️⬅️   |  ⬆️⬆️   |  ⬇️⬇️   |  ➡️➡️   |
+|  Nav2  |         |         |         |         |         |         |         |         |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| NumCur |         |    6    |    5    |    4    |    ~    |    _    |    +    |         |
+| NumCur |    3    |    2    |    1    |    0    |    "    |    {    |    }    |  pipe   |
+| NumCur |         |    9    |    8    |    7    |    :    |    <    |    >    |    ?    |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| Mouse  |         |  🖱️3   |  🖱️2   |         |         |  🖱️2   |  🖱️3   |         |
+| Mouse  | Mouse2  | KC_ACL0 | KC_ACL1 | KC_ACL2 |  🖱️⬅️  |  🖱️⬆️  |  🖱️⬇️  |  🖱️➡️  |
+| Mouse  |         |         | =Mouse  |  🖱️1   |  🖱️1   | =Mouse  |         |         |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| Mouse2 |         |         |         |         |         |         |         |         |
+| Mouse2 |         |         |         |         | 🖲️️⬅️  | 🖲️️⬆️  | 🖲️️⬇️  | 🖲️️➡️  |
+| Mouse2 |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | ParBra |         |    #    |    *    |         |    `    |    -    |    =    |         |
 | ParBra |    $    |    (    |    )    |    @    |    '    |    [    |    ]    |    \    |
 | ParBra |    %    |    &    |    ^    |   win   |    ;    |  aRep   |    !    |    /    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|   Fn   |         |   f7    |   f6    |   f5    |         |         |         |
-|   Fn   |   f4    |   f3    |   f2    |   f1    |  OSM-C  |  OSM-S  |  OSM-A  |         |
-|   Fn   |         |   f9    |   f8    |   f10   |         |         |         |         |
+|   Fn   |         |   f6    |   f5    |   f4    |         | =Mouse  |  Media  |         |
+|   Fn   |   f3    |   f2    |   f1    |   f10   |  OSM-C  |  OSM-S  |  OSM-A  |  OSM-G  |
+|   Fn   |   f11   |   f9    |   f8    |   f7    |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Media  |         |         |   prt   |         |         |   🔅    |   🔆    |         |
-| Media  |    ❌    |   🔈    |   🔊    |   🔇    |   ⏯️    |   ⏮️    |   ⏭️    |         |
-| Media  |         |         |         |         |         |  DT_UP  | DT_DOWN | DT_PRNT |
+| Media  | DT_PRNT |   🔅    |   🔆    |         |         |    🔇   |    ❌   |         |
+| Media  |  DT_UP  |    🔈   |   🔊    |         | prt     |         |         |         |
+| Media  | DT_DOWN |   ⏮️    |   ⏭️    |   ⏯️   |          |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
-| Thumb  | Left Inner |        Left Outer        |      Right Outer       | Right Inner |                         
+| Thumb  | Left Inner |        Left Outer        |      Right Outer       | Right Inner |
 |:------:|:----------:|:------------------------:|:----------------------:|:-----------:|
-|  Base  | tab+TabNav | ComboLayer:ParBra,30 spc | ComboLayer:NumCur,30 e |  bspc+Num   |
+|  Base  | tab+TabNav | ComboLayer:ParBra,30 spc | ComboLayer:NumCur,30 e |   bspc+Fn   |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
-|  Base  |     💎     |                          |                        |    Mouse    |
+|  Base  |     💎     |                          |                        | NumBra 200  |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
-| TabNav |     ❌      |            ❌             |          tab           |    bspc     | 
+| TabNav |     ❌      |            ❌             |          ↩️️           |   NumBra    |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
-|  Num   |    spc     |            0             |           ❌            |      ❌      |
-|        | ---------- | ------------------------ | ---------------------- | ----------- |
-|   Fn   |    f11     |           f12            |           ❌            |      ❌      |
-|        | ---------- | ------------------------ | ---------------------- | ----------- |
-|  Bra   |    alt     |           alt            |                        |             |
+|   Fn   |   NumBra   |           f12            |           ❌            |      ❌      |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 
 ## Options
@@ -208,22 +210,23 @@ Par = Parentheses        (
 Cur = Curly Parentheses  {
 Bra = Brackets           [
 
-| LayerOptions | Modifiers Left | Modifiers Right | Fallback Left | Fallback Right | Flags   |
-|:------------:|:--------------:|:---------------:|:-------------:|:--------------:|---------|
-|     Base     |                |                 |               |                |         |
-|    TabNav    |    HomeRow     |                 |               |                |         |
-|     Num      |                |                 |    NumCur     |                |         |
-|    NumCur    |                |                 |               |                | Hidden  |
-|      Fn      |                |     HomeRow     |               |                |         |
-|     Bra      |    HomeRow     |                 |               |     ParBra     |         |
-|    Mouse     |    HomeRow     |                 |               |                |         |
-|    Media     |                |                 |               |                |         |
-|    ParBra    |                |                 |               |                | Hidden  | 
+| LayerOptions | Modifiers Left | Modifiers Right | Fallback Left | Fallback Right | Flags  |
+|:------------:|:--------------:|:---------------:|:-------------:|:--------------:|--------|
+|     Base     |                |                 |               |                |        |
+|    TabNav    |    HomeRow     |                 |               |                |        |
+|     Nav2     |    HomeRow     |                 |               |                |        |
+|      Fn      |                |                 |               |                |        |
+|    NumBra    |    HomeRow     |     HomeRow     |    NumCur     |     ParBra     |        |
+|    NumCur    |                |                 |               |                | Hidden |
+|    ParBra    |                |                 |               |                | Hidden |
+|    Mouse     |    HomeRow     |                 |               |                |        |
+|    Mouse2     |    HomeRow     |                 |               |                |        |
+|    Media     |                |                 |               |                |        |
 
-| Symbol  | Command             |                                     
+| Symbol  | Command             |
 |---------|---------------------|
 | ⬅️      | KC_LEFT             |
-| ⬅️⬅️    | KC_HOME             |                                     
+| ⬅️⬅️    | KC_HOME             |
 | ⬇️      | KC_DOWN             |
 | ⬇️⬇️    | KC_PGDN             |
 | ⬆️      | KC_UP               |
@@ -234,12 +237,12 @@ Bra = Brackets           [
 | del     | KC_DEL              |
 | spc     | KC_SPC              |
 | esc     | KC_ESC              |
-| ↩️️     | KC_ENT              |                           
+| ↩️️     | KC_ENT              |
 | bspc    | KC_BSPC             |
 | win     | KC_LGUI             |
 | alt     | KC_LALT             |
 | tab     | KC_TAB              |
-| sTab    | S(KC_TAB)           |
+| S-tab   | S(KC_TAB)           |
 | prt     | KC_PSCR             |
 | pipe    | KC_PIPE             |
 | 🖱️⬅️   | KC_MS_L             |
@@ -248,7 +251,7 @@ Bra = Brackets           [
 | 🖱️➡️   | KC_MS_R             |
 | 🖲️️⬅️  | KC_WH_L             |
 | 🖲️️⬇️  | KC_WH_D             |
-| 🖲️️⬆️  | KC_WH_U             |        
+| 🖲️️⬆️  | KC_WH_U             |
 | 🖲️️➡️  | KC_WH_R             |
 | 🖱️1    | KC_BTN1             |
 | 🖱️2    | KC_BTN2             |
@@ -269,7 +272,7 @@ Bra = Brackets           [
 | copy    | C(KC_C)             |
 | paste   | C(KC_V)             |
 | ä       | ALGR(KC_Q)          |
-| ö       | ALGR(KC_P)          |                                         
+| ö       | ALGR(KC_P)          |
 | ü       | ALGR(KC_Y)          |
 | ß       | ALGR(KC_S)          |
 | '       | ALGR(KC_QUOTE)      |
@@ -281,13 +284,14 @@ Bra = Brackets           [
 | rep     | QK_REPEAT_KEY       |
 | aRep    | QK_ALT_REPEAT_KEY   |
 | capsW   | QK_CAPS_WORD_TOGGLE |
-| Mouse   | custom:MOUSE        |
-| Fn      | custom:FN           |
-| Bra     | custom:BRA          |
+| tab ➡️  | custom:NEXT_TAB     |
+| win ➡️  | custom:NEXT_WINDOW  |
+| NumBra  | custom:NUMBRA       |
 | .spc    | custom:DOT_SPC      |
 | OSM-A   | OSM(MOD_LALT)       |
 | OSM-S   | OSM(MOD_LSFT)       |
 | OSM-C   | OSM(MOD_LCTL)       |
+| OSM-G   | OSM(MOD_LGUI)       |
 
 
 
