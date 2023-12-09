@@ -20,7 +20,7 @@ fun generateBase(layers: List<Layer>): String {
 fun run(args: GeneratorArgs) {
     val translator = qmkTranslator(args)
 
-    val layers = translator.layerOptions.entries.map { (layerName, content) ->
+    val layers = translator.layerOptions.entries.map { (layerName, _) ->
         val table = translator.nonThumbs[layerName]
             ?: listOf(List(translator.options.nonThumbRows) { List(translator.options.nonThumbColumns) { "" } })
         readLayer(table, translator, layerName, translator.layerNumbers.getOrDefault(layerName, -1))
@@ -41,14 +41,21 @@ fun run(args: GeneratorArgs) {
         "case ${it.name}: return ${it.timeout};"
     }.sorted()
 
+    val srcDir = args.generatorDir.file
+    val dstDir = args.dstDir
+    val gitVersion = readGitVersion(args.configFile, args.configFile.file.name)
+    val generatorDir = args.generatorDir
     val generationNote =
-        "file is generated from ${args.config.name} using https://github.com/zeitlinger/keyboard/blob/main/generateKeyboard.kt"
+        "file is generated from $gitVersion using ${
+            readGitVersion(generatorDir, "generateKeyboard.kt")
+        }"
 
-    val gitVersion = readGitVersion(args)
     replaceTemplate(
-        args.layoutTemplate, args.layoutFile, mapOf(
+        File(srcDir, "layout.h"),
+        File(dstDir, "qmk/layout.h"),
+        mapOf(
             "generationNote" to generationNote,
-            "versionString" to gitVersion.url,
+            "versionString" to gitVersion,
             "layers" to generateBase(layers),
             "layerNumbers" to translator.layerNumbers.entries
                 .joinToString("\n") { "#define _${it.key.uppercase()} ${it.value}" },
@@ -58,7 +65,9 @@ fun run(args: GeneratorArgs) {
     )
 
     replaceTemplate(
-        args.generatedTemplate, args.generatedFile, mapOf(
+        File(srcDir, "generated.c"),
+        File(dstDir, "qmk/generated.c"),
+mapOf(
             "generationNote" to generationNote,
             "timeouts" to timeouts.joinToString("\n    "),
             "targetLayerOnHoldPressed" to targetLayerOnHold(translator.modTapKeyTargetLayers, "on", "add"),
@@ -66,11 +75,7 @@ fun run(args: GeneratorArgs) {
         )
     )
 
-    args.comboFile.writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
-
-    if (gitVersion.uncommittedChanges != null) {
-        throw IllegalStateException("uncommitted changes: ${gitVersion.uncommittedChanges}")
-    }
+    File(dstDir, "qmk/combos.def") .writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
 }
 
 private fun replaceTemplate(src: File, dst: File, vars: Map<String, String>) {

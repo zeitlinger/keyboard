@@ -1,5 +1,5 @@
 fun qmkTranslator(args: GeneratorArgs): QmkTranslator {
-    val tables = readTables(args.config)
+    val tables = readTables(args.configFile.file)
     val symbols = readSymbols(tables)
     val nonThumbs = getKeyTable(tables.getMulti("Layer").content)
     val thumbs = getKeyTable(tables.getMulti("Thumb").content)

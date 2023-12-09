@@ -1,28 +1,25 @@
 import java.io.File
 
+data class GitFile(
+    val file: File,
+    val gitTemplate: String,
+)
+
 data class GeneratorArgs(
-    val config: File,
-    val comboFile: File,
-    val layoutFile: File,
-    val layoutTemplate: File,
-    val generatedFile: File,
-    val generatedTemplate: File,
-    val gitTemplate: String
+    val configFile: GitFile,
+    val generatorDir: GitFile,
+    val dstDir: File
 )
 
 fun main() {
     val target = "/home/gregor/source/mini-ryoku"
     val src = "$target/keyboard"
-
+    val gitTemplate = "https://github.com/zeitlinger/keyboard/blob/%s/%s"
     run(
         GeneratorArgs(
-            File("$src/README.md"),
-            File("$target/qmk/combos.def"),
-            File("$target/qmk/layout.h"),
-            File("$src/layout.h"),
-            File("$target/qmk/generated.c"),
-            File("$src/generated.c"),
-            "https://github.com/zeitlinger/keyboard/blob/%s/README.md"
+            GitFile(File("$src/README.md"), gitTemplate),
+            GitFile(File(src), gitTemplate),
+            File(target),
         )
     )
 }

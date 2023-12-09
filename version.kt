@@ -1,15 +1,16 @@
 import java.io.File
 import java.util.concurrent.TimeUnit
 
-data class GitVersion(val url: String, val uncommittedChanges: String?)
-
-fun readGitVersion(args: GeneratorArgs): GitVersion {
-    val dir = args.config.parentFile
+fun readGitVersion(gitFile: GitFile, name: String): String {
+    val dir = if (gitFile.file.isFile) gitFile.file.parentFile else gitFile.file
     val uncommittedChanges = "git status -s".runCommand(dir)
         ?.takeIf { it.isNotBlank() }
         ?.let { "git working directory not clean: $it" }
-    val version = "git rev-parse HEAD".runCommand(dir)!!.trim()
-    return GitVersion(args.gitTemplate.format(version), uncommittedChanges)
+        ?.also {
+            println(it)
+        }
+    val version = if (uncommittedChanges != null ) "uncommitted changes" else  "git rev-parse HEAD".runCommand(dir)!!.trim()
+    return gitFile.gitTemplate.format(version, name)
 }
 
 fun String.runCommand(workingDir: File): String? {
