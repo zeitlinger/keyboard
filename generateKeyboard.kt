@@ -1,38 +1,51 @@
 import java.io.File
 
+data class GeneratorArgs(
+    val config: File,
+    val comboFile: File,
+    val layoutFile: File,
+    val layoutTemplate: File,
+    val generatedFile: File,
+    val generatedTemplate: File,
+)
+
 fun main() {
     val target = "/home/gregor/source/mini-ryoku"
     val src = "$target/keyboard"
-    val config = File("$src/README.md")
-    val layoutTemplate = File("$src/layout.h")
-    val timerTemplate = File("$src/timeout.c")
 
-    val comboFile = File("$target/qmk/combos.def")
-    val layoutFile = File("$target/qmk/layout.h")
-    val timeoutFile = File("$target/qmk/custom_timeout.c")
-
-    run(config, comboFile, layoutFile, layoutTemplate, timeoutFile, timerTemplate)
+    run(
+        GeneratorArgs(
+            File("$src/README.md"),
+            File("$target/qmk/combos.def"),
+            File("$target/qmk/layout.h"),
+            File("$src/layout.h"),
+            File("$target/qmk/generated.c"),
+            File("$src/generated.c")
+        )
+    )
 }
 
 const val layerBlocked = "❌"
 const val baseLayerName = "Base"
 
 data class Options(
-        val nonThumbRows: Int,
-        val nonThumbColumns: Int,
-        val thumbColumns: Int,
-        val oneShotTriggers: ModTriggers?,
-        val homeRowThumbCombos: ModTriggers?,
-        val homeRowPositions: Map<Int, Modifier>,
+    val nonThumbRows: Int,
+    val nonThumbColumns: Int,
+    val thumbColumns: Int,
+    val oneShotTriggers: ModTriggers?,
+    val homeRowThumbCombos: ModTriggers?,
+    val homeRowPositions: Map<Int, Modifier>,
 )
 
 enum class LayerFlag { Hidden }
 
+typealias LayerName = String
+
 data class LayerOption(
-    val leftModifier: List<ModifierType>,
-    val rightModifier: List<ModifierType>,
-    val leftFallbackLayer: String?,
-    val rightFallbackLayer: String?,
+    val leftModifier: Map<ModifierType, LayerName?>,
+    val rightModifier: Map<ModifierType, LayerName?>,
+    val leftFallbackLayer: LayerName?,
+    val rightFallbackLayer: LayerName?,
     val flags: Set<LayerFlag>,
 )
 
@@ -48,7 +61,7 @@ data class Key(
 typealias Rows = List<List<Key>>
 
 data class Layer(
-    val name: String,
+    val name: LayerName,
     val baseRows: Rows,
     val combos: List<Rows>,
     val number: Int,

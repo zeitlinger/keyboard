@@ -41,15 +41,12 @@ fun getFallback(
     }
 }
 
-fun run(
-    config: File,
-    comboFile: File,
-    layoutFile: File,
-    layoutTemplate: File,
-    timeoutFile: File,
-    timerTemplate: File
-) {
-    val tables = readTables(config)
+fun targetLayerOnHold(modTapKeyTargetLayers: MutableMap<String, Int>): String {
+    return modTapKeyTargetLayers.entries.joinToString("\n    ") { "case ${it.key}: return ${it.value};" }
+}
+
+fun run(args: GeneratorArgs) {
+    val tables = readTables(args.config)
     val symbols = readSymbols(tables)
     val nonThumbs = getKeyTable(tables.getMulti("Layer").content)
     val thumbs = getKeyTable(tables.getMulti("Thumb").content)
@@ -62,7 +59,7 @@ fun run(
         .filterNot { it.value.flags.contains(LayerFlag.Hidden) }
         .asIterable().mapIndexed { index, entry -> entry.key to index }.toMap()
     val translator =
-        QmkTranslator(symbols, layerOptions, nonThumbs, thumbs, layerNumbers, mutableMapOf(), null, options)
+        QmkTranslator(symbols, layerOptions, nonThumbs, thumbs, layerNumbers, mutableMapOf(), null, options, mutableMapOf())
 
     val layers = layerOptions.entries.map { (layerName, content) ->
         val table = nonThumbs[layerName] ?: listOf(List(options.nonThumbRows) { List(options.nonThumbColumns) { "" } })
@@ -85,10 +82,10 @@ fun run(
     }.sorted()
 
     val generationNote =
-        "file is generated from ${config.name} using https://github.com/zeitlinger/keyboard/blob/main/generateKeyboard.kt"
+        "file is generated from ${args.config.name} using https://github.com/zeitlinger/keyboard/blob/main/generateKeyboard.kt"
 
     replaceTemplate(
-        layoutTemplate, layoutFile, mapOf(
+        args.layoutTemplate, args.layoutFile, mapOf(
             "generationNote" to generationNote,
             "layers" to generateBase(layers),
             "layerNumbers" to layerNumbers.entries
@@ -99,19 +96,20 @@ fun run(
     )
 
     replaceTemplate(
-        timerTemplate, timeoutFile, mapOf(
+        args.generatedTemplate, args.generatedFile, mapOf(
             "generationNote" to generationNote,
-            "timeouts" to timeouts.joinToString("\n    ")
+            "timeouts" to timeouts.joinToString("\n    "),
+            "targetLayerOnHold" to targetLayerOnHold(translator.modTapKeyTargetLayers),
         )
     )
 
-    comboFile.writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
+    args.comboFile.writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
 }
 
 fun printUnexpectedEntries(
-    layerOptions: Map<String, LayerOption>,
-    nonThumbs: Map<String, List<List<List<String>>>>,
-    thumbs: Map<String, List<List<List<String>>>>
+    layerOptions: Map<LayerName, LayerOption>,
+    nonThumbs: Map<LayerName, MultiTable>,
+    thumbs: Map<LayerName, MultiTable>
 ) {
     nonThumbs.keys.subtract(layerOptions.keys).forEach {
         throw IllegalStateException("unexpected layer $it")
@@ -121,7 +119,7 @@ fun printUnexpectedEntries(
     }
 }
 
-private fun layerOption(tables: Tables): Map<String, LayerOption> {
+private fun layerOption(tables: Tables): Map<LayerName, LayerOption> {
     val layerOptions = tables.getSingle("LayerOptions")
         .associateBy { it[0] }
         .mapValues {
@@ -136,7 +134,11 @@ private fun layerOption(tables: Tables): Map<String, LayerOption> {
     return layerOptions
 }
 
-private fun options(tables: Tables, nonThumbs: Map<String, MultiTable>, thumbs: Map<String, MultiTable>): Options {
+private fun options(
+    tables: Tables,
+    nonThumbs: Map<LayerName, MultiTable>,
+    thumbs: Map<LayerName, MultiTable>
+): Options {
     val firstNonThumb = nonThumbs.entries.first().value[0]
 
     val homeRowPositions = tables.getSingle("Home Row Modifiers")
@@ -160,7 +162,7 @@ private fun replaceTemplate(src: File, dst: File, vars: Map<String, String>) {
     })
 }
 
-private fun getKeyTable(layerContent: MultiTable): Map<String, MultiTable> = layerContent
+private fun getKeyTable(layerContent: MultiTable): Map<LayerName, MultiTable> = layerContent
     .groupBy { it[0][0] }
     .mapValues { it.value.map { it.map { it.drop(1) } } } // First column
     .toMap()

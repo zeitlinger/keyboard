@@ -19,14 +19,10 @@ enum class ModifierType {
     }
 }
 
-fun modifierTypes(s: String): List<ModifierType> = s.split(",")
-    .filter { it.isNotBlank() }
-    .map { mod ->
-        when (mod.trim()) {
-            "HomeRow" -> ModifierType.HomeRow
-            "BottomRow" -> ModifierType.BottomRow
-            else -> throw IllegalStateException("unknown modifier type $mod")
-        }
+fun modifierTypes(s: String): Map<ModifierType, LayerName?> = s.split(",")
+    .filter { it.isNotBlank() }.associate { def ->
+        val parts = def.split("+")
+        ModifierType.valueOf(parts[0]) to parts.getOrNull(1)
     }
 
 data class ModTriggers(val timeout: Int, val triggers: List<ModTrigger>)
@@ -36,25 +32,40 @@ fun addModTab(key: String, pos: KeyPosition, translator: QmkTranslator): String 
     val layerOption = translator.layerOption.getValue(pos.layerName)
     val column = pos.column
     val mod = translator.options.homeRowPositions[fingerIndex(pos.column, pos.columns)]
-    val row = pos.row
     return when {
         key == layerBlocked -> key
-
-        column < pos.columns / 2 && layerOption.leftModifier.any { it.matchesRow(row) } -> applyModTap(key, mod)
-        column >= pos.columns / 2 && layerOption.rightModifier.any { it.matchesRow(row) } -> applyModTap(key, mod)
+        column < pos.columns / 2 -> applyModTap(key, mod, layerOption.leftModifier, pos, translator)
+        column >= pos.columns / 2 -> applyModTap(key, mod, layerOption.rightModifier, pos, translator)
         else -> key
     }
 }
 
-private fun applyModTap(key: String, mod: Modifier?) = if (key == qmkNo) {
-    when (mod) {
+private fun applyModTap(
+    key: String,
+    mod: Modifier?,
+    modifierType: Map<ModifierType, LayerName?>,
+    pos: KeyPosition,
+    translator: QmkTranslator
+): String = modifierType.entries
+    .firstOrNull { it.key.matchesRow(pos.row) }
+    ?.let { modEntry ->
+        val targetLayer = modEntry.value
+        val modTapKey = modTapKey(key, mod)
+        if (modTapKey != key && targetLayer != null) {
+            translator.modTapKeyTargetLayers[modTapKey] = translator.mustTranslateLayer(targetLayer)
+        }
+
+        modTapKey
+    } ?: key
+
+private fun modTapKey(key: String, mod: Modifier?): String = when (key) {
+    qmkNo -> when (mod) {
         Modifier.Alt -> "KC_LALT"
         Modifier.Ctrl -> "KC_LCTL"
         Modifier.Shift -> "KC_LSFT"
         else -> key
     }
-} else {
-    when (mod) {
+    else -> when (mod) {
         Modifier.Alt -> "ALT_T($key)"
         Modifier.Ctrl -> "CTL_T($key)"
         Modifier.Shift -> "SFT_T($key)"

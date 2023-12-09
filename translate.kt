@@ -5,13 +5,14 @@ const val qmkNo = "KC_NO"
 
 class QmkTranslator(
         val symbols: Symbols,
-        val layerOption: Map<String, LayerOption>,
-        private val nonThumbs: Map<String, MultiTable>,
-        private val thumbs: Map<String, MultiTable>,
-        private val layerNumbers: Map<String, Int>,
-        val comboLayerTrigger: MutableMap<String, Key>,
+        val layerOption: Map<LayerName, LayerOption>,
+        private val nonThumbs: Map<LayerName, MultiTable>,
+        private val thumbs: Map<LayerName, MultiTable>,
+        private val layerNumbers: Map<LayerName, Int>,
+        val comboLayerTrigger: MutableMap<LayerName, Key>,
         var homeRowThumbCombo: HomeRowCombo?,
         val options: Options,
+        val modTapKeyTargetLayers: MutableMap<String, Int>,
 ) {
 
     private val map: Map<String, String>
@@ -42,9 +43,9 @@ class QmkTranslator(
             }
         }
 
-    fun mustTranslateLayer(layerName: String): Int = layerNumbers.getValue(layerName)
+    fun mustTranslateLayer(layerName: LayerName): Int = layerNumbers.getValue(layerName)
 
-    fun getThumbContent(layerName: String): MultiTable =
+    fun getThumbContent(layerName: LayerName): MultiTable =
         thumbs[layerName] ?: listOf(listOf(List(options.thumbColumns) { "" })) // empty thumb layer
 
     fun getKey(pos: KeyPosition): String =

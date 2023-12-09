@@ -1,7 +1,7 @@
 data class KeyPosition(
         val row: Int,
         val column: Int,
-        val layerName: String,
+        val layerName: LayerName,
         val thumb: Boolean,
         val columns: Int,
 )
@@ -9,7 +9,7 @@ data class KeyPosition(
 fun readLayer(
         content: MultiTable,
         translator: QmkTranslator,
-        layerName: String,
+        layerName: LayerName,
         layerIndex: Int
 ): Layer {
     val data = translateTable(content, translator, layerName, false)
@@ -127,7 +127,7 @@ private fun translateSimpleKey(translator: QmkTranslator, def: String, pos: KeyP
 private fun translateTable(
         tables: MultiTable,
         translator: QmkTranslator,
-        layerName: String,
+        layerName: LayerName,
         thumb: Boolean,
 ): List<Rows> = tables.map { table ->
     table.mapIndexed { rowNumber, row ->

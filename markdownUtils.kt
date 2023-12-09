@@ -43,7 +43,7 @@ data class MultiTableWithHeader(val header: List<String>, val content: MultiTabl
 
 data class Tables(val content: Map<String, MultiTableWithHeader>) {
 
-    fun get(name: String): MultiTableWithHeader = content.getValue(name)
+    fun get(name: LayerName): MultiTableWithHeader = content.getValue(name)
 
     fun getSingle(name: String): Table = get(name).content.single()
     fun getOptional(name: String): Table? = content[name]?.content?.singleOrNull()

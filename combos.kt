@@ -16,7 +16,7 @@ data class Combo(
     }
 }
 
-data class HomeRowCombo(val targetLayer: String, val key: Key)
+data class HomeRowCombo(val targetLayer: LayerName, val key: Key)
 
 const val comboTrigger = "\uD83D\uDC8E" // 💎
 

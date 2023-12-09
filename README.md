@@ -172,13 +172,13 @@ How to read this layout:
 | TabNav |  Nav2   | tab ➡️  | win ➡️  |         |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
 | TabNav | S-paste |  copy   |  paste  |   cut   |   ↩️️   |  bspc   |   del   |   spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav2  |         |         |         |         |         |         |         |         |
+|  Nav2  |         |         |  A-f7   |         |         |         |         |         |
 |  Nav2  |    ❌    |         |         |         |  ⬅️⬅️   |  ⬆️⬆️   |  ⬇️⬇️   |  ➡️➡️   |
 |  Nav2  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | NumCur |         |    6    |    5    |    4    |  pipe   |    _    |    +    |         |
 | NumCur |    3    |    2    |    1    |    0    |    "    |    {    |    }    |    :    |
-| NumCur |         |    9    |    8    |    7    |    ~    |    &    |    !    |    ?    |
+| NumCur |         |    9    |    8    |    7    |    ~    |  aRep   |    !    |    ?    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Mouse  |         |  🖱️3   |  🖱️2   |         |         |  🖱️2   |  🖱️3   |         |
 | Mouse  | Mouse2  | KC_ACL0 | KC_ACL1 | KC_ACL2 |  🖱️⬅️  |  🖱️⬆️  |  🖱️⬇️  |  🖱️➡️  |
@@ -188,29 +188,69 @@ How to read this layout:
 | Mouse2 |    ❌    |         |         |         | 🖲️️⬅️  | 🖲️️⬆️  | 🖲️️⬇️  | 🖲️️➡️  |
 | Mouse2 |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| ParBra |         |    #    |    *    |         |    \    |    -    |    =    |         |
-| ParBra |    $    |    (    |    )    |    @    |    '    |    [    |    ]    |    ;    |
-| ParBra |    %    |    <    |    >    |   win   |    `    |  aRep   |    ^    |    /    |
+| ParBra |         |    #    |    *    |         |    ^    |    [    |    ]    |         |
+| ParBra |    $    |    (    |    )    |    @    |    '    |    `    |    \    |    ;    |
+| ParBra |    %    |    <    |    >    |   win   |    -    |    =    |    &    |    /    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|   Fn   |         |   f6    |   f5    |   f4    |         | =Mouse  |  A-f7   |         |
-|   Fn   |   f3    |   f2    |   f1    |   f10   |  OSM-C  |  OSM-S  |  OSM-A  |  OSM-G  |
+|   Fn   |         |   f6    |   f5    |   f4    |         | =Mouse  |         |         |
+|   Fn   |   f3    |   f2    |   f1    |   f10   |  OSM-C  |  OSM-S  |  OSM-A  |   Num   |
 |   Fn   |   f11   |   f9    |   f8    |   f7    |         |         |         |  Media  |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Media  | DT_PRNT |   🔅    |   🔆    |         |         |   🔇    |         |         |
-| Media  |  DT_UP  |   🔈    |   🔊    |         |   prt   |         |         |         |
+| Media  | DT_PRNT |   🔅    |   🔆    |         |         |         |         |         |
+| Media  |  DT_UP  |         |         |         |   prt   |         |         |         |
 | Media  | DT_DOWN |   ⏮️    |   ⏭️    |   ⏯️    |   🔇    |   🔈    |   🔊    |    ❌    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
-| Thumb  | Left Inner |        Left Outer        |      Right Outer       | Right Inner |
-|:------:|:----------:|:------------------------:|:----------------------:|:-----------:|
-|  Base  | tab+TabNav | ComboLayer:ParBra,30 spc | ComboLayer:NumCur,30 e |   bspc+Fn   |
-|        | ---------- | ------------------------ | ---------------------- | ----------- |
-|  Base  |     💎     |                          |                        | NumBra 100  |
-|        | ---------- | ------------------------ | ---------------------- | ----------- |
-| TabNav |     ❌      |            ❌             |          ↩️️           |   NumBra    |
-|        | ---------- | ------------------------ | ---------------------- | ----------- |
-|   Fn   |   NumBra   |           f12            |           ❌            |      ❌      |
-|        | ---------- | ------------------------ | ---------------------- | ----------- |
+|  Thumb   | Left Inner |        Left Outer        |      Right Outer       | Right Inner |
+|:--------:|:----------:|:------------------------:|:----------------------:|:-----------:|
+|   Base   | tab+TabNav | ComboLayer:ParBra,30 spc | ComboLayer:NumCur,30 e |   bspc+Fn   |
+|          | ---------- | ------------------------ | ---------------------- | ----------- |
+|   Base   |     💎     |                          |                        | NumBra 100  |
+|          | ---------- | ------------------------ | ---------------------- | ----------- |
+| BaseMods |     ❌      |           spc            |           e            |      ❌      |
+|          | ---------- | ------------------------ | ---------------------- | ----------- |
+|  TabNav  |     ❌      |            ❌             |          ↩️️           |   NumBra    |
+|          | ---------- | ------------------------ | ---------------------- | ----------- |
+|    Fn    |   NumBra   |           f12            |           ❌            |      ❌      |
+|          | ---------- | ------------------------ | ---------------------- | ----------- |
+        
+## Layer Navigation
+                
+For most cases, the modifiers are pressed with the same hand that was used to activate a layer. 
+For example, if you want to press shift+left, you press 
+
+- left inner thumb
+- then left middle finger (on home row)
+- then the left button on the right side (index finger on home row)
+                           
+The only exception to this rule are modifiers for the base layer, where you have multiple options:
+
+- You can use home row one shot combos for single modifiers (e.g. left ring finger + left middle finger for shift)
+- For shift-N, use the following sequence
+  - right inner thumb (for Fn layer)
+  - left middle finger (this will activate the base layer with home row mods and activate shift at the same time)
+  - right index finger (for N)
+- for ctrl-shift-N, use the following sequence
+  - right inner thumb (for Fn layer)
+  - left middle finger (this will activate the base layer with home row mods and activate shift at the same time)
+  - left index finger (for ctrl) - you can press this key before the middle finger
+  - right index finger (for N) 
+
+Here's the navigation tree:
+       
+- Base Layer
+  - Left inner thumb: `TabNav`
+    - Left Pinky: `Nav2` 
+      - this is a two-step activation, but it's very easy to combine with mods, because it's a rolling sequence
+    - Any home row mod on the right side: `BaseMods` - base Layer with home row mods
+      - this can be used for the base layer with modifiers on the left side, e.g. ctrl-alt-r
+  - Right inner thumb: `Fn`
+    - Right pinky: `Num`
+    - Right lower pinky: `Media`
+    - Any home row mod on the left side: `BaseMods` - base Layer with home row mods
+  - Combos for symbols numbers and symbols and `Mouse` layer
+  - Both inner thumbs: `NumBra`
+    - This is mostly redundant, because `Nav2` and `Num` have all the keys that you usually need for combos
 
 ## Options
 
@@ -220,18 +260,20 @@ Par = Parentheses        (
 Cur = Curly Parentheses  {
 Bra = Brackets           [
 
-| LayerOptions | Modifiers Left | Modifiers Right | Fallback Left | Fallback Right | Flags  |
-|:------------:|:--------------:|:---------------:|:-------------:|:--------------:|--------|
-|     Base     |                |                 |               |                |        |
-|    TabNav    |    HomeRow     |                 |               |                |        |
-|     Nav2     |    HomeRow     |                 |               |                |        |
-|      Fn      |                |                 |               |                |        |
-|    NumBra    |    HomeRow     |     HomeRow     |    NumCur     |     ParBra     |        |
-|    NumCur    |                |                 |               |                | Hidden |
-|    ParBra    |                |                 |               |                | Hidden |
-|    Mouse     |    HomeRow     |                 |               |                |        |
-|    Mouse2    |    HomeRow     |                 |               |                |        |
-|    Media     |                |                 |               |                |        |
+| LayerOptions |  Modifiers Left  | Modifiers Right  | Fallback Left | Fallback Right | Flags  |
+|:------------:|:----------------:|:----------------:|:-------------:|:--------------:|--------|
+|     Base     |                  |                  |               |                |        |
+|   BaseMods   |     HomeRow      |     HomeRow      |               |                |        |
+|    TabNav    |     HomeRow      | HomeRow+BaseMods |               |                |        |
+|     Nav2     |     HomeRow      |                  |               |     ParBra     |        |
+|     Num      |                  |     HomeRow      |    NumCur     |                |        |
+|      Fn      | HomeRow+BaseMods |                  |               |                |        |
+|    NumBra    |     HomeRow      |     HomeRow      |    NumCur     |     ParBra     |        |
+|    NumCur    |                  |                  |               |                | Hidden |
+|    ParBra    |                  |                  |               |                | Hidden |
+|    Mouse     |     HomeRow      |                  |               |                |        |
+|    Mouse2    |     HomeRow      |                  |               |                |        |
+|    Media     |                  |                  |               |                |        |
 
 | Symbol  | Command                |
 |---------|------------------------|
