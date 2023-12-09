@@ -69,6 +69,7 @@ Remove this table to disable one shot mods.
 | Shift                          | Ring, Middle        |               |
 | Ctrl                           | Middle, Index       |               |
 | Alt                            | Ring, Index         |      10       |
+| Ctrl-Shift                     | Ring, Middle, Index |      10       |
 
 more combos if you want to use the pinky finger for mods:
 

@@ -129,7 +129,7 @@ val modifierPermutations = listOf(
     listOf(Modifier.Shift),
     listOf(Modifier.Alt, Modifier.Ctrl),
     listOf(Modifier.Shift, Modifier.Alt),
-    listOf(Modifier.Ctrl, Modifier.Alt),
+    listOf(Modifier.Ctrl, Modifier.Shift),
     listOf(Modifier.Shift, Modifier.Alt, Modifier.Ctrl)
 )
 

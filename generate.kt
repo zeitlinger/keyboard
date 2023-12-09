@@ -47,10 +47,11 @@ fun run(args: GeneratorArgs) {
     val generationNote =
         "file is generated from ${args.config.name} using https://github.com/zeitlinger/keyboard/blob/main/generateKeyboard.kt"
 
+    val gitVersion = readGitVersion(args)
     replaceTemplate(
         args.layoutTemplate, args.layoutFile, mapOf(
             "generationNote" to generationNote,
-            "versionString" to readGitVersion(args),
+            "versionString" to gitVersion.url,
             "layers" to generateBase(layers),
             "layerNumbers" to translator.layerNumbers.entries
                 .joinToString("\n") { "#define _${it.key.uppercase()} ${it.value}" },
@@ -68,6 +69,10 @@ fun run(args: GeneratorArgs) {
     )
 
     args.comboFile.writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
+
+    if (gitVersion.uncommittedChanges != null) {
+        throw IllegalStateException("uncommitted changes: ${gitVersion.uncommittedChanges}")
+    }
 }
 
 private fun replaceTemplate(src: File, dst: File, vars: Map<String, String>) {
