@@ -29,7 +29,7 @@ fun run(args: GeneratorArgs) {
         readLayer(table, translator, layerName, translator.layerNumbers.getOrDefault(layerName, -1))
     }
 
-    analyze(translator)
+    analyze(translator, layers)
 
     val combos = generateAllCombos(layers, translator.options, translator.homeRowThumbCombo)
     val comboLines = combos.map { combo ->

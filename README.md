@@ -113,7 +113,6 @@ On all other layers, the modifiers are as shown in the table below.
 How to read this layout:
 
 - 💎 = combo key (e.g. middle and index finger in top row pressed together produce "b")
-- 🪜 = transparent key
 - ❌ = key can't be used because the layer was activated with that key
 - empty = use key from base layer
 - FnBra = capitalized words are layer names - if they are a key, the layer is activated while the key is held
@@ -292,9 +291,7 @@ Bra = Brackets           [
 | ↩️️     | KC_ENT                   |
 | bspc    | KC_BSPC                  |
 | win     | KC_LGUI                  |
-| alt     | KC_LALT                  |
 | tab     | KC_TAB                   |
-| S-tab   | S(KC_TAB)                |
 | prt     | KC_PSCR                  |
 | pipe    | KC_PIPE                  |
 | 🖱️⬅️   | KC_MS_L                  |
@@ -318,7 +315,6 @@ Bra = Brackets           [
 | 🔅      | KC_BRID                  |
 | redo    | RCS(KC_Z)                |
 | undo    | C(KC_Z)                  |
-| ctl     | KC_LCTL                  |
 | S-paste | RCS(KC_V)                |
 | cut     | C(KC_X)                  |
 | copy    | C(KC_C)                  |
@@ -332,7 +328,6 @@ Bra = Brackets           [
 | `       | ALGR(KC_GRV)             |
 | ~       | ALGR(KC_TILD)            |
 | ^       | ALGR(KC_CIRC)            |
-| 🪜      | KC_TRNS                  |
 | rep     | QK_REPEAT_KEY            |
 | aRep    | QK_ALT_REPEAT_KEY        |
 | capsW   | QK_CAPS_WORD_TOGGLE      |
@@ -345,7 +340,6 @@ Bra = Brackets           [
 | OSM-A   | OSM(MOD_LALT)            |
 | OSM-S   | OSM(MOD_LSFT)            |
 | OSM-C   | OSM(MOD_LCTL)            |
-| OSM-G   | OSM(MOD_LGUI)            |
 | sw-hand | QK_SWAP_HANDS_TAP_TOGGLE |
 | reboot  | QK_REBOOT                |
 
