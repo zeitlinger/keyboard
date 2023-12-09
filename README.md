@@ -169,7 +169,7 @@ How to read this layout:
 |  Base  |  "br"   |         |         |         |         |         |         |  .spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | TabNav |         |   C-w   |  undo   |  redo   |   esc   |   tab   |   ins   |         |
-| TabNav |  Nav2   | tab ➡️  | win ➡️  |         |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
+| TabNav |  Nav2   | tab ➡️  | win ➡️  | 💡paste |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
 | TabNav | S-paste |  copy   |  paste  |   cut   |   ↩️️   |  bspc   |   del   |   spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav2  |         |         |  A-f7   |         |         |         |         |         |
@@ -317,6 +317,7 @@ Bra = Brackets           [
 | redo    | RCS(KC_Z)                |
 | undo    | C(KC_Z)                  |
 | S-paste | RCS(KC_V)                |
+| 💡paste | custom:INTELLIJ_PASTE    |
 | cut     | C(KC_X)                  |
 | copy    | C(KC_C)                  |
 | paste   | C(KC_V)                  |
