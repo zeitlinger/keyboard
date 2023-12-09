@@ -271,8 +271,8 @@ Bra = Brackets           [
 |    NumBra    |     HomeRow      |     HomeRow      |    NumCur     |     ParBra     |        |
 |    NumCur    |                  |                  |               |                | Hidden |
 |    ParBra    |                  |                  |               |                | Hidden |
-|    Mouse     |     HomeRow      |                  |               |                |        |
-|    Mouse2    |     HomeRow      |                  |               |                |        |
+|    Mouse     |                  |                  |               |                |        |
+|    Mouse2    |                  |                  |               |                |        |
 |    Media     |                  |                  |               |                |        |
 
 | Symbol  | Command                  |
