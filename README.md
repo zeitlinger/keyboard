@@ -263,7 +263,7 @@ Bra = Brackets           [
 | LayerOptions |  Modifiers Left  | Modifiers Right  | Fallback Left | Fallback Right | Flags  |
 |:------------:|:----------------:|:----------------:|:-------------:|:--------------:|--------|
 |     Base     |                  |                  |               |                |        |
-|   BaseMods   |     HomeRow      |     HomeRow      |               |                |        |
+|   BaseMods   |     HomeRow      |     HomeRow      |     Base      |      Base      |        |
 |    TabNav    |     HomeRow      | HomeRow+BaseMods |               |                |        |
 |     Nav2     |     HomeRow      |                  |               |     ParBra     |        |
 |     Num      |                  |     HomeRow      |    NumCur     |                |        |

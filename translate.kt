@@ -12,7 +12,7 @@ class QmkTranslator(
     val comboLayerTrigger: MutableMap<LayerName, Key>,
     var homeRowThumbCombo: HomeRowCombo?,
     val options: Options,
-    val modTapKeyTargetLayers: MutableMap<String, Int>,
+    val modTapKeyTargetLayers: MutableMap<String, LayerModTab>,
 ) {
 
     private val map: Map<String, String>

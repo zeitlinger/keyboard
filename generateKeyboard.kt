@@ -44,8 +44,8 @@ enum class LayerFlag { Hidden }
 typealias LayerName = String
 
 data class LayerOption(
-    val leftModifier: Map<ModifierType, LayerName?>,
-    val rightModifier: Map<ModifierType, LayerName?>,
+    val leftModifier: Map<HomeRowType, LayerName?>,
+    val rightModifier: Map<HomeRowType, LayerName?>,
     val leftFallbackLayer: LayerName?,
     val rightFallbackLayer: LayerName?,
     val flags: Set<LayerFlag>,

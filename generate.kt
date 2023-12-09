@@ -17,15 +17,12 @@ fun generateBase(layers: List<Layer>): String {
         }
 }
 
-fun targetLayerOnHold(modTapKeyTargetLayers: MutableMap<String, Int>): String {
-    return modTapKeyTargetLayers.entries.joinToString("\n    ") { "case ${it.key}: return ${it.value};" }
-}
-
 fun run(args: GeneratorArgs) {
     val translator = qmkTranslator(args)
 
     val layers = translator.layerOptions.entries.map { (layerName, content) ->
-        val table = translator.nonThumbs[layerName] ?: listOf(List(translator.options.nonThumbRows) { List(translator.options.nonThumbColumns) { "" } })
+        val table = translator.nonThumbs[layerName]
+            ?: listOf(List(translator.options.nonThumbRows) { List(translator.options.nonThumbColumns) { "" } })
         readLayer(table, translator, layerName, translator.layerNumbers.getOrDefault(layerName, -1))
     }
 
@@ -64,7 +61,8 @@ fun run(args: GeneratorArgs) {
         args.generatedTemplate, args.generatedFile, mapOf(
             "generationNote" to generationNote,
             "timeouts" to timeouts.joinToString("\n    "),
-            "targetLayerOnHold" to targetLayerOnHold(translator.modTapKeyTargetLayers),
+            "targetLayerOnHoldPressed" to targetLayerOnHold(translator.modTapKeyTargetLayers, "on", "add"),
+            "targetLayerOnHoldReleased" to targetLayerOnHold(translator.modTapKeyTargetLayers, "off", "del"),
         )
     )
 
