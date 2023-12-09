@@ -17,58 +17,21 @@ fun generateBase(layers: List<Layer>): String {
         }
 }
 
-fun getFallback(
-    key: String,
-    translator: QmkTranslator,
-    pos: KeyPosition
-): String {
-    val option = translator.layerOption[pos.layerName] ?: throw IllegalStateException("can't find layer at $pos")
-    if (!(key.isBlank() || key == layerBlocked)) {
-        return key
-    }
-    val left = pos.column < pos.columns / 2
-    val fallbackLayer = if (left) option.leftFallbackLayer else option.rightFallbackLayer
-    return when {
-        fallbackLayer == null || pos.layerName == baseLayerName -> qmkNo
-        else -> {
-            val newPos = pos.copy(layerName = fallbackLayer)
-            getFallback(
-                translator.getKey(newPos),
-                translator,
-                newPos
-            )
-        }
-    }
-}
-
 fun targetLayerOnHold(modTapKeyTargetLayers: MutableMap<String, Int>): String {
     return modTapKeyTargetLayers.entries.joinToString("\n    ") { "case ${it.key}: return ${it.value};" }
 }
 
 fun run(args: GeneratorArgs) {
-    val tables = readTables(args.config)
-    val symbols = readSymbols(tables)
-    val nonThumbs = getKeyTable(tables.getMulti("Layer").content)
-    val thumbs = getKeyTable(tables.getMulti("Thumb").content)
-    val options = options(tables, nonThumbs, thumbs)
+    val translator = qmkTranslator(args)
 
-    val layerOptions = layerOption(tables)
-    printUnexpectedEntries(layerOptions, nonThumbs, thumbs)
-
-    val layerNumbers = layerOptions
-        .filterNot { it.value.flags.contains(LayerFlag.Hidden) }
-        .asIterable().mapIndexed { index, entry -> entry.key to index }.toMap()
-    val translator =
-        QmkTranslator(symbols, layerOptions, nonThumbs, thumbs, layerNumbers, mutableMapOf(), null, options, mutableMapOf())
-
-    val layers = layerOptions.entries.map { (layerName, content) ->
-        val table = nonThumbs[layerName] ?: listOf(List(options.nonThumbRows) { List(options.nonThumbColumns) { "" } })
-        readLayer(table, translator, layerName, layerNumbers.getOrDefault(layerName, -1))
+    val layers = translator.layerOptions.entries.map { (layerName, content) ->
+        val table = translator.nonThumbs[layerName] ?: listOf(List(translator.options.nonThumbRows) { List(translator.options.nonThumbColumns) { "" } })
+        readLayer(table, translator, layerName, translator.layerNumbers.getOrDefault(layerName, -1))
     }
 
-//    printMissingAndUnexpected(translator, layers, symbols)
+    analyze(translator)
 
-    val combos = generateAllCombos(layers, options, translator.homeRowThumbCombo)
+    val combos = generateAllCombos(layers, translator.options, translator.homeRowThumbCombo)
     val comboLines = combos.map { combo ->
         combo.type.template.format(
             combo.name.padEnd(35),
@@ -89,10 +52,10 @@ fun run(args: GeneratorArgs) {
             "generationNote" to generationNote,
             "versionString" to readGitVersion(args),
             "layers" to generateBase(layers),
-            "layerNumbers" to layerNumbers.entries
+            "layerNumbers" to translator.layerNumbers.entries
                 .joinToString("\n") { "#define _${it.key.uppercase()} ${it.value}" },
-            "custom0" to symbols.userKeycodes[0],
-            "customRest" to symbols.userKeycodes.drop(1).joinToString(",\n    ")
+            "custom0" to translator.symbols.userKeycodes[0],
+            "customRest" to translator.symbols.userKeycodes.drop(1).joinToString(",\n    ")
         )
     )
 
@@ -107,75 +70,8 @@ fun run(args: GeneratorArgs) {
     args.comboFile.writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
 }
 
-fun printUnexpectedEntries(
-    layerOptions: Map<LayerName, LayerOption>,
-    nonThumbs: Map<LayerName, MultiTable>,
-    thumbs: Map<LayerName, MultiTable>
-) {
-    nonThumbs.keys.subtract(layerOptions.keys).forEach {
-        throw IllegalStateException("unexpected layer $it")
-    }
-    thumbs.keys.subtract(layerOptions.keys).forEach {
-        throw IllegalStateException("unexpected thumb layer $it")
-    }
-}
-
-private fun layerOption(tables: Tables): Map<LayerName, LayerOption> {
-    val layerOptions = tables.getSingle("LayerOptions")
-        .associateBy { it[0] }
-        .mapValues {
-            LayerOption(
-                modifierTypes(it.value[1]),
-                modifierTypes(it.value[2]),
-                it.value[3].ifBlank { null },
-                it.value[4].ifBlank { null },
-                if (it.value[5] == "Hidden") setOf(LayerFlag.Hidden) else emptySet()
-            )
-        }
-    return layerOptions
-}
-
-private fun options(
-    tables: Tables,
-    nonThumbs: Map<LayerName, MultiTable>,
-    thumbs: Map<LayerName, MultiTable>
-): Options {
-    val firstNonThumb = nonThumbs.entries.first().value[0]
-
-    val homeRowPositions = tables.getSingle("Home Row Modifiers")
-        .associate { fingerPos(it[1]) - firstNonThumb[0].size / 2 to Modifier.ofLong(it[0]) } // we ignore the first row
-    val firstThumb = thumbs.entries.first().value[0]
-    return Options(
-        firstNonThumb.size,
-        firstNonThumb[0].size,
-        firstThumb[0].size,
-        tables.getOptional("Base Layer One Shot Mod Combos")
-            ?.let { createModTriggers(it, homeRowOneShotTriggers) },
-        tables.getOptional("Base Layer Thumb Mod Combos")
-            ?.let { createThumbModTriggers(it, homeRowThumbTriggers, homeRowPositions) },
-        homeRowPositions
-    )
-}
-
 private fun replaceTemplate(src: File, dst: File, vars: Map<String, String>) {
     dst.writeText(vars.entries.fold(src.readText()) { acc, entry ->
         acc.replace("\${${entry.key}}", entry.value)
     })
-}
-
-private fun getKeyTable(layerContent: MultiTable): Map<LayerName, MultiTable> = layerContent
-    .groupBy { it[0][0] }
-    .mapValues { it.value.map { it.map { it.drop(1) } } } // First column
-    .toMap()
-
-private fun readSymbols(tables: Tables): Symbols {
-    val userKeycodes = mutableListOf<String>()
-    val symTable = tables.getMappingTable("Symbol").mapValues {
-        val command = it.value
-        """custom:([A-Z_]+)""".toRegex().find(command)?.let {
-            userKeycodes.add(it.groupValues[1])
-            command.replace("custom:", "")
-        } ?: command
-    }
-    return Symbols(symTable, userKeycodes)
 }

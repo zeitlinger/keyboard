@@ -14,7 +14,7 @@ fun readLayer(
 ): Layer {
     val data = translateTable(content, translator, layerName, false)
     val base = data[0]
-    val option = translator.layerOption.getValue(layerName)
+    val option = translator.layerOptions.getValue(layerName)
 
     val combos = data.drop(1)
 
@@ -97,14 +97,14 @@ private fun comboLayer(left: String, translator: QmkTranslator, pos: KeyPosition
     val trigger = left.split(":")[1].split(",")
     val layerName = trigger[0]
     val timeout = trigger.getOrNull(1)?.toIntOrNull()
-    return translator.layerOption[layerName]?.let {
+    return translator.layerOptions[layerName]?.let {
         val key = translateKey(translator, pos, right)
         translator.comboLayerTrigger[layerName] = key.copy(comboTimeout = timeout)
         key
     } ?: throw IllegalArgumentException("unknown layer $layerName in $pos")
 }
 
-private fun keyWithModifier(def: String, translator: QmkTranslator, pos: KeyPosition): Key {
+fun keyWithModifier(def: String, translator: QmkTranslator, pos: KeyPosition): Key {
     val parts = def.split("-")
     val modifier = parts[0]
     val key = translateKey(translator, pos, parts[1]).key
@@ -138,3 +138,26 @@ private fun translateTable(
     }
 }
 
+fun getFallback(
+    key: String,
+    translator: QmkTranslator,
+    pos: KeyPosition
+): String {
+    val option = translator.layerOptions[pos.layerName] ?: throw IllegalStateException("can't find layer at $pos")
+    if (!(key.isBlank() || key == layerBlocked)) {
+        return key
+    }
+    val left = pos.column < pos.columns / 2
+    val fallbackLayer = if (left) option.leftFallbackLayer else option.rightFallbackLayer
+    return when {
+        fallbackLayer == null || pos.layerName == baseLayerName -> qmkNo
+        else -> {
+            val newPos = pos.copy(layerName = fallbackLayer)
+            getFallback(
+                translator.getKey(newPos),
+                translator,
+                newPos
+            )
+        }
+    }
+}

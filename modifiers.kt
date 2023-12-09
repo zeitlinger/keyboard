@@ -29,7 +29,7 @@ data class ModTriggers(val timeout: Int, val triggers: List<ModTrigger>)
 data class ModTrigger(val fingers: List<Int>, val command: String, val name: String, val timeoutDelta: Int)
 
 fun addModTab(key: String, pos: KeyPosition, translator: QmkTranslator): String {
-    val layerOption = translator.layerOption.getValue(pos.layerName)
+    val layerOption = translator.layerOptions.getValue(pos.layerName)
     val column = pos.column
     val mod = translator.options.homeRowPositions[fingerIndex(pos.column, pos.columns)]
     return when {
