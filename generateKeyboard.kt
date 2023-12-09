@@ -7,6 +7,7 @@ data class GeneratorArgs(
     val layoutTemplate: File,
     val generatedFile: File,
     val generatedTemplate: File,
+    val gitTemplate: String
 )
 
 fun main() {
@@ -20,7 +21,8 @@ fun main() {
             File("$target/qmk/layout.h"),
             File("$src/layout.h"),
             File("$target/qmk/generated.c"),
-            File("$src/generated.c")
+            File("$src/generated.c"),
+            "https://github.com/zeitlinger/keyboard/blob/%s/README.md"
         )
     )
 }

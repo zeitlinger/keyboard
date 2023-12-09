@@ -6,6 +6,8 @@
  * ${generationNote}
  */
 
+#define VERSION_STRING "${versionString}"
+
 ${layerNumbers}
 
 enum custom_keycodes {

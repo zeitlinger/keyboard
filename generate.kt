@@ -87,6 +87,7 @@ fun run(args: GeneratorArgs) {
     replaceTemplate(
         args.layoutTemplate, args.layoutFile, mapOf(
             "generationNote" to generationNote,
+            "versionString" to readGitVersion(args),
             "layers" to generateBase(layers),
             "layerNumbers" to layerNumbers.entries
                 .joinToString("\n") { "#define _${it.key.uppercase()} ${it.value}" },
