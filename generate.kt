@@ -59,7 +59,8 @@ fun run(args: GeneratorArgs) {
             "layers" to generateBase(layers),
             "layerNumbers" to translator.layerNumbers.entries
                 .joinToString("\n") {
-                    "#define ${it.key.const()} ${it.value}" },
+                    "#define ${it.key.const()} ${it.value}"
+                },
             "custom0" to translator.symbols.userKeycodes[0],
             "customRest" to translator.symbols.userKeycodes.drop(1).joinToString(",\n    ")
         )
@@ -68,16 +69,20 @@ fun run(args: GeneratorArgs) {
     replaceTemplate(
         File(srcDir, "generated.c"),
         File(dstDir, "qmk/generated.c"),
-mapOf(
+        mapOf(
             "generationNote" to generationNote,
             "timeouts" to timeouts.joinToString("\n    "),
             "targetLayerOnHoldPressed" to targetLayerOnHold(translator.modTapKeyTargetLayers, "on", "add"),
             "targetLayerOnHoldReleased" to targetLayerOnHold(translator.modTapKeyTargetLayers, "off", "del"),
+            "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold),
         )
     )
 
-    File(dstDir, "qmk/combos.def") .writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
+    File(dstDir, "qmk/combos.def").writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
 }
+
+fun holdOnOtherKeyPress(layerTapToggle: List<String>): String =
+    layerTapToggle.joinToString("\n        ") { "case ${it}: return true;" }
 
 fun LayerName.const() = "_${this.uppercase()}"
 

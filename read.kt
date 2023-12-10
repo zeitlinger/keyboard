@@ -74,6 +74,7 @@ fun translateKey(
         def.contains("+") && def.length > 1 -> {
             val parts = def.split("+")
             val key = translateKey(translator, pos, parts[0]).key
+            translator.layerTapHold.add(key)
             Key("LT(${translator.layer(parts[1], pos).const()},$key)")
         }
 

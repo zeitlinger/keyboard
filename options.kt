@@ -19,7 +19,8 @@ fun qmkTranslator(args: GeneratorArgs): QmkTranslator {
         mutableMapOf(),
         null,
         options,
-        mutableMapOf()
+        mutableMapOf(),
+        mutableListOf(),
     )
 }
 
