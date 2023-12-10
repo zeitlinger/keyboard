@@ -40,6 +40,10 @@ enum class LayerFlag { Hidden }
 
 typealias LayerName = String
 
+data class LayerRef(val name: LayerName, val number: Int) {
+    fun const() = name.const()
+}
+
 data class LayerOption(
     val leftModifier: Map<HomeRowType, LayerName?>,
     val rightModifier: Map<HomeRowType, LayerName?>,

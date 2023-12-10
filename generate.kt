@@ -58,7 +58,8 @@ fun run(args: GeneratorArgs) {
             "versionString" to gitVersion,
             "layers" to generateBase(layers),
             "layerNumbers" to translator.layerNumbers.entries
-                .joinToString("\n") { "#define _${it.key.uppercase()} ${it.value}" },
+                .joinToString("\n") {
+                    "#define ${it.key.const()} ${it.value}" },
             "custom0" to translator.symbols.userKeycodes[0],
             "customRest" to translator.symbols.userKeycodes.drop(1).joinToString(",\n    ")
         )
@@ -77,6 +78,8 @@ mapOf(
 
     File(dstDir, "qmk/combos.def") .writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
 }
+
+fun LayerName.const() = "_${this.uppercase()}"
 
 private fun replaceTemplate(src: File, dst: File, vars: Map<String, String>) {
     dst.writeText(vars.entries.fold(src.readText()) { acc, entry ->

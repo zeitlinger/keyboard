@@ -43,14 +43,18 @@ class QmkTranslator(
             }
         }
 
-    fun mustTranslateLayer(layerName: LayerName, pos: KeyPosition): Int = layerNumbers.getValue(layerName)
-        .also { if (it < layerNumbers.getValue(pos.layerName)) throw IllegalStateException("layer $layerName is lower than $pos") }
+    fun layer(layerName: LayerName, pos: KeyPosition): LayerRef = LayerRef(layerName, layerNumbers.getValue(layerName)
+        .also {
+            if (it < layerNumbers.getValue(pos.layerName))
+                throw IllegalStateException("layer $layerName is lower than $pos")
+        })
 
     fun getThumbContent(layerName: LayerName): MultiTable =
         thumbs[layerName] ?: listOf(listOf(List(options.thumbColumns) { "" })) // empty thumb layer
 
     fun getKey(pos: KeyPosition): String =
-        (if (pos.thumb) getThumbContent(pos.layerName) else nonThumbs[pos.layerName])?.get(0)?.get(pos.row)?.get(pos.column) ?: ""
+        (if (pos.thumb) getThumbContent(pos.layerName) else nonThumbs[pos.layerName])?.get(0)?.get(pos.row)
+            ?.get(pos.column) ?: ""
 }
 
 fun assertQmk(key: String, pos: KeyPosition): String {

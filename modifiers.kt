@@ -21,7 +21,7 @@ enum class HomeRowType {
     }
 }
 
-data class LayerModTab(val layer: Int, val mod: Modifier)
+data class LayerModTab(val layer: LayerRef, val mod: Modifier)
 
 fun targetLayerOnHold(
     modTapKeyTargetLayers: MutableMap<String, LayerModTab>,
@@ -30,7 +30,7 @@ fun targetLayerOnHold(
 ): String {
     return modTapKeyTargetLayers.entries.joinToString("\n            ") {
         val modTab = it.value
-        "case ${it.key}: layer_$layer(${modTab.layer}); ${mods}_mods(MOD_BIT(${modTab.mod.leftKey})); return true;"
+        "case ${it.key}: layer_$layer(${modTab.layer.const()}); ${mods}_mods(MOD_BIT(${modTab.mod.leftKey})); return true;"
     }
 }
 
@@ -67,7 +67,7 @@ private fun applyModTap(
         val targetLayer = modEntry.value
         val modTapKey = modTapKey(key, mod)
         if (modTapKey != key && targetLayer != null) {
-            val layer = translator.mustTranslateLayer(targetLayer, pos)
+            val layer = translator.layer(targetLayer, pos)
             translator.modTapKeyTargetLayers[modTapKey] = LayerModTab(layer, mod)
         }
 

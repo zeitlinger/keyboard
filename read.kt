@@ -74,7 +74,7 @@ fun translateKey(
         def.contains("+") && def.length > 1 -> {
             val parts = def.split("+")
             val key = translateKey(translator, pos, parts[0]).key
-            Key("LT(${translator.mustTranslateLayer(parts[1], pos)},$key)")
+            Key("LT(${translator.layer(parts[1], pos).const()},$key)")
         }
 
         def.contains("-") && def.length > 1 -> {
@@ -82,11 +82,11 @@ fun translateKey(
         }
 
         def.startsWith("=") && def.length > 1 ->{
-            Key("TG(${translator.mustTranslateLayer(def.substring(1), pos)})")
+            Key("TG(${translator.layer(def.substring(1), pos).const()})")
         }
 
         def.isNotBlank() && def[0].isUpperCase() && !def.contains("_") -> { //skip QMK keycodes
-            Key("MO(${translator.mustTranslateLayer(def, pos)})")
+            Key("MO(${translator.layer(def, pos).const()})")
         }
 
         else -> translateSimpleKey(translator, def, pos)
