@@ -74,7 +74,7 @@ fun translateKey(
         def.contains("+") && def.length > 1 -> {
             val parts = def.split("+")
             val key = translateKey(translator, pos, parts[0]).key
-            Key("LT(${translator.mustTranslateLayer(parts[1])},$key)")
+            Key("LT(${translator.mustTranslateLayer(parts[1], pos)},$key)")
         }
 
         def.contains("-") && def.length > 1 -> {
@@ -82,11 +82,11 @@ fun translateKey(
         }
 
         def.startsWith("=") && def.length > 1 ->{
-            Key("TG(${translator.mustTranslateLayer(def.substring(1))})")
+            Key("TG(${translator.mustTranslateLayer(def.substring(1), pos)})")
         }
 
         def.isNotBlank() && def[0].isUpperCase() && !def.contains("_") -> { //skip QMK keycodes
-            Key("MO(${translator.mustTranslateLayer(def)})")
+            Key("MO(${translator.mustTranslateLayer(def, pos)})")
         }
 
         else -> translateSimpleKey(translator, def, pos)
@@ -143,8 +143,11 @@ fun getFallback(
     translator: QmkTranslator,
     pos: KeyPosition
 ): String {
+    if (key == qmkNo || key == layerBlocked) {
+        return qmkNo
+    }
     val option = translator.layerOptions[pos.layerName] ?: throw IllegalStateException("can't find layer at $pos")
-    if (!(key.isBlank() || key == layerBlocked)) {
+    if (key.isNotBlank()) {
         return key
     }
     val left = pos.column < pos.columns / 2

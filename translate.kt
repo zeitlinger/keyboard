@@ -43,7 +43,8 @@ class QmkTranslator(
             }
         }
 
-    fun mustTranslateLayer(layerName: LayerName): Int = layerNumbers.getValue(layerName)
+    fun mustTranslateLayer(layerName: LayerName, pos: KeyPosition): Int = layerNumbers.getValue(layerName)
+        .also { if (it < layerNumbers.getValue(pos.layerName)) throw IllegalStateException("layer $layerName is lower than $pos") }
 
     fun getThumbContent(layerName: LayerName): MultiTable =
         thumbs[layerName] ?: listOf(listOf(List(options.thumbColumns) { "" })) // empty thumb layer

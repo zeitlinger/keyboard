@@ -149,7 +149,7 @@ How to read this layout:
 |  Base  |         |   💎    |    j    |    x    |  O-🖱️  |  capsW  |   💎    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |         |         |         |         |         |         |         |
+|  Base  |         |         |  A-f7   |         |         |         |         |         |
 |  Base  |   💎    |    q    |         |         |         |         |   ↩️️   |   💎    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |  "for"  |  "ny"   |         |         |         |
@@ -263,11 +263,11 @@ Bra = Brackets           [
 | LayerOptions |  Modifiers Left  | Modifiers Right  | Fallback Left | Fallback Right | Flags  |
 |:------------:|:----------------:|:----------------:|:-------------:|:--------------:|--------|
 |     Base     |                  |                  |               |                |        |
-|   BaseMods   |     HomeRow      |     HomeRow      |     Base      |      Base      |        |
 |    TabNav    |     HomeRow      | HomeRow+BaseMods |               |                |        |
 |     Nav2     |     HomeRow      |                  |               |     ParBra     |        |
-|     Num      |                  |     HomeRow      |    NumCur     |                |        |
 |      Fn      | HomeRow+BaseMods |                  |               |                |        |
+|     Num      |                  |     HomeRow      |    NumCur     |                |        |
+|   BaseMods   |     HomeRow      |     HomeRow      |     Base      |      Base      |        |
 |    NumBra    |     HomeRow      |     HomeRow      |    NumCur     |     ParBra     |        |
 |    NumCur    |                  |                  |               |                | Hidden |
 |    ParBra    |                  |                  |               |                | Hidden |
