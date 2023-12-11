@@ -30,7 +30,7 @@ fun targetLayerOnHold(
 ): String {
     return modTapKeyTargetLayers.entries.joinToString("\n            ") {
         val modTab = it.value
-        "case ${it.key}: layer_$layer(${modTab.layer.const()}); ${mods}_mods(MOD_BIT(${modTab.mod.leftKey})); return true;"
+        "case ${it.key}: layer_$layer(${modTab.layer.const()}); ${mods}_mods(MOD_BIT(${modTab.mod.leftKey})); return false;"
     }
 }
 
