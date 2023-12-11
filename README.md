@@ -66,8 +66,8 @@ Remove this table to disable one shot mods.
 | Base Layer One Shot Mod Combos | Fingers             | Timeout Delta |
 |--------------------------------|---------------------|:-------------:|
 | Timeout                        | 12                  |               |
-| Shift                          | Ring, Middle        |               |
-| Ctrl                           | Middle, Index       |               |
+| Ctrl                           | Ring, Middle        |               |
+| Shift                          | Middle, Index       |               |
 | Alt                            | Ring, Index         |      10       |
 | Ctrl-Shift                     | Ring, Middle, Index |      10       |
 
