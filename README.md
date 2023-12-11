@@ -197,7 +197,7 @@ How to read this layout:
 | ParBra |    %    |    <    |    >    |   win   |    -    |    =    |    &    |    /    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |   Fn   |         |   f6    |   f5    |   f4    |         | =Mouse  |         |         |
-|   Fn   |   f3    |   f2    |   f1    |   f10   |  OSM-S  |  OSM-C  |  OSM-A  |   Num   |
+|   Fn   |   f3    |   f2    |   f1    |   f10   |         |         |         |   Num   |
 |   Fn   |   f11   |   f9    |   f8    |   f7    |         |         |         |  Media  |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Media  | DT_PRNT |   🔅    |   🔆    |         |         |         |         |         |
@@ -269,7 +269,7 @@ Bra = Brackets           [
 |     Base     |                  |                  |               |                |        |
 |    TabNav    |     HomeRow      | HomeRow+BaseMods |               |                |        |
 |     Nav2     |     HomeRow      |                  |               |     ParBra     |        |
-|      Fn      | HomeRow+BaseMods |                  |               |                |        |
+|      Fn      | HomeRow+BaseMods |  OneShotHomeRow  |               |                |        |
 |     Num      |                  |     HomeRow      |    NumCur     |                |        |
 |   BaseMods   |     HomeRow      |     HomeRow      |     Base      |      Base      |        |
 |    NumBra    |     HomeRow      |     HomeRow      |    NumCur     |     ParBra     |        |
@@ -343,9 +343,6 @@ Bra = Brackets           [
 | O-🖱️   | custom:ONE_SHOT_MOUSE    |
 | .spc    | custom:DOT_SPC           |
 | version | custom:PRINT_VERSION     |
-| OSM-A   | OSM(MOD_LALT)            |
-| OSM-S   | OSM(MOD_LSFT)            |
-| OSM-C   | OSM(MOD_LCTL)            |
 | sw-hand | QK_SWAP_HANDS_TAP_TOGGLE |
 | reboot  | QK_REBOOT                |
 

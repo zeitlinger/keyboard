@@ -13,10 +13,11 @@ enum class Modifier(val mask: String, val leftKey: String) {
 }
 
 enum class HomeRowType {
-    HomeRow, BottomRow;
+    HomeRow, OneShotHomeRow, BottomRow;
 
     fun matchesRow(row: Int): Boolean = when (this) {
         HomeRow -> row == 1
+        OneShotHomeRow -> row == 1
         BottomRow -> row == 2
     }
 }
@@ -65,7 +66,7 @@ private fun applyModTap(
     .firstOrNull { it.key.matchesRow(pos.row) }
     ?.let { modEntry ->
         val targetLayer = modEntry.value
-        val modTapKey = modTapKey(key, mod)
+        val modTapKey = modTapKey(key, mod, modEntry.key)
         if (modTapKey != key && targetLayer != null) {
             val layer = translator.layer(targetLayer, pos)
             translator.modTapKeyTargetLayers[modTapKey] = LayerModTab(layer, mod)
@@ -74,8 +75,9 @@ private fun applyModTap(
         modTapKey
     } ?: key
 
-private fun modTapKey(key: String, mod: Modifier): String = when (key) {
-    qmkNo -> mod.leftKey
+private fun modTapKey(key: String, mod: Modifier, type: HomeRowType): String = when {
+    type == HomeRowType.OneShotHomeRow -> "OSM(${mod.mask})".also { if (key != qmkNo) throw IllegalStateException("key $key not allowed for one shot modifier") }
+    key == qmkNo -> mod.leftKey
     else -> when (mod) {
         Modifier.Alt -> "ALT_T($key)"
         Modifier.Ctrl -> "CTL_T($key)"
