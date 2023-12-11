@@ -1,7 +1,7 @@
 import java.io.File
 
 const val mainLayerTemplate =
-    "\t[%d] = LAYOUT_split_3x5_2(\n" +
+    "\t[%s] = LAYOUT_split_3x5_2(\n" +
             "            %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s,\n" +
             "            %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s,\n" +
             "            %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s,\n" +
@@ -12,7 +12,7 @@ fun generateBase(layers: List<Layer>): String {
         .filter { !it.option.flags.contains(LayerFlag.Hidden) }
         .sortedBy { it.number }
         .joinToString("\n") { layer ->
-            mainLayerTemplate.format(*listOf(layer.number).plus(layer.baseRows.map { it.map { it.keyWithModifier } }
+            mainLayerTemplate.format(*listOf(layer.name.const()).plus(layer.baseRows.map { it.map { it.keyWithModifier } }
                 .flatten()).toTypedArray())
         }
 }

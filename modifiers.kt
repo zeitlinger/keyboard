@@ -148,7 +148,7 @@ fun createModTemplate(template: String): Map<List<Modifier>, String> {
 }
 
 val homeRowOneShotTriggers: Map<List<Modifier>, String> = createModTemplate("OSM(%s)")
-val homeRowThumbTriggers: Map<List<Modifier>, String> = createModTemplate("LM(%%d, %s)")
+val homeRowThumbTriggers: Map<List<Modifier>, String> = createModTemplate("LM(%%s, %s)")
 
 fun generateModCombos(
     name: String,
@@ -159,7 +159,6 @@ fun generateModCombos(
     triggers: ModTriggers,
     options: Options,
 ): List<Combo> {
-    val layerIndex = layer?.number
     val columns = hand.columns(options) / 2
     return triggers.triggers.mapNotNull { modTrigger ->
         val comboKeys = modTrigger.fingers.map {
@@ -169,7 +168,7 @@ fun generateModCombos(
             opposingBase[row * columns + targetCol]
         }
 
-        val command = layer?.let { modTrigger.command.format(layerIndex) } ?: modTrigger.command
+        val command = layer?.let { modTrigger.command.format(layer.name.const()) } ?: modTrigger.command
         val allKeys = layerTrigger + comboKeys
 
         when {
