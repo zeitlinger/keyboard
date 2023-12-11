@@ -66,7 +66,7 @@ private fun applyModTap(
     .firstOrNull { it.key.matchesRow(pos.row) }
     ?.let { modEntry ->
         val targetLayer = modEntry.value
-        val modTapKey = modTapKey(key, mod, modEntry.key)
+        val modTapKey = modTapKey(key, mod, modEntry.key, pos)
         if (modTapKey != key && targetLayer != null) {
             val layer = translator.layer(targetLayer, pos)
             translator.modTapKeyTargetLayers[modTapKey] = LayerModTab(layer, mod)
@@ -75,13 +75,17 @@ private fun applyModTap(
         modTapKey
     } ?: key
 
-private fun modTapKey(key: String, mod: Modifier, type: HomeRowType): String = when {
-    type == HomeRowType.OneShotHomeRow -> "OSM(${mod.mask})".also { if (key != qmkNo) throw IllegalStateException("key $key not allowed for one shot modifier") }
+private fun modTapKey(key: String, mod: Modifier, type: HomeRowType, pos: KeyPosition): String = when {
+    type == HomeRowType.OneShotHomeRow -> "OSM(${mod.mask})"
+        .also { if (key != qmkNo) throw IllegalStateException("key $key not allowed for one shot modifier") }
     key == qmkNo -> mod.leftKey
-    else -> when (mod) {
-        Modifier.Alt -> "ALT_T($key)"
-        Modifier.Ctrl -> "CTL_T($key)"
-        Modifier.Shift -> "SFT_T($key)"
+    else -> {
+        if (!key.startsWith("ALGR(") && key.contains("(")) throw IllegalStateException("key $key not allowed for modifier at $pos")
+        when (mod) {
+            Modifier.Alt -> "ALT_T($key)"
+            Modifier.Ctrl -> "CTL_T($key)"
+            Modifier.Shift -> "SFT_T($key)"
+        }
     }
 }
 

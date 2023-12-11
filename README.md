@@ -272,7 +272,7 @@ Bra = Brackets           [
 |      Fn      | HomeRow+BaseMods |  OneShotHomeRow  |               |                |        |
 |     Num      |                  |     HomeRow      |    NumCur     |                |        |
 |   BaseMods   |     HomeRow      |     HomeRow      |     Base      |      Base      |        |
-|    NumBra    |     HomeRow      |     HomeRow      |    NumCur     |     ParBra     |        |
+|    NumBra    |     HomeRow      |     HomeRow      |    NumCur     |     ParBra     |        |          
 |    NumCur    |                  |                  |               |                | Hidden |
 |    ParBra    |                  |                  |               |                | Hidden |
 |    Mouse     |    BottomRow     |                  |               |                |        |
