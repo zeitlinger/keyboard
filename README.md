@@ -198,7 +198,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |   Fn   |         |   f6    |   f5    |   f4    |         | =Mouse  |         |         |
 |   Fn   |   f3    |   f2    |   f1    |   f10   |         |         |         |   Num   |
-|   Fn   |   f11   |   f9    |   f8    |   f7    |         |         |         |  Media  |
+|   Fn   |   f11   |   f9    |   f8    |   f7    |         |  A-f7   |         |  Media  |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Media  | DT_PRNT |   🔅    |   🔆    |         |         |         |         |         |
 | Media  |  DT_UP  |         |         |         |   prt   | version |         |         |
@@ -209,13 +209,11 @@ How to read this layout:
 |:--------:|:----------:|:------------------------:|:----------------------:|:-----------:|
 |   Base   | tab+TabNav | ComboLayer:ParBra,30 spc | ComboLayer:NumCur,30 e |   bspc+Fn   |
 |          | ---------- | ------------------------ | ---------------------- | ----------- |
-|   Base   |     💎     |                          |                        | NumBra 100  |
+| BaseMods |     ❌      |           spc            |           e            |      ❌      |                      
 |          | ---------- | ------------------------ | ---------------------- | ----------- |
-| BaseMods |     ❌      |           spc            |           e            |      ❌      |
+|  TabNav  |     ❌      |            ❌             |          ↩️️           |             |
 |          | ---------- | ------------------------ | ---------------------- | ----------- |
-|  TabNav  |     ❌      |            ❌             |          ↩️️           |   NumBra    |
-|          | ---------- | ------------------------ | ---------------------- | ----------- |
-|    Fn    |   NumBra   |           f12            |           ❌            |      ❌      |
+|    Fn    |            |           f12            |           ❌            |      ❌      |
 |          | ---------- | ------------------------ | ---------------------- | ----------- |
         
 ## Layer Navigation
@@ -253,8 +251,6 @@ Here's the navigation tree:
     - Right lower pinky: `Media`
     - Any home row mod on the left side: `BaseMods` - base Layer with home row mods
   - Combos for symbols numbers and symbols and `Mouse` layer
-  - Both inner thumbs: `NumBra`
-    - This is mostly redundant, because `Nav2` and `Num` have all the keys that you usually need for combos
 
 ## Options
 
@@ -272,7 +268,6 @@ Bra = Brackets           [
 |      Fn      | HomeRow+BaseMods |  OneShotHomeRow  |               |                |        |
 |     Num      |                  |     HomeRow      |    NumCur     |                |        |
 |   BaseMods   |     HomeRow      |     HomeRow      |     Base      |      Base      |        |
-|    NumBra    |     HomeRow      |     HomeRow      |    NumCur     |     ParBra     |        |          
 |    NumCur    |                  |                  |               |                | Hidden |
 |    ParBra    |                  |                  |               |                | Hidden |
 |    Mouse     |    BottomRow     |                  |               |                |        |
@@ -339,7 +334,6 @@ Bra = Brackets           [
 | capsW   | QK_CAPS_WORD_TOGGLE      |
 | tab ➡️  | custom:NEXT_TAB          |
 | win ➡️  | custom:NEXT_WINDOW       |
-| NumBra  | custom:NUMBRA            |
 | O-🖱️   | custom:ONE_SHOT_MOUSE    |
 | .spc    | custom:DOT_SPC           |
 | version | custom:PRINT_VERSION     |

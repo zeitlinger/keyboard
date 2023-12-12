@@ -31,11 +31,12 @@ private fun getKeyTable(layerContent: MultiTable): Map<LayerName, MultiTable> = 
     .toMap()
 
 private fun readSymbols(tables: Tables): Symbols {
-    val userKeycodes = mutableListOf<String>()
+    val userKeycodes = mutableMapOf<String, String>()
     val symTable = tables.getMappingTable("Symbol").mapValues {
         val command = it.value
         """custom:([A-Z_]+)""".toRegex().find(command)?.let {
-            userKeycodes.add(it.groupValues[1])
+            val key = it.groupValues[1]
+            userKeycodes[key] = key
             command.replace("custom:", "")
         } ?: command
     }

@@ -50,6 +50,7 @@ fun run(args: GeneratorArgs) {
             readGitVersion(generatorDir, "generateKeyboard.kt")
         }"
 
+    val userKeycodes = translator.symbols.userKeycodes.keys.toList()
     replaceTemplate(
         File(srcDir, "layout.h"),
         File(dstDir, "qmk/layout.h"),
@@ -61,8 +62,11 @@ fun run(args: GeneratorArgs) {
                 .joinToString("\n") {
                     "#define ${it.key.const()} ${it.value}"
                 },
-            "custom0" to translator.symbols.userKeycodes[0],
-            "customRest" to translator.symbols.userKeycodes.drop(1).joinToString(",\n    ")
+            "custom0" to userKeycodes[0],
+            "customRest" to userKeycodes.drop(1).joinToString(",\n    "),
+            "customHandlers" to translator.symbols.userKeycodes.entries.joinToString("\n") {
+                "#define _HANDLER_${it.key} ${it.value}"
+            },
         )
     )
 

@@ -67,6 +67,7 @@ private fun applyModTap(
     ?.let { modEntry ->
         val targetLayer = modEntry.value
         val modTapKey = modTapKey(key, mod, modEntry.key, pos)
+        translator.symbols.userKeycodes.replace(key, modTapKey)
         if (modTapKey != key && targetLayer != null) {
             val layer = translator.layer(targetLayer, pos)
             translator.modTapKeyTargetLayers[modTapKey] = LayerModTab(layer, mod)
@@ -80,7 +81,7 @@ private fun modTapKey(key: String, mod: Modifier, type: HomeRowType, pos: KeyPos
         .also { if (key != qmkNo) throw IllegalStateException("key $key not allowed for one shot modifier") }
     key == qmkNo -> mod.leftKey
     else -> {
-        if (!key.startsWith("ALGR(") && key.contains("(")) throw IllegalStateException("key $key not allowed for modifier at $pos")
+        if (key.contains("(")) throw IllegalStateException("key $key not allowed for modifier at $pos")
         when (mod) {
             Modifier.Alt -> "ALT_T($key)"
             Modifier.Ctrl -> "CTL_T($key)"

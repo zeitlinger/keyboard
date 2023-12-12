@@ -15,6 +15,8 @@ enum custom_keycodes {
 	${customRest}
 };
 
+${customHandlers}
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ${layers}
 };

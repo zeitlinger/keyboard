@@ -31,7 +31,7 @@ private fun tableLine(tableLine: String) = tableLine.split("|")
         .dropLast(1) // last |
         .map { it.trim() }
 
-data class Symbols(val mapping: Map<String, String>, val userKeycodes: List<String>) {
+data class Symbols(val mapping: Map<String, String>, val userKeycodes: MutableMap<String, String>) {
     fun replace(key: String): String = mapping.getOrDefault(key, key)
 }
 
