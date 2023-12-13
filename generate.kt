@@ -65,7 +65,7 @@ fun run(args: GeneratorArgs) {
             "custom0" to userKeycodes[0],
             "customRest" to userKeycodes.drop(1).joinToString(",\n    "),
             "customHandlers" to translator.symbols.customKeycodes.entries.joinToString("\n") {
-                "#define _HANDLER_${it.key} ${it.value}"
+                "#define _HANDLER_${it.key} ${it.value.key}"
             },
         )
     )
