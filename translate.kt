@@ -35,20 +35,24 @@ class QmkTranslator(
     }
 
     fun toQmk(key: String, pos: KeyPosition): String = key
-        .let { symbols.replace(it) }
+        .let { symbols.replace(it, pos, this) }
         .let { translatedKey -> map.getOrDefault(translatedKey.replaceFirstChar { it.titlecase() }, translatedKey) }
         .let {
             when {
-                getSubstitutionCombo(it) != null || symbols.userKeycodes.contains(it) -> it
+                getSubstitutionCombo(it) != null || symbols.customKeycodes.contains(it) -> it
                 else -> assertQmk(it, pos)
             }
         }
 
-    fun layer(layerName: LayerName, pos: KeyPosition): LayerRef = LayerRef(layerName, layerNumbers.getValue(layerName)
-        .also {
-            if (it < layerNumbers.getValue(pos.layerName))
-                throw IllegalStateException("layer $layerName is lower than $pos")
-        })
+    fun layer(layerName: LayerName, pos: KeyPosition): LayerRef = LayerRef(
+        layerName,
+        layerNumbers.getValue(layerName).also { assertTargetOrder(layerName, pos) }
+    )
+
+    fun assertTargetOrder(targetLayerName: LayerName, pos: KeyPosition) {
+        if (layerNumbers.getValue(targetLayerName) < layerNumbers.getValue(pos.layerName))
+            throw IllegalStateException("layer $targetLayerName is lower than $pos")
+    }
 
     fun getThumbContent(layerName: LayerName): MultiTable =
         thumbs[layerName] ?: listOf(listOf(List(options.thumbColumns) { "" })) // empty thumb layer

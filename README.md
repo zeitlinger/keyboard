@@ -37,7 +37,7 @@ Notes
 
 - The keyboard layout is generated using [generateKeyboard](generateKeyboard.kt) from this file.  => link to [Generator](#generator)
 - The generated keyboard can be found in a
-  [fork of mini-ryoku](https://github.com/zeitlinger/mini-ryoku/blob/main/qmk/layout.h), because this is easy to
+  [fork of mini-ryoku](https://github.com/zeitlinger/mini-ryoku/blob/gregor/qmk/layout.h), because this is easy to
   integrate with many keyboards
   (tested with [Ferris Sweep](https://keebmaker.com/products/ferris-sweep)).
 - Use [US international keyboard layout with dead keys](https://dry.sailingissues.com/us-international-keyboard-layout.html) for German umlauts.
@@ -174,7 +174,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | TabNav |         |   C-w   |  undo   |  redo   |   esc   |   tab   |   ins   |         |
 | TabNav |  Nav2   | tab ➡️  | win ➡️  | 💡paste |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
-| TabNav | S-paste |  copy   |  paste  |   cut   |   ↩️️   |  bspc   |   del   |   spc   |
+| TabNav | S-paste |   cut   |  paste  |  copy   |   ↩️️   |  bspc   |   del   |   spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav2  |         |         |         |         |         |         |         |         |
 |  Nav2  |    ❌    |         |         |         |  ⬅️⬅️   |  ⬆️⬆️   |  ⬇️⬇️   |  ➡️➡️   |
@@ -207,13 +207,17 @@ How to read this layout:
 
 |  Thumb   | Left Inner |        Left Outer        |      Right Outer       | Right Inner |
 |:--------:|:----------:|:------------------------:|:----------------------:|:-----------:|
-|   Base   | tab+TabNav | ComboLayer:ParBra,30 spc | ComboLayer:NumCur,30 e |   bspc+Fn   |
+|   Base   |   TabNav   | ComboLayer:ParBra,25 spc | ComboLayer:NumCur,25 e |   bspc+Fn   |
+|          | ---------- | ------------------------ | ---------------------- | ----------- |
+|   Base   |     💎     |                          |                        |  Mouse 40   |
 |          | ---------- | ------------------------ | ---------------------- | ----------- |
 | BaseMods |     ❌      |           spc            |           e            |      ❌      |                      
+|          | ---------- | ------------------------ | ---------------------- | ----------- | 
+|  TabNav  |     ❌      |            ❌             |          ↩️️           |      ❌      |
 |          | ---------- | ------------------------ | ---------------------- | ----------- |
-|  TabNav  |     ❌      |            ❌             |          ↩️️           |             |
+|    Fn    |     ❌      |           f12            |           ❌            |      ❌      |
 |          | ---------- | ------------------------ | ---------------------- | ----------- |
-|    Fn    |            |           f12            |           ❌            |      ❌      |
+|  Mouse   |   TabNav   |                          |                        |             |
 |          | ---------- | ------------------------ | ---------------------- | ----------- |
         
 ## Layer Navigation
@@ -263,82 +267,82 @@ Bra = Brackets           [
 | LayerOptions |  Modifiers Left  | Modifiers Right  | Fallback Left | Fallback Right | Flags  |
 |:------------:|:----------------:|:----------------:|:-------------:|:--------------:|--------|
 |     Base     |                  |                  |               |                |        |
+|      Fn      | HomeRow+BaseMods |  OneShotHomeRow  |               |                |        |
+|    Mouse     |    BottomRow     |                  |               |                |        |
+|    Mouse2    |                  |                  |               |                |        |
 |    TabNav    |     HomeRow      | HomeRow+BaseMods |               |                |        |
 |     Nav2     |     HomeRow      |                  |               |     ParBra     |        |
-|      Fn      | HomeRow+BaseMods |  OneShotHomeRow  |               |                |        |
 |     Num      |                  |     HomeRow      |    NumCur     |                |        |
 |   BaseMods   |     HomeRow      |     HomeRow      |     Base      |      Base      |        |
 |    NumCur    |                  |                  |               |                | Hidden |
 |    ParBra    |                  |                  |               |                | Hidden |
-|    Mouse     |    BottomRow     |                  |               |                |        |
-|    Mouse2    |                  |                  |               |                |        |
 |    Media     |                  |                  |               |                |        |
 
-| Symbol  | Command                  |
-|---------|--------------------------|
-| ⬅️      | KC_LEFT                  |
-| ⬅️⬅️    | KC_HOME                  |
-| ⬇️      | KC_DOWN                  |
-| ⬇️⬇️    | KC_PGDN                  |
-| ⬆️      | KC_UP                    |
-| ⬆️⬆️    | KC_PGUP                  |
-| ➡️      | KC_RIGHT                 |
-| ➡️➡️    | KC_END                   |
-| ins     | KC_INS                   |
-| del     | KC_DEL                   |
-| spc     | KC_SPC                   |
-| esc     | KC_ESC                   |
-| ↩️️     | KC_ENT                   |
-| bspc    | KC_BSPC                  |
-| win     | KC_LGUI                  |
-| tab     | KC_TAB                   |
-| prt     | KC_PSCR                  |
-| pipe    | KC_PIPE                  |
-| 🖱️⬅️   | KC_MS_L                  |
-| 🖱️⬇️   | KC_MS_D                  |
-| 🖱️⬆️   | KC_MS_U                  |
-| 🖱️➡️   | KC_MS_R                  |
-| 🖲️️⬅️  | KC_WH_L                  |
-| 🖲️️⬇️  | KC_WH_D                  |
-| 🖲️️⬆️  | KC_WH_U                  |
-| 🖲️️➡️  | KC_WH_R                  |
-| 🖱️1    | KC_BTN1                  |
-| 🖱️2    | KC_BTN2                  |
-| 🖱️3    | KC_BTN3                  |
-| 🔇      | KC_MUTE                  |
-| ⏯️      | KC_MPLY                  |
-| ⏮️      | KC_MPRV                  |
-| ⏭️      | KC_MNXT                  |
-| 🔊      | KC_VOLU                  |
-| 🔈      | KC_VOLD                  |
-| 🔆      | KC_BRIU                  |
-| 🔅      | KC_BRID                  |
-| redo    | RCS(KC_Z)                |
-| undo    | C(KC_Z)                  |
-| S-paste | RCS(KC_V)                |
-| 💡paste | custom:INTELLIJ_PASTE    |
-| cut     | C(KC_X)                  |
-| copy    | C(KC_C)                  |
-| paste   | C(KC_V)                  |
-| ä       | ALGR(KC_Q)               |
-| ö       | ALGR(KC_P)               |
-| ü       | ALGR(KC_Y)               |
-| ß       | ALGR(KC_S)               |
-| '       | ALGR(KC_QUOTE)           |
-| "       | ALGR(KC_DQUO)            |
-| `       | ALGR(KC_GRV)             |
-| ~       | ALGR(KC_TILD)            |
-| ^       | ALGR(KC_CIRC)            |
-| rep     | QK_REPEAT_KEY            |
-| aRep    | QK_ALT_REPEAT_KEY        |
-| capsW   | QK_CAPS_WORD_TOGGLE      |
-| tab ➡️  | custom:NEXT_TAB          |
-| win ➡️  | custom:NEXT_WINDOW       |
-| O-🖱️   | custom:ONE_SHOT_MOUSE    |
-| .spc    | custom:DOT_SPC           |
-| version | custom:PRINT_VERSION     |
-| sw-hand | QK_SWAP_HANDS_TAP_TOGGLE |
-| reboot  | QK_REBOOT                |
+| Symbol  | Command                               |
+|---------|---------------------------------------|
+| ⬅️      | KC_LEFT                               |
+| ⬅️⬅️    | KC_HOME                               |
+| ⬇️      | KC_DOWN                               |
+| ⬇️⬇️    | KC_PGDN                               |
+| ⬆️      | KC_UP                                 |
+| ⬆️⬆️    | KC_PGUP                               |
+| ➡️      | KC_RIGHT                              |
+| ➡️➡️    | KC_END                                |
+| ins     | KC_INS                                |
+| del     | KC_DEL                                |
+| spc     | KC_SPC                                |
+| esc     | KC_ESC                                |
+| ↩️️     | KC_ENT                                |
+| bspc    | KC_BSPC                               |
+| win     | KC_LGUI                               |
+| tab     | KC_TAB                                |
+| prt     | KC_PSCR                               |
+| pipe    | KC_PIPE                               |
+| 🖱️⬅️   | KC_MS_L                               |
+| 🖱️⬇️   | KC_MS_D                               |
+| 🖱️⬆️   | KC_MS_U                               |
+| 🖱️➡️   | KC_MS_R                               |
+| 🖲️️⬅️  | KC_WH_L                               |
+| 🖲️️⬇️  | KC_WH_D                               |
+| 🖲️️⬆️  | KC_WH_U                               |
+| 🖲️️➡️  | KC_WH_R                               |
+| 🖱️1    | KC_BTN1                               |
+| 🖱️2    | KC_BTN2                               |
+| 🖱️3    | KC_BTN3                               |
+| 🔇      | KC_MUTE                               |
+| ⏯️      | KC_MPLY                               |
+| ⏮️      | KC_MPRV                               |
+| ⏭️      | KC_MNXT                               |
+| 🔊      | KC_VOLU                               |
+| 🔈      | KC_VOLD                               |
+| 🔆      | KC_BRIU                               |
+| 🔅      | KC_BRID                               |
+| redo    | RCS(KC_Z)                             |
+| undo    | C(KC_Z)                               |
+| S-paste | RCS(KC_V)                             |
+| 💡paste | custom:INTELLIJ_PASTE LayerHint:Num   |
+| cut     | C(KC_X)                               |
+| copy    | C(KC_C)                               |
+| paste   | C(KC_V)                               |
+| ä       | ALGR(KC_Q)                            |
+| ö       | ALGR(KC_P)                            |
+| ü       | ALGR(KC_Y)                            |
+| ß       | ALGR(KC_S)                            |
+| '       | ALGR(KC_QUOTE)                        |
+| "       | ALGR(KC_DQUO)                         |
+| `       | ALGR(KC_GRV)                          |
+| ~       | ALGR(KC_TILD)                         |
+| ^       | ALGR(KC_CIRC)                         |
+| rep     | QK_REPEAT_KEY                         |
+| aRep    | QK_ALT_REPEAT_KEY                     |
+| capsW   | QK_CAPS_WORD_TOGGLE                   |
+| tab ➡️  | custom:NEXT_TAB                       |
+| win ➡️  | custom:NEXT_WINDOW                    |
+| O-🖱️   | custom:ONE_SHOT_MOUSE LayerHint:Mouse |
+| .spc    | custom:DOT_SPC                        |
+| version | custom:PRINT_VERSION                  |
+| sw-hand | QK_SWAP_HANDS_TAP_TOGGLE              |
+| reboot  | QK_REBOOT                             |
 
 
 

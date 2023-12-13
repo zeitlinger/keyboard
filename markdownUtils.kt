@@ -31,8 +31,17 @@ private fun tableLine(tableLine: String) = tableLine.split("|")
         .dropLast(1) // last |
         .map { it.trim() }
 
-data class Symbols(val mapping: Map<String, String>, val userKeycodes: MutableMap<String, String>) {
-    fun replace(key: String): String = mapping.getOrDefault(key, key)
+data class CustomKey(var key: String, val targetLayerName: LayerName?)
+
+data class Symbols(val mapping: Map<String, String>, val customKeycodes: MutableMap<String, CustomKey>) {
+    fun replace(key: String, pos: KeyPosition, translator: QmkTranslator): String {
+        val value = mapping[key]
+        if (value != null) {
+            customKeycodes[value]?.targetLayerName?.let { translator.assertTargetOrder(it, pos) }
+            return value
+        }
+        return key
+    }
 }
 
 typealias Table = List<List<String>>
