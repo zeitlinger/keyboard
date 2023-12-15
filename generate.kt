@@ -79,14 +79,18 @@ fun run(args: GeneratorArgs) {
             "targetLayerOnHoldPressed" to targetLayerOnHold(translator.modTapKeyTargetLayers, "on", "add"),
             "targetLayerOnHoldReleased" to targetLayerOnHold(translator.modTapKeyTargetLayers, "off", "del"),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold),
+            "disableComboOnNonBaseLayer" to disableComboOnNonBaseLayer(combos),
         )
     )
 
     File(dstDir, "qmk/combos.def").writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
 }
 
+fun disableComboOnNonBaseLayer(combos: List<Combo>): String =
+    combos.filter { it.name.startsWith("C_OSM") }.joinToString("\n        ") { "case ${it.name}: return false;" }
+
 fun holdOnOtherKeyPress(layerTapToggle: List<String>): String =
-    layerTapToggle.joinToString("\n        ") { "case ${it}: return true;" }
+    layerTapToggle.joinToString("\n    ") { "case ${it}: return true;" }
 
 fun LayerName.const() = "_${this.uppercase()}"
 
