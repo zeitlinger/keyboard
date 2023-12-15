@@ -207,7 +207,7 @@ How to read this layout:
 
 |  Thumb   | Left Inner |        Left Outer        |      Right Outer       | Right Inner |
 |:--------:|:----------:|:------------------------:|:----------------------:|:-----------:|
-|   Base   |   TabNav   | ComboLayer:ParBra,25 spc | ComboLayer:NumCur,25 e |   bspc+Fn   |
+|   Base   | tab+TabNav | ComboLayer:ParBra,25 spc | ComboLayer:NumCur,25 e |   bspc+Fn   |
 |          | ---------- | ------------------------ | ---------------------- | ----------- |
 |   Base   |     💎     |                          |                        |  Mouse 40   |
 |          | ---------- | ------------------------ | ---------------------- | ----------- |
