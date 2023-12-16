@@ -168,7 +168,7 @@ How to read this layout:
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
 |  Base  |  "br"   |         |         |         |         |         |         |  .spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| TabNav |         |  redo   | 💡paste |         |   esc   |   tab   |   ins   |         |
+| TabNav |         |  CS-f   | 💡paste |  redo   |   esc   |   tab   |   ins   |         |
 | TabNav | un+Nav2 | tab ➡️  | win ➡️  |   C-w   |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
 | TabNav | S-paste |   cut   |  paste  |  copy   |   ↩️️   |  bspc   |   del   |   spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
