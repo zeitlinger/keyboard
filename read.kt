@@ -75,7 +75,9 @@ fun translateKey(
             val parts = def.split("+")
             val key = addCustomIfNotSimpleKey(translateKey(translator, pos, parts[0]).key, translator)
             translator.layerTapHold.add(key)
-            Key("LT(${translator.layer(parts[1], pos).const()},$key)")
+            val command = "LT(${translator.layer(parts[1], pos).const()},$key)"
+            setCustomKeyCommand(translator, key, command)
+            Key(command)
         }
 
         def.contains("-") && def.length > 1 -> {

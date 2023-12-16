@@ -65,7 +65,7 @@ private fun applyModTap(
     ?.let { modEntry ->
         val targetLayer = modEntry.value
         val modTapKey = modTapKey(key, mod, modEntry.key, pos)
-        translator.symbols.customKeycodes.entries.find { it.key == key }?.let { it.value.key = modTapKey }
+        setCustomKeyCommand(translator, key, modTapKey)
         if (modTapKey != key && targetLayer != null) {
             val layer = translator.layer(targetLayer, pos)
             translator.modTapKeyTargetLayers[modTapKey] = LayerModTab(layer, mod)
@@ -73,6 +73,10 @@ private fun applyModTap(
 
         modTapKey
     } ?: key
+
+fun setCustomKeyCommand(translator: QmkTranslator, key: String, command: String) {
+    translator.symbols.customKeycodes.entries.find { it.key == key }?.let { it.value.key = command }
+}
 
 private fun modTapKey(key: String, mod: Modifier, type: HomeRowType, pos: KeyPosition): String = when {
     type == HomeRowType.OneShotHomeRow -> "OSM(${mod.mask})"

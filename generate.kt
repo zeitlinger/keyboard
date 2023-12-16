@@ -65,7 +65,6 @@ fun run(args: GeneratorArgs) {
             "custom0" to userKeycodes[0],
             "customRest" to userKeycodes.drop(1).joinToString(",\n    "),
             "customHandlers" to translator.symbols.customKeycodes.entries
-                .filter { it.value.onTapPressed == null }
                 .joinToString("\n") {
                     "#define _HANDLER_${it.key} ${it.value.key}"
                 },
@@ -93,7 +92,7 @@ fun customKeycodesOnTapPressed(translator: QmkTranslator): String =
     translator.symbols.customKeycodes.entries
         .filter { it.value.onTapPressed != null }
         .joinToString("\n            ") {
-            "case ${it.key}: tap_code16(${it.value.onTapPressed}); return false;"
+            "case _HANDLER_${it.key}: tap_code16(${it.value.onTapPressed}); return false;"
         }
 
 fun disableComboOnNonBaseLayer(combos: List<Combo>): String =
