@@ -73,7 +73,7 @@ fun translateKey(
 
         def.contains("+") && def.length > 1 -> {
             val parts = def.split("+")
-            val key = translateKey(translator, pos, parts[0]).key
+            val key = addCustomIfNotSimpleKey(translateKey(translator, pos, parts[0]).key, translator)
             translator.layerTapHold.add(key)
             Key("LT(${translator.layer(parts[1], pos).const()},$key)")
         }
@@ -108,17 +108,24 @@ private fun comboLayer(left: String, translator: QmkTranslator, pos: KeyPosition
 fun keyWithModifier(def: String, translator: QmkTranslator, pos: KeyPosition): Key {
     val parts = def.split("-")
     val modifier = parts[0]
-    val key = translateKey(translator, pos, parts[1]).key
-    return Key(
-        when (modifier) {
-            "A" -> "A(${key})"
-            "C" -> "C(${key})"
-            "S" -> "S(${key})"
-            "CS" -> "RCS(${key})"
-            else -> throw IllegalStateException("unknown modifier '$modifier'")
-        }
-    )
+    val key = translateKey(translator, pos, parts[1])
+    return if (key.keyWithModifier.contains("(")) {
+        val tapCustomKey = tapCustomKey(translator, addMods(modifier, key.key))
+        Key(translateKey(translator, pos, tapCustomKey).keyWithModifier)
+    } else {
+        val s = key.key
+        Key(addMods(modifier, s))
+    }
 }
+
+private fun addMods(modifier: String, key: String) =
+    when (modifier) {
+        "A" -> "A(${key})"
+        "C" -> "C(${key})"
+        "S" -> "S(${key})"
+        "CS" -> "RCS(${key})"
+        else -> throw IllegalStateException("unknown modifier '$modifier'")
+    }
 
 private fun translateSimpleKey(translator: QmkTranslator, def: String, pos: KeyPosition): Key {
     val key = translator.toQmk(def, pos)

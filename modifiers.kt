@@ -6,8 +6,6 @@ enum class Modifier(val mask: String, val leftKey: String) {
     val short = this.name[0].uppercase()
 
     companion object {
-        fun ofShort(value: String): Modifier = entries.single { it.short == value }
-
         fun ofLong(value: String): Modifier = valueOf(value)
     }
 }
@@ -79,15 +77,34 @@ private fun applyModTap(
 private fun modTapKey(key: String, mod: Modifier, type: HomeRowType, pos: KeyPosition): String = when {
     type == HomeRowType.OneShotHomeRow -> "OSM(${mod.mask})"
         .also { if (key != qmkNo) throw IllegalStateException("key $key not allowed for one shot modifier") }
+
     key == qmkNo -> mod.leftKey
     else -> {
-        if (key.contains("(")) throw IllegalStateException("key $key not allowed for modifier at $pos")
+        assertSimpleKey(key, pos)
         when (mod) {
             Modifier.Alt -> "ALT_T($key)"
             Modifier.Ctrl -> "CTL_T($key)"
             Modifier.Shift -> "SFT_T($key)"
         }
     }
+}
+
+fun assertSimpleKey(key: String, pos: KeyPosition): String {
+    if (key.contains("(")) throw IllegalStateException("key $key not allowed for modifier at $pos")
+    return key
+}
+
+fun addCustomIfNotSimpleKey(key: String, translator: QmkTranslator): String =
+    if (key.contains("(")) {
+        tapCustomKey(translator, key)
+    } else {
+        key
+    }
+
+fun tapCustomKey(translator: QmkTranslator, key: String): String {
+    val custom = "_TAP_${comboName(key)}"
+    translator.symbols.customKeycodes[custom] = CustomKey(custom, null, key)
+    return custom
 }
 
 private fun fingerIndex(column: Int, columns: Int): Int = if (column >= columns / 2) {

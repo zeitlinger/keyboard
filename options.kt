@@ -36,7 +36,7 @@ private fun readSymbols(tables: Tables): Symbols {
         val command = it.value
         """custom:([A-Z_]+)( LayerHint:(.+))?$""".toRegex().find(command)?.let { matchResult ->
             val key = matchResult.groupValues[1]
-            customKeycodes[key] = CustomKey(key, matchResult.groupValues[3].takeIf { it.isNotBlank() })
+            customKeycodes[key] = CustomKey(key, matchResult.groupValues[3].takeIf { it.isNotBlank() }, null)
             key
         } ?: command
     }

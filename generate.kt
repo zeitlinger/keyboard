@@ -64,9 +64,11 @@ fun run(args: GeneratorArgs) {
                 },
             "custom0" to userKeycodes[0],
             "customRest" to userKeycodes.drop(1).joinToString(",\n    "),
-            "customHandlers" to translator.symbols.customKeycodes.entries.joinToString("\n") {
-                "#define _HANDLER_${it.key} ${it.value.key}"
-            },
+            "customHandlers" to translator.symbols.customKeycodes.entries
+                .filter { it.value.onTapPressed == null }
+                .joinToString("\n") {
+                    "#define _HANDLER_${it.key} ${it.value.key}"
+                },
         )
     )
 
@@ -76,6 +78,7 @@ fun run(args: GeneratorArgs) {
         mapOf(
             "generationNote" to generationNote,
             "timeouts" to timeouts.joinToString("\n    "),
+            "customKeycodesOnTapPressed" to customKeycodesOnTapPressed(translator),
             "targetLayerOnHoldPressed" to targetLayerOnHold(translator.modTapKeyTargetLayers, "on", "add"),
             "targetLayerOnHoldReleased" to targetLayerOnHold(translator.modTapKeyTargetLayers, "off", "del"),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold),
@@ -85,6 +88,13 @@ fun run(args: GeneratorArgs) {
 
     File(dstDir, "qmk/combos.def").writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
 }
+
+fun customKeycodesOnTapPressed(translator: QmkTranslator): String =
+    translator.symbols.customKeycodes.entries
+        .filter { it.value.onTapPressed != null }
+        .joinToString("\n            ") {
+            "case ${it.key}: tap_code16(${it.value.onTapPressed}); return false;"
+        }
 
 fun disableComboOnNonBaseLayer(combos: List<Combo>): String =
     combos.filter { it.name.startsWith("C_OSM") }.joinToString("\n        ") { "case ${it.name}: return false;" }

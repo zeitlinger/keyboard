@@ -168,8 +168,8 @@ How to read this layout:
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
 |  Base  |  "br"   |         |         |         |         |         |         |  .spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| TabNav |         |   C-w   |  undo   |  redo   |   esc   |   tab   |   ins   |         |
-| TabNav |  Nav2   | tab ➡️  | win ➡️  | 💡paste |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
+| TabNav |         |  redo   | 💡paste |         |   esc   |   tab   |   ins   |         |
+| TabNav | un+Nav2 | tab ➡️  | win ➡️  |   C-w   |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
 | TabNav | S-paste |   cut   |  paste  |  copy   |   ↩️️   |  bspc   |   del   |   spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav2  |         |         |         |         |         |         |         |         |
@@ -312,7 +312,7 @@ Bra = Brackets           [
 | 🔆      | KC_BRIU                               |
 | 🔅      | KC_BRID                               |
 | redo    | RCS(KC_Z)                             |
-| undo    | C(KC_Z)                               |
+| un      | C(KC_Z)                               |
 | S-paste | RCS(KC_V)                             |
 | 💡paste | custom:INTELLIJ_PASTE LayerHint:Num   |
 | cut     | C(KC_X)                               |

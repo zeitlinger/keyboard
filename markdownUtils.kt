@@ -31,7 +31,7 @@ private fun tableLine(tableLine: String) = tableLine.split("|")
         .dropLast(1) // last |
         .map { it.trim() }
 
-data class CustomKey(var key: String, val targetLayerName: LayerName?)
+data class CustomKey(var key: String, val targetLayerName: LayerName?, val onTapPressed: String?)
 
 data class Symbols(val mapping: Map<String, String>, val customKeycodes: MutableMap<String, CustomKey>) {
     fun replace(key: String, pos: KeyPosition, translator: QmkTranslator): String {
