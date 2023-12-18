@@ -53,7 +53,12 @@ private fun layerOption(tables: Tables): Map<LayerName, LayerOption> {
                 modifierTypes(it.value[2]),
                 it.value[3].ifBlank { null },
                 it.value[4].ifBlank { null },
-                if (it.value[5] == "Hidden") setOf(LayerFlag.Hidden) else emptySet()
+                when(it.value[5]) {
+                     "Hidden" -> setOf(LayerFlag.Hidden)
+                     "OSL to toggle" -> setOf(LayerFlag.OslToToggle)
+                    else -> emptySet()
+                },
+                emptySet(),
             )
         }
     return layerOptions

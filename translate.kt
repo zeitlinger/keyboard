@@ -13,7 +13,7 @@ class QmkTranslator(
     var homeRowThumbCombo: HomeRowCombo?,
     val options: Options,
     val modTapKeyTargetLayers: MutableMap<String, LayerModTab>,
-    val layerTapHold: MutableList<String>
+    val layerTapHold: MutableList<String>,
 ) {
 
     private val map: Map<String, String>
@@ -44,10 +44,16 @@ class QmkTranslator(
             }
         }
 
-    fun layer(layerName: LayerName, pos: KeyPosition): LayerRef = LayerRef(
-        layerName,
-        layerNumbers.getValue(layerName).also { assertTargetOrder(layerName, pos) }
-    )
+    fun reachLayer(layerName: LayerName, pos: KeyPosition, activation: LayerActivation): LayerRef {
+        val option = layerOptions[layerName] ?: throw IllegalArgumentException("unknown layer $layerName in $pos")
+        val number = layerNumbers[layerName]
+        if (number != null && activation != LayerActivation.OneShot) {
+            assertTargetOrder(layerName, pos)
+        }
+        option.reachable += activation
+
+        return LayerRef(layerName, number)
+    }
 
     fun assertTargetOrder(targetLayerName: LayerName, pos: KeyPosition) {
         if (layerNumbers.getValue(targetLayerName) < layerNumbers.getValue(pos.layerName))
@@ -60,6 +66,7 @@ class QmkTranslator(
     fun getKey(pos: KeyPosition): String =
         (if (pos.thumb) getThumbContent(pos.layerName) else nonThumbs[pos.layerName])?.get(0)?.get(pos.row)
             ?.get(pos.column) ?: ""
+
 }
 
 fun assertQmk(key: String, pos: KeyPosition): String {

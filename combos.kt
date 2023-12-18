@@ -4,7 +4,7 @@ enum class ComboType(val template: String) {
 
 data class Combo(
     val type: ComboType,
-    val name: String,
+    var name: String,
     val result: String,
     val triggers: List<Key>,
     val timeout: Int?
@@ -43,11 +43,7 @@ private fun checkForDuplicateCombos(combos: List<Combo>) {
     combos.groupBy { it.name }
         .filter { it.value.size > 1 }
         .forEach { (name, combos) ->
-            throw IllegalStateException(
-                "duplicate combo name $name in ${
-                    combos.map { it.triggers.map { it.key } }.joinToString(", ")
-                }"
-            )
+            combos.mapIndexed { index, combo -> "${combo.name}_$index".also { combo.name = it } }
         }
 }
 

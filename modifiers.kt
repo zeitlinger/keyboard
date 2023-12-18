@@ -67,7 +67,7 @@ private fun applyModTap(
         val modTapKey = modTapKey(key, mod, modEntry.key, pos)
         setCustomKeyCommand(translator, key, modTapKey)
         if (modTapKey != key && targetLayer != null) {
-            val layer = translator.layer(targetLayer, pos)
+            val layer = translator.reachLayer(targetLayer, pos, LayerActivation.ModTap)
             translator.modTapKeyTargetLayers[modTapKey] = LayerModTab(layer, mod)
         }
 

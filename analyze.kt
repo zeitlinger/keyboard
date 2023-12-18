@@ -1,10 +1,26 @@
 fun analyze(translator: QmkTranslator, layers: List<Layer>) {
-    translator.nonThumbs.keys.subtract(translator.layerOptions.keys).forEach {
+    val layerNames = translator.layerOptions.keys
+    translator.nonThumbs.keys.subtract(layerNames).forEach {
         throw IllegalStateException("unexpected layer $it")
     }
-    translator.thumbs.keys.subtract(translator.layerOptions.keys).forEach {
+    translator.thumbs.keys.subtract(layerNames).forEach {
         throw IllegalStateException("unexpected thumb layer $it")
     }
+    translator.layerOptions.entries.forEach { (layer, option) ->
+        val toggleEnter = LayerActivation.Toggle in option.reachable
+        if (toggleEnter && LayerFlag.ToggleExit !in option.flags) {
+            throw IllegalStateException("can't exit from layer $layer")
+        }
+        if (LayerFlag.ToggleExit in option.flags && !toggleEnter) {
+            throw IllegalStateException("can't toggle enter layer into $layer")
+        }
+    }
+    val unreachable = translator.layerOptions.entries
+        .filter { it.value.reachable.isEmpty() }.map { it.key } - listOf(layers.first().name).toSet()
+    if (unreachable.isNotEmpty()) {
+        throw IllegalStateException("can't reach layers $unreachable")
+    }
+
     printMissingAndUnexpected(translator, layers)
 }
 

@@ -109,111 +109,6 @@ On all other layers, the modifiers are as shown in the table below.
 - Once you press any of those keys, you're in switcher mode, where all other keys are replaced by shift-tab.
 - Switcher mode is exited when you go back to the base layer.
 
-## Layout
-
-How to read this layout:
-
-- 💎 = combo key (e.g. middle and index finger in top row pressed together produce "b")
-- ❌ = key can't be used because the layer was activated with that key
-- empty = use key from base layer
-- FnBra = capitalized words are layer names - if they are a key, the layer is activated while the key is held
-- /+Ctrl = tab-mod - / on tab and CTRL on hold
-- =Mouse = set mouse layer active/inactive on tap (toggle)
-- C-w = Ctrl-w (same for Alt and Shift)
-- "that" = combo that produces "that"
-- 80 custom timeout for combo
-- The symbol table at the bottom shows the meaning of the symbols used in the layout.
-
-> **Note**: The layout is generated from this file directly.
-
-| Layer  | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
-|:------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-|  Base  | sw-hand |    w    |    m    |    f    |    y    |    o    |    u    | reboot  |
-|  Base  |    r    |    s    |    t    |    h    |    n    |    a    |    i    |    l    |
-|  Base  |    b    |    c    |    g    |    d    |    p    |   rep   |    ,    |    .    |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |         |   💎    |    z    |         |         |         |         |                                       
-|  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |         |         |         |         |         |         |         |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |   💎    |    v    |   f4    |         |         |         |         |
-|  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |         |         |         |         |         |         |         |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |         |   💎    |  k 120  |   esc   |   💎    |         |         |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |   💎    |    j    |    x    |  O-🖱️  |  capsW  |   💎    |         |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |         |         |         |    ß    |    ä    |         |         |
-|  Base  |   💎    |    q    |         |  A-f7   |    ö    |    ü    |   ↩️️   |   💎    |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |         |         |  "for"  |  "ny"   |         |         |         |
-|  Base  |         |         |         |   💎    |   💎    |         |         |         |
-|  Base  |         |         |         |  "qu"   |  "ay"   |         |         |         |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |         |  "cs"   |         |         |  "oa"   |         |         |
-|  Base  |         |         |   💎    |         |         |   💎    |         |         |
-|  Base  |         |         |  "ck"   |         |         |  "ing"  |         |         |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |  "ws"   |         |         |         |         |  "ui"   |         |
-|  Base  |         |   💎    |         |         |         |         |   💎    |         |
-|  Base  |         |  "sc"   |         |         |         |         |  "ion"  |         |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |  "sw"   |         |         |         |         |         |         |  "l."   |
-|  Base  |   💎    |         |         |         |         |         |         |   💎    |
-|  Base  |  "br"   |         |         |         |         |         |         |  .spc   |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| TabNav |         |  CS-f   | 💡paste |  redo   |   esc   |   tab   |   ins   |         |
-| TabNav | un+Nav2 | tab ➡️  | win ➡️  |   C-w   |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
-| TabNav | S-paste |   cut   |  paste  |  copy   |   ↩️️   |  bspc   |   del   |   spc   |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav2  |         |         |         |         |         |         |         |         |
-|  Nav2  |    ❌    |         |         |         |  ⬅️⬅️   |  ⬆️⬆️   |  ⬇️⬇️   |  ➡️➡️   |
-|  Nav2  |         |         |         |         |         |         |         |         |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| NumCur |         |    6    |    5    |    4    |  pipe   |    _    |    +    |         |
-| NumCur |    3    |    2    |    1    |    0    |    "    |    {    |    }    |    :    |
-| NumCur |         |    9    |    8    |    7    |    ~    |  aRep   |    !    |    ?    |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Mouse  |         |  🖱️3   |  🖱️2   |  🖱️1   |         |  🖱️2   |  🖱️3   |         |
-| Mouse  | Mouse2  | KC_ACL0 | KC_ACL1 | KC_ACL2 |  🖱️⬅️  |  🖱️⬆️  |  🖱️⬇️  |  🖱️➡️  |
-| Mouse  |         |         |         |         |  🖱️1   | =Mouse  |         |         |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Mouse2 |         |         |         |         |         |         |         |         |
-| Mouse2 |    ❌    |         |         |         | 🖲️️⬅️  | 🖲️️⬆️  | 🖲️️⬇️  | 🖲️️➡️  |
-| Mouse2 |         |         |         |         |         |         |         |         |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| ParBra |         |    #    |    *    |         |    ^    |    [    |    ]    |         |
-| ParBra |    $    |    (    |    )    |    @    |    '    |    `    |    \    |    ;    |
-| ParBra |    %    |    <    |    >    |   win   |    -    |    =    |    &    |    /    |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|   Fn   |         |   f6    |   f5    |   f4    |         | =Mouse  |         |         |
-|   Fn   |   f3    |   f2    |   f1    |   f10   |         |         |         |   Num   |
-|   Fn   |   f11   |   f9    |   f8    |   f7    |         |  A-f7   |         |  Media  |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Media  | DT_PRNT |   🔅    |   🔆    |         |         |         |         |         |
-| Media  |  DT_UP  |         |         |         |   prt   | version |         |         |
-| Media  | DT_DOWN |   ⏮️    |   ⏭️    |   ⏯️    |   🔇    |   🔈    |   🔊    |    ❌    |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-
-|  Thumb   | Left Inner |        Left Outer        |      Right Outer       | Right Inner |
-|:--------:|:----------:|:------------------------:|:----------------------:|:-----------:|
-|   Base   | tab+TabNav | ComboLayer:ParBra,25 spc | ComboLayer:NumCur,25 e |   bspc+Fn   |
-|          | ---------- | ------------------------ | ---------------------- | ----------- |
-| BaseMods |     ❌      |           spc            |           e            |      ❌      |                      
-|          | ---------- | ------------------------ | ---------------------- | ----------- | 
-|  TabNav  |     ❌      |            ❌             |          ↩️️           |      ❌      |
-|          | ---------- | ------------------------ | ---------------------- | ----------- |
-|    Fn    |     ❌      |           f12            |           ❌            |      ❌      |
-|          | ---------- | ------------------------ | ---------------------- | ----------- |
-|  Mouse   |   TabNav   |                          |                        |             |
-|          | ---------- | ------------------------ | ---------------------- | ----------- |
-        
 ## Layer Navigation
                 
 For most cases, the modifiers are pressed with the same hand that was used to activate a layer. 
@@ -249,7 +144,137 @@ Here's the navigation tree:
     - Right lower pinky: `Media`
     - Any home row mod on the left side: `BaseMods` - base Layer with home row mods
   - Combos for symbols numbers and symbols and `Mouse` layer
+  - 
+## Layout
 
+How to read this layout:
+
+- 💎 = combo key (e.g. middle and index finger in top row pressed together produce "b")
+- ❌ = key can't be used because the layer was activated with that key
+- empty = use key from base layer
+- FnBra = capitalized words are layer names - if they are a key, the layer is activated while the key is held
+- /+Ctrl = tab-mod - / on tab and CTRL on hold
+- =Mouse = set mouse layer active/inactive on tap (toggle)
+- *Mouse = one shot layer on tap
+- C-w = Ctrl-w (same for Alt and Shift)
+- "that" = combo that produces "that"
+- 80 custom timeout for combo
+- The symbol table at the bottom shows the meaning of the symbols used in the layout.
+
+> **Note**: The layout is generated from this file directly.
+
+|  Layer   | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
+|:--------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
+|   Base   |         |    w    |    m    |    f    |    y    |    o    |    u    |         |
+|   Base   |    r    |    s    |    t    |    h    |    n    |    a    |    i    |    l    |
+|   Base   |    b    |    c    |    g    |    d    |    p    | *Leader |   rep   |    .    |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|   Base   |         |         |   💎    |    z    |         |         |         |         |                                       
+|   Base   |         |         |         |         |         |         |         |         |
+|   Base   |         |         |         |         |         |         |         |         |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|   Base   |         |   💎    |    v    |   f4    |         |         |         |         |
+|   Base   |         |         |         |         |         |         |         |         |
+|   Base   |         |         |         |         |         |         |         |         |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|   Base   |         |         |         |         |         |         |         |         |
+|   Base   |   💎    |         |         | *Leader |         |         |         |         |
+|   Base   |         |         |         |         |         |         |         |         |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|   Base   |         |         |         |         |         |         |         |         |
+|   Base   |         |         |         |         |         |         |         |         |
+|   Base   |         |         |   💎    |  k 120  |   esc   |   💎    |         |         |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|   Base   |         |         |         |         |         |         |         |         |
+|   Base   |         |         |         |         |         |         |         |         |
+|   Base   |         |   💎    |    j    |    x    |  O-🖱️  |  capsW  |   💎    |         |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|   Base   |         |         |         |         |         |         |         |         |
+|   Base   |         |         |         |  CS-f   |    ß    |    ä    |         |         |
+|   Base   |   💎    |    q    |  A-f7   |   win   |    ö    |    ü    |   ↩️️   |   💎    |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|   Base   |         |         |         |  "for"  |  "ny"   |         |         |         |
+|   Base   |         |         |         |   💎    |   💎    |         |         |         |
+|   Base   |         |         |         |  "qu"   |  "ay"   |         |         |         |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|   Base   |         |         |  "cs"   |         |         |  "oa"   |         |         |
+|   Base   |         |         |   💎    |         |         |   💎    |         |         |
+|   Base   |         |         |  "ck"   |         |         |  "ing"  |         |         |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|   Base   |         |  "ws"   |         |         |         |         |  "ui"   |         |
+|   Base   |         |   💎    |         |         |         |         |   💎    |         |
+|   Base   |         |  "sc"   |         |         |         |         |  "ion"  |         |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|   Base   |  "sw"   |         |         |         |         |         |         |  "l."   |
+|   Base   |   💎    |         |         |         |         |         |         |   💎    |
+|   Base   |  "br"   |         |         |         |         |         |         |  .spc   |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| BaseMods |         |         |         |         |         |         |         |         |
+| BaseMods |         |         |         |         |         |         |         |         |
+| BaseMods |         |         |         |         |         |    ❌    |    ❌    |         |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  TabNav  |         |         | 💡paste |  redo   |   esc   |   tab   |   spc   |         |
+|  TabNav  | un+Nav2 | tab ➡️  | win ➡️  |   C-w   |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
+|  TabNav  | S-paste |   cut   |  paste  |  copy   |   ↩️️   |  bspc   |   del   |   ins   |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|   Nav2   |         |         |         |         |         |         |         |         |
+|   Nav2   |    ❌    |         |         |         |  ⬅️⬅️   |  ⬆️⬆️   |  ⬇️⬇️   |  ➡️➡️   |
+|   Nav2   |         |         |         |         |         |         |         |         |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  NumCur  |         |    6    |    5    |    4    |  pipe   |    _    |    +    |         |
+|  NumCur  |    3    |    2    |    1    |    0    |    "    |    {    |    }    |    :    |
+|  NumCur  |         |    9    |    8    |    7    |    ~    |    ,    |    !    |    ?    |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  Mouse   |         |  🖱️3   |  🖱️2   |  🖱️1   |         |  🖱️2   |  🖱️3   |         |
+|  Mouse   | Mouse2  | KC_ACL0 | KC_ACL1 | KC_ACL2 |  🖱️⬅️  |  🖱️⬆️  |  🖱️⬇️  |  🖱️➡️  |
+|  Mouse   |         |         |         |         |  🖱️1   |         |         |         |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  Mouse2  |         |         |         |         |         |         |         |         |
+|  Mouse2  |    ❌    |         |         |         | 🖲️️⬅️  | 🖲️️⬆️  | 🖲️️⬇️  | 🖲️️➡️  |
+|  Mouse2  |         |         |         |         |         |         |         |         |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  ParBra  |         |    #    |    *    |         |    ^    |    [    |    ]    |         |
+|  ParBra  |    $    |    (    |    )    |    @    |    '    |    `    |    \    |    ;    |
+|  ParBra  |    %    |    <    |    >    |   win   |    -    |    =    |    &    |    /    |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|    Fn    |         |   f6    |   f5    |   f4    |         | =Mouse  |         |         |
+|    Fn    |   f3    |   f2    |   f1    |   f10   |         |         |         |   Num   |
+|    Fn    |   f11   |   f9    |   f8    |   f7    |         |         |  aRep   |  Media  |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  Media   |         |   🔅    |   🔆    |         |         |         |         |         |
+|  Media   |         |         |         |         |   prt   | version |         |         |
+|  Media   |         |   ⏮️    |   ⏭️    |   ⏯️    |   🔇    |   🔈    |   🔊    |    ❌    |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  Leader  |         |         |         |         |         |         |         |         |
+|  Leader  |         | *ParBra |         |         |         |         |         |         |
+|  Leader  | =Debug  |         |         |         |         |         |         |         |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  Debug   |         |         |         |         |         |         |         |         |
+|  Debug   |         |         |         |         |         |         |         |         |
+|  Debug   |         |         |         |         |         |         |         |         |
+|          | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+
+|    Thumb     | Left Inner |        Left Outer        |      Right Outer       | Right Inner |
+|:------------:|:----------:|:------------------------:|:----------------------:|:-----------:|
+|     Base     | tab+TabNav | ComboLayer:ParBra,20 spc | ComboLayer:NumCur,20 e |   bspc+Fn   |
+|              | ---------- | ------------------------ | ---------------------- | ----------- |
+|   BaseMods   |     ❌      |           spc            |           e            |      ❌      |                      
+|              | ---------- | ------------------------ | ---------------------- | ----------- | 
+|    TabNav    |     ❌      |            ❌             |          ↩️️           |      ❌      |
+|              | ---------- | ------------------------ | ---------------------- | ----------- |
+|      Fn      |     ❌      |           f12            |           ❌            |      ❌      |
+|              | ---------- | ------------------------ | ---------------------- | ----------- |
+|    Mouse     |   TabNav   |          =Mouse          |                        |             |
+|              | ---------- | ------------------------ | ---------------------- | ----------- |
+|    Leader    |            |      *LeaderToggle       |                        |             |
+|              | ---------- | ------------------------ | ---------------------- | ----------- |
+| LeaderToggle |            |         *Leader          |                        |             |
+|              | ---------- | ------------------------ | ---------------------- | ----------- |
+|    Debug     |            |          =Debug          |                        |             |
+|              | ---------- | ------------------------ | ---------------------- | ----------- |
+|    ParBra    |            |         =ParBra          |                        |             |
+|              | ---------- | ------------------------ | ---------------------- | ----------- |
+ 
 ## Options
 
 A note on layer names:
@@ -258,19 +283,22 @@ Par = Parentheses        (
 Cur = Curly Parentheses  {
 Bra = Brackets           [
 
-| LayerOptions |  Modifiers Left  | Modifiers Right  | Fallback Left | Fallback Right | Flags  |
-|:------------:|:----------------:|:----------------:|:-------------:|:--------------:|--------|
-|     Base     |                  |                  |               |                |        |
-|      Fn      | HomeRow+BaseMods |  OneShotHomeRow  |               |                |        |
-|    Mouse     |    BottomRow     |                  |               |                |        |
-|    Mouse2    |                  |                  |               |                |        |
-|    TabNav    |     HomeRow      | HomeRow+BaseMods |               |                |        |
-|     Nav2     |     HomeRow      |                  |               |     ParBra     |        |
-|     Num      |                  |     HomeRow      |    NumCur     |                |        |
-|   BaseMods   |     HomeRow      |     HomeRow      |     Base      |      Base      |        |
-|    NumCur    |                  |                  |               |                | Hidden |
-|    ParBra    |                  |                  |               |                | Hidden |
-|    Media     |                  |                  |               |                |        |
+| LayerOptions |  Modifiers Left  | Modifiers Right  | Fallback Left | Fallback Right | Flags         |
+|:------------:|:----------------:|:----------------:|:-------------:|:--------------:|---------------|
+|     Base     |                  |                  |               |                |               |
+|    Leader    |                  |                  |               |                |               |
+| LeaderToggle |                  |                  |    Leader     |     Leader     | OSL to toggle |
+|      Fn      | HomeRow+BaseMods |  OneShotHomeRow  |               |                |               |
+|    Mouse     |    BottomRow     |                  |               |                |               |
+|    Mouse2    |                  |                  |               |                |               |
+|    TabNav    |     HomeRow      | HomeRow+BaseMods |               |                |               |
+|     Nav2     |     HomeRow      |                  |               |     ParBra     |               |
+|     Num      |                  |     HomeRow      |    NumCur     |                |               |
+|   BaseMods   |     HomeRow      |     HomeRow      |     Base      |      Base      |               |
+|    NumCur    |                  |                  |               |                | Hidden        |
+|    ParBra    |                  |                  |               |                |               |
+|    Media     |                  |                  |               |                |               |
+|    Debug     |                  |                  |               |                |               |
 
 | Symbol  | Command                               |
 |---------|---------------------------------------|
