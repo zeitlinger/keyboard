@@ -50,7 +50,9 @@ class QmkTranslator(
         if (number != null && activation != LayerActivation.OneShot) {
             assertTargetOrder(layerName, pos)
         }
-        option.reachable += activation
+        if (pos.layerName != layerName) {
+            option.reachable += activation
+        }
 
         return LayerRef(layerName, number)
     }

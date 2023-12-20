@@ -80,7 +80,7 @@ fun run(args: GeneratorArgs) {
             "customKeycodesOnTapPressed" to customKeycodesOnTapPressed(translator),
             "targetLayerOnHoldPressed" to targetLayerOnHold(translator.modTapKeyTargetLayers, "on", "add"),
             "targetLayerOnHoldReleased" to targetLayerOnHold(translator.modTapKeyTargetLayers, "off", "del"),
-            "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold),
+            "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
             "disableComboOnNonBaseLayer" to disableComboOnNonBaseLayer(combos),
         )
     )
@@ -98,7 +98,7 @@ fun customKeycodesOnTapPressed(translator: QmkTranslator): String =
 fun disableComboOnNonBaseLayer(combos: List<Combo>): String =
     combos.filter { it.name.startsWith("C_OSM") }.joinToString("\n        ") { "case ${it.name}: return false;" }
 
-fun holdOnOtherKeyPress(layerTapToggle: List<String>): String =
+fun holdOnOtherKeyPress(layerTapToggle: Set<String>): String =
     layerTapToggle.joinToString("\n    ") { "case ${it}: return true;" }
 
 fun LayerName.const() = "_${this.uppercase()}"

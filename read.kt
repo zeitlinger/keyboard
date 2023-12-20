@@ -112,7 +112,7 @@ fun layerKey(
     val layerOption = translator.layerOptions.getValue(layer)
     val layerActivation = adjustFallback(activation, translator.layerOptions.getValue(pos.layerName))
     if (layerActivation == LayerActivation.Toggle && pos.layerName == layer) {
-        layerOption.flags += LayerFlag.ToggleExit
+        layerOption.flags += LayerFlag.Toggle
     }
     if (layerOption.flags.contains(LayerFlag.Hidden)) {
         throw IllegalArgumentException("can't toggle hidden layer $layer at $pos")
@@ -151,6 +151,7 @@ fun addMods(modifier: String, key: String) =
         "A" -> "A(${key})"
         "C" -> "C(${key})"
         "S" -> "S(${key})"
+        "CA" -> "LCA(${key})"
         "CS" -> "RCS(${key})"
         else -> throw IllegalStateException("unknown modifier '$modifier'")
     }
@@ -198,7 +199,7 @@ fun getFallback(
     val left = pos.column < pos.columns / 2
     val fallbackLayer = if (left) option.leftFallbackLayer else option.rightFallbackLayer
     return when {
-        fallbackLayer == null || pos.layerName == baseLayerName -> qmkNo
+        pos.thumb || fallbackLayer == null || pos.layerName == baseLayerName -> qmkNo
         else -> {
             val newPos = pos.copy(layerName = fallbackLayer)
             getFallback(

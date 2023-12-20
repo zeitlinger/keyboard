@@ -64,7 +64,7 @@ private fun applyModTap(
     .firstOrNull { it.key.matchesRow(pos.row) }
     ?.let { modEntry ->
         val targetLayer = modEntry.value
-        val modTapKey = modTapKey(key, mod, modEntry.key, pos)
+        val modTapKey = modTapKey(key, mod, modEntry.key, pos, translator)
         setCustomKeyCommand(translator, key, modTapKey)
         if (modTapKey != key && targetLayer != null) {
             val layer = translator.reachLayer(targetLayer, pos, LayerActivation.ModTap)
@@ -78,17 +78,17 @@ fun setCustomKeyCommand(translator: QmkTranslator, key: String, command: String)
     translator.symbols.customKeycodes.entries.find { it.key == key }?.let { it.value.key = command }
 }
 
-private fun modTapKey(key: String, mod: Modifier, type: HomeRowType, pos: KeyPosition): String = when {
+private fun modTapKey(key: String, mod: Modifier, type: HomeRowType, pos: KeyPosition, translator: QmkTranslator): String = when {
     type == HomeRowType.OneShotHomeRow -> "OSM(${mod.mask})"
         .also { if (key != qmkNo) throw IllegalStateException("key $key not allowed for one shot modifier") }
 
     key == qmkNo -> mod.leftKey
     else -> {
-        assertSimpleKey(key, pos)
+        val simpleKey = addCustomIfNotSimpleKey(key, translator)
         when (mod) {
-            Modifier.Alt -> "ALT_T($key)"
-            Modifier.Ctrl -> "CTL_T($key)"
-            Modifier.Shift -> "SFT_T($key)"
+            Modifier.Alt -> "ALT_T($simpleKey)"
+            Modifier.Ctrl -> "CTL_T($simpleKey)"
+            Modifier.Shift -> "SFT_T($simpleKey)"
         }
     }
 }

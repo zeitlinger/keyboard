@@ -8,11 +8,8 @@ fun analyze(translator: QmkTranslator, layers: List<Layer>) {
     }
     translator.layerOptions.entries.forEach { (layer, option) ->
         val toggleEnter = LayerActivation.Toggle in option.reachable
-        if (toggleEnter && LayerFlag.ToggleExit !in option.flags) {
+        if (toggleEnter && LayerFlag.Toggle !in option.flags) {
             throw IllegalStateException("can't exit from layer $layer")
-        }
-        if (LayerFlag.ToggleExit in option.flags && !toggleEnter) {
-            throw IllegalStateException("can't toggle enter layer into $layer")
         }
     }
     val unreachable = translator.layerOptions.entries

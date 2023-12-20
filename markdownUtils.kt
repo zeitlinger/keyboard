@@ -37,7 +37,7 @@ data class Symbols(val mapping: Map<String, String>, val customKeycodes: Mutable
     fun replace(key: String, pos: KeyPosition, translator: QmkTranslator): String {
         val value = mapping[key]
         if (value != null) {
-            customKeycodes[value]?.targetLayerName?.let { translator.assertTargetOrder(it, pos) }
+            customKeycodes[value]?.targetLayerName?.let { translator.reachLayer(it, pos, LayerActivation.OneShot) }
             return value
         }
         return key

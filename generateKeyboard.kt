@@ -45,7 +45,7 @@ enum class LayerActivation(val method: String?) {
     ComboLayer(null)
 }
 
-enum class LayerFlag { Hidden, ToggleExit, OslToToggle }
+enum class LayerFlag { Hidden, Toggle, OslToToggle }
 
 typealias LayerName = String
 
