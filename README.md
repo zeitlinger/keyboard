@@ -188,7 +188,7 @@ How to read this layout:
 |               | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |     Base      |         |         |         |         |         |         |         |         |
 |     Base      |         |         |         |         |         |         |         |         |
-|     Base      |         |   💎    |    j    |    x    |  O-🖱️  |  capsW  |   💎    |         |
+|     Base      |         |   💎    |    j    |    x    |  O-🖱️  |   tab   |   💎    |         |
 |               | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |     Base      |         |         |         |         |         |         |         |         |
 |     Base      |         |         |         |  CS-f   |         |         |         |         |
@@ -218,13 +218,13 @@ How to read this layout:
 |     Nav2      |    ❌    |         |         |         |  ⬅️⬅️   |  ⬆️⬆️   |  ⬇️⬇️   |  ➡️➡️   |
 |     Nav2      |         |         |         |         |         |         |         |         |
 |               | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|    CurBra     |         |    _    |    +    |  pipe   |    ^    |    [    |    ]    |         |
-|    CurBra     |    :    |    {    |    }    |    "    |    '    |    `    |    \    |    ;    |
-|    CurBra     |    ~    |    ,    |    !    |    ?    |    -    |    =    |    &    |    /    |
+|    CurBra     |         |    {    |    }    |         |         |    [    |    ]    |         |
+|    CurBra     |    &    |    !    |    ?    |    _    |    "    |    `    |    :    |    ;    |
+|    CurBra     |    ~    |  pipe   |    ^    |    +    |    -    |    =    |    \    |    /    |
 |               | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |    ParNum     |         |    #    |    *    |         |    4    |    5    |    6    |         | 
 |    ParNum     |    $    |    (    |    )    |    @    |    0    |    1    |    2    |    3    |  
-|    ParNum     |    %    |    <    |    >    |   win   |         |    7    |    8    |    9    |  
+|    ParNum     |    %    |    <    |    >    |   win   |    7    |    8    |    9    |         | 
 |               | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |      Fn       |         |         |         |         |   f4    |   f5    |   f6    |         |
 |      Fn       |         |         |         |         |   f10   |   f1    |   f2    |   f3    |
@@ -242,20 +242,20 @@ How to read this layout:
 |     Media     |   prt   |         |   🔈    |   🔊    |         | version |         |         |
 |     Media     |         |         |   ⏮️    |   ⏭️    |         |         |         |         |
 |               | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|    Leader     |         | =Media  |         |         |         |         |         |         |
+|    Leader     |         | =Media  | =Mouse  |         |         |         |         |         |
 |    Leader     |   *Fn   | l-l-alt | l-l-ctl | l-l-sft | l-r-sft |         | l-r-ctl | l-r-alt |
-|    Leader     | =Debug  | *Umlaut | =Switch |  =Nav   | =Mouse  |    ❌    |         |         |
+|    Leader     | =Debug  | *Umlaut | =Switch |  =Nav   |    '    |    ❌    |    ,    |    .    |
 |               | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |    Switch     |         |         |  CA-]   |  redo   |         |         |         |         |
-|    Switch     | un+Nav2 | tab ➡️  | win ➡️  |   C-w   |         |         |         |         |
+|    Switch     |  undo   | tab ➡️  | win ➡️  |   C-w   |         |         |         |         |
 |    Switch     | S-paste |   cut   |  paste  |  copy   |         |         |         |         |
 |               | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | BaseModsRight |         |         |         |         |         |         |         |         |
 | BaseModsRight |   *Fn   |         |         |         |         |         |         |         |
-| BaseModsRight |         |         |         |         |         |         |         |         |
+| BaseModsRight |         |         |         |         |         |    '    |    ,    |    .    |
 |               | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |    Umlaut     |         |         |         |         |         |    ö    |    ü    |         |
-|    Umlaut     |         |         |         |         |         |    ä    |         |    ß    |
+|    Umlaut     |         |         |         |         |  capsW  |    ä    |         |    ß    |
 |    Umlaut     |         |         |         |         |         |         |         |         |
 |               | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
@@ -273,7 +273,7 @@ How to read this layout:
 |               | ---------- | ------------------------ | ---------------------- | ----------- |
 |      Fn       |            |           =Fn            |          f12           |             |
 |               | ---------- | ------------------------ | ---------------------- | ----------- | 
-|      Nav      |     ❌      |            ❌             |          tab           |     spc     |
+|      Nav      |            |            ❌             |          tab           |     spc     |
 |               | ---------- | ------------------------ | ---------------------- | ----------- |
 |     Debug     |            |          =Debug          |                        |             |
 |               | ---------- | ------------------------ | ---------------------- | ----------- |
@@ -352,7 +352,7 @@ Bra = Brackets           [
 | 🔆      | KC_BRIU                                        |
 | 🔅      | KC_BRID                                        |
 | redo    | RCS(KC_Z)                                      |
-| un      | C(KC_Z)                                        |
+| undo    | C(KC_Z)                                        |
 | S-paste | RCS(KC_V)                                      |
 | cut     | C(KC_X)                                        |
 | copy    | C(KC_C)                                        |
@@ -380,8 +380,6 @@ Bra = Brackets           [
 | l-r-alt | custom:LEADER_RIGHT_ALT LayerHint:BaseModsLeft |
 | l-r-ctl | custom:LEADER_RIGHT_CTL LayerHint:BaseModsLeft |
 | l-r-sft | custom:LEADER_RIGHT_SFT LayerHint:BaseModsLeft |
-| sw-hand | QK_SWAP_HANDS_TAP_TOGGLE                       |
-| reboot  | QK_REBOOT                                      |
 
 
 
