@@ -10,14 +10,11 @@ enum class Modifier(val mask: String, val leftKey: String) {
     }
 }
 
-enum class HomeRowType {
-    HomeRow, OneShotHomeRow, BottomRow;
-
-    fun matchesRow(row: Int): Boolean = when (this) {
-        HomeRow -> row == 1
-        OneShotHomeRow -> row == 1
-        BottomRow -> row == 2
-    }
+enum class HomeRowType(val row: Int, val oneShot: Boolean) {
+    HomeRow(1, false),
+    OneShotHomeRow(1, true),
+    BottomRow(2, false),
+    OneShotBottomRow(2, true);
 }
 
 data class LayerModTab(val layer: LayerRef, val mod: Modifier)
@@ -25,7 +22,7 @@ data class LayerModTab(val layer: LayerRef, val mod: Modifier)
 fun targetLayerOnHold(
     modTapKeyTargetLayers: MutableMap<String, LayerModTab>,
     layer: String,
-    mods: String
+    mods: String,
 ): String {
     return modTapKeyTargetLayers.entries.joinToString("\n            ") {
         val modTab = it.value
@@ -59,12 +56,12 @@ private fun applyModTap(
     mod: Modifier,
     homeRowType: Map<HomeRowType, LayerName?>,
     pos: KeyPosition,
-    translator: QmkTranslator
+    translator: QmkTranslator,
 ): String = homeRowType.entries
-    .firstOrNull { it.key.matchesRow(pos.row) }
+    .firstOrNull { pos.row == it.key.row }
     ?.let { modEntry ->
         val targetLayer = modEntry.value
-        val modTapKey = modTapKey(key, mod, modEntry.key, pos, translator)
+        val modTapKey = modTapKey(key, mod, modEntry.key, translator)
         setCustomKeyCommand(translator, key, modTapKey)
         if (modTapKey != key && targetLayer != null) {
             val layer = translator.reachLayer(targetLayer, pos, LayerActivation.ModTap)
@@ -78,8 +75,13 @@ fun setCustomKeyCommand(translator: QmkTranslator, key: String, command: String)
     translator.symbols.customKeycodes.entries.find { it.key == key }?.let { it.value.key = command }
 }
 
-private fun modTapKey(key: String, mod: Modifier, type: HomeRowType, pos: KeyPosition, translator: QmkTranslator): String = when {
-    type == HomeRowType.OneShotHomeRow -> "OSM(${mod.mask})"
+private fun modTapKey(
+    key: String,
+    mod: Modifier,
+    type: HomeRowType,
+    translator: QmkTranslator,
+): String = when {
+    type.oneShot -> "OSM(${mod.mask})"
         .also { if (key != qmkNo) throw IllegalStateException("key $key not allowed for one shot modifier") }
 
     key == qmkNo -> mod.leftKey
@@ -91,11 +93,6 @@ private fun modTapKey(key: String, mod: Modifier, type: HomeRowType, pos: KeyPos
             Modifier.Shift -> "SFT_T($simpleKey)"
         }
     }
-}
-
-fun assertSimpleKey(key: String, pos: KeyPosition): String {
-    if (key.contains("(")) throw IllegalStateException("key $key not allowed for modifier at $pos")
-    return key
 }
 
 fun addCustomIfNotSimpleKey(key: String, translator: QmkTranslator): String =
@@ -138,7 +135,7 @@ private fun getModTimeout(mappingTable: Table) = mappingTable[0][1].toIntOrNull(
 fun createThumbModTriggers(
     mappingTable: Table,
     template: Map<List<Modifier>, String>,
-    homeRowPositions: Map<Int, Modifier>
+    homeRowPositions: Map<Int, Modifier>,
 ): ModTriggers {
     val modTriggers = template.map { (modifiers, command) ->
         val fingers = modifiers.map { mod ->
