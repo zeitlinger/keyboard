@@ -59,14 +59,14 @@ fun translateKey(
             translator,
             pos,
             def.substring(1),
-            LayerActivation.OneShot
+            LayerActivation.Hold
         )
         //skip QMK keycodes
         def.isNotBlank() && def[0].isUpperCase() && !def.contains("_") -> layerKey(
             translator,
             pos,
             def,
-            LayerActivation.Hold
+            LayerActivation.OneShot
         )
 
         else -> translateSimpleKey(translator, def, pos)

@@ -162,10 +162,10 @@ How to read this layout:
 - 💎 = combo key (e.g. middle and index finger in top row pressed together produce "b")
 - ❌ = key can't be used because the layer was activated with that key
 - empty = use key from base layer
-- FnBra = capitalized words are layer names - if they are a key, the layer is activated while the key is held
+- FnBra = capitalized words are layer names - if they are a key, the layer is activated as one shot layer
 - /+Ctrl = tab-mod - / on tab and CTRL on hold
 - =Mouse = set mouse layer active/inactive on tap (toggle)
-- *Mouse = one shot layer on tap
+- *Mouse = layer is active while key is held
 - C-w = Ctrl-w (same for Alt and Shift)
 - "that" = combo that produces "that"
 - 80 custom timeout for combo
@@ -176,7 +176,7 @@ How to read this layout:
 | Layer  | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
 |  Base  |         |    w    |    m    |    p    |    y    |    o    |    u    |         |
-|  Base  |    r    |    s    |    t    |    h    | *Leader |    a    |    i    |    l    |
+|  Base  |    r    |    s    |    t    |    h    | Leader  |    a    |    i    |    l    |
 |  Base  |    b    |    c    |    g    |    d    |    n    |   rep   |  aRep   |    f    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |   💎    |    z    |         |         |         |         |                                       
@@ -188,7 +188,7 @@ How to read this layout:
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |   💎    |         |         | *Leader |         |         |         |         |
+|  Base  |   💎    |         |         | Leader  |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
@@ -219,16 +219,16 @@ How to read this layout:
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
 |  Base  |  "br"   |         |         |         |         |         |         |  .spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Leader |         | =Media  | =Mouse  |         |         | Switch  |   win   |         |
-| Leader |   *Fn   | *BRight | *BRight | *BRight |    '    | *BLeft  | *BLeft  | *BLeft  |
-| Leader | =Debug  |         | *Umlaut |  =Nav   |         |    ,    |    .    |         |
+| Leader |         | =Media  | =Mouse  |         |         | *Switch |   win   |         |
+| Leader |   Fn    | BRight  | BRight  | BRight  |    '    |  BLeft  |  BLeft  |  BLeft  |
+| Leader | =Debug  |         | Umlaut  |  =Nav   |         |    ,    |    .    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Switch |         |   C-w   |  undo   |  redo   |         |         |         |         |
 | Switch |  CA-[   | tab ➡️  | win ➡️  |  CA-]   |         |         |         |         |
 | Switch | S-paste |   cut   |  paste  |  copy   |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav   |         |         |         |         |         |   spc   |   ins   |         |
-|  Nav   |  Nav2   |    ❌    |    ❌    |    ❌    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
+|  Nav   |  *Nav2  |    ❌    |    ❌    |    ❌    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
 |  Nav   |         |         |         |         |   ↩️️   |  bspc   |   del   |   esc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav2  |         |         |         |         |         |         |         |         |
@@ -239,9 +239,9 @@ How to read this layout:
 | CurBra |    #    |    ❌    |    ❌    |    ❌    |    ;    |    -    |    !    |    ?    |
 | CurBra |         |  pipe   |    *    |    +    |    `    |    =    |    \    |    /    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Umlaut |         |         |         |         |         |    ö    |    ü    |         |
-| Umlaut |         |         |         |  CAPSW  |    :    |    ä    |    _    |    ~    |
-| Umlaut |         |         |         |         |    &    |    ^    |    %    |    ß    |
+| Umlaut |         | PasCase | SN_CASE |         |         |    ö    |    ü    |         |
+| Umlaut | sl/case | camCase | sn_case |  CAPSW  |    :    |    ä    |    _    |    ~    |
+| Umlaut | do.case |         | kb-case |         |    &    |    ^    |    %    |    ß    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | ParNum |         |    (    |    )    |         |    4    |    5    |    6    |         | 
 | ParNum |    $    |    ❌    |    ❌    |    ❌    |    0    |    1    |    2    |    3    |  
@@ -252,7 +252,7 @@ How to read this layout:
 |   Fn   |         |         |         |         |   f7    |   f8    |   f9    |   f11   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Mouse  |         |  🖱️3   |  🖱️2   |  🖱️1   |         |  🖱️2   |  🖱️3   |         |
-| Mouse  | Mouse2  | KC_ACL0 | KC_ACL1 | KC_ACL2 |  🖱️⬅️  |  🖱️⬆️  |  🖱️⬇️  |  🖱️➡️  |
+| Mouse  | *Mouse2 | KC_ACL0 | KC_ACL1 | KC_ACL2 |  🖱️⬅️  |  🖱️⬆️  |  🖱️⬇️  |  🖱️➡️  |
 | Mouse  |         |    ❌    |    ❌    |    ❌    |  🖱️1   |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Mouse2 |         |         |         |         |         |         |         |         |
@@ -264,21 +264,21 @@ How to read this layout:
 | Media  |         |   ⏯️    |   ⏮️    |   ⏭️    |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | BRight |         |         |         |         |         |         |         |         |
-| BRight |   *Fn   |         |         |         |    '    |         |         |         |
+| BRight |   Fn    |         |         |         |    '    |         |         |         |
 | BRight |         |         |         |         |         |    ,    |    .    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
 | Thumb  | Left Inner |        Left Outer        |      Right Outer       | Right Inner |
 |:------:|:----------:|:------------------------:|:----------------------:|:-----------:|
-|  Base  |   Switch   |           spc            |           e            |             |
+|  Base  |  *Switch   |           spc            |           e            |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 | BLeft  |            |           spc            |          tab           |             |                      
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 | BRight |            |           ↩️️            |           e            |             |                      
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
-| Mouse  |   Switch   |          =Mouse          |                        |             |
+| Mouse  |  *Switch   |          =Mouse          |                        |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
-| Leader |            |         *ParNum          |        *CurBra         |             |
+| Leader |            |          ParNum          |         CurBra         |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 |   Fn   |            |           =Fn            |          f12           |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
@@ -386,8 +386,8 @@ Bra = Brackets           [
 | win ➡️  | custom:NEXT_WINDOW                    |
 | O-🖱️   | custom:ONE_SHOT_MOUSE LayerHint:Mouse |
 | .spc    | custom:DOT_SPC                        |
-| CAPSW   | custom:CAPS_WORDS                     |
 | version | custom:PRINT_VERSION                  |
+| CAPSW   | custom:CAPS_WORDS                     |
 | sn_case | custom:SNAKE_CASE                     |
 | SN_CASE | custom:SCREAMING_SNAKE_CASE           |
 | camCase | custom:CAMEL_CASE                     |
