@@ -32,15 +32,30 @@ private fun getKeyTable(layerContent: MultiTable): Map<LayerName, MultiTable> = 
 
 private fun readSymbols(tables: Tables): Symbols {
     val customKeycodes = mutableMapOf<String, CustomKey>()
-    val symTable = tables.getMappingTable("Symbol").mapValues {
-        val command = it.value
-        """custom:([A-Z_]+)( LayerHint:(.+))?$""".toRegex().find(command)?.let { matchResult ->
-            val key = matchResult.groupValues[1]
-            customKeycodes[key] = CustomKey(key, matchResult.groupValues[3].takeIf { it.isNotBlank() }, null)
-            key
-        } ?: command
-    }
-    return Symbols(symTable, customKeycodes)
+    val implicitKeys = mutableListOf<String>()
+    val symTable = tables.getMappingTable("Symbol").flatMap { entry ->
+        val key = entry.key
+        val value = entry.value
+        val matchResult = """custom:([A-Z_]+)( LayerHint:(.+))?$""".toRegex().find(value)
+        when {
+            matchResult != null -> {
+                val command = matchResult.groupValues[1]
+                customKeycodes[command] =
+                    CustomKey(command, matchResult.groupValues[3].takeIf { it.isNotBlank() }, null)
+                listOf(key to command)
+            }
+
+            value == "<implicit>" -> {
+                implicitKeys += key
+                emptyList()
+            }
+
+            else -> {
+                listOf(key to value)
+            }
+        }
+    }.toMap()
+    return Symbols(symTable, customKeycodes, implicitKeys)
 }
 
 
@@ -53,9 +68,9 @@ private fun layerOption(tables: Tables): Map<LayerName, LayerOption> {
                 modifierTypes(it.value[2]),
                 it.value[3].ifBlank { null },
                 it.value[4].ifBlank { null },
-                when(it.value[5]) {
-                     "Hidden" -> setOf(LayerFlag.Hidden)
-                     "OSL to toggle" -> setOf(LayerFlag.OslToToggle)
+                when (it.value[5]) {
+                    "Hidden" -> setOf(LayerFlag.Hidden)
+                    "OSL to toggle" -> setOf(LayerFlag.OslToToggle)
                     else -> emptySet()
                 },
                 emptySet(),
@@ -67,7 +82,7 @@ private fun layerOption(tables: Tables): Map<LayerName, LayerOption> {
 private fun options(
     tables: Tables,
     nonThumbs: Map<LayerName, MultiTable>,
-    thumbs: Map<LayerName, MultiTable>
+    thumbs: Map<LayerName, MultiTable>,
 ): Options {
     val firstNonThumb = nonThumbs.entries.first().value[0]
 

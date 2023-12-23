@@ -1,6 +1,10 @@
 # APTex keyboard
+   
+## Overview
 
-Goals
+TODO: update overview
+
+### Goals
 
 - Fast typing
   - No home row mods on base layer that easily interfere with typing
@@ -13,7 +17,7 @@ Goals
   - All modifiers except GUI can be used with all keys
 - Support for German umlauts and the most common IntelliJ shortcuts
 
-Features
+### Features
 
 - 34 keys, but only 26 keys are needed for typing
 - [APTex](https://github.com/Apsu/APTex) layout with slight modifications
@@ -28,12 +32,13 @@ Features
 - "Next sentence" key (". ", capitalizes the next letter)
 - Needs https://github.com/bdaase/remove-alt-tab-delay on Ubuntu
 
-Credits
+### Credits
 
 - [The T-34 keyboard layout](https://www.jonashietala.se/blog/2021/06/03/the-t-34-keyboard-layout/)
 - [APTex](https://github.com/Apsu/APTex)
+- [X-Case](https://github.com/andrewjrae/kyria-keymap#x-case)    
 
-Notes
+### Notes
 
 - The keyboard layout is generated using [generateKeyboard](generateKeyboard.kt) from this file.  => link to [Generator](#generator)
 - The generated keyboard can be found in a
@@ -44,6 +49,8 @@ Notes
 - [TODos](TODO.md)
 
 ## Modifiers
+    
+TODO: update this section 
 
 For the base layer, there are several options for modifiers for different typing speeds and personal preferences:
 
@@ -111,6 +118,8 @@ On all other layers, the modifiers are as shown in the table below.
 - Switcher mode is exited when you go back to the base layer.
 
 ## Layer Navigation
+
+TODO: update this section 
                 
 For most cases, the modifiers are pressed with the same hand that was used to activate a layer. 
 For example, if you want to press shift+left, you press 
@@ -231,12 +240,12 @@ How to read this layout:
 | CurBra |         |  pipe   |    *    |    +    |    `    |    =    |    \    |    /    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Umlaut |         |         |         |         |         |    ö    |    ü    |         |
-| Umlaut |         |         |         |  capsW  |    :    |    ä    |    _    |    ~    |
+| Umlaut |         |         |         |  CAPSW  |    :    |    ä    |    _    |    ~    |
 | Umlaut |         |         |         |         |    &    |    ^    |    %    |    ß    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | ParNum |         |    (    |    )    |         |    4    |    5    |    6    |         | 
 | ParNum |    $    |    ❌    |    ❌    |    ❌    |    0    |    1    |    2    |    3    |  
-| ParNum |         |    <    |    >    |    @    |    7    |    8    |    9    |         | 
+| ParNum |         |         |         |    @    |    7    |    8    |    9    |         | 
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |   Fn   |         |         |         |         |   f4    |   f5    |   f6    |         |
 |   Fn   |         |    ❌    |    ❌    |    ❌    |   f10   |   f1    |   f2    |   f3    |
@@ -368,14 +377,24 @@ Bra = Brackets           [
 | `       | ALGR(KC_GRV)                          |
 | ~       | ALGR(KC_TILD)                         |
 | ^       | ALGR(KC_CIRC)                         |
+| "       | <implicit>                            |
+| <       | <implicit>                            |
+| >       | <implicit>                            |
 | rep     | QK_REPEAT_KEY                         |
 | aRep    | QK_ALT_REPEAT_KEY                     |
-| capsW   | QK_CAPS_WORD_TOGGLE                   |
 | tab ➡️  | custom:NEXT_TAB                       |
 | win ➡️  | custom:NEXT_WINDOW                    |
 | O-🖱️   | custom:ONE_SHOT_MOUSE LayerHint:Mouse |
 | .spc    | custom:DOT_SPC                        |
+| CAPSW   | custom:CAPS_WORDS                     |
 | version | custom:PRINT_VERSION                  |
+| sn_case | custom:SNAKE_CASE                     |
+| SN_CASE | custom:SCREAMING_SNAKE_CASE           |
+| camCase | custom:CAMEL_CASE                     |
+| PasCase | custom:PASCAL_CASE                    |
+| sl/case | custom:SLASH_CASE                     |
+| do.case | custom:DOT_CASE                       |
+| kb-case | custom:KEBAP_CASE                     |
 
 
 

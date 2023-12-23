@@ -38,26 +38,28 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
                 (1..12).map { "KC_F$it" }
                     .toSet()
 
-    val missing = (want - gotKeys.toSet())
+    val missing =
+        want - gotKeys.toSet() - translator.symbols.implicitlyReachableKeys.map { translator.toQmk(it, invalidPos) }.toSet()
     val unexpected = (gotKeys.toSet() - want.toSet())
         .filter {
-               when {
-                   it.startsWith("\"") -> false
-                   it.contains("(")  -> false
-                   it.startsWith("DT_") -> false
-                   it.startsWith("KC_ACL") -> false
-                   it == qmkNo -> false
-                   it == layerBlocked -> false
-                   it == comboTrigger -> false
-                   else -> true
-               }
-           }
+            when {
+                it.startsWith("\"") -> false
+                it.contains("(") -> false
+                it.startsWith("DT_") -> false
+                it.startsWith("KC_ACL") -> false
+                it == qmkNo -> false
+                it == layerBlocked -> false
+                it == comboTrigger -> false
+                else -> true
+            }
+        }
+
+    val duplicates = gotKeys.filter { k -> gotKeys.filter { k == it }.size > 1 }.distinct()
 
     println("expected: ${want.size}")
     println("missing: $missing")
     println("unexpected: $unexpected")
-    val dups = gotKeys.filter { k -> gotKeys.filter { k == it }.size > 1 }.distinct()
-    println("duplicates: $dups")
+    println("duplicates: $duplicates")
 }
 
 

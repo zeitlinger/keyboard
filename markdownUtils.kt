@@ -33,7 +33,11 @@ private fun tableLine(tableLine: String) = tableLine.split("|")
 
 data class CustomKey(var key: String, val targetLayerName: LayerName?, val onTapPressed: String?)
 
-data class Symbols(val mapping: Map<String, String>, val customKeycodes: MutableMap<String, CustomKey>) {
+data class Symbols(
+    val mapping: Map<String, String>,
+    val customKeycodes: MutableMap<String, CustomKey>,
+    val implicitlyReachableKeys: MutableList<String> // because there's a good way to reach this using shift
+) {
     fun replace(key: String, pos: KeyPosition, translator: QmkTranslator): String {
         val value = mapping[key]
         if (value != null) {
