@@ -24,7 +24,7 @@ fun main() {
     )
 }
 
-const val layerBlocked = "❌"
+const val layerBlocked = "🛑"
 const val baseLayerName = "Base"
 
 data class Options(
