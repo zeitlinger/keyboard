@@ -75,8 +75,8 @@ fun translateKey(
 
 fun spaceSeparatedHint(def: String, translator: QmkTranslator, pos: KeyPosition): Key {
     val parts = def.split(" ")
-    val right = parts[1]
-    val left = parts[0]
+    val right = parts[1].trim()
+    val left = parts[0].trim()
     return when {
         def.startsWith("ComboLayer:") -> {
             comboLayer(left, translator, pos, right)

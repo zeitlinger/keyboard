@@ -36,7 +36,7 @@ private fun readSymbols(tables: Tables): Symbols {
     val symTable = tables.getMappingTable("Symbol").flatMap { entry ->
         val key = entry.key
         val value = entry.value
-        val matchResult = """custom:([A-Z_]+)( LayerHint:(.+))?$""".toRegex().find(value)
+        val matchResult = """custom:([A-Z_]+)( +LayerHint:(.+))?$""".toRegex().find(value)
         when {
             matchResult != null -> {
                 val command = matchResult.groupValues[1]

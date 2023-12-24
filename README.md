@@ -113,7 +113,7 @@ On all other layers, the modifiers are as shown in the table below.
 
 ### Window and Tab switching
 
-- win ➡️ and  tab ➡️ are used to switch windows and tabs.
+- win ➡️ and  tab ➡️ are used to Short windows and tabs.
 - Once you press any of those keys, you're in switcher mode, where all other keys are replaced by shift-tab.
 - Switcher mode is exited when you go back to the base layer.
 
@@ -219,13 +219,13 @@ How to read this layout:
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
 |  Base  |  "br"   |         |         |         |         |         |         |  .spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Leader |         | =Media  | =Mouse  |         |         | *Switch |   win   |         |
+| Leader |         | =Media  | =Mouse  |         |         |  Short  |   win   |         |
 | Leader |   Fn    | BRight  | BRight  | BRight  |    '    |  BLeft  |  BLeft  |  BLeft  |
-| Leader | =Debug  |         | Umlaut  |  =Nav   |         |    ,    |    .    |         |
+| Leader |         |  Smile  | Umlaut  |  =Nav   |         |    ,    |    .    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Switch |         |   C-w   |  undo   |  redo   |         |         |         |         |
-| Switch |  CA-[   | tab ➡️  | win ➡️  |  CA-]   |         |         |         |         |
-| Switch | S-paste |   cut   |  paste  |  copy   |         |         |         |         |
+| Short  |         |   C-w   |  undo   |  redo   |         |         |         |         |
+| Short  |  CA-[   | tab ➡️  | win ➡️  |  CA-]   |         |         |         |         |
+| Short  | S-paste |   cut   |  paste  |  copy   |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav   |         |         |         |         |         |   spc   |   ins   |         |
 |  Nav   |  *Nav2  |    ❌    |    ❌    |    ❌    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
@@ -270,19 +270,21 @@ How to read this layout:
 
 | Thumb  | Left Inner |        Left Outer        |      Right Outer       | Right Inner |
 |:------:|:----------:|:------------------------:|:----------------------:|:-----------:|
-|  Base  |  *Switch   |           spc            |           e            |             |
+|  Base  |   *Short   |           spc            |           e            |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 | BLeft  |            |           spc            |          tab           |             |                      
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 | BRight |            |           ↩️️            |           e            |             |                      
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
-| Mouse  |  *Switch   |          =Mouse          |                        |             |
+| Mouse  |   Short    |          =Mouse          |         Short          |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 | Leader |            |          ParNum          |         CurBra         |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 |   Fn   |            |           =Fn            |          f12           |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
-| Debug  |            |          =Debug          |                        |             |
+| Smile  |            |          =Smile          |                        |             |
+|        | ---------- | ------------------------ | ---------------------- | ----------- |
+| Short  |            |          =Short          |                        |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 |  Nav   |            |           =Nav           |          tab           |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
@@ -293,6 +295,8 @@ How to read this layout:
 | CurBra |            |         =CurBra          |                        |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 | Umlaut |            |         =Umlaut          |                        |             |
+|        | ---------- | ------------------------ | ---------------------- | ----------- |
+| Switch |            |         =Switch          |                        |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
  
 ## Options
@@ -312,14 +316,15 @@ Bra = Brackets           [
 |      Fn      |  OneShotHomeRow  |                 |               |                |       |
 |    Mouse     | OneShotBottomRow |                 |               |                |       |
 |    Mouse2    |                  |                 |               |                |       |
-|    Switch    |                  |                 |               |                |       |
-|     Nav      |  OneShotHomeRow  |                 |    Switch     |                |       |
+|    Short     |                  |                 |               |                |       |
+|     Nav      |  OneShotHomeRow  |                 |     Short     |                |       |
 |     Nav2     |  OneShotHomeRow  |                 |               |                |       |
 |    ParNum    |  OneShotHomeRow  |                 |               |                |       |
 |    CurBra    |  OneShotHomeRow  |                 |               |                |       |
 |    Media     |                  |                 |               |                |       |
-|    Debug     |                  |                 |               |                |       |
+|    Smile     |                  |                 |               |                |       |
 |    Umlaut    |                  |                 |               |                |       |
+|    Switch    |                  |                 |     Short     |                |       |
                                                                                                          
 
 ## Symbols
@@ -382,8 +387,8 @@ Bra = Brackets           [
 | >       | <implicit>                            |
 | rep     | QK_REPEAT_KEY                         |
 | aRep    | QK_ALT_REPEAT_KEY                     |
-| tab ➡️  | custom:NEXT_TAB                       |
-| win ➡️  | custom:NEXT_WINDOW                    |
+| tab ➡️  | custom:NEXT_TAB      LayerHint:Switch |
+| win ➡️  | custom:NEXT_WINDOW   LayerHint:Switch |
 | O-🖱️   | custom:ONE_SHOT_MOUSE LayerHint:Mouse |
 | .spc    | custom:DOT_SPC                        |
 | version | custom:PRINT_VERSION                  |
