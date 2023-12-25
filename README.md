@@ -197,7 +197,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |  "ph"   |  "ny"   |         |         |         |
 |  Base  |         |         |         |   💎    |   💎    |         |         |         |
-|  Base  |         |         |         |  "n'"   |  "ay"   |         |         |         |
+|  Base  |         |         |         |   n'    |  "ay"   |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |  "nv"   |         |         |  "oa"   |         |         |
 |  Base  |         |         |   💎    |         |         |   💎    |         |         |
@@ -382,6 +382,7 @@ Bra = Brackets           [
 | win ➡️  | custom:NEXT_WINDOW   LayerHint:Switch |
 | O-🖱️   | custom:ONE_SHOT_MOUSE LayerHint:Mouse |
 | .spc    | custom:DOT_SPC                        |
+| n'      | custom:N_APOS                         |
 | version | custom:PRINT_VERSION                  |
 | CAPSW   | custom:CAPS_WORDS                     |
 | sn_case | custom:SNAKE_CASE                     |
