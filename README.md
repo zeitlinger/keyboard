@@ -27,7 +27,7 @@ TODO: update overview
 - In the shift layer, you can disable shift with the index finger that would usually enable shift.
 - Combos for keys in the two center columns,
   so lateral movement is not needed, except for special combos like `Ctrl+B`
-- Combos for the most common bigrams, reducing SFBs from 0.70% to 0.26%
+- Combos for the most common bigrams, reducing SFBs from 0.70% to 0.26% (all bigrams with a frequency of 0.020% or higher are covered with combos)
 - Combos for the most common trigrams
 - "Next sentence" key (". ", capitalizes the next letter)
 - Needs https://github.com/bdaase/remove-alt-tab-delay on Ubuntu
@@ -179,7 +179,7 @@ How to read this layout:
 |  Base  |    r    |    s    |    t    |    h    | Leader  |    a    |    i    |    l    |
 |  Base  |    b    |    c    |    g    |    d    |    n    |   rep   |  aRep   |    f    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |   💎    |         |   f4    |         |         |         |         |
+|  Base  |         |   💎    |    -    |   f4    |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -193,27 +193,27 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |         |         |         |         |         |   ↩️️   |   💎    |
+|  Base  |   💎    |    q    |         |         |         |         |   ↩️️   |   💎    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |  "ph"   |  "ny"   |         |         |         |
 |  Base  |         |         |         |   💎    |   💎    |         |         |         |
-|  Base  |         |         |         |  "qu"   |  "ay"   |         |         |         |
+|  Base  |         |         |         |  "n'"   |  "ay"   |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |         |  "cs"   |         |         |  "oa"   |         |         |
+|  Base  |         |         |  "nv"   |         |         |  "oa"   |         |         |
 |  Base  |         |         |   💎    |         |         |   💎    |         |         |
-|  Base  |         |         |  "ck"   |         |         |  "ing"  |         |         |
+|  Base  |         |         |  "qu"   |         |         |  "ing"  |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |  "ws"   |         |         |         |         |  "ui"   |         |
 |  Base  |         |   💎    |         |         |         |         |   💎    |         |
 |  Base  |         |  "sc"   |         |         |         |         |  "ion"  |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |  "sw"   |         |         |         |         |         |         |  .spc   |
+|  Base  |  "kn"   |         |         |         |         |         |         |  "nk"   |
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
 |  Base  |  "br"   |         |         |         |         |         |         |  "fl"   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Leader |         | Umlaut  |    v    |    z    | =Media  |  Short  |    x    |         |
-| Leader |   Fn    | BRight  | BRight  | BRight  |    '    |  BLeft  |  BLeft  |  BLeft  |
-| Leader | =Mouse  |    j    |    k    |  =Nav   |  Smile  |    ,    |    .    |    q    |
+| Leader |         | Umlaut  |    v    |    z    | =Media  |  Short  |    '    |         |
+| Leader |   Fn    | BRight  | BRight  | BRight  |   win   |  BLeft  |  BLeft  |  BLeft  |
+| Leader | =Mouse  |    j    |    k    |  =Nav   |  Smile  |    ,    |    .    |    x    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Short  |         |   C-w   |  undo   |  redo   |         |         |         |         |
 | Short  |  CA-[   | tab ➡️  | win ➡️  |  CA-]   |         |         |         |         |
@@ -256,7 +256,7 @@ How to read this layout:
 | Media  |         |   ⏯️    |   ⏮️    |   ⏭️    |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | BRight |         |         |         |         |         |         |         |         |
-| BRight |   Fn    |         |         |         |    '    |         |         |         |
+| BRight |   Fn    |         |         |         |    e    |         |         |         |
 | BRight |         |         |         |         |         |    ,    |    .    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
@@ -264,9 +264,9 @@ How to read this layout:
 |:------:|:----------:|:------------------------:|:----------------------:|:-----------:|
 |  Base  |   *Short   |           spc            |           e            |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
-| BLeft  |            |           spc            |          tab           |             |                      
+| BLeft  |            |           spc            |          ↩️️           |             |                      
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
-| BRight |            |           ↩️️            |           e            |             |                      
+| BRight |            |          ParNum          |         CurBra         |             |                      
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 | Mouse  |   Short    |          =Mouse          |         Short          |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
@@ -282,11 +282,11 @@ How to read this layout:
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 | Media  |            |          =Media          |                        |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
-| ParNum |            |         =ParNum          |          win           |             |
+| ParNum |            |         =ParNum          |          tab           |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
-| CurBra |            |                          |                        |             |
+| CurBra |            |           .spc           |          ins           |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
-| Umlaut |            |         =Umlaut          |                        |             |
+| Umlaut |            |         =Umlaut          |           "            |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 | Switch |            |         =Switch          |                        |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
@@ -374,7 +374,6 @@ Bra = Brackets           [
 | `       | ALGR(KC_GRV)                          |
 | ~       | ALGR(KC_TILD)                         |
 | ^       | ALGR(KC_CIRC)                         |
-| "       | <implicit>                            |
 | <       | <implicit>                            |
 | >       | <implicit>                            |
 | rep     | QK_REPEAT_KEY                         |
