@@ -185,14 +185,14 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |         |   💎    |   win   |   esc   |   💎    |         |         |
+|  Base  |         |         |   💎    |   win   |  bspc   |   💎    |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |   💎    |  CS-f   |  A-f7   |  O-🖱️  |   tab   |   💎    |         |
+|  Base  |         |   💎    |  CS-f   |  O-🖱️  |   esc   |   tab   |   💎    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |         | S-paste |         |         |         |         |         |
+|  Base  |         |         | S-paste |  A-f7   |         |         |         |         |
 |  Base  |   💎    |   cut   |  paste  |  copy   |         |         |   ↩️️   |   💎    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |  "ph"   |  "ny"   |         |         |         |
@@ -211,7 +211,7 @@ How to read this layout:
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
 |  Base  |  "br"   |         |         |         |         |         |         |  "fl"   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Leader |         | Umlaut  |    v    |    z    | =Media  |  Short  |    '    |         |
+| Leader |         | Umlaut  |    v    |    z    | =Media  | *Short  |    '    |         |
 | Leader |   Fn    | BRight  | BRight  | BRight  |    -    |  BLeft  |  BLeft  |  BLeft  |
 | Leader | =Mouse  |    j    |    k    |  =Nav   |  Smile  |    ,    |    .    |    x    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -219,7 +219,7 @@ How to read this layout:
 | Short  |  CA-[   | tab ➡️  | win ➡️  |  CA-]   |         |         |         |         |
 | Short  | S-paste |   cut   |  paste  |  copy   |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav   |         |         |         |         |         |   spc   |   ins   |         |
+|  Nav   |         |         |         |         |   esc   | *Short  |   ins   |         |
 |  Nav   |  *Nav2  |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
 |  Nav   |         |         |         |         |   ↩️️   |  bspc   |   del   |   esc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -268,15 +268,13 @@ How to read this layout:
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 | BRight |            |          ParNum          |         CurBra         |             |                      
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
-| Mouse  |   Short    |          =Mouse          |         Short          |             |
+| Mouse  |   *Short   |          =Mouse          |         *Short         |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 | Leader |            |          ParNum          |         CurBra         |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 |   Fn   |            |           =Fn            |          f12           |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 | Smile  |            |          =Smile          |                        |             |
-|        | ---------- | ------------------------ | ---------------------- | ----------- |
-| Short  |            |          =Short          |                        |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 |  Nav   |            |           =Nav           |          tab           |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
@@ -287,8 +285,6 @@ How to read this layout:
 | CurBra |            |           .spc           |          ins           |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 | Umlaut |            |         =Umlaut          |           "            |             |
-|        | ---------- | ------------------------ | ---------------------- | ----------- |
-| Switch |            |         =Switch          |                        |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
  
 ## Options
@@ -308,15 +304,14 @@ Bra = Brackets           [
 |      Fn      |  OneShotHomeRow  |                 |               |                |       |
 |    Mouse     | OneShotBottomRow |                 |               |                |       |
 |    Mouse2    |                  |                 |               |                |       |
-|    Short     |                  |                 |               |                |       |
 |     Nav      |  OneShotHomeRow  |                 |     Short     |                |       |
+|    Short     |                  |                 |               |                |       |
 |     Nav2     |  OneShotHomeRow  |                 |               |                |       |
 |    ParNum    |  OneShotHomeRow  |                 |               |                |       |
 |    CurBra    |  OneShotHomeRow  |                 |               |                |       |
 |    Media     |                  |                 |               |                |       |
 |    Smile     |                  |                 |               |                |       |
 |    Umlaut    |                  |                 |               |                |       |
-|    Switch    |                  |                 |     Short     |                |       |
                                                                                                          
 
 ## Symbols
@@ -378,8 +373,8 @@ Bra = Brackets           [
 | >       | <implicit>                            |
 | rep     | QK_REPEAT_KEY                         |
 | aRep    | QK_ALT_REPEAT_KEY                     |
-| tab ➡️  | custom:NEXT_TAB      LayerHint:Switch |
-| win ➡️  | custom:NEXT_WINDOW   LayerHint:Switch |
+| tab ➡️  | custom:NEXT_TAB                       |
+| win ➡️  | custom:NEXT_WINDOW                    |
 | O-🖱️   | custom:ONE_SHOT_MOUSE LayerHint:Mouse |
 | .spc    | custom:DOT_SPC                        |
 | n'      | custom:N_APOS                         |
