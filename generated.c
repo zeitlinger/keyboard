@@ -11,6 +11,12 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     }
 }
 
+void layer_off_key(uint16_t keycode) {
+    switch (keycode) {
+    ${layerOffKeys}
+    }
+}
+
 bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
     if (record->tap.count) {
         if (record->event.pressed) {
@@ -19,6 +25,8 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
             default:
                 break;
             }
+        } else {
+            layer_off_key(keycode);
         }
     } else {
         if (record->event.pressed) {

@@ -46,14 +46,20 @@ fun translateKey(
         //comes first, so that we can override the meaning of + and -
         def == qmkNo || translator.symbols.mapping.containsKey(def) -> translateSimpleKey(translator, def, pos)
         def.contains(" ") && !def.startsWith("\"") -> spaceSeparatedHint(def, translator, pos)
-        def.contains("+") && def.length > 1 -> layerTapHoldKey(def, translator, pos)
-        def.contains("-") && def.length > 1 -> keyWithModifier(def, translator, pos)
-        def.startsWith("=") && def.length > 1 -> layerKey(
-            translator,
-            pos,
-            def.substring(1),
-            LayerActivation.Toggle
-        )
+        def.contains("+") && def.length > 1 -> when {
+            def.startsWith("+") -> layerKey(translator, pos, def.substring(1), LayerActivation.Toggle)
+
+            else -> layerTapHoldKey(def, translator, pos)
+        }
+
+        def.contains("-") && def.length > 1 -> when {
+            def == "--" -> layerKey(translator, pos, pos.layerName, LayerActivation.Toggle)
+            def.startsWith("-") -> translateKey(translator, pos, def.substring(1)).also {
+                translator.layerOffKeys[it.keyWithModifier] = pos.layerName.const()
+            }
+
+            else -> keyWithModifier(def, translator, pos)
+        }
 
         def.startsWith("*") && def.length > 1 -> layerKey(
             translator,

@@ -21,6 +21,7 @@ fun qmkTranslator(args: GeneratorArgs): QmkTranslator {
         options,
         mutableMapOf(),
         mutableListOf(),
+        sortedMapOf()
     )
 }
 

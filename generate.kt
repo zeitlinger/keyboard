@@ -81,12 +81,17 @@ fun run(args: GeneratorArgs) {
             "targetLayerOnHoldPressed" to targetLayerOnHold(translator.modTapKeyTargetLayers, "on", "add"),
             "targetLayerOnHoldReleased" to targetLayerOnHold(translator.modTapKeyTargetLayers, "off", "del"),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
+            "layerOffKeys" to layerOffKeys(translator),
             "disableComboOnNonBaseLayer" to disableComboOnNonBaseLayer(combos),
         )
     )
 
     File(dstDir, "qmk/combos.def").writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
 }
+
+private fun layerOffKeys(translator: QmkTranslator) =
+    translator.layerOffKeys.map { "case ${it.key}: if (layer_state_is(${it.value})) { layer_off(${it.value}); } break;" }
+        .joinToString("\n    ")
 
 fun customKeycodesOnTapPressed(translator: QmkTranslator): String =
     translator.symbols.customKeycodes.entries
