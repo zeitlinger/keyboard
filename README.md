@@ -241,7 +241,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Umlaut |         | PasCase | SN_CASE |         |         |    ö    |    ü    |         |
 | Umlaut | sl/case | camCase | sn_case |  CAPSW  |    :    |    ä    |    _    |    ~    |
-| Umlaut | do.case |         | kb-case |         |    &    |    ^    |    %    |    ß    |
+| Umlaut | do.case |  CAPSL  | kb-case |         |    &    |    ^    |    %    |    ß    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | ParNum |         |    (    |    )    |         |    4    |    5    |    6    |         | 
 | ParNum |    $    |   🛑    |   🛑    |   🛑    |    0    |    1    |    2    |    3    |  
@@ -288,7 +288,7 @@ How to read this layout:
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 | CurBra |            |           .spc           |                        |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
-| Umlaut |            |         =Umlaut          |                        |             |
+| Umlaut |            |         =Umlaut          |           "            |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
  
 ## Options
@@ -375,7 +375,6 @@ Bra = Brackets           [
 | `       | ALGR(KC_GRV)                          |
 | ~       | ALGR(KC_TILD)                         |
 | ^       | ALGR(KC_CIRC)                         |
-| "       | <implicit>                            |
 | <       | <implicit>                            |
 | >       | <implicit>                            |
 | rep     | QK_REPEAT_KEY                         |
@@ -386,6 +385,7 @@ Bra = Brackets           [
 | .spc    | custom:DOT_SPC                        |
 | n'      | custom:N_APOS                         |
 | version | custom:PRINT_VERSION                  |
+| CAPSL   | KC_CAPS                               |
 | CAPSW   | custom:CAPS_WORDS                     |
 | sn_case | custom:SNAKE_CASE                     |
 | SN_CASE | custom:SCREAMING_SNAKE_CASE           |
