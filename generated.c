@@ -11,10 +11,12 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     }
 }
 
-void layer_off_key(uint16_t keycode) {
-    switch (keycode) {
+int auto_layer_off = -1;
+int auto_layer_on = -1;
+
+int layer_off_key(uint16_t keycode) {
     ${layerOffKeys}
-    }
+    return -1;
 }
 
 bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
@@ -25,8 +27,16 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
             default:
                 break;
             }
+            auto_layer_off = layer_off_key(keycode);
         } else {
-            layer_off_key(keycode);
+            if (auto_layer_off >= 0) {
+                layer_off(auto_layer_off);
+                auto_layer_off = -1;
+            }
+             if (auto_layer_on >= 0) {
+                layer_on(auto_layer_on);
+                auto_layer_on = -1;
+            }
         }
     } else {
         if (record->event.pressed) {

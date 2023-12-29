@@ -21,7 +21,7 @@ fun qmkTranslator(args: GeneratorArgs): QmkTranslator {
         options,
         mutableMapOf(),
         mutableListOf(),
-        sortedMapOf()
+        mutableListOf()
     )
 }
 
@@ -60,25 +60,24 @@ private fun readSymbols(tables: Tables): Symbols {
 }
 
 
-private fun layerOption(tables: Tables): Map<LayerName, LayerOption> {
-    val layerOptions = tables.getSingle("LayerOptions")
-        .associateBy { it[0] }
-        .mapValues {
-            LayerOption(
-                modifierTypes(it.value[1]),
-                modifierTypes(it.value[2]),
-                it.value[3].ifBlank { null },
-                it.value[4].ifBlank { null },
-                when (it.value[5]) {
-                    "Hidden" -> setOf(LayerFlag.Hidden)
-                    "OSL to toggle" -> setOf(LayerFlag.OslToToggle)
-                    else -> emptySet()
-                },
-                emptySet(),
-            )
-        }
-    return layerOptions
-}
+private fun layerOption(tables: Tables): Map<LayerName, LayerOption> = tables.getSingle("LayerOptions")
+    .associateBy { it[0] }
+    .mapValues {
+        LayerOption(
+            modifierTypes(it.value[1]),
+            modifierTypes(it.value[2]),
+            it.value[3].ifBlank { null },
+            it.value[4].ifBlank { null },
+            when (it.value[5]) {
+                "Hidden" -> setOf(LayerFlag.Hidden)
+                "OSL to toggle" -> setOf(LayerFlag.OslToToggle)
+                "OneShot" -> setOf(LayerFlag.OneShot)
+                "" -> emptySet()
+                else -> throw IllegalStateException("unknown flag ${it.value[5]}")
+            },
+            emptySet(),
+        )
+    }
 
 private fun options(
     tables: Tables,

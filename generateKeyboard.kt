@@ -45,13 +45,15 @@ enum class LayerActivation(val method: String?) {
     ComboLayer(null)
 }
 
-enum class LayerFlag { Hidden, Toggle, OslToToggle }
+enum class LayerFlag { Hidden, Toggle, OslToToggle, OneShot }
 
 typealias LayerName = String
 
-data class LayerRef(val name: LayerName, val number: Int?) {
+data class LayerRef(val name: LayerName, val number: Int?, val option: LayerOption) {
     fun const() = name.const()
 }
+
+data class LayerOffKey(val key: String, val layer: LayerName)
 
 data class LayerOption(
     val leftModifier: Map<HomeRowType, LayerName?>,

@@ -162,9 +162,8 @@ How to read this layout:
 - 💎 = combo key (e.g. middle and index finger in top row pressed together produce "b")
 - 🛑 = key can't be used because the layer was activated with that key or because it's reserved for a modifier
 - empty = use key from base layer
-- FnBra = capitalized words are layer names - if they are a key, the layer is activated as one shot layer
+- FnBra = capitalized words are layer names - if they are a key, the layer is activated as toggled or one shot layer (if the "OneShot" flag is set in the layer flags)
 - /+Ctrl = tab-mod - / on tab and CTRL on hold
-- +Mouse = set mouse layer active on tap (toggle)
 - *Mouse = layer is active while key is held
 - C-w = Ctrl-w (same for Alt and Shift)
 - -- = deactivate current layer
@@ -180,7 +179,7 @@ How to read this layout:
 |  Base  |    r    |    s    |    t    |    h    | Leader  |    a    |    i    |    l    |
 |  Base  |    b    |    c    |    g    |    d    |    n    |   rep   |  aRep   |    f    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |   💎    | +Mouse  |   f4    |         |         |         |         |
+|  Base  |         |   💎    |  Mouse  |   f4    |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -212,9 +211,9 @@ How to read this layout:
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
 |  Base  |  "br"   |         |         |         |         |         |         |  "fl"   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Leader |         | Umlaut  |    v    |    q    | +Media  |  Short  |    '    |         |
+| Leader |         | Umlaut  |    v    |    q    |  Media  |  Short  |    '    |         |
 | Leader |   Fn    | BRight  | BRight  | BRight  |    -    |  BLeft  |  BLeft  |  BLeft  |
-| Leader |    z    |    j    |    k    |  +Nav   |  Smile  |    ,    |    .    |    x    |
+| Leader |    z    |    j    |    k    |   Nav   |  Smile  |    ,    |    .    |    x    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | BRight |         |         |         |         |         |         |         |         |
 | BRight |         |   🛑    |   🛑    |   🛑    |    e    |         |         |         |
@@ -267,13 +266,13 @@ How to read this layout:
 
 | Thumb  | Left Inner |        Left Outer        |      Right Outer       | Right Inner |
 |:------:|:----------:|:------------------------:|:----------------------:|:-----------:|
-|  Base  |   *Short   |           spc            |           e            |             |
+|  Base  |   Short    |           spc            |           e            |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
-| BLeft  |            |           spc            |          ↩️️           |             |                      
+| BLeft  |            |           spc            |          ↩️️           |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
-| BRight |            |          ParNum          |         CurBra         |             |                      
+| BRight |            |          ParNum          |         CurBra         |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
-| Mouse  |   *Short   |            --            |          🖱️1          |             |
+| Mouse  |   Short    |            --            |          🖱️1          |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 | Leader |            |          ParNum          |         CurBra         |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
@@ -281,7 +280,9 @@ How to read this layout:
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 | Smile  |            |            --            |                        |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
-|  Nav   |   *Short   |            --            |          tab           |             |
+| Short  |     --     |            --            |                        |             |
+|        | ---------- | ------------------------ | ---------------------- | ----------- |
+|  Nav   |   Short    |            --            |          tab           |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 | Media  |            |            --            |           🔇           |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
@@ -302,23 +303,23 @@ Par = Parentheses        (
 Cur = Curly Parentheses  {
 Bra = Brackets           [
 
-| LayerOptions |  Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags |
-|:------------:|:----------------:|:---------------:|:-------------:|:--------------:|-------|
-|     Base     |                  |                 |               |                |       |
-|    Leader    |                  |                 |               |                |       |
-|    BLeft     |                  |                 |     Base      |     Leader     |       |
-|    BRight    |  OneShotHomeRow  |                 |    Leader     |      Base      |       |
-|      Fn      |  OneShotHomeRow  |                 |               |                |       |
-|    Mouse     | OneShotBottomRow |                 |               |                |       |
-|    Mouse2    |                  |                 |               |                |       |
-|     Nav      |  OneShotHomeRow  |                 |     Short     |                |       |
-|    Short     |                  |                 |               |                |       |
-|     Nav2     |  OneShotHomeRow  |                 |               |                |       |
-|    ParNum    |  OneShotHomeRow  |                 |               |                |       |
-|    CurBra    |  OneShotHomeRow  |                 |               |                |       |
-|    Media     |                  |                 |               |                |       |
-|    Smile     |                  |                 |               |                |       |
-|    Umlaut    |                  |                 |               |                |       |
+| LayerOptions |  Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags   |
+|:------------:|:----------------:|:---------------:|:-------------:|:--------------:|---------|
+|     Base     |                  |                 |               |                |         |
+|    Leader    |                  |                 |               |                | OneShot |
+|    BLeft     |                  |                 |     Base      |     Leader     | OneShot |
+|    BRight    |  OneShotHomeRow  |                 |    Leader     |      Base      | OneShot |
+|      Fn      |  OneShotHomeRow  |                 |               |                | OneShot |
+|    Mouse     | OneShotBottomRow |                 |               |                |         |
+|    Mouse2    |                  |                 |               |                |         |
+|     Nav      |  OneShotHomeRow  |                 |     Short     |                |         |
+|    Short     |                  |                 |               |                |         |
+|     Nav2     |  OneShotHomeRow  |                 |               |                |         |
+|    ParNum    |  OneShotHomeRow  |                 |               |                | OneShot |
+|    CurBra    |  OneShotHomeRow  |                 |               |                | OneShot |
+|    Media     |                  |                 |               |                |         |
+|    Smile     |                  |                 |               |                |         |
+|    Umlaut    |                  |                 |               |                | OneShot |
                                                                                                          
 
 ## Symbols

@@ -104,8 +104,11 @@ fun addCustomIfNotSimpleKey(key: String, translator: QmkTranslator): String =
     }
 
 fun tapCustomKey(translator: QmkTranslator, key: String): String {
-    val custom = "_TAP_${comboName(key)}"
-    translator.symbols.customKeycodes[custom] = CustomKey(custom, null, key)
+    return customCommand(translator, "_TAP_${comboName(key)}", "tap_code16($key)")
+}
+
+fun customCommand(translator: QmkTranslator, custom: String, command: String): String {
+    translator.symbols.customKeycodes[custom] = CustomKey(custom, null, command)
     return custom
 }
 

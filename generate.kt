@@ -89,15 +89,23 @@ fun run(args: GeneratorArgs) {
     File(dstDir, "qmk/combos.def").writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
 }
 
-private fun layerOffKeys(translator: QmkTranslator) =
-    translator.layerOffKeys.map { "case ${it.key}: if (layer_state_is(${it.value})) { layer_off(${it.value}); } break;" }
-        .joinToString("\n    ")
+private fun layerOffKeys(translator: QmkTranslator): String =
+    listOf(
+        translator.layerOffKeys
+            .joinToString("\n    ") {
+                "if (keycode == ${it.key} && layer_state_is(${it.layer})) { return ${it.layer}; } "
+            },
+        translator.layerOptions.entries.filter { it.value.flags.contains(LayerFlag.OneShot) }
+            .joinToString("\n    ") {
+                "if (layer_state_is(${it.key.const()})) { return ${it.key.const()}; } "
+            }
+    ).joinToString("\n    ")
 
 fun customKeycodesOnTapPressed(translator: QmkTranslator): String =
     translator.symbols.customKeycodes.entries
         .filter { it.value.onTapPressed != null }
         .joinToString("\n            ") {
-            "case _HANDLER_${it.key}: tap_code16(${it.value.onTapPressed}); return false;"
+            "case _HANDLER_${it.key}: ${it.value.onTapPressed}; return false;"
         }
 
 fun disableComboOnNonBaseLayer(combos: List<Combo>): String =

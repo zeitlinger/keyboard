@@ -14,7 +14,7 @@ class QmkTranslator(
     val options: Options,
     val modTapKeyTargetLayers: MutableMap<String, LayerModTab>,
     val layerTapHold: MutableList<String>,
-    val layerOffKeys: MutableMap<String, String>,
+    val layerOffKeys: MutableList<LayerOffKey>,
 ) {
 
     private val map: Map<String, String>
@@ -55,7 +55,7 @@ class QmkTranslator(
             option.reachable += activation
         }
 
-        return LayerRef(layerName, number)
+        return LayerRef(layerName, number, option)
     }
 
     fun assertTargetOrder(targetLayerName: LayerName, pos: KeyPosition) {
