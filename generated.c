@@ -19,18 +19,21 @@ int layer_off_key(uint16_t keycode) {
 }
 
 bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
+    if (record->event.pressed) {
+        auto_layer_off = layer_off_key(keycode);
+    } else {
+        if (auto_layer_off >= 0) {
+            layer_off(auto_layer_off);
+            auto_layer_off = -1;
+        }
+    }
+
     if (record->tap.count) {
         if (record->event.pressed) {
             switch (keycode) {
             ${customKeycodesOnTapPressed}
             default:
                 break;
-            }
-            auto_layer_off = layer_off_key(keycode);
-        } else {
-            if (auto_layer_off >= 0) {
-                layer_off(auto_layer_off);
-                auto_layer_off = -1;
             }
         }
     } else {
