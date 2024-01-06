@@ -41,7 +41,7 @@ data class Symbols(
     fun replace(key: String, pos: KeyPosition, translator: QmkTranslator): String {
         val value = mapping[key]
         if (value != null) {
-            customKeycodes[value]?.targetLayerName?.let { translator.reachLayer(it, pos, LayerActivation.OneShot) }
+            customKeycodes[value]?.targetLayerName?.let { translator.reachLayer(it, pos, LayerActivation.Toggle) }
             return value
         }
         return key

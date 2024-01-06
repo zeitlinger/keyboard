@@ -37,7 +37,6 @@ data class Options(
 )
 
 enum class LayerActivation(val method: String?) {
-    OneShot("OSL"),
     Toggle("TG"),
     Hold("MO"),
     TapHold(null),
@@ -45,7 +44,7 @@ enum class LayerActivation(val method: String?) {
     ComboLayer(null)
 }
 
-enum class LayerFlag { Hidden, Toggle, OslToToggle, OneShot }
+enum class LayerFlag { Hidden, Toggle, OslToToggle, OneShot, NoOneShot }
 
 typealias LayerName = String
 

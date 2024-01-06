@@ -303,23 +303,23 @@ Par = Parentheses        (
 Cur = Curly Parentheses  {
 Bra = Brackets           [
 
-| LayerOptions |  Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags   |
-|:------------:|:----------------:|:---------------:|:-------------:|:--------------:|---------|
-|     Base     |                  |                 |               |                |         |
-|    Leader    |                  |                 |               |                | OneShot |
-|    BLeft     |                  |                 |     Base      |     Leader     | OneShot |
-|    BRight    |  OneShotHomeRow  |                 |    Leader     |      Base      | OneShot |
-|      Fn      |  OneShotHomeRow  |                 |               |                | OneShot |
-|    Mouse     | OneShotBottomRow |                 |               |                |         |
-|    Mouse2    |                  |                 |               |                |         |
-|     Nav      |  OneShotHomeRow  |                 |     Short     |                |         |
-|    Short     |                  |                 |               |                |         |
-|     Nav2     |  OneShotHomeRow  |                 |               |                |         |
-|    ParNum    |  OneShotHomeRow  |                 |               |                | OneShot |
-|    CurBra    |  OneShotHomeRow  |                 |               |                | OneShot |
-|    Media     |                  |                 |               |                |         |
-|    Smile     |                  |                 |               |                |         |
-|    Umlaut    |                  |                 |               |                | OneShot |
+| LayerOptions |  Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags      |
+|:------------:|:----------------:|:---------------:|:-------------:|:--------------:|------------|
+|     Base     |                  |                 |               |                |            |
+|    Leader    |                  |                 |               |                | OneShot    |
+|    BLeft     |                  |                 |     Base      |     Leader     | OneShot    |
+|    BRight    |  OneShotHomeRow  |                 |    Leader     |      Base      | OneShot    |
+|      Fn      |  OneShotHomeRow  |                 |               |                | OneShot    |
+|    Mouse     | OneShotBottomRow |                 |               |                |            |
+|    Mouse2    |                  |                 |               |                |            |
+|     Nav      |  OneShotHomeRow  |                 |     Short     |                | No OneShot |
+|    Short     |                  |                 |               |                |            |
+|     Nav2     |  OneShotHomeRow  |                 |               |                |            |
+|    ParNum    |  OneShotHomeRow  |                 |               |                | OneShot    |
+|    CurBra    |  OneShotHomeRow  |                 |               |                | OneShot    |
+|    Media     |                  |                 |               |                |            |
+|    Smile     |                  |                 |               |                |            |
+|    Umlaut    |                  |                 |               |                | OneShot    |
                                                                                                          
 
 ## Symbols

@@ -72,6 +72,7 @@ private fun layerOption(tables: Tables): Map<LayerName, LayerOption> = tables.ge
                 "Hidden" -> setOf(LayerFlag.Hidden)
                 "OSL to toggle" -> setOf(LayerFlag.OslToToggle)
                 "OneShot" -> setOf(LayerFlag.OneShot)
+                "No OneShot" -> setOf(LayerFlag.NoOneShot)
                 "" -> emptySet()
                 else -> throw IllegalStateException("unknown flag ${it.value[5]}")
             },

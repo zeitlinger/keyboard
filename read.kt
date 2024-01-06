@@ -51,7 +51,9 @@ fun translateKey(
         def.contains("-") && def.length > 1 -> when {
             def == "--" -> layerKey(translator, pos, pos.layerName, LayerActivation.Toggle)
             def.startsWith("-") -> translateKey(translator, pos, def.substring(1)).also {
-                translator.layerOffKeys.add(LayerOffKey(it.keyWithModifier, pos.layerName.const()))
+                if (LayerFlag.NoOneShot !in translator.layerOptions.getValue(pos.layerName).flags) {
+                    translator.layerOffKeys.add(LayerOffKey(it.keyWithModifier, pos.layerName.const()))
+                }
             }
 
             else -> keyWithModifier(def, translator, pos)
@@ -64,7 +66,7 @@ fun translateKey(
             LayerActivation.Hold
         )
         //skip QMK keycodes
-        def.isNotBlank() && def[0].isUpperCase() && !def.contains("_") -> enterLayerKey(
+        def.isNotBlank() && def[0].isUpperCase() && !def.contains("_") -> layerKey(
             translator,
             pos,
             def,
@@ -72,21 +74,6 @@ fun translateKey(
         )
 
         else -> translateSimpleKey(translator, def, pos)
-    }
-}
-
-private fun enterLayerKey(
-    translator: QmkTranslator, pos: KeyPosition, layerName: String, layerActivation: LayerActivation): Key {
-    val layer = translator.reachLayer(layerName, pos, layerActivation)
-    return when {
-        LayerActivation.OneShot in translator.layerOptions.getValue(pos.layerName).reachable || LayerFlag.OneShot in layer.option.flags -> {
-            val layerConst = "_LAYER" + layerName.const()
-            val customKey = customCommand(translator, layerConst, "auto_layer_on = $layerConst")
-            setCustomKeyCommand(translator, customKey, layerConst)
-            Key(customKey)
-        }
-
-        else -> layerKey(translator, pos, layerName, layerActivation)
     }
 }
 
