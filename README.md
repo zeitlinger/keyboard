@@ -212,16 +212,16 @@ How to read this layout:
 |  Base  |  "br"   |         |         |         |         |         |         |  "fl"   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Leader |         | Umlaut  |    v    |    q    |  Media  |  Short  |    '    |         |
-| Leader |   Fn    | BRight  | BRight  | BRight  |    -    |  BLeft  |  BLeft  |  BLeft  |
+| Leader |   Fn    | A-Right | C-Right | S-Right |    -    | S-Left  | C-Left  | A-Left  |
 | Leader |    z    |    j    |    k    |   Nav   |  Smile  |    ,    |    .    |    x    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| BRight |         |         |         |         |         |         |         |         |
-| BRight |         |   🛑    |   🛑    |   🛑    |    e    |         |         |         |
-| BRight |         |         |         |         |         |    ,    |    .    |         |
+| Right  |         |         |         |         |         |         |         |         |
+| Right  |         |   🛑    |   🛑    |   🛑    |    e    |         |         |         |
+| Right  |         |         |         |         |         |    ,    |    .    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| BLeft  |         |         |         |         |         |         |         |         |
-| BLeft  |         |         |         |         |   ins   | OSM(S)  | OSM(C)  | OSM(A)  |
-| BLeft  |         |         |         |         |         |         |         |         |
+|  Left  |         |         |         |         |         |         |         |         |
+|  Left  |         |         |         |         |   ins   | OSM(S)  | OSM(C)  | OSM(A)  |
+|  Left  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Short  |         |  -C-w   |  -undo  |  -redo  |         |         |         |         |
 | Short  |  CA-[   | tab ➡️  | win ➡️  |  CA-]   |         |         |         |         |
@@ -268,9 +268,9 @@ How to read this layout:
 |:------:|:----------:|:------------------------:|:----------------------:|:-----------:|
 |  Base  |   Short    |           spc            |           e            |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
-| BLeft  |            |           spc            |          ↩️️           |             |
+|  Left  |            |           spc            |          ↩️️           |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
-| BRight |            |          ParNum          |         CurBra         |             |
+| Right  |            |          ParNum          |         CurBra         |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
 | Mouse  |   Short    |            --            |          🖱️1          |             |
 |        | ---------- | ------------------------ | ---------------------- | ----------- |
@@ -307,8 +307,8 @@ Bra = Brackets           [
 |:------------:|:----------------:|:---------------:|:-------------:|:--------------:|------------|
 |     Base     |                  |                 |               |                |            |
 |    Leader    |                  |                 |               |                | OneShot    |
-|    BLeft     |                  |                 |     Base      |     Leader     | OneShot    |
-|    BRight    |  OneShotHomeRow  |                 |    Leader     |      Base      | OneShot    |
+|     Left     |                  |                 |     Base      |     Leader     | OneShot    |
+|    Right     |  OneShotHomeRow  |                 |    Leader     |      Base      | OneShot    |
 |      Fn      |  OneShotHomeRow  |                 |               |                | OneShot    |
 |    Mouse     | OneShotBottomRow |                 |               |                |            |
 |    Mouse2    |                  |                 |               |                |            |

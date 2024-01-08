@@ -7,6 +7,7 @@ enum class Modifier(val mask: String, val leftKey: String) {
 
     companion object {
         fun ofLong(value: String): Modifier = valueOf(value)
+        fun ofShort(value: String): Modifier = entries.single { it.short == value }
     }
 }
 
@@ -71,8 +72,9 @@ private fun applyModTap(
         modTapKey
     } ?: key
 
-fun setCustomKeyCommand(translator: QmkTranslator, key: String, command: String) {
+fun setCustomKeyCommand(translator: QmkTranslator, key: String, command: String): Key {
     translator.symbols.customKeycodes.entries.find { it.key == key }?.let { it.value.key = command }
+    return Key(key)
 }
 
 private fun modTapKey(

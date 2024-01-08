@@ -40,8 +40,8 @@ fun readLayer(
 fun translateKey(
     translator: QmkTranslator,
     pos: KeyPosition,
-    s: String,
-): Key = getFallback(s, translator, pos).let { def ->
+    command: String,
+): Key = getFallback(command, translator, pos).let { def ->
     when {
         //comes first, so that we can override the meaning of + and -
         def == qmkNo || translator.symbols.mapping.containsKey(def) -> translateSimpleKey(translator, def, pos)
@@ -50,11 +50,12 @@ fun translateKey(
 
         def.contains("-") && def.length > 1 -> when {
             def == "--" -> layerKey(translator, pos, pos.layerName, LayerActivation.Toggle)
-            def.startsWith("-") -> translateKey(translator, pos, def.substring(1)).also {
-                if (LayerFlag.NoOneShot !in translator.layerOptions.getValue(pos.layerName).flags) {
-                    translator.layerOffKeys.add(LayerOffKey(it.keyWithModifier, pos.layerName.const()))
+            def.startsWith("-") -> translateKey(translator, pos, def.substring(1))
+                .also {
+                    if (LayerFlag.NoOneShot !in translator.layerOptions.getValue(pos.layerName).flags) {
+                        translator.layerOffKeys.add(LayerOffKey(it.keyWithModifier, pos.layerName.const()))
+                    }
                 }
-            }
 
             else -> keyWithModifier(def, translator, pos)
         }
@@ -103,8 +104,7 @@ private fun layerTapHoldKey(def: String, translator: QmkTranslator, pos: KeyPosi
     val key = addCustomIfNotSimpleKey(translateKey(translator, pos, parts[0]).key, translator)
     val command = "LT(${translator.reachLayer(parts[1], pos, LayerActivation.TapHold).const()},$key)"
     translator.layerTapHold.add(command)
-    setCustomKeyCommand(translator, key, command)
-    return Key(command)
+    return setCustomKeyCommand(translator, key, command)
 }
 
 fun layerKey(
@@ -121,7 +121,25 @@ fun layerKey(
     if (layerOption.flags.contains(LayerFlag.Hidden)) {
         throw IllegalArgumentException("can't toggle hidden layer $layer at $pos")
     }
-    return Key("${layerActivation.method}(${translator.reachLayer(layer, pos, activation).const()})")
+    return when (layerActivation) {
+        LayerActivation.Toggle -> holdLayerKey(translator, layer, pos, null)
+        LayerActivation.Hold -> Key(
+            "${layerActivation.method}(${
+                translator.reachLayer(layer, pos, activation).const()
+            })"
+        )
+
+        else -> throw IllegalArgumentException("unsupported layer activation $layerActivation")
+    }
+}
+
+fun holdLayerKey(translator: QmkTranslator, layer: String, pos: KeyPosition, modifier: Modifier?): Key {
+    translator.reachLayer(layer, pos, LayerActivation.Hold)
+    val mod = modifier?.let { "; add_oneshot_mods(MOD_BIT(${it.leftKey}))" } ?: ""
+    val prefix = modifier?.short ?: "L"
+    val key = "${prefix}_${layer.uppercase()}"
+    val command = customCommand(translator, key, "add_layer(${layer.const()})$mod")
+    return setCustomKeyCommand(translator, key, command)
 }
 
 fun comboLayer(left: String, translator: QmkTranslator, pos: KeyPosition, right: String): Key {
@@ -140,7 +158,11 @@ fun comboLayer(left: String, translator: QmkTranslator, pos: KeyPosition, right:
 fun keyWithModifier(def: String, translator: QmkTranslator, pos: KeyPosition): Key {
     val parts = def.split("-")
     val modifier = parts[0]
-    val key = translateKey(translator, pos, parts[1])
+    val target = parts[1]
+    if (translator.layerOptions[target] != null) {
+        return holdLayerKey(translator, target, pos, Modifier.ofShort(modifier))
+    }
+    val key = translateKey(translator, pos, target)
     return if (key.keyWithModifier.contains("(")) {
         val tapCustomKey = tapCustomKey(translator, addMods(modifier, key.key))
         Key(translateKey(translator, pos, tapCustomKey).keyWithModifier)
