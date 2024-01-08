@@ -82,6 +82,7 @@ fun run(args: GeneratorArgs) {
             "targetLayerOnHoldReleased" to targetLayerOnHold(translator.modTapKeyTargetLayers, "off", "del"),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
             "layerOffKeys" to layerOffKeys(translator),
+            "oneshotLayers" to oneshotLayers(translator),
             "disableComboOnNonBaseLayer" to disableComboOnNonBaseLayer(combos),
         )
     )
@@ -90,16 +91,16 @@ fun run(args: GeneratorArgs) {
 }
 
 private fun layerOffKeys(translator: QmkTranslator): String =
-    listOf(
-        translator.layerOffKeys
-            .joinToString("\n    ") {
-                "if (keycode == ${it.key} && layer_state_is(${it.layer})) { return ${it.layer}; } "
-            },
-        translator.layerOptions.entries.filter { it.value.flags.contains(LayerFlag.OneShot) }
-            .joinToString("\n    ") {
-                "if (layer_state_is(${it.key.const()})) { return ${it.key.const()}; } "
-            }
-    ).joinToString("\n    ")
+    translator.layerOffKeys
+        .joinToString("\n    ") {
+            "if (keycode == ${it.key} && layer == ${it.layer}) return true;"
+        }
+
+private fun oneshotLayers(translator: QmkTranslator): String =
+    translator.layerOptions.entries.filter { it.value.flags.contains(LayerFlag.OneShot) }
+        .joinToString("\n    ") {
+            "case ${it.key.const()}: return true;"
+        }
 
 fun customKeycodesOnTapPressed(translator: QmkTranslator): String =
     translator.symbols.customKeycodes.entries

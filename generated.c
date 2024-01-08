@@ -11,20 +11,39 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     }
 }
 
-int auto_layer_off = -1;
+#define ALL_ONESHOT_MASK 0xFF
+int oneshot_mask = ALL_ONESHOT_MASK;
 
-int layer_off_key(uint16_t keycode) {
+void add_layer(uint8_t layer) {
+    layer_on(layer);
+    oneshot_mask |= (1 << layer);
+}
+
+bool is_layer_off_key(uint16_t keycode, uint8_t layer) {
     ${layerOffKeys}
-    return -1;
+    return false;
+}
+
+bool is_oneshot_layer(uint8_t layer) {
+    switch (layer) {
+    ${oneshotLayers}
+    }
+    return false;
 }
 
 bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
-        auto_layer_off = layer_off_key(keycode);
-    } else {
-        if (auto_layer_off >= 0) {
-            layer_off(auto_layer_off);
-            auto_layer_off = -1;
+        uint8_t layer = get_highest_layer(layer_state);
+        if (is_oneshot_layer(layer)) {
+            oneshot_mask &= ~(1 << layer);
+        } else {
+            if (oneshot_mask != ALL_ONESHOT_MASK) {
+                layer_and(oneshot_mask);
+                oneshot_mask = ALL_ONESHOT_MASK;
+            }
+            if (is_layer_off_key(keycode, layer)) {
+                layer_off(layer);
+            }
         }
     }
 
