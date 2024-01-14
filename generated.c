@@ -31,26 +31,36 @@ bool is_oneshot_layer(uint8_t layer) {
     return false;
 }
 
+void press_normal_layer(uint16_t keycode, uint8_t layer) {
+    if (oneshot_mask != ALL_ONESHOT_MASK) {
+        layer_and(oneshot_mask);
+        oneshot_mask = ALL_ONESHOT_MASK;
+    }
+    if (is_layer_off_key(keycode, layer)) {
+        layer_off(layer);
+    }
+}
+
 bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
         uint8_t layer = get_highest_layer(layer_state);
         if (is_oneshot_layer(layer)) {
-            oneshot_mask &= ~(1 << layer);
+            layer_state_t new_mask = oneshot_mask & ~(1 << layer);
+            if (new_mask == oneshot_mask) {
+                // second press of the same oneshot layer
+                press_normal_layer(keycode, layer);
+            } else {
+                oneshot_mask = new_mask;
+            }
         } else {
-            if (oneshot_mask != ALL_ONESHOT_MASK) {
-                layer_and(oneshot_mask);
-                oneshot_mask = ALL_ONESHOT_MASK;
-            }
-            if (is_layer_off_key(keycode, layer)) {
-                layer_off(layer);
-            }
+            press_normal_layer(keycode, layer);
         }
     }
 
     if (record->tap.count) {
         if (record->event.pressed) {
             switch (keycode) {
-            ${customKeycodesOnTapPressed}
+            ${customKeycodesOnTapPress}
             default:
                 break;
             }
@@ -58,13 +68,13 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
     } else {
         if (record->event.pressed) {
             switch (keycode) {
-            ${targetLayerOnHoldPressed}
+            ${customKeycodesOnPress}
             default:
                 break;
             }
         } else {
             switch (keycode) {
-            ${targetLayerOnHoldReleased}
+            ${customKeycodesOnRelease}
             default:
                 break;
             }

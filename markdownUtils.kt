@@ -2,21 +2,21 @@ import java.io.File
 
 
 fun readTables(config: File): Tables = config
-        .readText()
-        .split("\n\\s*\n".toRegex())
-        .filter { it.startsWith("|") }
-        .associate { tableLines ->
-            val lines = tableLines
-                    .split("\n")
-                    .filter { validLine(it) }
-            val header = tableLine(lines[0])
-            val map = lines
-                    .drop(1)
-                    .split { it.contains("| --") }
-                    .filter { it.isNotEmpty() }
-                    .map { it.map(::tableLine) }
-            header[0] to MultiTableWithHeader(header, map)
-        }.let { Tables(it) }
+    .readText()
+    .split("\n\\s*\n".toRegex())
+    .filter { it.startsWith("|") }
+    .associate { tableLines ->
+        val lines = tableLines
+            .split("\n")
+            .filter { validLine(it) }
+        val header = tableLine(lines[0])
+        val map = lines
+            .drop(1)
+            .split { it.contains("| --") }
+            .filter { it.isNotEmpty() }
+            .map { it.map(::tableLine) }
+        header[0] to MultiTableWithHeader(header, map)
+    }.let { Tables(it) }
 
 private fun validLine(line: String) = when {
     line.isBlank() -> false
@@ -27,16 +27,26 @@ private fun validLine(line: String) = when {
 }
 
 private fun tableLine(tableLine: String) = tableLine.split("|")
-        .drop(1) // initial |
-        .dropLast(1) // last |
-        .map { it.trim() }
+    .drop(1) // initial |
+    .dropLast(1) // last |
+    .map { it.trim() }
 
-data class CustomKey(var key: String, val targetLayerName: LayerName?, val onTapPressed: String?)
+enum class CustomCommandType {
+    OnPress,
+    OnTap
+}
+
+data class CustomCommand(
+    val type: CustomCommandType,
+    val cStatements: List<String>,
+)
+
+data class CustomKey(var key: String, val targetLayerName: LayerName?, val command: CustomCommand?)
 
 data class Symbols(
     val mapping: Map<String, String>,
     val customKeycodes: MutableMap<String, CustomKey>,
-    val implicitlyReachableKeys: MutableList<String> // because there's a good way to reach this using shift
+    val implicitlyReachableKeys: MutableList<String>, // because there's a good way to reach this using shift
 ) {
     fun replace(key: String, pos: KeyPosition, translator: QmkTranslator): String {
         val value = mapping[key]
@@ -63,7 +73,7 @@ data class Tables(val content: Map<String, MultiTableWithHeader>) {
     fun getMulti(name: String): MultiTableWithHeader = get(name)
 
     fun getMappingTable(
-            name: String,
+        name: String,
     ): Map<String, String> = getSingle(name).associate { it[0] to it[1] }
 }
 

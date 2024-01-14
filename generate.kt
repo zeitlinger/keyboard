@@ -77,9 +77,13 @@ fun run(args: GeneratorArgs) {
         mapOf(
             "generationNote" to generationNote,
             "timeouts" to timeouts.joinToString("\n    "),
-            "customKeycodesOnTapPressed" to customKeycodesOnTapPressed(translator),
-            "targetLayerOnHoldPressed" to targetLayerOnHold(translator.modTapKeyTargetLayers, "on", "add"),
-            "targetLayerOnHoldReleased" to targetLayerOnHold(translator.modTapKeyTargetLayers, "off", "del"),
+            "customKeycodesOnTapPress" to customKeycodes(translator, CustomCommandType.OnTap),
+            "customKeycodesOnPress" to customKeycodes(translator, CustomCommandType.OnPress) + targetLayerOnHold(
+                translator.modTapKeyTargetLayers,
+                "on",
+                "add"
+            ),
+            "customKeycodesOnRelease" to targetLayerOnHold(translator.modTapKeyTargetLayers, "off", "del"),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
             "layerOffKeys" to layerOffKeys(translator),
             "oneshotLayers" to oneshotLayers(translator),
@@ -102,11 +106,11 @@ private fun oneshotLayers(translator: QmkTranslator): String =
             "case ${it.key.const()}: return true;"
         }
 
-fun customKeycodesOnTapPressed(translator: QmkTranslator): String =
+fun customKeycodes(translator: QmkTranslator, type: CustomCommandType): String =
     translator.symbols.customKeycodes.entries
-        .filter { it.value.onTapPressed != null }
+        .filter { it.value.command?.type == type }
         .joinToString("\n            ") {
-            "case _HANDLER_${it.key}: ${it.value.onTapPressed}; return false;"
+            "case _HANDLER_${it.key}: ${it.value.command!!.cStatements.joinToString("; ")}; return false;"
         }
 
 fun disableComboOnNonBaseLayer(combos: List<Combo>): String =

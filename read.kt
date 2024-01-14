@@ -138,7 +138,7 @@ fun toggleLayerKey(translator: QmkTranslator, layer: String, pos: KeyPosition, m
     val mod = modifier?.let { "add_oneshot_mods(MOD_BIT(${it.leftKey}))" }
     val prefix = modifier?.short ?: "L"
     val key = "${prefix}_${layer.uppercase()}"
-    val command = customCommand(translator, key, listOfNotNull("toggle_layer(${layer.const()})", mod))
+    val command = customCommand(translator, key, CustomCommandType.OnPress, listOfNotNull("toggle_layer(${layer.const()})", mod))
     return setCustomKeyCommand(translator, key, command)
 }
 
