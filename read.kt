@@ -122,7 +122,7 @@ fun layerKey(
         throw IllegalArgumentException("can't toggle hidden layer $layer at $pos")
     }
     return when (layerActivation) {
-        LayerActivation.Toggle -> holdLayerKey(translator, layer, pos, null)
+        LayerActivation.Toggle -> toggleLayerKey(translator, layer, pos, null)
         LayerActivation.Hold -> Key(
             "${layerActivation.method}(${
                 translator.reachLayer(layer, pos, activation).const()
@@ -133,12 +133,12 @@ fun layerKey(
     }
 }
 
-fun holdLayerKey(translator: QmkTranslator, layer: String, pos: KeyPosition, modifier: Modifier?): Key {
+fun toggleLayerKey(translator: QmkTranslator, layer: String, pos: KeyPosition, modifier: Modifier?): Key {
     translator.reachLayer(layer, pos, LayerActivation.Hold)
-    val mod = modifier?.let { "; add_oneshot_mods(MOD_BIT(${it.leftKey}))" } ?: ""
+    val mod = modifier?.let { "add_oneshot_mods(MOD_BIT(${it.leftKey}))" }
     val prefix = modifier?.short ?: "L"
     val key = "${prefix}_${layer.uppercase()}"
-    val command = customCommand(translator, key, "add_layer(${layer.const()})$mod")
+    val command = customCommand(translator, key, listOfNotNull("toggle_layer(${layer.const()})", mod))
     return setCustomKeyCommand(translator, key, command)
 }
 
@@ -160,7 +160,7 @@ fun keyWithModifier(def: String, translator: QmkTranslator, pos: KeyPosition): K
     val modifier = parts[0]
     val target = parts[1]
     if (translator.layerOptions[target] != null) {
-        return holdLayerKey(translator, target, pos, Modifier.ofShort(modifier))
+        return toggleLayerKey(translator, target, pos, Modifier.ofShort(modifier))
     }
     val key = translateKey(translator, pos, target)
     return if (key.keyWithModifier.contains("(")) {

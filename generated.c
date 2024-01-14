@@ -14,8 +14,8 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
 #define ALL_ONESHOT_MASK ~0
 layer_state_t oneshot_mask = ALL_ONESHOT_MASK;
 
-void add_layer(uint8_t layer) {
-    layer_on(layer);
+void toggle_layer(uint8_t layer) {
+    layer_invert(layer);
     oneshot_mask |= (1 << layer);
 }
 
