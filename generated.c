@@ -36,14 +36,11 @@ void press_normal_layer(uint16_t keycode, uint8_t layer) {
         layer_and(oneshot_mask);
         oneshot_mask = ALL_ONESHOT_MASK;
     }
-    if (is_layer_off_key(keycode, layer)) {
-        layer_off(layer);
-    }
 }
 
 bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
+    uint8_t layer = get_highest_layer(layer_state);
     if (record->event.pressed) {
-        uint8_t layer = get_highest_layer(layer_state);
         if (is_oneshot_layer(layer)) {
             layer_state_t new_mask = oneshot_mask & ~(1 << layer);
             if (new_mask == oneshot_mask) {
@@ -55,6 +52,8 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
         } else {
             press_normal_layer(keycode, layer);
         }
+    } else if (is_layer_off_key(keycode, layer)) {
+        layer_off(layer);
     }
 
     if (record->tap.count) {
