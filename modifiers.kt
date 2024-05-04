@@ -74,7 +74,7 @@ private fun applyModTap(
 
 fun setCustomKeyCommand(translator: QmkTranslator, key: String, command: String): Key {
     translator.symbols.customKeycodes.entries.find { it.key == key }?.let { it.value.key = command }
-    return Key(key)
+    return Key(command)
 }
 
 private fun modTapKey(

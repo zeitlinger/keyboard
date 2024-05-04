@@ -75,7 +75,7 @@ class QmkTranslator(
 fun assertQmk(key: String, pos: KeyPosition): String {
     return when {
         key == comboTrigger || qmkPrefixes.any { key.startsWith(it) } -> key
-        else -> throw IllegalStateException("key not translated $key in $pos")
+        else -> throw IllegalStateException("key not translated '$key' in $pos")
     }
 }
 
