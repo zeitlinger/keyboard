@@ -3,7 +3,8 @@ fun qmkTranslator(args: GeneratorArgs): QmkTranslator {
     val symbols = readSymbols(tables)
     val nonThumbs = getKeyTable(tables.getMulti("Layer").content)
     val thumbs = getKeyTable(tables.getMulti("Thumb").content)
-    val options = options(tables, nonThumbs, thumbs)
+    val columns = nonThumbs.values.first()[0][0].size
+    val options = options(tables, nonThumbs, thumbs, columns)
 
     val layerOptions = layerOption(tables)
 
@@ -69,6 +70,7 @@ private fun layerOption(tables: Tables): Map<LayerName, LayerOption> = tables.ge
             it.value[3].ifBlank { null },
             it.value[4].ifBlank { null },
             when (it.value[5]) {
+                "Shifted" -> setOf(LayerFlag.Shifted)
                 "Hidden" -> setOf(LayerFlag.Hidden)
                 "OSL to toggle" -> setOf(LayerFlag.OslToToggle)
                 "OneShot" -> setOf(LayerFlag.OneShot)
@@ -84,18 +86,19 @@ private fun options(
     tables: Tables,
     nonThumbs: Map<LayerName, MultiTable>,
     thumbs: Map<LayerName, MultiTable>,
+    columns: Int,
 ): Options {
     val firstNonThumb = nonThumbs.entries.first().value[0]
 
     val homeRowPositions = tables.getOptional("Home Row Modifiers")
-        ?.associate { fingerPos(it[1]) - firstNonThumb[0].size / 2 to Modifier.ofLong(it[0]) } // we ignore the first row
+        ?.associate { fingerPos(it[1], columns) - firstNonThumb[0].size / 2 to Modifier.ofLong(it[0]) } // we ignore the first row
     val firstThumb = thumbs.entries.first().value[0]
     return Options(
         firstNonThumb.size,
         firstNonThumb[0].size,
         firstThumb[0].size,
         tables.getOptional("Base Layer One Shot Mod Combos")
-            ?.let { createModTriggers(it, homeRowOneShotTriggers) },
+            ?.let { createModTriggers(it, homeRowOneShotTriggers, columns) },
         homeRowPositions?.let { h -> tables.getOptional("Base Layer Thumb Mod Combos")
             ?.let { createThumbModTriggers(it, homeRowThumbTriggers, h) }},
         homeRowPositions

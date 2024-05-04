@@ -41,7 +41,7 @@ fun translateKey(
     translator: QmkTranslator,
     pos: KeyPosition,
     command: String,
-): Key = getFallback(command, translator, pos).let { def ->
+): Key = getFallbackIfNeeded(command, translator, pos, null).let { def ->
     when {
         //comes first, so that we can override the meaning of + and -
         def == qmkNo || translator.symbols.mapping.containsKey(def) -> translateSimpleKey(translator, def, pos)
@@ -210,28 +210,34 @@ fun adjustFallback(activation: LayerActivation, option: LayerOption): LayerActiv
     else -> activation
 }
 
-fun getFallback(
+fun getFallbackIfNeeded(
     key: String,
     translator: QmkTranslator,
     pos: KeyPosition,
+    srcLayerOption: LayerOption?,
 ): String {
     if (key == qmkNo || key == layerBlocked) {
         return qmkNo
     }
-    val option = translator.layerOptions[pos.layerName] ?: throw IllegalStateException("can't find layer at $pos")
     if (key.isNotBlank()) {
+        if (srcLayerOption != null && srcLayerOption.flags.contains(LayerFlag.Shifted)) {
+            return "S(${translateKey(translator, pos, key).key})"
+        }
         return key
     }
     val left = pos.column < pos.columns / 2
-    val fallbackLayer = if (left) option.leftFallbackLayer else option.rightFallbackLayer
+    val fallbackLayer = if (left) (translator.layerOptions[pos.layerName]
+        ?: throw IllegalStateException("can't find layer at $pos")).leftFallbackLayer else (translator.layerOptions[pos.layerName]
+        ?: throw IllegalStateException("can't find layer at $pos")).rightFallbackLayer
     return when {
         pos.thumb || fallbackLayer == null || pos.layerName == baseLayerName -> qmkNo
         else -> {
             val newPos = pos.copy(layerName = fallbackLayer)
-            getFallback(
+            getFallbackIfNeeded(
                 translator.getKey(newPos),
                 translator,
-                newPos
+                newPos,
+                translator.layerOptions[pos.layerName] ?: throw IllegalStateException("can't find layer at $pos")
             )
         }
     }

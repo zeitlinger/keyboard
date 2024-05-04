@@ -26,56 +26,64 @@ How to read this layout:
 
 > **Note**: The layout is generated from this file directly.
 
-| Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. |   |   | R. Ind. | R. Mid. | R. Ring | R. Pin. |
-|:-----:|:-------:|:-------:|:-------:|:-------:|:-:|---|:-------:|:-------:|:-------:|:-------:|
-| Base  |    v    |    w    |    g    |    p    | q | j |    l    |    u    |    y    |    '    |
-| Base  |    r    |    s    |    t    |    h    | k | x |    n    |    a    |    i    |    o    |
-| Base  |  l-sft  |    c    |    f    |    d    | b | z |    m    |    ,    |    .    |  r-sft  |
-|       | ------- | ------- | ------- | ------- | - | - | ------- | ------- | ------- | ------- |
-| Base  |         |         |         |  "ph"   |   |   |  "nl"   |         |         |         |
-| Base  |         |         |         |   💎    |   |   |   💎    |         |         |         |
-| Base  |         |         |         |    b    |   |   |         |         |         |         |
-|       | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
-| Base  |         |         |    k    |         |   |   |         |  "ua"   |         |         |
-| Base  |         |         |   💎    |         |   |   |         |   💎    |         |         |
-| Base  |         |         |  "ft"   |         |   |   |         |  "au"   |         |         |
-|       | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
-| Base  |         |  "cr"   |         |         |   |   |         |         |  "you"  |         |
-| Base  |         |   💎    |         |         |   |   |         |         |   💎    |         |
-| Base  |         |  "sc"   |         |         |   |   |         |         |  "y."   |         |
-|       | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
-| Base  |    v    |         |         |         |   |   |         |         |         |    '    |
-| Base  |   💎    |         |         |         |   |   |         |         |         |   💎    |
-| Base  |  "rc"   |         |         |         |   |   |         |         |         |   ↩️️   |
-|       | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
-| Right |         |         |         |         |   |   |         |         |         |         |
-| Right |         |   🛑    |   🛑    |   🛑    |   |   |         |         |         |         |
-| Right |   🛑    |         |         |         |   |   |         |         |         |   🛑    |
-|       | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
-| Left  |         |         |         |         |   |   |         |         |         |         |
-| Left  |         |         |         |         |   |   |   🛑    |   🛑    |   🛑    |         |
-| Left  |   🛑    |         |         |         |   |   |         |         |         |   🛑    |
-|       | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
-|  Nav  |         |   C-w   |  undo   |  redo   |   |   |   esc   |         |   ins   |         |
-|  Nav  |  *Nav2  | tab ➡️  | win ➡️  |  CA-]   |   |   |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
-|  Nav  |  S-pst  |   cut   |  copy   |  paste  |   |   |   ↩️️   |  bspc   |   del   |   spc   |
-|       | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
-| Nav2  |         |         |         |         |   |   |         |         |         |         |
-| Nav2  |   🛑    |   🛑    |   🛑    |   🛑    |   |   |  ⬅️⬅️   |  ⬆️⬆️   |  ⬇️⬇️   |  ➡️➡️   |
-| Nav2  |         |         |         |         |   |   |         |         |         |         |
-|       | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
-|  Num  |         |         |         |         |   |   |    4    |    5    |    6    |         | 
-|  Num  |   🛑    |   🛑    |   🛑    |   🛑    |   |   |    0    |    1    |    2    |    3    |  
-|  Num  |         |         |         |         |   |   |    7    |    8    |    9    |         | 
-|       | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
-|  Fn   |         |         |         |         |   |   |   f4    |   f5    |   f6    |         |
-|  Fn   |         |   🛑    |   🛑    |   🛑    |   |   |   f10   |   f1    |   f2    |   f3    |
-|  Fn   |         |         |         |         |   |   |   f7    |   f8    |   f9    |   f11   |
-|       | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
-|  Sym  |         |    =    |    +    |    %    | ^ |   |    /    |    {    |    }    |         |
-|  Sym  |  *Num   |    (    |    )    |    :    | ~ | ` |    $    |    [    |    ]    |    \    |    
-|  Sym  |         |    #    |    @    |    *    | % | & |    ;    |    !    |    ?    |  pipe   |        
-|       | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
+|   Layer   | L. Pin. | L. Ring | L. Mid. | L. Ind. |   |   | R. Ind. | R. Mid. | R. Ring | R. Pin. |
+|:---------:|:-------:|:-------:|:-------:|:-------:|:-:|---|:-------:|:-------:|:-------:|:-------:|
+|   Base    |    v    |    w    |    g    |    p    | q | j |    l    |    u    |    y    |    '    |
+|   Base    |    r    |    s    |    t    |    h    | k | x |    n    |    a    |    i    |    o    |
+|   Base    |  rl+R   |    c    |    f    |    d    | b | z |    m    |    ,    |    .    |  ll+L   |
+|           | ------- | ------- | ------- | ------- | - | - | ------- | ------- | ------- | ------- |
+|   Base    |         |         |         |  "ph"   |   |   |  "nl"   |         |         |         |
+|   Base    |         |         |         |   💎    |   |   |   💎    |         |         |         |
+|   Base    |         |         |         |    b    |   |   |         |         |         |         |
+|           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
+|   Base    |         |         |    k    |         |   |   |         |  "ua"   |         |         |
+|   Base    |         |         |   💎    |         |   |   |         |   💎    |         |         |
+|   Base    |         |         |  "ft"   |         |   |   |         |  "au"   |         |         |
+|           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
+|   Base    |         |  "cr"   |         |         |   |   |         |         |  "you"  |         |
+|   Base    |         |   💎    |         |         |   |   |         |         |   💎    |         |
+|   Base    |         |  "sc"   |         |         |   |   |         |         |  "y."   |         |
+|           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
+|   Base    |    v    |         |         |         |   |   |         |         |         |    '    |
+|   Base    |   💎    |         |         |         |   |   |         |         |         |   💎    |
+|   Base    |  "rc"   |         |         |         |   |   |         |         |         |   ↩️️   |
+|           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
+|     R     |         |         |         |         |   |   |         |         |         |         |
+|     R     |         |   🛑    |   🛑    |   🛑    |   |   |         |         |         |         |
+|     R     |   🛑    |         |         |         |   |   |         |         |         |   🛑    |
+|           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
+|     L     |         |         |         |         |   |   |         |         |         |         |
+|     L     |         |         |         |         |   |   |   🛑    |   🛑    |   🛑    |         |
+|     L     |   🛑    |         |         |         |   |   |         |         |         |   🛑    |
+|           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
+| RightMods |         |         |         |         |   |   |         |         |         |         |
+| RightMods |         |   🛑    |   🛑    |   🛑    |   |   |         |         |         |         |
+| RightMods |   🛑    |         |         |         |   |   |         |         |         |   🛑    |
+|           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
+| LeftMods  |         |         |         |         |   |   |         |         |         |         |
+| LeftMods  |         |         |         |         |   |   |   🛑    |   🛑    |   🛑    |         |
+| LeftMods  |   🛑    |         |         |         |   |   |         |         |         |   🛑    |
+|           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
+|    Nav    |         |   C-w   |  undo   |  redo   |   |   |   esc   |         |   ins   |         |
+|    Nav    |  *Nav2  | tab ➡️  | win ➡️  |  CA-]   |   |   |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
+|    Nav    |  S-pst  |   cut   |  copy   |  paste  |   |   |   ↩️️   |  bspc   |   del   |   spc   |
+|           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
+|   Nav2    |         |         |         |         |   |   |         |         |         |         |
+|   Nav2    |   🛑    |   🛑    |   🛑    |   🛑    |   |   |  ⬅️⬅️   |  ⬆️⬆️   |  ⬇️⬇️   |  ➡️➡️   |
+|   Nav2    |         |         |         |         |   |   |         |         |         |         |
+|           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
+|    Num    |         |         |         |         |   |   |    4    |    5    |    6    |         | 
+|    Num    |   🛑    |   🛑    |   🛑    |   🛑    |   |   |    0    |    1    |    2    |    3    |  
+|    Num    |         |         |         |         |   |   |    7    |    8    |    9    |         | 
+|           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
+|    Fn     |         |         |         |         |   |   |   f4    |   f5    |   f6    |         |
+|    Fn     |         |   🛑    |   🛑    |   🛑    |   |   |   f10   |   f1    |   f2    |   f3    |
+|    Fn     |         |         |         |         |   |   |   f7    |   f8    |   f9    |   f11   |
+|           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
+|    Sym    |         |    =    |    +    |    %    | ^ |   |    /    |    {    |    }    |         |
+|    Sym    |  *Num   |    (    |    )    |    :    | ~ | ` |    $    |    [    |    ]    |    \    |    
+|    Sym    |         |    #    |    @    |    *    | % | & |    ;    |    !    |    ?    |  pipe   |        
+|           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
 
 | Thumb | Left Inner |        Left Outer        |      Right Outer       | Right Inner |
 |:-----:|:----------:|:------------------------:|:----------------------:|:-----------:|
@@ -90,96 +98,98 @@ How to read this layout:
 
 The order of the options is also the order of the layers in the layer stack.
 
-| LayerOptions | Modifiers Left | Modifiers Right | Fallback Left | Fallback Right | Flags |
-|:------------:|:--------------:|:---------------:|:-------------:|:--------------:|-------|
-|     Base     |                |                 |               |                |       | 
-|     Left     |                | OneShotHomeRow  |     Base      |                |       | 
-|    Right     | OneShotHomeRow |                 |               |      Base      |       | 
-|     Nav      |    HomeRow     |                 |               |                |       |
-|     Nav2     | OneShotHomeRow |                 |               |                |       |
-|     Sym      |    HomeRow     |     HomeRow     |               |                |       |
-|     Num      | OneShotHomeRow |                 |               |                |       |
-|      Fn      | OneShotHomeRow |                 |               |                |       |
+| LayerOptions | Modifiers Left | Modifiers Right | Fallback Left | Fallback Right | Flags   |
+|:------------:|:--------------:|:---------------:|:-------------:|:--------------:|---------|
+|     Base     |                |                 |               |                |         | 
+|   LeftMods   |                | OneShotHomeRow  |     Base      |                | OneShot | 
+|  RightMods   | OneShotHomeRow |                 |               |      Base      | OneShot | 
+|      L       |                | OneShotHomeRow  |     Base      |                | Shifted | 
+|      R       | OneShotHomeRow |                 |               |      Base      | Shifted | 
+|     Nav      |    HomeRow     |                 |               |                |         |
+|     Nav2     | OneShotHomeRow |                 |               |                |         |
+|     Sym      |    HomeRow     |     HomeRow     |               |                |         |
+|     Num      | OneShotHomeRow |                 |               |                |         |
+|      Fn      | OneShotHomeRow |                 |               |                |         |
 
 ## Symbols
 
-| Symbol  | Command                               |
-|---------|---------------------------------------|
-| ⬅️      | KC_LEFT                               |
-| ⬅️⬅️    | KC_HOME                               |
-| ⬇️      | KC_DOWN                               |
-| ⬇️⬇️    | KC_PGDN                               |
-| ⬆️      | KC_UP                                 |
-| ⬆️⬆️    | KC_PGUP                               |
-| ➡️      | KC_RIGHT                              |
-| ➡️➡️    | KC_END                                |
-| l-sft   | LSFT_T(KC_R)                          |
-| r-sft   | RSFT_T(KC_L)                          |
-| ins     | KC_INS                                |
-| del     | KC_DEL                                |
-| spc     | KC_SPC                                |
-| esc     | KC_ESC                                |
-| ↩️️     | KC_ENT                                |
-| bspc    | KC_BSPC                               |
-| win     | KC_LGUI                               |
-| tab     | KC_TAB                                |
-| prt     | KC_PSCR                               |
-| pipe    | KC_PIPE                               |
-| 🖱️⬅️   | KC_MS_L                               |
-| 🖱️⬇️   | KC_MS_D                               |
-| 🖱️⬆️   | KC_MS_U                               |
-| 🖱️➡️   | KC_MS_R                               |
-| 🖲️️⬅️  | KC_WH_L                               |
-| 🖲️️⬇️  | KC_WH_D                               |
-| 🖲️️⬆️  | KC_WH_U                               |
-| 🖲️️➡️  | KC_WH_R                               |
-| 🖱️1    | KC_BTN1                               |
-| 🖱️2    | KC_BTN2                               |
-| 🖱️3    | KC_BTN3                               |
-| 🔇      | KC_MUTE                               |
-| ⏯️      | KC_MPLY                               |
-| ⏮️      | KC_MPRV                               |
-| ⏭️      | KC_MNXT                               |
-| 🔊      | KC_VOLU                               |
-| 🔈      | KC_VOLD                               |
-| 🔆      | KC_BRIU                               |
-| 🔅      | KC_BRID                               |
-| redo    | RCS(KC_Z)                             |
-| undo    | C(KC_Z)                               |
-| S-pst   | RCS(KC_V)                             |
-| cut     | C(KC_X)                               |
-| copy    | C(KC_C)                               |
-| paste   | C(KC_V)                               |
-| ä       | ALGR(KC_Q)                            |
-| ö       | ALGR(KC_P)                            |
-| ü       | ALGR(KC_Y)                            |
-| ß       | ALGR(KC_S)                            |
-| '       | ALGR(KC_QUOTE)                        |
-| `       | ALGR(KC_GRV)                          |
-| ~       | ALGR(KC_TILD)                         |
-| ^       | ALGR(KC_CIRC)                         |
-| <       | <implicit>                            |
-| >       | <implicit>                            |
-| rep     | QK_REPEAT_KEY                         |
-| aRep    | QK_ALT_REPEAT_KEY                     |
-| tab ➡️  | custom:NEXT_TAB                       |
-| win ➡️  | custom:NEXT_WINDOW                    |
-| O-🖱️   | custom:ONE_SHOT_MOUSE LayerHint:Mouse |
-| .spc    | custom:DOT_SPC                        |
-| n'      | custom:N_APOS                         |
-| ver     | custom:PRINT_VERSION                  |
-| CAPSL   | KC_CAPS                               |
-| CAPSW   | custom:CAPS_WORDS                     |
-| sn_case | custom:SNAKE_CASE                     |
-| SN_CASE | custom:SCREAMING_SNAKE_CASE           |
-| camCase | custom:CAMEL_CASE                     |
-| PasCase | custom:PASCAL_CASE                    |
-| sl/case | custom:SLASH_CASE                     |
-| do.case | custom:DOT_CASE                       |
-| kb-case | custom:KEBAP_CASE                     |
-| OSM(S)  | OSM(MOD_LSFT)                         |
-| OSM(C)  | OSM(MOD_LCTL)                         |
-| OSM(A)  | OSM(MOD_LALT)                         |
+| Symbol  | Command                                      |
+|---------|----------------------------------------------|
+| ⬅️      | KC_LEFT                                      |
+| ⬅️⬅️    | KC_HOME                                      |
+| ⬇️      | KC_DOWN                                      |
+| ⬇️⬇️    | KC_PGDN                                      |
+| ⬆️      | KC_UP                                        |
+| ⬆️⬆️    | KC_PGUP                                      |
+| ➡️      | KC_RIGHT                                     |
+| ➡️➡️    | KC_END                                       |
+| ins     | KC_INS                                       |
+| del     | KC_DEL                                       |
+| spc     | KC_SPC                                       |
+| esc     | KC_ESC                                       |
+| ↩️️     | KC_ENT                                       |
+| bspc    | KC_BSPC                                      |
+| win     | KC_LGUI                                      |
+| tab     | KC_TAB                                       |
+| prt     | KC_PSCR                                      |
+| pipe    | KC_PIPE                                      |
+| 🖱️⬅️   | KC_MS_L                                      |
+| 🖱️⬇️   | KC_MS_D                                      |
+| 🖱️⬆️   | KC_MS_U                                      |
+| 🖱️➡️   | KC_MS_R                                      |
+| 🖲️️⬅️  | KC_WH_L                                      |
+| 🖲️️⬇️  | KC_WH_D                                      |
+| 🖲️️⬆️  | KC_WH_U                                      |
+| 🖲️️➡️  | KC_WH_R                                      |
+| 🖱️1    | KC_BTN1                                      |
+| 🖱️2    | KC_BTN2                                      |
+| 🖱️3    | KC_BTN3                                      |
+| 🔇      | KC_MUTE                                      |
+| ⏯️      | KC_MPLY                                      |
+| ⏮️      | KC_MPRV                                      |
+| ⏭️      | KC_MNXT                                      |
+| 🔊      | KC_VOLU                                      |
+| 🔈      | KC_VOLD                                      |
+| 🔆      | KC_BRIU                                      |
+| 🔅      | KC_BRID                                      |
+| redo    | RCS(KC_Z)                                    |
+| undo    | C(KC_Z)                                      |
+| S-pst   | RCS(KC_V)                                    |
+| cut     | C(KC_X)                                      |
+| copy    | C(KC_C)                                      |
+| paste   | C(KC_V)                                      |
+| ä       | ALGR(KC_Q)                                   |
+| ö       | ALGR(KC_P)                                   |
+| ü       | ALGR(KC_Y)                                   |
+| ß       | ALGR(KC_S)                                   |
+| '       | ALGR(KC_QUOTE)                               |
+| `       | ALGR(KC_GRV)                                 |
+| ~       | ALGR(KC_TILD)                                |
+| ^       | ALGR(KC_CIRC)                                |
+| <       | <implicit>                                   |
+| >       | <implicit>                                   |
+| rep     | QK_REPEAT_KEY                                |
+| aRep    | QK_ALT_REPEAT_KEY                            |
+| ll      | custom:TOGGLE_LEFT_MODS LayerHint:LeftMods   |
+| rl      | custom:TOGGLE_RIGHT_MODS LayerHint:RightMods |
+| tab ➡️  | custom:NEXT_TAB                              |
+| win ➡️  | custom:NEXT_WINDOW                           |
+| O-🖱️   | custom:ONE_SHOT_MOUSE LayerHint:Mouse        |
+| .spc    | custom:DOT_SPC                               |
+| n'      | custom:N_APOS                                |
+| ver     | custom:PRINT_VERSION                         |
+| CAPSL   | KC_CAPS                                      |
+| CAPSW   | custom:CAPS_WORDS                            |
+| sn_case | custom:SNAKE_CASE                            |
+| SN_CASE | custom:SCREAMING_SNAKE_CASE                  |
+| camCase | custom:CAMEL_CASE                            |
+| PasCase | custom:PASCAL_CASE                           |
+| sl/case | custom:SLASH_CASE                            |
+| do.case | custom:DOT_CASE                              |
+| kb-case | custom:KEBAP_CASE                            |
+| OSM(S)  | OSM(MOD_LSFT)                                |
+| OSM(C)  | OSM(MOD_LCTL)                                |
+| OSM(A)  | OSM(MOD_LALT)                                |
 
 
 ## Generator

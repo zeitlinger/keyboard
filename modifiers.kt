@@ -120,7 +120,7 @@ private fun fingerIndex(column: Int, columns: Int): Int = if (column >= columns 
     column
 }
 
-fun createModTriggers(mappingTable: Table, template: Map<List<Modifier>, String>): ModTriggers {
+fun createModTriggers(mappingTable: Table, template: Map<List<Modifier>, String>, columns: Int): ModTriggers {
     val timeout = getModTimeout(mappingTable)
     val modTriggers = mappingTable.drop(1).map { (triggers, fingers, timeoutDelta) ->
         val modifiers = triggers.split("-").map {
@@ -128,7 +128,7 @@ fun createModTriggers(mappingTable: Table, template: Map<List<Modifier>, String>
         }.sorted()
 
         val fingerIndexes = fingers.split(", ").map { finger ->
-            fingerPos(finger)
+            fingerPos(finger, columns)
         }
 
         ModTrigger(fingerIndexes, template.getValue(modifiers), modPrefix(modifiers), timeoutDelta.toIntOrNull() ?: 0)
@@ -155,12 +155,12 @@ fun createThumbModTriggers(
 private fun modPrefix(keys: List<Modifier>) = keys.joinToString("") { it.short }
 
 
-fun fingerPos(finger: String): Int = when (finger) {
-    "Pinky" -> 4
-    "Ring" -> 5
-    "Middle" -> 6
-    "Index" -> 7
-    "Lower Index" -> 11
+fun fingerPos(finger: String, columns: Int): Int = when (finger) {
+    "Pinky" -> (columns / 2)
+    "Ring" -> (columns / 2) + 1
+    "Middle" -> (columns / 2) + 2
+    "Index" -> (columns / 2) + 3
+    "Lower Index" -> 2 * (columns / 2) + 3
     else -> throw IllegalStateException("unknown finger $finger")
 }
 

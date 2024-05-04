@@ -57,7 +57,7 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
     val duplicates = gotKeys.filter { k -> gotKeys.filter { k == it }.size > 1 }.distinct()
 
     println("expected: ${want.size}")
-    println("missing: $missing")
+    println("missing: ${missing.sorted().joinToString("\n")}")
     println("unexpected: $unexpected")
     println("duplicates: $duplicates")
 }
