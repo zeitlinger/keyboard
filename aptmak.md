@@ -56,7 +56,7 @@ How to read this layout:
 |  Left  |         |         |         |         |       |   |  O-🖱️  |   🛑    |   🛑    |         |
 |  Left  |   🛑    |         |         |         |       |   |         |    !    |    ?    |   🛑    |
 |        | ------- | ------- | ------- | ------- |       |   | ------- | ------- | ------- | ------- |
-|  Nav   |         | tab ➡️  | win ➡️  |  CA-]   |   ä   |   |   esc   |         |   ins   |         |
+|  Nav   |         | tab ➡️  | win ➡️  |  CA-]   |   ä   |   |   esc   |   win   |   ins   |         |
 |  Nav   |  *Nav2  |   🛑    |   🛑    |   🛑    |   ö   | ß |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
 |  Nav   |  S-pst  |   C-w   |  undo   |  redo   |   ü   |   |   ↩️️   |  bspc   |   del   |   spc   |
 |        | ------- | ------- | ------- | ------- |       |   | ------- | ------- | ------- | ------- |
@@ -72,9 +72,9 @@ How to read this layout:
 |   Fn   | sl/case |   🛑    |   🛑    |   🛑    | CAPSL |   |   f10   |   f1    |   f2    |   f3    |
 |   Fn   | do.case | PasCase | SN_CASE |  CAPSW  |       |   |   f7    |   f8    |   f9    |   f12   |
 |        | ------- | ------- | ------- | ------- |       |   | ------- | ------- | ------- | ------- |
-|  Sym   |         |    =    |    +    |    %    |   ^   |   |    /    |    {    |    }    |    \    |
-|  Sym   |  *Num   |    (    |    )    |    -    |   ~   | ` |    $    |    [    |    ]    | ;+Media |    
-|  Sym   |    :    |    #    |    @    |    _    |   %   | & |    "    |   win   |    *    |  pipe   |        
+|  Sym   |    ~    |    =    |    +    |    %    |       |   |    /    |    {    |    }    |    \    |
+|  Sym   |  *Num   |    (    |    )    |    -    |   ^   | & |    $    |    [    |    ]    | ;+Media |    
+|  Sym   |    :    |    #    |    @    |    _    |       |   |    "    |    `    |    *    |  pipe   |        
 |        | ------- | ------- | ------- | ------- |       |   | ------- | ------- | ------- | ------- |
 | Mouse  |         |  🖱️3   |  🖱️2   |  🖱️1   |       |   |         |         |  🖱️3   |         |
 | Mouse  | *Mouse2 | KC_ACL0 | KC_ACL1 | KC_ACL2 |       |   |  🖱️⬅️  |  🖱️⬆️  |  🖱️⬇️  |  🖱️➡️  |
@@ -173,7 +173,6 @@ The order of the options is also the order of the layers in the layer stack.
 | `       | ALGR(KC_GRV)                                 |
 | ~       | ALGR(KC_TILD)                                |
 | ^       | ALGR(KC_CIRC)                                |
-| ;       | <implicit>                                   |
 | <       | <implicit>                                   |
 | >       | <implicit>                                   |
 | tab ➡️  | custom:NEXT_TAB                              |

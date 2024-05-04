@@ -48,6 +48,7 @@ data class Symbols(
     val customKeycodes: MutableMap<String, CustomKey>,
     val ignoreMissing: MutableList<String>, // because there's a good way to reach this using shift
     val ignoreUnexpected: MutableList<String>,
+    val expectedKeys: MutableMap<String, Int>,
 ) {
     fun replace(key: String, pos: KeyPosition, translator: QmkTranslator): String {
         val value = mapping[key]
