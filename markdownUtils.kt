@@ -46,7 +46,7 @@ data class CustomKey(var key: String, val targetLayerName: LayerName?, val comma
 data class Symbols(
     val mapping: Map<String, String>,
     val customKeycodes: MutableMap<String, CustomKey>,
-    val implicitlyReachableKeys: MutableList<String>, // because there's a good way to reach this using shift
+    val implicitlyReachableKeys: List<String>, // because there's a good way to reach this using shift
 ) {
     fun replace(key: String, pos: KeyPosition, translator: QmkTranslator): String {
         val value = mapping[key]

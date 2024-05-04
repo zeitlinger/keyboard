@@ -50,19 +50,11 @@ How to read this layout:
 |           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
 |     R     |         |         |         |         |   |   |         |         |         |         |
 |     R     |         |   🛑    |   🛑    |   🛑    |   |   |         |         |         |         |
-|     R     |   🛑    |         |         |         |   |   |         |         |         |   🛑    |
+|     R     |   🛑    |   cut   |  copy   |  paste  |   |   |         |         |         |   🛑    |
 |           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
 |     L     |         |         |         |         |   |   |         |         |         |         |
 |     L     |         |         |         |         |   |   |   🛑    |   🛑    |   🛑    |         |
 |     L     |   🛑    |         |         |         |   |   |         |    !    |    ?    |   🛑    |
-|           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
-| RightMods |         |         |         |         |   |   |         |         |         |         |
-| RightMods |         |   🛑    |   🛑    |   🛑    |   |   |         |         |         |         |
-| RightMods |   🛑    |         |         |         |   |   |         |         |         |   🛑    |
-|           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
-| LeftMods  |         |         |         |         |   |   |         |         |         |         |
-| LeftMods  |         |         |         |         |   |   |   🛑    |   🛑    |   🛑    |         |
-| LeftMods  |   🛑    |   cut   |  copy   |  paste  |   |   |         |         |         |   🛑    |
 |           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
 |    Nav    |         |   C-w   |  undo   |  redo   |   |   |   esc   |         |   ins   |         |
 |    Nav    |  *Nav2  | tab ➡️  | win ➡️  |  CA-]   |   |   |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
@@ -76,13 +68,33 @@ How to read this layout:
 |    Num    |   🛑    |   🛑    |   🛑    |   🛑    |   |   |    0    |    1    |    2    |    3    |  
 |    Num    |         |         |         |         |   |   |    7    |    8    |    9    |         | 
 |           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
-|    Fn     |         |         |         |         |   |   |   f4    |   f5    |   f6    |         |
-|    Fn     |         |   🛑    |   🛑    |   🛑    |   |   |   f10   |   f1    |   f2    |   f3    |
-|    Fn     |         |         |         |         |   |   |   f7    |   f8    |   f9    |   f11   |
+|    Fn     |         |         | Mouse2  |         |   |   |   f4    |   f5    |   f6    |   f11   |
+|    Fn     |  Mouse  |   🛑    |   🛑    |   🛑    |   |   |   f10   |   f1    |   f2    |   f3    |
+|    Fn     |         |         |         |         |   |   |   f7    |   f8    |   f9    |   f12   |
 |           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
-|    Sym    |         |    =    |    +    |    %    | ^ |   |    /    |    {    |    }    |         |
-|    Sym    |  *Num   |    (    |    )    |    :    | ~ | ` |    $    |    [    |    ]    |    \    |    
-|    Sym    |         |    #    |    @    |    *    | % | & |    ;    |         |         |  pipe   |        
+|    Sym    |         |    =    |    +    |    %    | ^ |   |    /    |    {    |    }    |    \    |
+|    Sym    |  *Num   |    (    |    )    |    -    | ~ | ` |    $    |    [    |    ]    | ;+Media |    
+|    Sym    |    :    |    #    |    @    |    _    | % | & |    "    |   win   |    *    |  pipe   |        
+|           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
+|   Mouse   |         |  🖱️3   |  🖱️2   |  🖱️1   |   |   |         |         |  🖱️3   |         |
+|   Mouse   | *Mouse2 | KC_ACL0 | KC_ACL1 | KC_ACL2 |   |   |  🖱️⬅️  |  🖱️⬆️  |  🖱️⬇️  |  🖱️➡️  |
+|   Mouse   |         |   🛑    |   🛑    |   🛑    |   |   |  🖱️2   |         |         |         |
+|           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
+|  Mouse2   |         |         |         |         |   |   |         |         |         |         |
+|  Mouse2   |   🛑    |         |         |         |   |   | 🖲️️⬅️  | 🖲️️⬆️  | 🖲️️⬇️  | 🖲️️➡️  |
+|  Mouse2   |         |         |         |         |   |   |         |         |         |         |
+|           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
+|   Media   |         |   🔅    |   🔆    |         |   |   |         |         |         |         |
+|   Media   |   ver   |   🔈    |   🔊    |         |   |   |   prt   |   🔇    |   ⏯️    |   🛑    |
+|   Media   |         |   ⏮️    |   ⏭️    |         |   |   |         |         |         |         | 
+|           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
+| RightMods |         |         |         |         |   |   |         |         |         |         |
+| RightMods |         |   🛑    |   🛑    |   🛑    |   |   |         |         |         |         |
+| RightMods |   🛑    |         |         |         |   |   |         |         |         |   🛑    |
+|           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
+| LeftMods  |         |         |         |         |   |   |         |         |         |         |
+| LeftMods  |         |         |         |         |   |   |   🛑    |   🛑    |   🛑    |         |
+| LeftMods  |   🛑    |         |         |         |   |   |         |         |         |   🛑    |
 |           | ------- | ------- | ------- | ------- |   |   | ------- | ------- | ------- | ------- |
 
 | Thumb | Left Inner |        Left Outer        |      Right Outer       | Right Inner |
@@ -98,18 +110,21 @@ How to read this layout:
 
 The order of the options is also the order of the layers in the layer stack.
 
-| LayerOptions | Modifiers Left | Modifiers Right | Fallback Left | Fallback Right | Flags   |
-|:------------:|:--------------:|:---------------:|:-------------:|:--------------:|---------|
-|     Base     |                |                 |               |                |         | 
-|   LeftMods   |                | OneShotHomeRow  |     Base      |                | OneShot | 
-|  RightMods   | OneShotHomeRow |                 |               |      Base      | OneShot | 
-|      L       |                | OneShotHomeRow  |     Base      |                | Shifted | 
-|      R       | OneShotHomeRow |                 |               |      Base      | Shifted | 
-|     Nav      |    HomeRow     |                 |               |                |         |
-|     Nav2     | OneShotHomeRow |                 |               |                |         |
-|     Sym      |    HomeRow     |     HomeRow     |               |                |         |
-|     Num      | OneShotHomeRow |                 |               |                |         |
-|      Fn      | OneShotHomeRow |                 |               |                |         |
+| LayerOptions |  Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags   |
+|:------------:|:----------------:|:---------------:|:-------------:|:--------------:|---------|
+|     Base     |                  |                 |               |                |         | 
+|   LeftMods   |                  | OneShotHomeRow  |     Base      |                | OneShot | 
+|  RightMods   |  OneShotHomeRow  |                 |               |      Base      | OneShot | 
+|      L       |                  | OneShotHomeRow  |     Base      |                | Shifted | 
+|      R       |  OneShotHomeRow  |                 |               |      Base      | Shifted | 
+|     Nav      |     HomeRow      |                 |               |                |         |
+|     Nav2     |  OneShotHomeRow  |                 |               |                |         |
+|     Sym      |     HomeRow      |     HomeRow     |               |                |         |
+|     Num      |  OneShotHomeRow  |                 |               |                |         |
+|      Fn      |  OneShotHomeRow  |                 |               |                |         |
+|    Mouse     | OneShotBottomRow |                 |               |                |         |
+|    Mouse2    |                  |                 |               |                |         |
+|    Media     |                  |                 |               |                |         |
 
 ## Symbols
 
@@ -166,6 +181,7 @@ The order of the options is also the order of the layers in the layer stack.
 | `       | ALGR(KC_GRV)                                 |
 | ~       | ALGR(KC_TILD)                                |
 | ^       | ALGR(KC_CIRC)                                |
+| ;       | <implicit>                                   |
 | <       | <implicit>                                   |
 | >       | <implicit>                                   |
 | rep     | QK_REPEAT_KEY                                |
