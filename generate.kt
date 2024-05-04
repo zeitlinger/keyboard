@@ -1,18 +1,35 @@
 import java.io.File
 
-const val mainLayerTemplate =
+const val mainLayerTemplate4Columns =
     "\t[%s] = LAYOUT_split_3x5_2(\n" +
             "            %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s,\n" +
             "            %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s,\n" +
             "            %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s,\n" +
             "                            %s, %s, %s, %s),"
 
+const val mainLayerTemplate5Columns =
+    "\t[%s] = LAYOUT_split_3x5_2(\n" +
+            "            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\n" +
+            "            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\n" +
+            "            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\n" +
+            "                            %s, %s, %s, %s),"
+
+fun template(layers: List<Layer>): String =
+    layers[0].baseRows[0].size.let { columns ->
+        when (columns) {
+            10 -> mainLayerTemplate5Columns
+            8 -> mainLayerTemplate4Columns
+            else -> throw IllegalStateException("unsupported number of columns $columns")
+        }
+    }
+
 fun generateBase(layers: List<Layer>): String {
+    val template = template(layers)
     return layers
         .filter { !it.option.flags.contains(LayerFlag.Hidden) }
         .sortedBy { it.number }
         .joinToString("\n") { layer ->
-            mainLayerTemplate.format(*listOf(layer.name.const()).plus(layer.baseRows.map { it.map { it.keyWithModifier } }
+            template.format(*listOf(layer.name.const()).plus(layer.baseRows.map { it.map { it.keyWithModifier.padStart(20) } }
                 .flatten()).toTypedArray())
         }
 }

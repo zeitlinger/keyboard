@@ -17,7 +17,7 @@ fun main() {
     val gitTemplate = "https://github.com/zeitlinger/keyboard/blob/%s/%s"
     run(
         GeneratorArgs(
-            GitFile(File("$src/README.md"), gitTemplate),
+            GitFile(File("$src/aptmak.md"), gitTemplate),
             GitFile(File(src), gitTemplate),
             File(target),
         )
@@ -33,7 +33,7 @@ data class Options(
     val thumbColumns: Int,
     val oneShotTriggers: ModTriggers?,
     val homeRowThumbCombos: ModTriggers?,
-    val homeRowPositions: Map<Int, Modifier>,
+    val homeRowPositions: Map<Int, Modifier>?,
 )
 
 enum class LayerActivation(val method: String?) {

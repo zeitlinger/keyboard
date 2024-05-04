@@ -43,7 +43,7 @@ data class ModTrigger(val fingers: List<Int>, val command: String, val name: Str
 fun addModTab(key: String, pos: KeyPosition, translator: QmkTranslator): String {
     val layerOption = translator.layerOptions.getValue(pos.layerName)
     val column = pos.column
-    val mod = translator.options.homeRowPositions[fingerIndex(pos.column, pos.columns)]
+    val mod = translator.options.homeRowPositions?.get(fingerIndex(pos.column, pos.columns))
     return when {
         mod == null || key == layerBlocked -> key
         column < pos.columns / 2 -> applyModTap(key, mod, layerOption.leftModifier, pos, translator)

@@ -87,8 +87,8 @@ private fun options(
 ): Options {
     val firstNonThumb = nonThumbs.entries.first().value[0]
 
-    val homeRowPositions = tables.getSingle("Home Row Modifiers")
-        .associate { fingerPos(it[1]) - firstNonThumb[0].size / 2 to Modifier.ofLong(it[0]) } // we ignore the first row
+    val homeRowPositions = tables.getOptional("Home Row Modifiers")
+        ?.associate { fingerPos(it[1]) - firstNonThumb[0].size / 2 to Modifier.ofLong(it[0]) } // we ignore the first row
     val firstThumb = thumbs.entries.first().value[0]
     return Options(
         firstNonThumb.size,
@@ -96,8 +96,8 @@ private fun options(
         firstThumb[0].size,
         tables.getOptional("Base Layer One Shot Mod Combos")
             ?.let { createModTriggers(it, homeRowOneShotTriggers) },
-        tables.getOptional("Base Layer Thumb Mod Combos")
-            ?.let { createThumbModTriggers(it, homeRowThumbTriggers, homeRowPositions) },
+        homeRowPositions?.let { h -> tables.getOptional("Base Layer Thumb Mod Combos")
+            ?.let { createThumbModTriggers(it, homeRowThumbTriggers, h) }},
         homeRowPositions
     )
 }
