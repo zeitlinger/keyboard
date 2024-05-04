@@ -43,8 +43,6 @@ fun run(args: GeneratorArgs) {
         readLayer(table, translator, layerName, translator.layerNumbers.getOrDefault(layerName, -1))
     }
 
-    analyze(translator, layers)
-
     val combos = generateAllCombos(layers, translator.options, translator.homeRowThumbCombo)
     val comboLines = combos.map { combo ->
         combo.type.template.format(
@@ -108,6 +106,8 @@ fun run(args: GeneratorArgs) {
         )
     )
 
+    analyze(translator, layers)
+
     File(dstDir, "qmk/combos.def").writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
 }
 
@@ -127,6 +127,7 @@ fun customKeycodes(translator: QmkTranslator, type: CustomCommandType): String =
     translator.symbols.customKeycodes.entries
         .filter { it.value.command?.type == type }
         .joinToString("\n            ") {
+            translator.symbols.ignoreUnexpected.add(it.key)
             "case _HANDLER_${it.key}: ${it.value.command!!.cStatements.joinToString("; ")}; return false;"
         }
 

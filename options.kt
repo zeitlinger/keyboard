@@ -57,7 +57,7 @@ private fun readSymbols(tables: Tables): Symbols {
             }
         }
     }.toMap()
-    return Symbols(symTable, customKeycodes, implicitKeys)
+    return Symbols(symTable, customKeycodes, implicitKeys, mutableListOf())
 }
 
 

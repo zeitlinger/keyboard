@@ -39,10 +39,11 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
                     .toSet()
 
     val missing =
-        want - gotKeys.toSet() - translator.symbols.implicitlyReachableKeys.map { translator.toQmk(it, invalidPos) }.toSet()
+        want - gotKeys.toSet() - translator.symbols.ignoreMissing.map { translator.toQmk(it, invalidPos) }.toSet()
     val unexpected = (gotKeys.toSet() - want.toSet())
         .filter {
             when {
+                it in translator.symbols.ignoreUnexpected -> false
                 it.startsWith("\"") -> false
                 it.contains("(") -> false
                 it.startsWith("DT_") -> false
