@@ -26,6 +26,12 @@ val invalidPos = KeyPosition(0, 0, "none", false, 0)
 val ignoreDuplicates = setOf(
     "KC_TRNS",
     "KC_NO",
+    "KC_SPC",
+    "NEXT_WINDOW",
+    "MO(_FN)",
+    "KC_BTN1",
+    "KC_BTN2",
+    "KC_BTN3",
 )
 
 private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<Layer>) {
