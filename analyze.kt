@@ -28,7 +28,6 @@ val ignoreDuplicates = setOf(
     "KC_NO",
     "KC_SPC",
     "NEXT_WINDOW",
-    "MO(_FN)",
     "KC_BTN1",
     "KC_BTN2",
     "KC_BTN3",
@@ -67,9 +66,10 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
         }
 
 
-    val duplicates = gotKeys.filter { k ->
-        gotKeys.filter { k == it }.size > (translator.symbols.expectedKeys[k] ?: 1)
-    }.distinct() - ignoreDuplicates
+    val duplicates = gotKeys
+        .filterNot { it.startsWith("MO(") }
+        .filter { k -> gotKeys.filter { k == it }.size > (translator.symbols.expectedKeys[k] ?: 1) }
+        .distinct() - ignoreDuplicates
 
     println("expected: ${want.size}")
     println("missing: ${missing.sorted().joinToString("\n")}")
