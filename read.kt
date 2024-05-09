@@ -235,7 +235,7 @@ fun getFallbackIfNeeded(
         ?: throw IllegalStateException("can't find layer at $pos")).leftFallbackLayer else (translator.layerOptions[pos.layerName]
         ?: throw IllegalStateException("can't find layer at $pos")).rightFallbackLayer
     return when {
-        pos.thumb || fallbackLayer == null || pos.layerName == baseLayerName -> qmkNo
+        fallbackLayer == null || pos.layerName == baseLayerName -> qmkNo
         else -> {
             val newPos = pos.copy(layerName = fallbackLayer)
             getFallbackIfNeeded(
