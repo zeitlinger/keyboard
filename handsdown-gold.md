@@ -50,7 +50,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right  |         |         |         |         |    ä    |    ö    |    ü    |         |
 | Right  |         |         | tab ➡️  | win ➡️  |         |         |         |         |
-| Right  |   🛑    |   cut   |  copy   |  paste  |         |         |         |    ß    |
+| Right  |   🛑    |   cut   |  copy   |   pst   |         |         |         |    ß    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Left  |         |         |         |         |         |         |         |         |
 |  Left  |         |         |         |         |  O-🖱️  |         |         |         |
@@ -88,12 +88,22 @@ How to read this layout:
 | Media  | sl/case | camCase | sn_case |  CAPSW  |   prt   |   🔈    |   🔊    |   🔇    |
 | Media  | do.case |  CAPSL  | kb-case |         |   ver   |   ⏮️    |   ⏭️    |   ⏯️    | 
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| RMods  |         |         |         |         |         |         |         |         |
+| RMods  |         |         |         |         |         |         |         |         |
+| RMods  |   🛑    |         |         |         |         |         |         |   🛑    |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| LMods  |         |         |         |         |         |         |         |         |
+| LMods  |         |         |         |         |         |         |         |         |
+| LMods  |   🛑    |         |         |         |         |         |         |   🛑    |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
 | Thumb | Left Inner |        Left Outer        |      Right Outer       | Right Inner |
 |:-----:|:----------:|:------------------------:|:----------------------:|:-----------:|
 | Base  |    *Nav    |            t             |          spc           |    *Num     |
 |       | ---------- | ------------------------ | ---------------------- | ----------- |
 | Left  |            |           S-t            |                        |             |
+|       | ---------- | ------------------------ | ---------------------- | ----------- |
+| LMods |            |            t             |                        |             |
 |       | ---------- | ------------------------ | ---------------------- | ----------- |
 | Right |            |                          |                        |             |
 |       | ---------- | ------------------------ | ---------------------- | ----------- |
@@ -113,8 +123,10 @@ The order of the options is also the order of the layers in the layer stack.
 | LayerOptions |  Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags   |
 |:------------:|:----------------:|:---------------:|:-------------:|:--------------:|---------|
 |     Base     |                  |                 |               |                |         | 
-|     Left     |                  |     HomeRow     |     Base      |                | Shifted | 
-|    Right     |     HomeRow      |                 |               |      Base      | Shifted | 
+|     Left     |                  | BottomRow+LMods |     Base      |                | Shifted | 
+|    Right     | BottomRow+RMods  |                 |               |      Base      | Shifted | 
+|    LMods     |                  |    BottomRow    |     Base      |                |         |
+|    RMods     |    BottomRow     |                 |               |      Base      |         |
 |     Nav      |  OneShotHomeRow  |                 |               |                |         |
 |     Nav2     |     HomeRow      |                 |               |                |         |
 |     Sym      |                  |                 |               |                |         |
@@ -173,7 +185,7 @@ The order of the options is also the order of the layers in the layer stack.
 | S-pst   | RCS(KC_V)                             |
 | cut     | C(KC_X)                               |
 | copy    | C(KC_C)                               |
-| paste   | C(KC_V)                               |
+| pst     | C(KC_V)                               |
 | ä       | ALGR(KC_Q)                            |
 | ö       | ALGR(KC_P)                            |
 | ü       | ALGR(KC_Y)                            |
