@@ -30,6 +30,7 @@ val ignoreDuplicates = setOf(
     "KC_BTN1",
     "KC_BTN2",
     "KC_BTN3",
+    "\uD83D\uDC8E", //diamond
 )
 
 private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<Layer>) {

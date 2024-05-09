@@ -220,9 +220,13 @@ fun getFallbackIfNeeded(
         return qmkNo
     }
     if (key.isNotBlank()) {
-        translator.symbols.expectedKeys[key] = (translator.symbols.expectedKeys[key] ?: 0) + 1
-        if (srcLayerOption != null && srcLayerOption.flags.contains(LayerFlag.Shifted)) {
-            return "S(${translateKey(translator, pos, key).key})"
+        if (srcLayerOption != null) {
+            val t = translateKey(translator, pos, key).key
+            if (srcLayerOption.flags.contains(LayerFlag.Shifted)) {
+                return "S($t)"
+            } else {
+                translator.symbols.expectedKeys[t] = (translator.symbols.expectedKeys[t] ?: 1) + 1
+            }
         }
         return key
     }
