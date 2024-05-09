@@ -70,6 +70,9 @@ class QmkTranslator(
         (if (pos.thumb) getThumbContent(pos.layerName) else nonThumbs[pos.layerName])?.get(0)?.get(pos.row)
             ?.get(pos.column) ?: ""
 
+    fun gotKey(key: String) {
+        symbols.gotKeys[key] = symbols.gotKeys.getOrDefault(key, 0) + 1
+    }
 }
 
 fun assertQmk(key: String, pos: KeyPosition): String {

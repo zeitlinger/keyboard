@@ -41,7 +41,8 @@ fun translateKey(
     translator: QmkTranslator,
     pos: KeyPosition,
     command: String,
-): Key = getFallbackIfNeeded(command, translator, pos, null).let { def ->
+    recordUsage: Boolean = true,
+): Key = getFallbackIfNeeded(command, translator, pos, null, recordUsage).let { def ->
     when {
         //comes first, so that we can override the meaning of + and -
         def == qmkNo || translator.symbols.mapping.containsKey(def) -> translateSimpleKey(translator, def, pos)
@@ -138,7 +139,8 @@ fun toggleLayerKey(translator: QmkTranslator, layer: String, pos: KeyPosition, m
     val mod = modifier?.let { "add_oneshot_mods(MOD_BIT(${it.leftKey}))" }
     val prefix = modifier?.short ?: "L"
     val key = "${prefix}_${layer.uppercase()}"
-    val command = customCommand(translator, key, CustomCommandType.OnPress, listOfNotNull("toggle_layer(${layer.const()})", mod))
+    val command =
+        customCommand(translator, key, CustomCommandType.OnPress, listOfNotNull("toggle_layer(${layer.const()})", mod))
     return setCustomKeyCommand(translator, key, command)
 }
 
@@ -162,10 +164,10 @@ fun keyWithModifier(def: String, translator: QmkTranslator, pos: KeyPosition): K
     if (translator.layerOptions[target] != null) {
         return toggleLayerKey(translator, target, pos, Modifier.ofShort(modifier))
     }
-    val key = translateKey(translator, pos, target)
+    val key = translateKey(translator, pos, target, false)
     return if (key.keyWithModifier.contains("(")) {
         val tapCustomKey = tapCustomKey(translator, addMods(modifier, key.key))
-        Key(translateKey(translator, pos, tapCustomKey).keyWithModifier)
+        Key(translateKey(translator, pos, tapCustomKey, false).keyWithModifier)
     } else {
         val s = key.key
         Key(addMods(modifier, s))
@@ -215,17 +217,18 @@ fun getFallbackIfNeeded(
     translator: QmkTranslator,
     pos: KeyPosition,
     srcLayerOption: LayerOption?,
+    recordUsage: Boolean,
 ): String {
     if (key == qmkNo || key == layerBlocked) {
         return qmkNo
     }
     if (key.isNotBlank()) {
+        if (recordUsage) {
+            translator.gotKey(key)
+        }
         if (srcLayerOption != null) {
-            val t = translateKey(translator, pos, key).key
             if (srcLayerOption.flags.contains(LayerFlag.Shifted)) {
-                return "S($t)"
-            } else {
-                translator.symbols.expectedKeys[t] = (translator.symbols.expectedKeys[t] ?: 1) + 1
+                return "S(${translateKey(translator, pos, key, false).key})"
             }
         }
         return key
@@ -242,7 +245,8 @@ fun getFallbackIfNeeded(
                 translator.getKey(newPos),
                 translator,
                 newPos,
-                translator.layerOptions[pos.layerName] ?: throw IllegalStateException("can't find layer at $pos")
+                translator.layerOptions[pos.layerName] ?: throw IllegalStateException("can't find layer at $pos"),
+                false
             )
         }
     }
