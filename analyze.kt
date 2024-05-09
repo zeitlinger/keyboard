@@ -27,6 +27,7 @@ val ignoreDuplicates = setOf(
     "KC_TRNS",
     "KC_NO",
     "KC_SPC",
+    "KC_LSFT",
     "KC_BTN1",
     "KC_BTN2",
     "KC_BTN3",
