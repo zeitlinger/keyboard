@@ -223,13 +223,15 @@ fun getFallbackIfNeeded(
         return qmkNo
     }
     if (key.isNotBlank()) {
+        val k = key.substringBeforeLast("+")
         if (recordUsage) {
-            translator.gotKey(key)
+            translator.gotKey(k)
         }
         if (srcLayerOption != null) {
             if (srcLayerOption.flags.contains(LayerFlag.Shifted)) {
-                return "S(${translateKey(translator, pos, key, false).key})"
+                return "S(${translateKey(translator, pos, k, false).key})"
             }
+            return k
         }
         return key
     }
