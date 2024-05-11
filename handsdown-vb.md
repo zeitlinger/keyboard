@@ -139,7 +139,7 @@ The order of the options is also the order of the layers in the layer stack.
 |    Right     | BottomRow+RMods  |                 |               |      Base      | Shifted | 
 |    LMods     |                  |    BottomRow    |     Base      |                |         |
 |    RMods     |    BottomRow     |                 |               |      Base      |         |
-|     Nav      |    BottomRow     |                 |               |                |         |
+|     Nav      |     HomeRow      |                 |               |                |         |
 |     Nav2     |     HomeRow      |                 |               |                |         |
 |     Sym      |                  |                 |               |                |         |
 |     Num      |     HomeRow      |     HomeRow     |               |                |         |
