@@ -17,7 +17,7 @@ fun main() {
     val gitTemplate = "https://github.com/zeitlinger/keyboard/blob/%s/%s"
     run(
         GeneratorArgs(
-            GitFile(File("$src/handsdown-gold.md"), gitTemplate),
+            GitFile(File("$src/handsdown-vb.md"), gitTemplate),
             GitFile(File(src), gitTemplate),
             File(target),
         )
