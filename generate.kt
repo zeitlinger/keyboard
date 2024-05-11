@@ -29,7 +29,13 @@ fun generateBase(layers: List<Layer>): String {
         .filter { !it.option.flags.contains(LayerFlag.Hidden) }
         .sortedBy { it.number }
         .joinToString("\n") { layer ->
-            template.format(*listOf(layer.name.const()).plus(layer.baseRows.map { it.map { it.keyWithModifier.padStart(20) } }
+            template.format(*listOf(layer.name.const()).plus(layer.baseRows.map {
+                it.map {
+                    it.keyWithModifier.padStart(
+                        20
+                    )
+                }
+            }
                 .flatten()).toTypedArray())
         }
 }
@@ -93,11 +99,14 @@ fun run(args: GeneratorArgs) {
             "generationNote" to generationNote,
             "timeouts" to timeouts.joinToString("\n    "),
             "customKeycodesOnTapPress" to customKeycodes(translator, CustomCommandType.OnTap),
-            "customKeycodesOnPress" to customKeycodes(translator, CustomCommandType.OnPress) + targetLayerOnHold(
-                translator.modTapKeyTargetLayers,
-                "on",
-                "add"
-            ),
+            "customKeycodesOnPress" to
+                    customKeycodes(translator, CustomCommandType.OnPress) +
+                    "\n            " +
+                    targetLayerOnHold(
+                        translator.modTapKeyTargetLayers,
+                        "on",
+                        "add"
+                    ),
             "customKeycodesOnRelease" to targetLayerOnHold(translator.modTapKeyTargetLayers, "off", "del"),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
             "layerOffKeys" to layerOffKeys(translator),

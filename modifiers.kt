@@ -62,7 +62,7 @@ private fun applyModTap(
     .firstOrNull { pos.row == it.key.row }
     ?.let { modEntry ->
         val targetLayer = modEntry.value
-        val modTapKey = modTapKey(key, mod, modEntry.key, translator, pos)
+        val modTapKey = modTapKey(key, mod, modEntry.key, translator, pos, targetLayer)
         setCustomKeyCommand(translator, key, modTapKey)
         if (modTapKey != key && targetLayer != null) {
             val layer = translator.reachLayer(targetLayer, pos, LayerActivation.ModTap)
@@ -84,11 +84,21 @@ private fun modTapKey(
     type: HomeRowType,
     translator: QmkTranslator,
     pos: KeyPosition,
+    targetLayer: LayerName?,
 ): String = when {
     type.oneShot -> "OSM(${mod.mask})"
         .also { if (key != qmkNo) throw IllegalStateException("key $key not allowed for one shot modifier at $pos") }
 
-    key == qmkNo -> mod.leftKey
+    key == qmkNo -> {
+        when {
+            targetLayer != null -> {
+                val name = "_${targetLayer}_${mod.short}".uppercase()
+                translator.symbols.customKeycodes[name] = CustomKey(name, null, null)
+                name
+            }
+            else -> mod.leftKey
+        }
+    }
     else -> {
         val simpleKey = addCustomIfNotSimpleKey(key, translator)
         when (mod) {

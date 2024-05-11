@@ -28,7 +28,7 @@ How to read this layout:
 
 | Layer  | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-|  Base  |   f13   |    w    |    m    | *Media  |  *Case  |  '+Sym  |  "+Fn   |   f14   |
+|  Base  |   esc   |    w    |    m    |   tab   |   win   |  '+Sym  |  "+Fn   |   alt   |
 |  Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 |  Base  | ,+Right |    f    |    l    |    d    |    u    |    o    |    y    | .+Left  |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -50,21 +50,29 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right  |         |         |         |         |         |    !    |    ?    |         |
 | Right  |         |         | tab ➡️  | win ➡️  |         |         |         |         |
-| Right  |   🛑    |   cut   |  copy   |   pst   |         |         |         |    >    |
+| Right  |   🛑    |         |         |         |         |         |         |    >    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Left  |         |         |         |         |         |         |         |         |
 |  Left  |         |         |         |         |  O-🖱️  |         |         |         |
 |  Left  |    <    |         |         |         |         |         |         |   🛑    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav   |         |         |         |  CA-]   |   esc   |   win   |   ins   |         |
-|  Nav   |  *Nav2  |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
-|  Nav   |  S-pst  |   C-w   |  undo   |  redo   |   ↩️️   |  bspc   |   del   |   spc   |
+|  Nav   | *Media  |         |         |         |   esc   |   win   |   ins   |         |
+|  Nav   |  *Nav2  |   C-w   | tab ➡️  | win ➡️  |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
+|  Nav   |  undo   |   cut   |  copy   | pst+Cs  |   ↩️️   |  bspc   |   del   |   spc   |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  Nav   |         |         |         |         |         |         |         |         |
+|  Nav   |         |         |         |   💎    |         |         |         |         |
+|  Nav   |         |         |         |  S-pst  |         |         |         |         |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  Nav   |         |         |         |         |         |         |         |         |
+|  Nav   |   💎    |         |         |         |         |         |         |         |
+|  Nav   |  redo   |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav2  |         |         |         |         |         |         |         |         |
 |  Nav2  |   🛑    |   🛑    |   🛑    |   🛑    |  ⬅️⬅️   |  ⬆️⬆️   |  ⬇️⬇️   |  ➡️➡️   |
 |  Nav2  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|   Fn   |         |   f10   |   f9    |         |  shift  |  ctrl   |   🛑    |         |
+|   Fn   |         |   f10   |   f9    |         |  shift  |  ctrl   |   🛑    |  reset  |
 |   Fn   |   f4    |   f3    |   f2    |   f1    |         |         |         |         |
 |   Fn   |   f8    |   f7    |   f6    |   f5    |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -84,11 +92,11 @@ How to read this layout:
 | Mouse2 |   🛑    |         |         |         | 🖲️️⬅️  | 🖲️️⬆️  | 🖲️️⬇️  | 🖲️️➡️  |
 | Mouse2 |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Case  |         | PasCase | SN_CASE |         |   🛑    |         |         |         |
-|  Case  | sl/case | camCase | sn_case |  CAPSW  |         |         |         |         |
-|  Case  | do.case |  CAPSL  | kb-case |         |         |         |         |         | 
+|   Cs   |         |         |         |         |         | PasCase | SN_CASE |         |      
+|   Cs   |         |         |         |         | sl/case | camCase | sn_case |  CAPSW  |      
+|   Cs   |         |         |         |   🛑    | do.case |  CAPSL  | kb-case |         |      
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Media  |         |         |         |   🛑    |         |   🔅    |   🔆    |         |
+| Media  |         |   🛑    |         |         |         |   🔅    |   🔆    |         |
 | Media  |         |         |         |         |   prt   |   🔈    |   🔊    |   🔇    |
 | Media  |         |         |         |         |   ver   |   ⏮️    |   ⏭️    |   ⏯️    | 
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -131,14 +139,14 @@ The order of the options is also the order of the layers in the layer stack.
 |    Right     | BottomRow+RMods  |                 |               |      Base      | Shifted | 
 |    LMods     |                  |    BottomRow    |     Base      |                |         |
 |    RMods     |    BottomRow     |                 |               |      Base      |         |
-|     Nav      |  OneShotHomeRow  |                 |               |                |         |
+|     Nav      |    BottomRow     |                 |               |                |         |
 |     Nav2     |     HomeRow      |                 |               |                |         |
 |     Sym      |                  |                 |               |                |         |
 |     Num      |     HomeRow      |     HomeRow     |               |                |         |
 |      Fn      |                  |     HomeRow     |               |                |         |
 |    Mouse     | OneShotBottomRow |                 |               |                |         |
 |    Mouse2    |                  |                 |               |                |         |
-|     Case     |                  |                 |               |                |         |
+|      Cs      |                  |                 |               |                |         |
 |    Media     |                  |                 |               |                |         |
 
 ## Symbols
@@ -185,6 +193,7 @@ The order of the options is also the order of the layers in the layer stack.
 | 🔈      | KC_VOLD                               |
 | 🔆      | KC_BRIU                               |
 | 🔅      | KC_BRID                               |
+| reset   | QK_BOOT                               |
 | redo    | RCS(KC_Z)                             |
 | undo    | C(KC_Z)                               |
 | S-pst   | RCS(KC_V)                             |
