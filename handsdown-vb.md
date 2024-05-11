@@ -28,7 +28,7 @@ How to read this layout:
 
 | Layer  | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-|  Base  |   esc   |    w    |    m    |   f13   |   win   |  '+Sym  |  "+Fn   |         |
+|  Base  |   esc   |    w    |    m    |   spc   |   win   |  '+Sym  |  "+Fn   |         |
 |  Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 |  Base  | ,+Right |    f    |    l    |    d    |    u    |    o    |    y    | .+Left  |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -36,13 +36,13 @@ How to read this layout:
 |  Base  |         |         |         |   💎    |   💎    |         |         |         |
 |  Base  |         |         |         |    k    |  "au"   |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |         |    x    |         |         |    q    |         |         |
+|  Base  |         |         |    x    |         |         |         |         |         |
 |  Base  |         |         |   💎    |         |         |   💎    |         |         |
 |  Base  |         |         |    v    |         |         |  "eo"   |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |    b    |         |         |         |         |    j    |         |
 |  Base  |         |   💎    |         |         |         |         |   💎    |         |
-|  Base  |         |    p    |         |         |         |         |  "ion"  |         |
+|  Base  |         |    p    |         |         |         |         |    q    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
@@ -56,9 +56,9 @@ How to read this layout:
 |  Left  |         |         |         |         |    ä    |    ß    |         |         |
 |  Left  |    <    |         |         |         |    ü    |    ö    |  O-🖱️  |   🛑    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav   |         | *Media  |         |         |         |   esc   |   ins   |         |
-|  Nav   |  *Nav2  |   C-w   | tab ➡️  | win ➡️  |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
-|  Nav   |  undo   |   cut   |  copy   | pst+Cs  |   ↩️️   |  bspc   |   del   |   spc   |
+|  Nav   |         | *Media  |   *Cs   |         |         |   esc   |   ins   |         |
+|  Nav   |  *Nav2  |   cut   |  copy   |   pst   |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
+|  Nav   |  undo   |   C-w   | tab ➡️  | win ➡️  |   ↩️️   |  bspc   |   del   |   spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav   |         |         |         |         |         |         |         |         |
 |  Nav   |         |         |         |   💎    |         |         |         |         |
@@ -198,6 +198,7 @@ The order of the options is also the order of the layers in the layer stack.
 | ü       | ALGR(KC_Y)                            |
 | ß       | ALGR(KC_S)                            |
 | '       | ALGR(KC_QUOTE)                        |
+| "       | ALGR(S(KC_QUOTE))                     |
 | `       | ALGR(KC_GRV)                          |
 | ~       | ALGR(KC_TILD)                         |
 | ^       | ALGR(KC_CIRC)                         |
