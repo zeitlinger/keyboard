@@ -46,13 +46,3 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 }
-
-bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
-    if (!layer_state_is(_BASE)) {
-        switch (combo_index) {
-        ${disableComboOnNonBaseLayer}
-        }
-    }
-
-    return true;
-}
