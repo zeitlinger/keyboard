@@ -24,6 +24,7 @@ fun analyze(translator: QmkTranslator, layers: List<Layer>) {
 val invalidPos = KeyPosition(0, 0, "none", false, 0)
 
 val ignoreDuplicates = setOf(
+    "esc",
     "spc",
     "shift",
     "\uD83D\uDDB1\uFE0F1", //mouse button 1
@@ -70,7 +71,7 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
         .keys - ignoreDuplicates
 
     println("expected: ${want.size}")
-    println("missing: ${missing.sorted().joinToString("\n")}")
+    println("missing: ${missing.sorted().distinct().joinToString(", ")}")
     println("unexpected: $unexpected")
     println("duplicates: $duplicates")
 }
