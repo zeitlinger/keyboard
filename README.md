@@ -49,7 +49,7 @@ How to read this layout:
 
 | Layer  | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-|  Base  |   esc   |    w    |    m    |   spc   |   win   | rep+Sym |  '+Fn   |         |
+|  Base  |   esc   |    w    |    m    |   spc   |   win   | aRp+Sym | rep+Fn  |         |
 |  Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 |  Base  | ,+Right |    f    |    l    |    d    |    u    |    o    |    y    | .+Left  |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -65,7 +65,7 @@ How to read this layout:
 |  Base  |         |         |   💎    |         |         |   💎    |         |         |
 |  Base  |         |         |    v    |         |         |  "eo"   |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |    b    |  "bl"   |         |         |         |    j    |         |
+|  Base  |         |    b    |         |         |         |         |    j    |         |
 |  Base  |         |   💎    |         |         |         |         |   💎    |         |
 |  Base  |         |    p    |         |         |         |         |    q    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -73,7 +73,7 @@ How to read this layout:
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
 |  Base  |    z    |         |         |         |         |         |         |   s,    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right  |         |         |         |         |         |    !    |    "    |         |
+| Right  |         |         |         |         |         |    '    |    "    |         |
 | Right  |         |         |         |         |         |         |         |         |
 | Right  |   🛑    |         |         |         |         |         |         |    ?    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -105,9 +105,9 @@ How to read this layout:
 |  Num   |    4    |    3    |    2    |    1    |    $    |    [    |    ]    |    ;    |    
 |  Num   |    8    |    7    |    6    |    5    |    `    |    -    |    =    |    /    |        
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Sym   |         |    <    |    >    |         |         |   🛑    |         |         |
-|  Sym   |    @    |    (    |    )    |    *    |         |         |         |         |    
-|  Sym   |    %    |    &    |    #    |    ~    |         |         |         |         |        
+|  Sym   |         |    <    |    >    |    %    |         |   🛑    |         |         |
+|  Sym   |    *    |    (    |    )    |    !    |         |         |         |         |    
+|  Sym   |    &    |    @    |    #    |    ~    |         |         |         |         |        
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Mouse  |         |  🖱️3   |  🖱️2   |  🖱️1   |         |         |  🖱️3   |         |
 | Mouse  | *Mouse2 | KC_ACL0 | KC_ACL1 | KC_ACL2 |  🖱️⬅️  |  🖱️⬆️  |  🖱️⬇️  |  🖱️➡️  |
@@ -228,6 +228,7 @@ The order of the options is also the order of the layers in the layer stack.
 | ~       | ALGR(KC_TILD)                         |
 | ^       | ALGR(KC_CIRC)                         |
 | rep     | QK_REPEAT_KEY                         |
+| aRp     | QK_ALT_REPEAT_KEY                     |
 | tab ➡️  | custom:NEXT_TAB      NoHold           |
 | win ➡️  | custom:NEXT_WINDOW   NoHold           |
 | O-🖱️   | custom:ONE_SHOT_MOUSE LayerHint:Mouse |
