@@ -32,6 +32,10 @@ How to read this layout:
 |  Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 |  Base  | ,+Right |    f    |    l    |    d    |    u    |    o    |    y    | .+Left  |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  Base  |         |         |         |         |         |  O-🖱️  |   💎    |         |
+|  Base  |         |         |         |         |         |         |         |         |
+|  Base  |         |         |         |         |         |         |         |         |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |    g    |  "ua"   |         |         |         |
 |  Base  |         |         |         |   💎    |   💎    |         |         |         |
 |  Base  |         |         |         |    k    |  "au"   |         |         |         |
@@ -54,7 +58,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Left  |         |         |         |         |         |         |         |         |
 |  Left  |         |         |         |         |    ä    |    ß    |         |         |
-|  Left  |    <    |         |         |         |    ü    |    ö    |  O-🖱️  |   🛑    |
+|  Left  |    <    |         |         |         |    ü    |    ö    |  shift  |   🛑    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav   |         | *Media  |   *Cs   |         |         |   esc   |   ins   |         |
 |  Nav   |  *Nav2  |   cut   |  copy   |   pst   |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
@@ -80,7 +84,7 @@ How to read this layout:
 |  Num   |    4    |    3    |    2    |    1    |    $    |    [    |    ]    |    ;    |    
 |  Num   |    8    |    7    |    6    |    5    |    `    |    {    |    }    |    /    |        
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Sym   |         |    &    |    *    |         |         |   🛑    |  shift  |         |
+|  Sym   |         |    &    |    *    |         |         |   🛑    |         |         |
 |  Sym   |    @    |    #    |    :    |    _    |         |         |         |         |    
 |  Sym   |    %    |         |         |    ~    |         |         |         |         |        
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -202,8 +206,8 @@ The order of the options is also the order of the layers in the layer stack.
 | `       | ALGR(KC_GRV)                          |
 | ~       | ALGR(KC_TILD)                         |
 | ^       | ALGR(KC_CIRC)                         |
-| tab ➡️  | custom:NEXT_TAB                       |
-| win ➡️  | custom:NEXT_WINDOW                    |
+| tab ➡️  | custom:NEXT_TAB      NoHold           |
+| win ➡️  | custom:NEXT_WINDOW   NoHold           |
 | O-🖱️   | custom:ONE_SHOT_MOUSE LayerHint:Mouse |
 | ver     | custom:PRINT_VERSION                  |
 | CAPSL   | KC_CAPS                               |

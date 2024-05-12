@@ -103,6 +103,9 @@ fun spaceSeparatedHint(def: String, translator: QmkTranslator, pos: KeyPosition)
 private fun layerTapHoldKey(def: String, translator: QmkTranslator, pos: KeyPosition): Key {
     val parts = def.split("+")
     val key = addCustomIfNotSimpleKey(translateKey(translator, pos, parts[0]).key, translator)
+    if (key in translator.symbols.noHoldKeys) {
+        throw IllegalArgumentException("key $key not allowed for tap hold at $pos")
+    }
     val command = "LT(${translator.reachLayer(parts[1], pos, LayerActivation.TapHold).const()},$key)"
     translator.layerTapHold.add(command)
     return setCustomKeyCommand(translator, key, command)

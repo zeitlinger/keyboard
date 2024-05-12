@@ -86,6 +86,7 @@ private fun modTapKey(
     pos: KeyPosition,
     targetLayer: LayerName?,
 ): String = when {
+    key in translator.symbols.noHoldKeys -> throw IllegalStateException("key $key not allowed for mod tap at $pos")
     type.oneShot -> "OSM(${mod.mask})"
         .also { if (key != qmkNo) throw IllegalStateException("key $key not allowed for one shot modifier at $pos") }
 

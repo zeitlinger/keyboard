@@ -35,13 +35,17 @@ private fun getKeyTable(layerContent: MultiTable): Map<LayerName, MultiTable> = 
 private fun readSymbols(tables: Tables): Symbols {
     val customKeycodes = mutableMapOf<String, CustomKey>()
     val implicitKeys = mutableListOf<String>()
+    val noHoldKeys = mutableListOf<String>()
     val symTable = tables.getMappingTable("Symbol").flatMap { entry ->
         val key = entry.key
         val value = entry.value
-        val matchResult = """custom:([A-Z_]+)( +LayerHint:(.+))?$""".toRegex().find(value)
+        val matchResult = """custom:([A-Z_]+)( +LayerHint:(.+))?( +NoHold)?$""".toRegex().find(value)
         when {
             matchResult != null -> {
                 val command = matchResult.groupValues[1]
+                if (matchResult.groupValues[4].isNotBlank()) {
+                    noHoldKeys += command
+                }
                 customKeycodes[command] =
                     CustomKey(command, matchResult.groupValues[3].takeIf { it.isNotBlank() }, null)
                 listOf(key to command)
@@ -57,7 +61,7 @@ private fun readSymbols(tables: Tables): Symbols {
             }
         }
     }.toMap()
-    return Symbols(symTable, customKeycodes, implicitKeys, mutableListOf(), mutableMapOf())
+    return Symbols(symTable, customKeycodes, implicitKeys, mutableListOf(), mutableMapOf(), noHoldKeys)
 }
 
 
