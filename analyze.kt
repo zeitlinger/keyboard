@@ -7,8 +7,7 @@ fun analyze(translator: QmkTranslator, layers: List<Layer>) {
         throw IllegalStateException("unexpected thumb layer $it")
     }
     translator.layerOptions.entries.forEach { (layer, option) ->
-        val toggleEnter = LayerActivation.Toggle in option.reachable
-        if (toggleEnter && LayerFlag.Toggle !in option.flags && LayerFlag.OneShot !in option.flags) {
+        if (LayerActivation.Toggle in option.reachable && LayerFlag.Toggle !in option.flags) {
             throw IllegalStateException("can't exit from layer $layer")
         }
     }

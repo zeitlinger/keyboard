@@ -24,13 +24,13 @@ data class Hand(
         return this.isFull == isFull
     }
 
-    fun columns(options: Options): Int {
+    private fun columns(options: Options): Int {
         return if (isThumb) options.thumbColumns else options.nonThumbColumns
     }
 
-    val isRight = this.name.startsWith("right")
+    private val isRight = this.name.startsWith("right")
     val isThumb = this.name.contains("thumb")
-    val isFull = this.name.contains("both")
+    private val isFull = this.name.contains("both")
     fun comboColumns(options: Options) = if (isFull) this.columns(options) else this.columns(options) / 2
 }
 

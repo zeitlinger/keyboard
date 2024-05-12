@@ -16,16 +16,15 @@ data class Combo(
     }
 }
 
-data class HomeRowCombo(val targetLayer: LayerName, val key: Key)
-
 const val comboTrigger = "\uD83D\uDC8E" // 💎
 
 fun getSubstitutionCombo(key: String): String? =
     if (key.startsWith("\"") && key.endsWith("\"")) key else null
 
-fun generateAllCombos(layers: List<Layer>, options: Options, homeRowCombo: HomeRowCombo?): List<Combo> =
-    (homeRowCombos(homeRowCombo, layers, options) + layerCombos(layers, options))
-        .also { checkForDuplicateCombos(it) }
+fun generateAllCombos(layers: List<Layer>, options: Options): List<Combo> =
+    layers.flatMap { layer ->
+        generateCombos(options, layer, layer.combos, layer.baseRows, listOf())
+    }.also { checkForDuplicateCombos(it) }
 
 private fun checkForDuplicateCombos(combos: List<Combo>) {
     combos.groupBy { it.triggers }
@@ -42,64 +41,9 @@ private fun checkForDuplicateCombos(combos: List<Combo>) {
 
     combos.groupBy { it.name }
         .filter { it.value.size > 1 }
-        .forEach { (name, combos) ->
+        .forEach { (_, combos) ->
             combos.mapIndexed { index, combo -> "${combo.name}_$index".also { combo.name = it } }
         }
-}
-
-private fun layerCombos(layers: List<Layer>, options: Options) = layers.flatMap { layer ->
-    val combos = generateCombos(options, layer, layer.combos, layer.baseRows, listOf())
-    val baseLayerCombos = directLayerCombos(layer, options, layers)
-    combos + baseLayerCombos
-}
-
-private fun directLayerCombos(
-    layer: Layer,
-    options: Options,
-    layers: List<Layer>
-): List<Combo> {
-    val baseLayerCombos = layer.comboTrigger?.let { trigger ->
-        generateCombos(
-            options,
-            layers[0],
-            listOf(layer.baseRows) + layer.combos,
-            layers[0].baseRows,
-            listOf(trigger)
-        )
-    } ?: emptyList()
-    return baseLayerCombos
-}
-
-private fun homeRowCombos(
-    homeRowCombo: HomeRowCombo?,
-    layers: List<Layer>,
-    options: Options
-): List<Combo> {
-    val homeRowThumbCombos = options.homeRowThumbCombos
-    if (homeRowThumbCombos == null) {
-        if (homeRowCombo != null) {
-            throw IllegalStateException("homeRowThumbCombos not defined but needed for 'HomeRowThumbCombo'")
-        }
-        return emptyList()
-    }
-
-    val homeRowCombos = homeRowCombo?.let { hr ->
-        val homeRowLayer = layers.find { it.name == hr.targetLayer }
-            ?: throw IllegalStateException("unknown layer ${hr.targetLayer}")
-
-        hands.filter { !it.isThumb && !it.isFull }.flatMap { hand ->
-            generateModCombos(
-                homeRowLayer.name,
-                listOf(hr.key),
-                getLayerPart(layers[0].baseRows, hand, options),
-                homeRowLayer,
-                hand,
-                homeRowThumbCombos,
-                options
-            )
-        }
-    } ?: emptyList()
-    return homeRowCombos
 }
 
 private fun generateCombos(
@@ -109,24 +53,8 @@ private fun generateCombos(
     layerBase: Rows,
     directLayerTrigger: List<Key>
 ): List<Combo> = hands.flatMap { hand ->
-    val modTriggers = options.oneShotTriggers
-    val modCombos =
-        if (modTriggers != null && layer.number == 0 && !hand.isThumb && !hand.isFull && directLayerTrigger.isEmpty()) {
-            generateModCombos(
-                "OSM",
-                listOf(),
-                getLayerPart(layer.baseRows, hand, options),
-                layer,
-                hand,
-                modTriggers,
-                options
-            )
-        } else {
-            emptyList()
-        }
-
     val baseLayerRowSkip = if (hand.isThumb) options.nonThumbRows else 0
-    val customCombos = activationParts
+    activationParts
         .filter { hand.applies(it, options) }
         .flatMap { def ->
             generateCustomCombos(
@@ -138,7 +66,6 @@ private fun generateCombos(
                 options,
             )
         }
-    customCombos + modCombos
 }.distinct()
 
 private fun generateCustomCombos(

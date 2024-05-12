@@ -9,7 +9,6 @@ fun qmkTranslator(args: GeneratorArgs): QmkTranslator {
     val layerOptions = layerOption(tables)
 
     val layerNumbers = layerOptions
-        .filterNot { it.value.flags.contains(LayerFlag.Hidden) }
         .asIterable().mapIndexed { index, entry -> entry.key to index }.toMap()
     return QmkTranslator(
         symbols,
@@ -17,11 +16,8 @@ fun qmkTranslator(args: GeneratorArgs): QmkTranslator {
         nonThumbs,
         thumbs,
         layerNumbers,
-        mutableMapOf(),
-        null,
         options,
         mutableMapOf(),
-        mutableListOf(),
         mutableListOf()
     )
 }
@@ -75,10 +71,6 @@ private fun layerOption(tables: Tables): Map<LayerName, LayerOption> = tables.ge
             it.value[4].ifBlank { null },
             when (it.value[5]) {
                 "Shifted" -> setOf(LayerFlag.Shifted)
-                "Hidden" -> setOf(LayerFlag.Hidden)
-                "OSL to toggle" -> setOf(LayerFlag.OslToToggle)
-                "OneShot" -> setOf(LayerFlag.OneShot)
-                "No OneShot" -> setOf(LayerFlag.NoOneShot)
                 "" -> emptySet()
                 else -> throw IllegalStateException("unknown flag ${it.value[5]}")
             },
@@ -101,10 +93,6 @@ private fun options(
         firstNonThumb.size,
         firstNonThumb[0].size,
         firstThumb[0].size,
-        tables.getOptional("Base Layer One Shot Mod Combos")
-            ?.let { createModTriggers(it, homeRowOneShotTriggers, columns) },
-        homeRowPositions?.let { h -> tables.getOptional("Base Layer Thumb Mod Combos")
-            ?.let { createThumbModTriggers(it, homeRowThumbTriggers, h) }},
         homeRowPositions
     )
 }

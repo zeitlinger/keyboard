@@ -26,7 +26,6 @@ fun template(layers: List<Layer>): String =
 fun generateBase(layers: List<Layer>): String {
     val template = template(layers)
     return layers
-        .filter { !it.option.flags.contains(LayerFlag.Hidden) }
         .sortedBy { it.number }
         .joinToString("\n") { layer ->
             template.format(*listOf(layer.name.const()).plus(layer.baseRows.map {
@@ -49,7 +48,7 @@ fun run(args: GeneratorArgs) {
         readLayer(table, translator, layerName, translator.layerNumbers.getOrDefault(layerName, -1))
     }
 
-    val combos = generateAllCombos(layers, translator.options, translator.homeRowThumbCombo)
+    val combos = generateAllCombos(layers, translator.options)
     val comboLines = combos.map { combo ->
         combo.type.template.format(
             combo.name.padEnd(35),
@@ -109,8 +108,6 @@ fun run(args: GeneratorArgs) {
                     ),
             "customKeycodesOnRelease" to targetLayerOnHold(translator.modTapKeyTargetLayers, "off", "del"),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
-            "layerOffKeys" to layerOffKeys(translator),
-            "oneshotLayers" to oneshotLayers(translator),
             "disableComboOnNonBaseLayer" to disableComboOnNonBaseLayer(combos),
         )
     )
@@ -119,18 +116,6 @@ fun run(args: GeneratorArgs) {
 
     File(dstDir, "qmk/combos.def").writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
 }
-
-private fun layerOffKeys(translator: QmkTranslator): String =
-    translator.layerOffKeys
-        .joinToString("\n    ") {
-            "if (keycode == ${it.key} && layer == ${it.layer}) return true;"
-        }
-
-private fun oneshotLayers(translator: QmkTranslator): String =
-    translator.layerOptions.entries.filter { it.value.flags.contains(LayerFlag.OneShot) }
-        .joinToString("\n    ") {
-            "case ${it.key.const()}: return true;"
-        }
 
 fun customKeycodes(translator: QmkTranslator, type: CustomCommandType): String =
     translator.symbols.customKeycodes.entries

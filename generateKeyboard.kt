@@ -31,8 +31,6 @@ data class Options(
     val nonThumbRows: Int,
     val nonThumbColumns: Int,
     val thumbColumns: Int,
-    val oneShotTriggers: ModTriggers?,
-    val homeRowThumbCombos: ModTriggers?,
     val homeRowPositions: Map<Int, Modifier>?,
 )
 
@@ -41,18 +39,15 @@ enum class LayerActivation(val method: String?) {
     Hold("MO"),
     TapHold(null),
     ModTap(null),
-    ComboLayer(null)
 }
 
-enum class LayerFlag { Hidden, Toggle, OslToToggle, OneShot, NoOneShot, Shifted }
+enum class LayerFlag { Shifted, Toggle }
 
 typealias LayerName = String
 
 data class LayerRef(val name: LayerName, val number: Int?, val option: LayerOption) {
     fun const() = name.const()
 }
-
-data class LayerOffKey(val key: String, val layer: LayerName)
 
 data class LayerOption(
     val leftModifier: Map<HomeRowType, LayerName?>,
@@ -79,6 +74,5 @@ data class Layer(
     val baseRows: Rows,
     val combos: List<Rows>,
     val number: Int,
-    val comboTrigger: Key?,
     val option: LayerOption,
 )

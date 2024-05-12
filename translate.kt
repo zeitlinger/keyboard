@@ -9,12 +9,9 @@ class QmkTranslator(
     val nonThumbs: Map<LayerName, MultiTable>,
     val thumbs: Map<LayerName, MultiTable>,
     val layerNumbers: Map<LayerName, Int>,
-    val comboLayerTrigger: MutableMap<LayerName, Key>,
-    var homeRowThumbCombo: HomeRowCombo?,
     val options: Options,
     val modTapKeyTargetLayers: MutableMap<String, LayerModTab>,
     val layerTapHold: MutableList<String>,
-    val layerOffKeys: MutableList<LayerOffKey>,
 ) {
 
     private val map: Map<String, String>

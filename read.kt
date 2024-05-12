@@ -32,7 +32,6 @@ fun readLayer(
         (base + baseThumb),
         combos + comboThumb,
         layerIndex,
-        translator.comboLayerTrigger[layerName],
         option
     )
 }
@@ -51,13 +50,6 @@ fun translateKey(
 
         def.contains("-") && def.length > 1 -> when {
             def == "--" -> layerKey(translator, pos, pos.layerName, LayerActivation.Toggle)
-            def.startsWith("-") -> translateKey(translator, pos, def.substring(1))
-                .also {
-                    if (LayerFlag.NoOneShot !in translator.layerOptions.getValue(pos.layerName).flags) {
-                        translator.layerOffKeys.add(LayerOffKey(it.keyWithModifier, pos.layerName.const()))
-                    }
-                }
-
             else -> keyWithModifier(def, translator, pos)
         }
 
@@ -84,17 +76,6 @@ fun spaceSeparatedHint(def: String, translator: QmkTranslator, pos: KeyPosition)
     val right = parts[1].trim()
     val left = parts[0].trim()
     return when {
-        def.startsWith("ComboLayer:") -> {
-            comboLayer(left, translator, pos, right)
-        }
-
-        def.startsWith("HomeRowThumbCombo:") -> {
-            val targetLayer = left.split(":")[1]
-            val key = translateKey(translator, pos, right)
-            translator.homeRowThumbCombo = HomeRowCombo(targetLayer, key)
-            key
-        }
-
         parts.size == 2 && right[0].isDigit() -> translateKey(translator, pos, left).copy(comboTimeout = right.toInt())
         else -> throw IllegalArgumentException("unknown command '$def' in $pos")
     }
@@ -118,22 +99,19 @@ fun layerKey(
     activation: LayerActivation,
 ): Key {
     val layerOption = translator.layerOptions.getValue(layer)
-    val layerActivation = adjustFallback(activation, translator.layerOptions.getValue(pos.layerName))
-    if (layerActivation == LayerActivation.Toggle && pos.layerName == layer) {
+    translator.layerOptions.getValue(pos.layerName)
+    if (activation == LayerActivation.Toggle && pos.layerName == layer) {
         layerOption.flags += LayerFlag.Toggle
     }
-    if (layerOption.flags.contains(LayerFlag.Hidden)) {
-        throw IllegalArgumentException("can't toggle hidden layer $layer at $pos")
-    }
-    return when (layerActivation) {
+    return when (activation) {
         LayerActivation.Toggle -> toggleLayerKey(translator, layer, pos, null)
         LayerActivation.Hold -> Key(
-            "${layerActivation.method}(${
+            "${activation.method}(${
                 translator.reachLayer(layer, pos, activation).const()
             })"
         )
 
-        else -> throw IllegalArgumentException("unsupported layer activation $layerActivation")
+        else -> throw IllegalArgumentException("unsupported layer activation $activation")
     }
 }
 
@@ -146,19 +124,6 @@ fun toggleLayerKey(translator: QmkTranslator, layer: String, pos: KeyPosition, m
         customCommand(translator, key, CustomCommandType.OnPress, listOfNotNull("toggle_layer(${layer.const()})", mod))
     return setCustomKeyCommand(translator, key, command)
 }
-
-fun comboLayer(left: String, translator: QmkTranslator, pos: KeyPosition, right: String): Key {
-    val trigger = left.split(":")[1].split(",")
-    val layerName = trigger[0]
-    val timeout = trigger.getOrNull(1)?.toIntOrNull()
-    translator.reachLayer(layerName, pos, LayerActivation.ComboLayer)
-    return translator.layerOptions[layerName]?.let {
-        val key = translateKey(translator, pos, right)
-        translator.comboLayerTrigger[layerName] = key.copy(comboTimeout = timeout)
-        key
-    } ?: throw IllegalArgumentException("unknown layer $layerName in $pos")
-}
-
 
 fun keyWithModifier(def: String, translator: QmkTranslator, pos: KeyPosition): Key {
     val parts = def.split("-")
@@ -208,11 +173,6 @@ fun translateTable(
             )
         }
     }
-}
-
-fun adjustFallback(activation: LayerActivation, option: LayerOption): LayerActivation = when {
-    option.flags.contains(LayerFlag.OslToToggle) -> LayerActivation.Toggle
-    else -> activation
 }
 
 fun getFallbackIfNeeded(
