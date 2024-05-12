@@ -122,7 +122,7 @@ fun toggleLayerKey(translator: QmkTranslator, layer: String, pos: KeyPosition, m
     val prefix = modifier?.short ?: "L"
     val key = "${prefix}_${layer.uppercase()}"
     val command =
-        customCommand(translator, key, CustomCommandType.OnPress, listOfNotNull("toggle_layer(${layer.const()})", mod))
+        customCommand(translator, key, CustomCommandType.OnPress, listOfNotNull("layer_invert(${layer.const()})", mod))
     return setCustomKeyCommand(translator, key, command)
 }
 
