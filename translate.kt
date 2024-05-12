@@ -64,7 +64,7 @@ class QmkTranslator(
         thumbs[layerName] ?: listOf(listOf(List(options.thumbColumns) { "" })) // empty thumb layer
 
     fun getKey(pos: KeyPosition): String =
-        (if (pos.thumb) getThumbContent(pos.layerName) else nonThumbs[pos.layerName])?.get(0)?.get(pos.row)
+        (if (pos.thumb) getThumbContent(pos.layerName) else nonThumbs[pos.layerName])?.get(pos.tableIndex)?.get(pos.row)
             ?.get(pos.column) ?: ""
 
     fun gotKey(key: String) {

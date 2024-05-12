@@ -20,7 +20,7 @@ fun analyze(translator: QmkTranslator, layers: List<Layer>) {
     printMissingAndUnexpected(translator, layers)
 }
 
-val invalidPos = KeyPosition(0, 0, "none", false, 0)
+val invalidPos = KeyPosition(0, 0, 0, "none", false, 0)
 
 val ignoreDuplicates = setOf(
     "esc",

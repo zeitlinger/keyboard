@@ -1,4 +1,5 @@
 data class KeyPosition(
+    val tableIndex: Int,
     val row: Int,
     val column: Int,
     val layerName: LayerName,
@@ -162,12 +163,12 @@ fun translateTable(
     translator: QmkTranslator,
     layerName: LayerName,
     thumb: Boolean,
-): List<Rows> = tables.map { table ->
+): List<Rows> = tables.mapIndexed { tableIndex, table ->
     table.mapIndexed { rowNumber, row ->
         row.mapIndexed { column, def ->
             translateKey(
                 translator, KeyPosition(
-                    rowNumber, column, layerName, thumb,
+                    tableIndex, rowNumber, column, layerName, thumb,
                     if (thumb) translator.options.thumbColumns else translator.options.nonThumbColumns
                 ), def
             )
@@ -199,11 +200,13 @@ fun getFallbackIfNeeded(
         return key
     }
     val left = pos.column < pos.columns / 2
-    val fallbackLayer = if (left) (translator.layerOptions[pos.layerName]
-        ?: throw IllegalStateException("can't find layer at $pos")).leftFallbackLayer else (translator.layerOptions[pos.layerName]
-        ?: throw IllegalStateException("can't find layer at $pos")).rightFallbackLayer
+    val fallbackLayer = if (left) {
+        (translator.layerOptions[pos.layerName] ?: throw IllegalStateException("can't find layer at $pos")).leftFallbackLayer
+    } else {
+        (translator.layerOptions[pos.layerName] ?: throw IllegalStateException("can't find layer at $pos")).rightFallbackLayer
+    }
     return when {
-        fallbackLayer == null || pos.layerName == baseLayerName -> qmkNo
+        fallbackLayer == null || pos.layerName == baseLayerName || pos.tableIndex > 0 -> qmkNo
         else -> {
             val newPos = pos.copy(layerName = fallbackLayer)
             getFallbackIfNeeded(
