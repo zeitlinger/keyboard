@@ -23,7 +23,7 @@ fun getSubstitutionCombo(key: String): String? =
 
 fun generateAllCombos(layers: List<Layer>, options: Options): List<Combo> =
     layers.flatMap { layer ->
-        generateCombos(options, layer, layer.combos, layer.baseRows, listOf())
+        generateCombos(options, layer, layer.combos, layer.baseRows)
     }.also { checkForDuplicateCombos(it) }
 
 private fun checkForDuplicateCombos(combos: List<Combo>) {
@@ -50,19 +50,17 @@ private fun generateCombos(
     options: Options,
     layer: Layer,
     activationParts: List<Rows>,
-    layerBase: Rows,
-    directLayerTrigger: List<Key>
+    layerBase: Rows
 ): List<Combo> = hands.flatMap { hand ->
     val baseLayerRowSkip = if (hand.isThumb) options.nonThumbRows else 0
     activationParts
         .filter { hand.applies(it, options) }
         .flatMap { def ->
             generateCustomCombos(
-                def.filter { it.size == options.nonThumbColumns || directLayerTrigger.isEmpty() },
+                def.filter { it.size == options.nonThumbColumns },
                 getLayerPart(layerBase.drop(baseLayerRowSkip), hand, options),
                 layer,
                 hand,
-                directLayerTrigger,
                 options,
             )
         }
@@ -73,7 +71,6 @@ private fun generateCustomCombos(
     layerBase: List<Key>,
     layer: Layer,
     hand: Hand,
-    directLayerTrigger: List<Key>,
     options: Options
 ): List<Combo> {
     val definition = getLayerPart(def, hand, options)
@@ -83,7 +80,7 @@ private fun generateCustomCombos(
         val key = k.key
         if (!(k.isBlocked() || key == comboTrigger || key == "KC_TRNS" || key == qmkNo)) {
             val keys = layerBase
-                .filterIndexed { index, _ -> index == comboIndex || index in comboIndexes } + directLayerTrigger
+                .filterIndexed { index, _ -> index == comboIndex || index in comboIndexes }
 
             val substitutionCombo = getSubstitutionCombo(key)
             val type = if (substitutionCombo != null) ComboType.Substitution else ComboType.Combo
@@ -95,7 +92,7 @@ private fun generateCustomCombos(
                     name,
                     content,
                     keys,
-                    k.comboTimeout ?: directLayerTrigger.firstNotNullOfOrNull { it.comboTimeout })
+                    k.comboTimeout)
             )
         } else emptyList()
     }.filter { it.triggers.size > 1 }
