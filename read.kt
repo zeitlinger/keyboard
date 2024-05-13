@@ -186,7 +186,10 @@ fun getFallbackIfNeeded(
     if (key == qmkNo || key == layerBlocked) {
         return qmkNo
     }
-    if (key.isNotBlank()) {
+    if (srcLayerOption != null && (key.contains("+") || key.contains("-") || key.contains(" ") || key.contains("*"))) {
+        return qmkNo
+    }
+    if (key.isNotBlank() ) {
         val k = key.substringBeforeLast("+")
         if (recordUsage) {
             translator.gotKey(key)
