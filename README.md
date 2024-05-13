@@ -1,10 +1,10 @@
 # Hands Down Vibranium Keyboard
 
 ### Credits
-                        
+
 - [Hands Down Keyboard Layout](https://sites.google.com/alanreiser.com/handsdown)
 - [The T-34 keyboard layout](https://www.jonashietala.se/blog/2021/06/03/the-t-34-keyboard-layout/)
-- [X-Case](https://github.com/andrewjrae/kyria-keymap#x-case)    
+- [X-Case](https://github.com/andrewjrae/kyria-keymap#x-case)
 
 ### Notes
 
@@ -45,14 +45,14 @@ How to read this layout:
 - "that" = combo that produces "that"
 - n @g = alt repeat key for "n" is "g". If you press "n" and then the alt repeat key, it will produce "ng"
 - The symbol table at the bottom shows the meaning of the symbols used in the layout.
-                                                                                                
+
 > **Note**: The layout is generated from this file directly.
 
 | Layer  | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-|  Base  |   esc   |    w    |  m @p   |   spc   |   win   | repeat  | altRep  |         |
-|  Base  |    s    |  c @k   |  n @g   |    t    |  a @u   |  e @o   |    i    |    h    |
-|  Base  | *Right  |    f    |  l @k   |    d    |  u @a   |    o    |    y    |  *Left  |
+|  Base  |   esc   |  w @s   |  m @p   |   spc   |   win   | repeat  | altRep  |         |
+|  Base  |  s @p   |  c @k   |  n @g   |    t    |  a @u   |  e @o   |    i    |    h    |
+|  Base  | *Right  |    f    |  l @k   |  d @g   |  u @a   |    o    |    y    |  *Left  |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |  O-🖱️  |   💎    |         |
 |  Base  |         |         |         |         |         |         |         |         |
@@ -72,7 +72,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
-|  Base  |    z    |         |         |         |         |         |         |    .    |
+|  Base  |    z    |         |         |         |         |         |         |  . @/   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right  |         |         |         |         |         |    '    |    "    |         |
 | Right  |         |         | *Umlaut |  *Case  |         |         |         |         |
@@ -83,7 +83,7 @@ How to read this layout:
 | Right  |         |         |         |         |         |         |   S-q   |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Left  |         |         |         |         |         |         |         |         |
-|  Left  |         |         |         |         |  *Sym   | *Media  |         |         |         
+|  Left  |         |         |         |         |  *Sym   | *Media  |         |         |
 |  Left  |    _    |         |         |         |         |         |         |   🛑    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Left  |         |         |         |   S-g   |         |         |         |         |
@@ -102,7 +102,7 @@ How to read this layout:
 |  Left  |   💎    |         |         |         |         |         |         |         |
 |  Left  |   S-z   |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav   |         |         |         |         |         |   esc   |   ins   |         | 
+|  Nav   |         |         |         |         |         |   esc   |   ins   |         |
 |  Nav   |  *Nav2  |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
 |  Nav   |  undo   |   C-w   | tab ➡️  | win ➡️  |   ↩️️   |  bspc   |   del   |   spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -131,24 +131,24 @@ How to read this layout:
 |   Fn   |   f8    |   f7    |   f6    |   f5    |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Num   |         |    \    |    9    |         |         |    {    |    }    |         |
-|  Num   |    4    |    3    |    2    |    1    |    $    |    [    |    ]    |  ;+Fn   |    
-|  Num   |    8    |    7    |    6    |    5    |    `    |    -    |    =    |    /    |        
+|  Num   |    4    |    3    |    2    |    1    |    $    |    [    |    ]    |  ;+Fn   |
+|  Num   |    8    |    7    |    6    |    5    |    `    |    -    |    =    |    /    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Umlaut |         |         |         |         |         |         |         |         |
-| Umlaut |         |         |   🛑    |  shift  |    ä    |    ß    |         |         |       
+| Umlaut |         |         |   🛑    |  shift  |    ä    |    ß    |         |         |
 | Umlaut |   🛑    |         |         |         |    ü    |    ö    |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Case  |         |         |         |         |         | PasCase | SN_CASE |         |      
-|  Case  |         |         |         |   🛑    | sl/case | camCase | sn_case |  CAPSW  |      
-|  Case  |   🛑    |         |         |         | do.case |  CAPSL  | kb-case |         |      
+|  Case  |         |         |         |         |         | PasCase | SN_CASE |         |
+|  Case  |         |         |         |   🛑    | sl/case | camCase | sn_case |  CAPSW  |
+|  Case  |   🛑    |         |         |         | do.case |  CAPSL  | kb-case |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Media  |  reset  |   🔅    |   🔆    |         |         |         |         |         | 
-| Media  |   prt   |   🔈    |   🔊    |   🔇    |         |   🛑    |         |         | 
-| Media  |   ver   |   ⏮️    |   ⏭️    |   ⏯️    |         |         |         |   🛑    | 
+| Media  |  reset  |   🔅    |   🔆    |         |         |         |         |         |
+| Media  |   prt   |   🔈    |   🔊    |   🔇    |         |   🛑    |         |         |
+| Media  |   ver   |   ⏮️    |   ⏭️    |   ⏯️    |         |         |         |   🛑    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Sym   |         |    <    |    >    |    %    |         |         |         |         |
-|  Sym   |    *    |    (    |    )    |    !    |   🛑    |         |         |         |    
-|  Sym   |    &    |    @    |    #    |    ~    |         |         |         |   🛑    |        
+|  Sym   |    *    |    (    |    )    |    !    |   🛑    |         |         |         |
+|  Sym   |    &    |    @    |    #    |  ~ @/   |         |         |         |   🛑    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Mouse  |         |  🖱️3   |  🖱️2   |  🖱️1   |         |         |  🖱️3   |         |
 | Mouse  | *Mouse2 | KC_ACL0 | KC_ACL1 | KC_ACL2 |  🖱️⬅️  |  🖱️⬆️  |  🖱️⬇️  |  🖱️➡️  |
@@ -178,16 +178,16 @@ How to read this layout:
 |       | ---------- | ------------------------ | ---------------------- | ----------- |
 | Mouse |            |            --            |          🖱️1          |             |
 |       | ---------- | ------------------------ | ---------------------- | ----------- |
- 
+
 ## Options
 
 The order of the options is also the order of the layers in the layer stack.
 
 | LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags   |
 |:------------:|:---------------:|:---------------:|:-------------:|:--------------:|---------|
-|     Base     |                 |                 |               |                |         | 
-|     Left     |                 | BottomRow+LMods |     Base      |                | Shifted | 
-|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted | 
+|     Base     |                 |                 |               |                |         |
+|     Left     |                 | BottomRow+LMods |     Base      |                | Shifted |
+|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted |
 |    LMods     |                 |    BottomRow    |     Base      |                |         |
 |    RMods     |    BottomRow    |                 |               |      Base      |         |
 |     Nav      |     HomeRow     |                 |               |                |         |
