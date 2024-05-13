@@ -78,10 +78,10 @@ fun spaceSeparatedHint(def: String, translator: QmkTranslator, pos: KeyPosition)
     val left = parts[0].trim()
     return when {
         parts.size == 2 && right[0].isDigit() -> translateKey(translator, pos, left).copy(comboTimeout = right.toInt())
-        parts.size == 2 && right.startsWith("a:") -> translateKey(translator, pos, left)
+        parts.size == 2 && right.startsWith("@") -> translateKey(translator, pos, left)
             .also {
                 translator.symbols.altRepeat[translator.toQmk(left, pos)] =
-                    translator.toQmk(right.substringAfter("a:"), pos)
+                    translator.toQmk(right.substringAfter("@"), pos)
             }
 
         else -> throw IllegalArgumentException("unknown command '$def' in $pos")

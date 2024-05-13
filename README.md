@@ -43,22 +43,22 @@ How to read this layout:
 - *Mouse = layer is active while key is held
 - C-w = Ctrl-w (same for Alt and Shift)
 - "that" = combo that produces "that"
-- n a:g = alt repeat key for "n" is "g". If you press "n" and then the alt repeat key, it will produce "ng"
+- n @g = alt repeat key for "n" is "g". If you press "n" and then the alt repeat key, it will produce "ng"
 - The symbol table at the bottom shows the meaning of the symbols used in the layout.
                                                                                                 
 > **Note**: The layout is generated from this file directly.
 
 | Layer  | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-|  Base  |   esc   |    w    |  m a:p  |   spc   |   win   | repeat  | altRep  |         |
-|  Base  |    s    |  c a:k  |  n a:g  |    t    |  a a:u  |  e a:o  |    i    |    h    |
-|  Base  | *Right  |    f    |  l a:k  |    d    |  u a:a  |    o    |    y    |  *Left  |
+|  Base  |   esc   |    w    |  m @p   |   spc   |   win   | repeat  | altRep  |         |
+|  Base  |    s    |  c @k   |  n @g   |    t    |  a @u   |  e @o   |    i    |    h    |
+|  Base  | *Right  |    f    |  l @k   |    d    |  u @a   |    o    |    y    |  *Left  |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |  O-🖱️  |   💎    |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |         |         |  g a:n  |  "ua"   |         |         |         |
+|  Base  |         |         |         |  g @n   |  "ua"   |         |         |         |
 |  Base  |         |         |         |   💎    |   💎    |         |         |         |
 |  Base  |         |         |         |    k    |  "au"   |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -66,9 +66,9 @@ How to read this layout:
 |  Base  |         |         |   💎    |         |         |   💎    |         |         |
 |  Base  |         |         |    v    |         |         |    q    |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |  b a:l  |         |         |         |         |    j    |         |
+|  Base  |         |  b @l   |         |         |         |         |    j    |         |
 |  Base  |         |   💎    |         |         |         |         |   💎    |         |
-|  Base  |         |  p a:m  |         |         |         |         |    ,    |         |
+|  Base  |         |  p @m   |         |         |         |         |    ,    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
@@ -162,7 +162,7 @@ How to read this layout:
 
 | Thumb | Left Inner |        Left Outer        |      Right Outer       | Right Inner |
 |:-----:|:----------:|:------------------------:|:----------------------:|:-----------:|
-| Base  |    *Nav    |          r a:k           |          spc           |    *Num     |
+| Base  |    *Nav    |           r @k           |          spc           |    *Num     |
 |       | ---------- | ------------------------ | ---------------------- | ----------- |
 | Left  |            |                          |          spc           |             |
 |       | ---------- | ------------------------ | ---------------------- | ----------- |
