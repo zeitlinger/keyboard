@@ -108,6 +108,9 @@ fun run(args: GeneratorArgs) {
                     ),
             "customKeycodesOnRelease" to targetLayerOnHold(translator.modTapKeyTargetLayers, "off", "del"),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
+            "altRepeat" to translator.symbols.altRepeat.entries.sortedBy { it.key }.joinToString("\n        ") {
+                "case ${it.key}: return ${it.value};"
+            }
         )
     )
 

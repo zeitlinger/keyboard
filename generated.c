@@ -46,3 +46,11 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 }
+
+uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
+    switch (keycode) {
+        ${altRepeat}
+    }
+
+    return KC_TRNS;
+}

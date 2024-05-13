@@ -78,6 +78,12 @@ fun spaceSeparatedHint(def: String, translator: QmkTranslator, pos: KeyPosition)
     val left = parts[0].trim()
     return when {
         parts.size == 2 && right[0].isDigit() -> translateKey(translator, pos, left).copy(comboTimeout = right.toInt())
+        parts.size == 2 && right.startsWith("a:") -> translateKey(translator, pos, left)
+            .also {
+                translator.symbols.altRepeat[translator.toQmk(left, pos)] =
+                    translator.toQmk(right.substringAfter("a:"), pos)
+            }
+
         else -> throw IllegalArgumentException("unknown command '$def' in $pos")
     }
 }
@@ -186,11 +192,11 @@ fun getFallbackIfNeeded(
     if (key == qmkNo || key == layerBlocked) {
         return qmkNo
     }
-    if (srcLayerOption != null && (key.contains("+") || key.contains("-") || key.contains(" ") || key.contains("*"))) {
+    if (srcLayerOption != null && key.contains("*")) {
         return qmkNo
     }
-    if (key.isNotBlank() ) {
-        val k = key.substringBeforeLast("+")
+    if (key.isNotBlank()) {
+        val k = key.substringBeforeLast("+").substringBefore(" ")
         if (recordUsage) {
             translator.gotKey(key)
         }
@@ -204,9 +210,11 @@ fun getFallbackIfNeeded(
     }
     val left = pos.column < pos.columns / 2
     val fallbackLayer = if (left) {
-        (translator.layerOptions[pos.layerName] ?: throw IllegalStateException("can't find layer at $pos")).leftFallbackLayer
+        (translator.layerOptions[pos.layerName]
+            ?: throw IllegalStateException("can't find layer at $pos")).leftFallbackLayer
     } else {
-        (translator.layerOptions[pos.layerName] ?: throw IllegalStateException("can't find layer at $pos")).rightFallbackLayer
+        (translator.layerOptions[pos.layerName]
+            ?: throw IllegalStateException("can't find layer at $pos")).rightFallbackLayer
     }
     return when {
         fallbackLayer == null || pos.layerName == baseLayerName || pos.tableIndex > 0 -> qmkNo

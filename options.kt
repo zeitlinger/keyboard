@@ -35,16 +35,18 @@ private fun readSymbols(tables: Tables): Symbols {
     val symTable = tables.getMappingTable("Symbol").flatMap { entry ->
         val key = entry.key
         val value = entry.value
-        val matchResult = """custom:([A-Z_]+)( +LayerHint:(.+))?( +NoHold)?$""".toRegex().find(value)
+        val props: Map<String, String?> =
+            value.split(" ").associate { e ->
+                e.split(":").let { it[0] to it.getOrElse(1) { "true" } }
+            }
+        val custom = props["custom"]
         when {
-            matchResult != null -> {
-                val command = matchResult.groupValues[1]
-                if (matchResult.groupValues[4].isNotBlank()) {
-                    noHoldKeys += command
+            custom != null -> {
+                if (props["NoHold"] != null) {
+                    noHoldKeys += custom
                 }
-                customKeycodes[command] =
-                    CustomKey(command, matchResult.groupValues[3].takeIf { it.isNotBlank() }, null)
-                listOf(key to command)
+                customKeycodes[custom] = CustomKey(custom, props["LayerHint"], null)
+                listOf(key to custom)
             }
 
             value == "<implicit>" -> {
@@ -57,7 +59,7 @@ private fun readSymbols(tables: Tables): Symbols {
             }
         }
     }.toMap()
-    return Symbols(symTable, customKeycodes, implicitKeys, mutableListOf(), mutableMapOf(), noHoldKeys)
+    return Symbols(symTable, customKeycodes, implicitKeys, mutableListOf(), mutableMapOf(), noHoldKeys, mutableMapOf())
 }
 
 
@@ -87,7 +89,12 @@ private fun options(
     val firstNonThumb = nonThumbs.entries.first().value[0]
 
     val homeRowPositions = tables.getOptional("Home Row Modifiers")
-        ?.associate { fingerPos(it[1], columns) - firstNonThumb[0].size / 2 to Modifier.ofLong(it[0]) } // we ignore the first row
+        ?.associate {
+            fingerPos(
+                it[1],
+                columns
+            ) - firstNonThumb[0].size / 2 to Modifier.ofLong(it[0])
+        } // we ignore the first row
     val firstThumb = thumbs.entries.first().value[0]
     return Options(
         firstNonThumb.size,

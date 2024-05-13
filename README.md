@@ -43,21 +43,22 @@ How to read this layout:
 - *Mouse = layer is active while key is held
 - C-w = Ctrl-w (same for Alt and Shift)
 - "that" = combo that produces "that"
+- n a:g = alt repeat key for "n" is "g". If you press "n" and then the alt repeat key, it will produce "ng"
 - The symbol table at the bottom shows the meaning of the symbols used in the layout.
-
+                                                                                                
 > **Note**: The layout is generated from this file directly.
 
 | Layer  | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-|  Base  |   esc   |    w    |    m    |   spc   |   win   |   rep   |   aRp   |         |
-|  Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
-|  Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
+|  Base  |   esc   |    w    |  m a:p  |   spc   |   win   | repeat  | altRep  |         |
+|  Base  |    s    |  c a:k  |  n a:g  |    t    |  a a:u  |  e a:o  |    i    |    h    |
+|  Base  | *Right  |    f    |  l a:k  |    d    |  u a:a  |    o    |    y    |  *Left  |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |  O-🖱️  |   💎    |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |         |         |    g    |  "ua"   |         |         |         |
+|  Base  |         |         |         |  g a:n  |  "ua"   |         |         |         |
 |  Base  |         |         |         |   💎    |   💎    |         |         |         |
 |  Base  |         |         |         |    k    |  "au"   |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -65,13 +66,13 @@ How to read this layout:
 |  Base  |         |         |   💎    |         |         |   💎    |         |         |
 |  Base  |         |         |    v    |         |         |    q    |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |    b    |         |         |         |         |    ,    |         |
+|  Base  |         |  b a:l  |         |         |         |         |    j    |         |
 |  Base  |         |   💎    |         |         |         |         |   💎    |         |
-|  Base  |         |    p    |         |         |         |         |    .    |         |
+|  Base  |         |  p a:m  |         |         |         |         |    ,    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
-|  Base  |    z    |         |         |         |         |         |         |    j    |
+|  Base  |    z    |         |         |         |         |         |         |    .    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right  |         |         |         |         |         |    '    |    "    |         |
 | Right  |         |         | *Umlaut |  *Case  |         |         |         |         |
@@ -161,7 +162,7 @@ How to read this layout:
 
 | Thumb | Left Inner |        Left Outer        |      Right Outer       | Right Inner |
 |:-----:|:----------:|:------------------------:|:----------------------:|:-----------:|
-| Base  |    *Nav    |            r             |          spc           |    *Num     |
+| Base  |    *Nav    |          r a:k           |          spc           |    *Num     |
 |       | ---------- | ------------------------ | ---------------------- | ----------- |
 | Left  |            |                          |          spc           |             |
 |       | ---------- | ------------------------ | ---------------------- | ----------- |
@@ -258,8 +259,8 @@ The order of the options is also the order of the layers in the layer stack.
 | `       | ALGR(KC_GRV)                          |
 | ~       | ALGR(KC_TILD)                         |
 | ^       | ALGR(KC_CIRC)                         |
-| rep     | QK_REPEAT_KEY                         |
-| aRp     | QK_ALT_REPEAT_KEY                     |
+| repeat  | QK_REPEAT_KEY                         |
+| altRep  | QK_ALT_REPEAT_KEY                     |
 | tab ➡️  | custom:NEXT_TAB      NoHold           |
 | win ➡️  | custom:NEXT_WINDOW   NoHold           |
 | O-🖱️   | custom:ONE_SHOT_MOUSE LayerHint:Mouse |

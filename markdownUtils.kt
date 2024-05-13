@@ -50,6 +50,7 @@ data class Symbols(
     val ignoreUnexpected: MutableList<String>,
     val gotKeys: MutableMap<String, Int>,
     val noHoldKeys: MutableList<String>,
+    val altRepeat: MutableMap<String, String>,
 ) {
     fun replace(key: String, pos: KeyPosition, translator: QmkTranslator): String {
         val value = mapping[key]
