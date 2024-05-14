@@ -40,7 +40,8 @@ fun generateBase(layers: List<Layer>): String {
 }
 
 fun run(args: GeneratorArgs) {
-    val translator = qmkTranslator(args)
+    val tables = readTables(args.configFile.file)
+    val translator = qmkTranslator(tables)
 
     val layers = translator.layerOptions.entries.map { (layerName, _) ->
         val table = translator.nonThumbs[layerName]
@@ -60,6 +61,13 @@ fun run(args: GeneratorArgs) {
     val timeouts = combos.filter { it.timeout != null }.map {
         "case ${it.name}: return ${it.timeout};"
     }.sorted()
+
+    tables.getOptional("Repeat")?.let {
+        it.forEachIndexed { index, row ->
+            val pos = KeyPosition(0, index, 0, "alt repeat", false, 0)
+            addAltRepeat(translator, pos, row[1], row[0])
+        }
+    }
 
     val srcDir = args.generatorDir.file
     val dstDir = args.dstDir

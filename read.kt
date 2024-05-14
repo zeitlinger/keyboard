@@ -78,29 +78,23 @@ fun spaceSeparatedHint(def: String, translator: QmkTranslator, pos: KeyPosition)
     val parts = def.split(" ")
     val right = parts[1].trim()
     val left = parts[0].trim()
-    val base = translateKey(translator, pos, left)
     return when {
-        "@" in def -> base.also {
-            addAltRepeat(translator, pos, def.substringAfter("@"), base)
-        }
-        parts.size == 2 && right[0].isDigit() -> base.copy(comboTimeout = right.toInt())
-
+        parts.size == 2 && right[0].isDigit() -> translateKey(translator, pos, left).copy(comboTimeout = right.toInt())
         else -> throw IllegalArgumentException("unknown command '$def' in $pos")
     }
 }
 
-private fun addAltRepeat(translator: QmkTranslator, pos: KeyPosition, command: String, base: Key) {
-    translator.symbols.altRepeat[base.key] = when {
-        command.length == 1 ->
-            translateKey(translator, pos, command, false).key
-        else -> {
-            customCommand(
-                translator,
-                "ALT_REPEAT_${base.key}",
-                CustomCommandType.OnPress,
-                listOf("SEND_STRING(\"${command}\")")
-            )
-        }
+fun addAltRepeat(translator: QmkTranslator, pos: KeyPosition, command: String, key: String) {
+    val base = translator.toQmk(key, pos)
+    translator.symbols.altRepeat[base] = when {
+        command.length == 1 -> translator.toQmk(command, pos)
+        command.startsWith("\"") && command.endsWith("\"") -> customCommand(
+            translator,
+            "ALT_REPEAT_${base}",
+            CustomCommandType.OnPress,
+            listOf("SEND_STRING(${command})")
+        )
+        else -> throw IllegalArgumentException("unknown command '$command' in $pos")
     }
 }
 

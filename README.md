@@ -43,36 +43,35 @@ How to read this layout:
 - *Mouse = layer is active while key is held
 - C-w = Ctrl-w (same for Alt and Shift)
 - "that" = combo that produces "that"
-- n @g = alt repeat key for "n" is "g". If you press "n" and then the alt repeat key, it will produce "ng"
 - The symbol table at the bottom shows the meaning of the symbols used in the layout.
 
 > **Note**: The layout is generated from this file directly.
 
 | Layer  | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-|  Base  |   esc   |  w @s   |  m @p   |   spc   |   win   | repeat  | altRep  |         |
-|  Base  |  s @p   |  c @k   |  n @g   |    t    |  a @u   |  e @o   |    i    |    h    |
-|  Base  | *Right  |  f @or  |  l @k   |  d @g   |  u @a   |    o    |    y    |  *Left  |
+|  Base  |   esc   |    w    |    m    |   spc   |   win   | repeat  | altRep  |         |
+|  Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
+|  Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |  O-🖱️  |   💎    |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |         |         |  g @l   |  "ua"   |         |         |         |
+|  Base  |         |         |         |    g    |  "ua"   |         |         |         |
 |  Base  |         |         |         |   💎    |   💎    |         |         |         |
 |  Base  |         |         |         |    k    |  "ing"  |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |    x    |         |         |  .spc   |         |         |
 |  Base  |         |         |   💎    |         |         |   💎    |         |         |
-|  Base  |         |         |  v @er  |         |         |    q    |         |         |
+|  Base  |         |         |    v    |         |         |    q    |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |  b @l   |         |         |         |         |    j    |         |
+|  Base  |         |    b    |         |         |         |         |    j    |         |
 |  Base  |         |   💎    |         |         |         |         |   💎    |         |
-|  Base  |         |  p @m   |         |         |         |         | , @ but |         |
+|  Base  |         |    p    |         |         |         |         |    ,    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
-|  Base  |    z    |         |         |         |         |         |         |  . @/   |
+|  Base  |    z    |         |         |         |         |         |         |    .    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right  |         |         |         |         |         |    '    |    "    |         |
 | Right  |         |         | *Umlaut |  *Case  |         |         |         |         |
@@ -128,7 +127,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Sym   |         |    <    |    >    |    %    |         |         |         |         |
 |  Sym   |    *    |    (    |    )    |    !    |   🛑    |         |         |         |
-|  Sym   |    &    |    @    |    #    |  ~ @/   |         |         |         |   🛑    |
+|  Sym   |    &    |    @    |    #    |    ~    |         |         |         |   🛑    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Mouse  |         |  🖱️3   |  🖱️2   |  🖱️1   |         |         |  🖱️3   |         |
 | Mouse  | *Mouse2 | KC_ACL0 | KC_ACL1 | KC_ACL2 |  🖱️⬅️  |  🖱️⬆️  |  🖱️⬇️  |  🖱️➡️  |
@@ -142,7 +141,7 @@ How to read this layout:
 
 | Thumb | Left Inner |        Left Outer        |      Right Outer       | Right Inner |
 |:-----:|:----------:|:------------------------:|:----------------------:|:-----------:|
-| Base  |    *Nav    |           r @k           |        spc @the        |    *Num     |
+| Base  |    *Nav    |            r             |          spc           |    *Num     |
 |       | ---------- | ------------------------ | ---------------------- | ----------- |
 | Left  |            |                          |          spc           |             |
 |       | ---------- | ------------------------ | ---------------------- | ----------- |
@@ -158,6 +157,29 @@ How to read this layout:
 |       | ---------- | ------------------------ | ---------------------- | ----------- |
 | Mouse |            |            --            |          🖱️1          |             |
 |       | ---------- | ------------------------ | ---------------------- | ----------- |
+
+| Repeat | Alt Repeat |
+|:------:|:----------:|
+|   a    |     u      |
+|   b    |     l      |
+|   c    |     k      |
+|   d    |     g      |
+|   e    |     o      |
+|   f    |    "or"    |
+|   g    |     l      |
+|   l    |     k      |
+|   m    |     p      |
+|   n    |     g      |
+|   p    |     m      |
+|   r    |     k      |
+|   s    |     p      |
+|   u    |     a      |
+|   v    |    "er"    |
+|   w    |     s      |
+|  spc   |   "the"    |
+|   ~    |     /      |
+|   ,    |   " but"   |
+|   .    |     /      |
 
 ## Options
 
