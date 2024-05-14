@@ -48,7 +48,7 @@ fun run(args: GeneratorArgs) {
         readLayer(table, translator, layerName, translator.layerNumbers.getOrDefault(layerName, -1))
     }
 
-    val combos = generateAllCombos(layers, translator)
+    val combos = translator.combos + generateAllCombos(layers, translator)
     val comboLines = combos.map { combo ->
         combo.type.template.format(
             combo.name.padEnd(35),

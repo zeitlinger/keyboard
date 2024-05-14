@@ -80,13 +80,27 @@ fun spaceSeparatedHint(def: String, translator: QmkTranslator, pos: KeyPosition)
     val left = parts[0].trim()
     val base = translateKey(translator, pos, left)
     return when {
-        parts.size == 2 && right[0].isDigit() -> base.copy(comboTimeout = right.toInt())
-        parts.size == 2 && right.startsWith("@") -> base.also {
-            val target = translateKey(translator, pos, right.substringAfter("@"), false)
-            translator.symbols.altRepeat[base.key] = target.key
+        "@" in def -> base.also {
+            addAltRepeat(translator, pos, def.substringAfter("@"), base)
         }
+        parts.size == 2 && right[0].isDigit() -> base.copy(comboTimeout = right.toInt())
 
         else -> throw IllegalArgumentException("unknown command '$def' in $pos")
+    }
+}
+
+private fun addAltRepeat(translator: QmkTranslator, pos: KeyPosition, command: String, base: Key) {
+    translator.symbols.altRepeat[base.key] = when {
+        command.length == 1 ->
+            translateKey(translator, pos, command, false).key
+        else -> {
+            customCommand(
+                translator,
+                "ALT_REPEAT_${base.key}",
+                CustomCommandType.OnPress,
+                listOf("SEND_STRING(\"${command}\")")
+            )
+        }
     }
 }
 
