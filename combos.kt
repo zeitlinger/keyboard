@@ -11,6 +11,9 @@ data class Combo(
 ) {
     companion object {
         fun of(type: ComboType, name: String, result: String, triggers: List<Key>, timeout: Int? = 0): Combo {
+            if (triggers.any { it.keyWithModifier == "KC_NO" }) {
+                throw IllegalStateException("no KC_NO allowed in combo triggers: $name, $triggers")
+            }
             return Combo(type, name, result, triggers.sortedBy { it.keyWithModifier }, timeout)
         }
     }
