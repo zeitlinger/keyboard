@@ -60,6 +60,7 @@ data class LayerOption(
 
 data class Key(
     val key: String,
+    val pos: KeyPosition,
     val keyWithModifier: String = key,
     val comboTimeout: Int? = null,
 ) {

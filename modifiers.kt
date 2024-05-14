@@ -60,7 +60,7 @@ private fun applyModTap(
     ?.let { modEntry ->
         val targetLayer = modEntry.value
         val modTapKey = modTapKey(key, mod, modEntry.key, translator, pos, targetLayer)
-        setCustomKeyCommand(translator, key, modTapKey)
+        setCustomKeyCommand(translator, key, modTapKey, pos)
         if (modTapKey != key && targetLayer != null) {
             val layer = translator.reachLayer(targetLayer, pos, LayerActivation.ModTap)
             translator.modTapKeyTargetLayers[modTapKey] = LayerModTab(layer, mod)
@@ -69,10 +69,10 @@ private fun applyModTap(
         modTapKey
     } ?: key
 
-fun setCustomKeyCommand(translator: QmkTranslator, key: String, command: String): Key {
+fun setCustomKeyCommand(translator: QmkTranslator, key: String, command: String, pos: KeyPosition): Key {
     translator.symbols.customKeycodes.entries.find { it.key == key }?.let { it.value.key = command }
     translator.symbols.ignoreMissing.add(key)
-    return Key(command)
+    return Key(command, pos)
 }
 
 private fun modTapKey(

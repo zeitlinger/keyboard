@@ -5,7 +5,9 @@ data class KeyPosition(
     val layerName: LayerName,
     val thumb: Boolean,
     val columns: Int,
-)
+) {
+    fun layerRelative() = copy(layerName = "relative")
+}
 
 fun readLayer(
     content: MultiTable,
@@ -96,7 +98,7 @@ private fun layerTapHoldKey(def: String, translator: QmkTranslator, pos: KeyPosi
     }
     val command = "LT(${translator.reachLayer(parts[1], pos, LayerActivation.TapHold).const()},$key)"
     translator.layerTapHold.add(command)
-    return setCustomKeyCommand(translator, key, command)
+    return setCustomKeyCommand(translator, key, command, pos)
 }
 
 fun layerKey(
@@ -115,7 +117,8 @@ fun layerKey(
         LayerActivation.Hold -> Key(
             "${activation.method}(${
                 translator.reachLayer(layer, pos, activation).const()
-            })"
+            })",
+            pos
         )
 
         else -> throw IllegalArgumentException("unsupported layer activation $activation")
@@ -129,7 +132,7 @@ fun toggleLayerKey(translator: QmkTranslator, layer: String, pos: KeyPosition, m
     val key = "${prefix}_${layer.uppercase()}"
     val command =
         customCommand(translator, key, CustomCommandType.OnPress, listOfNotNull("layer_invert(${layer.const()})", mod))
-    return setCustomKeyCommand(translator, key, command)
+    return setCustomKeyCommand(translator, key, command, pos)
 }
 
 fun keyWithModifier(def: String, translator: QmkTranslator, pos: KeyPosition): Key {
@@ -142,10 +145,9 @@ fun keyWithModifier(def: String, translator: QmkTranslator, pos: KeyPosition): K
     val key = translateKey(translator, pos, target, false)
     return if (key.keyWithModifier.contains("(")) {
         val tapCustomKey = tapCustomKey(translator, addMods(modifier, key.key))
-        Key(translateKey(translator, pos, tapCustomKey, false).keyWithModifier)
+        Key(translateKey(translator, pos, tapCustomKey, false).keyWithModifier, pos)
     } else {
-        val s = key.key
-        Key(addMods(modifier, s))
+        Key(addMods(modifier, key.key), pos)
     }
 }
 
@@ -161,7 +163,7 @@ fun addMods(modifier: String, key: String) =
 
 fun translateSimpleKey(translator: QmkTranslator, def: String, pos: KeyPosition): Key {
     val key = translator.toQmk(def, pos)
-    return Key(key, addModTab(key, pos, translator))
+    return Key(key, pos, addModTab(key, pos, translator))
 }
 
 fun translateTable(
@@ -208,14 +210,9 @@ fun getFallbackIfNeeded(
         }
         return key
     }
-    val left = pos.column < pos.columns / 2
-    val fallbackLayer = if (left) {
-        (translator.layerOptions[pos.layerName]
-            ?: throw IllegalStateException("can't find layer at $pos")).leftFallbackLayer
-    } else {
-        (translator.layerOptions[pos.layerName]
-            ?: throw IllegalStateException("can't find layer at $pos")).rightFallbackLayer
-    }
+    val option = (translator.layerOptions[pos.layerName] ?: throw IllegalStateException("can't find layer at $pos"))
+    val fallbackLayer = fallbackLayer(pos, option)
+
     return when {
         fallbackLayer == null || pos.layerName == baseLayerName || pos.tableIndex > 0 -> qmkNo
         else -> {
@@ -229,4 +226,9 @@ fun getFallbackIfNeeded(
             )
         }
     }
+}
+
+fun fallbackLayer(pos: KeyPosition, option: LayerOption): LayerName? {
+    val left = pos.column < pos.columns / 2
+    return if (left) option.leftFallbackLayer else option.rightFallbackLayer
 }

@@ -24,9 +24,9 @@ const val comboTrigger = "\uD83D\uDC8E" // 💎
 fun getSubstitutionCombo(key: String): String? =
     if (key.startsWith("\"") && key.endsWith("\"")) key else null
 
-fun generateAllCombos(layers: List<Layer>, options: Options): List<Combo> =
+fun generateAllCombos(layers: List<Layer>, translator: QmkTranslator): List<Combo> =
     layers.flatMap { layer ->
-        generateCombos(options, layer, layer.combos, layer.baseRows)
+        generateCombos(translator, layer, layer.combos, layer.baseRows, layers)
     }.also { checkForDuplicateCombos(it) }
 
 private fun checkForDuplicateCombos(combos: List<Combo>) {
@@ -50,33 +50,39 @@ private fun checkForDuplicateCombos(combos: List<Combo>) {
 }
 
 private fun generateCombos(
-    options: Options,
+    translator: QmkTranslator,
     layer: Layer,
     activationParts: List<Rows>,
     layerBase: Rows,
-): List<Combo> = hands.flatMap { hand ->
-    val baseLayerRowSkip = if (hand.isThumb) options.nonThumbRows else 0
-    activationParts
-        .filter { hand.applies(it, options) }
-        .flatMap { def ->
-            generateCustomCombos(
-                def,
-                getLayerPart(layerBase.drop(baseLayerRowSkip), hand, options),
-                layer,
-                hand,
-                options,
-            )
-        }
-}.distinct()
+    layers: List<Layer>,
+): List<Combo> {
+    val options = translator.options
+    return hands.flatMap { hand ->
+        val baseLayerRowSkip = if (hand.isThumb) options.nonThumbRows else 0
+        activationParts
+            .filter { hand.applies(it, options) }
+            .flatMap { def ->
+                generateCustomCombos(
+                    def,
+                    getLayerPart(layerBase.drop(baseLayerRowSkip), hand, options),
+                    layer,
+                    hand,
+                    translator,
+                    layers
+                )
+            }
+    }.distinct()
+}
 
 private fun generateCustomCombos(
     def: Rows,
     layerBase: List<Key>,
     layer: Layer,
     hand: Hand,
-    options: Options,
+    translator: QmkTranslator,
+    layers: List<Layer>,
 ): List<Combo> {
-    val definition = getLayerPart(def, hand, options)
+    val definition = getLayerPart(def, hand, translator.options)
     val comboIndexes = definition.mapIndexedNotNull { index, s -> if (s.key == comboTrigger) index else null }
 
     return definition.flatMapIndexed { comboIndex, k ->
@@ -89,7 +95,7 @@ private fun generateCustomCombos(
             val type = if (substitutionCombo != null) ComboType.Substitution else ComboType.Combo
             val name = comboName(layer.name, key)
             val content = substitutionCombo ?: key
-            combos(type, name, content, keys, k.comboTimeout)
+            combos(type, name, content, keys, k.comboTimeout, translator, layers, layer)
         } else emptyList()
     }.filter { it.triggers.size > 1 }
 }
@@ -102,6 +108,9 @@ private fun combos(
     content: String,
     triggers: List<Key>,
     timeout: Int?,
+    translator: QmkTranslator,
+    layers: List<Layer>,
+    layer: Layer,
 ): List<Combo> {
     val combo = Combo.of(
         type,
@@ -110,19 +119,25 @@ private fun combos(
         triggers,
         timeout
     )
+    val shiftLayer = layers.singleOrNull { l ->
+        LayerFlag.Shifted in l.option.flags &&
+                fallbackLayer(triggers[0].pos, l.option) == layer.name
+    }
+
     return when {
-        content.matches(singleLetter) -> {
+        content.matches(singleLetter) && shiftLayer != null -> {
             listOf(combo) + combos(
                 type,
                 "S$name",
                 addMods("S", content),
-                triggers.map {
-                    it.copy(
-                        key = addMods("S", it.key),
-                        keyWithModifier = addMods("S", it.keyWithModifier)
-                    )
+                triggers.map { t ->
+                    val position = t.pos.layerRelative()
+                    shiftLayer.baseRows.flatten().first { it.pos.layerRelative() == position }
                 },
-                timeout
+                timeout,
+                translator,
+                emptyList(), // prevent recursion
+                layer
             )
         }
 
