@@ -80,7 +80,7 @@ fun spaceSeparatedHint(def: String, translator: QmkTranslator, pos: KeyPosition)
     return when {
         parts.size == 2 && right[0].isDigit() -> base.copy(comboTimeout = right.toInt())
         parts.size == 2 && right.startsWith("@") -> base.also {
-            val target = translateKey(translator, pos, right.substringAfter("@"))
+            val target = translateKey(translator, pos, right.substringAfter("@"), false)
             translator.symbols.altRepeat[base.key] = target.key
         }
 

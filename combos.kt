@@ -7,7 +7,7 @@ data class Combo(
     var name: String,
     val result: String,
     val triggers: List<Key>,
-    val timeout: Int?
+    val timeout: Int?,
 ) {
     companion object {
         fun of(type: ComboType, name: String, result: String, triggers: List<Key>, timeout: Int? = 0): Combo {
@@ -53,14 +53,14 @@ private fun generateCombos(
     options: Options,
     layer: Layer,
     activationParts: List<Rows>,
-    layerBase: Rows
+    layerBase: Rows,
 ): List<Combo> = hands.flatMap { hand ->
     val baseLayerRowSkip = if (hand.isThumb) options.nonThumbRows else 0
     activationParts
         .filter { hand.applies(it, options) }
         .flatMap { def ->
             generateCustomCombos(
-                def.filter { it.size == options.nonThumbColumns },
+                def,
                 getLayerPart(layerBase.drop(baseLayerRowSkip), hand, options),
                 layer,
                 hand,
@@ -74,7 +74,7 @@ private fun generateCustomCombos(
     layerBase: List<Key>,
     layer: Layer,
     hand: Hand,
-    options: Options
+    options: Options,
 ): List<Combo> {
     val definition = getLayerPart(def, hand, options)
     val comboIndexes = definition.mapIndexedNotNull { index, s -> if (s.key == comboTrigger) index else null }
@@ -89,16 +89,45 @@ private fun generateCustomCombos(
             val type = if (substitutionCombo != null) ComboType.Substitution else ComboType.Combo
             val name = comboName(layer.name, key)
             val content = substitutionCombo ?: key
-            listOf(
-                Combo.of(
-                    type,
-                    name,
-                    content,
-                    keys,
-                    k.comboTimeout)
-            )
+            combos(type, name, content, keys, k.comboTimeout)
         } else emptyList()
     }.filter { it.triggers.size > 1 }
+}
+
+val singleLetter = Regex("KC_[A-Z]")
+
+private fun combos(
+    type: ComboType,
+    name: String,
+    content: String,
+    triggers: List<Key>,
+    timeout: Int?,
+): List<Combo> {
+    val combo = Combo.of(
+        type,
+        name,
+        content,
+        triggers,
+        timeout
+    )
+    return when {
+        content.matches(singleLetter) -> {
+            listOf(combo) + combos(
+                type,
+                "S$name",
+                addMods("S", content),
+                triggers.map {
+                    it.copy(
+                        key = addMods("S", it.key),
+                        keyWithModifier = addMods("S", it.keyWithModifier)
+                    )
+                },
+                timeout
+            )
+        }
+
+        else -> listOf(combo)
+    }
 }
 
 fun comboName(vararg parts: String?): String {
