@@ -27,12 +27,6 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
             default:
                 break;
             }
-        } else {
-            switch (keycode) {
-            ${customKeycodesOnRelease}
-            default:
-                break;
-            }
         }
     }
     return true;

@@ -18,19 +18,6 @@ enum class HomeRowType(val row: Int, val oneShot: Boolean) {
     OneShotBottomRow(2, true);
 }
 
-data class LayerModTab(val layer: LayerRef, val mod: Modifier)
-
-fun targetLayerOnHold(
-    modTapKeyTargetLayers: MutableMap<String, LayerModTab>,
-    layer: String,
-    mods: String,
-): String {
-    return modTapKeyTargetLayers.entries.joinToString("\n            ") {
-        val modTab = it.value
-        "case ${it.key}: layer_$layer(${modTab.layer.const()}); ${mods}_mods(MOD_BIT(${modTab.mod.leftKey})); return false;"
-    }
-}
-
 fun modifierTypes(s: String): Map<HomeRowType, LayerName?> = s.split(",")
     .filter { it.isNotBlank() }.associate { def ->
         val parts = def.split("+")
@@ -61,12 +48,14 @@ private fun applyModTap(
         val targetLayer = modEntry.value
         val modTapKey = modTapKey(key, mod, modEntry.key, translator, pos, targetLayer)
         setCustomKeyCommand(translator, key, modTapKey, pos)
-        if (modTapKey != key && targetLayer != null) {
-            val layer = translator.reachLayer(targetLayer, pos, LayerActivation.ModTap)
-            translator.modTapKeyTargetLayers[modTapKey] = LayerModTab(layer, mod)
+        when {
+            modTapKey != key && targetLayer != null -> {
+                if (key != qmkNo) throw IllegalStateException("key $key not allowed for mod tap with layer switch at $pos")
+                "LM(${translator.reachLayer(targetLayer, pos, LayerActivation.ModTap).const()}, ${mod.mask})"
+            }
+            else -> modTapKey
         }
 
-        modTapKey
     } ?: key
 
 fun setCustomKeyCommand(translator: QmkTranslator, key: String, command: String, pos: KeyPosition): Key {

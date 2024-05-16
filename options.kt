@@ -16,7 +16,6 @@ fun qmkTranslator(tables: Tables): QmkTranslator {
         thumbs,
         layerNumbers,
         options,
-        mutableMapOf(),
         mutableListOf(),
         mutableListOf()
     )

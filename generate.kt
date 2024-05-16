@@ -106,15 +106,7 @@ fun run(args: GeneratorArgs) {
             "generationNote" to generationNote,
             "timeouts" to timeouts.joinToString("\n    "),
             "customKeycodesOnTapPress" to customKeycodes(translator, CustomCommandType.OnTap),
-            "customKeycodesOnPress" to
-                    customKeycodes(translator, CustomCommandType.OnPress) +
-                    "\n            " +
-                    targetLayerOnHold(
-                        translator.modTapKeyTargetLayers,
-                        "on",
-                        "add"
-                    ),
-            "customKeycodesOnRelease" to targetLayerOnHold(translator.modTapKeyTargetLayers, "off", "del"),
+            "customKeycodesOnPress" to customKeycodes(translator, CustomCommandType.OnPress),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
             "altRepeat" to translator.symbols.altRepeat.entries.sortedBy { it.key }.joinToString("\n        ") {
                 "case ${it.key}: return ${it.value};"
