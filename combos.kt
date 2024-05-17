@@ -100,8 +100,6 @@ private fun generateCustomCombos(
     }.filter { it.triggers.size > 1 }
 }
 
-val singleLetter = Regex("KC_[A-Z]")
-
 private fun combos(
     type: ComboType,
     name: String,
@@ -125,7 +123,7 @@ private fun combos(
     }
 
     return when {
-        shiftLayer != null -> {
+        shiftLayer != null && "\"" !in content -> {
             listOf(combo) + combos(
                 type,
                 "S$name",
