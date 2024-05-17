@@ -47,9 +47,36 @@ How to read this layout:
 
 > **Note**: The layout is generated from this file directly.
 
+| Repeat | Alt Repeat  |
+|:------:|:-----------:|
+|   a    |      u      |
+|   b    |      s      |
+|   c    |      k      |
+|   d    |    "oes"    |
+|   e    |      o      |
+|   f    |      f      |
+|   g    |      l      |
+|   l    |      l      |
+|   m    |      b      |
+|   n    |      g      |
+|   p    |      l      |
+|   r    |      k      |
+|   s    |      s      |
+|   t    |    "ion"    |
+|   u    |      a      |
+|   v    |    "er"     |
+|   w    |      n      |
+|   z    | "eitlinger" |
+|  spc   |    "the"    |
+|  tab   |    "the"    |
+|  ↩️️   |    "the"    |
+|   ~    |      /      |
+|   ,    |   " but"    |
+|   .    |      /      |
+
 | Layer  | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-|  Base  |   esc   |    w    |    m    |   spc   |   win   |  *Sym   | altRep  |         |
+|  Base  |   esc   |    p    |    m    |   spc   |   win   |  *Sym   | altRep  |         |
 |  Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 |  Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -63,15 +90,15 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |    x    |         |         |    '    |         |         |
 |  Base  |         |         |   💎    |         |         |   💎    |         |         |
-|  Base  |         |         |    v    |         |         |    q    |         |         |
+|  Base  |         |         |    v    |         |         |    ,    |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |    b    |         |         |         |         |    j    |         |
+|  Base  |         |    w    |         |         |         |         |    j    |         |
 |  Base  |         |   💎    |         |         |         |         |   💎    |         |
-|  Base  |         |    p    |         |         |         |         |    .    |         |
+|  Base  |         |    b    |         |         |         |         |    .    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |   💎    |         |         |         |         |         |         |   💎    |
-|  Base  |    z    |         |         |         |         |         |         |    ,    |
+|  Base  |    z    |         |         |         |         |         |         |    q    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right  |         |         |         |         |         |  .spc   |    "    |         |
 | Right  |         |         | *Umlaut |  *Case  |         |         |         |         |
@@ -81,7 +108,7 @@ How to read this layout:
 |  Left  |         |         |         |         |         |         |         |         |
 |  Left  |    _    |         |         |         |         |         |         |   🛑    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav   |         |         |  A-f7   |   win   |         |   esc   |   ins   |         |
+|  Nav   |         |  CS-f   |  A-f7   |   win   |         |   esc   |   ins   |         |
 |  Nav   |  *Nav2  |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
 |  Nav   |  undo   |   C-w   | tab ➡️  | win ➡️  |   ↩️️   |  bspc   |   del   |   spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -93,7 +120,7 @@ How to read this layout:
 |  Nav   |         |         |   💎    |         |         |         |         |         |
 |  Nav   |         |         |  copy   |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav   |         |         |         |         |         |         |         |         |
+|  Nav   |         |   C-f   |         |         |         |         |         |         |
 |  Nav   |         |   💎    |         |         |         |         |         |         |
 |  Nav   |         |   cut   |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -157,30 +184,6 @@ How to read this layout:
 |       | ---------- | ------------------------ | ---------------------- | ----------- |
 | Mouse |            |            --            |          🖱️1          |             |
 |       | ---------- | ------------------------ | ---------------------- | ----------- |
-
-| Repeat | Alt Repeat |
-|:------:|:----------:|
-|   a    |     u      |
-|   b    |     l      |
-|   c    |     k      |
-|   d    |     g      |
-|   e    |     o      |
-|   f    |    "or"    |
-|   g    |     l      |
-|   l    |     l      |
-|   m    |     p      |
-|   n    |     g      |
-|   p    |     m      |
-|   r    |     k      |
-|   s    |     s      |
-|   t    |   "ion"    |
-|   u    |     a      |
-|   v    |    "er"    |
-|   w    |     s      |
-|  spc   |   "the"    |
-|   ~    |     /      |
-|   ,    |   " but"   |
-|   .    |     /      |
 
 ## Options
 
@@ -263,7 +266,6 @@ The order of the options is also the order of the layers in the layer stack.
 | ~       | ALGR(KC_TILD)                         |
 | ^       | ALGR(KC_CIRC)                         |
 | $       | S(KC_4)                               |
-| repeat  | QK_REPEAT_KEY                         |
 | altRep  | QK_ALT_REPEAT_KEY                     |
 | tab ➡️  | custom:NEXT_TAB      NoHold           |
 | win ➡️  | custom:NEXT_WINDOW   NoHold           |
