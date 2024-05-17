@@ -125,7 +125,7 @@ private fun combos(
     }
 
     return when {
-        content.matches(singleLetter) && shiftLayer != null -> {
+        shiftLayer != null -> {
             listOf(combo) + combos(
                 type,
                 "S$name",

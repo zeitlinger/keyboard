@@ -12,6 +12,8 @@ enum class Modifier(val mask: String, val leftKey: String) {
 }
 
 enum class HomeRowType(val row: Int, val oneShot: Boolean) {
+    TopRow(0, false),
+    OneShotTopRow(0, true),
     HomeRow(1, false),
     OneShotHomeRow(1, true),
     BottomRow(2, false),

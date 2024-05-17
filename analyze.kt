@@ -38,12 +38,13 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
         .map { it.key }
 
 
+    val upper = "!@#$%^&*()_+{}|:\"<>?~"
     val want =
         translator.symbols.mapping.values +
                 (CharRange('!', '~')
-                    .map { it.toString() }
-                    .filter { it.lowercase() == it }
-                    .map { translator.toQmk(it, invalidPos) }) +
+                    .map { it }
+                    .filterNot { it in upper }
+                    .map { translator.toQmk(it.toString(), invalidPos) }) +
                 (1..12).map { "KC_F$it" }
                     .toSet()
 
