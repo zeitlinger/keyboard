@@ -60,7 +60,7 @@ How to read this layout:
 |   l    |      l      |
 |   m    |      b      |
 |   n    |      g      |
-|   p    |      n      |
+|   p    |      l      |
 |   r    |      k      |
 |   s    |      s      |
 |   t    |    "ion"    |
