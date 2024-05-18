@@ -65,7 +65,7 @@ fun run(args: GeneratorArgs) {
     tables.getOptional("Repeat")?.let {
         it.forEachIndexed { index, row ->
             val pos = KeyPosition(0, index, 0, "alt repeat", false, 0)
-            addAltRepeat(translator, pos, row[1], row[0])
+            addRepeat(translator, row, pos)
         }
     }
 
@@ -110,6 +110,9 @@ fun run(args: GeneratorArgs) {
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
             "altRepeat" to translator.symbols.altRepeat.entries.sortedBy { it.key }.joinToString("\n        ") {
                 "case ${it.key}: return ${it.value};"
+            },
+            "repeat" to translator.symbols.repeat.entries.sortedBy { it.key }.joinToString("\n                ") {
+                "case ${it.key}: ${it.value};"
             }
         )
     )
@@ -118,6 +121,37 @@ fun run(args: GeneratorArgs) {
 
     File(dstDir, "qmk/combos.def").writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
 }
+
+private fun addRepeat(translator: QmkTranslator, row: List<String>, pos: KeyPosition) {
+    val base = translator.toQmk(row[0], pos)
+    val alt = row[1]
+    if (alt.isNotBlank()) {
+        translator.symbols.altRepeat[base] = when {
+            alt.length == 1 -> translator.toQmk(alt, pos)
+            isWord(alt) -> customCommand(
+                translator,
+                "${"ALT"}_${base}",
+                CustomCommandType.OnPress,
+                listOf(sendString(alt))
+            )
+
+            else -> throw IllegalArgumentException("unknown command '${alt}' in $pos")
+        }
+    }
+    val repeat = row[2]
+    if (repeat.isNotBlank()) {
+        translator.symbols.repeat[base] = when {
+            repeat.length == 1 -> tap(translator.toQmk(repeat, pos)) + "; return false"
+            isWord(repeat) -> sendString(repeat) + "; return false"
+
+            else -> throw IllegalArgumentException("unknown command '${repeat}' in $pos")
+        }
+    }
+}
+
+private fun isWord(alt: String) = alt.startsWith("\"") && alt.endsWith("\"")
+
+private fun sendString(alt: String) = "SEND_STRING(${alt})"
 
 fun customKeycodes(translator: QmkTranslator, type: CustomCommandType): String =
     translator.symbols.customKeycodes.entries

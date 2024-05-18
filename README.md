@@ -13,7 +13,6 @@
   [fork of mini-ryoku](https://github.com/zeitlinger/mini-ryoku/blob/gregor/qmk/layout.h), because this is easy to
   integrate with many keyboards
   (tested with [Ferris Sweep](https://keebmaker.com/products/ferris-sweep)).
-- Use [US international keyboard layout with dead keys](https://dry.sailingissues.com/us-international-keyboard-layout.html) for German umlauts.
 
 ### Home Row Mods
 
@@ -47,34 +46,40 @@ How to read this layout:
 
 > **Note**: The layout is generated from this file directly.
 
-| Repeat | Alt Repeat  |
-|:------:|:-----------:|
-|   a    |      u      |
-|   b    |      s      |
-|   c    |      k      |
-|   d    |    "oes"    |
-|   e    |      o      |
-|   f    |      f      |
-|   g    |      n      |
-|   k    |      n      |
-|   l    |      l      |
-|   m    |      b      |
-|   n    |      g      |
-|   p    |      l      |
-|   r    |      k      |
-|   s    |      s      |
-|   t    |    "ion"    |
-|   u    |      a      |
-|   v    |    "er"     |
-|   w    |      n      |
-|   x    |      p      |
-|   z    | "eitlinger" |
-|  spc   |    "the"    |
-|  tab   |    "the"    |
-|  ↩️️   |    "the"    |
-|   ~    |      /      |
-|   ,    |   " but"    |
-|   .    |      /      |
+| Repeat | Alt Repeat  | Repeat Key |
+|:------:|:-----------:|:----------:|
+|   a    |      u      |            |
+|   b    |      s      |  "ecauce"  |
+|   c    |      k      |            |
+|   d    |    "oes"    |     v      |
+|   e    |      o      |            |
+|   f    |      f      |            |
+|   g    |      n      |     l      |
+|   h    |             |   "ave"    |
+|   j    |    "ust"    |            |
+|   k    |      n      |            |
+|   l    |      m      |            |
+|   m    |      b      |   "ent"    |
+|   n    |      g      |     l      |
+|   o    |      e      |            |
+|   p    |      l      |            |
+|   r    |      k      |            |
+|   s    |      s      |            |
+|   t    |    "ion"    |   "hat"    |
+|   u    |      a      |            |
+|   v    |    "er"     |            |
+|   w    |      n      |   "hich"   |
+|   x    |      t      |    "es"    |
+|   y    |             |     i      |
+|   z    | "eitlinger" |            |
+|  spc   |    "the"    |   "and"    |
+|  tab   |    "the"    |   "and"    |
+|  ↩️️   |    "the"    |   "and"    |
+|   ~    |      /      |            |
+|   ,    |   " but"    |   " and"   |
+|   .    |      /      |    "./"    |
+|   -    |      >      |            |
+|   =    |      >      |            |
 
 | Layer  | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
@@ -238,12 +243,10 @@ The order of the options is also the order of the layers in the layer stack.
 | cut     | C(KC_X)                               |
 | copy    | C(KC_C)                               |
 | pst     | C(KC_V)                               |
-| ä       | ALGR(KC_Q)                            |
-| ö       | ALGR(KC_P)                            |
-| ü       | ALGR(KC_Y)                            |
-| ß       | ALGR(KC_S)                            |
-| '       | ALGR(KC_QUOTE)                        |
-| `       | ALGR(KC_GRV)                          |
+| ä       | UP(UMLAUT_a, UMLAUT_A)                |
+| ö       | UP(UMLAUT_o, UMLAUT_O)                |
+| ü       | UP(UMLAUT_u, UMLAUT_U)                |
+| ß       | UM(UMLAUT_s)                          |
 | repeat  | QK_REPEAT_KEY                         |
 | altRep  | QK_ALT_REPEAT_KEY                     |
 | tab ➡️  | custom:NEXT_TAB      NoHold           |

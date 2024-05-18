@@ -97,4 +97,6 @@ val qmkPrefixes = setOf(
     "OSM(",
     "LSFT_T(",
     "RSFT_T(",
+    "UP(",
+    "UM(",
 )

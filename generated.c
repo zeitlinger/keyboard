@@ -22,6 +22,11 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
         }
     } else {
         if (record->event.pressed) {
+            if (get_repeat_key_count() > 0) {
+                switch (keycode) {
+                ${repeat}
+                }
+            }
             switch (keycode) {
             ${customKeycodesOnPress}
             default:

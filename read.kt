@@ -84,20 +84,6 @@ fun spaceSeparatedHint(def: String, translator: QmkTranslator, pos: KeyPosition)
     }
 }
 
-fun addAltRepeat(translator: QmkTranslator, pos: KeyPosition, command: String, key: String) {
-    val base = translator.toQmk(key, pos)
-    translator.symbols.altRepeat[base] = when {
-        command.length == 1 -> translator.toQmk(command, pos)
-        command.startsWith("\"") && command.endsWith("\"") -> customCommand(
-            translator,
-            "ALT_REPEAT_${base}",
-            CustomCommandType.OnPress,
-            listOf("SEND_STRING(${command})")
-        )
-        else -> throw IllegalArgumentException("unknown command '$command' in $pos")
-    }
-}
-
 private fun layerTapHoldKey(def: String, translator: QmkTranslator, pos: KeyPosition): Key {
     val parts = def.split("+")
     val key = addCustomIfNotSimpleKey(translateKey(translator, pos, parts[0]).key, translator)
