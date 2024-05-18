@@ -49,7 +49,7 @@ How to read this layout:
 | Repeat | Alt Repeat  | Repeat Key |
 |:------:|:-----------:|:----------:|
 |   a    |      u      |            |
-|   b    |      s      |  "ecauce"  |
+|   b    |      l      |  "ecauce"  |
 |   c    |      k      |            |
 |   d    |    "oes"    |     v      |
 |   e    |      o      |            |
@@ -58,14 +58,14 @@ How to read this layout:
 |   h    |             |   "ave"    |
 |   j    |    "ust"    |            |
 |   k    |      n      |            |
-|   l    |      m      |            |
+|   l    |      l      |    "ly"    |
 |   m    |      b      |   "ent"    |
 |   n    |      g      |     l      |
 |   o    |      e      |            |
-|   p    |      l      |            |
+|   p    |      l      |     s      |
 |   r    |      k      |            |
-|   s    |      s      |            |
-|   t    |    "ion"    |   "hat"    |
+|   s    |      p      |            |
+|   t    |      t      |   "hat"    |
 |   u    |      a      |            |
 |   v    |    "er"     |            |
 |   w    |      n      |   "hich"   |
@@ -91,9 +91,9 @@ How to read this layout:
 |  Base  |         |         |         |         |         |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |         |         |    v    |  "ion"  |         |         |         |
+|  Base  |         |         |         |    v    |  "ing"  |         |         |         |
 |  Base  |         |         |         |   💎    |   💎    |         |         |         |
-|  Base  |         |         |         |    x    |  "ing"  |         |         |         |
+|  Base  |         |         |         |    x    |  "ion"  |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |    w    |         |         |    '    |         |         |
 |  Base  |         |         |   💎    |         |         |   💎    |         |         |
