@@ -65,11 +65,11 @@ How to read this layout:
 |   p    |      l      |     s      |
 |   r    |      k      |            |
 |   s    |      p      |            |
-|   t    |      t      |   "hat"    |
+|   t    |    "ion"    |   "hat"    |
 |   u    |      a      |            |
 |   v    |    "er"     |            |
 |   w    |      n      |   "hich"   |
-|   x    |      t      |    "es"    |
+|   x    |      p      |     t      |
 |   y    |             |     i      |
 |   z    | "eitlinger" |            |
 |  spc   |    "the"    |   "and"    |
