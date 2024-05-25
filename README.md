@@ -278,7 +278,7 @@ The order of the options is also the order of the layers in the layer stack.
 | sl/case | custom:SLASH_CASE                     |
 | do.case | custom:DOT_CASE                       |
 | kb-case | custom:KEBAP_CASE                     |
-| ostog   | custom:OS_TOGG                        |
+| ostog   | OS_TOGG                               |
 
 
 ## Generator
