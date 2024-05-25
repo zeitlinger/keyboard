@@ -62,6 +62,13 @@ fun translateKey(
             def.substring(1),
             LayerActivation.OneShot
         )
+
+        def.startsWith("@") && def.length > 1 -> layerKey(
+            translator,
+            pos,
+            def.substring(1),
+            LayerActivation.Hold
+        )
         //skip QMK keycodes
         def.isNotBlank() && def[0].isUpperCase() && !def.contains("_") -> layerKey(
             translator,
@@ -106,15 +113,14 @@ fun layerKey(
     if (activation == LayerActivation.Toggle && pos.layerName == layer) {
         layerOption.flags += LayerFlag.Toggle
     }
-    return when (activation) {
-        LayerActivation.Toggle -> toggleLayerKey(translator, layer, pos, null)
-        LayerActivation.OneShot -> Key(
+    return when {
+        activation == LayerActivation.Toggle -> toggleLayerKey(translator, layer, pos, null)
+        activation.method != null -> Key(
             "${activation.method}(${
                 translator.reachLayer(layer, pos, activation).const()
             })",
             pos
         )
-
         else -> throw IllegalArgumentException("unsupported layer activation $activation")
     }
 }
@@ -188,7 +194,7 @@ fun getFallbackIfNeeded(
     if (key == qmkNo || key == layerBlocked) {
         return qmkNo
     }
-    if (srcLayerOption != null && key.contains("*")) {
+    if (srcLayerOption != null && (key.contains("*") || key.contains("@"))) {
         return qmkNo
     }
     if (key.isNotBlank()) {

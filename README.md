@@ -40,6 +40,7 @@ How to read this layout:
 - FnBra = capitalized words are layer names - if they are a key, the layer is activated as toggled or one shot layer (if the "OneShot" flag is set in the layer flags)
 - /+Ctrl = tab-mod - / on tab and CTRL on hold
 - *Mouse = layer is active while key is held
+- @Num = layer is active for the next keypress
 - C-w = Ctrl-w (same for Alt and Shift)
 - "that" = combo that produces "that"
 - The symbol table at the bottom shows the meaning of the symbols used in the layout.
@@ -63,6 +64,7 @@ How to read this layout:
 |   n    |      g      |     l      |
 |   o    |      e      |            |
 |   p    |      l      |     s      |
+|   q    |      u      |            |
 |   r    |      k      |            |
 |   s    |      p      |            |
 |   t    |    "ion"    |   "hat"    |
@@ -83,9 +85,9 @@ How to read this layout:
 
 | Layer  | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-|  Base  |   esc   |    p    |    m    |   spc   |    z    | repeat  | altRep  |   *Fn   |
+|  Base  |   esc   |    p    |    m    |   spc   |   f14   | repeat  | altRep  |   @Fn   |
 |  Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
-|  Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
+|  Base  | @Right  |    f    |    l    |    d    |    u    |    o    |    y    |  @Left  |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |  O-🖱️  |   💎    |         |
 |  Base  |         |         |         |         |         |         |         |         |
@@ -103,21 +105,17 @@ How to read this layout:
 |  Base  |         |   💎    |         |         |         |         |   💎    |         |
 |  Base  |         |    b    |         |         |         |         |    .    |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right  |         |         |         |         |         |  .spc   |         |         |
-| Right  |         |         | *Umlaut |  *Case  |         |         |         |         |
-| Right  |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |    q    |
+|  Base  |         |         |         |         |         |         |         |         |
+|  Base  |   💎    |         |         |         |         |         |         |   💎    |
+|  Base  |    q    |         |         |         |         |         |         |    j    |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| Right  |         |         |         |         |         |         |         |         |
+| Right  |         |         | @Umlaut |  @Case  |         |         |         |         |
+| Right  |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |  .spc   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Left  |         |         |         |         |         |         |         |         |
-|  Left  |         |         |         |         | *Media  |         |         |         |
-|  Left  |    j    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| RMods  |         |         |         |         |         |         |         |         |
-| RMods  |         |         |         |         |         |         |         |         |
-| RMods  |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |    q    |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| LMods  |         |         |         |         |         |         |         |         |
-| LMods  |         |         |         |         |         |         |         |         |
-| LMods  |    j    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
+|  Left  |         |         |         |         | @Media  |         |         |         |
+|  Left  |   f13   |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav   |   f4    |   C-f   |  A-f7   |  redo   |         |   esc   |   ins   |         |
 |  Nav   |  *Nav2  |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
@@ -143,9 +141,9 @@ How to read this layout:
 |   Fn   |   f4    |   f3    |   f2    |   f1    |         |         |         |         |
 |   Fn   |   f8    |   f7    |   f6    |   f5    |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Num   |         |    \    |    9    |         |         |    j    |    k    |         |
+|  Num   |         |    \    |    9    |         |         |         |         |         |
 |  Num   |    4    |    3    |    2    |    1    |    -    |    [    |    ]    |  ;+Fn   |
-|  Num   |    8    |    7    |    6    |    5    |    `    |    q    |    =    |    /    |
+|  Num   |    8    |    7    |    6    |    5    |    `    |         |    =    |    /    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Umlaut |         |         |         |         |         |         |         |         |
 | Umlaut |         |         |   🛑    |  shift  |    ä    |    ß    |         |         |
@@ -171,7 +169,7 @@ How to read this layout:
 
 | Thumb | Left Inner |        Left Outer        |      Right Outer       | Right Inner |
 |:-----:|:----------:|:------------------------:|:----------------------:|:-----------:|
-| Base  |    *Nav    |            r             |          spc           |    *Num     |
+| Base  |    *Nav    |            r             |          spc           |    @Num     |
 |       | ---------- | ------------------------ | ---------------------- | ----------- |
 |  Nav  |     🛑     |            🛑            |          tab           |             |
 |       | ---------- | ------------------------ | ---------------------- | ----------- |
