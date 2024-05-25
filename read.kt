@@ -60,14 +60,14 @@ fun translateKey(
             translator,
             pos,
             def.substring(1),
-            LayerActivation.OneShot
+            LayerActivation.Hold
         )
 
         def.startsWith("@") && def.length > 1 -> layerKey(
             translator,
             pos,
             def.substring(1),
-            LayerActivation.Hold
+            LayerActivation.OneShot
         )
         //skip QMK keycodes
         def.isNotBlank() && def[0].isUpperCase() && !def.contains("_") -> layerKey(
