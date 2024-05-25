@@ -60,7 +60,7 @@ fun translateKey(
             translator,
             pos,
             def.substring(1),
-            LayerActivation.Hold
+            LayerActivation.OneShot
         )
         //skip QMK keycodes
         def.isNotBlank() && def[0].isUpperCase() && !def.contains("_") -> layerKey(
@@ -108,7 +108,7 @@ fun layerKey(
     }
     return when (activation) {
         LayerActivation.Toggle -> toggleLayerKey(translator, layer, pos, null)
-        LayerActivation.Hold -> Key(
+        LayerActivation.OneShot -> Key(
             "${activation.method}(${
                 translator.reachLayer(layer, pos, activation).const()
             })",
@@ -120,7 +120,7 @@ fun layerKey(
 }
 
 fun toggleLayerKey(translator: QmkTranslator, layer: String, pos: KeyPosition, modifier: Modifier?): Key {
-    translator.reachLayer(layer, pos, LayerActivation.Hold)
+    translator.reachLayer(layer, pos, LayerActivation.OneShot)
     val mod = modifier?.let { "add_oneshot_mods(MOD_BIT(${it.leftKey}))" }
     val prefix = modifier?.short ?: "L"
     val key = "${prefix}_${layer.uppercase()}"

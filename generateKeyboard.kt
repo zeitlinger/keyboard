@@ -36,7 +36,7 @@ data class Options(
 
 enum class LayerActivation(val method: String?) {
     Toggle(null),
-    Hold("MO"),
+    OneShot("OSL"),
     TapHold(null),
     ModTap(null),
 }
