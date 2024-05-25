@@ -26,6 +26,7 @@ val ignoreDuplicates = setOf(
     "esc",
     "spc",
     "shift",
+    "f4",
     "\uD83D\uDDB1\uFE0F1", //mouse button 1
     "\uD83D\uDDB1\uFE0F2", //mouse button 2
     "\uD83D\uDDB1\uFE0F3", //mouse button 3
@@ -38,12 +39,10 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
         .map { it.key }
 
 
-    val upper = "!@#$%^&*()_+{}|:\"<>?~"
     val want =
         translator.symbols.mapping.values +
                 (CharRange('!', '~')
                     .map { it }
-                    .filterNot { it in upper }
                     .map { translator.toQmk(it.toString(), invalidPos) }) +
                 (1..12).map { "KC_F$it" }
                     .toSet()
@@ -61,6 +60,7 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
                 it == qmkNo -> false
                 it == layerBlocked -> false
                 it == comboTrigger -> false
+                it.matches("KC_F\\d{2}".toRegex()) -> false
                 else -> true
             }
         }

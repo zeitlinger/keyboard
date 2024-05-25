@@ -34,7 +34,7 @@ private fun checkForDuplicateCombos(combos: List<Combo>) {
         .filter { it.value.size > 1 }
         .forEach { (triggers, combos) ->
             throw IllegalStateException(
-                "duplicate triggers ${triggers.joinToString(", ")} in ${
+                "duplicate triggers\n${triggers.joinToString("\n")} in\n${
                     combos.joinToString(
                         ", "
                     ) { it.name }
@@ -123,7 +123,7 @@ private fun combos(
     }
 
     return when {
-        shiftLayer != null && "\"" !in content -> {
+        shiftLayer != null && content.length == 1 && content[0].isLetter() -> {
             listOf(combo) + combos(
                 type,
                 "S$name",
