@@ -123,11 +123,11 @@ private fun combos(
     }
 
     return when {
-        shiftLayer != null && content.length == 1 && content[0].isLetter() -> {
+        shiftLayer != null && content.startsWith("KC_") && content.length == 4 -> {
             listOf(combo) + combos(
                 type,
                 "S$name",
-                addMods("S", content),
+                shifted(content),
                 triggers.map { t ->
                     val position = t.pos.layerRelative()
                     shiftLayer.baseRows.flatten().first { it.pos.layerRelative() == position }
@@ -142,6 +142,8 @@ private fun combos(
         else -> listOf(combo)
     }
 }
+
+fun shifted(content: String) = addMods("S", content)
 
 fun comboName(vararg parts: String?): String {
     return "C_${

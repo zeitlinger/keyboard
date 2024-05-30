@@ -85,7 +85,7 @@ How to read this layout:
 
 | Layer  | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-|  Base  |   esc   |    p    |    m    |  shift  |  shift  | repeat  | altRep  |   @Fn   |
+|  Base  |   esc   |    p    |    m    |  shift  | rshift  | repeat  | altRep  |   @Fn   |
 |  Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 |  Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -119,11 +119,11 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right  |         |         |         |         |         |         |         |         |
 | Right  |         |         | *Umlaut |  *Case  |         |         |         |         |
-| Right  |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |         |
+| Right  |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |   f15   |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Left  |         |         |         |         |         |         |         |         |
 |  Left  |         |         |         |         | *Media  |         |         |         |
-|  Left  |         |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
+|  Left  |   f16   |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav   |   f4    |   C-f   |  A-f7   |  redo   |         |   esc   |   ins   |         |
 |  Nav   |  *Nav2  |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
@@ -214,6 +214,7 @@ The order of the options is also the order of the layers in the layer stack.
 | Symbol  | Command                               |
 |---------|---------------------------------------|
 | shift   | KC_LSFT                               |
+| rshift  | KC_RSFT                               |
 | ⬅️      | KC_LEFT                               |
 | ⬅️⬅️    | KC_HOME                               |
 | ⬇️      | KC_DOWN                               |

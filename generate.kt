@@ -126,7 +126,7 @@ private fun addRepeat(translator: QmkTranslator, row: List<String>, pos: KeyPosi
     val base = translator.toQmk(row[0], pos)
     val alt = row[1]
     if (alt.isNotBlank()) {
-        translator.symbols.altRepeat[base] = when {
+        val command = when {
             alt.length == 1 -> translator.toQmk(alt, pos)
             isWord(alt) -> customCommand(
                 translator,
@@ -137,15 +137,19 @@ private fun addRepeat(translator: QmkTranslator, row: List<String>, pos: KeyPosi
 
             else -> throw IllegalArgumentException("unknown command '${alt}' in $pos")
         }
+        translator.symbols.altRepeat[base] = command
+        translator.symbols.altRepeat[shifted(base)] = command
     }
     val repeat = row[2]
     if (repeat.isNotBlank()) {
-        translator.symbols.repeat[base] = when {
+        val command = when {
             repeat.length == 1 -> tap(translator.toQmk(repeat, pos)) + "; return false"
             isWord(repeat) -> sendString(repeat) + "; return false"
 
             else -> throw IllegalArgumentException("unknown command '${repeat}' in $pos")
         }
+        translator.symbols.repeat[base] = command
+        translator.symbols.repeat[shifted(base)] = command
     }
 }
 
