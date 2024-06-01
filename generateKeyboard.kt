@@ -33,12 +33,12 @@ data class Options(
     val homeRowPositions: Map<Int, Modifier>?,
 )
 
-enum class LayerActivation(val method: String?) {
-    Toggle(null),
-    Hold("MO"),
-    OneShot("OSL"),
-    TapHold(null),
-    ModTap(null),
+enum class LayerActivation(val prefix: String?, val method: String?) {
+    Toggle("#", null),
+    Hold("*", "MO"),
+    OneShot("@", "OSL"),
+    TapHold(null, null),
+    ModTap(null, null),
 }
 
 enum class LayerFlag { Shifted, Toggle }

@@ -34,42 +34,25 @@ fun translateKey(
     pos: KeyPosition,
     command: String,
     recordUsage: Boolean = true,
-): Key = getFallbackIfNeeded(command, translator, pos, null, recordUsage).let { def ->
-    when {
-        //comes first, so that we can override the meaning of + and -
-        def == qmkNo || translator.symbols.mapping.containsKey(def) -> translateSimpleKey(translator, def, pos)
-        def.contains(" ") && !def.startsWith("\"") -> spaceSeparatedHint(def, translator, pos)
-        def.contains("+") && !def.startsWith("+") -> layerTapHoldKey(def, translator, pos)
+): Key = getFallbackIfNeeded(command, translator, pos, null, recordUsage)
+    .let { def ->
+        LayerActivation.entries
+            .firstOrNull { def.length > 1 && it.prefix != null && def.startsWith(it.prefix) }
+            ?.let { activation -> layerKey(translator, pos, def.substring(1), activation) }
+            ?: when {
+                //comes first, so that we can override the meaning of + and -
+                def == qmkNo || translator.symbols.mapping.containsKey(def) -> translateSimpleKey(translator, def, pos)
+                def.contains(" ") && !def.startsWith("\"") -> spaceSeparatedHint(def, translator, pos)
+                def.contains("+") && !def.startsWith("+") -> layerTapHoldKey(def, translator, pos)
 
-        def.contains("-") && def.length > 1 -> when {
-            def == "--" -> layerKey(translator, pos, pos.layerName, LayerActivation.Toggle)
-            else -> keyWithModifier(def, translator, pos)
-        }
+                def.contains("-") && def.length > 1 -> when {
+                    def == "--" -> layerKey(translator, pos, pos.layerName, LayerActivation.Toggle)
+                    else -> keyWithModifier(def, translator, pos)
+                }
 
-        def.startsWith("*") && def.length > 1 -> layerKey(
-            translator,
-            pos,
-            def.substring(1),
-            LayerActivation.Hold
-        )
-
-        def.startsWith("@") && def.length > 1 -> layerKey(
-            translator,
-            pos,
-            def.substring(1),
-            LayerActivation.OneShot
-        )
-        //skip QMK keycodes
-        def.isNotBlank() && def[0].isUpperCase() && !def.contains("_") -> layerKey(
-            translator,
-            pos,
-            def,
-            LayerActivation.Toggle
-        )
-
-        else -> translateSimpleKey(translator, def, pos)
+                else -> translateSimpleKey(translator, def, pos)
+            }
     }
-}
 
 fun spaceSeparatedHint(def: String, translator: QmkTranslator, pos: KeyPosition): Key {
     val parts = def.split(" ")
@@ -111,6 +94,7 @@ fun layerKey(
             })",
             pos
         )
+
         else -> throw IllegalArgumentException("unsupported layer activation $activation")
     }
 }
