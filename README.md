@@ -98,7 +98,7 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |    v    |  "ing"  |         |         |         |
 |  Base  |         |         |         |   💎    |   💎    |         |         |         |
-|  Base  |         |         |         |    x    |  "ion"  |         |         |         |
+|  Base  |         |         |         |    k    |  "ion"  |         |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |    w    |         |         |    '    |         |         |
@@ -106,7 +106,7 @@ How to read this layout:
 |  Base  |         |         |    g    |         |         |    ,    |         |         |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |    k    |         |         |         |         |    z    |         |
+|  Base  |         |    x    |         |         |         |         |    z    |         |
 |  Base  |         |   💎    |         |         |         |         |   💎    |         |
 |  Base  |         |    b    |         |         |         |         |    .    |         |
 |  Base  |         |         |         |         |         |         |         |         |
@@ -223,8 +223,6 @@ The order of the options is also the order of the layers in the layer stack.
 | Symbol  | Command                               |
 |---------|---------------------------------------|
 | shift   | KC_LSFT                               |
-| ctrl    | KC_LCTL                               |
-| alt     | KC_LALT                               |
 | ⬅️      | KC_LEFT                               |
 | ⬅️⬅️    | KC_HOME                               |
 | ⬇️      | KC_DOWN                               |

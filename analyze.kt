@@ -65,7 +65,7 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
 
 
     val duplicates = translator.symbols.gotKeys
-        .filter { it.value > 1 }
+        .filter { it.value > 1 && !it.key[0].isDigit() }
         .keys
         .sorted() - ignoreDuplicates
 
