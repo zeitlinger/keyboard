@@ -27,6 +27,7 @@ val ignoreDuplicates = setOf(
     "spc",
     "shift",
     "f4",
+    "\\",
     "\uD83D\uDDB1\uFE0F1", //mouse button 1
     "\uD83D\uDDB1\uFE0F2", //mouse button 2
     "\uD83D\uDDB1\uFE0F3", //mouse button 3
@@ -68,7 +69,8 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
 
     val duplicates = translator.symbols.gotKeys
         .filter { it.value > 1 }
-        .keys - ignoreDuplicates
+        .keys
+        .sorted() - ignoreDuplicates
 
     println("expected: ${want.size}")
     println("missing: ${missing.sorted().distinct().joinToString(", ")}")
