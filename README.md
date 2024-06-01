@@ -58,9 +58,10 @@ How to read this layout:
 |   f    |      f      |            |
 |   g    |      n      |     l      |
 |   h    |             |   "ave"    |
+|   i    |      z      |            |
 |   j    |    "ust"    |            |
 |   k    |    "now"    |     s      |
-|   l    |      l      |    "ly"    |
+|   l    |      l      |     m      |
 |   m    |      b      |   "ent"    |
 |   n    |      g      |     k      |
 |   o    |      e      |            |
@@ -72,7 +73,7 @@ How to read this layout:
 |   u    |      a      |            |
 |   v    |    "er"     |            |
 |   w    |      n      |   "hich"   |
-|   x    |      p      |     t      |
+|   x    |      p      |     c      |
 |   y    |             |     i      |
 |   z    | "eitlinger" |     i      |
 |  spc   |    "the"    |   "and"    |
