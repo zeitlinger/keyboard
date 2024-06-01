@@ -137,8 +137,7 @@ private fun addRepeat(translator: QmkTranslator, row: List<String>, pos: KeyPosi
 
             else -> throw IllegalArgumentException("unknown command '${alt}' in $pos")
         }
-        translator.symbols.altRepeat[base] = command
-        translator.symbols.altRepeat[shifted(base)] = command
+        addRepeat(translator.symbols.altRepeat, base, command)
     }
     val repeat = row[2]
     if (repeat.isNotBlank()) {
@@ -148,8 +147,18 @@ private fun addRepeat(translator: QmkTranslator, row: List<String>, pos: KeyPosi
 
             else -> throw IllegalArgumentException("unknown command '${repeat}' in $pos")
         }
-        translator.symbols.repeat[base] = command
-        translator.symbols.repeat[shifted(base)] = command
+        addRepeat(translator.symbols.repeat, base, command)
+    }
+}
+
+private fun addRepeat(
+    map: MutableMap<String, String>,
+    base: String,
+    command: String,
+) {
+    map[base] = command
+    if (isLetter(base)) {
+        map[shifted(base)] = command
     }
 }
 

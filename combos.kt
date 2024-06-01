@@ -123,7 +123,7 @@ private fun combos(
     }
 
     return when {
-        shiftLayer != null && content.startsWith("KC_") && content.length == 4 -> {
+        shiftLayer != null && isLetter(content) -> {
             listOf(combo) + combos(
                 type,
                 "S$name",
@@ -144,6 +144,8 @@ private fun combos(
 }
 
 fun shifted(content: String) = addMods("S", content)
+
+fun isLetter(content: String) = content.startsWith("KC_") && content.length == 4
 
 fun comboName(vararg parts: String?): String {
     return "C_${
