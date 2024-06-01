@@ -3,13 +3,24 @@ import java.io.FileReader
 
 const val qmkNo = "KC_NO"
 
+data class QmkKey(
+    val key: String,
+    val substitutionCombo: String? = null,
+) {
+    override fun toString(): String {
+        return key
+    }
+
+    val isNo = key == qmkNo
+}
+
 class QmkTranslator(
     val symbols: Symbols,
     val layerOptions: Map<LayerName, LayerOption>,
     val keys: Map<LayerName, MultiTable>,
     val layerNumbers: Map<LayerName, Int>,
     val options: Options,
-    val layerTapHold: MutableList<String>,
+    val layerTapHold: MutableList<QmkKey>,
     val combos: MutableList<Combo>,
 ) {
 
@@ -31,15 +42,24 @@ class QmkTranslator(
         }.toMap()
     }
 
-    fun toQmk(key: String, pos: KeyPosition): String = key
-        .let { symbols.replace(it, pos, this) }
-        .let { translatedKey -> map.getOrDefault(translatedKey.replaceFirstChar { it.titlecase() }, translatedKey) }
-        .let {
-            when {
-                getSubstitutionCombo(it) != null || symbols.customKeycodes.contains(it) -> it
-                else -> assertQmk(it, pos)
+    fun toQmk(key: String, pos: KeyPosition): QmkKey {
+        return key
+            .let { symbols.replace(it, pos, this) }
+            .let { translatedKey ->
+                    map.getOrDefault(
+                        translatedKey.replaceFirstChar { it.titlecase() },
+                        translatedKey
+                    )
             }
-        }
+            .let {
+                val substitutionCombo = if (it.startsWith("\"") && it.endsWith("\"")) it else null
+                when {
+                    substitutionCombo != null -> QmkKey(it, substitutionCombo)
+                    symbols.customKeycodes.contains(it) -> QmkKey(it)
+                    else -> assertQmk(it, pos)
+                }
+            }
+    }
 
     fun reachLayer(layerName: LayerName, pos: KeyPosition, activation: LayerActivation): LayerRef {
         val option = layerOptions[layerName] ?: throw IllegalArgumentException("unknown layer $layerName in $pos")
@@ -67,9 +87,9 @@ class QmkTranslator(
     }
 }
 
-fun assertQmk(key: String, pos: KeyPosition): String {
+fun assertQmk(key: String, pos: KeyPosition): QmkKey {
     return when {
-        key == comboTrigger || qmkPrefixes.any { key.startsWith(it) } -> key
+        key == comboTrigger || qmkPrefixes.any { key.startsWith(it) } -> QmkKey(key)
         else -> throw IllegalStateException("key not translated '$key' in $pos")
     }
 }

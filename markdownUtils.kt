@@ -41,17 +41,17 @@ data class CustomCommand(
     val cStatements: List<String>,
 )
 
-data class CustomKey(var key: String, val targetLayerName: LayerName?, val command: CustomCommand?)
+data class CustomKey(var key: QmkKey, val targetLayerName: LayerName?, val command: CustomCommand?)
 
 data class Symbols(
     val mapping: Map<String, String>,
     val customKeycodes: MutableMap<String, CustomKey>,
-    val ignoreMissing: MutableList<String>, // because there's a good way to reach this using shift
+    val ignoreMissing: MutableList<QmkKey>, // because there's a good way to reach this using shift
     val ignoreUnexpected: MutableList<String>,
     val gotKeys: MutableMap<String, Int>,
-    val noHoldKeys: MutableList<String>,
-    val repeat: MutableMap<String, String>,
-    val altRepeat: MutableMap<String, String>,
+    val noHoldKeys: List<QmkKey>,
+    val repeat: MutableMap<QmkKey, String>,
+    val altRepeat: MutableMap<QmkKey, String>,
 ) {
     fun replace(key: String, pos: KeyPosition, translator: QmkTranslator): String {
         val value = mapping[key]

@@ -37,7 +37,7 @@ fun generateBase(layers: List<Layer>): String {
                 } else {
                     row
                 }.map {
-                    it.keyWithModifier.padStart(
+                    it.keyWithModifier.key.padStart(
                         20
                     )
                 }
@@ -60,8 +60,8 @@ fun run(args: GeneratorArgs) {
     val comboLines = combos.map { combo ->
         combo.type.template.format(
             combo.name.padEnd(35),
-            combo.result.padEnd(35),
-            combo.triggers.joinToString(", ") { it.keyWithModifier }
+            combo.result.let { it.substitutionCombo ?: it.key }.padEnd(35),
+            combo.triggers.joinToString(", ") { it.keyWithModifier.key }
         )
     }.sorted()
 
@@ -115,10 +115,10 @@ fun run(args: GeneratorArgs) {
             "customKeycodesOnTapPress" to customKeycodes(translator, CustomCommandType.OnTap),
             "customKeycodesOnPress" to customKeycodes(translator, CustomCommandType.OnPress),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
-            "altRepeat" to translator.symbols.altRepeat.entries.sortedBy { it.key }.joinToString("\n        ") {
+            "altRepeat" to translator.symbols.altRepeat.entries.sortedBy { it.key.key }.joinToString("\n        ") {
                 "case ${it.key}: return ${it.value};"
             },
-            "repeat" to translator.symbols.repeat.entries.sortedBy { it.key }.joinToString("\n                ") {
+            "repeat" to translator.symbols.repeat.entries.sortedBy { it.key.key }.joinToString("\n                ") {
                 "case ${it.key}: ${it.value};"
             }
         )
@@ -134,13 +134,13 @@ private fun addRepeat(translator: QmkTranslator, row: List<String>, pos: KeyPosi
     val alt = row[1]
     if (alt.isNotBlank()) {
         val command = when {
-            alt.length == 1 -> translator.toQmk(alt, pos)
+            alt.length == 1 -> translator.toQmk(alt, pos).key
             isWord(alt) -> customCommand(
                 translator,
-                "${"ALT"}_${base}",
+                QmkKey("${"ALT"}_${base}"),
                 CustomCommandType.OnPress,
                 listOf(sendString(alt))
-            )
+            ).key
 
             else -> throw IllegalArgumentException("unknown command '${alt}' in $pos")
         }
@@ -159,8 +159,8 @@ private fun addRepeat(translator: QmkTranslator, row: List<String>, pos: KeyPosi
 }
 
 private fun addRepeat(
-    map: MutableMap<String, String>,
-    base: String,
+    map: MutableMap<QmkKey, String>,
+    base: QmkKey,
     command: String,
 ) {
     map[base] = command
@@ -181,7 +181,7 @@ fun customKeycodes(translator: QmkTranslator, type: CustomCommandType): String =
             "case _HANDLER_${it.key}: ${it.value.command!!.cStatements.joinToString("; ")}; return false;"
         }
 
-fun holdOnOtherKeyPress(layerTapToggle: Set<String>): String =
+fun holdOnOtherKeyPress(layerTapToggle: Set<QmkKey>): String =
     layerTapToggle.joinToString("\n    ") { "case ${it}: return true;" }
 
 fun LayerName.const() = "_${this.uppercase()}"

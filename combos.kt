@@ -5,24 +5,21 @@ enum class ComboType(val template: String) {
 data class Combo(
     val type: ComboType,
     var name: String,
-    val result: String,
+    val result: QmkKey,
     val triggers: List<Key>,
     val timeout: Int?,
 ) {
     companion object {
-        fun of(type: ComboType, name: String, result: String, triggers: List<Key>, timeout: Int? = 0): Combo {
-            if (triggers.any { it.keyWithModifier == "KC_NO" }) {
+        fun of(type: ComboType, name: String, result: QmkKey, triggers: List<Key>, timeout: Int? = 0): Combo {
+            if (triggers.any { it.keyWithModifier.isNo }) {
                 throw IllegalStateException("no KC_NO allowed in combo triggers:\n$name\n${triggers.joinToString("\n")}")
             }
-            return Combo(type, name, result, triggers.sortedBy { it.keyWithModifier }, timeout)
+            return Combo(type, name, result, triggers.sortedBy { it.keyWithModifier.key }, timeout)
         }
     }
 }
 
 const val comboTrigger = "\uD83D\uDC8E" // 💎
-
-fun getSubstitutionCombo(key: String): String? =
-    if (key.startsWith("\"") && key.endsWith("\"")) key else null
 
 fun generateAllCombos(layers: List<Layer>, translator: QmkTranslator): List<Combo> =
     layers.flatMap { layer ->
@@ -82,19 +79,17 @@ private fun generateCustomCombos(
     layers: List<Layer>,
 ): List<Combo> {
     val definition = getLayerPart(def, hand, translator.options)
-    val comboIndexes = definition.mapIndexedNotNull { index, s -> if (s.key == comboTrigger) index else null }
+    val comboIndexes = definition.mapIndexedNotNull { index, s -> if (s.key.key == comboTrigger) index else null }
 
     return definition.flatMapIndexed { comboIndex, k ->
         val key = k.key
-        if (!(k.isBlocked() || key == comboTrigger || key == "KC_TRNS" || key == qmkNo)) {
+        if (!(k.isBlocked() || key.key == comboTrigger || key.key == "KC_TRNS" || key.isNo)) {
             val keys = layerBase
                 .filterIndexed { index, _ -> index == comboIndex || index in comboIndexes }
 
-            val substitutionCombo = getSubstitutionCombo(key)
-            val type = if (substitutionCombo != null) ComboType.Substitution else ComboType.Combo
-            val name = comboName(layer.name, key)
-            val content = substitutionCombo ?: key
-            combos(type, name, content, keys, k.comboTimeout, translator, layers, layer)
+            val type = if (key.substitutionCombo != null) ComboType.Substitution else ComboType.Combo
+            val name = comboName(layer.name, key.key)
+            combos(type, name, key, keys, k.comboTimeout, translator, layers, layer)
         } else emptyList()
     }.filter { it.triggers.size > 1 }
 }
@@ -102,7 +97,7 @@ private fun generateCustomCombos(
 private fun combos(
     type: ComboType,
     name: String,
-    content: String,
+    content: QmkKey,
     triggers: List<Key>,
     timeout: Int?,
     translator: QmkTranslator,
@@ -142,13 +137,13 @@ private fun combos(
     }
 }
 
-fun shifted(content: String) = addMods("S", content)
+fun shifted(content: QmkKey): QmkKey = addMods("S", content)
 
-fun isLetter(content: String) = content.startsWith("KC_") && content.length == 4 && content[3].isLetter()
+fun isLetter(content: QmkKey) = content.key.startsWith("KC_") && content.key.length == 4 && content.key[3].isLetter()
 
-fun comboName(vararg parts: String?): String {
+fun comboName(vararg parts: String): String {
     return "C_${
-        parts.filterNotNull().joinToString("_") {
+        parts.toList().joinToString("_") {
             it.uppercase()
                 .replace(".", "_")
                 .replace(Regex("[()\"]"), "")

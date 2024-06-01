@@ -1,7 +1,7 @@
-enum class Modifier(val mask: String, val leftKey: String) {
-    Ctrl("MOD_LCTL", "KC_LCTL"),
-    Shift("MOD_LSFT", "KC_LSFT"),
-    Alt("MOD_LALT", "KC_LALT");
+enum class Modifier(val mask: String, val leftKey: QmkKey) {
+    Ctrl("MOD_LCTL", QmkKey("KC_LCTL")),
+    Shift("MOD_LSFT", QmkKey("KC_LSFT")),
+    Alt("MOD_LALT", QmkKey("KC_LALT"));
 
     val short = this.name[0].uppercase()
 
@@ -26,12 +26,12 @@ fun modifierTypes(s: String): Map<HomeRowType, LayerName?> = s.split(",")
         HomeRowType.valueOf(parts[0]) to parts.getOrNull(1)
     }
 
-fun addModTab(key: String, pos: KeyPosition, translator: QmkTranslator): String {
+fun addModTab(key: QmkKey, pos: KeyPosition, translator: QmkTranslator): QmkKey {
     val layerOption = translator.layerOptions.getValue(pos.layerName)
     val column = pos.column
     val mod = translator.options.homeRowPositions?.get(fingerIndex(pos.column, pos.columns))
     return when {
-        mod == null || key == layerBlocked -> key
+        mod == null -> key
         column < pos.columns / 2 -> applyModTap(key, mod, layerOption.leftModifier, pos, translator)
         column >= pos.columns / 2 -> applyModTap(key, mod, layerOption.rightModifier, pos, translator)
         else -> key
@@ -39,12 +39,12 @@ fun addModTab(key: String, pos: KeyPosition, translator: QmkTranslator): String 
 }
 
 private fun applyModTap(
-    key: String,
+    key: QmkKey,
     mod: Modifier,
     homeRowType: Map<HomeRowType, LayerName?>,
     pos: KeyPosition,
     translator: QmkTranslator,
-): String = homeRowType.entries
+): QmkKey = homeRowType.entries
     .firstOrNull { pos.row == it.key.row }
     ?.let { modEntry ->
         val targetLayer = modEntry.value
@@ -52,37 +52,36 @@ private fun applyModTap(
         setCustomKeyCommand(translator, key, modTapKey, pos)
         when {
             modTapKey != key && targetLayer != null -> {
-                if (key != qmkNo) throw IllegalStateException("key $key not allowed for mod tap with layer switch at $pos")
-                "LM(${translator.reachLayer(targetLayer, pos, LayerActivation.ModTap).const()}, ${mod.mask})"
+                if (!key.isNo) throw IllegalStateException("key $key not allowed for mod tap with layer switch at $pos")
+                QmkKey("LM(${translator.reachLayer(targetLayer, pos, LayerActivation.ModTap).const()}, ${mod.mask})")
             }
             else -> modTapKey
         }
-
     } ?: key
 
-fun setCustomKeyCommand(translator: QmkTranslator, key: String, command: String, pos: KeyPosition): Key {
-    translator.symbols.customKeycodes.entries.find { it.key == key }?.let { it.value.key = command }
+fun setCustomKeyCommand(translator: QmkTranslator, key: QmkKey, command: QmkKey, pos: KeyPosition): Key {
+    translator.symbols.customKeycodes.entries.find { it.key == key.key }?.let { it.value.key = command }
     translator.symbols.ignoreMissing.add(key)
     return Key(command, pos)
 }
 
 private fun modTapKey(
-    key: String,
+    key: QmkKey,
     mod: Modifier,
     type: HomeRowType,
     translator: QmkTranslator,
     pos: KeyPosition,
     targetLayer: LayerName?,
-): String = when {
+): QmkKey = when {
     key in translator.symbols.noHoldKeys -> throw IllegalStateException("key $key not allowed for mod tap at $pos")
-    type.oneShot -> "OSM(${mod.mask})"
-        .also { if (key != qmkNo) throw IllegalStateException("key $key not allowed for one shot modifier at $pos") }
+    type.oneShot -> QmkKey("OSM(${mod.mask})")
+        .also { if (!key.isNo) throw IllegalStateException("key $key not allowed for one shot modifier at $pos") }
 
-    key == qmkNo -> {
+    key.isNo -> {
         when {
             targetLayer != null -> {
-                val name = "_${targetLayer}_${mod.short}".uppercase()
-                translator.symbols.customKeycodes[name] = CustomKey(name, null, null)
+                val name = QmkKey("_${targetLayer}_${mod.short}".uppercase())
+                translator.symbols.customKeycodes[name.key] = CustomKey(name, null, null)
                 name
             }
             else -> mod.leftKey
@@ -90,31 +89,33 @@ private fun modTapKey(
     }
     else -> {
         val simpleKey = addCustomIfNotSimpleKey(key, translator)
-        when (mod) {
-            Modifier.Alt -> "ALT_T($simpleKey)"
-            Modifier.Ctrl -> "CTL_T($simpleKey)"
-            Modifier.Shift -> "SFT_T($simpleKey)"
-        }
+        QmkKey(
+            when (mod) {
+                Modifier.Alt -> "ALT_T($simpleKey)"
+                Modifier.Ctrl -> "CTL_T($simpleKey)"
+                Modifier.Shift -> "SFT_T($simpleKey)"
+            }
+        )
     }
 }
 
-fun addCustomIfNotSimpleKey(key: String, translator: QmkTranslator): String =
-    if (key.contains("(")) {
+fun addCustomIfNotSimpleKey(key: QmkKey, translator: QmkTranslator): QmkKey =
+    if (key.key.contains("(")) {
         translator.symbols.ignoreMissing.add(key)
         tapCustomKey(translator, key)
     } else {
         key
     }
 
-fun tapCustomKey(translator: QmkTranslator, key: String): String {
-    return customCommand(translator, "_TAP_${comboName(key)}", CustomCommandType.OnTap, listOf(tap(key)))
+fun tapCustomKey(translator: QmkTranslator, key: QmkKey): QmkKey {
+    return customCommand(translator, QmkKey("_TAP_${comboName(key.key)}"), CustomCommandType.OnTap, listOf(tap(key)))
 }
 
-fun tap(key: String) = "tap_code16($key)"
+fun tap(key: QmkKey) = "tap_code16($key)"
 
-fun customCommand(translator: QmkTranslator, name: String, type: CustomCommandType, cStatements: List<String>): String {
-    translator.symbols.customKeycodes[name] = CustomKey(name, null, CustomCommand(type, cStatements))
-    return name
+fun customCommand(translator: QmkTranslator, qmkKey: QmkKey, type: CustomCommandType, cStatements: List<String>): QmkKey {
+    translator.symbols.customKeycodes[qmkKey.key] = CustomKey(qmkKey, null, CustomCommand(type, cStatements))
+    return qmkKey
 }
 
 private fun fingerIndex(column: Int, columns: Int): Int = if (column >= columns / 2) {

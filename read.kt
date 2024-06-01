@@ -70,7 +70,7 @@ private fun layerTapHoldKey(def: String, translator: QmkTranslator, pos: KeyPosi
     if (key in translator.symbols.noHoldKeys) {
         throw IllegalArgumentException("key $key not allowed for tap hold at $pos")
     }
-    val command = "LT(${translator.reachLayer(parts[1], pos, LayerActivation.TapHold).const()},$key)"
+    val command = QmkKey("LT(${translator.reachLayer(parts[1], pos, LayerActivation.TapHold).const()},$key)")
     translator.layerTapHold.add(command)
     return setCustomKeyCommand(translator, key, command, pos)
 }
@@ -89,9 +89,9 @@ fun layerKey(
     return when {
         activation == LayerActivation.Toggle -> toggleLayerKey(translator, layer, pos, null)
         activation.method != null -> Key(
-            "${activation.method}(${
+            QmkKey("${activation.method}(${
                 translator.reachLayer(layer, pos, activation).const()
-            })",
+            })"),
             pos
         )
 
@@ -103,7 +103,7 @@ fun toggleLayerKey(translator: QmkTranslator, layer: String, pos: KeyPosition, m
     translator.reachLayer(layer, pos, LayerActivation.OneShot)
     val mod = modifier?.let { "add_oneshot_mods(MOD_BIT(${it.leftKey}))" }
     val prefix = modifier?.short ?: "L"
-    val key = "${prefix}_${layer.uppercase()}"
+    val key = QmkKey("${prefix}_${layer.uppercase()}")
     val command =
         customCommand(translator, key, CustomCommandType.OnPress, listOfNotNull("layer_invert(${layer.const()})", mod))
     return setCustomKeyCommand(translator, key, command, pos)
@@ -117,23 +117,22 @@ fun keyWithModifier(def: String, translator: QmkTranslator, pos: KeyPosition): K
         return toggleLayerKey(translator, target, pos, Modifier.ofShort(modifier))
     }
     val key = translateKey(translator, pos, target, false)
-    return if (key.keyWithModifier.contains("(")) {
-        val tapCustomKey = tapCustomKey(translator, addMods(modifier, key.key))
-        Key(translateKey(translator, pos, tapCustomKey, false).keyWithModifier, pos)
+    return if (key.keyWithModifier.key.contains("(")) {
+        Key(tapCustomKey(translator, addMods(modifier, key.key)), pos)
     } else {
         Key(addMods(modifier, key.key), pos)
     }
 }
 
-fun addMods(modifier: String, key: String) =
-    when (modifier) {
+fun addMods(modifier: String, key: QmkKey): QmkKey =
+    QmkKey(when (modifier) {
         "A" -> "A(${key})"
         "C" -> "C(${key})"
         "S" -> "S(${key})"
         "CA" -> "LCA(${key})"
         "CS" -> "RCS(${key})"
         else -> throw IllegalStateException("unknown modifier '$modifier'")
-    }
+    })
 
 fun translateSimpleKey(translator: QmkTranslator, def: String, pos: KeyPosition): Key {
     val key = translator.toQmk(def, pos)

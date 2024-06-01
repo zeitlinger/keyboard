@@ -59,12 +59,12 @@ data class LayerOption(
 )
 
 data class Key(
-    val key: String,
+    val key: QmkKey,
     val pos: KeyPosition,
-    val keyWithModifier: String = key,
+    val keyWithModifier: QmkKey = key,
     val comboTimeout: Int? = null,
 ) {
-    fun isBlocked(): Boolean = keyWithModifier == qmkNo
+    fun isBlocked(): Boolean = keyWithModifier.isNo
 }
 
 

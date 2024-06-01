@@ -34,19 +34,19 @@ val ignoreDuplicates = setOf(
 private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<Layer>) {
     val gotKeys = layers.map { it.rows.flatten() + it.combos.flatten().flatten() }
         .flatten()
-        .map { it.key }
+        .map { it.key.key }
 
 
     val want =
         translator.symbols.mapping.values +
                 (CharRange('!', '~')
                     .map { it }
-                    .map { translator.toQmk(it.toString(), invalidPos) }) +
+                    .map { translator.toQmk(it.toString(), invalidPos).key }) +
                 (1..12).map { "KC_F$it" }
                     .toSet()
 
     val missing =
-        want - gotKeys.toSet() - translator.symbols.ignoreMissing.map { translator.toQmk(it, invalidPos) }.toSet()
+        want - gotKeys.toSet() - translator.symbols.ignoreMissing.map { it.key }.toSet()
     val unexpected = (gotKeys.toSet() - want.toSet())
         .filter {
             when {

@@ -27,8 +27,8 @@ private fun getKeyTable(layerContent: MultiTable): Map<LayerName, MultiTable> = 
 
 private fun readSymbols(tables: Tables): Symbols {
     val customKeycodes = mutableMapOf<String, CustomKey>()
-    val implicitKeys = mutableListOf<String>()
-    val noHoldKeys = mutableListOf<String>()
+    val implicitKeys = mutableListOf<QmkKey>()
+    val noHoldKeys = mutableListOf<QmkKey>()
     val symTable = tables.getMappingTable("Symbol").flatMap { entry ->
         val key = entry.key
         val value = entry.value
@@ -39,15 +39,16 @@ private fun readSymbols(tables: Tables): Symbols {
         val custom = props["custom"]
         when {
             custom != null -> {
+                val qmkKey = QmkKey(custom)
                 if (props["NoHold"] != null) {
-                    noHoldKeys += custom
+                    noHoldKeys += qmkKey
                 }
-                customKeycodes[custom] = CustomKey(custom, props["LayerHint"], null)
+                customKeycodes[custom] = CustomKey(qmkKey, props["LayerHint"], null)
                 listOf(key to custom)
             }
 
             value == "<implicit>" -> {
-                implicitKeys += key
+                implicitKeys += QmkKey(key)
                 emptyList()
             }
 
@@ -56,7 +57,16 @@ private fun readSymbols(tables: Tables): Symbols {
             }
         }
     }.toMap()
-    return Symbols(symTable, customKeycodes, implicitKeys, mutableListOf(), mutableMapOf(), noHoldKeys, mutableMapOf(), mutableMapOf())
+    return Symbols(
+        symTable,
+        customKeycodes,
+        implicitKeys,
+        mutableListOf(),
+        mutableMapOf(),
+        noHoldKeys,
+        mutableMapOf(),
+        mutableMapOf()
+    )
 }
 
 
