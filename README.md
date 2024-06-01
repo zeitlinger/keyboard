@@ -59,10 +59,10 @@ How to read this layout:
 |   g    |      n      |     l      |
 |   h    |             |   "ave"    |
 |   j    |    "ust"    |            |
-|   k    |      n      |     s      |
+|   k    |    "now"    |     s      |
 |   l    |      l      |    "ly"    |
 |   m    |      b      |   "ent"    |
-|   n    |      g      |     l      |
+|   n    |      g      |     k      |
 |   o    |      e      |            |
 |   p    |      l      |     s      |
 |   q    |      u      |            |
