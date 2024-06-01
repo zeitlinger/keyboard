@@ -6,8 +6,7 @@ const val qmkNo = "KC_NO"
 class QmkTranslator(
     val symbols: Symbols,
     val layerOptions: Map<LayerName, LayerOption>,
-    val nonThumbs: Map<LayerName, MultiTable>,
-    val thumbs: Map<LayerName, MultiTable>,
+    val keys: Map<LayerName, MultiTable>,
     val layerNumbers: Map<LayerName, Int>,
     val options: Options,
     val layerTapHold: MutableList<String>,
@@ -60,12 +59,8 @@ class QmkTranslator(
             throw IllegalStateException("layer $targetLayerName is lower than $pos")
     }
 
-    fun getThumbContent(layerName: LayerName): MultiTable =
-        thumbs[layerName] ?: listOf(listOf(List(options.thumbColumns) { "" })) // empty thumb layer
-
     fun getKey(pos: KeyPosition): String =
-        (if (pos.thumb) getThumbContent(pos.layerName) else nonThumbs[pos.layerName])?.get(pos.tableIndex)?.get(pos.row)
-            ?.get(pos.column) ?: ""
+        (keys[pos.layerName])?.get(pos.tableIndex)?.get(pos.row)?.get(pos.column) ?: ""
 
     fun gotKey(key: String) {
         symbols.gotKeys[key] = symbols.gotKeys.getOrDefault(key, 0) + 1

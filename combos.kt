@@ -12,7 +12,7 @@ data class Combo(
     companion object {
         fun of(type: ComboType, name: String, result: String, triggers: List<Key>, timeout: Int? = 0): Combo {
             if (triggers.any { it.keyWithModifier == "KC_NO" }) {
-                throw IllegalStateException("no KC_NO allowed in combo triggers: $name, $triggers")
+                throw IllegalStateException("no KC_NO allowed in combo triggers:\n$name\n${triggers.joinToString("\n")}")
             }
             return Combo(type, name, result, triggers.sortedBy { it.keyWithModifier }, timeout)
         }
@@ -26,7 +26,7 @@ fun getSubstitutionCombo(key: String): String? =
 
 fun generateAllCombos(layers: List<Layer>, translator: QmkTranslator): List<Combo> =
     layers.flatMap { layer ->
-        generateCombos(translator, layer, layer.combos, layer.baseRows, layers)
+        generateCombos(translator, layer, layer.combos, layer.rows, layers)
     }.also { checkForDuplicateCombos(it) }
 
 private fun checkForDuplicateCombos(combos: List<Combo>) {
@@ -58,13 +58,12 @@ private fun generateCombos(
 ): List<Combo> {
     val options = translator.options
     return hands.flatMap { hand ->
-        val baseLayerRowSkip = if (hand.isThumb) options.nonThumbRows else 0
         activationParts
             .filter { hand.applies(it, options) }
             .flatMap { def ->
                 generateCustomCombos(
                     def,
-                    getLayerPart(layerBase.drop(baseLayerRowSkip), hand, options),
+                    getLayerPart(layerBase, hand, options),
                     layer,
                     hand,
                     translator,
@@ -130,7 +129,7 @@ private fun combos(
                 shifted(content),
                 triggers.map { t ->
                     val position = t.pos.layerRelative()
-                    shiftLayer.baseRows.flatten().first { it.pos.layerRelative() == position }
+                    shiftLayer.rows.flatten().first { it.pos.layerRelative() == position }
                 },
                 timeout,
                 translator,
@@ -145,7 +144,7 @@ private fun combos(
 
 fun shifted(content: String) = addMods("S", content)
 
-fun isLetter(content: String) = content.startsWith("KC_") && content.length == 4
+fun isLetter(content: String) = content.startsWith("KC_") && content.length == 4 && content[3].isLetter()
 
 fun comboName(vararg parts: String?): String {
     return "C_${

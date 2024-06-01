@@ -1,10 +1,7 @@
 fun analyze(translator: QmkTranslator, layers: List<Layer>) {
     val layerNames = translator.layerOptions.keys
-    translator.nonThumbs.keys.subtract(layerNames).forEach {
+    translator.keys.keys.subtract(layerNames).forEach {
         throw IllegalStateException("unexpected layer $it")
-    }
-    translator.thumbs.keys.subtract(layerNames).forEach {
-        throw IllegalStateException("unexpected thumb layer $it")
     }
     translator.layerOptions.entries.forEach { (layer, option) ->
         if (LayerActivation.Toggle in option.reachable && LayerFlag.Toggle !in option.flags) {
@@ -20,7 +17,7 @@ fun analyze(translator: QmkTranslator, layers: List<Layer>) {
     printMissingAndUnexpected(translator, layers)
 }
 
-val invalidPos = KeyPosition(0, 0, 0, "none", false, 0)
+val invalidPos = KeyPosition(0, 0, 0, "none", 0)
 
 val ignoreDuplicates = setOf(
     "esc",
@@ -35,7 +32,7 @@ val ignoreDuplicates = setOf(
 )
 
 private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<Layer>) {
-    val gotKeys = layers.map { it.baseRows.flatten() + it.combos.flatten().flatten() }
+    val gotKeys = layers.map { it.rows.flatten() + it.combos.flatten().flatten() }
         .flatten()
         .map { it.key }
 

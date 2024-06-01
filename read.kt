@@ -3,7 +3,6 @@ data class KeyPosition(
     val row: Int,
     val column: Int,
     val layerName: LayerName,
-    val thumb: Boolean,
     val columns: Int,
 ) {
     fun layerRelative() = copy(layerName = "relative")
@@ -15,25 +14,16 @@ fun readLayer(
     layerName: LayerName,
     layerIndex: Int,
 ): Layer {
-    val data = translateTable(content, translator, layerName, false)
+    val data = translateTable(content, translator, layerName)
     val base = data[0]
     val option = translator.layerOptions.getValue(layerName)
 
     val combos = data.drop(1)
 
-    val thumbData = translateTable(
-        translator.getThumbContent(layerName),
-        translator,
-        layerName,
-        true,
-    )
-    val baseThumb = thumbData[0]
-    val comboThumb = thumbData.drop(1)
-
     return Layer(
         layerName,
-        (base + baseThumb),
-        combos + comboThumb,
+        base,
+        combos,
         layerIndex,
         option
     )
@@ -170,14 +160,12 @@ fun translateTable(
     tables: MultiTable,
     translator: QmkTranslator,
     layerName: LayerName,
-    thumb: Boolean,
 ): List<Rows> = tables.mapIndexed { tableIndex, table ->
     table.mapIndexed { rowNumber, row ->
         row.mapIndexed { column, def ->
             translateKey(
                 translator, KeyPosition(
-                    tableIndex, rowNumber, column, layerName, thumb,
-                    if (thumb) translator.options.thumbColumns else translator.options.nonThumbColumns
+                    tableIndex, rowNumber, column, layerName, translator.options.nonThumbColumns
                 ), def
             )
         }

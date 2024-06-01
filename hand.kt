@@ -25,7 +25,7 @@ data class Hand(
     }
 
     private fun columns(options: Options): Int {
-        return if (isThumb) options.thumbColumns else options.nonThumbColumns
+        return options.nonThumbColumns
     }
 
     private val isRight = this.name.startsWith("right")

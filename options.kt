@@ -1,9 +1,8 @@
 fun qmkTranslator(tables: Tables): QmkTranslator {
     val symbols = readSymbols(tables)
     val nonThumbs = getKeyTable(tables.getMulti("Layer").content)
-    val thumbs = getKeyTable(tables.getMulti("Thumb").content)
     val columns = nonThumbs.values.first()[0][0].size
-    val options = options(tables, nonThumbs, thumbs, columns)
+    val options = options(tables, nonThumbs, columns)
 
     val layerOptions = layerOption(tables)
 
@@ -13,7 +12,6 @@ fun qmkTranslator(tables: Tables): QmkTranslator {
         symbols,
         layerOptions,
         nonThumbs,
-        thumbs,
         layerNumbers,
         options,
         mutableListOf(),
@@ -81,24 +79,21 @@ private fun layerOption(tables: Tables): Map<LayerName, LayerOption> = tables.ge
 
 private fun options(
     tables: Tables,
-    nonThumbs: Map<LayerName, MultiTable>,
-    thumbs: Map<LayerName, MultiTable>,
+    keys: Map<LayerName, MultiTable>,
     columns: Int,
 ): Options {
-    val firstNonThumb = nonThumbs.entries.first().value[0]
+    val first = keys.entries.first().value[0]
 
     val homeRowPositions = tables.getOptional("Home Row Modifiers")
         ?.associate {
             fingerPos(
                 it[1],
                 columns
-            ) - firstNonThumb[0].size / 2 to Modifier.ofLong(it[0])
+            ) - first[0].size / 2 to Modifier.ofLong(it[0])
         } // we ignore the first row
-    val firstThumb = thumbs.entries.first().value[0]
     return Options(
-        firstNonThumb.size,
-        firstNonThumb[0].size,
-        firstThumb[0].size,
+        first.size,
+        first[0].size,
         homeRowPositions
     )
 }

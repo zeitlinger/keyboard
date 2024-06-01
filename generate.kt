@@ -15,7 +15,7 @@ const val mainLayerTemplate5Columns =
             "                            %s, %s, %s, %s),"
 
 fun template(layers: List<Layer>): String =
-    layers[0].baseRows[0].size.let { columns ->
+    layers[0].rows[0].size.let { columns ->
         when (columns) {
             10 -> mainLayerTemplate5Columns
             8 -> mainLayerTemplate4Columns
@@ -23,13 +23,20 @@ fun template(layers: List<Layer>): String =
         }
     }
 
+private const val thumbColumns = 4
+
 fun generateBase(layers: List<Layer>): String {
     val template = template(layers)
     return layers
         .sortedBy { it.number }
         .joinToString("\n") { layer ->
-            template.format(*listOf(layer.name.const()).plus(layer.baseRows.map {
-                it.map {
+            template.format(*listOf(layer.name.const()).plus(layer.rows.mapIndexed { index, row ->
+                if (index == layer.rows.size - 1) {
+                    val drop = (row.size - thumbColumns) / 2
+                    row.drop(drop).take(thumbColumns)
+                } else {
+                    row
+                }.map {
                     it.keyWithModifier.padStart(
                         20
                     )
@@ -44,8 +51,8 @@ fun run(args: GeneratorArgs) {
     val translator = qmkTranslator(tables)
 
     val layers = translator.layerOptions.entries.map { (layerName, _) ->
-        val table = translator.nonThumbs[layerName]
-            ?: listOf(List(translator.options.nonThumbRows) { List(translator.options.nonThumbColumns) { "" } })
+        val table = translator.keys[layerName]
+            ?: listOf(List(translator.options.rows) { List(translator.options.nonThumbColumns) { "" } })
         readLayer(table, translator, layerName, translator.layerNumbers.getOrDefault(layerName, -1))
     }
 
@@ -64,7 +71,7 @@ fun run(args: GeneratorArgs) {
 
     tables.getOptional("Repeat")?.let {
         it.forEachIndexed { index, row ->
-            val pos = KeyPosition(0, index, 0, "alt repeat", false, 0)
+            val pos = KeyPosition(0, index, 0, "alt repeat", 0)
             addRepeat(translator, row, pos)
         }
     }

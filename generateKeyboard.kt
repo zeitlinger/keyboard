@@ -28,9 +28,8 @@ const val layerBlocked = "🛑"
 const val baseLayerName = "Base"
 
 data class Options(
-    val nonThumbRows: Int,
+    val rows: Int,
     val nonThumbColumns: Int,
-    val thumbColumns: Int,
     val homeRowPositions: Map<Int, Modifier>?,
 )
 
@@ -73,7 +72,7 @@ typealias Rows = List<List<Key>>
 
 data class Layer(
     val name: LayerName,
-    val baseRows: Rows,
+    val rows: Rows,
     val combos: List<Rows>,
     val number: Int,
     val option: LayerOption,
