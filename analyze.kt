@@ -25,6 +25,9 @@ val ignoreDuplicates = setOf(
     "shift",
     "f4",
     "\\",
+    "ä",
+    "ö",
+    "ü",
     "\uD83D\uDDB1\uFE0F1", //mouse button 1
     "\uD83D\uDDB1\uFE0F2", //mouse button 2
     "\uD83D\uDDB1\uFE0F3", //mouse button 3
