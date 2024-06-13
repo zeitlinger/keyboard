@@ -66,7 +66,7 @@ How to read this layout:
 |   n    |      g      |     k      |
 |   o    |      e      |            |
 |   p    |      l      |     s      |
-|   q    |      u      |            |
+|   q    |    "ua"     |            |
 |   r    |      k      |            |
 |   s    |      p      |            |
 |   t    |    "ion"    |   "hat"    |
@@ -123,7 +123,7 @@ How to read this layout:
 |  Base  |         |         |    1    |    2    |    3    |    4    |         |         |  
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |  pipe   |    *    |         |         |         |         |         |
-|  Base  |    $    |    #    |    @    |    !    |   🚀    |         |         |         |
+|  Base  |    $    |    #    |    @    |    !    |  CAPSW  |  .spc   |         |         |
 |  Base  |   🛑    |    &    |    ^    |    %    |         |         |         |   💎    |
 |  Base  |         |         |    5    |    6    |    7    |    8    |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -138,7 +138,7 @@ How to read this layout:
 | RMods  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Left  |         |         |         |         |         |         |         |         |
-|  Left  |         |         |         |         |  *Num   | *Media  |         |         |
+|  Left  |         |         |         |         | *Media  |         |         |         |
 |  Left  |    ß    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
 |  Left  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -149,17 +149,32 @@ How to read this layout:
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav   |         |         |         |  S-pst  |         |         |         |         |
 |  Nav   |         |         |         |   💎    |         |         |         |         |
-|  Nav   |         |         |         |   pst   |         |         |         |         |
+|  Nav   |         |         |         |   C-r   |         |         |         |         |
 |  Nav   |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav   |         |         |   win   |         |         |         |         |         |
 |  Nav   |         |         |   💎    |         |         |         |         |         |
-|  Nav   |         |         |  copy   |         |         |         |         |         |
+|  Nav   |         |         |   C-d   |         |         |         |         |         |
 |  Nav   |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav   |         |  CS-f   |         |         |         |         |         |         |
 |  Nav   |         |   💎    |         |         |         |         |         |         |
-|  Nav   |         |   cut   |         |         |         |         |         |         |
+|  Nav   |         |   C-a   |         |         |         |         |         |         |
+|  Nav   |         |         |         |         |         |         |         |         |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  Nav   |         |         |         |         |         |         |         |         |
+|  Nav   |         |  copy   |   💎    |   pst   |         |         |         |         |
+|  Nav   |         |         |         |         |         |         |         |         |
+|  Nav   |         |         |         |         |         |         |         |         |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  Nav   |         |         |         |         |         |         |         |         |
+|  Nav   |   💎    |   cut   |         |         |         |         |         |         |
+|  Nav   |         |         |         |         |         |         |         |         |
+|  Nav   |         |         |         |         |         |         |         |         |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  Nav   |         |   C-y   |   💎    |         |         |         |         |         |
+|  Nav   |         |         |         |         |         |         |         |         |
+|  Nav   |         |         |         |         |         |         |         |         |
 |  Nav   |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav2  |         |         |         |         |         |         |         |         |
@@ -182,7 +197,7 @@ How to read this layout:
 |  Case  |   🛑    |         |         |         | do.case |  CAPSL  | kb-case |         |
 |  Case  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Media  |  reset  |   🔅    |   🔆    |  ostog  |         |         |         |         |
+| Media  |  reset  |   🔅    |   🔆    |         |         |         |         |         |
 | Media  |   prt   |   🔈    |   🔊    |   🔇    |         |   🛑    |         |         |
 | Media  |   ver   |   ⏮️    |   ⏭️    |   ⏯️    |         |         |         |   🛑    |
 | Media  |         |         |         |         |         |         |         |         |
@@ -275,7 +290,7 @@ The order of the options is also the order of the layers in the layer stack.
 | tab ➡️  | custom:NEXT_TAB      NoHold           |
 | win ➡️  | custom:NEXT_WINDOW   NoHold           |
 | O-🖱️   | custom:ONE_SHOT_MOUSE LayerHint:Mouse |
-| 🚀      | custom:DOT_SPC                        |
+| .spc    | custom:DOT_SPC                        |
 | ver     | custom:PRINT_VERSION                  |
 | CAPSL   | KC_CAPS                               |
 | CAPSW   | custom:CAPS_WORDS                     |
@@ -286,7 +301,6 @@ The order of the options is also the order of the layers in the layer stack.
 | sl/case | custom:SLASH_CASE                     |
 | do.case | custom:DOT_CASE                       |
 | kb-case | custom:KEBAP_CASE                     |
-| ostog   | OS_TOGG                               |
 
 
 ## Generator
