@@ -89,9 +89,11 @@ fun layerKey(
     return when {
         activation == LayerActivation.Toggle -> toggleLayerKey(translator, layer, pos, null)
         activation.method != null -> Key(
-            QmkKey("${activation.method}(${
-                translator.reachLayer(layer, pos, activation).const()
-            })"),
+            QmkKey(
+                "${activation.method}(${
+                    translator.reachLayer(layer, pos, activation).const()
+                })"
+            ),
             pos
         )
 
@@ -111,28 +113,28 @@ fun toggleLayerKey(translator: QmkTranslator, layer: String, pos: KeyPosition, m
 
 fun keyWithModifier(def: String, translator: QmkTranslator, pos: KeyPosition): Key {
     val parts = def.split("-")
-    val modifier = parts[0]
+    val modifier = parts[0].toCharArray().map { Modifier.ofShort(it.toString()) }.toTypedArray()
     val target = parts[1]
     if (translator.layerOptions[target] != null) {
-        return toggleLayerKey(translator, target, pos, Modifier.ofShort(modifier))
+        return toggleLayerKey(translator, target, pos, modifier.single())
     }
     val key = translateKey(translator, pos, target, false)
     return if (key.keyWithModifier.key.contains("(")) {
-        Key(tapCustomKey(translator, addMods(modifier, key.key)), pos)
+        Key(tapCustomKey(translator, addMods(key.key, *modifier)), pos)
     } else {
-        Key(addMods(modifier, key.key), pos)
+        Key(addMods(key.key, *modifier), pos)
     }
 }
 
-fun addMods(modifier: String, key: QmkKey): QmkKey =
-    QmkKey(when (modifier) {
-        "A" -> "A(${key})"
-        "C" -> "C(${key})"
-        "S" -> "S(${key})"
-        "CA" -> "LCA(${key})"
-        "CS" -> "RCS(${key})"
-        else -> throw IllegalStateException("unknown modifier '$modifier'")
-    })
+fun addMods(key: QmkKey, vararg modifier: Modifier): QmkKey =
+    QmkKey(
+        if (modifier.size == 1) "${modifier[0].short}($key)" else
+            when (modifier.toSet()) {
+                setOf(Modifier.Alt, Modifier.Ctrl) -> "LCA(${key})"
+                setOf(Modifier.Shift, Modifier.Ctrl) -> "RCS(${key})"
+                else -> throw IllegalStateException("unknown modifier '$modifier'")
+            }
+    )
 
 fun translateSimpleKey(translator: QmkTranslator, def: String, pos: KeyPosition): Key {
     val key = translator.toQmk(def, pos)
@@ -175,7 +177,7 @@ fun getFallbackIfNeeded(
         }
         if (srcLayerOption != null) {
             if (srcLayerOption.flags.contains(LayerFlag.Shifted)) {
-                return "S(${translateKey(translator, pos, k, false).key})"
+                return shifted(translateKey(translator, pos, k, false).key).key
             }
             return k
         }

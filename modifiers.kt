@@ -1,9 +1,7 @@
-enum class Modifier(val mask: String, val leftKey: QmkKey) {
-    Ctrl("MOD_LCTL", QmkKey("KC_LCTL")),
-    Shift("MOD_LSFT", QmkKey("KC_LSFT")),
-    Alt("MOD_LALT", QmkKey("KC_LALT"));
-
-    val short = this.name[0].uppercase()
+enum class Modifier(val mask: String, val leftKey: QmkKey, val tapKey: String, val short: String) {
+    Ctrl("MOD_LCTL", QmkKey("KC_LCTL"), "CTL_T", "C"),
+    Shift("MOD_LSFT", QmkKey("KC_LSFT"), "SFT_T", "S"),
+    Alt("MOD_LALT", QmkKey("KC_LALT"), "ALT_T", "A"),;
 
     companion object {
         fun ofLong(value: String): Modifier = valueOf(value)
@@ -89,13 +87,7 @@ private fun modTapKey(
     }
     else -> {
         val simpleKey = addCustomIfNotSimpleKey(key, translator)
-        QmkKey(
-            when (mod) {
-                Modifier.Alt -> "ALT_T($simpleKey)"
-                Modifier.Ctrl -> "CTL_T($simpleKey)"
-                Modifier.Shift -> "SFT_T($simpleKey)"
-            }
-        )
+        QmkKey("${mod.tapKey}($simpleKey)")
     }
 }
 

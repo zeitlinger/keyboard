@@ -137,7 +137,7 @@ private fun combos(
     }
 }
 
-fun shifted(content: QmkKey): QmkKey = addMods("S", content)
+fun shifted(content: QmkKey): QmkKey = addMods(content, Modifier.Shift)
 
 fun isLetter(content: QmkKey) = content.key.startsWith("KC_") && content.key.length == 4 && content.key[3].isLetter()
 
