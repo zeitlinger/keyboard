@@ -55,6 +55,7 @@ data class LayerOption(
     val leftFallbackLayer: LayerName?,
     val rightFallbackLayer: LayerName?,
     var flags: Set<LayerFlag>,
+    val comboTimeout: Int?,
     var reachable: Set<LayerActivation>,
 )
 

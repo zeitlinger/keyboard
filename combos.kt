@@ -109,7 +109,7 @@ private fun combos(
         name,
         content,
         triggers,
-        timeout
+        timeout ?: layer.option.comboTimeout ?: throw IllegalStateException("no timeout for layer ${layer.name}")
     )
     val shiftLayer = layers.singleOrNull { l ->
         LayerFlag.Shifted in l.option.flags &&

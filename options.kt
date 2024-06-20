@@ -83,6 +83,7 @@ private fun layerOption(tables: Tables): Map<LayerName, LayerOption> = tables.ge
                 "" -> emptySet()
                 else -> throw IllegalStateException("unknown flag ${it.value[5]}")
             },
+            it.value[6].takeUnless { it.isBlank() }?.toInt(),
             emptySet(),
         )
     }

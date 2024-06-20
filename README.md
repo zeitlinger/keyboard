@@ -1,4 +1,4 @@
-`# Hands Down Vibranium Keyboard
+# Hands Down Vibranium Keyboard
 
 ### Credits
 
@@ -51,7 +51,7 @@ How to read this layout:
 | Repeat | Alt Repeat  | Repeat Key |
 |:------:|:-----------:|:----------:|
 |   a    |      u      |            |
-|   b    |      l      |  "ecauce"  |
+|   b    |      l      |  "ecause"  |
 |   c    |      k      |            |
 |   d    |    "oes"    |     v      |
 |   e    |      o      |            |
@@ -118,12 +118,12 @@ How to read this layout:
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |    <    |    >    |         |
-|  Base  |         |         |    9    |    0    |    _    |    {    |    }    |    :    |
+|  Base  |         |         |  9 50   |  0 50   |    _    |    {    |    }    |    :    |
 |  Base  |   💎    |         |         |         |    ~    |    \    |    +    |    ?    |
 |  Base  |         |         |    1    |    2    |    3    |    4    |         |         |  
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |  pipe   |    *    |         |         |         |         |         |
-|  Base  |    $    |    #    |    @    |    !    |  CAPSW  |  .spc   |         |         |
+|  Base  |  $ 18   |    #    |    @    |    !    | CAPW 50 | .spc 50 |         |         |
 |  Base  |   🛑    |    &    |    ^    |    %    |         |         |         |   💎    |
 |  Base  |         |         |    5    |    6    |    7    |    8    |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -142,7 +142,7 @@ How to read this layout:
 |  Left  |    ß    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
 |  Left  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav   |   f4    |   C-f   |  A-f7   |  redo   |         |   esc   |   ins   |         |
+|  Nav   |         |   C-f   |  A-f7   |  redo   |         |   esc   |   ins   |         |
 |  Nav   |  *Nav2  |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
 |  Nav   |  undo   |   C-w   | tab ➡️  | win ➡️  |   ↩️️   |  bspc   |   del   |   spc   |
 |  Nav   |         |         |   🛑    |   🛑    |   tab   |         |         |         |    
@@ -160,6 +160,11 @@ How to read this layout:
 |  Nav   |         |  CS-f   |         |         |         |         |         |         |
 |  Nav   |         |   💎    |         |         |         |         |         |         |
 |  Nav   |         |   C-a   |         |         |         |         |         |         |
+|  Nav   |         |         |         |         |         |         |         |         |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  Nav   |         |         |         |         |         |         |         |         |
+|  Nav   |   💎    |         |         |         |         |         |         |         |
+|  Nav   |   C-n   |         |         |         |         |         |         |         |
 |  Nav   |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav   |         |         |         |         |         |         |         |         |
@@ -193,7 +198,7 @@ How to read this layout:
 |  Num   |         |         |         |    0    |   🛑    |   🛑    |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Case  |         |         |         |         |         | PasCase | SN_CASE |         |
-|  Case  |         |         |         |   🛑    | sl/case | camCase | sn_case |  CAPSW  |
+|  Case  |         |         |         |   🛑    | sl/case | camCase | sn_case |  CAPW   |
 |  Case  |   🛑    |         |         |         | do.case |  CAPSL  | kb-case |         |
 |  Case  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -217,21 +222,21 @@ How to read this layout:
 
 The order of the options is also the order of the layers in the layer stack.
 
-| LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags   |
-|:------------:|:---------------:|:---------------:|:-------------:|:--------------:|---------|
-|     Base     |                 |                 |               |                |         |
-|     Left     |                 | BottomRow+LMods |     Base      |                | Shifted |
-|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted |
-|    LMods     |                 | BottomRow+LMods |     Base      |                |         |
-|    RMods     | BottomRow+RMods |                 |               |      Base      |         |
-|     Nav      |     HomeRow     |                 |               |                |         |
-|     Nav2     |     HomeRow     |                 |               |                |         |
-|      Fn      |     HomeRow     |     HomeRow     |               |                |         |
-|     Num      |                 |     HomeRow     |               |                |         |
-|    Mouse     |    BottomRow    |                 |               |                |         |
-|    Mouse2    |                 |                 |               |                |         |
-|     Case     |                 |                 |               |                |         |
-|    Media     |                 |                 |               |                |         |
+| LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags   | Combo Timeout |
+|:------------:|:---------------:|:---------------:|:-------------:|:--------------:|---------|:-------------:|
+|     Base     |                 |                 |               |                |         |      25       |
+|     Left     |                 | BottomRow+LMods |     Base      |                | Shifted |               |
+|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted |               |
+|    LMods     |                 | BottomRow+LMods |     Base      |                |         |               |
+|    RMods     | BottomRow+RMods |                 |               |      Base      |         |               |
+|     Nav      |     HomeRow     |                 |               |                |         |      50       |
+|     Nav2     |     HomeRow     |                 |               |                |         |               |
+|      Fn      |     HomeRow     |     HomeRow     |               |                |         |               |
+|     Num      |                 |     HomeRow     |               |                |         |               |
+|    Mouse     |    BottomRow    |                 |               |                |         |               |
+|    Mouse2    |                 |                 |               |                |         |               |
+|     Case     |                 |                 |               |                |         |               |
+|    Media     |                 |                 |               |                |         |               |
 
 ## Symbols
 
@@ -293,7 +298,7 @@ The order of the options is also the order of the layers in the layer stack.
 | .spc    | custom:DOT_SPC                        |
 | ver     | custom:PRINT_VERSION                  |
 | CAPSL   | KC_CAPS                               |
-| CAPSW   | custom:CAPS_WORDS                     |
+| CAPW    | custom:CAPS_WORDS                     |
 | sn_case | custom:SNAKE_CASE                     |
 | SN_CASE | custom:SCREAMING_SNAKE_CASE           |
 | camCase | custom:CAMEL_CASE                     |
