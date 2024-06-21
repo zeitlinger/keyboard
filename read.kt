@@ -37,7 +37,7 @@ fun translateKey(
 ): Key = getFallbackIfNeeded(command, translator, pos, null, recordUsage)
     .let { def ->
         LayerActivation.entries
-            .firstOrNull { def.length > 1 && it.prefix != null && def.startsWith(it.prefix) }
+            .firstOrNull { def.length > 1 && def[1] != ' ' && it.prefix != null && def.startsWith(it.prefix) }
             ?.let { activation -> layerKey(translator, pos, def.substring(1), activation) }
             ?: when {
                 //comes first, so that we can override the meaning of + and -
