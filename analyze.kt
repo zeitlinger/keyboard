@@ -4,7 +4,7 @@ fun analyze(translator: QmkTranslator, layers: List<Layer>) {
         throw IllegalStateException("unexpected layer $it")
     }
     translator.layerOptions.entries.forEach { (layer, option) ->
-        if (LayerActivation.Toggle in option.reachable && LayerFlag.Toggle !in option.flags) {
+        if (option.reachable.any { it.canToggle() } && LayerFlag.Toggle !in option.flags) {
             throw IllegalStateException("can't exit from layer $layer")
         }
     }

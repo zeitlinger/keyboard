@@ -39,7 +39,8 @@ How to read this layout:
 - empty = use key from base layer
 - FnBra = capitalized words are layer names - if they are a key, the layer is activated as toggled or one shot layer (if the "OneShot" flag is set in the layer flags)
 - /+Ctrl = tab-mod - / on tab and CTRL on hold
-- *Mouse = layer is active while key is held (double tap to lock layer)
+- *Mouse = layer is active while key is held
+- $Mouse = layer is active while key is held (double tap to lock layer)
 - #Mouse = toggle layer
 - @Num = layer is active for the next keypress
 - C-w = Ctrl-w (same for Alt and Shift)
@@ -90,7 +91,7 @@ How to read this layout:
 |  Base  |   esc   |    p    |    m    |   f15   |   f16   | repeat  | altRep  |         |
 |  Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 |  Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
-|  Base  |         |         |  *Nav   |    r    |   spc   |   @Fn   |         |         |
+|  Base  |         |         |  $Nav   |    r    |   spc   |   @Fn   |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |  O-🖱️  |   💎    |         |
 |  Base  |         |         |         |         |         |         |         |         |
@@ -120,7 +121,7 @@ How to read this layout:
 |  Base  |         |         |         |         |         |    <    |    >    |         |
 |  Base  |         |         |         |         |    _    |    {    |    }    |    :    |
 |  Base  |         |         |         |         |    ~    |    \    |    +    |    ?    |
-|  Base  |         |         |         |   💎    |         |         |         |         |  
+|  Base  |         |         |   💎    |         |         |         |         |         |  
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |  pipe   |    *    |         |         |         |         |         |
 |  Base  |    $    |    #    |    @    |    !    |         |         |         |         |
@@ -133,9 +134,9 @@ How to read this layout:
 |  Base  |         |         |    1    |    2    |    3    |    4    |         |         |  
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |         |         |         |  6 50   | .spc 50 |         |         |
+|  Base  |         |         |         |         |  5 50   |  6 50   |         |         |
 |  Base  |   🛑    |         |         |         |         |         |         |   💎    |
-|  Base  |         |         |    5    |         |    7    |    8    |         |         |
+|  Base  |         |         |         |         |    7    |    8    |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right  |         |         |         |         |         |    ä    |    ö    |         |
 | Right  |         |         |         |  *Case  |         |         |         |         |
@@ -155,7 +156,7 @@ How to read this layout:
 |  Nav   |         |   C-f   |  A-f7   |  redo   |         |   esc   |   ins   |         |
 |  Nav   |  *Nav2  |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
 |  Nav   |  undo   |   C-w   | tab ➡️  | win ➡️  |   ↩️️   |  bspc   |   del   |   spc   |
-|  Nav   |         |         |   🛑    |   🛑    |   tab   |         |         |         |    
+|  Nav   |         |         |   --    |   🛑    |   tab   |         |         |         |    
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav   |         |         |         |  S-pst  |         |         |         |         |
 |  Nav   |         |         |         |   💎    |         |         |         |         |

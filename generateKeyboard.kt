@@ -35,10 +35,17 @@ data class Options(
 
 enum class LayerActivation(val prefix: String?, val method: String?) {
     Toggle("#", null),
-    Hold("*", "TT"),
+    Hold("*", "MO"),
+    TapToggle("$", "TT"),
     OneShot("@", "OSL"),
     TapHold(null, null),
-    ModTap(null, null),
+    ModTap(null, null);
+
+    fun canToggle() = when (this) {
+        Toggle -> true
+        TapToggle -> true
+        else -> false
+    }
 }
 
 enum class LayerFlag { Shifted, Toggle }
