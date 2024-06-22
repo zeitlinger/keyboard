@@ -35,7 +35,7 @@ data class Options(
 
 enum class LayerActivation(val prefix: String?, val method: String?) {
     Toggle("#", null),
-    Hold("*", "MO"),
+    Hold("*", "TT"),
     OneShot("@", "OSL"),
     TapHold(null, null),
     ModTap(null, null),

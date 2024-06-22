@@ -39,7 +39,7 @@ How to read this layout:
 - empty = use key from base layer
 - FnBra = capitalized words are layer names - if they are a key, the layer is activated as toggled or one shot layer (if the "OneShot" flag is set in the layer flags)
 - /+Ctrl = tab-mod - / on tab and CTRL on hold
-- *Mouse = layer is active while key is held
+- *Mouse = layer is active while key is held (double tap to lock layer)
 - #Mouse = toggle layer
 - @Num = layer is active for the next keypress
 - C-w = Ctrl-w (same for Alt and Shift)
