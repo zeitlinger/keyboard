@@ -32,8 +32,7 @@ fun generateBase(layers: List<Layer>): String {
         .joinToString("\n") { layer ->
             template.format(*listOf(layer.name.const()).plus(layer.rows.mapIndexed { index, row ->
                 if (index == layer.rows.size - 1) {
-                    val drop = (row.size - thumbColumns) / 2
-                    row.drop(drop).take(thumbColumns)
+                    row.drop(2).take(thumbColumns - 2) + row.drop(row.size - 2 - (thumbColumns / 2)).take(thumbColumns - 2)
                 } else {
                     row
                 }.map {
