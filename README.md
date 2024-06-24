@@ -131,7 +131,7 @@ How to read this layout:
 |  Left  |         |         |         |         |      |      |         |         |         |         |
 |  Left  |         |         |    9    |    0    |      |      |    5    |    6    | *Media  |         |
 |  Left  |    ß    |         |         |         |      |      |   🛑    |   🛑    |   🛑    |   🛑    |
-|  Left  |         |         |         |         |      |      |    7    |    8    |         |         |
+|  Left  |         |         |  .spc   |         |      |      |    7    |    8    |         |         |
 |        | ------- | ------- | ------- | ------- |      |      | ------- | ------- | ------- | ------- |
 |  Sym   |         |  pipe   |    *    |         |      |      |         |    <    |    >    |         |
 |  Sym   |    $    |    #    |    @    |    !    |      |      |    _    |    {    |    }    |    :    |
@@ -220,7 +220,7 @@ The order of the options is also the order of the layers in the layer stack.
 |    Right     | BottomRow+RMods |                 |               |      Base      | Shifted |               |
 |    LMods     |                 | BottomRow+LMods |     Base      |                |         |               |
 |    RMods     | BottomRow+RMods |                 |               |      Base      |         |               |
-|     Nav      |     HomeRow     |                 |               |                |         |               |
+|     Nav      |     HomeRow     |                 |               |                |         |      50       |
 |     Nav2     |     HomeRow     |                 |               |                |         |               |
 |      Fn      |     HomeRow     |     HomeRow     |               |                |         |               |
 |     Num      |                 |     HomeRow     |               |                |         |               |
