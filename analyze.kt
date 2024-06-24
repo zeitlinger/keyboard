@@ -25,6 +25,8 @@ val ignoreDuplicates = setOf(
     "shift",
     "\\",
     "CAPW",
+    "--",
+    "@Sym",
     "ä",
     "ö",
     "ü",
