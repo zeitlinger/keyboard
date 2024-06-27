@@ -121,7 +121,17 @@ How to read this layout:
 | Right  |         |         |         |         |      |      |         |    ä    |    ö    |         |
 | Right  |         |  *Case  |    9    |    0    |      |      |         |         |         |         |
 | Right  |   🛑    |   🛑    |   🛑    |   🛑    |      |      |         |         |         |    ü    |
-| Right  |         |         |    1    |    2    |      |      |    3    |    4    |         |         |
+| Right  |         |         |    1    |    2    |      |      |   spc   |    3    |         |         |
+|        | ------- | ------- | ------- | ------- |      |      | ------- | ------- | ------- | ------- |
+| Right  |         |         |         |         |      |      |         |    "    |         |         |
+| Right  |         |         |         |         |      |      |         |   💎    |         |         |
+| Right  |         |         |         |         |      |      |         |  CAPW   |         |         |
+| Right  |         |         |         |         |      |      |         |         |         |         |
+|        | ------- | ------- | ------- | ------- |      |      | ------- | ------- | ------- | ------- |
+| Right  |         |         |         |         |      |      |         |         |         |         |
+| Right  |         |         |         |         |      |      |         |         |   💎    |         |
+| Right  |         |         |         |         |      |      |         |         |  .spc   |         |
+| Right  |         |         |         |         |      |      |         |         |         |         |
 |        | ------- | ------- | ------- | ------- |      |      | ------- | ------- | ------- | ------- |
 | RMods  |         |         |         |         |      |      |         |    ä    |    ö    |         |
 | RMods  |         |         |         |         |      |      |         |         |         |         |
@@ -131,17 +141,17 @@ How to read this layout:
 |  Left  |         |         |         |         |      |      |         |         |         |         |
 |  Left  |         |         |         |         |      |      |    5    |    6    | *Media  |         |
 |  Left  |    ß    |         |         |         |      |      |   🛑    |   🛑    |   🛑    |   🛑    |
-|  Left  |         |         |  .spc   |         |      |      |    7    |    8    |         |         |
+|  Left  |         |         |    4    |         |      |      |    7    |    8    |         |         |
 |        | ------- | ------- | ------- | ------- |      |      | ------- | ------- | ------- | ------- |
 |  Sym   |         |  pipe   |    *    |         |      |      |         |    <    |    >    |         |
 |  Sym   |    $    |    #    |    @    |    !    |      |      |    _    |    {    |    }    |    :    |
 |  Sym   |         |    &    |    ^    |    %    |      |      |    ~    |    \    |    +    |    ?    |
 |  Sym   |         |         |         |         |      |      |         |         |         |         |
 |        | ------- | ------- | ------- | ------- |      |      | ------- | ------- | ------- | ------- |
-|  Nav   |   spc   |  copy   |   pst   |  redo   |      |      |         |   esc   |   ins   |         |
-|  Nav   | ct+Nav2 |   🛑    |   🛑    |   🛑    |      |      |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
+|  Nav   |   spc   |   ct    |   pst   |  redo   |      |      |         |   esc   |   ins   |         |
+|  Nav   | cp+Nav2 |   🛑    |   🛑    |   🛑    |      |      |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
 |  Nav   |  undo   |   C-w   | tab ➡️  | win ➡️  |      |      |   ↩️️   |  bspc   |   del   |   spc   |
-|  Nav   |         |         |   --    |   🛑    |      |      |   tab   |  CAPW   |         |         |    
+|  Nav   |         |         |   --    |   🛑    |      |      |   tab   |  S-tab  |         |         |    
 |        | ------- | ------- | ------- | ------- |      |      | ------- | ------- | ------- | ------- |
 |  Nav   |         |         |         |  S-pst  |      |      |         |         |         |         |
 |  Nav   |         |         |         |   💎    |      |      |         |         |         |         |
@@ -217,7 +227,7 @@ The order of the options is also the order of the layers in the layer stack.
 |:------------:|:---------------:|:---------------:|:-------------:|:--------------:|---------|:-------------:|
 |     Base     |                 |                 |               |                |         |      25       |
 |     Left     |                 | BottomRow+LMods |     Base      |                | Shifted |               |
-|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted |               |
+|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted |      50       |
 |    LMods     |                 | BottomRow+LMods |     Base      |                |         |               |
 |    RMods     | BottomRow+RMods |                 |               |      Base      |         |               |
 |     Nav      |     HomeRow     |                 |               |                |         |      50       |
@@ -250,6 +260,7 @@ The order of the options is also the order of the layers in the layer stack.
 | bspc    | KC_BSPC                               |
 | win     | KC_LGUI                               |
 | tab     | KC_TAB                                |
+| S-tab   | S(KC_TAB)                             |
 | prt     | KC_PSCR                               |
 | pipe    | KC_PIPE                               |
 | 🖱️⬅️   | KC_MS_L                               |
@@ -276,7 +287,7 @@ The order of the options is also the order of the layers in the layer stack.
 | undo    | C(KC_Z)                               |
 | S-pst   | RCS(KC_V)                             |
 | ct      | C(KC_X)                               |
-| copy    | C(KC_C)                               |
+| cp      | C(KC_C)                               |
 | pst     | C(KC_V)                               |
 | ä       | UP(UMLAUT_a, UMLAUT_A)                |
 | ö       | UP(UMLAUT_o, UMLAUT_O)                |
