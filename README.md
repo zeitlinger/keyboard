@@ -88,10 +88,10 @@ How to read this layout:
 
 | Layer  | L. Pin. | L. Ring | L. Mid. | L. Ind. |      |      | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:------:|:-------:|:-------:|:-------:|:-------:|------|------|:-------:|:-------:|:-------:|:-------:|
-|  Base  |   esc   |    p    |    m    |   win   |      |      |   f16   | repeat  | altRep  |         |
+|  Base  |   esc   |    p    |    m    |   win   |      |      |   f16   | repeat  | altRep  |  reset  |
 |  Base  |    s    |    c    |    n    |    t    | @Sym | @Sym |    a    |    e    |    i    |    h    |
 |  Base  | *Right  |    f    |    l    |    d    |      |      |    u    |    o    |    y    |  *Left  |
-|  Base  |         |         |  $Nav   |    r    |      |      |   spc   |   @Fn   |         |         |
+|  Base  |         |         |  *Nav   |    r    |      |      |   spc   |   *Fn   |         |         |
 |        | ------- | ------- | ------- | ------- |      |      | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |      |      |         |  O-🖱️  |   💎    |         |
 |  Base  |         |         |         |         |      |      |         |         |         |         |
