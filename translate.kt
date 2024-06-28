@@ -68,7 +68,7 @@ class QmkTranslator(
             assertTargetOrder(layerName, pos)
         }
         if (pos.layerName != layerName) {
-            option.reachable += activation
+            option.reachable[pos] = activation
         }
 
         return LayerRef(layerName, number, option)

@@ -118,19 +118,32 @@ private fun combos(
 
     return when {
         shiftLayer != null && isLetter(content) -> {
-            listOf(combo) + combos(
+            val shiftLayerTimeout =
+                shiftLayer.option.comboTimeout ?: throw IllegalStateException("no timeout for layer ${shiftLayer.name}")
+            val shifted = combos(
                 type,
-                "S$name",
+                "S_$name",
                 shifted(content),
                 triggers.map { t ->
                     val position = t.pos.layerRelative()
                     shiftLayer.rows.flatten().first { it.pos.layerRelative() == position }
                 },
-                timeout,
+                shiftLayerTimeout,
                 translator,
                 emptyList(), // prevent recursion
                 layer
             )
+            val directShifted = combos(
+                type,
+                "DS_$name",
+                shifted(content),
+                triggers + layer.get(shiftLayer.option.reachable.keys.single()),
+                shiftLayerTimeout,
+                translator,
+                emptyList(), // prevent recursion
+                layer
+            )
+            listOf(combo) + shifted + directShifted
         }
 
         else -> listOf(combo)

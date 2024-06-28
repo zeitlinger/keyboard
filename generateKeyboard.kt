@@ -63,7 +63,7 @@ data class LayerOption(
     val rightFallbackLayer: LayerName?,
     var flags: Set<LayerFlag>,
     val comboTimeout: Int?,
-    var reachable: Set<LayerActivation>,
+    var reachable: MutableMap<KeyPosition, LayerActivation>,
 )
 
 data class Key(
@@ -84,4 +84,6 @@ data class Layer(
     val combos: List<Rows>,
     val number: Int,
     val option: LayerOption,
-)
+)  {
+    fun get(pos: KeyPosition): Key = rows[pos.row][pos.column]
+}
