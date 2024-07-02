@@ -27,7 +27,7 @@ fun generateAllCombos(layers: List<Layer>, translator: QmkTranslator): List<Comb
     }.also { checkForDuplicateCombos(it) }
 
 private fun checkForDuplicateCombos(combos: List<Combo>) {
-    combos.groupBy { it.triggers }
+    combos.groupBy { it.triggers.map { it.key.key } }
         .filter { it.value.size > 1 }
         .forEach { (triggers, combos) ->
             throw IllegalStateException(
@@ -54,7 +54,7 @@ private fun generateCombos(
     layers: List<Layer>,
 ): List<Combo> {
     val options = translator.options
-    return hands.flatMap { hand ->
+    val custom = hands.flatMap { hand ->
         activationParts
             .filter { hand.applies(it, options) }
             .flatMap { def ->
@@ -68,6 +68,25 @@ private fun generateCombos(
                 )
             }
     }.distinct()
+
+    val direct = layer.option.reachable.entries.flatMapIndexed { index, (position, activation) ->
+        val base = layers[0]
+        layerBase.flatten()
+            // only if the layer can be reached directly from the base layer
+            .filter { it.isReal() &&
+                    it.key !in translator.symbols.noHoldKeys &&
+                    position.layerName == baseLayerName &&
+                    activation != LayerActivation.Toggle }
+            .flatMap { key ->
+                val triggers = listOf(key.pos, position).map { base.get(it) }
+                if (LayerActivation.entries.any { it.method != null && triggers[0].key.key.startsWith(it.method) }) {
+                    emptyList()
+                } else {
+                    combos(key, triggers, translator, layer, layers, index.toString(), false)
+                }
+            }
+    }
+    return custom + direct
 }
 
 private fun generateCustomCombos(
@@ -81,17 +100,29 @@ private fun generateCustomCombos(
     val definition = getLayerPart(def, hand, translator.options)
     val comboIndexes = definition.mapIndexedNotNull { index, s -> if (s.key.key == comboTrigger) index else null }
 
-    return definition.flatMapIndexed { comboIndex, k ->
-        val key = k.key
-        if (!(k.isBlocked() || key.key == comboTrigger || key.key == "KC_TRNS" || key.isNo)) {
+    return definition.flatMapIndexed { comboIndex, key ->
+        if (key.isReal()) {
             val keys = layerBase
                 .filterIndexed { index, _ -> index == comboIndex || index in comboIndexes }
 
-            val type = if (key.substitutionCombo != null) ComboType.Substitution else ComboType.Combo
-            val name = comboName(layer.name, key.key)
-            combos(type, name, key, keys, k.comboTimeout, translator, layers, layer)
+            combos(key, keys, translator, layer, layers, "", true)
         } else emptyList()
     }.filter { it.triggers.size > 1 }
+}
+
+private fun combos(
+    key: Key,
+    triggers: List<Key>,
+    translator: QmkTranslator,
+    layer: Layer,
+    layers: List<Layer>,
+    suffix: String,
+    generateDirect: Boolean,
+): List<Combo> {
+    val qmkKey = key.key
+    val type = if (qmkKey.substitutionCombo != null) ComboType.Substitution else ComboType.Combo
+    val name = comboName(layer.name, qmkKey.key) + suffix
+    return combos(type, name, qmkKey, triggers, key.comboTimeout, translator, layers, layer, generateDirect)
 }
 
 private fun combos(
@@ -103,14 +134,31 @@ private fun combos(
     translator: QmkTranslator,
     layers: List<Layer>,
     layer: Layer,
+    generateDirect: Boolean,
 ): List<Combo> {
+    val keyTimeout =
+        timeout ?: layer.option.comboTimeout ?: throw IllegalStateException("no timeout for layer ${layer.name}")
     val combo = Combo.of(
         type,
         name,
         content,
         triggers,
-        timeout ?: layer.option.comboTimeout ?: throw IllegalStateException("no timeout for layer ${layer.name}")
+        keyTimeout
     )
+
+    val direct = if(generateDirect) layer.option.reachable.keys.mapIndexed { index, position ->
+        val base = layers[0]
+        Combo.of(
+            type,
+            "D${index}_$name",
+            content,
+            (triggers.map { it.pos } + position).map { base.get(it) },
+            keyTimeout,
+        )
+    }  else emptyList()
+
+    val combos = listOf(combo) + direct
+
     val shiftLayer = layers.singleOrNull { l ->
         LayerFlag.Shifted in l.option.flags &&
                 fallbackLayer(triggers[0].pos, l.option) == layer.name
@@ -131,7 +179,8 @@ private fun combos(
                 shiftLayerTimeout,
                 translator,
                 emptyList(), // prevent recursion
-                layer
+                layer,
+                false
             )
             val directShifted = combos(
                 type,
@@ -141,12 +190,13 @@ private fun combos(
                 shiftLayerTimeout,
                 translator,
                 emptyList(), // prevent recursion
-                layer
+                layer,
+                false
             )
-            listOf(combo) + shifted + directShifted
+            combos + shifted + directShifted
         }
 
-        else -> listOf(combo)
+        else -> combos
     }
 }
 
@@ -159,7 +209,7 @@ fun comboName(vararg parts: String): String {
         parts.toList().joinToString("_") {
             it.uppercase()
                 .replace(".", "_")
-                .replace(Regex("[()\"]"), "")
+                .replace(Regex("[()\", ]"), "")
         }
     }"
 }

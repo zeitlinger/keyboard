@@ -73,6 +73,10 @@ data class Key(
     val comboTimeout: Int? = null,
 ) {
     fun isBlocked(): Boolean = keyWithModifier.isNo
+
+    fun isReal(): Boolean {
+        return !(isBlocked() || key.key == comboTrigger || key.key == "KC_TRNS" || key.isNo)
+    }
 }
 
 
@@ -84,6 +88,6 @@ data class Layer(
     val combos: List<Rows>,
     val number: Int,
     val option: LayerOption,
-)  {
+) {
     fun get(pos: KeyPosition): Key = rows[pos.row][pos.column]
 }
