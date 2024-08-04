@@ -79,14 +79,14 @@ private fun layerCombos(
                     activation != LayerActivation.Toggle }
             .flatMap { key ->
                 val triggers = listOf(key.pos, position).map { base.get(it) }
-//                if (LayerActivation.entries.any { it.method != null && triggers[0].key.key.startsWith(it.method) }) {
-//                    emptyList()
-//                } else {
+                if (LayerActivation.entries.any { it.method != null && triggers[0].key.key.startsWith(it.method) }) {
+                    emptyList()
+                } else {
                     keyCombos(key, triggers, translator, layer, layers, index.toString(), false)
-//                }
+                }
             }
     }
-    return custom + direct
+    return custom // + direct
 }
 
 private fun customLayerCombos(
