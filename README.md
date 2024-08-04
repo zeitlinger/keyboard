@@ -93,7 +93,7 @@ How to read this layout:
 |  Base  |   esc   |    p    |    m    |   win   |   f16   | repeat  | altRep  |  reset  |
 |  Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 |  Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
-|  Base  |         |         | Cse/Nav |    r    |   spc   | Sym/Fn  |         |         |
+|  Base  |         |         | SC/Nav  |    r    |   spc   | Sym/Fn  |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |  O-🖱️  |   💎    |         |
 |  Base  |         |         |         |         |         |         |         |         |
@@ -121,7 +121,7 @@ How to read this layout:
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right  |         |         |         |         |         |    ä    |    ö    |         |
-| Right  |         |         |    9    |    0    |         |         |         |         |
+| Right  |         |  *Case  |    9    |    0    |         |         |         |         |
 | Right  |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |    ü    |
 | Right  |         |         |    1    |    2    |   spc   |    3    |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -139,6 +139,11 @@ How to read this layout:
 |  Sym   |    $    |    #    |    @    |    !    |    _    |    {    |    }    |    :    |
 |  Sym   |         |    &    |    ^    |    %    |    ~    |    \    |    +    |    ?    |
 |  Sym   |         |         |         |         |         |         |         |         |
+|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|   SC   |         |         |         |         |         |         |         |         |
+|   SC   |         |         |         |         |         |   C-[   |   C-]   |         |
+|   SC   |         |         |         |         |         |         |         |  .spc   |
+|   SC   |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav   |   spc   |   ct    |   pst   |  redo   |         |   esc   |   ins   |         |
 |  Nav   | cp+Nav2 |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
@@ -190,10 +195,10 @@ How to read this layout:
 |  Num   |    8    |    7    |    6    |    5    |         |         |         |         |
 |  Num   |         |         |         |    0    |   🛑    |   🛑    |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Cse   |         |         |         |         |         | PasCase | SN_CASE |         |
-|  Cse   |         |         |         |         | sl/case | camCase | sn_case |  CAPW   |
-|  Cse   |         |         |         |         | do.case |  CAPSL  | kb-case |  .spc   |
-|  Cse   |         |         |         |         |         |         |         |         |
+|  Case  |         |         |         |         |         | PasCase | SN_CASE |         |
+|  Case  |         |         |         |         | sl/case | camCase | sn_case |  CAPW   |
+|  Case  |         |         |         |         | do.case |  CAPSL  | kb-case |         |
+|  Case  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Media  |         |   🔅    |   🔆    |         |         |         |         |         |
 | Media  |   prt   |   🔈    |   🔊    |   🔇    |         |   🛑    |         |         |
@@ -228,9 +233,10 @@ The order of the options is also the order of the layers in the layer stack.
 |     Num      |                 |     HomeRow     |               |                |         |               |
 |    Mouse     |    BottomRow    |                 |               |                |         |               |
 |    Mouse2    |                 |                 |               |                |         |               |
-|     Cse      |                 |                 |               |                |         |               |
+|     Case     |                 |                 |               |                |         |               |
 |    Media     |                 |                 |               |                |         |               |
 |     Sym      |                 |                 |               |                |         |               |
+|      SC      |                 |                 |               |                |         |               |
 
 ## Symbols
 
