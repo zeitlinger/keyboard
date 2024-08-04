@@ -91,7 +91,7 @@ How to read this layout:
 |  Base  |   esc   |    p    |    m    |   win   |     |     |   f16   | repeat  | altRep  |  reset  |
 |  Base  |    s    |    c    |    n    |    t    | @SR | @SL |    a    |    e    |    i    |    h    |
 |  Base  | *Right  |    f    |    l    |    d    |     |     |    u    |    o    |    y    |  *Left  |
-|  Base  |         |         |  *Nav   |    r    |     |     |   spc   |   @Fn   |         |         |
+|  Base  |         |         |  @Nav   |    r    |     |     |   spc   |   @Fn   |         |         |
 |        | ------- | ------- | ------- | ------- |     |     | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |     |     |         |  O-🖱️  |   💎    |         |
 |  Base  |         |         |         |         |     |     |         |         |         |         |

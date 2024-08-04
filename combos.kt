@@ -23,7 +23,7 @@ const val comboTrigger = "\uD83D\uDC8E" // 💎
 
 fun generateAllCombos(layers: List<Layer>, translator: QmkTranslator): List<Combo> =
     layers.flatMap { layer ->
-        generateCombos(translator, layer, layer.combos, layer.rows, layers)
+        layerCombos(translator, layer, layer.combos, layer.rows, layers)
     }.also { checkForDuplicateCombos(it) }
 
 private fun checkForDuplicateCombos(combos: List<Combo>) {
@@ -46,7 +46,7 @@ private fun checkForDuplicateCombos(combos: List<Combo>) {
         }
 }
 
-private fun generateCombos(
+private fun layerCombos(
     translator: QmkTranslator,
     layer: Layer,
     activationParts: List<Rows>,
@@ -58,7 +58,7 @@ private fun generateCombos(
         activationParts
             .filter { hand.applies(it, options) }
             .flatMap { def ->
-                generateCustomCombos(
+                customLayerCombos(
                     def,
                     getLayerPart(layerBase, hand, options),
                     layer,
@@ -79,17 +79,17 @@ private fun generateCombos(
                     activation != LayerActivation.Toggle }
             .flatMap { key ->
                 val triggers = listOf(key.pos, position).map { base.get(it) }
-                if (LayerActivation.entries.any { it.method != null && triggers[0].key.key.startsWith(it.method) }) {
-                    emptyList()
-                } else {
-                    combos(key, triggers, translator, layer, layers, index.toString(), false)
-                }
+//                if (LayerActivation.entries.any { it.method != null && triggers[0].key.key.startsWith(it.method) }) {
+//                    emptyList()
+//                } else {
+                    keyCombos(key, triggers, translator, layer, layers, index.toString(), false)
+//                }
             }
     }
     return custom + direct
 }
 
-private fun generateCustomCombos(
+private fun customLayerCombos(
     def: Rows,
     layerBase: List<Key>,
     layer: Layer,
@@ -105,12 +105,12 @@ private fun generateCustomCombos(
             val keys = layerBase
                 .filterIndexed { index, _ -> index == comboIndex || index in comboIndexes }
 
-            combos(key, keys, translator, layer, layers, "", true)
+            keyCombos(key, keys, translator, layer, layers, "", true)
         } else emptyList()
     }.filter { it.triggers.size > 1 }
 }
 
-private fun combos(
+private fun keyCombos(
     key: Key,
     triggers: List<Key>,
     translator: QmkTranslator,
