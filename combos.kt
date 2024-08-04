@@ -69,23 +69,23 @@ private fun layerCombos(
             }
     }.distinct()
 
-    val direct = layer.option.reachable.entries.flatMapIndexed { index, (position, activation) ->
-        val base = layers[0]
-        layerBase.flatten()
-            // only if the layer can be reached directly from the base layer
-            .filter { it.isReal() &&
-                    it.key !in translator.symbols.noHoldKeys &&
-                    position.layerName == baseLayerName &&
-                    activation != LayerActivation.Toggle }
-            .flatMap { key ->
-                val triggers = listOf(key.pos, position).map { base.get(it) }
-                if (LayerActivation.entries.any { it.method != null && triggers[0].key.key.startsWith(it.method) }) {
-                    emptyList()
-                } else {
-                    keyCombos(key, triggers, translator, layer, layers, index.toString(), false)
-                }
-            }
-    }
+//    val direct = layer.option.reachable.entries.flatMapIndexed { index, (position, activation) ->
+//        val base = layers[0]
+//        layerBase.flatten()
+//            // only if the layer can be reached directly from the base layer
+//            .filter { it.isReal() &&
+//                    it.key !in translator.noHoldKeys &&
+//                    position.layerName == baseLayerName &&
+//                    activation != LayerActivation.Toggle }
+//            .flatMap { key ->
+//                val triggers = listOf(key.pos, position).map { base.get(it) }
+//                if (LayerActivation.entries.any { it.method != null && triggers[0].key.key.startsWith(it.method) }) {
+//                    emptyList()
+//                } else {
+//                    keyCombos(key, triggers, translator, layer, layers, index.toString(), false)
+//                }
+//            }
+//    }
     return custom // + direct
 }
 
@@ -105,7 +105,7 @@ private fun customLayerCombos(
             val keys = layerBase
                 .filterIndexed { index, _ -> index == comboIndex || index in comboIndexes }
 
-            keyCombos(key, keys, translator, layer, layers, "", true)
+            keyCombos(key, keys, translator, layer, layers, "", false)
         } else emptyList()
     }.filter { it.triggers.size > 1 }
 }

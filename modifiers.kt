@@ -59,7 +59,7 @@ private fun applyModTap(
 
 fun setCustomKeyCommand(translator: QmkTranslator, key: QmkKey, command: QmkKey, pos: KeyPosition): Key {
     translator.symbols.customKeycodes.entries.find { it.key == key.key }?.let { it.value.key = command }
-    translator.symbols.ignoreMissing.add(key)
+    translator.ignoreMissing.add(key)
     return Key(command, pos)
 }
 
@@ -71,7 +71,7 @@ private fun modTapKey(
     pos: KeyPosition,
     targetLayer: LayerName?,
 ): QmkKey = when {
-    key in translator.symbols.noHoldKeys -> throw IllegalStateException("key $key not allowed for mod tap at $pos")
+    key in translator.noHoldKeys -> throw IllegalStateException("key $key not allowed for mod tap at $pos")
     type.oneShot -> QmkKey("OSM(${mod.mask})")
         .also { if (!key.isNo) throw IllegalStateException("key $key not allowed for one shot modifier at $pos") }
 
@@ -93,7 +93,7 @@ private fun modTapKey(
 
 fun addCustomIfNotSimpleKey(key: QmkKey, translator: QmkTranslator): QmkKey =
     if (key.key.contains("(")) {
-        translator.symbols.ignoreMissing.add(key)
+        translator.ignoreMissing.add(key)
         tapCustomKey(translator, key)
     } else {
         key

@@ -1,5 +1,7 @@
 fun qmkTranslator(tables: Tables): QmkTranslator {
-    val symbols = readSymbols(tables)
+    val implicitKeys = mutableListOf<QmkKey>()
+    val noHoldKeys = mutableListOf<QmkKey>()
+    val symbols = readSymbols(tables, implicitKeys, noHoldKeys)
     val nonThumbs = getKeyTable(tables.getMulti("Layer").content)
     val columns = nonThumbs.values.first()[0][0].size
     val options = options(tables, nonThumbs, columns)
@@ -15,7 +17,14 @@ fun qmkTranslator(tables: Tables): QmkTranslator {
         layerNumbers,
         options,
         mutableListOf(),
-        mutableListOf()
+        mutableListOf(),
+        implicitKeys,
+        mutableListOf(),
+        mutableMapOf(),
+        noHoldKeys,
+        mutableMapOf(),
+        mutableMapOf(),
+        mutableMapOf(),
     )
 }
 
@@ -25,10 +34,9 @@ private fun getKeyTable(layerContent: MultiTable): Map<LayerName, MultiTable> = 
     .mapValues { it.value.map { it.map { it.drop(1) } } } // First column
     .toMap()
 
-private fun readSymbols(tables: Tables): Symbols {
+private fun readSymbols(tables: Tables, implicitKeys: MutableList<QmkKey>, noHoldKeys: MutableList<QmkKey>): Symbols {
     val customKeycodes = mutableMapOf<String, CustomKey>()
-    val implicitKeys = mutableListOf<QmkKey>()
-    val noHoldKeys = mutableListOf<QmkKey>()
+
     val symTable = tables.getMappingTable("Symbol").flatMap { entry ->
         val key = entry.key
         val value = entry.value
@@ -60,12 +68,6 @@ private fun readSymbols(tables: Tables): Symbols {
     return Symbols(
         symTable,
         customKeycodes,
-        implicitKeys,
-        mutableListOf(),
-        mutableMapOf(),
-        noHoldKeys,
-        mutableMapOf(),
-        mutableMapOf()
     )
 }
 

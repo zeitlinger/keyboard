@@ -36,23 +36,34 @@ fun translateKey(
     recordUsage: Boolean = true,
 ): Key = getFallbackIfNeeded(command, translator, pos, null, recordUsage)
     .let { def ->
-        LayerActivation.entries
-            .firstOrNull { def.length > 1 && def[1] != ' ' && it.prefix != null && def.startsWith(it.prefix) }
-            ?.let { activation -> layerKey(translator, pos, def.substring(1), activation) }
-            ?: when {
-                //comes first, so that we can override the meaning of + and -
-                def == qmkNo || translator.symbols.mapping.containsKey(def) -> translateSimpleKey(translator, def, pos)
-                def.contains(" ") && !def.startsWith("\"") -> spaceSeparatedHint(def, translator, pos)
-                def.contains("+") && !def.startsWith("+") -> layerTapHoldKey(def, translator, pos)
+        findLayerActivationKey(def, translator, pos) ?: when {
+            //comes first, so that we can override the meaning of + and -
+            def == qmkNo || translator.symbols.mapping.containsKey(def) -> translateSimpleKey(translator, def, pos)
+            def.contains(" ") && !def.startsWith("\"") -> spaceSeparatedHint(def, translator, pos)
+            def.contains("+") && !def.startsWith("+") -> layerTapHoldKey(def, translator, pos)
 
-                def.contains("-") && def.length > 1 -> when {
-                    def == "--" -> layerKey(translator, pos, pos.layerName, LayerActivation.Toggle)
-                    else -> keyWithModifier(def, translator, pos)
-                }
-
-                else -> translateSimpleKey(translator, def, pos)
+            def.contains("-") && def.length > 1 -> when {
+                def == "--" -> layerKey(translator, pos, pos.layerName, LayerActivation.Toggle)
+                else -> keyWithModifier(def, translator, pos)
             }
+
+            def.contains("/") && def.length > 1 -> {
+                val parts = def.split("/")
+                val up = parts[0].trim()
+                val down = parts[1].trim()
+                translator.oneShotOnUpLayer[down] = up
+                layerKey(translator, pos, down, LayerActivation.OneShot)
+            }
+
+            else -> translateSimpleKey(translator, def, pos)
+        }
     }
+
+private fun findLayerActivationKey(def: String, translator: QmkTranslator, pos: KeyPosition): Key? {
+    return LayerActivation.entries
+        .firstOrNull { def.length > 1 && def[1] != ' ' && it.prefix != null && def.startsWith(it.prefix) }
+        ?.let { activation -> layerKey(translator, pos, def.substring(1), activation) }
+}
 
 fun spaceSeparatedHint(def: String, translator: QmkTranslator, pos: KeyPosition): Key {
     val parts = def.split(" ")
@@ -67,7 +78,7 @@ fun spaceSeparatedHint(def: String, translator: QmkTranslator, pos: KeyPosition)
 private fun layerTapHoldKey(def: String, translator: QmkTranslator, pos: KeyPosition): Key {
     val parts = def.split("+")
     val key = addCustomIfNotSimpleKey(translateKey(translator, pos, parts[0]).key, translator)
-    if (key in translator.symbols.noHoldKeys) {
+    if (key in translator.noHoldKeys) {
         throw IllegalArgumentException("key $key not allowed for tap hold at $pos")
     }
     val command = QmkKey("LT(${translator.reachLayer(parts[1], pos, LayerActivation.TapHold).const()},$key)")

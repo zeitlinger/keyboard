@@ -51,11 +51,11 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
                     .toSet()
 
     val missing =
-        want - gotKeys.toSet() - translator.symbols.ignoreMissing.map { it.key }.toSet()
+        want - gotKeys.toSet() - translator.ignoreMissing.map { it.key }.toSet()
     val unexpected = (gotKeys.toSet() - want.toSet())
         .filter {
             when {
-                it in translator.symbols.ignoreUnexpected -> false
+                it in translator.ignoreUnexpected -> false
                 it.startsWith("\"") -> false
                 it.contains("(") -> false
                 it.startsWith("DT_") -> false
@@ -69,7 +69,7 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
         }
 
 
-    val duplicates = translator.symbols.gotKeys
+    val duplicates = translator.gotKeys
         .filter { it.value > 1 && !it.key[0].isDigit() }
         .keys
         .sorted() - ignoreDuplicates

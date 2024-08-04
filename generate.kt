@@ -114,10 +114,10 @@ fun run(args: GeneratorArgs) {
             "customKeycodesOnTapPress" to customKeycodes(translator, CustomCommandType.OnTap),
             "customKeycodesOnPress" to customKeycodes(translator, CustomCommandType.OnPress),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
-            "altRepeat" to translator.symbols.altRepeat.entries.sortedBy { it.key.key }.joinToString("\n        ") {
+            "altRepeat" to translator.altRepeat.entries.sortedBy { it.key.key }.joinToString("\n        ") {
                 "case ${it.key}: return ${it.value};"
             },
-            "repeat" to translator.symbols.repeat.entries.sortedBy { it.key.key }.joinToString("\n                ") {
+            "repeat" to translator.repeat.entries.sortedBy { it.key.key }.joinToString("\n                ") {
                 "case ${it.key}: ${it.value};"
             }
         )
@@ -143,7 +143,7 @@ private fun addRepeat(translator: QmkTranslator, row: List<String>, pos: KeyPosi
 
             else -> throw IllegalArgumentException("unknown command '${alt}' in $pos")
         }
-        addRepeat(translator.symbols.altRepeat, base, command)
+        addRepeat(translator.altRepeat, base, command)
     }
     val repeat = row[2]
     if (repeat.isNotBlank()) {
@@ -153,7 +153,7 @@ private fun addRepeat(translator: QmkTranslator, row: List<String>, pos: KeyPosi
 
             else -> throw IllegalArgumentException("unknown command '${repeat}' in $pos")
         }
-        addRepeat(translator.symbols.repeat, base, command)
+        addRepeat(translator.repeat, base, command)
     }
 }
 
@@ -176,7 +176,7 @@ fun customKeycodes(translator: QmkTranslator, type: CustomCommandType): String =
     translator.symbols.customKeycodes.entries
         .filter { it.value.command?.type == type }
         .joinToString("\n            ") {
-            translator.symbols.ignoreUnexpected.add(it.key)
+            translator.ignoreUnexpected.add(it.key)
             "case _HANDLER_${it.key}: ${it.value.command!!.cStatements.joinToString("; ")}; return false;"
         }
 

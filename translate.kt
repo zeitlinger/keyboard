@@ -22,6 +22,13 @@ class QmkTranslator(
     val options: Options,
     val layerTapHold: MutableList<QmkKey>,
     val combos: MutableList<Combo>,
+    val ignoreMissing: MutableList<QmkKey>, // because there's a good way to reach this using shift
+    val ignoreUnexpected: MutableList<String>,
+    val gotKeys: MutableMap<String, Int>,
+    val noHoldKeys: List<QmkKey>,
+    val repeat: MutableMap<QmkKey, String>,
+    val altRepeat: MutableMap<QmkKey, String>,
+    val oneShotOnUpLayer: MutableMap<LayerName, LayerName>,
 ) {
 
     private val map: Map<String, String>
@@ -46,10 +53,10 @@ class QmkTranslator(
         return key
             .let { symbols.replace(it, pos, this) }
             .let { translatedKey ->
-                    map.getOrDefault(
-                        translatedKey.replaceFirstChar { it.titlecase() },
-                        translatedKey
-                    )
+                map.getOrDefault(
+                    translatedKey.replaceFirstChar { it.titlecase() },
+                    translatedKey
+                )
             }
             .let {
                 val substitutionCombo = if (it.startsWith("\"") && it.endsWith("\"")) it else null
@@ -83,7 +90,7 @@ class QmkTranslator(
         (keys[pos.layerName])?.get(pos.tableIndex)?.get(pos.row)?.get(pos.column) ?: ""
 
     fun gotKey(key: String) {
-        symbols.gotKeys[key] = symbols.gotKeys.getOrDefault(key, 0) + 1
+        gotKeys[key] = gotKeys.getOrDefault(key, 0) + 1
     }
 }
 

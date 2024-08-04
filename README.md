@@ -43,6 +43,8 @@ How to read this layout:
 - $Mouse = layer is active while key is held (double tap to lock layer)
 - #Mouse = toggle layer
 - @Num = layer is active for the next keypress
+- Sym/Nav = layer is active for the next keypress: 
+  If the activation key is still down when the next key is pressed, the Nav layer is used, otherwise the Sym layer is used
 - C-w = Ctrl-w (same for Alt and Shift)
 - "that" = combo that produces "that"
 - The symbol table at the bottom shows the meaning of the symbols used in the layout.
@@ -91,7 +93,7 @@ How to read this layout:
 |  Base  |   esc   |    p    |    m    |   win   |     |     |   f16   | repeat  | altRep  |  reset  |
 |  Base  |    s    |    c    |    n    |    t    | @SR | @SL |    a    |    e    |    i    |    h    |
 |  Base  | *Right  |    f    |    l    |    d    |     |     |    u    |    o    |    y    |  *Left  |
-|  Base  |         |         |  @Nav   |    r    |     |     |   spc   |   @Fn   |         |         |
+|  Base  |         |         | SR/Nav  |    r    |     |     |   spc   |  SL/Fn  |         |         |
 |        | ------- | ------- | ------- | ------- |     |     | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |     |     |         |  O-🖱️  |   💎    |         |
 |  Base  |         |         |         |         |     |     |         |         |         |         |
