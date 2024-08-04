@@ -38,6 +38,7 @@ enum class LayerActivation(val prefix: String?, val method: String?) {
     Hold("*", "MO"),
     TapToggle("$", "TT"),
     OneShot("@", "OSL"),
+    Hidden(null, null),
     TapHold(null, null),
     ModTap(null, null);
 

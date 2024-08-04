@@ -86,13 +86,18 @@ fun run(args: GeneratorArgs) {
         }"
 
     val userKeycodes = translator.symbols.customKeycodes.keys.toList()
+    val visible =
+        layers.filter {
+            val reachable = translator.layerOptions.getValue(it.name).reachable
+            reachable.isEmpty() || reachable.any { it.value != LayerActivation.Hidden }
+        }
     replaceTemplate(
         File(srcDir, "layout.h"),
         File(dstDir, "qmk/layout.h"),
         mapOf(
             "generationNote" to generationNote,
             "versionString" to gitVersion,
-            "layers" to generateBase(layers),
+            "layers" to generateBase(visible),
             "layerNumbers" to translator.layerNumbers.entries
                 .joinToString("\n") {
                     "#define ${it.key.const()} ${it.value}"

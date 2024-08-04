@@ -52,7 +52,7 @@ fun translateKey(
                 val up = parts[0].trim()
                 val down = parts[1].trim()
                 val key = layerKey(translator, pos, down, LayerActivation.OneShot)
-                translator.reachLayer(up, pos, LayerActivation.OneShot)
+                translator.reachLayer(up, pos, LayerActivation.Hidden)
                 if (translator.oneShotOnUpLayer.none { it.down == down }) {
                     translator.oneShotOnUpLayer.add(OneShotOnUpLayer(down, up, key))
                 }
