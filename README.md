@@ -93,7 +93,7 @@ How to read this layout:
 |  Base  |   esc   |    p    |    m    |   win   |   f16   | repeat  | altRep  |  reset  |
 |  Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 |  Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
-|  Base  |         |         | SR/Nav  |    r    |   spc   |  SL/Fn  |         |         |
+|  Base  |         |         | Cse/Nav |    r    |   spc   | Sym/Fn  |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |  O-🖱️  |   💎    |         |
 |  Base  |         |         |         |         |         |         |         |         |
@@ -121,7 +121,7 @@ How to read this layout:
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right  |         |         |         |         |         |    ä    |    ö    |         |
-| Right  |         |  *Case  |    9    |    0    |         |         |         |         |
+| Right  |         |         |    9    |    0    |         |         |         |         |
 | Right  |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |    ü    |
 | Right  |         |         |    1    |    2    |   spc   |    3    |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -145,15 +145,10 @@ How to read this layout:
 |  Left  |    ß    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
 |  Left  |         |         |    4    |         |    7    |    8    |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|   SL   |         |  pipe   |    *    |         |         |         |         |         |
-|   SL   |    $    |    #    |    @    |    !    |         |         |         |         |
-|   SL   |         |    &    |    ^    |    %    |         |         |         |         |
-|   SL   |         |         |         |         |         |         |         |         |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|   SR   |         |         |         |         |         |    <    |    >    |         |
-|   SR   |         |         |         |         |    _    |    {    |    }    |    :    |
-|   SR   |         |         |         |         |    ~    |    \    |    +    |    ?    |
-|   SR   |         |         |         |         |         |         |         |         |
+|  Sym   |         |  pipe   |    *    |         |         |    <    |    >    |         |
+|  Sym   |    $    |    #    |    @    |    !    |    _    |    {    |    }    |    :    |
+|  Sym   |         |    &    |    ^    |    %    |    ~    |    \    |    +    |    ?    |
+|  Sym   |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav   |   spc   |   ct    |   pst   |  redo   |         |   esc   |   ins   |         |
 |  Nav   | cp+Nav2 |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
@@ -205,10 +200,10 @@ How to read this layout:
 |  Num   |    8    |    7    |    6    |    5    |         |         |         |         |
 |  Num   |         |         |         |    0    |   🛑    |   🛑    |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Case  |         |         |         |         |         | PasCase | SN_CASE |         |
-|  Case  |         |         |         |         | sl/case | camCase | sn_case |  CAPW   |
-|  Case  |   🛑    |         |         |         | do.case |  CAPSL  | kb-case |         |
-|  Case  |         |         |         |         |         |         |         |         |
+|  Cse   |         |         |         |         |         | PasCase | SN_CASE |         |
+|  Cse   |         |         |         |         | sl/case | camCase | sn_case |  CAPW   |
+|  Cse   |         |         |         |         | do.case |  CAPSL  | kb-case |         |
+|  Cse   |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Media  |  reset  |   🔅    |   🔆    |         |         |         |         |         |
 | Media  |   prt   |   🔈    |   🔊    |   🔇    |         |   🛑    |         |         |
@@ -239,14 +234,13 @@ The order of the options is also the order of the layers in the layer stack.
 |    RMods     | BottomRow+RMods |                 |               |      Base      |         |               |
 |     Nav      |     HomeRow     |                 |               |                |         |      50       |
 |     Nav2     |     HomeRow     |                 |               |                |         |               |
-|      Fn      |     HomeRow     |     HomeRow     |               |                |         |      50       |
+|      Fn      |     HomeRow     |     HomeRow     |               |                |         |               |
 |     Num      |                 |     HomeRow     |               |                |         |               |
 |    Mouse     |    BottomRow    |                 |               |                |         |               |
 |    Mouse2    |                 |                 |               |                |         |               |
-|     Case     |                 |                 |               |                |         |               |
+|     Cse      |                 |                 |               |                |         |               |
 |    Media     |                 |                 |               |                |         |               |
-|      SL      |                 |                 |               |                |         |      50       |
-|      SR      |                 |                 |               |                |         |      50       |
+|     Sym      |                 |                 |               |                |         |               |
 
 ## Symbols
 
