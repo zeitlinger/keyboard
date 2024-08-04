@@ -182,18 +182,18 @@ private fun combos(
                 layer,
                 false
             )
-            val directShifted = combos(
-                type,
-                "DS_$name",
-                shifted(content),
-                triggers + layer.get(shiftLayer.option.reachable.keys.single()),
-                shiftLayerTimeout,
-                translator,
-                emptyList(), // prevent recursion
-                layer,
-                false
-            )
-            combos + shifted + directShifted
+//            val directShifted = combos(
+//                type,
+//                "DS_$name",
+//                shifted(content),
+//                triggers + layer.get(shiftLayer.option.reachable.keys.single()),
+//                shiftLayerTimeout,
+//                translator,
+//                emptyList(), // prevent recursion
+//                layer,
+//                false
+//            )
+            combos + shifted //+ directShifted
         }
 
         else -> combos
