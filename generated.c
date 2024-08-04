@@ -3,6 +3,8 @@
  * ${generationNote}
  */
 
+int alternateLayer = -1;
+
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     switch(index) {
     ${timeouts}
@@ -12,6 +14,17 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
 }
 
 bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
+    if (!record->event.pressed) {
+        switch (keycode) {
+        ${oneShotOnUpLayerReleased}
+        }
+    }
+    if (alternateLayer >= 0 && record->event.pressed) {
+        switch (alternateLayer) {
+        ${oneShotOnUpLayerKey}
+        }
+    }
+
     if (record->tap.count) {
         if (record->event.pressed) {
             switch (keycode) {

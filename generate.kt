@@ -32,7 +32,8 @@ fun generateBase(layers: List<Layer>): String {
         .joinToString("\n") { layer ->
             template.format(*listOf(layer.name.const()).plus(layer.rows.mapIndexed { index, row ->
                 if (index == layer.rows.size - 1) {
-                    row.drop(2).take(thumbColumns - 2) + row.drop(row.size - 2 - (thumbColumns / 2)).take(thumbColumns - 2)
+                    row.drop(2).take(thumbColumns - 2) + row.drop(row.size - 2 - (thumbColumns / 2))
+                        .take(thumbColumns - 2)
                 } else {
                     row
                 }.map {
@@ -119,7 +120,15 @@ fun run(args: GeneratorArgs) {
             },
             "repeat" to translator.repeat.entries.sortedBy { it.key.key }.joinToString("\n                ") {
                 "case ${it.key}: ${it.value};"
-            }
+            },
+            "oneShotOnUpLayerReleased" to translator.oneShotOnUpLayer.sortedBy { it.up.const() }
+                .joinToString("\n        ") {
+                    "case ${it.activation.key.key}: alternateLayer = ${it.up.const()}; break;"
+                },
+            "oneShotOnUpLayerKey" to translator.oneShotOnUpLayer.sortedBy { it.up.const() }
+                .joinToString("\n        ") {
+                    "case ${it.up.const()}: ${oneShotOnUpLayerKey(it, layers)}"
+                },
         )
     )
 
@@ -182,6 +191,22 @@ fun customKeycodes(translator: QmkTranslator, type: CustomCommandType): String =
 
 fun holdOnOtherKeyPress(layerTapToggle: Set<QmkKey>): String =
     layerTapToggle.joinToString("\n    ") { "case ${it}: return true;" }
+
+fun oneShotOnUpLayerKey(oneShotOnUpLayer: OneShotOnUpLayer, layers: List<Layer>): String {
+    val up = layers.single { it.name == oneShotOnUpLayer.up }
+    val down = layers.single { it.name == oneShotOnUpLayer.down }
+    val list = down.rows.flatMapIndexed { rowIndex, row ->
+        row.flatMapIndexed { columnIndex, key ->
+            val upKey = up.rows[rowIndex][columnIndex]
+            if (upKey.isReal()) {
+                listOf("            case ${key.key.key}: tap_code16(${upKey.key.key}); return false;")
+            } else {
+                emptyList()
+            }
+        }
+    }
+    return "\n            switch (keycode) {\n${list.joinToString("\n")}\n            }"
+}
 
 fun LayerName.const() = "_${this.uppercase()}"
 

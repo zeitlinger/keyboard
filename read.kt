@@ -51,8 +51,12 @@ fun translateKey(
                 val parts = def.split("/")
                 val up = parts[0].trim()
                 val down = parts[1].trim()
-                translator.oneShotOnUpLayer[down] = up
-                layerKey(translator, pos, down, LayerActivation.OneShot)
+                val key = layerKey(translator, pos, down, LayerActivation.OneShot)
+                translator.reachLayer(up, pos, LayerActivation.OneShot)
+                if (translator.oneShotOnUpLayer.none { it.down == down }) {
+                    translator.oneShotOnUpLayer.add(OneShotOnUpLayer(down, up, key))
+                }
+                key
             }
 
             else -> translateSimpleKey(translator, def, pos)

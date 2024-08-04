@@ -14,6 +14,12 @@ data class QmkKey(
     val isNo = key == qmkNo
 }
 
+data class OneShotOnUpLayer (
+    val down: LayerName,
+    val up: LayerName,
+    val activation: Key,
+)
+
 class QmkTranslator(
     val symbols: Symbols,
     val layerOptions: Map<LayerName, LayerOption>,
@@ -28,7 +34,7 @@ class QmkTranslator(
     val noHoldKeys: List<QmkKey>,
     val repeat: MutableMap<QmkKey, String>,
     val altRepeat: MutableMap<QmkKey, String>,
-    val oneShotOnUpLayer: MutableMap<LayerName, LayerName>,
+    val oneShotOnUpLayer: MutableList<OneShotOnUpLayer>,
 ) {
 
     private val map: Map<String, String>
