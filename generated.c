@@ -4,6 +4,7 @@
  */
 
 int alternateLayer = -1;
+int layer = -1;
 
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     switch(index) {
@@ -21,7 +22,7 @@ ${oneShotOnUpLayerPressed}
     }
     if (alternateLayer >= 0 && record->event.pressed) {
         alternateLayer = -1;
-        if (get_highest_layer(state) == _BASE) {
+        if (layer == _BASE) {
             switch (alternateLayer) {
 ${oneShotOnUpLayerKey}
             }
