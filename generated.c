@@ -15,17 +15,16 @@ ${timeouts}
 }
 
 bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
-    if (record->event.pressed) {
-        switch (keycode) {
-${oneShotOnUpLayerPressed}
-        }
-    }
     if (alternateLayer >= 0 && record->event.pressed) {
         alternateLayer = -1;
         if (layer == _BASE) {
             switch (alternateLayer) {
 ${oneShotOnUpLayerKey}
             }
+        }
+    } else if (layer == _BASE && record->event.pressed) {
+        switch (keycode) {
+${oneShotOnUpLayerPressed}
         }
     }
 
