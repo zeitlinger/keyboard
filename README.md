@@ -140,9 +140,9 @@ How to read this layout:
 |  Sym   |         |    &    |    ^    |    %    |    ~    |    \    |    +    |    ?    |
 |  Sym   |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|   SC   |         |   C-n   |   C-f   |         |         |    (    |    )    |         |
-|   SC   |  A-➡️   |   C-x   |   C-c   |   C-v   |    -    |    [    |    ]    |    ;    |
-|   SC   |  C-➡️   |   C-a   |   C-e   |  CS-v   |    `    |    "    |    =    |    /    |
+|   SC   |         |   C-n   |   C-f   |         |         |         |         |         |
+|   SC   |  A-➡️   |   C-x   |   C-c   |   C-v   |         |   C-[   |   C-]   |         |
+|   SC   |  C-➡️   |   C-a   |   C-e   |  CS-v   |         |         |         |  .spc   |
 |   SC   |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav   |         |  CS-n   | CS-bspc |   spc   |         |   esc   |   ins   |         |
@@ -155,7 +155,7 @@ How to read this layout:
 |  Nav   |         |         |         |   C-r   |         |         |         |         |
 |  Nav   |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav   |         |         |         |         |         |         |         |         |
+|  Nav   |         |         |   C-/   |         |         |         |         |         |
 |  Nav   |         |         |   💎    |         |         |         |         |         |
 |  Nav   |         |         |   C-d   |         |         |         |         |         |
 |  Nav   |         |         |         |         |         |         |         |         |
@@ -185,9 +185,9 @@ How to read this layout:
 |  Nav2  |         |         |         |         |         |         |         |         |
 |  Nav2  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|   Fn   |         |   f10   |   f9    |         |         |         |         |         |
-|   Fn   |   f4    |   f3    |   f2    |   f1    |         |   C-[   |   C-]   |  *Num   |
-|   Fn   |   f8    |   f7    |   f6    |   f5    |         |         |         |  .spc   |
+|   Fn   |         |   f10   |   f9    |         |         |    (    |    )    |         |
+|   Fn   |   f4    |   f3    |   f2    |   f1    |    -    |    [    |    ]    |  ;+Num  |
+|   Fn   |   f8    |   f7    |   f6    |   f5    |    `    |    "    |    =    |    /    |
 |   Fn   |         |         |   f11   |   f12   |   🛑    |   🛑    |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Num   |         |    \    |    9    |         |         |         |         |         |
@@ -230,13 +230,13 @@ The order of the options is also the order of the layers in the layer stack.
 |     Nav      |     HomeRow     |                 |               |                |         |      50       |
 |     Nav2     |     HomeRow     |                 |               |                |         |               |
 |      Fn      |     HomeRow     |     HomeRow     |               |                |         |               |
-|      SC      |                 |                 |               |                |         |               |
 |     Num      |                 |     HomeRow     |               |                |         |               |
 |    Mouse     |    BottomRow    |                 |               |                |         |               |
 |    Mouse2    |                 |                 |               |                |         |               |
 |     Case     |                 |                 |               |                |         |               |
 |    Media     |                 |                 |               |                |         |               |
 |     Sym      |                 |                 |               |                |         |               |
+|      SC      |                 |                 |               |                |         |               |
 
 ## Symbols
 
@@ -281,7 +281,7 @@ The order of the options is also the order of the layers in the layer stack.
 | 🔆      | KC_BRIU                               |
 | 🔅      | KC_BRID                               |
 | reset   | QK_BOOT                               |
-| un      | C(KC_Z)                              |
+| un      | C(KC_Z)                               |
 | ä       | UP(UMLAUT_a, UMLAUT_A)                |
 | ö       | UP(UMLAUT_o, UMLAUT_O)                |
 | ü       | UP(UMLAUT_u, UMLAUT_U)                |
