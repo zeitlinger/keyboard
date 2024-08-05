@@ -4,7 +4,7 @@
  */
 
 int alternateLayer = -1;
-int layer = -1;
+int layer = _BASE;
 
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     switch(index) {
@@ -16,9 +16,10 @@ ${timeouts}
 
 bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
     if (alternateLayer >= 0 && record->event.pressed) {
+        int al = alternateLayer;
         alternateLayer = -1;
         if (layer == _BASE) {
-            switch (alternateLayer) {
+            switch (al) {
 ${oneShotOnUpLayerKey}
             }
         }
