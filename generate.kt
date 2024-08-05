@@ -126,14 +126,14 @@ fun run(args: GeneratorArgs) {
             "repeat" to translator.repeat.entries.sortedBy { it.key.key }.map {
                 "case ${it.key}: ${it.value};"
             }.indented(16),
-            "oneShotOnUpLayerReleased" to translator.oneShotOnUpLayer.sortedBy { it.up.const() }
+            "oneShotOnUpLayerPressed" to translator.oneShotOnUpLayer.sortedBy { it.up.const() }
                 .map {
                     "case ${it.activation.key.key}: alternateLayer = ${it.up.const()}; break;"
                 }.indented(8),
             "oneShotOnUpLayerKey" to translator.oneShotOnUpLayer.sortedBy { it.up.const() }
                 .map {
                     "case ${it.up.const()}:\n${oneShotOnUpLayerKey(it, layers)}"
-                }.indented(8),
+                }.indented(12),
         )
     )
 
@@ -199,8 +199,8 @@ fun holdOnOtherKeyPress(layerTapToggle: Set<QmkKey>): String =
 
 fun oneShotOnUpLayerKey(oneShotOnUpLayer: OneShotOnUpLayer, layers: List<Layer>): String {
     val up = layers.single { it.name == oneShotOnUpLayer.up }
-    val down = layers.single { it.name == oneShotOnUpLayer.down }
-    val list = down.rows.flatMapIndexed { rowIndex, row ->
+    val base = layers.first()
+    val list = base.rows.flatMapIndexed { rowIndex, row ->
         row.flatMapIndexed { columnIndex, key ->
             val upKey = up.rows[rowIndex][columnIndex]
             if (upKey.isReal()) {
