@@ -213,7 +213,7 @@ fun oneShotOnUpLayerKey(oneShotOnUpLayer: OneShotOnUpLayer, layers: List<Layer>)
     return listOf("switch (keycode) {\n${list.joinToString("\n")}", "}", "break;").indented(4)
 }
 
-private fun  List<String>.indented(indent: Int): String =
+private fun List<String>.indented(indent: Int): String =
     this.joinToString("\n").prependIndent(" ".repeat(indent))
 
 fun LayerName.const() = "_${this.uppercase()}"
