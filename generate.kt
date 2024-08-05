@@ -116,24 +116,24 @@ fun run(args: GeneratorArgs) {
         File(dstDir, "qmk/generated.c"),
         mapOf(
             "generationNote" to generationNote,
-            "timeouts" to timeouts.joinToString("\n    "),
+            "timeouts" to timeouts.indented(4),
             "customKeycodesOnTapPress" to customKeycodes(translator, CustomCommandType.OnTap),
             "customKeycodesOnPress" to customKeycodes(translator, CustomCommandType.OnPress),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
-            "altRepeat" to translator.altRepeat.entries.sortedBy { it.key.key }.joinToString("\n        ") {
+            "altRepeat" to translator.altRepeat.entries.sortedBy { it.key.key }.map {
                 "case ${it.key}: return ${it.value};"
-            },
-            "repeat" to translator.repeat.entries.sortedBy { it.key.key }.joinToString("\n                ") {
+            }.indented(8),
+            "repeat" to translator.repeat.entries.sortedBy { it.key.key }.map {
                 "case ${it.key}: ${it.value};"
-            },
+            }.indented(16),
             "oneShotOnUpLayerReleased" to translator.oneShotOnUpLayer.sortedBy { it.up.const() }
-                .joinToString("\n        ") {
+                .map {
                     "case ${it.activation.key.key}: alternateLayer = ${it.up.const()}; break;"
-                },
+                }.indented(8),
             "oneShotOnUpLayerKey" to translator.oneShotOnUpLayer.sortedBy { it.up.const() }
-                .joinToString("\n        ") {
-                    "case ${it.up.const()}: ${oneShotOnUpLayerKey(it, layers)}"
-                },
+                .map {
+                    "case ${it.up.const()}:\n${oneShotOnUpLayerKey(it, layers)}"
+                }.indented(8),
         )
     )
 
@@ -189,13 +189,13 @@ private fun sendString(alt: String) = "SEND_STRING(${alt})"
 fun customKeycodes(translator: QmkTranslator, type: CustomCommandType): String =
     translator.symbols.customKeycodes.entries
         .filter { it.value.command?.type == type }
-        .joinToString("\n            ") {
+        .map {
             translator.ignoreUnexpected.add(it.key)
             "case _HANDLER_${it.key}: ${it.value.command!!.cStatements.joinToString("; ")}; return false;"
-        }
+        }.indented(12)
 
 fun holdOnOtherKeyPress(layerTapToggle: Set<QmkKey>): String =
-    layerTapToggle.joinToString("\n    ") { "case ${it}: return true;" }
+    layerTapToggle.map { "case ${it}: return true;" }.indented(4)
 
 fun oneShotOnUpLayerKey(oneShotOnUpLayer: OneShotOnUpLayer, layers: List<Layer>): String {
     val up = layers.single { it.name == oneShotOnUpLayer.up }
@@ -204,14 +204,17 @@ fun oneShotOnUpLayerKey(oneShotOnUpLayer: OneShotOnUpLayer, layers: List<Layer>)
         row.flatMapIndexed { columnIndex, key ->
             val upKey = up.rows[rowIndex][columnIndex]
             if (upKey.isReal()) {
-                listOf("            case ${key.keyWithModifier.key}: tap_code16(${upKey.keyWithModifier.key}); return false;")
+                listOf("    case ${key.keyWithModifier.key}: tap_code16(${upKey.keyWithModifier.key}); return false;")
             } else {
                 emptyList()
             }
         }
     }
-    return "\n            switch (keycode) {\n${list.joinToString("\n")}\n            }"
+    return listOf("switch (keycode) {\n${list.joinToString("\n")}", "}", "break;").indented(4)
 }
+
+private fun  List<String>.indented(indent: Int): String =
+    this.joinToString("\n").prependIndent(" ".repeat(indent))
 
 fun LayerName.const() = "_${this.uppercase()}"
 
