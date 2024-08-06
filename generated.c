@@ -14,6 +14,12 @@ ${timeouts}
     }
 }
 
+bool tap(uint16_t keycode) {
+    tap_code16(keycode);
+    get_repeat_key_count(keycode)
+    return false;
+}
+
 bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
     if (alternateLayer >= 0 && record->event.pressed) {
         int al = alternateLayer;

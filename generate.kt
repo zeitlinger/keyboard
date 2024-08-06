@@ -204,7 +204,7 @@ fun oneShotOnUpLayerKey(oneShotOnUpLayer: OneShotOnUpLayer, layers: List<Layer>)
         row.flatMapIndexed { columnIndex, key ->
             val upKey = up.rows[rowIndex][columnIndex]
             if (upKey.isReal()) {
-                listOf("    case ${key.keyWithModifier.key}: tap_code16(${upKey.keyWithModifier.key}); return false;")
+                listOf("    case ${key.keyWithModifier.key}: return tap(${upKey.keyWithModifier.key});")
             } else {
                 emptyList()
             }
