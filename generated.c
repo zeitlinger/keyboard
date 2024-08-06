@@ -16,7 +16,7 @@ ${timeouts}
 
 bool tap(uint16_t keycode) {
     tap_code16(keycode);
-    get_repeat_key_count(keycode);
+    set_last_keycode(keycode);
     return false;
 }
 
