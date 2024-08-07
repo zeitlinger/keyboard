@@ -120,7 +120,7 @@ How to read this layout:
 |  Base  |    q    |         |         |         |         |         |         |    j    |
 |  Base  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right  |         |         |         |         |         |  "n't"  |         |         |
+| Right  |         |         |         |         |         |   n't   |         |         |
 | Right  |         |  *Case  |    9    |    0    |         |         |         |         |
 | Right  |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |    ?    |
 | Right  |         |         |    1    |    2    |   spc   |    3    |         |         |
@@ -297,6 +297,7 @@ The order of the options is also the order of the layers in the layer stack.
 | win ➡️  | custom:NEXT_WINDOW   NoHold           |
 | O-🖱️   | custom:ONE_SHOT_MOUSE LayerHint:Mouse |
 | .spc    | custom:DOT_SPC                        |
+| n't     | custom:N_T                            |
 | ver     | custom:PRINT_VERSION                  |
 | CAPSL   | KC_CAPS                               |
 | CAPW    | custom:CAPS_WORDS                     |
