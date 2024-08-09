@@ -93,7 +93,7 @@ How to read this layout:
 |  Base  |   esc   |    p    |    m    |   win   |   f16   | repeat  | altRep  |  reset  |
 |  Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 |  Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
-|  Base  |         |         |  @Nav   |    r    |   spc   | Sym/Fn  |         |         |
+|  Base  |         |         |  *Nav   |    r    |   spc   | Sym/Fn  |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |         |         |  O-🖱️  |   💎    |         |
 |  Base  |         |         |         |         |         |         |         |         |
