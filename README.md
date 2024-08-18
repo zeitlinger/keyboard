@@ -95,11 +95,6 @@ How to read this layout:
 |  Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
 |  Base  |         |         |  *Nav   |    r    |   spc   | Sym/Fn  |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Base  |         |         |         |         |         |  O-🖱️  |   💎    |         |
-|  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |         |         |         |         |         |         |         |
-|  Base  |         |         |         |         |         |         |         |         |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Base  |         |         |         |    v    |  "ing"  |         |         |         |
 |  Base  |         |         |         |   💎    |   💎    |         |         |         |
 |  Base  |         |         |         |    k    |  "ion"  |         |         |         |
@@ -210,16 +205,6 @@ How to read this layout:
 | Media  |   ver   |   ⏮️    |   ⏭️    |   ⏯️    |         |         |         |   🛑    |
 | Media  |         |         |         |         |         |         |         |         |
 |        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Mouse  |         |  🖱️3   |  🖱️2   |  🖱️1   |         |         |  🖱️3   |         |
-| Mouse  | *Mouse2 | KC_ACL0 | KC_ACL1 | KC_ACL2 |  🖱️⬅️  |  🖱️⬆️  |  🖱️⬇️  |  🖱️➡️  |
-| Mouse  |         |   🛑    |   🛑    |   🛑    |  🖱️2   |         |         |         |
-| Mouse  |         |         |         |   --    |  🖱️1   |         |         |         |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Mouse2 |         |         |         |         |         |         |         |         |
-| Mouse2 |   🛑    |         |         |         | 🖲️️⬅️  | 🖲️️⬆️  | 🖲️️⬇️  | 🖲️️➡️  |
-| Mouse2 |         |         |         |         |         |         |         |         |
-| Mouse2 |         |         |         |         |         |         |         |         |
-|        | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
 ## Options
 
@@ -236,8 +221,6 @@ The order of the options is also the order of the layers in the layer stack.
 |     Nav2     |     HomeRow     |                 |               |                |         |               |
 |      Fn      |     HomeRow     |     HomeRow     |               |                |         |               |
 |     Num      |                 |     HomeRow     |               |                |         |               |
-|    Mouse     |    BottomRow    |                 |               |                |         |               |
-|    Mouse2    |                 |                 |               |                |         |               |
 |     Case     |                 |                 |               |                |         |               |
 |    Media     |                 |                 |               |                |         |               |
 |     Sym      |                 |                 |               |                |         |               |
@@ -265,17 +248,6 @@ The order of the options is also the order of the layers in the layer stack.
 | S-tab   | S(KC_TAB)                             |
 | prt     | KC_PSCR                               |
 | pipe    | KC_PIPE                               |
-| 🖱️⬅️   | KC_MS_L                               |
-| 🖱️⬇️   | KC_MS_D                               |
-| 🖱️⬆️   | KC_MS_U                               |
-| 🖱️➡️   | KC_MS_R                               |
-| 🖲️️⬅️  | KC_WH_L                               |
-| 🖲️️⬇️  | KC_WH_D                               |
-| 🖲️️⬆️  | KC_WH_U                               |
-| 🖲️️➡️  | KC_WH_R                               |
-| 🖱️1    | KC_BTN1                               |
-| 🖱️2    | KC_BTN2                               |
-| 🖱️3    | KC_BTN3                               |
 | 🔇      | KC_MUTE                               |
 | ⏯️      | KC_MPLY                               |
 | ⏮️      | KC_MPRV                               |
@@ -294,7 +266,6 @@ The order of the options is also the order of the layers in the layer stack.
 | altRep  | QK_ALT_REPEAT_KEY                     |
 | tab ➡️  | custom:NEXT_TAB      NoHold           |
 | win ➡️  | custom:NEXT_WINDOW   NoHold           |
-| O-🖱️   | custom:ONE_SHOT_MOUSE LayerHint:Mouse |
 | .spc    | custom:DOT_SPC                        |
 | n't     | custom:N_T                            |
 | ver     | custom:PRINT_VERSION                  |
