@@ -132,7 +132,7 @@ How to read this layout:
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |         |         |         |         |         |         |         |         |
 | Left  |         |         |         |         |    5    |    6    | *Media  |         |
-| Left  |         |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
+| Left  |    :    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
 | Left  |         |         |    4    |         |    7    |    8    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | LMods |         |         |         |         |         |         |         |         |
@@ -146,8 +146,8 @@ How to read this layout:
 |  Fn   |         |         |  *Sym   |   f12   |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Fn   |         |         |         |         |         |         |         |         |
-|  Fn   |         |         |         |   💎    |         |         |         |         |
-|  Fn   |         |         |         |   f11   |         |         |         |         |
+|  Fn   |         |         |   💎    |         |         |         |         |         |
+|  Fn   |         |         |   f11   |         |         |         |         |         |
 |  Fn   |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Sym  |         |  pipe   |    *    |         |         |    <    |    >    |         |
@@ -224,7 +224,7 @@ The order of the options is also the order of the layers in the layer stack.
 |    RMods     | BottomRow+RMods |                 |               |      Base      |         |               |
 |     Nav      |     HomeRow     |                 |               |                |         |      50       |
 |     Nav2     |     HomeRow     |                 |               |                |         |               |
-|      Fn      |     HomeRow     |     HomeRow     |               |                |         |               |
+|      Fn      |     HomeRow     |     HomeRow     |               |                |         |      50       |
 |     Num      |                 |     HomeRow     |               |                |         |               |
 |     Case     |                 |                 |               |                |         |               |
 |    Media     |                 |                 |               |                |         |               |
@@ -250,7 +250,6 @@ The order of the options is also the order of the layers in the layer stack.
 | bspc    | KC_BSPC                               |
 | win     | KC_LGUI                               |
 | tab     | KC_TAB                                |
-| S-tab   | S(KC_TAB)                             |
 | prt     | KC_PSCR                               |
 | pipe    | KC_PIPE                               |
 | 🔇      | KC_MUTE                               |
