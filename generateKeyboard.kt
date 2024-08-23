@@ -49,7 +49,7 @@ enum class LayerActivation(val prefix: String?, val method: String?) {
     }
 }
 
-enum class LayerFlag { Shifted, Toggle }
+enum class LayerFlag { Shifted, Toggle, DirectCombo }
 
 typealias LayerName = String
 

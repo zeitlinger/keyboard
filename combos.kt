@@ -69,25 +69,46 @@ private fun layerCombos(
             }
     }.distinct()
 
-//    val direct = layer.option.reachable.entries.flatMapIndexed { index, (position, activation) ->
-//        val base = layers[0]
-//        layerBase.flatten()
-//            // only if the layer can be reached directly from the base layer
-//            .filter { it.isReal() &&
-//                    it.key !in translator.noHoldKeys &&
-//                    position.layerName == baseLayerName &&
-//                    activation != LayerActivation.Toggle }
-//            .flatMap { key ->
-//                val triggers = listOf(key.pos, position).map { base.get(it) }
-//                if (LayerActivation.entries.any { it.method != null && triggers[0].key.key.startsWith(it.method) }) {
-//                    emptyList()
-//                } else {
-//                    keyCombos(key, triggers, translator, layer, layers, index.toString(), false)
-//                }
-//            }
-//    }
-    return custom // + direct
+    val direct = if (LayerFlag.DirectCombo in layer.option.flags) {
+        val layerTriggers = firstNonToggleActivation(
+            layer,
+            layers,
+            emptyList()
+        )
+
+        val base = layers[0]
+        layerBase.flatten()
+            // only if the layer can be reached directly from the base layer
+            .filter { it.isReal() && it.key !in translator.noHoldKeys }
+            .flatMap { key ->
+                val triggers = (listOf(key.pos) + layerTriggers).map { base.get(it) }
+                if (LayerActivation.entries.any { it.method != null && triggers[0].key.key.startsWith(it.method) }) {
+                    emptyList()
+                } else {
+                    keyCombos(key, triggers, translator, layer, layers, "", false)
+                }
+            }
+    } else emptyList()
+
+    return custom + direct
 }
+
+private fun firstNonToggleActivation(layer: Layer, layers: List<Layer>, add: List<KeyPosition>): List<KeyPosition> =
+    layer.option.reachable.entries.firstOrNull { it.value != LayerActivation.Toggle }
+        ?.let { entry ->
+            val keyPosition = entry.key
+            val layerName = keyPosition.layerName
+            if (layerName == baseLayerName) {
+                listOf(keyPosition) + add
+            } else {
+                firstNonToggleActivation(
+                    layers.single { it.name == layerName },
+                    layers,
+                    listOf(keyPosition) + add
+                )
+            }
+        }
+        ?: emptyList()
 
 private fun customLayerCombos(
     def: Rows,
@@ -146,7 +167,7 @@ private fun combos(
         keyTimeout
     )
 
-    val direct = if(generateDirect) layer.option.reachable.keys.mapIndexed { index, position ->
+    val direct = if (generateDirect) layer.option.reachable.keys.mapIndexed { index, position ->
         val base = layers[0]
         Combo.of(
             type,
@@ -155,7 +176,7 @@ private fun combos(
             (triggers.map { it.pos } + position).map { base.get(it) },
             keyTimeout,
         )
-    }  else emptyList()
+    } else emptyList()
 
     val combos = listOf(combo) + direct
 

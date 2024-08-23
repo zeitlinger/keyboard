@@ -82,6 +82,7 @@ private fun layerOption(tables: Tables): Map<LayerName, LayerOption> = tables.ge
             it.value[4].ifBlank { null },
             when (it.value[5]) {
                 "Shifted" -> setOf(LayerFlag.Shifted)
+                "DirectCombo" -> setOf(LayerFlag.DirectCombo)
                 "" -> emptySet()
                 else -> throw IllegalStateException("unknown flag ${it.value[5]}")
             },

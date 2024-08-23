@@ -215,20 +215,20 @@ How to read this layout:
 
 The order of the options is also the order of the layers in the layer stack.
 
-| LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags   | Combo Timeout |
-|:------------:|:---------------:|:---------------:|:-------------:|:--------------:|---------|:-------------:|
-|     Base     |                 |                 |               |                |         |      25       |
-|     Left     |                 | BottomRow+LMods |     Base      |                | Shifted |      50       |
-|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted |      50       |
-|    LMods     |                 | BottomRow+LMods |     Base      |                |         |               |
-|    RMods     | BottomRow+RMods |                 |               |      Base      |         |               |
-|     Nav      |     HomeRow     |                 |               |                |         |      50       |
-|     Nav2     |     HomeRow     |                 |               |                |         |               |
-|      Fn      |     HomeRow     |     HomeRow     |               |                |         |      50       |
-|     Num      |                 |     HomeRow     |               |                |         |               |
-|     Case     |                 |                 |               |                |         |               |
-|    Media     |                 |                 |               |                |         |               |
-|     Sym      |                 |                 |               |                |         |               |
+| LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags       | Combo Timeout |
+|:------------:|:---------------:|:---------------:|:-------------:|:--------------:|-------------|:-------------:|
+|     Base     |                 |                 |               |                |             |      25       |
+|     Left     |                 | BottomRow+LMods |     Base      |                | Shifted     |      50       |
+|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted     |      50       |
+|    LMods     |                 | BottomRow+LMods |     Base      |                |             |               |
+|    RMods     | BottomRow+RMods |                 |               |      Base      |             |               |
+|     Nav      |     HomeRow     |                 |               |                |             |      50       |
+|     Nav2     |     HomeRow     |                 |               |                |             |               |
+|      Fn      |     HomeRow     |     HomeRow     |               |                | DirectCombo |      50       |
+|     Num      |                 |     HomeRow     |               |                |             |               |
+|     Case     |                 |                 |               |                |             |               |
+|    Media     |                 |                 |               |                |             |               |
+|     Sym      |                 |                 |               |                | DirectCombo |      50       |
 
 ## Symbols
 
