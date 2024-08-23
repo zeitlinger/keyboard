@@ -217,18 +217,18 @@ The order of the options is also the order of the layers in the layer stack.
 
 | LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags       | Combo Timeout |
 |:------------:|:---------------:|:---------------:|:-------------:|:--------------:|-------------|:-------------:|
-|     Base     |                 |                 |               |                |             |      25       |
-|     Left     |                 | BottomRow+LMods |     Base      |                | Shifted     |      50       |
-|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted     |      50       |
+|     Base     |                 |                 |               |                |             |      200      |
+|     Left     |                 | BottomRow+LMods |     Base      |                | Shifted     |      200      |
+|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted     |      200      |
 |    LMods     |                 | BottomRow+LMods |     Base      |                |             |               |
 |    RMods     | BottomRow+RMods |                 |               |      Base      |             |               |
-|     Nav      |     HomeRow     |                 |               |                |             |      50       |
+|     Nav      |     HomeRow     |                 |               |                |             |      200      |
 |     Nav2     |     HomeRow     |                 |               |                |             |               |
-|      Fn      |     HomeRow     |     HomeRow     |               |                | DirectCombo |      50       |
+|      Fn      |     HomeRow     |     HomeRow     |               |                | DirectCombo |      200      |
 |     Num      |                 |     HomeRow     |               |                |             |               |
 |     Case     |                 |                 |               |                |             |               |
 |    Media     |                 |                 |               |                |             |               |
-|     Sym      |                 |                 |               |                | DirectCombo |      50       |
+|     Sym      |                 |                 |               |                | DirectCombo |      200      |
 
 ## Symbols
 
