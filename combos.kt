@@ -73,7 +73,6 @@ private fun layerCombos(
         val layerTriggers = firstNonToggleActivation(
             layer,
             layers,
-            emptyList()
         )
 
         val base = layers[0]
@@ -93,18 +92,17 @@ private fun layerCombos(
     return custom + direct
 }
 
-private fun firstNonToggleActivation(layer: Layer, layers: List<Layer>, add: List<KeyPosition>): List<KeyPosition> =
+private fun firstNonToggleActivation(layer: Layer, layers: List<Layer>): List<KeyPosition> =
     layer.option.reachable.entries.firstOrNull { it.value != LayerActivation.Toggle }
         ?.let { entry ->
             val keyPosition = entry.key
             val layerName = keyPosition.layerName
             if (layerName == baseLayerName) {
-                listOf(keyPosition) + add
+                listOf(keyPosition)
             } else {
-                firstNonToggleActivation(
+                listOf(keyPosition) + firstNonToggleActivation(
                     layers.single { it.name == layerName },
                     layers,
-                    listOf(keyPosition) + add
                 )
             }
         }
