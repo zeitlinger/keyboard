@@ -1,7 +1,8 @@
 enum class Modifier(val mask: String, val leftKey: QmkKey, val tapKey: String, val short: String) {
     Ctrl("MOD_LCTL", QmkKey("KC_LCTL"), "CTL_T", "C"),
     Shift("MOD_LSFT", QmkKey("KC_LSFT"), "SFT_T", "S"),
-    Alt("MOD_LALT", QmkKey("KC_LALT"), "ALT_T", "A"),;
+    Alt("MOD_LALT", QmkKey("KC_LALT"), "ALT_T", "A"),
+    Meta("MOD_LGUI", QmkKey("KC_LGUI"), "GUI_T", "M");
 
     companion object {
         fun ofLong(value: String): Modifier = valueOf(value)
