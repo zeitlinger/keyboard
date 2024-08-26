@@ -138,7 +138,7 @@ private fun keyCombos(
     suffix: String,
     generateDirect: Boolean,
 ): List<Combo> {
-    val qmkKey = key.key
+    val qmkKey = translator.originalKeys[key.pos] ?: key.key
     val type = if (qmkKey.substitutionCombo != null) ComboType.Substitution else ComboType.Combo
     val name = comboName(layer.name, qmkKey.key) + suffix
     return combos(type, name, qmkKey, triggers, key.comboTimeout, translator, layers, layer, generateDirect)

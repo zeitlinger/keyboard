@@ -81,7 +81,7 @@ fun spaceSeparatedHint(def: String, translator: QmkTranslator, pos: KeyPosition)
 
 private fun layerTapHoldKey(def: String, translator: QmkTranslator, pos: KeyPosition): Key {
     val parts = def.split("+")
-    val key = addCustomIfNotSimpleKey(translateKey(translator, pos, parts[0]).key, translator)
+    val key = addCustomIfNotSimpleKey(translateKey(translator, pos, parts[0]).key, pos, translator)
     if (key in translator.noHoldKeys) {
         throw IllegalArgumentException("key $key not allowed for tap hold at $pos")
     }
@@ -122,7 +122,12 @@ fun toggleLayerKey(translator: QmkTranslator, layer: String, pos: KeyPosition, m
     val prefix = modifier?.short ?: "L"
     val key = QmkKey("${prefix}_${layer.uppercase()}")
     val command =
-        customCommand(translator, key, CustomCommandType.OnPress, listOfNotNull("layer_invert(${layer.const()})", mod))
+        customCommand(
+            translator,
+            key,
+            CustomCommandType.OnPress,
+            listOfNotNull("layer_invert(${layer.const()})", mod)
+        )
     return setCustomKeyCommand(translator, key, command, pos)
 }
 
@@ -135,7 +140,7 @@ fun keyWithModifier(def: String, translator: QmkTranslator, pos: KeyPosition): K
     }
     val key = translateKey(translator, pos, target, false)
     return if (key.keyWithModifier.key.contains("(")) {
-        Key(tapCustomKey(translator, addMods(key.key, *modifier)), pos)
+        Key(tapCustomKey(translator, addMods(key.key, *modifier), pos), pos)
     } else {
         Key(addMods(key.key, *modifier), pos)
     }

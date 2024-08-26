@@ -35,6 +35,7 @@ class QmkTranslator(
     val repeat: MutableMap<QmkKey, String>,
     val altRepeat: MutableMap<QmkKey, String>,
     val oneShotOnUpLayer: MutableList<OneShotOnUpLayer>,
+    val originalKeys: MutableMap<KeyPosition, QmkKey>,
 ) {
 
     private val map: Map<String, String>

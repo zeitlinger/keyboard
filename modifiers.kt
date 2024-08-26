@@ -87,28 +87,39 @@ private fun modTapKey(
         }
     }
     else -> {
-        val simpleKey = addCustomIfNotSimpleKey(key, translator)
+        val simpleKey = addCustomIfNotSimpleKey(key, pos, translator)
         QmkKey("${mod.tapKey}($simpleKey)")
     }
 }
 
-fun addCustomIfNotSimpleKey(key: QmkKey, translator: QmkTranslator): QmkKey =
+fun addCustomIfNotSimpleKey(key: QmkKey, pos: KeyPosition, translator: QmkTranslator): QmkKey =
     if (key.key.contains("(")) {
         translator.ignoreMissing.add(key)
-        tapCustomKey(translator, key)
+        tapCustomKey(translator, key, pos)
     } else {
         key
     }
 
-fun tapCustomKey(translator: QmkTranslator, key: QmkKey): QmkKey {
-    return customCommand(translator, QmkKey("_TAP_${comboName(key.key)}"), CustomCommandType.OnTap, listOf(tap(key)))
+fun tapCustomKey(translator: QmkTranslator, key: QmkKey, pos: KeyPosition): QmkKey {
+    translator.originalKeys[pos] = key
+    return customCommand(
+        translator,
+        QmkKey("_TAP_${comboName(key.key)}"),
+        CustomCommandType.OnTap,
+        listOf(tap(key))
+    )
 }
 
 fun tap(key: QmkKey) = "tap_code16($key)"
 
-fun customCommand(translator: QmkTranslator, qmkKey: QmkKey, type: CustomCommandType, cStatements: List<String>): QmkKey {
-    translator.symbols.customKeycodes[qmkKey.key] = CustomKey(qmkKey, null, CustomCommand(type, cStatements))
-    return qmkKey
+fun customCommand(
+    translator: QmkTranslator,
+    key: QmkKey,
+    type: CustomCommandType,
+    cStatements: List<String>,
+): QmkKey {
+    translator.symbols.customKeycodes[key.key] = CustomKey(key, null, CustomCommand(type, cStatements))
+    return key
 }
 
 private fun fingerIndex(column: Int, columns: Int): Int = if (column >= columns / 2) {

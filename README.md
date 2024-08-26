@@ -152,8 +152,8 @@ How to read this layout:
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Sym  |         |  pipe   |    *    |         |         |    <    |    >    |         |
 |  Sym  |    $    |    #    |    @    |    !    |    _    |    {    |    }    |    :    |
-|  Sym  |         |    &    |    ^    |    %    |    ~    |    \    |    +    |         |
-|  Sym  |         |         |         |         |         |         |         |         |
+|  Sym  |         |    &    |    ^    |    %    |    ~    |    \    |    +    |    ?    |
+|  Sym  |         |         |   🛑    |   🛑    |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |   spc   |   C-x   |   C-v   |  CS-z   |         |   esc   |   ins   |         |
 |  Nav  | cp+Nav2 |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬆️    |   ⬇️    |   ➡️    |
@@ -222,7 +222,7 @@ The order of the options is also the order of the layers in the layer stack.
 |    Right     | BottomRow+RMods |                   |               |      Base      | Shifted     |      200      |
 |    LMods     |                 |  BottomRow+LMods  |     Base      |                |             |               |
 |    RMods     | BottomRow+RMods |                   |               |      Base      |             |               |
-|     Nav      |     HomeRow     |                   |               |                |             |      200      |
+|     Nav      |     HomeRow     |                   |               |                | DirectCombo |      200      |
 |     Nav2     |     HomeRow     |                   |               |                |             |               |
 |      Fn      |     HomeRow     |      HomeRow      |               |                | DirectCombo |      200      |
 |     Num      |                 |      HomeRow      |               |                |             |               |
