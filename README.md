@@ -23,7 +23,6 @@ On all other layers, the modifiers are as shown in the table below.
 | Alt                | Ring   |
 | Ctrl               | Middle |
 | Shift              | Index  |
-| Meta               | Pinky  |
 
 ### Window and Tab switching
 
@@ -225,7 +224,7 @@ The order of the options is also the order of the layers in the layer stack.
 |    RMods     | BottomRow+RMods |                   |               |      Base      |             |               |
 |     Nav      |     HomeRow     |                   |               |                |             |      200      |
 |     Nav2     |     HomeRow     |                   |               |                |             |               |
-|      Fn      |     HomeRow     | HomeRow,BottomRow |               |                | DirectCombo |      200      |
+|      Fn      |     HomeRow     |      HomeRow      |               |                | DirectCombo |      200      |
 |     Num      |                 |      HomeRow      |               |                |             |               |
 |     Case     |                 |                   |               |                |             |               |
 |    Media     |                 |                   |               |                |             |               |
