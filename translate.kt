@@ -30,7 +30,7 @@ class QmkTranslator(
     val combos: MutableList<Combo>,
     val ignoreMissing: MutableList<QmkKey>, // because there's a good way to reach this using shift
     val ignoreUnexpected: MutableList<String>,
-    val gotKeys: MutableMap<String, Int>,
+    val gotKeys: MutableMap<String, MutableList<String>>,
     val noHoldKeys: List<QmkKey>,
     val repeat: MutableMap<QmkKey, String>,
     val altRepeat: MutableMap<QmkKey, String>,
@@ -96,8 +96,8 @@ class QmkTranslator(
     fun getKey(pos: KeyPosition): String =
         (keys[pos.layerName])?.get(pos.tableIndex)?.get(pos.row)?.get(pos.column) ?: ""
 
-    fun gotKey(key: String) {
-        gotKeys[key] = gotKeys.getOrDefault(key, 0) + 1
+    fun gotKey(key: String, pos: KeyPosition) {
+        gotKeys[key] = gotKeys.getOrDefault(key, mutableListOf()).apply { add(pos.layerName) }
     }
 }
 

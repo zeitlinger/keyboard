@@ -193,7 +193,7 @@ fun getFallbackIfNeeded(
     if (key.isNotBlank()) {
         val k = key.substringBeforeLast("+").substringBefore(" ")
         if (recordUsage) {
-            translator.gotKey(key)
+            translator.gotKey(key, pos)
         }
         if (srcLayerOption != null) {
             if (srcLayerOption.flags.contains(LayerFlag.Shifted)) {
