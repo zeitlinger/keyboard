@@ -93,7 +93,7 @@ private fun modTapKey(
 }
 
 fun addCustomIfNotSimpleKey(key: QmkKey, pos: KeyPosition, translator: QmkTranslator): QmkKey =
-    if (key.key.contains("(")) {
+    if (key.key.contains("(") || translator.nonSimpleKeys.contains(key.key)) {
         translator.ignoreMissing.add(key)
         tapCustomKey(translator, key, pos)
     } else {

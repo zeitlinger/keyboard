@@ -39,6 +39,7 @@ class QmkTranslator(
 ) {
 
     private val map: Map<String, String>
+    val nonSimpleKeys = mutableSetOf<String>()
 
     init {
         val files = mapOf(
@@ -51,6 +52,9 @@ class QmkTranslator(
             aliases.mapNotNull {
                 val o = it.value.asObject()
                 val key = o.get("key").asString()
+                if (file.value == "aliases" && it.name.contains("(")) {
+                    nonSimpleKeys.add(key)
+                }
                 key.takeUnless { it.contains("KP_") || it.contains("NONUS_") }?.let { o.get("label").asString() to it }
             }
         }.toMap()

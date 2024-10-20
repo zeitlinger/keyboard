@@ -41,12 +41,6 @@ enum class LayerActivation(val prefix: String?, val method: String?) {
     Hidden(null, null),
     TapHold(null, null),
     ModTap(null, null);
-
-    fun canToggle() = when (this) {
-        Toggle -> true
-        TapToggle -> true
-        else -> false
-    }
 }
 
 enum class LayerFlag { Shifted, Toggle, DirectCombo }
