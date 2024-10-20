@@ -102,7 +102,7 @@ fun layerKey(
         layerOption.flags += LayerFlag.Toggle
     }
     return when {
-        activation == LayerActivation.Toggle -> toggleLayerKey(translator, layer, pos, null)
+        activation == LayerActivation.Toggle -> toggleLayerKey(translator, layer, pos)
         activation.method != null -> Key(
             QmkKey(
                 "${activation.method}(${
@@ -116,17 +116,15 @@ fun layerKey(
     }
 }
 
-fun toggleLayerKey(translator: QmkTranslator, layer: String, pos: KeyPosition, modifier: Modifier?): Key {
+fun toggleLayerKey(translator: QmkTranslator, layer: String, pos: KeyPosition): Key {
     translator.reachLayer(layer, pos, LayerActivation.OneShot)
-    val mod = modifier?.let { "add_oneshot_mods(MOD_BIT(${it.leftKey}))" }
-    val prefix = modifier?.short ?: "L"
-    val key = QmkKey("${prefix}_${layer.uppercase()}")
+    val key = QmkKey("L_${layer.uppercase()}")
     val command =
         customCommand(
             translator,
             key,
             CustomCommandType.OnPress,
-            listOfNotNull("layer_invert(${layer.const()})", mod)
+            listOf("layer_invert(${layer.const()})")
         )
     return setCustomKeyCommand(translator, key, command, pos)
 }
@@ -135,9 +133,6 @@ fun keyWithModifier(def: String, translator: QmkTranslator, pos: KeyPosition): K
     val parts = def.split("-")
     val modifier = parts[0].toCharArray().map { Modifier.ofShort(it.toString()) }.toTypedArray()
     val target = parts[1]
-    if (translator.layerOptions[target] != null) {
-        return toggleLayerKey(translator, target, pos, modifier.single())
-    }
     val key = translateKey(translator, pos, target, false)
     return if (key.keyWithModifier.key.contains("(")) {
         Key(tapCustomKey(translator, addMods(key.key, *modifier), pos), pos)
