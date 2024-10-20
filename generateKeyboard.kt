@@ -65,6 +65,8 @@ data class LayerOption(
     var flags: Set<LayerFlag>,
     val comboTimeout: Int?,
     var reachable: MutableMap<KeyPosition, LayerActivation>,
+    var toggleOn: Boolean = false,
+    var toggleOff: Boolean = false,
 )
 
 data class Key(

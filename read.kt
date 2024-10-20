@@ -43,7 +43,7 @@ fun translateKey(
             def.contains("+") && !def.startsWith("+") -> layerTapHoldKey(def, translator, pos)
 
             def.contains("-") && def.length > 1 -> when {
-                def == "--" -> layerKey(translator, pos, pos.layerName, LayerActivation.Toggle)
+                def == "--" -> layerOffKey(translator, pos, pos.layerName)
                 else -> keyWithModifier(def, translator, pos)
             }
 
@@ -96,13 +96,8 @@ fun layerKey(
     layer: String,
     activation: LayerActivation,
 ): Key {
-    val layerOption = translator.layerOptions.getValue(layer)
-    translator.layerOptions.getValue(pos.layerName)
-    if (activation == LayerActivation.Toggle && pos.layerName == layer) {
-        layerOption.flags += LayerFlag.Toggle
-    }
     return when {
-        activation == LayerActivation.Toggle -> toggleLayerKey(translator, layer, pos)
+        activation == LayerActivation.Toggle -> layerOnKey(translator, pos, layer)
         activation.method != null -> Key(
             QmkKey(
                 "${activation.method}(${
@@ -116,17 +111,18 @@ fun layerKey(
     }
 }
 
-fun toggleLayerKey(translator: QmkTranslator, layer: String, pos: KeyPosition): Key {
-    translator.reachLayer(layer, pos, LayerActivation.OneShot)
-    val key = QmkKey("L_${layer.uppercase()}")
-    val command =
-        customCommand(
-            translator,
-            key,
-            CustomCommandType.OnPress,
-            listOf("layer_invert(${layer.const()})")
-        )
-    return setCustomKeyCommand(translator, key, command, pos)
+fun layerOnKey(translator: QmkTranslator, pos: KeyPosition, layer: String): Key {
+    translator.layerOptions.getValue(layer).toggleOn = true
+    return toggleKey(translator, layer, pos)
+}
+
+fun layerOffKey(translator: QmkTranslator, pos: KeyPosition, layer: String): Key {
+    translator.layerOptions.getValue(layer).toggleOff = true
+    return toggleKey(translator, baseLayerName, pos)
+}
+
+fun toggleKey(translator: QmkTranslator, layer: String, pos: KeyPosition): Key {
+    return Key(QmkKey("TO(${translator.reachLayer(layer, pos, LayerActivation.Toggle).const()})"), pos)
 }
 
 fun keyWithModifier(def: String, translator: QmkTranslator, pos: KeyPosition): Key {

@@ -4,8 +4,8 @@ fun analyze(translator: QmkTranslator, layers: List<Layer>) {
         throw IllegalStateException("unexpected layer $it")
     }
     translator.layerOptions.entries.forEach { (layer, option) ->
-        if (option.reachable.values.any { it.canToggle() } && LayerFlag.Toggle !in option.flags) {
-            throw IllegalStateException("can't exit from layer $layer")
+        if (option.toggleOn && !option.toggleOff) {
+            throw IllegalStateException("toggleOn without toggleOff in layer $layer")
         }
     }
     val unreachable = translator.layerOptions.entries
@@ -63,6 +63,7 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
         }
 
     for (entry in translator.gotKeys) {
+        entry.value.remove("Num")
         entry.value.remove("Num")
         entry.value.remove("RMods")
     }
