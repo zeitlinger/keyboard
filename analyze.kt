@@ -64,6 +64,7 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
 
     for (entry in translator.gotKeys) {
         entry.value.remove("Num")
+        entry.value.remove("RMods")
     }
 
     val duplicates = translator.gotKeys
