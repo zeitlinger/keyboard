@@ -9,10 +9,8 @@
 ### Notes
 
 - The keyboard layout is generated using [generateKeyboard](src/main/kotlin/generateKeyboard.kt) from this file.  => link to [Generator](#generator)
-- The generated keyboard can be found in a
-  [fork of mini-ryoku](https://github.com/zeitlinger/mini-ryoku/blob/gregor/qmk/layout.h), because this is easy to
-  integrate with many keyboards
-  (tested with [Ferris Sweep](https://keebmaker.com/products/ferris-sweep)).
+- The generated keyboard can be found in the qmk directory.
+- tested with [Ferris Sweep](https://keebmaker.com/products/ferris-sweep) keyboard
 
 ### Home Row Mods
 
@@ -345,7 +343,6 @@ The order of the options is also the order of the layers in the layer stack.
 | sl/case | custom:SLASH_CASE                     |
 | do.case | custom:DOT_CASE                       |
 | kb-case | custom:KEBAP_CASE                     |
-
 
 ## Generator
 
