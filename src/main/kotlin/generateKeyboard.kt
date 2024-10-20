@@ -12,14 +12,12 @@ data class GeneratorArgs(
 )
 
 fun main() {
-    val target = "/home/gregor/source/mini-ryoku"
-    val src = "$target/keyboard"
     val gitTemplate = "https://github.com/zeitlinger/keyboard/blob/%s/%s"
     run(
         GeneratorArgs(
-            GitFile(File("$src/README.md"), gitTemplate),
-            GitFile(File(src), gitTemplate),
-            File(target),
+            GitFile(File("README.md"), gitTemplate),
+            GitFile(File("src/main/resources"), gitTemplate),
+            File("."),
         )
     )
 }
