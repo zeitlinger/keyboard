@@ -14,7 +14,7 @@ data class QmkKey(
     val isNo = key == qmkNo
 }
 
-data class OneShotOnUpLayer (
+data class OneShotOnUpLayer(
     val down: LayerName,
     val up: LayerName,
     val activation: Key,
@@ -39,7 +39,7 @@ class QmkTranslator(
 ) {
 
     private val map: Map<String, String>
-    val nonSimpleKeys = mutableSetOf<String>()
+    val nonSimpleKeys = mutableMapOf<String, String>()
 
     init {
         val files = mapOf(
@@ -53,7 +53,7 @@ class QmkTranslator(
                 val o = it.value.asObject()
                 val key = o.get("key").asString()
                 if (file.value == "aliases" && it.name.contains("(")) {
-                    nonSimpleKeys.add(key)
+                    nonSimpleKeys[key] = it.name
                 }
                 key.takeUnless { it.contains("KP_") || it.contains("NONUS_") }?.let { o.get("label").asString() to it }
             }

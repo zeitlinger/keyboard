@@ -54,6 +54,7 @@ private fun applyModTap(
                 if (!key.isNo) throw IllegalStateException("key $key not allowed for mod tap with layer switch at $pos")
                 QmkKey("LM(${translator.reachLayer(targetLayer, pos, LayerActivation.ModTap).const()}, ${mod.mask})")
             }
+
             else -> modTapKey
         }
     } ?: key
@@ -83,22 +84,29 @@ private fun modTapKey(
                 translator.symbols.customKeycodes[name.key] = CustomKey(name, null, null)
                 name
             }
+
             else -> mod.leftKey
         }
     }
+
     else -> {
         val simpleKey = addCustomIfNotSimpleKey(key, pos, translator)
         QmkKey("${mod.tapKey}($simpleKey)")
     }
 }
 
-fun addCustomIfNotSimpleKey(key: QmkKey, pos: KeyPosition, translator: QmkTranslator): QmkKey =
-    if (key.key.contains("(") || translator.nonSimpleKeys.contains(key.key)) {
+fun addCustomIfNotSimpleKey(key: QmkKey, pos: KeyPosition, translator: QmkTranslator): QmkKey {
+    val k = translator.nonSimpleKeys[key.key]
+    return if (k != null) {
+        translator.ignoreMissing.add(key)
+        tapCustomKey(translator, QmkKey(k), pos)
+    } else if (key.key.contains("(")) {
         translator.ignoreMissing.add(key)
         tapCustomKey(translator, key, pos)
     } else {
         key
     }
+}
 
 fun tapCustomKey(translator: QmkTranslator, key: QmkKey, pos: KeyPosition): QmkKey {
     translator.originalKeys[pos] = key
