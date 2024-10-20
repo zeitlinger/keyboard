@@ -18,12 +18,6 @@
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <version>${kotlin.version}</version>
 
-                <configuration>
-                    <sourceDirs>
-                        <sourceDir>.</sourceDir>
-                    </sourceDirs>
-                </configuration>
-
                 <executions>
                     <execution>
                         <id>compile</id>
