@@ -152,7 +152,8 @@ private fun addRepeat(translator: QmkTranslator, row: List<String>, pos: KeyPosi
                 translator,
                 QmkKey("${"ALT"}_${base}"),
                 CustomCommandType.OnPress,
-                listOf(sendString(alt))
+                listOf(sendString(alt)),
+                base
             ).key
 
             else -> throw IllegalArgumentException("unknown command '${alt}' in $pos")

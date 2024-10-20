@@ -60,7 +60,10 @@ private fun applyModTap(
     } ?: key
 
 fun setCustomKeyCommand(translator: QmkTranslator, key: QmkKey, command: QmkKey, pos: KeyPosition): Key {
-    translator.symbols.customKeycodes.entries.find { it.key == key.key }?.let { it.value.key = command }
+    if (!key.isNo && key.key != comboTrigger) {
+        translator.symbols.customKeycodes.entries.find { it.key == key.key || it.value.originalKey == key }
+            ?.let { it.value.key = command }
+    }
     translator.ignoreMissing.add(key)
     return Key(command, pos)
 }
@@ -81,7 +84,7 @@ private fun modTapKey(
         when {
             targetLayer != null -> {
                 val name = QmkKey("_${targetLayer}_${mod.short}".uppercase())
-                translator.symbols.customKeycodes[name.key] = CustomKey(name, null, null)
+                translator.symbols.customKeycodes[name.key] = CustomKey(name, null, null, null)
                 name
             }
 
@@ -96,11 +99,7 @@ private fun modTapKey(
 }
 
 fun addCustomIfNotSimpleKey(key: QmkKey, pos: KeyPosition, translator: QmkTranslator): QmkKey {
-    val k = translator.nonSimpleKeys[key.key]
-    return if (k != null) {
-        translator.ignoreMissing.add(key)
-        tapCustomKey(translator, QmkKey(k), pos)
-    } else if (key.key.contains("(")) {
+    return if (key.key.contains("(") || translator.nonSimpleKeys.containsKey(key.key)) {
         translator.ignoreMissing.add(key)
         tapCustomKey(translator, key, pos)
     } else {
@@ -114,7 +113,8 @@ fun tapCustomKey(translator: QmkTranslator, key: QmkKey, pos: KeyPosition): QmkK
         translator,
         QmkKey("_TAP_${comboName(key.key)}"),
         CustomCommandType.OnTap,
-        listOf(tap(key))
+        listOf(tap(key)),
+        key
     )
 }
 
@@ -125,8 +125,9 @@ fun customCommand(
     key: QmkKey,
     type: CustomCommandType,
     cStatements: List<String>,
+    originalKey: QmkKey,
 ): QmkKey {
-    translator.symbols.customKeycodes[key.key] = CustomKey(key, null, CustomCommand(type, cStatements))
+    translator.symbols.customKeycodes[key.key] = CustomKey(key, null, CustomCommand(type, cStatements), originalKey)
     return key
 }
 

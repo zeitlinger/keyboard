@@ -52,7 +52,7 @@ private fun readSymbols(tables: Tables, implicitKeys: MutableList<QmkKey>, noHol
                 if (props["NoHold"] != null) {
                     noHoldKeys += qmkKey
                 }
-                customKeycodes[custom] = CustomKey(qmkKey, props["LayerHint"], null)
+                customKeycodes[custom] = CustomKey(qmkKey, props["LayerHint"], null, null)
                 listOf(key to custom)
             }
 

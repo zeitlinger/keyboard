@@ -41,7 +41,7 @@ data class CustomCommand(
     val cStatements: List<String>,
 )
 
-data class CustomKey(var key: QmkKey, val targetLayerName: LayerName?, val command: CustomCommand?)
+data class CustomKey(var key: QmkKey, val targetLayerName: LayerName?, val command: CustomCommand?, val originalKey: QmkKey?)
 
 data class Symbols(
     val mapping: Map<String, String>,
