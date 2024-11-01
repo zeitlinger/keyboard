@@ -1,6 +1,6 @@
 /* THIS FILE WAS GENERATED!
  *
- * file is generated from https://github.com/zeitlinger/keyboard/blob/cfd197ed8aa8a5c41f5b441933f0c51fc1731f64/README.md using https://github.com/zeitlinger/keyboard/blob/cfd197ed8aa8a5c41f5b441933f0c51fc1731f64/generateKeyboard.kt
+ * file is generated from https://github.com/zeitlinger/keyboard/blob/uncommitted changes/README.md using https://github.com/zeitlinger/keyboard/blob/uncommitted changes/generateKeyboard.kt
  */
 
 int alternateLayer = -1;
