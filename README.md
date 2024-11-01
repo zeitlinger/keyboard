@@ -88,7 +88,7 @@ How to read this layout:
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-| Base  |   esc   |    p    |    m    |   f13   |   f14   | repeat  | altRep  |  reset  |
+| Base  |   esc   |    p    |    m    |  dead1  |  dead2  | repeat  | altRep  |  reset  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
 | Base  |         |         |  $Nav   |    r    |   spc   |   *Fn   |         |         |
@@ -113,7 +113,7 @@ How to read this layout:
 | Base  |    z    |         |         |         |         |         |         |    j    |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right |         |         |         |         |   f16   |    "    |  A-➡️   |         |
+| Right |         |         |         |         |  dead3  |    "    |  A-➡️   |         |
 | Right |         |  #Num   |    9    |    0    |         |         |         |         |
 | Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |    ?    |
 | Right |         |         |    1    |    2    |   spc   |    3    |         |         |
@@ -293,56 +293,59 @@ The order of the options is also the order of the layers in the layer stack.
 
 ## Symbols
 
-| Symbol  | Command                               |
-|---------|---------------------------------------|
-| ⬅️      | KC_LEFT                               |
-| ⬅️⬅️    | KC_HOME                               |
-| ⬇️      | KC_DOWN                               |
-| ⬇️⬇️    | KC_PGDN                               |
-| ⬆️      | KC_UP                                 |
-| ⬆️⬆️    | KC_PGUP                               |
-| ➡️      | KC_RIGHT                              |
-| ➡️➡️    | KC_END                                |
-| ins     | KC_INS                                |
-| del     | KC_DEL                                |
-| spc     | KC_SPC                                |
-| esc     | KC_ESC                                |
-| ↩️️     | KC_ENT                                |
-| bspc    | KC_BSPC                               |
-| win     | KC_LGUI                               |
-| tab     | KC_TAB                                |
-| prt     | KC_PSCR                               |
-| pipe    | KC_PIPE                               |
-| 🔇      | KC_MUTE                               |
-| ⏯️      | KC_MPLY                               |
-| ⏮️      | KC_MPRV                               |
-| ⏭️      | KC_MNXT                               |
-| 🔊      | KC_VOLU                               |
-| 🔈      | KC_VOLD                               |
-| 🔆      | KC_BRIU                               |
-| 🔅      | KC_BRID                               |
-| reset   | QK_BOOT                               |
-| cp      | C(KC_C)                               |
-| ä       | UP(UMLAUT_a, UMLAUT_A)                |
-| ö       | UP(UMLAUT_o, UMLAUT_O)                |
-| ü       | UP(UMLAUT_u, UMLAUT_U)                |
-| ß       | UM(UMLAUT_s)                          |
-| repeat  | QK_REPEAT_KEY                         |
-| altRep  | QK_ALT_REPEAT_KEY                     |
-| tab ➡️  | custom:NEXT_TAB      NoHold           |
-| win ➡️  | custom:NEXT_WINDOW   NoHold           |
-| .spc    | custom:DOT_SPC                        |
-| n't     | custom:N_T                            |
-| ver     | custom:PRINT_VERSION                  |
-| CAPSL   | KC_CAPS                               |
-| CAPW    | custom:CAPS_WORDS                     |
-| sn_case | custom:SNAKE_CASE                     |
-| SN_CASE | custom:SCREAMING_SNAKE_CASE           |
-| camCase | custom:CAMEL_CASE                     |
-| PasCase | custom:PASCAL_CASE                    |
-| sl/case | custom:SLASH_CASE                     |
-| do.case | custom:DOT_CASE                       |
-| kb-case | custom:KEBAP_CASE                     |
+| Symbol  | Command                     |
+|---------|-----------------------------|
+| ⬅️      | KC_LEFT                     |
+| ⬅️⬅️    | KC_HOME                     |
+| ⬇️      | KC_DOWN                     |
+| ⬇️⬇️    | KC_PGDN                     |
+| ⬆️      | KC_UP                       |
+| ⬆️⬆️    | KC_PGUP                     |
+| ➡️      | KC_RIGHT                    |
+| ➡️➡️    | KC_END                      |
+| ins     | KC_INS                      |
+| del     | KC_DEL                      |
+| spc     | KC_SPC                      |
+| esc     | KC_ESC                      |
+| ↩️️     | KC_ENT                      |
+| bspc    | KC_BSPC                     |
+| win     | KC_LGUI                     |
+| tab     | KC_TAB                      |
+| prt     | KC_PSCR                     |
+| pipe    | KC_PIPE                     |
+| 🔇      | KC_MUTE                     |
+| ⏯️      | KC_MPLY                     |
+| ⏮️      | KC_MPRV                     |
+| ⏭️      | KC_MNXT                     |
+| 🔊      | KC_VOLU                     |
+| 🔈      | KC_VOLD                     |
+| 🔆      | KC_BRIU                     |
+| 🔅      | KC_BRID                     |
+| reset   | QK_BOOT                     |
+| cp      | C(KC_C)                     |
+| ä       | UP(UMLAUT_a, UMLAUT_A)      |
+| ö       | UP(UMLAUT_o, UMLAUT_O)      |
+| ü       | UP(UMLAUT_u, UMLAUT_U)      |
+| ß       | UM(UMLAUT_s)                |
+| repeat  | QK_REPEAT_KEY               |
+| altRep  | QK_ALT_REPEAT_KEY           |
+| tab ➡️  | custom:NEXT_TAB      NoHold |
+| win ➡️  | custom:NEXT_WINDOW   NoHold |
+| .spc    | custom:DOT_SPC              |
+| n't     | custom:N_T                  |
+| ver     | custom:PRINT_VERSION        |
+| CAPSL   | KC_CAPS                     |
+| CAPW    | custom:CAPS_WORDS           |
+| sn_case | custom:SNAKE_CASE           |
+| SN_CASE | custom:SCREAMING_SNAKE_CASE |
+| camCase | custom:CAMEL_CASE           |
+| PasCase | custom:PASCAL_CASE          |
+| sl/case | custom:SLASH_CASE           |
+| do.case | custom:DOT_CASE             |
+| kb-case | custom:KEBAP_CASE           |
+| dead1   | custom:DEAD1                |
+| dead2   | custom:DEAD2                |
+| dead3   | custom:DEAD3                |
 
 ## Generator
 
