@@ -82,6 +82,7 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_NAV_CKC_X: return 200;
     case C_NAV_CKC_Y: return 200;
     case C_NAV_KC_BSPC: return 200;
+    case C_NAV_KC_DEL: return 200;
     case C_NAV_KC_DOWN: return 200;
     case C_NAV_KC_ENT: return 200;
     case C_NAV_KC_ESC: return 200;
@@ -95,7 +96,6 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_NAV_RCSKC_F: return 200;
     case C_NAV_RCSKC_V: return 200;
     case C_NAV_RCSKC_Z: return 200;
-    case C_NAV_SKC_TAB: return 200;
     case C_RIGHT_DOT_SPC: return 200;
     case C_RIGHT_KC_AT: return 200;
     case C_RIGHT_KC_EXLM: return 200;
