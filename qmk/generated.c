@@ -102,12 +102,12 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_RIGHT_KC_GRAVE: return 200;
     case C_RIGHT_N_T: return 200;
     case C_RIGHT_UMUMLAUT_S: return 200;
+    case C_RIGHT_UPUMLAUT_A: return 200;
     case C_RIGHT_UPUMLAUT_AUMLAUT_A: return 200;
+    case C_RIGHT_UPUMLAUT_O: return 200;
     case C_RIGHT_UPUMLAUT_OUMLAUT_O: return 200;
+    case C_RIGHT_UPUMLAUT_U: return 200;
     case C_RIGHT_UPUMLAUT_UUMLAUT_U: return 200;
-    case C_RMODS_UPUMLAUT_AUMLAUT_A: return 200;
-    case C_RMODS_UPUMLAUT_OUMLAUT_O: return 200;
-    case C_RMODS_UPUMLAUT_UUMLAUT_U: return 200;
     case DS_C_BASE_KC_B: return 200;
     case DS_C_BASE_KC_G: return 200;
     case DS_C_BASE_KC_J: return 200;

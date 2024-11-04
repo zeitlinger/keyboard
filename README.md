@@ -119,38 +119,33 @@ How to read this layout:
 | Right |         |         |    1    |    2    |   spc   |    3    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |    `    |         |         |         |
-| Right |         |         |         |         |   💎    |         |         |         |
+| Right |         |         |         |         |   💎    |         |    ß    |         |
 | Right |         |         |         |         |    @    |         |         |         |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |         |   n't   |         |         |
-| Right |         |         |         |         |    ä    |   💎    |    ß    |         |
+| Right |         |         |         |         |    ä    |   💎    |    ö    |         |
 | Right |         |         |         |         |         |    !    |         |         |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |         |         |         |         |
-| Right |         |         |         |         |         |         |   💎    |         |
+| Right |         |         |         |         |         |         |   💎    |    ü    |
 | Right |         |         |         |         |         |         |  .spc   |         |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |         |         |         |         |
 | Right |         |         |         |         |         |         |         |         |
-| Right |         |         |         |         |    ü    |   💎    |    ö    |         |
+| Right |         |         |         |         |    Ä    |   💎    |    Ö    |         |
+| Right |         |         |         |         |         |         |         |         |
+|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| Right |         |         |         |         |         |         |         |         |
+| Right |         |         |         |         |         |         |         |         |
+| Right |         |         |         |         |         |         |   💎    |    Ü    |         
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | RMods |         |         |         |         |         |         |         |         |
 | RMods |         |         |         |         |         |         |         |         |
 | RMods |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |         |
-| RMods |         |         |         |         |         |         |         |         |
-|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| RMods |         |         |         |         |         |         |         |         |
-| RMods |         |         |         |         |    ä    |   💎    |         |         |
-| RMods |         |         |         |         |         |         |         |         |
-| RMods |         |         |         |         |         |         |         |         |
-|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| RMods |         |         |         |         |         |         |         |         |
-| RMods |         |         |         |         |         |         |         |         |
-| RMods |         |         |         |         |    ü    |   💎    |    ö    |         |
 | RMods |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |         |         |         |         |         |         |         |         |
@@ -266,7 +261,7 @@ How to read this layout:
 |  Num  |         |    .    |    9    |         |         |         |         |         |
 |  Num  |    4    |    3    |    2    |    1    |         |         |         |         |
 |  Num  |    8    |    7    |    6    |    5    |         |    ,    |    .    |         |
-|  Num  |         |         |   --    |    0    |   🛑    |   🛑    |         |         |
+|  Num  |         |         |   --    |    0    |  bspc   |   del   |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Media |         |   🔅    |   🔆    |         |         |         |         |         |
 | Media |   prt   |   🔈    |   🔊    |   🔇    |         |   🛑    |         |         |
@@ -284,7 +279,7 @@ The order of the options is also the order of the layers in the layer stack.
 |     Left     |                 | BottomRow+LMods |     Base      |                | Shifted     |      200      |
 |    Right     | BottomRow+RMods |                 |               |      Base      | Shifted     |      200      |
 |    LMods     |                 | BottomRow+LMods |     Base      |                |             |               |
-|    RMods     | BottomRow+RMods |                 |               |      Base      |             |      200      |
+|    RMods     | BottomRow+RMods |                 |               |      Base      |             |               |
 |     Nav      |     HomeRow     |                 |               |                | DirectCombo |      200      |
 |     Nav2     |     HomeRow     |                 |               |                |             |               |
 |      Fn      |     HomeRow     |     HomeRow     |               |                | DirectCombo |      200      |
@@ -326,6 +321,9 @@ The order of the options is also the order of the layers in the layer stack.
 | ä       | UP(UMLAUT_a, UMLAUT_A)      |
 | ö       | UP(UMLAUT_o, UMLAUT_O)      |
 | ü       | UP(UMLAUT_u, UMLAUT_U)      |
+| Ä       | UP(UMLAUT_A)                |
+| Ö       | UP(UMLAUT_O)                |
+| Ü       | UP(UMLAUT_U)                |
 | ß       | UM(UMLAUT_s)                |
 | repeat  | QK_REPEAT_KEY               |
 | altRep  | QK_ALT_REPEAT_KEY           |
