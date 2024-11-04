@@ -321,9 +321,9 @@ The order of the options is also the order of the layers in the layer stack.
 | ä       | UP(UMLAUT_a, UMLAUT_A)      |
 | ö       | UP(UMLAUT_o, UMLAUT_O)      |
 | ü       | UP(UMLAUT_u, UMLAUT_U)      |
-| Ä       | UP(UMLAUT_A)                |
-| Ö       | UP(UMLAUT_O)                |
-| Ü       | UP(UMLAUT_U)                |
+| Ä       | UM(UMLAUT_A)                |
+| Ö       | UM(UMLAUT_O)                |
+| Ü       | UM(UMLAUT_U)                |
 | ß       | UM(UMLAUT_s)                |
 | repeat  | QK_REPEAT_KEY               |
 | altRep  | QK_ALT_REPEAT_KEY           |
