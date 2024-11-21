@@ -77,11 +77,11 @@ How to read this layout:
 |   x    |      p      |     c      |
 |   y    |             |     i      |
 |   z    | "eitlinger" |     i      |
-|  spc   |    "the"    |   "and"    |
-|  tab   |    "the"    |   "and"    |
-|  ↩️️   |    "the"    |   "and"    |
+|  spc   |   "the "    |   "and "   |
+|  tab   |   "the "    |   "and "   |
+|  ↩️️   |   "the "    |   "and "   |
 |   ~    |      /      |            |
-|   ,    |   " but"    |   " and"   |
+|   ,    |   " but "   |  " and "   |
 |   .    |      /      |    "./"    |
 |   -    |      >      |            |
 |   =    |      >      |            |
@@ -276,13 +276,13 @@ The order of the options is also the order of the layers in the layer stack.
 | LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags       | Combo Timeout |
 |:------------:|:---------------:|:---------------:|:-------------:|:--------------:|-------------|:-------------:|
 |     Base     |                 |                 |               |                |             |      200      |
-|     Left     |                 | BottomRow+LMods |     Base      |                | Shifted     |      200      |
-|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted     |      200      |
+|     Left     |                 | BottomRow+LMods |     Base      |                | Shifted     |      500      |
+|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted     |      500      |
 |    LMods     |                 | BottomRow+LMods |     Base      |                |             |               |
 |    RMods     | BottomRow+RMods |                 |               |      Base      |             |               |
-|     Nav      |     HomeRow     |                 |               |                | DirectCombo |      200      |
+|     Nav      |     HomeRow     |                 |               |                | DirectCombo |      500      |
 |     Nav2     |     HomeRow     |                 |               |                |             |               |
-|      Fn      |     HomeRow     |     HomeRow     |               |                | DirectCombo |      200      |
+|      Fn      |     HomeRow     |     HomeRow     |               |                | DirectCombo |      500      |
 |     Num      |                 |     HomeRow     |               |                |             |               |
 |    Media     |                 |                 |               |                |             |               |
 
