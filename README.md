@@ -88,7 +88,7 @@ How to read this layout:
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-| Base  |   esc   |    p    |    m    |  dead1  |  dead2  | repeat  | altRep  |  reset  |
+| Base  |   esc   |    p    |    m    |  dead1  |  dead2  | repeat  | altRep  |         |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
 | Base  |         |         |  $Nav   |    r    |   spc   |   *Fn   |         |         |
@@ -108,7 +108,7 @@ How to read this layout:
 | Base  |         |    b    |         |         |         |         |    .    |         |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Base  |         |         |         |         |         |         |         |         |
+| Base  | altRep  |         |         |         |         |         |         |         |
 | Base  |   💎    |         |         |         |         |         |         |   💎    |
 | Base  |    z    |         |         |         |         |         |         |    j    |
 | Base  |         |         |         |         |         |         |         |         |
