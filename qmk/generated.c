@@ -21,8 +21,8 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_BASE_KC_W: return 200;
     case C_BASE_KC_X: return 200;
     case C_BASE_KC_Z: return 200;
-    case C_BASE_QK_ALT_REPEAT_KEY_0: return 200;
-    case C_BASE_QK_ALT_REPEAT_KEY_1: return 200;
+    case C_BASE_QK_ALT_REPEAT_KEY: return 200;
+    case C_BASE_QU: return 200;
     case C_FN_KC_AMPR: return 500;
     case C_FN_KC_ASTR: return 500;
     case C_FN_KC_BACKSLASH: return 500;
@@ -62,6 +62,7 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_LEFT_KC_CAPS: return 500;
     case C_LEFT_KEBAP_CASE: return 500;
     case C_LEFT_PASCAL_CASE: return 500;
+    case C_LEFT_QU: return 500;
     case C_LEFT_SCREAMING_SNAKE_CASE: return 500;
     case C_LEFT_SLASH_CASE: return 500;
     case C_LEFT_SNAKE_CASE: return 500;
