@@ -9,7 +9,6 @@ int layer = _BASE;
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     switch(index) {
     case C_BASE_ING: return 200;
-    case C_BASE_ION: return 200;
     case C_BASE_KC_B: return 200;
     case C_BASE_KC_COMMA: return 200;
     case C_BASE_KC_DOT: return 200;
@@ -22,7 +21,8 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_BASE_KC_W: return 200;
     case C_BASE_KC_X: return 200;
     case C_BASE_KC_Z: return 200;
-    case C_BASE_QK_ALT_REPEAT_KEY: return 200;
+    case C_BASE_QK_ALT_REPEAT_KEY_0: return 200;
+    case C_BASE_QK_ALT_REPEAT_KEY_1: return 200;
     case C_FN_KC_AMPR: return 500;
     case C_FN_KC_ASTR: return 500;
     case C_FN_KC_BACKSLASH: return 500;
