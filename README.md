@@ -316,7 +316,6 @@ The order of the options is also the order of the layers in the layer stack.
 | 🔈      | KC_VOLD                     |
 | 🔆      | KC_BRIU                     |
 | 🔅      | KC_BRID                     |
-| reset   | QK_BOOT                     |
 | cp      | C(KC_C)                     |
 | ä       | UP(UMLAUT_a, UMLAUT_A)      |
 | ö       | UP(UMLAUT_o, UMLAUT_O)      |
