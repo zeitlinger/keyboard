@@ -325,7 +325,7 @@ The order of the options is also the order of the layers in the layer stack.
 
 | LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags       | Combo Timeout |
 |:------------:|:---------------:|:---------------:|:-------------:|:--------------:|-------------|:-------------:|
-|     Base     |                 |                 |               |                |             |       5       |
+|     Base     |                 |                 |               |                |             |      10       |
 |     Left     |                 | BottomRow+LMods |     Base      |                | Shifted     |      500      |
 |    Right     | BottomRow+RMods |                 |               |      Base      | Shifted     |      500      |
 |    LMods     |                 | BottomRow+LMods |     Base      |                |             |               |
