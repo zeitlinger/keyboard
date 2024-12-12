@@ -182,7 +182,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 case KC_M: SEND_STRING("ent"); return false;
                 case KC_N: tap_code16(KC_K); return false;
                 case KC_P: tap_code16(KC_S); return false;
-                case KC_S: SEND_STRING("ion"); return false;
+                case KC_S: tap_code16(KC_P); return false;
                 case KC_SPC: SEND_STRING("and "); return false;
                 case KC_T: SEND_STRING("ing"); return false;
                 case KC_TAB: SEND_STRING("and "); return false;
@@ -201,7 +201,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 case S(KC_M): SEND_STRING("ent"); return false;
                 case S(KC_N): tap_code16(KC_K); return false;
                 case S(KC_P): tap_code16(KC_S); return false;
-                case S(KC_S): SEND_STRING("ion"); return false;
+                case S(KC_S): tap_code16(KC_P); return false;
                 case S(KC_T): SEND_STRING("ing"); return false;
                 case S(KC_V): SEND_STRING("en"); return false;
                 case S(KC_W): tap_code16(KC_S); return false;
@@ -215,6 +215,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
             case _HANDLER_ALT_KC_H: SEND_STRING("ey"); return false;
             case _HANDLER_ALT_KC_J: SEND_STRING("ust"); return false;
             case _HANDLER_ALT_KC_Q: SEND_STRING("ua"); return false;
+            case _HANDLER_ALT_KC_S: SEND_STRING("ion"); return false;
             case _HANDLER_ALT_KC_T: SEND_STRING("ion"); return false;
             case _HANDLER_ALT_KC_V: SEND_STRING("er"); return false;
             case _HANDLER_ALT_KC_Z: SEND_STRING("eitlinger"); return false;
@@ -265,7 +266,7 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
         case KC_P: return KC_L;
         case KC_Q: return ALT_KC_Q;
         case KC_R: return KC_K;
-        case KC_S: return KC_P;
+        case KC_S: return ALT_KC_S;
         case KC_SPC: return ALT_KC_SPC;
         case KC_T: return ALT_KC_T;
         case KC_TAB: return ALT_KC_TAB;
@@ -293,7 +294,7 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
         case S(KC_P): return KC_L;
         case S(KC_Q): return ALT_KC_Q;
         case S(KC_R): return KC_K;
-        case S(KC_S): return KC_P;
+        case S(KC_S): return ALT_KC_S;
         case S(KC_T): return ALT_KC_T;
         case S(KC_U): return KC_A;
         case S(KC_V): return ALT_KC_V;

@@ -50,6 +50,7 @@ enum custom_keycodes {
     ALT_KC_H,
     ALT_KC_J,
     ALT_KC_Q,
+    ALT_KC_S,
     ALT_KC_T,
     ALT_KC_V,
     ALT_KC_Z,
@@ -89,6 +90,7 @@ enum custom_keycodes {
 #define _HANDLER_ALT_KC_H ALT_KC_H
 #define _HANDLER_ALT_KC_J ALT_KC_J
 #define _HANDLER_ALT_KC_Q ALT_KC_Q
+#define _HANDLER_ALT_KC_S ALT_KC_S
 #define _HANDLER_ALT_KC_T ALT_KC_T
 #define _HANDLER_ALT_KC_V ALT_KC_V
 #define _HANDLER_ALT_KC_Z ALT_KC_Z
