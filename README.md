@@ -99,7 +99,7 @@ How to read this layout:
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |    w    |         |         |    '    |         |         |
-| Base  |         |  "ch"   |   💎    |  "th"   |         |   💎    |         |         |
+| Base  |         |         |   💎    |         |         |   💎    |         |         |
 | Base  |         |         |    g    |         |         |    ,    |         |         |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -111,26 +111,6 @@ How to read this layout:
 | Base  |  "qu"   |         |         |         |         |         |         |         |
 | Base  |   💎    |         |         |         |         |         |         |   💎    |
 | Base  |    z    |         |         |         |         |         |         |    j    |
-| Base  |         |         |         |         |         |         |         |         |
-|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Base  |         |   💎    |  "ph"   |         |         |         |         |         |
-| Base  |         |         |         |         |         |         |         |         |
-| Base  |         |         |         |         |         |         |         |         |
-| Base  |         |         |         |         |         |         |         |         |
-|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Base  |         |   💎    |  "wh"   |         |         |         |         |         |
-| Base  |         |   💎    |   💎    |         |         |         |         |         |
-| Base  |         |         |         |         |         |         |         |         |
-| Base  |         |         |         |         |         |         |         |         |
-|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Base  |         |         |         |         |         |         |         |         |
-| Base  |         |   💎    |  "gh"   |         |         |         |         |         |
-| Base  |         |   💎    |   💎    |         |         |         |         |         |
-| Base  |         |         |         |         |         |         |         |         |
-|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Base  |         |         |         |         |         |         |         |         |
-| Base  |         |         |         |         |         |         |         |         |
-| Base  |         |   💎    |  "sh"   |         |         |         |         |         |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |  dead3  |    "    |  A-➡️   |         |
@@ -295,7 +275,7 @@ The order of the options is also the order of the layers in the layer stack.
 
 | LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags       | Combo Timeout |
 |:------------:|:---------------:|:---------------:|:-------------:|:--------------:|-------------|:-------------:|
-|     Base     |                 |                 |               |                |             |      10       |
+|     Base     |                 |                 |               |                |             |      200      |
 |     Left     |                 | BottomRow+LMods |     Base      |                | Shifted     |      500      |
 |    Right     | BottomRow+RMods |                 |               |      Base      | Shifted     |      500      |
 |    LMods     |                 | BottomRow+LMods |     Base      |                |             |               |
@@ -336,6 +316,7 @@ The order of the options is also the order of the layers in the layer stack.
 | 🔈      | KC_VOLD                     |
 | 🔆      | KC_BRIU                     |
 | 🔅      | KC_BRID                     |
+| reset   | QK_BOOT                     |
 | cp      | C(KC_C)                     |
 | ä       | UP(UMLAUT_a, UMLAUT_A)      |
 | ö       | UP(UMLAUT_o, UMLAUT_O)      |
