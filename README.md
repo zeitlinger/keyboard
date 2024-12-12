@@ -69,7 +69,7 @@ How to read this layout:
 |   p    |      l      |     s      |
 |   q    |    "ua"     |            |
 |   r    |      k      |            |
-|   s    |      p      |   "ion"    |
+|   s    |    "ion"    |     p      |
 |   t    |    "ion"    |   "ing"    |
 |   u    |      a      |            |
 |   v    |    "er"     |    "en"    |
