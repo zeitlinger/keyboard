@@ -99,8 +99,8 @@ enum custom_keycodes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_BASE] = LAYOUT_split_3x5_2(
-                          KC_ESC,                 KC_P,                 KC_M,                DEAD1, KC_NO, KC_NO,                DEAD2,        QK_REPEAT_KEY,    QK_ALT_REPEAT_KEY,                KC_NO,
-                            KC_S,                 KC_C,                 KC_N,                 KC_T, KC_NO, KC_NO,                 KC_A,                 KC_E,                 KC_I,                 KC_H,
+                          KC_ESC,                 KC_P,                 KC_M,                DEAD1, KC_NO, KC_NO,                DEAD2,        QK_REPEAT_KEY,                 KC_H,                KC_NO,
+                            KC_S,                 KC_C,                 KC_N,                 KC_T, KC_NO, KC_NO,                 KC_A,                 KC_E,                 KC_I,    QK_ALT_REPEAT_KEY,
                       MO(_RIGHT),                 KC_F,                 KC_L,                 KC_D, KC_NO, KC_NO,                 KC_U,                 KC_O,                 KC_Y,            MO(_LEFT),
                                         TT(_NAV),                 KC_R,               KC_SPC,              MO(_FN)),
 	[_LEFT] = LAYOUT_split_3x5_2(
@@ -110,7 +110,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             KC_4,              S(KC_R),                 KC_7,                 KC_8),
 	[_RIGHT] = LAYOUT_split_3x5_2(
                            KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                DEAD3,              KC_DQUO,          A(KC_RIGHT),                KC_NO,
-                           KC_NO,             TO(_NUM),                 KC_9,                 KC_0, KC_NO, KC_NO,              S(KC_A),              S(KC_E),              S(KC_I),              S(KC_H),
+                           KC_NO,             TO(_NUM),                 KC_9,                 KC_0, KC_NO, KC_NO,              S(KC_A),              S(KC_E),              S(KC_I), S(QK_ALT_REPEAT_KEY),
                            KC_NO, LM(_RMODS, MOD_LALT), LM(_RMODS, MOD_LCTL), LM(_RMODS, MOD_LSFT), KC_NO, KC_NO,              S(KC_U),              S(KC_O),              S(KC_Y),              KC_QUES,
                                             KC_1,                 KC_2,               KC_SPC,                 KC_3),
 	[_LMODS] = LAYOUT_split_3x5_2(
@@ -119,8 +119,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                            KC_NO,                 KC_F,                 KC_L,                 KC_D, KC_NO, KC_NO, LM(_LMODS, MOD_LSFT), LM(_LMODS, MOD_LCTL), LM(_LMODS, MOD_LALT),                KC_NO,
                                         TT(_NAV),                 KC_R,                KC_NO,                KC_NO),
 	[_RMODS] = LAYOUT_split_3x5_2(
-                           KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                DEAD2,        QK_REPEAT_KEY,    QK_ALT_REPEAT_KEY,                KC_NO,
-                           KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                 KC_A,                 KC_E,                 KC_I,                 KC_H,
+                           KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                DEAD2,        QK_REPEAT_KEY,                 KC_H,                KC_NO,
+                           KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                 KC_A,                 KC_E,                 KC_I,    QK_ALT_REPEAT_KEY,
                            KC_NO, LM(_RMODS, MOD_LALT), LM(_RMODS, MOD_LCTL), LM(_RMODS, MOD_LSFT), KC_NO, KC_NO,                 KC_U,                 KC_O,                 KC_Y,                KC_NO,
                                            KC_NO,                KC_NO,               KC_SPC,                KC_NO),
 	[_NAV] = LAYOUT_split_3x5_2(
