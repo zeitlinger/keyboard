@@ -58,7 +58,7 @@ How to read this layout:
 |   e    |      o      |            |
 |   f    |      f      |    "or"    |
 |   g    |      n      |     l      |
-|   h    |    "ey"     |     i      |
+|   h    |    "ey"     |   "ave"    |
 |   i    |      z      |            |
 |   j    |    "ust"    |            |
 |   k    |      n      |   "now"    |
@@ -325,7 +325,7 @@ The order of the options is also the order of the layers in the layer stack.
 
 | LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags       | Combo Timeout |
 |:------------:|:---------------:|:---------------:|:-------------:|:--------------:|-------------|:-------------:|
-|     Base     |                 |                 |               |                |             |       1       |
+|     Base     |                 |                 |               |                |             |       2       |
 |     Left     |                 | BottomRow+LMods |     Base      |                | Shifted     |      500      |
 |    Right     | BottomRow+RMods |                 |               |      Base      | Shifted     |      500      |
 |    LMods     |                 | BottomRow+LMods |     Base      |                |             |               |
