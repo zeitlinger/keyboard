@@ -81,12 +81,7 @@ private fun layerOption(tables: Tables): Map<LayerName, LayerOption> = tables.ge
             modifierTypes(it.value[2]),
             it.value[3].ifBlank { null },
             it.value[4].ifBlank { null },
-            when (it.value[5]) {
-                "Shifted" -> setOf(LayerFlag.Shifted)
-                "DirectCombo" -> setOf(LayerFlag.DirectCombo)
-                "" -> emptySet()
-                else -> throw IllegalStateException("unknown flag ${it.value[5]}")
-            },
+            it.value[5].split(",").filter { it.isNotBlank() }.map { LayerFlag.valueOf(it) }.toSet(),
             it.value[6].takeUnless { it.isBlank() }?.toInt(),
             mutableMapOf(),
         )

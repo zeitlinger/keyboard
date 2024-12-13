@@ -31,7 +31,7 @@ private fun checkForDuplicateCombos(combos: List<Combo>) {
         .filter { it.value.size > 1 }
         .forEach { (triggers, combos) ->
             throw IllegalStateException(
-                "duplicate triggers\n${triggers.joinToString("\n")} in\n${
+                "duplicate triggers\n${triggers.joinToString("\n")}\nin\n${
                     combos.joinToString(
                         ", "
                     ) { it.name }
@@ -69,27 +69,44 @@ private fun layerCombos(
             }
     }.distinct()
 
-    val direct = if (LayerFlag.DirectCombo in layer.option.flags) {
-        val layerTriggers = firstNonToggleActivation(
-            layer,
-            layers,
-        )
-
-        val base = layers[0]
-        layerBase.flatten()
-            // only if the layer can be reached directly from the base layer
-            .filter { it.isReal() && it.key !in translator.noHoldKeys }
-            .flatMap { key ->
-                val triggers = (listOf(key.pos) + layerTriggers).map { base.get(it) }
-                if (LayerActivation.entries.any { it.method != null && triggers[0].key.key.startsWith(it.method) }) {
-                    emptyList()
-                } else {
-                    keyCombos(key, triggers, translator, layer, layers, "", false)
-                }
-            }
+    val directLeft = if (LayerFlag.DirectComboLeft in layer.option.flags) {
+        directCombos(layer, layers, layerBase, translator) {
+            it.pos.column < options.nonThumbColumns / 2
+        }
+    } else emptyList()
+    val directRight = if (LayerFlag.DirectComboRight in layer.option.flags) {
+        directCombos(layer, layers, layerBase, translator) {
+            it.pos.column >= options.nonThumbColumns / 2
+        }
     } else emptyList()
 
-    return custom + direct
+    return custom + directLeft + directRight
+}
+
+private fun directCombos(
+    layer: Layer,
+    layers: List<Layer>,
+    layerBase: Rows,
+    translator: QmkTranslator,
+    filter: (Key) -> Boolean,
+): List<Combo> {
+    val layerTriggers = firstNonToggleActivation(
+        layer,
+        layers,
+    )
+
+    val base = layers[0]
+    return layerBase.flatten()
+        // only if the layer can be reached directly from the base layer
+        .filter { it.isReal() && it.key !in translator.noHoldKeys && filter(it) }
+        .flatMap { key ->
+            val triggers = (listOf(key.pos) + layerTriggers).map { base.get(it) }
+            if (LayerActivation.entries.any { it.method != null && triggers[0].key.key.startsWith(it.method) }) {
+                emptyList()
+            } else {
+                keyCombos(key, triggers, translator, layer, layers, "", false)
+            }
+        }
 }
 
 private fun firstNonToggleActivation(layer: Layer, layers: List<Layer>): List<KeyPosition> =

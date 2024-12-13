@@ -41,7 +41,7 @@ enum class LayerActivation(val prefix: String?, val method: String?) {
     ModTap(null, null);
 }
 
-enum class LayerFlag { Shifted, Toggle, DirectCombo }
+enum class LayerFlag { Shifted, DirectComboLeft, DirectComboRight }
 
 typealias LayerName = String
 

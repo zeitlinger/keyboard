@@ -69,7 +69,7 @@ How to read this layout:
 |   p    |      l      |     s      |
 |   q    |    "ua"     |            |
 |   r    |      k      |            |
-|   s    |    "ion"    |     p      |
+|   s    |      p      |     s      |
 |   t    |    "ion"    |   "ing"    |
 |   u    |      a      |            |
 |   v    |    "er"     |    "en"    |
@@ -88,14 +88,14 @@ How to read this layout:
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-| Base  |   esc   |    p    |    m    |  dead1  |  dead2  | repeat  | altRep  |         |
+| Base  |   esc   |    p    |    m    | altRep  |  dead2  | repeat  | altRep  |         |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
 | Base  |         |         |  $Nav   |    r    |   spc   |   *Fn   |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |         |    v    |  "ing"  |         |         |         |
 | Base  |         |         |         |   💎    |   💎    |         |         |         |
-| Base  |         |         |         |    k    | altRep  |         |         |         |
+| Base  |         |         |         |    k    |  "ion"  |         |         |         |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |    w    |         |         |    '    |         |         |
@@ -273,18 +273,18 @@ How to read this layout:
 
 The order of the options is also the order of the layers in the layer stack.
 
-| LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags       | Combo Timeout |
-|:------------:|:---------------:|:---------------:|:-------------:|:--------------:|-------------|:-------------:|
-|     Base     |                 |                 |               |                |             |      200      |
-|     Left     |                 | BottomRow+LMods |     Base      |                | Shifted     |      500      |
-|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted     |      500      |
-|    LMods     |                 | BottomRow+LMods |     Base      |                |             |               |
-|    RMods     | BottomRow+RMods |                 |               |      Base      |             |               |
-|     Nav      |     HomeRow     |                 |               |                | DirectCombo |      500      |
-|     Nav2     |     HomeRow     |                 |               |                |             |               |
-|      Fn      |     HomeRow     |     HomeRow     |               |                | DirectCombo |      500      |
-|     Num      |                 |     HomeRow     |               |                |             |               |
-|    Media     |                 |                 |               |                |             |               |
+| LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags                            | Combo Timeout |
+|:------------:|:---------------:|:---------------:|:-------------:|:--------------:|----------------------------------|:-------------:|
+|     Base     |                 |                 |               |                |                                  |      200      |
+|     Left     |                 | BottomRow+LMods |     Base      |                | Shifted                          |      500      |
+|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted                          |      500      |
+|    LMods     |                 | BottomRow+LMods |     Base      |                |                                  |               |
+|    RMods     | BottomRow+RMods |                 |               |      Base      |                                  |               |
+|     Nav      |     HomeRow     |                 |               |                | DirectComboLeft                  |      500      |
+|     Nav2     |     HomeRow     |                 |               |                |                                  |               |
+|      Fn      |     HomeRow     |     HomeRow     |               |                | DirectComboRight                 |      500      |
+|     Num      |                 |     HomeRow     |               |                |                                  |               |
+|    Media     |                 |                 |               |                |                                  |               |
 
 ## Symbols
 
