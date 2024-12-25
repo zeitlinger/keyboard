@@ -23,10 +23,10 @@ val ignoreDuplicates = setOf(
     "esc",
     "spc",
     "shift",
-    "--",
-    "\uD83D\uDDB1\uFE0F1", //mouse button 1
-    "\uD83D\uDDB1\uFE0F2", //mouse button 2
-    "\uD83D\uDDB1\uFE0F3", //mouse button 3
+    "@",
+    "!",
+    "CapW",
+    "altRep",
     "\uD83D\uDC8E", //diamond
 )
 
@@ -64,8 +64,6 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
 
     for (entry in translator.gotKeys) {
         entry.value.remove("Num")
-        entry.value.remove("Num")
-        entry.value.remove("RMods")
     }
 
     val duplicates = translator.gotKeys

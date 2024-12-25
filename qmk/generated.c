@@ -23,14 +23,13 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_BASE_KC_X: return 200;
     case C_BASE_KC_Z: return 200;
     case C_BASE_QU: return 200;
+    case C_FNSYM_CAPS_WORDS: return 500;
     case C_FNSYM_KC_AMPR: return 500;
     case C_FNSYM_KC_ASTR: return 500;
-    case C_FNSYM_KC_AT: return 500;
     case C_FNSYM_KC_BACKSLASH: return 500;
     case C_FNSYM_KC_CIRC: return 500;
     case C_FNSYM_KC_DLR: return 500;
     case C_FNSYM_KC_EQUAL: return 500;
-    case C_FNSYM_KC_EXLM: return 500;
     case C_FNSYM_KC_HASH: return 500;
     case C_FNSYM_KC_LABK: return 500;
     case C_FNSYM_KC_LCBR: return 500;
@@ -79,7 +78,6 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_NAV_KC_PGDN: return 500;
     case C_NAV_KC_PGUP: return 500;
     case C_NAV_KC_SPC: return 500;
-    case C_NAV_MO_NUM: return 500;
     case C_NAV_RCSKC_F: return 500;
     case C_NAV_RCSKC_V: return 500;
     case C_NAV_RCSKC_Z: return 500;
