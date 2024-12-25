@@ -36,7 +36,6 @@ How to read this layout:
 - 🛑 = key can't be used because the layer was activated with that key or because it's reserved for a modifier
 - empty = use key from base layer
 - FnSym = capitalized words are layer names - if they are a key, the layer is activated as toggled or one shot layer (if the "OneShot" flag is set in the layer flags)
-- /+Ctrl = tab-mod - / on tab and CTRL on hold
 - *Mouse = layer is active while key is held
 - C-w = Ctrl-w (same for Alt and Shift)
 - "that" = combo that produces "that"
@@ -44,6 +43,7 @@ How to read this layout:
 
 Currently unused features:
 
+- /+Ctrl = tab-mod - / on tab and CTRL on hold
 - $Mouse = layer is active while key is held (double tap to lock layer)
 - #Mouse = toggle layer
 - @Num = layer is active for the next keypress
@@ -117,7 +117,7 @@ Currently unused features:
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |  dead3  |    "    |  A-➡️   |         |
-| Right |         |  #Num   |    9    |    0    |         |         |         |         |
+| Right |         |         |    9    |    0    |         |         |         |         |
 | Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |    ?    |
 | Right |         |         |    1    |    2    |   spc   |    3    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -196,8 +196,8 @@ Currently unused features:
 | LMods |         |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
 | LMods |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| FnSym |         |   f10   |   f9    |   win   |         |    (    |    )    |         |
-| FnSym |   f4    |   f3    |   f2    |   f1    |    -    |    {    |    }    |  ;+Num  |
+| FnSym |         |   f10   |   f9    |   win   |    @    |    (    |    )    |         |
+| FnSym |   f4    |   f3    |   f2    |   f1    |    -    |    {    |    }    |    ;    |
 | FnSym |   f8    |   f7    |   f6    |   f5    |    _    |    =    |    +    |    /    |
 | FnSym |         |         |   f11   |   f12   |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -224,7 +224,7 @@ Currently unused features:
 |  Nav  |   spc   |   C-x   |   C-v   |  CS-z   |   🔇    |   esc   |   ins   |         |
 |  Nav  |   cp    |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬇️    |   ⬆️    |   ➡️    |
 |  Nav  |   C-z   |   C-w   | tab ➡️  | win ➡️  |   ↩️️   |  bspc   |   del   |   spc   |
-|  Nav  |         |         |   --    |   🛑    |   tab   |  S-tab  |         |         |
+|  Nav  |         |         |   🛑    |   🛑    |   tab   |  S-tab  |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |         |         |         |  CS-v   |         |         |         |         |
 |  Nav  |         |         |         |   💎    |   💎    |         |         |         |
@@ -254,12 +254,12 @@ Currently unused features:
 |  Nav  |         |         |         |         |         |         |         |         |
 |  Nav  |         |         |         |         |         |         |         |         |
 |  Nav  |  A-f7   |   💎    |         |         |         |   C-/   |   💎    |         |
-|  Nav  |         |         |         |         |         |         |         |         |
+|  Nav  |         |         |         |         |         |  *Num   |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Num  |         |    .    |    9    |         |         |         |         |         |
-|  Num  |    4    |    3    |    2    |    1    |         |    ,    |    .    |         |
-|  Num  |    8    |    7    |    6    |    5    |         |  bspc   |   del   |         |
-|  Num  |         |         |   --    |    0    |   tab   |  S-tab  |         |         |
+|  Num  |         |    %    |    :    |         |         |    *    |    -    |         |
+|  Num  |    4    |    3    |    2    |    1    |    0    |    ,    |    .    |    9    |
+|  Num  |    8    |    7    |    6    |    5    |    _    |    =    |    +    |    /    |
+|  Num  |         |         |   🛑    |   🛑    |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Media |         |   🔅    |   🔆    |         |         |         |         |         |
 | Media |   prt   |   🔈    |   🔊    |   🔇    |         |   🛑    |         |         |

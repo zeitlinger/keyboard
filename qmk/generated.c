@@ -1,6 +1,6 @@
 /* THIS FILE WAS GENERATED!
  *
- * file is generated from https://github.com/zeitlinger/keyboard/blob/668e072b007a51a383941804bcdf7a2652ffa8fb/README.md using https://github.com/zeitlinger/keyboard/blob/668e072b007a51a383941804bcdf7a2652ffa8fb/generateKeyboard.kt
+ * file is generated from https://github.com/zeitlinger/keyboard/blob/uncommitted changes/README.md using https://github.com/zeitlinger/keyboard/blob/uncommitted changes/generateKeyboard.kt
  */
 
 int alternateLayer = -1;
@@ -23,28 +23,29 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_BASE_KC_X: return 200;
     case C_BASE_KC_Z: return 200;
     case C_BASE_QU: return 200;
-    case C_FN_KC_AMPR: return 500;
-    case C_FN_KC_ASTR: return 500;
-    case C_FN_KC_BACKSLASH: return 500;
-    case C_FN_KC_CIRC: return 500;
-    case C_FN_KC_DLR: return 500;
-    case C_FN_KC_EQUAL: return 500;
-    case C_FN_KC_HASH: return 500;
-    case C_FN_KC_LABK: return 500;
-    case C_FN_KC_LCBR: return 500;
-    case C_FN_KC_LEFT_BRACKET: return 500;
-    case C_FN_KC_LPRN: return 500;
-    case C_FN_KC_MINUS: return 500;
-    case C_FN_KC_PERC: return 500;
-    case C_FN_KC_PIPE: return 500;
-    case C_FN_KC_PLUS: return 500;
-    case C_FN_KC_RABK: return 500;
-    case C_FN_KC_RCBR: return 500;
-    case C_FN_KC_RIGHT_BRACKET: return 500;
-    case C_FN_KC_RPRN: return 500;
-    case C_FN_KC_TILD: return 500;
-    case C_FN_KC_UNDS: return 500;
-    case C_FN_LT_NUMKC_SEMICOLON: return 500;
+    case C_FNSYM_KC_AMPR: return 500;
+    case C_FNSYM_KC_ASTR: return 500;
+    case C_FNSYM_KC_AT: return 500;
+    case C_FNSYM_KC_BACKSLASH: return 500;
+    case C_FNSYM_KC_CIRC: return 500;
+    case C_FNSYM_KC_DLR: return 500;
+    case C_FNSYM_KC_EQUAL: return 500;
+    case C_FNSYM_KC_HASH: return 500;
+    case C_FNSYM_KC_LABK: return 500;
+    case C_FNSYM_KC_LCBR: return 500;
+    case C_FNSYM_KC_LEFT_BRACKET: return 500;
+    case C_FNSYM_KC_LPRN: return 500;
+    case C_FNSYM_KC_MINUS: return 500;
+    case C_FNSYM_KC_PERC: return 500;
+    case C_FNSYM_KC_PIPE: return 500;
+    case C_FNSYM_KC_PLUS: return 500;
+    case C_FNSYM_KC_RABK: return 500;
+    case C_FNSYM_KC_RCBR: return 500;
+    case C_FNSYM_KC_RIGHT_BRACKET: return 500;
+    case C_FNSYM_KC_RPRN: return 500;
+    case C_FNSYM_KC_SEMICOLON: return 500;
+    case C_FNSYM_KC_TILD: return 500;
+    case C_FNSYM_KC_UNDS: return 500;
     case C_LEFT_CAMEL_CASE: return 500;
     case C_LEFT_CAPS_WORDS: return 500;
     case C_LEFT_DOT_CASE: return 500;
@@ -72,7 +73,12 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_NAV_CKC_W: return 500;
     case C_NAV_CKC_X: return 500;
     case C_NAV_CKC_Y: return 500;
+    case C_NAV_KC_END: return 500;
+    case C_NAV_KC_HOME: return 500;
+    case C_NAV_KC_PGDN: return 500;
+    case C_NAV_KC_PGUP: return 500;
     case C_NAV_KC_SPC: return 500;
+    case C_NAV_MO_NUM: return 500;
     case C_NAV_RCSKC_F: return 500;
     case C_NAV_RCSKC_V: return 500;
     case C_NAV_RCSKC_Z: return 500;
@@ -135,7 +141,6 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
     if (record->tap.count) {
         if (record->event.pressed) {
             switch (keycode) {
-            case _HANDLER__TAP_C_CKC_C: tap_code16(C(KC_C)); return false;
             case _HANDLER__TAP_C_CKC_K: tap_code16(C(KC_K)); return false;
             case _HANDLER__TAP_C_KC_LCBR: tap_code16(KC_LCBR); return false;
             case _HANDLER__TAP_C_KC_RCBR: tap_code16(KC_RCBR); return false;
@@ -189,7 +194,6 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             switch (keycode) {
-            case _HANDLER_ALT_KC_D: SEND_STRING("oes"); return false;
             case _HANDLER_ALT_KC_H: SEND_STRING("ey"); return false;
             case _HANDLER_ALT_KC_J: SEND_STRING("ust"); return false;
             case _HANDLER_ALT_KC_Q: SEND_STRING("ua"); return false;
@@ -210,8 +214,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
 
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-    case LT(_NAV2,_TAP_C_CKC_C): return true;
-    case LT(_NUM,KC_SEMICOLON): return true;
+    
     default:
         // Do not select the hold action when another key is pressed.
         return false;
@@ -224,7 +227,7 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
         case KC_B: return KC_L;
         case KC_C: return KC_K;
         case KC_COMMA: return ALT_KC_COMMA;
-        case KC_D: return ALT_KC_D;
+        case KC_D: return KC_V;
         case KC_DOT: return KC_SLASH;
         case KC_E: return KC_O;
         case KC_ENT: return ALT_KC_ENT;
@@ -256,7 +259,7 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
         case S(KC_A): return KC_U;
         case S(KC_B): return KC_L;
         case S(KC_C): return KC_K;
-        case S(KC_D): return ALT_KC_D;
+        case S(KC_D): return KC_V;
         case S(KC_E): return KC_O;
         case S(KC_F): return KC_F;
         case S(KC_G): return KC_N;
