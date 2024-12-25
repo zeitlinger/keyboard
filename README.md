@@ -54,7 +54,7 @@ How to read this layout:
 |   a    |      u      |            |
 |   b    |      l      |  "ecause"  |
 |   c    |      k      |            |
-|   d    |    "oes"    |   "oes"    |
+|   d    |      v      |   "oes"    |
 |   e    |      o      |            |
 |   f    |      f      |    "or"    |
 |   g    |      n      |     l      |

@@ -3,10 +3,10 @@
 
 /* THIS FILE WAS GENERATED!
  *
- * file is generated from https://github.com/zeitlinger/keyboard/blob/uncommitted changes/README.md using https://github.com/zeitlinger/keyboard/blob/uncommitted changes/generateKeyboard.kt
+ * file is generated from https://github.com/zeitlinger/keyboard/blob/668e072b007a51a383941804bcdf7a2652ffa8fb/README.md using https://github.com/zeitlinger/keyboard/blob/668e072b007a51a383941804bcdf7a2652ffa8fb/generateKeyboard.kt
  */
 
-#define VERSION_STRING "https://github.com/zeitlinger/keyboard/blob/uncommitted changes/README.md"
+#define VERSION_STRING "https://github.com/zeitlinger/keyboard/blob/668e072b007a51a383941804bcdf7a2652ffa8fb/README.md"
 
 #define _BASE 0
 #define _LEFT 1
