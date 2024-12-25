@@ -41,7 +41,6 @@ enum custom_keycodes {
     _RMODS_A,
     _RMODS_C,
     _RMODS_S,
-    _TAP_C_CKC_K,
     _TAP_C_KC_LCBR,
     _TAP_C_KC_RCBR,
     ALT_KC_H,
@@ -78,7 +77,6 @@ enum custom_keycodes {
 #define _HANDLER__RMODS_A _RMODS_A
 #define _HANDLER__RMODS_C _RMODS_C
 #define _HANDLER__RMODS_S _RMODS_S
-#define _HANDLER__TAP_C_CKC_K _TAP_C_CKC_K
 #define _HANDLER__TAP_C_KC_LCBR CTL_T(_TAP_C_KC_LCBR)
 #define _HANDLER__TAP_C_KC_RCBR ALT_T(_TAP_C_KC_RCBR)
 #define _HANDLER_ALT_KC_H ALT_KC_H
@@ -105,7 +103,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                            KC_NO,              S(KC_R),                KC_NO,                KC_NO),
 	[_RIGHT] = LAYOUT_split_3x5_2(
                            KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                DEAD3,              KC_DQUO,          A(KC_RIGHT),                KC_NO,
-                           KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,              S(KC_A),              S(KC_E),              S(KC_I),              S(KC_H),
+                           KC_NO,              C(KC_K),            RCS(KC_F),             A(KC_F7),                KC_NO,                KC_NO,              S(KC_A),              S(KC_E),              S(KC_I),              S(KC_H),
                            KC_NO, LM(_RMODS, MOD_LALT), LM(_RMODS, MOD_LCTL), LM(_RMODS, MOD_LSFT),                KC_NO,                KC_NO,              S(KC_U),              S(KC_O),              S(KC_Y),              KC_QUES,
                                            KC_NO,                KC_NO,               KC_SPC,                KC_NO),
 	[_LMODS] = LAYOUT_split_3x5_2(

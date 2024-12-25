@@ -56,14 +56,12 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_LEFT_SCREAMING_SNAKE_CASE: return 500;
     case C_LEFT_SLASH_CASE: return 500;
     case C_LEFT_SNAKE_CASE: return 500;
-    case C_NAV_AKC_F7: return 500;
     case C_NAV_AKC_LEFT_BRACKET: return 500;
     case C_NAV_AKC_RIGHT_BRACKET: return 500;
     case C_NAV_CKC_A: return 500;
     case C_NAV_CKC_C: return 500;
     case C_NAV_CKC_D: return 500;
     case C_NAV_CKC_F: return 500;
-    case C_NAV_CKC_K: return 500;
     case C_NAV_CKC_LEFT_BRACKET: return 500;
     case C_NAV_CKC_N: return 500;
     case C_NAV_CKC_R: return 500;
@@ -78,7 +76,6 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_NAV_KC_PGDN: return 500;
     case C_NAV_KC_PGUP: return 500;
     case C_NAV_KC_SPC: return 500;
-    case C_NAV_RCSKC_F: return 500;
     case C_NAV_RCSKC_V: return 500;
     case C_NAV_RCSKC_Z: return 500;
     case C_RIGHT_DOT_SPC: return 500;
@@ -140,7 +137,6 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
     if (record->tap.count) {
         if (record->event.pressed) {
             switch (keycode) {
-            case _HANDLER__TAP_C_CKC_K: tap_code16(C(KC_K)); return false;
             case _HANDLER__TAP_C_KC_LCBR: tap_code16(KC_LCBR); return false;
             case _HANDLER__TAP_C_KC_RCBR: tap_code16(KC_RCBR); return false;
             default:
