@@ -35,7 +35,7 @@ How to read this layout:
 - 💎 = combo key (e.g. middle and index finger in top row pressed together produce "b")
 - 🛑 = key can't be used because the layer was activated with that key or because it's reserved for a modifier
 - empty = use key from base layer
-- Fn = capitalized words are layer names - if they are a key, the layer is activated as toggled or one shot layer (if the "OneShot" flag is set in the layer flags)
+- FnSym = capitalized words are layer names - if they are a key, the layer is activated as toggled or one shot layer (if the "OneShot" flag is set in the layer flags)
 - /+Ctrl = tab-mod - / on tab and CTRL on hold
 - *Mouse = layer is active while key is held
 - C-w = Ctrl-w (same for Alt and Shift)
@@ -94,7 +94,7 @@ Currently unused features:
 | Base  |   esc   |    p    |    m    | altRep  |  dead2  | repeat  | altRep  |         |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
-| Base  |         |         |  *Nav   |    r    |   spc   |   *Fn   |         |         |
+| Base  |         |         |  *Nav   |    r    |   spc   | *FnSym  |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |         |    v    |  "ing"  |         |         |         |
 | Base  |         |         |         |   💎    |   💎    |         |         |         |
@@ -196,30 +196,30 @@ Currently unused features:
 | LMods |         |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
 | LMods |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Fn   |         |   f10   |   f9    |   win   |         |    (    |    )    |         |
-|  Fn   |   f4    |   f3    |   f2    |   f1    |    -    |    {    |    }    |  ;+Num  |
-|  Fn   |   f8    |   f7    |   f6    |   f5    |    _    |    =    |    +    |    /    |
-|  Fn   |         |         |   f11   |   f12   |   🛑    |   🛑    |         |         |
+| FnSym |         |   f10   |   f9    |   win   |         |    (    |    )    |         |
+| FnSym |   f4    |   f3    |   f2    |   f1    |    -    |    {    |    }    |  ;+Num  |
+| FnSym |   f8    |   f7    |   f6    |   f5    |    _    |    =    |    +    |    /    |
+| FnSym |         |         |   f11   |   f12   |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Fn   |         |         |         |    ^    |         |         |         |         |
-|  Fn   |         |         |         |   💎    |   💎    |         |         |         |
-|  Fn   |         |         |         |    %    |    ~    |         |         |         |
-|  Fn   |         |         |         |         |         |         |         |         |
+| FnSym |         |         |         |    ^    |         |         |         |         |
+| FnSym |         |         |         |   💎    |   💎    |         |         |         |
+| FnSym |         |         |         |    %    |    ~    |         |         |         |
+| FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Fn   |         |         |    *    |         |         |    <    |         |         |
-|  Fn   |         |         |   💎    |         |         |   💎    |         |         |
-|  Fn   |         |         |    #    |         |         |    [    |         |         |
-|  Fn   |         |         |         |         |         |         |         |         |
+| FnSym |         |         |    *    |         |         |    <    |         |         |
+| FnSym |         |         |   💎    |         |         |   💎    |         |         |
+| FnSym |         |         |    #    |         |         |    [    |         |         |
+| FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Fn   |         |  pipe   |         |         |         |         |    >    |         |
-|  Fn   |         |   💎    |         |         |         |         |   💎    |         |
-|  Fn   |         |    &    |         |         |         |         |    ]    |         |
-|  Fn   |         |         |         |         |         |         |         |         |
+| FnSym |         |  pipe   |         |         |         |         |    >    |         |
+| FnSym |         |   💎    |         |         |         |         |   💎    |         |
+| FnSym |         |    &    |         |         |         |         |    ]    |         |
+| FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Fn   |         |         |         |         |         |         |         |         |
-|  Fn   |   💎    |         |         |         |         |         |         |   💎    |
-|  Fn   |    $    |         |         |         |         |         |         |    \    |
-|  Fn   |         |         |         |         |         |         |         |         |
+| FnSym |         |         |         |         |         |         |         |         |
+| FnSym |   💎    |         |         |         |         |         |         |   💎    |
+| FnSym |    $    |         |         |         |         |         |         |    \    |
+| FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |   spc   |   C-x   |   C-v   |  CS-z   |   🔇    |   esc   |   ins   |         |
 |  Nav  |   cp    |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬇️    |   ⬆️    |   ➡️    |
@@ -271,17 +271,17 @@ Currently unused features:
 
 The order of the options is also the order of the layers in the layer stack.
 
-| LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags                            | Combo Timeout |
-|:------------:|:---------------:|:---------------:|:-------------:|:--------------:|----------------------------------|:-------------:|
-|     Base     |                 |                 |               |                |                                  |      200      |
-|     Left     |                 | BottomRow+LMods |     Base      |                | Shifted                          |      500      |
-|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted                          |      500      |
-|    LMods     |                 | BottomRow+LMods |     Base      |                |                                  |               |
-|    RMods     | BottomRow+RMods |                 |               |      Base      |                                  |               |
-|     Nav      |     HomeRow     |                 |               |                | DirectComboLeft                  |      500      |
-|      Fn      |     HomeRow     |     HomeRow     |               |                | DirectComboRight                 |      500      |
-|     Num      |                 |     HomeRow     |               |                |                                  |               |
-|    Media     |                 |                 |               |                |                                  |               |
+| LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags            | Combo Timeout |
+|:------------:|:---------------:|:---------------:|:-------------:|:--------------:|------------------|:-------------:|
+|     Base     |                 |                 |               |                |                  |      200      |
+|     Left     |                 | BottomRow+LMods |     Base      |                | Shifted          |      500      |
+|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted          |      500      |
+|    LMods     |                 | BottomRow+LMods |     Base      |                |                  |               |
+|    RMods     | BottomRow+RMods |                 |               |      Base      |                  |               |
+|     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |      500      |
+|    FnSym     |     HomeRow     |     HomeRow     |               |                | DirectComboRight |      500      |
+|     Num      |                 |     HomeRow     |               |                |                  |               |
+|    Media     |                 |                 |               |                |                  |               |
 
 ## Symbols
 
