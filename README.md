@@ -35,17 +35,20 @@ How to read this layout:
 - 💎 = combo key (e.g. middle and index finger in top row pressed together produce "b")
 - 🛑 = key can't be used because the layer was activated with that key or because it's reserved for a modifier
 - empty = use key from base layer
-- FnBra = capitalized words are layer names - if they are a key, the layer is activated as toggled or one shot layer (if the "OneShot" flag is set in the layer flags)
+- Fn = capitalized words are layer names - if they are a key, the layer is activated as toggled or one shot layer (if the "OneShot" flag is set in the layer flags)
 - /+Ctrl = tab-mod - / on tab and CTRL on hold
 - *Mouse = layer is active while key is held
+- C-w = Ctrl-w (same for Alt and Shift)
+- "that" = combo that produces "that"
+- The symbol table at the bottom shows the meaning of the symbols used in the layout.
+
+Currently unused features:
+
 - $Mouse = layer is active while key is held (double tap to lock layer)
 - #Mouse = toggle layer
 - @Num = layer is active for the next keypress
 - Sym/Nav = layer is active for the next keypress: 
   If the activation key is still down when the next key is pressed, the Nav layer is used, otherwise the Sym layer is used
-- C-w = Ctrl-w (same for Alt and Shift)
-- "that" = combo that produces "that"
-- The symbol table at the bottom shows the meaning of the symbols used in the layout.
 
 > **Note**: The layout is generated from this file directly.
 
@@ -91,7 +94,7 @@ How to read this layout:
 | Base  |   esc   |    p    |    m    | altRep  |  dead2  | repeat  | altRep  |         |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
-| Base  |         |         |  $Nav   |    r    |   spc   |   *Fn   |         |         |
+| Base  |         |         |  *Nav   |    r    |   spc   |   *Fn   |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |         |    v    |  "ing"  |         |         |         |
 | Base  |         |         |         |   💎    |   💎    |         |         |         |
