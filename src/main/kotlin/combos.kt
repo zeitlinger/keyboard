@@ -10,11 +10,11 @@ data class Combo(
     val timeout: Int?,
 ) {
     companion object {
-        fun of(type: ComboType, name: String, result: QmkKey, triggers: List<Key>, timeout: Int? = 0): Combo {
+        fun of(type: ComboType, name: String, result: QmkKey, triggers: List<Key>, timeout: Int? = 0): List<Combo> {
             if (triggers.any { it.keyWithModifier.isNo }) {
-                throw IllegalStateException("no KC_NO allowed in combo triggers:\n$name\n${triggers.joinToString("\n")}")
+                return emptyList()
             }
-            return Combo(type, name, result, triggers.sortedBy { it.keyWithModifier.key }, timeout)
+            return listOf(Combo(type, name, result, triggers.sortedBy { it.keyWithModifier.key }, timeout))
         }
     }
 }
@@ -182,7 +182,7 @@ private fun combos(
         keyTimeout
     )
 
-    val direct = if (generateDirect) layer.option.reachable.keys.mapIndexed { index, position ->
+    val direct = if (generateDirect) layer.option.reachable.keys.flatMapIndexed { index, position ->
         val base = layers[0]
         Combo.of(
             type,
@@ -193,7 +193,7 @@ private fun combos(
         )
     } else emptyList()
 
-    val combos = listOf(combo) + direct
+    val combos = combo + direct
 
     val shiftLayer = layers.singleOrNull { l ->
         LayerFlag.Shifted in l.option.flags &&

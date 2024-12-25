@@ -30,6 +30,7 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_FNSYM_KC_CIRC: return 500;
     case C_FNSYM_KC_DLR: return 500;
     case C_FNSYM_KC_EQUAL: return 500;
+    case C_FNSYM_KC_EXLM: return 500;
     case C_FNSYM_KC_HASH: return 500;
     case C_FNSYM_KC_LABK: return 500;
     case C_FNSYM_KC_LCBR: return 500;

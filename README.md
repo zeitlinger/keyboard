@@ -167,7 +167,7 @@ Currently unused features:
 | Left  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |         |         |         |         |         |         |         |         |
-| Left  |         | SN_CASE |   💎    |  CAPW   |         |         |         |         |
+| Left  |         | SN_CASE |   💎    |  CapW   |         |         |         |         |
 | Left  |         |         |         |         |         |         |         |         |
 | Left  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -183,7 +183,7 @@ Currently unused features:
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |         |         |         |         |         |         |         |         |
 | Left  |         |         |         |         |         |         |         |         |
-| Left  |         | sn_case |   💎    |  CAPSL  |         |         |         |         |
+| Left  |         | sn_case |   💎    |  CapsL  |         |         |         |         |
 | Left  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |         |         |         |         |         |         |         |         |
@@ -196,12 +196,12 @@ Currently unused features:
 | LMods |         |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
 | LMods |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| FnSym |         |   f10   |   f9    |   win   |    @    |    (    |    )    |         |
-| FnSym |   f4    |   f3    |   f2    |   f1    |    -    |    {    |    }    |    ;    |
+| FnSym |         |   f10   |   f9    |   win   |         |    (    |    )    |  dead1  |
+| FnSym |   f4    |   f3    |   f2    |   f1    |    -    |    {    |    }    |  CapW   |
 | FnSym |   f8    |   f7    |   f6    |   f5    |    _    |    =    |    +    |    /    |
 | FnSym |         |         |   f11   |   f12   |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| FnSym |         |         |         |    ^    |         |         |         |         |
+| FnSym |         |         |         |    ^    |    !    |         |         |         |
 | FnSym |         |         |         |   💎    |   💎    |         |         |         |
 | FnSym |         |         |         |    %    |    ~    |         |         |         |
 | FnSym |         |         |         |         |         |         |         |         |
@@ -216,7 +216,7 @@ Currently unused features:
 | FnSym |         |    &    |         |         |         |         |    ]    |         |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| FnSym |         |         |         |         |         |         |         |         |
+| FnSym |    @    |         |         |         |         |         |         |    ;    |
 | FnSym |   💎    |         |         |         |         |         |         |   💎    |
 | FnSym |    $    |         |         |         |         |         |         |    \    |
 | FnSym |         |         |         |         |         |         |         |         |
@@ -328,8 +328,8 @@ The order of the options is also the order of the layers in the layer stack.
 | .spc    | custom:DOT_SPC              |
 | n't     | custom:N_T                  |
 | ver     | custom:PRINT_VERSION        |
-| CAPSL   | KC_CAPS                     |
-| CAPW    | custom:CAPS_WORDS           |
+| CapsL   | KC_CAPS                     |
+| CapW    | custom:CAPS_WORDS           |
 | sn_case | custom:SNAKE_CASE           |
 | SN_CASE | custom:SCREAMING_SNAKE_CASE |
 | camCase | custom:CAMEL_CASE           |
