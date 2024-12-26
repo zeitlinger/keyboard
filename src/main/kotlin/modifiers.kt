@@ -1,8 +1,8 @@
 enum class Modifier(val mask: String, val leftKey: QmkKey, val tapKey: String, val short: String) {
-    Ctrl("MOD_LCTL", QmkKey("KC_LCTL"), "CTL_T", "C"),
-    Shift("MOD_LSFT", QmkKey("KC_LSFT"), "SFT_T", "S"),
-    Alt("MOD_LALT", QmkKey("KC_LALT"), "ALT_T", "A"),
-    Meta("MOD_LGUI", QmkKey("KC_LGUI"), "GUI_T", "M");
+    Ctrl("MOD_LCTL", QmkKey.of("KC_LCTL"), "CTL_T", "C"),
+    Shift("MOD_LSFT", QmkKey.of("KC_LSFT"), "SFT_T", "S"),
+    Alt("MOD_LALT", QmkKey.of("KC_LALT"), "ALT_T", "A"),
+    Meta("MOD_LGUI", QmkKey.of("KC_LGUI"), "GUI_T", "M");
 
     companion object {
         fun ofLong(value: String): Modifier = valueOf(value)
@@ -52,7 +52,7 @@ private fun applyModTap(
         when {
             modTapKey != key && targetLayer != null -> {
                 if (!key.isNo) throw IllegalStateException("key $key not allowed for mod tap with layer switch at $pos")
-                QmkKey("LM(${translator.reachLayer(targetLayer, pos, LayerActivation.ModTap).const()}, ${mod.mask})")
+                QmkKey.of("LM(${translator.reachLayer(targetLayer, pos, LayerActivation.ModTap).const()}, ${mod.mask})")
             }
 
             else -> modTapKey
@@ -77,13 +77,13 @@ private fun modTapKey(
     targetLayer: LayerName?,
 ): QmkKey = when {
     key in translator.noHoldKeys -> throw IllegalStateException("key $key not allowed for mod tap at $pos")
-    type.oneShot -> QmkKey("OSM(${mod.mask})")
+    type.oneShot -> QmkKey.of("OSM(${mod.mask})")
         .also { if (!key.isNo) throw IllegalStateException("key $key not allowed for one shot modifier at $pos") }
 
     key.isNo -> {
         when {
             targetLayer != null -> {
-                val name = QmkKey("_${targetLayer}_${mod.short}".uppercase())
+                val name = QmkKey.of("_${targetLayer}_${mod.short}".uppercase())
                 translator.symbols.customKeycodes[name.key] = CustomKey(name, null, null, null)
                 name
             }
@@ -94,7 +94,7 @@ private fun modTapKey(
 
     else -> {
         val simpleKey = addCustomIfNotSimpleKey(key, pos, translator)
-        QmkKey("${mod.tapKey}($simpleKey)")
+        QmkKey.of("${mod.tapKey}($simpleKey)")
     }
 }
 
@@ -111,7 +111,7 @@ fun tapCustomKey(translator: QmkTranslator, key: QmkKey, pos: KeyPosition): QmkK
     translator.originalKeys[pos] = key
     return customCommand(
         translator,
-        QmkKey("_TAP_${comboName(key.key)}"),
+        QmkKey.of("_TAP_${comboName(key.key)}"),
         CustomCommandType.OnTap,
         listOf(tap(key)),
         key

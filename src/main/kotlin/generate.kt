@@ -150,7 +150,7 @@ private fun addRepeat(translator: QmkTranslator, row: List<String>, pos: KeyPosi
             alt.length == 1 -> translator.toQmk(alt, pos).key
             isWord(alt) -> customCommand(
                 translator,
-                QmkKey("${"ALT"}_${base}"),
+                QmkKey.of("${"ALT"}_${base}"),
                 CustomCommandType.OnPress,
                 listOf(sendString(alt)),
                 base

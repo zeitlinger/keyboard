@@ -48,7 +48,7 @@ private fun readSymbols(tables: Tables, implicitKeys: MutableList<QmkKey>, noHol
         val custom = props["custom"]
         when {
             custom != null -> {
-                val qmkKey = QmkKey(custom)
+                val qmkKey = QmkKey.of(custom)
                 if (props["NoHold"] != null) {
                     noHoldKeys += qmkKey
                 }
@@ -57,7 +57,7 @@ private fun readSymbols(tables: Tables, implicitKeys: MutableList<QmkKey>, noHol
             }
 
             value == "<implicit>" -> {
-                implicitKeys += QmkKey(key)
+                implicitKeys += QmkKey.of(key)
                 emptyList()
             }
 

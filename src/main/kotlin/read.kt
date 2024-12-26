@@ -85,7 +85,7 @@ private fun layerTapHoldKey(def: String, translator: QmkTranslator, pos: KeyPosi
     if (key in translator.noHoldKeys) {
         throw IllegalArgumentException("key $key not allowed for tap hold at $pos")
     }
-    val command = QmkKey("LT(${translator.reachLayer(parts[1], pos, LayerActivation.TapHold).const()},$key)")
+    val command = QmkKey.of("LT(${translator.reachLayer(parts[1], pos, LayerActivation.TapHold).const()},$key)")
     translator.layerTapHold.add(command)
     return setCustomKeyCommand(translator, key, command, pos)
 }
@@ -99,7 +99,7 @@ fun layerKey(
     return when {
         activation == LayerActivation.Toggle -> layerOnKey(translator, pos, layer)
         activation.method != null -> Key(
-            QmkKey(
+            QmkKey.of(
                 "${activation.method}(${
                     translator.reachLayer(layer, pos, activation).const()
                 })"
@@ -122,7 +122,7 @@ fun layerOffKey(translator: QmkTranslator, pos: KeyPosition, layer: String): Key
 }
 
 fun toggleKey(translator: QmkTranslator, layer: String, pos: KeyPosition): Key {
-    return Key(QmkKey("TO(${translator.reachLayer(layer, pos, LayerActivation.Toggle).const()})"), pos)
+    return Key(QmkKey.of("TO(${translator.reachLayer(layer, pos, LayerActivation.Toggle).const()})"), pos)
 }
 
 fun keyWithModifier(def: String, translator: QmkTranslator, pos: KeyPosition): Key {
@@ -138,7 +138,7 @@ fun keyWithModifier(def: String, translator: QmkTranslator, pos: KeyPosition): K
 }
 
 fun addMods(key: QmkKey, vararg modifier: Modifier): QmkKey =
-    QmkKey(
+    QmkKey.of(
         if (modifier.size == 1) "${modifier[0].short}($key)" else
             when (modifier.toSet()) {
                 setOf(Modifier.Alt, Modifier.Ctrl) -> "LCA(${key})"

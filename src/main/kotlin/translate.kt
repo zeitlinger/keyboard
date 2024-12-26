@@ -5,13 +5,22 @@ const val qmkNo = "KC_NO"
 
 data class QmkKey(
     val key: String,
-    val substitutionCombo: String? = null,
+    val substitutionCombo: String?,
 ) {
     override fun toString(): String {
         return key
     }
 
     val isNo = key == qmkNo
+
+    companion object {
+        fun substitution(kay: String, substitutionCombo: String): QmkKey {
+           return QmkKey(kay, substitutionCombo)
+        }
+        fun of(key: String): QmkKey {
+            return QmkKey(key, null)
+        }
+    }
 }
 
 data class OneShotOnUpLayer(
@@ -72,8 +81,8 @@ class QmkTranslator(
             .let {
                 val substitutionCombo = if (it.startsWith("\"") && it.endsWith("\"")) it else null
                 when {
-                    substitutionCombo != null -> QmkKey(it, substitutionCombo)
-                    symbols.customKeycodes.contains(it) -> QmkKey(it)
+                    substitutionCombo != null -> QmkKey.substitution(it, substitutionCombo)
+                    symbols.customKeycodes.contains(it) -> QmkKey.of(it)
                     else -> assertQmk(it, pos)
                 }
             }
@@ -107,7 +116,7 @@ class QmkTranslator(
 
 fun assertQmk(key: String, pos: KeyPosition): QmkKey {
     return when {
-        key == comboTrigger || qmkPrefixes.any { key.startsWith(it) } -> QmkKey(key)
+        key == comboTrigger || qmkPrefixes.any { key.startsWith(it) } -> QmkKey.of(key)
         else -> throw IllegalStateException("key not translated '$key' in $pos")
     }
 }
