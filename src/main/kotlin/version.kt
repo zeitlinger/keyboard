@@ -3,7 +3,7 @@ import java.util.concurrent.TimeUnit
 
 fun readGitVersion(gitFile: GitFile, name: String): String {
     val uncommittedChanges = "git status -s".runCommand()
-        .takeIf { it.isNotBlank() }
+        .takeIf { it.lines().filterNot { it.startsWith("M qmk/") }.isNotEmpty() }
         ?.let { "git working directory not clean: $it" }
         ?.also {
             println(it)
