@@ -276,7 +276,7 @@ The order of the options is also the order of the layers in the layer stack.
 |    RMods     | BottomRow+RMods |                 |               |      Base      |                                  |               |
 |     Nav      |     HomeRow     |                 |               |                | DirectComboLeft                  |      500      |
 |    FnSym     |     HomeRow     |     HomeRow     |               |                | DirectComboRight                 |      500      |
-|     Num      |                 |     HomeRow     |               |                | DirectComboLeft,DirectComboRight |      750      |
+|     Num      |     HomeRow     |     HomeRow     |               |                | DirectComboLeft,DirectComboRight |      750      |
 |    Media     |                 |                 |               |                |                                  |               |
 
 ## Symbols
