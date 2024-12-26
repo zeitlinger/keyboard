@@ -102,6 +102,7 @@ COMB(S_C_BASE_KC_X                      , S(KC_X)                            , S
 COMB(S_C_BASE_KC_Z                      , S(KC_Z)                            , KC_COLN, S(KC_S))
 SUBS(C_BASE_ING                         , "ing"                              , DEAD2, KC_A)
 SUBS(C_BASE_ION                         , "ion"                              , KC_A, KC_U)
+SUBS(C_BASE_NG                          , "ng"                               , DEAD3, KC_D)
 SUBS(C_BASE_QU                          , "qu"                               , KC_ESC, KC_S)
 SUBS(C_BASE_TH                          , "th"                               , DEAD1, KC_T)
 SUBS(C_LEFT_QU                          , "Qu"                               , S(KC_ESC), S(KC_S))

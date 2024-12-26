@@ -22,6 +22,7 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_BASE_KC_W: return 200;
     case C_BASE_KC_X: return 200;
     case C_BASE_KC_Z: return 200;
+    case C_BASE_NG: return 200;
     case C_BASE_QU: return 200;
     case C_BASE_TH: return 200;
     case C_FNSYM_CAPS_WORDS: return 500;
@@ -217,7 +218,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
     case LT(_NUM,_TAP_C_SKC_TAB): return true;
-    case LT(_NUM,KC_F12): return true;
+    case LT(_NUM,KC_F11): return true;
     default:
         // Do not select the hold action when another key is pressed.
         return false;
@@ -244,7 +245,7 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
         case KC_L: return KC_P;
         case KC_M: return KC_B;
         case KC_MINUS: return KC_RABK;
-        case KC_N: return KC_G;
+        case KC_N: return KC_L;
         case KC_O: return KC_E;
         case KC_P: return KC_L;
         case KC_Q: return ALT_KC_Q;
@@ -272,7 +273,7 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
         case S(KC_K): return KC_N;
         case S(KC_L): return KC_P;
         case S(KC_M): return KC_B;
-        case S(KC_N): return KC_G;
+        case S(KC_N): return KC_L;
         case S(KC_O): return KC_E;
         case S(KC_P): return KC_L;
         case S(KC_Q): return ALT_KC_Q;
