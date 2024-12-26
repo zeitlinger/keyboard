@@ -9,7 +9,7 @@ fun readGitVersion(gitFile: GitFile, name: String): String {
             println(it)
         }
     if (uncommittedChanges != null ) {
-//        throw IllegalStateException("uncommitted changes $uncommittedChanges")
+        throw IllegalStateException("uncommitted changes $uncommittedChanges")
     }
     val version = "git rev-parse HEAD".runCommand().trim()
     return gitVersionTemplate.format(version, name)

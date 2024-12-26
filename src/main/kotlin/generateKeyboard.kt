@@ -25,6 +25,7 @@ fun main() {
             "use target/qmk to build the firmware to get the git version",
         )
     )
+    "cp -r qmk target/".runCommand()
     run(
         GeneratorArgs(
             GitFile(cfg),
