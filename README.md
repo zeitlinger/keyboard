@@ -38,6 +38,7 @@ How to read this layout:
 - FnSym = capitalized words are layer names - if they are a key, the layer is activated as toggled or one shot layer (if the "OneShot" flag is set in the layer flags)
 - *Mouse = layer is active while key is held
 - C-w = Ctrl-w (same for Alt and Shift)
+- f12+Num = tab-mod - f12 on tap and Num on hold
 - "that" = combo that produces "that"
 - The symbol table at the bottom shows the meaning of the symbols used in the layout.
 
@@ -199,7 +200,7 @@ Currently unused features:
 | FnSym |  dead2  |   f10   |   f9    |   win   |       |   |  dead3  |    (    |    )    |  dead1  |
 | FnSym |   f4    |   f3    |   f2    |   f1    |       |   |    -    |    {    |    }    |  CapW   |
 | FnSym |   f8    |   f7    |   f6    |   f5    |       |   |    _    |    =    |    +    |    /    |
-| FnSym |         |         |   f11   |   f12   |       |   |   🛑    |   🛑    |         |         |
+| FnSym |         |         |   f11   | f12+Num |       |   |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- |       |   | ------- | ------- | ------- | ------- |
 | FnSym |         |         |         |    ^    |       |   |    !    |         |         |         |
 | FnSym |         |         |         |   💎    |       |   |   💎    |         |         |         |
@@ -224,7 +225,7 @@ Currently unused features:
 |  Nav  |   spc   |   C-x   |   C-v   |  CS-z   |       |   |         |   esc   |   ins   |         |
 |  Nav  |  copy   |   🛑    |   🛑    |   🛑    |       |   |   ⬅️    |   ⬇️    |   ⬆️    |   ➡️    |
 |  Nav  |   C-z   |   C-w   | tab ➡️  | win ➡️  |       |   |   ↩️️   |  bspc   |   del   |   spc   |
-|  Nav  |         |         |   🛑    |   🛑    |       |   |   tab   |  *Num   |         |         |
+|  Nav  |         |         |   🛑    |   🛑    |       |   |   tab   | st+Num  |         |         |
 |       | ------- | ------- | ------- | ------- |       |   | ------- | ------- | ------- | ------- |
 |  Nav  |         |         |         |  CS-v   |       |   |         |         |         |         |
 |  Nav  |         |         |         |   💎    |       |   |   💎    |         |         |         |
@@ -298,6 +299,7 @@ The order of the options is also the order of the layers in the layer stack.
 | bspc    | KC_BSPC                     |
 | win     | KC_LGUI                     |
 | tab     | KC_TAB                      |
+| st      | S(KC_TAB)                   |
 | prt     | KC_PSCR                     |
 | pipe    | KC_PIPE                     |
 | 🔇      | KC_MUTE                     |
