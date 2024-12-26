@@ -67,7 +67,7 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
     }
 
     val duplicates = translator.gotKeys
-        .filterNot { it.key.startsWith("DEAD") }
+        .filterNot { it.key.startsWith("dead") }
         .filter { it.value.size > 1 }
         .keys
         .sorted() - ignoreDuplicates
