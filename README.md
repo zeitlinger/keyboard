@@ -267,17 +267,17 @@ Currently unused features:
 
 The order of the options is also the order of the layers in the layer stack.
 
-| LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags                            | Combo Timeout |
-|:------------:|:---------------:|:---------------:|:-------------:|:--------------:|----------------------------------|:-------------:|
-|     Base     |                 |                 |               |                |                                  |      200      |
-|     Left     |                 | BottomRow+LMods |     Base      |                | Shifted                          |      500      |
-|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted                          |      500      |
-|    LMods     |                 | BottomRow+LMods |     Base      |                |                                  |               |
-|    RMods     | BottomRow+RMods |                 |               |      Base      |                                  |               |
-|     Nav      |     HomeRow     |                 |               |                | DirectComboLeft                  |      500      |
-|    FnSym     |     HomeRow     |     HomeRow     |               |                | DirectComboRight                 |      500      |
-|     Num      |     HomeRow     |     HomeRow     |               |                | DirectComboLeft,DirectComboRight |      750      |
-|    Media     |                 |                 |               |                |                                  |               |
+| LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags            | Combo Timeout |
+|:------------:|:---------------:|:---------------:|:-------------:|:--------------:|------------------|:-------------:|
+|     Base     |                 |                 |               |                |                  |      200      |
+|     Left     |                 | BottomRow+LMods |     Base      |                | Shifted          |      500      |
+|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted          |      500      |
+|    LMods     |                 | BottomRow+LMods |     Base      |                |                  |               |
+|    RMods     | BottomRow+RMods |                 |               |      Base      |                  |               |
+|     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |      500      |
+|    FnSym     |     HomeRow     |     HomeRow     |               |                | DirectComboRight |      500      |
+|     Num      |     HomeRow     |     HomeRow     |               |                |                  |               |
+|    Media     |                 |                 |               |                |                  |               |
 
 ## Symbols
 
