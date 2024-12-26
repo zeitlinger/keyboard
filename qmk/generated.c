@@ -47,6 +47,7 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_FNSYM_KC_RIGHT_BRACKET: return 500;
     case C_FNSYM_KC_RPRN: return 500;
     case C_FNSYM_KC_SEMICOLON: return 500;
+    case C_FNSYM_KC_SLASH: return 500;
     case C_FNSYM_KC_TILD: return 500;
     case C_FNSYM_KC_UNDS: return 500;
     case C_LEFT_CAMEL_CASE: return 500;
@@ -74,6 +75,7 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_NAV_CKC_W: return 500;
     case C_NAV_CKC_X: return 500;
     case C_NAV_CKC_Y: return 500;
+    case C_NAV_CKC_Z: return 500;
     case C_NAV_KC_END: return 500;
     case C_NAV_KC_HOME: return 500;
     case C_NAV_KC_PGDN: return 500;
@@ -89,6 +91,7 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_NUM_KC_5: return 500;
     case C_NUM_KC_6: return 500;
     case C_NUM_KC_7: return 500;
+    case C_NUM_KC_8: return 500;
     case C_NUM_KC_9: return 500;
     case C_NUM_KC_ASTR: return 500;
     case C_NUM_KC_COLN: return 500;
@@ -98,6 +101,7 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_NUM_KC_MINUS: return 500;
     case C_NUM_KC_PERC: return 500;
     case C_NUM_KC_PLUS: return 500;
+    case C_NUM_KC_SLASH: return 500;
     case C_NUM_KC_UNDS: return 500;
     case C_RIGHT_DOT_SPC: return 500;
     case C_RIGHT_KC_AT: return 500;

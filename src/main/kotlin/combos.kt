@@ -115,11 +115,11 @@ private fun directCombos(
         .filter { it.isReal() && it.key !in translator.noHoldKeys && filter(it) }
         .flatMap { key ->
             val triggers = (listOf(key.pos) + layerTriggers).map { base.get(it) }
-            if (LayerActivation.entries.any { it.method != null && triggers[0].key.key.startsWith(it.method) }) {
-                emptyList()
-            } else {
-                keyCombos(key, ComboSource.Direct, triggers, translator, layer, layers, "", false)
-            }
+//            if (LayerActivation.entries.any { it.method != null && triggers[0].key.key.startsWith(it.method) }) {
+//                emptyList()
+//            } else {
+                keyCombos(key, ComboSource.Direct, triggers, translator, layer, layers)
+//            }
         }
 }
 
@@ -156,7 +156,7 @@ private fun customLayerCombos(
                 .filterIndexed { index, _ -> index == comboIndex || index in comboIndexes }
 
             val source = if (layer.name == baseLayerName) ComboSource.Base else ComboSource.Layer
-            keyCombos(key, source, keys, translator, layer, layers, "", false)
+            keyCombos(key, source, keys, translator, layer, layers)
         } else emptyList()
     }.filter { it.triggers.size > 1 }
 }
@@ -168,13 +168,11 @@ private fun keyCombos(
     translator: QmkTranslator,
     layer: Layer,
     layers: List<Layer>,
-    suffix: String,
-    generateDirect: Boolean,
 ): List<Combo> {
     val qmkKey = translator.originalKeys[key.pos] ?: key.key
     val type = if (qmkKey.substitutionCombo != null) ComboType.Substitution else ComboType.Combo
-    val name = comboName(layer.name, qmkKey.key) + suffix
-    return combos(type, source, name, qmkKey, triggers, key.comboTimeout, translator, layers, layer, generateDirect)
+    val name = comboName(layer.name, qmkKey.key)
+    return combos(type, source, name, qmkKey, triggers, key.comboTimeout, translator, layers, layer)
 }
 
 private fun combos(
@@ -187,7 +185,6 @@ private fun combos(
     translator: QmkTranslator,
     layers: List<Layer>,
     layer: Layer,
-    generateDirect: Boolean,
 ): List<Combo> {
     val keyTimeout =
         timeout ?: layer.option.comboTimeout ?: throw IllegalStateException("no timeout for layer ${layer.name}")
@@ -199,20 +196,6 @@ private fun combos(
         triggers,
         keyTimeout
     )
-
-    val direct = if (generateDirect) layer.option.reachable.keys.flatMapIndexed { index, position ->
-        val base = layers[0]
-        Combo.of(
-            type,
-            ComboSource.Direct,
-            "D${index}_$name",
-            content,
-            (triggers.map { it.pos } + position).map { base.get(it) },
-            keyTimeout,
-        )
-    } else emptyList()
-
-    val combos = combo + direct
 
     val shiftLayer = layers.singleOrNull { l ->
         LayerFlag.Shifted in l.option.flags &&
@@ -235,8 +218,7 @@ private fun combos(
                 shiftLayerTimeout,
                 translator,
                 emptyList(), // prevent recursion
-                layer,
-                false
+                layer
             )
             val directShifted = combos(
                 type,
@@ -247,13 +229,12 @@ private fun combos(
                 shiftLayerTimeout,
                 translator,
                 emptyList(), // prevent recursion
-                layer,
-                false
+                layer
             )
-            combos + shifted + directShifted
+            combo + shifted + directShifted
         }
 
-        else -> combos
+        else -> combo
     }
 }
 
