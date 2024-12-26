@@ -2,6 +2,10 @@ enum class ComboType(val template: String) {
     Combo("COMB(%s, %s, %s)"), Substitution("SUBS(%s, %s, %s)")
 }
 
+enum class ComboSource {
+    Base, Layer, Shifted, Direct, DirectShifted
+}
+
 data class Combo(
     val type: ComboType,
     var name: String,
@@ -10,9 +14,19 @@ data class Combo(
     val timeout: Int?,
 ) {
     companion object {
-        fun of(type: ComboType, name: String, result: QmkKey, triggers: List<Key>, timeout: Int? = 0): List<Combo> {
-            if (triggers.any { it.keyWithModifier.isNo }) {
+        fun of(
+            type: ComboType,
+            source: ComboSource,
+            name: String,
+            result: QmkKey,
+            triggers: List<Key>,
+            timeout: Int? = 0
+        ): List<Combo> {
+            if (name.contains("DEAD")) {
                 return emptyList()
+            }
+            if (triggers.any { it.keyWithModifier.isNo }) {
+                throw IllegalStateException("no KC_NO allowed in $source combo triggers:\n$name\n${triggers.joinToString("\n")}")
             }
             return listOf(Combo(type, name, result, triggers.sortedBy { it.keyWithModifier.key }, timeout))
         }
@@ -104,7 +118,7 @@ private fun directCombos(
             if (LayerActivation.entries.any { it.method != null && triggers[0].key.key.startsWith(it.method) }) {
                 emptyList()
             } else {
-                keyCombos(key, triggers, translator, layer, layers, "", false)
+                keyCombos(key, ComboSource.Direct, triggers, translator, layer, layers, "", false)
             }
         }
 }
@@ -141,13 +155,15 @@ private fun customLayerCombos(
             val keys = layerBase
                 .filterIndexed { index, _ -> index == comboIndex || index in comboIndexes }
 
-            keyCombos(key, keys, translator, layer, layers, "", false)
+            val source = if (layer.name == baseLayerName) ComboSource.Base else ComboSource.Layer
+            keyCombos(key, source, keys, translator, layer, layers, "", false)
         } else emptyList()
     }.filter { it.triggers.size > 1 }
 }
 
 private fun keyCombos(
     key: Key,
+    source: ComboSource,
     triggers: List<Key>,
     translator: QmkTranslator,
     layer: Layer,
@@ -158,11 +174,12 @@ private fun keyCombos(
     val qmkKey = translator.originalKeys[key.pos] ?: key.key
     val type = if (qmkKey.substitutionCombo != null) ComboType.Substitution else ComboType.Combo
     val name = comboName(layer.name, qmkKey.key) + suffix
-    return combos(type, name, qmkKey, triggers, key.comboTimeout, translator, layers, layer, generateDirect)
+    return combos(type, source, name, qmkKey, triggers, key.comboTimeout, translator, layers, layer, generateDirect)
 }
 
 private fun combos(
     type: ComboType,
+    source: ComboSource,
     name: String,
     content: QmkKey,
     triggers: List<Key>,
@@ -176,6 +193,7 @@ private fun combos(
         timeout ?: layer.option.comboTimeout ?: throw IllegalStateException("no timeout for layer ${layer.name}")
     val combo = Combo.of(
         type,
+        source,
         name,
         content,
         triggers,
@@ -186,6 +204,7 @@ private fun combos(
         val base = layers[0]
         Combo.of(
             type,
+            ComboSource.Direct,
             "D${index}_$name",
             content,
             (triggers.map { it.pos } + position).map { base.get(it) },
@@ -206,6 +225,7 @@ private fun combos(
                 shiftLayer.option.comboTimeout ?: throw IllegalStateException("no timeout for layer ${shiftLayer.name}")
             val shifted = combos(
                 type,
+                ComboSource.Shifted,
                 "S_$name",
                 shifted(content),
                 triggers.map { t ->
@@ -220,6 +240,7 @@ private fun combos(
             )
             val directShifted = combos(
                 type,
+                ComboSource.DirectShifted,
                 "DS_$name",
                 shifted(content),
                 triggers + layer.get(shiftLayer.option.reachable.keys.single()),
