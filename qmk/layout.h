@@ -3,10 +3,10 @@
 
 /* THIS FILE WAS GENERATED!
  *
- * file is generated from https://github.com/zeitlinger/keyboard/blob/uncommitted changes/README.md using https://github.com/zeitlinger/keyboard/blob/uncommitted changes/generateKeyboard.kt
+ * file is generated from https://github.com/zeitlinger/keyboard/blob/main/README.md
  */
 
-#define VERSION_STRING "https://github.com/zeitlinger/keyboard/blob/uncommitted changes/README.md"
+#define VERSION_STRING "use target/qmk to build the firmware to get the git version"
 
 #define _BASE 0
 #define _LEFT 1
@@ -105,7 +105,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                            KC_NO,              S(KC_R),                KC_NO,                KC_NO),
 	[_RIGHT] = LAYOUT_split_3x5_2(
                            KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                DEAD3,              KC_DQUO,          A(KC_RIGHT),                KC_NO,
-                           KC_NO,              C(KC_K),            RCS(KC_F),             A(KC_F7),                KC_NO,                KC_NO,              S(KC_A),              S(KC_E),              S(KC_I),              S(KC_H),
+                           KC_NO,            RCS(KC_F),             A(KC_F7),              C(KC_R),                KC_NO,                KC_NO,              S(KC_A),              S(KC_E),              S(KC_I),              S(KC_H),
                            KC_NO, LM(_RMODS, MOD_LALT), LM(_RMODS, MOD_LCTL), LM(_RMODS, MOD_LSFT),                KC_NO,                KC_NO,              S(KC_U),              S(KC_O),              S(KC_Y),              KC_QUES,
                                            KC_NO,                KC_NO,               KC_SPC,                KC_NO),
 	[_LMODS] = LAYOUT_split_3x5_2(
@@ -130,7 +130,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                           KC_F11,      LT(_NUM,KC_F12),                KC_NO,                KC_NO),
 	[_NUM] = LAYOUT_split_3x5_2(
                            KC_NO,              KC_PERC,              KC_COLN,                KC_NO,                KC_NO,                KC_NO,                KC_NO,              KC_ASTR,             KC_MINUS,                KC_NO,
-                            KC_4,                 KC_3,                 KC_2,                 KC_1,                KC_NO,                KC_NO,          SFT_T(KC_0),      CTL_T(KC_COMMA),        ALT_T(KC_DOT),                 KC_9,
+                            KC_4,          ALT_T(KC_3),          CTL_T(KC_2),          SFT_T(KC_1),                KC_NO,                KC_NO,          SFT_T(KC_0),      CTL_T(KC_COMMA),        ALT_T(KC_DOT),                 KC_9,
                             KC_8,                 KC_7,                 KC_6,                 KC_5,                KC_NO,                KC_NO,              KC_UNDS,             KC_EQUAL,              KC_PLUS,             KC_SLASH,
                                            KC_NO,                KC_NO,                KC_NO,                KC_NO),
 	[_MEDIA] = LAYOUT_split_3x5_2(

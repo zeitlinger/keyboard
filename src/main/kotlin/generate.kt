@@ -78,12 +78,8 @@ fun run(args: GeneratorArgs) {
 
     val srcDir = args.generatorDir.file
     val dstDir = args.dstDir
-    val gitVersion = readGitVersion(args.configFile, args.configFile.file.name)
-    val generatorDir = args.generatorDir
     val generationNote =
-        "file is generated from $gitVersion using ${
-            readGitVersion(generatorDir, "generateKeyboard.kt")
-        }"
+        "file is generated from ${gitTemplate.format(args.configFile.file.name)}"
 
     val userKeycodes = translator.symbols.customKeycodes.keys.toList()
     val visible =
@@ -93,10 +89,10 @@ fun run(args: GeneratorArgs) {
         }
     replaceTemplate(
         File(srcDir, "layout.h"),
-        File(dstDir, "qmk/layout.h"),
+        File(dstDir, "layout.h"),
         mapOf(
             "generationNote" to generationNote,
-            "versionString" to gitVersion,
+            "versionString" to args.versionString,
             "layers" to generateBase(visible),
             "layerNumbers" to translator.layerNumbers.entries
                 .joinToString("\n") {
@@ -113,7 +109,7 @@ fun run(args: GeneratorArgs) {
 
     replaceTemplate(
         File(srcDir, "generated.c"),
-        File(dstDir, "qmk/generated.c"),
+        File(dstDir, "generated.c"),
         mapOf(
             "generationNote" to generationNote,
             "timeouts" to timeouts.indented(4),
@@ -139,7 +135,7 @@ fun run(args: GeneratorArgs) {
 
     analyze(translator, layers)
 
-    File(dstDir, "qmk/combos.def").writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
+    File(dstDir, "combos.def").writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
 }
 
 private fun addRepeat(translator: QmkTranslator, row: List<String>, pos: KeyPosition) {

@@ -1,6 +1,6 @@
 /* THIS FILE WAS GENERATED!
  *
- * file is generated from https://github.com/zeitlinger/keyboard/blob/uncommitted changes/README.md using https://github.com/zeitlinger/keyboard/blob/uncommitted changes/generateKeyboard.kt
+ * file is generated from https://github.com/zeitlinger/keyboard/blob/main/README.md
  */
 
 int alternateLayer = -1;
@@ -65,16 +65,14 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_NAV_CKC_A: return 500;
     case C_NAV_CKC_C: return 500;
     case C_NAV_CKC_D: return 500;
-    case C_NAV_CKC_F: return 500;
+    case C_NAV_CKC_K: return 500;
     case C_NAV_CKC_LEFT_BRACKET: return 500;
     case C_NAV_CKC_N: return 500;
-    case C_NAV_CKC_R: return 500;
     case C_NAV_CKC_RIGHT_BRACKET: return 500;
     case C_NAV_CKC_SLASH: return 500;
     case C_NAV_CKC_V: return 500;
     case C_NAV_CKC_W: return 500;
     case C_NAV_CKC_X: return 500;
-    case C_NAV_CKC_Y: return 500;
     case C_NAV_CKC_Z: return 500;
     case C_NAV_KC_END: return 500;
     case C_NAV_KC_HOME: return 500;
@@ -83,31 +81,34 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_NAV_KC_SPC: return 500;
     case C_NAV_RCSKC_V: return 500;
     case C_NAV_RCSKC_Z: return 500;
-    case C_NUM_KC_0: return 500;
-    case C_NUM_KC_1: return 500;
-    case C_NUM_KC_2: return 500;
-    case C_NUM_KC_3: return 500;
-    case C_NUM_KC_4: return 500;
-    case C_NUM_KC_5: return 500;
-    case C_NUM_KC_6: return 500;
-    case C_NUM_KC_7: return 500;
-    case C_NUM_KC_8: return 500;
-    case C_NUM_KC_9: return 500;
-    case C_NUM_KC_ASTR: return 500;
-    case C_NUM_KC_COLN: return 500;
-    case C_NUM_KC_COMMA: return 500;
-    case C_NUM_KC_DOT: return 500;
-    case C_NUM_KC_EQUAL: return 500;
-    case C_NUM_KC_MINUS: return 500;
-    case C_NUM_KC_PERC: return 500;
-    case C_NUM_KC_PLUS: return 500;
-    case C_NUM_KC_SLASH: return 500;
-    case C_NUM_KC_UNDS: return 500;
+    case C_NUM_KC_0: return 750;
+    case C_NUM_KC_1: return 750;
+    case C_NUM_KC_2: return 750;
+    case C_NUM_KC_3: return 750;
+    case C_NUM_KC_4: return 750;
+    case C_NUM_KC_5: return 750;
+    case C_NUM_KC_6: return 750;
+    case C_NUM_KC_7: return 750;
+    case C_NUM_KC_8: return 750;
+    case C_NUM_KC_9: return 750;
+    case C_NUM_KC_ASTR: return 750;
+    case C_NUM_KC_COLN: return 750;
+    case C_NUM_KC_COMMA: return 750;
+    case C_NUM_KC_DOT: return 750;
+    case C_NUM_KC_EQUAL: return 750;
+    case C_NUM_KC_MINUS: return 750;
+    case C_NUM_KC_PERC: return 750;
+    case C_NUM_KC_PLUS: return 750;
+    case C_NUM_KC_SLASH: return 750;
+    case C_NUM_KC_UNDS: return 750;
+    case C_RIGHT_CKC_E: return 500;
+    case C_RIGHT_CKC_F: return 500;
     case C_RIGHT_DOT_SPC: return 500;
     case C_RIGHT_KC_AT: return 500;
     case C_RIGHT_KC_EXLM: return 500;
     case C_RIGHT_KC_GRAVE: return 500;
     case C_RIGHT_N_T: return 500;
+    case C_RIGHT_RCSKC_R: return 500;
     case C_RIGHT_UMUMLAUT_A: return 500;
     case C_RIGHT_UMUMLAUT_O: return 500;
     case C_RIGHT_UMUMLAUT_S: return 500;

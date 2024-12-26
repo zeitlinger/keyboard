@@ -30,7 +30,7 @@ fun addModTab(key: QmkKey, pos: KeyPosition, translator: QmkTranslator): QmkKey 
     val column = pos.column
     val mod = translator.options.homeRowPositions?.get(fingerIndex(pos.column, pos.columns))
     return when {
-        mod == null -> key
+        mod == null || pos.tableIndex > 0 -> key
         column < pos.columns / 2 -> applyModTap(key, mod, layerOption.leftModifier, pos, translator)
         column >= pos.columns / 2 -> applyModTap(key, mod, layerOption.rightModifier, pos, translator)
         else -> key
@@ -51,7 +51,9 @@ private fun applyModTap(
         setCustomKeyCommand(translator, key, modTapKey, pos)
         when {
             modTapKey != key && targetLayer != null -> {
-                if (!key.isNo) throw IllegalStateException("key $key not allowed for mod tap with layer switch at $pos")
+                if (!key.isNo) {
+                    throw IllegalStateException("key $key not allowed for mod tap with layer switch at $pos")
+                }
                 QmkKey.of("LM(${translator.reachLayer(targetLayer, pos, LayerActivation.ModTap).const()}, ${mod.mask})")
             }
 

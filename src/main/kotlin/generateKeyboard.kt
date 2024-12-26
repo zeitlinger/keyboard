@@ -2,22 +2,35 @@ import java.io.File
 
 data class GitFile(
     val file: File,
-    val gitTemplate: String,
 )
 
 data class GeneratorArgs(
     val configFile: GitFile,
     val generatorDir: GitFile,
     val dstDir: File,
+    val versionString: String,
 )
 
+val gitTemplate = "https://github.com/zeitlinger/keyboard/blob/main/%s"
+val gitVersionTemplate = "https://github.com/zeitlinger/keyboard/blob/%s/%s"
+
 fun main() {
-    val gitTemplate = "https://github.com/zeitlinger/keyboard/blob/%s/%s"
+    val cfg = File("README.md")
+    val res = File("src/main/resources")
     run(
         GeneratorArgs(
-            GitFile(File("README.md"), gitTemplate),
-            GitFile(File("src/main/resources"), gitTemplate),
-            File("."),
+            GitFile(cfg),
+            GitFile(res),
+            File("qmk"),
+            "use target/qmk to build the firmware to get the git version",
+        )
+    )
+    run(
+        GeneratorArgs(
+            GitFile(cfg),
+            GitFile(res),
+            File("target/qmk"),
+            readGitVersion(GitFile(cfg), cfg.name),
         )
     )
 }
