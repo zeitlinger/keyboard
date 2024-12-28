@@ -62,9 +62,9 @@ Currently unused features:
 |   e    |      o      |            |
 |   f    |      f      |    "or"    |
 |   g    |      n      |     l      |
-|   h    |    "ey"     |   "ave"    |
-|   i    |      z      |            |
-|   j    |    "ust"    |            |
+|   h    |    "ey"     |     y      |
+|   i    |             |            |
+|   j    |             |   "ust"    |
 |   k    |      n      |   "now"    |
 |   l    |      p      |     m      |
 |   m    |      b      |   "ent"    |
