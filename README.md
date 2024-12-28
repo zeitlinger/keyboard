@@ -151,41 +151,26 @@ Currently unused features:
 | Left  |         |         |         |         |         |         |         |         |
 | Left  |         |         |         |         |    ä    |    ö    |    ü    |         |
 | Left  |    :    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
+| Left  |         |         |         |         | *Words  |  *Case  |         |         |
+|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| Left  |         |         |         | PasCase |    ß    |         |         |         |
+| Left  |         |         |         |   💎    |   💎    |         |         |         |
+| Left  |         |         |         | camCase |    Ä    |         |         |         |
 | Left  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Left  |         | sl/case |   💎    |         |    ß    |         |         |         |
-| Left  |         |         |         |         |   💎    |         |         |         |
-| Left  |         |         |         |         |    Ä    |         |         |         |
+| Left  |         |         | SN_CASE |         |         |         |         |         |
+| Left  |         |         |   💎    |         |         |   💎    |         |         |
+| Left  |         |         | sn_case |         |         |    Ö    |         |         |
 | Left  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |         |         |         |         |         |         |         |         |
-| Left  |         | PasCase |         |   💎    |         |   💎    |         |         |
-| Left  |         |         |         |         |         |    Ö    |         |         |
-| Left  |         |         |         |         |         |         |         |         |
-|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Left  |         |         |         |         |         |         |         |         |
-| Left  |         | SN_CASE |   💎    |  CapW   |         |         |   💎    |         |
-| Left  |         |         |         |         |         |         |    Ü    |         |
+| Left  |         |   💎    |         |         |         |         |   💎    |         |
+| Left  |         |  CapW   |         |         |         |         |    Ü    |         |
 | Left  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |  "Qu"   |         |         |         |         |         |         |         |
-| Left  |   💎    | kb-case |         |         |         |         |         |         |
+| Left  |   💎    |         |         |         |         |         |         |         |
 | Left  |         |         |         |         |         |         |         |         |
-| Left  |         |         |         |         |         |         |         |         |
-|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Left  |         |         |         |         |         |         |         |         |
-| Left  |         |         |         |         |         |         |         |         |
-| Left  |         | camCase |         |   💎    |         |         |         |         |
-| Left  |         |         |         |         |         |         |         |         |
-|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Left  |         |         |         |         |         |         |         |         |
-| Left  |         |         |         |         |         |         |         |         |
-| Left  |         | sn_case |   💎    |  CapsL  |         |         |         |         |
-| Left  |         |         |         |         |         |         |         |         |
-|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Left  |         |         |         |         |         |         |         |         |
-| Left  |         |         |         |         |         |         |         |         |
-| Left  |   💎    | do.case |         |         |         |         |         |         |
 | Left  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | LMods |         |         |         |         |         |         |         |         |
@@ -258,6 +243,16 @@ Currently unused features:
 |  Mm   |   ver   |   ⏮️    |   ⏭️    |   ⏯️    |         |         |         |         |
 |  Mm   |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| Case  |         |         | kb-case |         |         |         |         |         |
+| Case  | sl/case |  CapW   | sn_case | camCase |         |         |         |         |
+| Case  |  CapsL  | do.case | SN_CASE | PasCase |         |         |         |         |
+| Case  |         |         |         |         |         |         |         |         |
+|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| Words |         |         |         |         |         |         |         |         |
+| Words |         |         | "LGTM"  |         |         |         |         |         |
+| Words |   GZ    |  gra@   |  zeit@  |  goog@  |         |         |         |         |
+| Words |         |         |         |         |         |         |         |         |
+|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
 ## Options
 
@@ -274,65 +269,71 @@ The order of the options is also the order of the layers in the layer stack.
 |    FnSym     |     HomeRow     |     HomeRow     |               |                | DirectComboRight |      500      |
 |     Num      |     HomeRow     |     HomeRow     |               |                |                  |               |
 |      Mm      |                 |                 |               |                |                  |               |
+|     Case     |                 |                 |               |                |                  |               |
+|    Words     |                 |                 |               |                |                  |               |
 
 ## Symbols
 
-| Symbol  | Command                     |
-|---------|-----------------------------|
-| ⬅️      | KC_LEFT                     |
-| ⬅️⬅️    | KC_HOME                     |
-| ⬇️      | KC_DOWN                     |
-| ⬇️⬇️    | KC_PGDN                     |
-| ⬆️      | KC_UP                       |
-| ⬆️⬆️    | KC_PGUP                     |
-| ➡️      | KC_RIGHT                    |
-| ➡️➡️    | KC_END                      |
-| ins     | KC_INS                      |
-| del     | KC_DEL                      |
-| spc     | KC_SPC                      |
-| esc     | KC_ESC                      |
-| ↩️️     | KC_ENT                      |
-| bspc    | KC_BSPC                     |
-| win     | KC_LGUI                     |
-| tab     | KC_TAB                      |
-| st      | S(KC_TAB)                   |
-| prt     | KC_PSCR                     |
-| pipe    | KC_PIPE                     |
-| 🔇      | KC_MUTE                     |
-| ⏯️      | KC_MPLY                     |
-| ⏮️      | KC_MPRV                     |
-| ⏭️      | KC_MNXT                     |
-| 🔊      | KC_VOLU                     |
-| 🔈      | KC_VOLD                     |
-| 🔆      | KC_BRIU                     |
-| 🔅      | KC_BRID                     |
-| copy    | C(KC_C)                     |
-| ä       | UP(UMLAUT_a, UMLAUT_A)      |
-| ö       | UP(UMLAUT_o, UMLAUT_O)      |
-| ü       | UP(UMLAUT_u, UMLAUT_U)      |
-| Ä       | UM(UMLAUT_A)                |
-| Ö       | UM(UMLAUT_O)                |
-| Ü       | UM(UMLAUT_U)                |
-| ß       | UM(UMLAUT_s)                |
-| repeat  | QK_REPEAT_KEY               |
-| altRep  | QK_ALT_REPEAT_KEY           |
-| tab ➡️  | custom:NEXT_TAB      NoHold |
-| win ➡️  | custom:NEXT_WINDOW   NoHold |
-| .spc    | custom:DOT_SPC              |
-| n't     | custom:N_T                  |
-| ver     | custom:PRINT_VERSION        |
-| CapsL   | KC_CAPS                     |
-| CapW    | custom:CAPS_WORDS           |
-| sn_case | custom:SNAKE_CASE           |
-| SN_CASE | custom:SCREAMING_SNAKE_CASE |
-| camCase | custom:CAMEL_CASE           |
-| PasCase | custom:PASCAL_CASE          |
-| sl/case | custom:SLASH_CASE           |
-| do.case | custom:DOT_CASE             |
-| kb-case | custom:KEBAP_CASE           |
-| dead1   | custom:DEAD1                |
-| dead2   | custom:DEAD2                |
-| dead3   | custom:DEAD3                |
+| Symbol  | Command                         |
+|---------|---------------------------------|
+| ⬅️      | KC_LEFT                         |
+| ⬅️⬅️    | KC_HOME                         |
+| ⬇️      | KC_DOWN                         |
+| ⬇️⬇️    | KC_PGDN                         |
+| ⬆️      | KC_UP                           |
+| ⬆️⬆️    | KC_PGUP                         |
+| ➡️      | KC_RIGHT                        |
+| ➡️➡️    | KC_END                          |
+| ins     | KC_INS                          |
+| del     | KC_DEL                          |
+| spc     | KC_SPC                          |
+| esc     | KC_ESC                          |
+| ↩️️     | KC_ENT                          |
+| bspc    | KC_BSPC                         |
+| win     | KC_LGUI                         |
+| tab     | KC_TAB                          |
+| st      | S(KC_TAB)                       |
+| prt     | KC_PSCR                         |
+| pipe    | KC_PIPE                         |
+| 🔇      | KC_MUTE                         |
+| ⏯️      | KC_MPLY                         |
+| ⏮️      | KC_MPRV                         |
+| ⏭️      | KC_MNXT                         |
+| 🔊      | KC_VOLU                         |
+| 🔈      | KC_VOLD                         |
+| 🔆      | KC_BRIU                         |
+| 🔅      | KC_BRID                         |
+| copy    | C(KC_C)                         |
+| ä       | UP(UMLAUT_a, UMLAUT_A)          |
+| ö       | UP(UMLAUT_o, UMLAUT_O)          |
+| ü       | UP(UMLAUT_u, UMLAUT_U)          |
+| Ä       | UM(UMLAUT_A)                    |
+| Ö       | UM(UMLAUT_O)                    |
+| Ü       | UM(UMLAUT_U)                    |
+| ß       | UM(UMLAUT_s)                    |
+| repeat  | QK_REPEAT_KEY                   |
+| altRep  | QK_ALT_REPEAT_KEY               |
+| tab ➡️  | custom:NEXT_TAB      NoHold     |
+| win ➡️  | custom:NEXT_WINDOW   NoHold     |
+| .spc    | custom:DOT_SPC                  |
+| n't     | custom:N_T                      |
+| ver     | custom:PRINT_VERSION            |
+| CapsL   | KC_CAPS                         |
+| CapW    | custom:CAPS_WORDS               |
+| sn_case | custom:SNAKE_CASE               |
+| SN_CASE | custom:SCREAMING_SNAKE_CASE     |
+| camCase | custom:CAMEL_CASE               |
+| PasCase | custom:PASCAL_CASE              |
+| sl/case | custom:SLASH_CASE               |
+| do.case | custom:DOT_CASE                 |
+| kb-case | custom:KEBAP_CASE               |
+| dead1   | custom:DEAD1                    |
+| dead2   | custom:DEAD2                    |
+| dead3   | custom:DEAD3                    |
+| GZ      | "Gregor Zeitlinger"             |
+| gra@    | "gregor.zeitlinger@grafana.com" |
+| zeit@   | "gregor@zeitlinger.de"          |
+| goog@   | "zeitlinger@gmail.com"          |
 
 ## Generator
 
