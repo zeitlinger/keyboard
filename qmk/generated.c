@@ -185,6 +185,11 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             switch (keycode) {
+            case _HANDLER_ST_WORDS_1_2: SEND_STRING("LGTM"); return false;
+            case _HANDLER_ST_WORDS_2_0: SEND_STRING("Gregor Zeitlinger"); return false;
+            case _HANDLER_ST_WORDS_2_1: SEND_STRING("gregor.zeitlinger@grafana.com"); return false;
+            case _HANDLER_ST_WORDS_2_2: SEND_STRING("gregor@zeitlinger.de"); return false;
+            case _HANDLER_ST_WORDS_2_3: SEND_STRING("zeitlinger@gmail.com"); return false;
             case _HANDLER_ALT_KC_H: SEND_STRING("ey"); return false;
             case _HANDLER_ALT_KC_Q: SEND_STRING("ua"); return false;
             case _HANDLER_ALT_KC_T: SEND_STRING("ion"); return false;

@@ -46,6 +46,11 @@ enum custom_keycodes {
     _TAP_C_SKC_TAB,
     _TAP_C_KC_LCBR,
     _TAP_C_KC_RCBR,
+    ST_WORDS_1_2,
+    ST_WORDS_2_0,
+    ST_WORDS_2_1,
+    ST_WORDS_2_2,
+    ST_WORDS_2_3,
     ALT_KC_H,
     ALT_KC_Q,
     ALT_KC_T,
@@ -82,6 +87,11 @@ enum custom_keycodes {
 #define _HANDLER__TAP_C_SKC_TAB LT(_NUM,_TAP_C_SKC_TAB)
 #define _HANDLER__TAP_C_KC_LCBR CTL_T(_TAP_C_KC_LCBR)
 #define _HANDLER__TAP_C_KC_RCBR ALT_T(_TAP_C_KC_RCBR)
+#define _HANDLER_ST_WORDS_1_2 ST_WORDS_1_2
+#define _HANDLER_ST_WORDS_2_0 ST_WORDS_2_0
+#define _HANDLER_ST_WORDS_2_1 ST_WORDS_2_1
+#define _HANDLER_ST_WORDS_2_2 ST_WORDS_2_2
+#define _HANDLER_ST_WORDS_2_3 ST_WORDS_2_3
 #define _HANDLER_ALT_KC_H ALT_KC_H
 #define _HANDLER_ALT_KC_Q ALT_KC_Q
 #define _HANDLER_ALT_KC_T ALT_KC_T
@@ -145,7 +155,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                            KC_NO,                KC_NO,                KC_NO,                KC_NO),
 	[_WORDS] = LAYOUT_split_3x5_2(
                            KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
-                           KC_NO,                KC_NO,               "LGTM",                KC_NO, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
-             "Gregor Zeitlinger", "gregor.zeitlinger@grafana.com", "gregor@zeitlinger.de", "zeitlinger@gmail.com", KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+                           KC_NO,                KC_NO,         ST_WORDS_1_2,                KC_NO, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+                    ST_WORDS_2_0,         ST_WORDS_2_1,         ST_WORDS_2_2,         ST_WORDS_2_3, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
                                            KC_NO,                KC_NO,                KC_NO,                KC_NO),
 };

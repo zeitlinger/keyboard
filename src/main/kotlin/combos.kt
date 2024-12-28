@@ -170,7 +170,7 @@ private fun keyCombos(
     layers: List<Layer>,
 ): List<Combo> {
     val qmkKey = translator.originalKeys[key.pos] ?: key.key
-    val type = if (qmkKey.substitutionCombo != null) ComboType.Substitution else ComboType.Combo
+    val type = if (qmkKey.substitution != null) ComboType.Substitution else ComboType.Combo
     val name = comboName(layer.name, qmkKey.key)
     return combos(type, source, name, qmkKey, triggers, key.comboTimeout, translator, layers, layer)
 }

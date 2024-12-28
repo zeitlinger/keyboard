@@ -5,7 +5,7 @@ const val qmkNo = "KC_NO"
 
 data class QmkKey(
     val key: String,
-    val substitutionCombo: String?,
+    val substitution: String?,
 ) {
     override fun toString(): String {
         return key

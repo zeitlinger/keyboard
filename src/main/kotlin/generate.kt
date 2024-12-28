@@ -37,9 +37,14 @@ fun generateBase(layers: List<Layer>): String {
                 } else {
                     row
                 }.map {
-                    it.keyWithModifier.key.padStart(
-                        20
-                    )
+                    val key = it.keyWithModifier
+                    if (key.substitution != null) {
+                        throw IllegalStateException("substitutionCombo not supported in base layer: $key")
+                    } else {
+                        key.key.padStart(
+                            20
+                        )
+                    }
                 }
             }
                 .flatten()).toTypedArray())
@@ -50,20 +55,14 @@ fun run(args: GeneratorArgs) {
     val tables = readTables(args.configFile.file)
     val translator = qmkTranslator(tables)
 
-    val layers = translator.layerOptions.entries.map { (layerName, _) ->
+    val layers = addSendString(translator.layerOptions.entries.map { (layerName, _) ->
         val table = translator.keys[layerName]
             ?: listOf(List(translator.options.rows) { List(translator.options.nonThumbColumns) { "" } })
         readLayer(table, translator, layerName, translator.layerNumbers.getOrDefault(layerName, -1))
-    }
+    }, translator)
 
     val combos = translator.combos + generateAllCombos(layers, translator)
-    val comboLines = combos.map { combo ->
-        combo.type.template.format(
-            combo.name.padEnd(35),
-            combo.result.let { it.substitutionCombo ?: it.key }.padEnd(35),
-            combo.triggers.joinToString(", ") { it.keyWithModifier.key }
-        )
-    }.sorted()
+    val comboLines = getComboLines(combos)
 
     val timeouts = combos.filter { it.timeout != null }.map {
         "case ${it.name}: return ${it.timeout};"
@@ -137,6 +136,38 @@ fun run(args: GeneratorArgs) {
 
     File(dstDir, "combos.def").writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
 }
+
+fun addSendString(layers: List<Layer>, translator: QmkTranslator): List<Layer> {
+    return layers.map {
+        it.copy(rows = it.rows.map { row ->
+            row.map { key ->
+                val substitution = key.key.substitution
+                if (substitution != null) {
+                    val name = "ST_${key.pos.layerName}_${key.pos.row}_${key.pos.column}".uppercase()
+                    val command = customCommand(
+                        translator,
+                        QmkKey.of(name),
+                        CustomCommandType.OnPress,
+                        listOf(sendString(substitution)),
+                        key.key
+                    )
+
+                    key.copy(key = command, keyWithModifier = command)
+                } else {
+                    key
+                }
+            }
+        })
+    }
+}
+
+private fun getComboLines(combos: List<Combo>) = combos.map { combo ->
+    combo.type.template.format(
+        combo.name.padEnd(35),
+        combo.result.let { it.substitution ?: it.key }.padEnd(35),
+        combo.triggers.joinToString(", ") { it.keyWithModifier.key }
+    )
+}.sorted()
 
 private fun addRepeat(translator: QmkTranslator, row: List<String>, pos: KeyPosition) {
     val base = translator.toQmk(row[0], pos)
