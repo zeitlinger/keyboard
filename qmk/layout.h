@@ -16,7 +16,9 @@
 #define _NAV 5
 #define _FNSYM 6
 #define _NUM 7
-#define _MEDIA 8
+#define _MM 8
+#define _CASE 9
+#define _WORDS 10
 
 enum custom_keycodes {
 	NEXT_TAB = SAFE_RANGE,
@@ -45,7 +47,6 @@ enum custom_keycodes {
     _TAP_C_KC_LCBR,
     _TAP_C_KC_RCBR,
     ALT_KC_H,
-    ALT_KC_J,
     ALT_KC_Q,
     ALT_KC_T,
     ALT_KC_V,
@@ -61,7 +62,7 @@ enum custom_keycodes {
 #define _HANDLER_DOT_SPC DOT_SPC
 #define _HANDLER_N_T N_T
 #define _HANDLER_PRINT_VERSION PRINT_VERSION
-#define _HANDLER_CAPS_WORDS CAPS_WORDS
+#define _HANDLER_CAPS_WORDS LT(_MM,CAPS_WORDS)
 #define _HANDLER_SNAKE_CASE SNAKE_CASE
 #define _HANDLER_SCREAMING_SNAKE_CASE SCREAMING_SNAKE_CASE
 #define _HANDLER_CAMEL_CASE CAMEL_CASE
@@ -82,7 +83,6 @@ enum custom_keycodes {
 #define _HANDLER__TAP_C_KC_LCBR CTL_T(_TAP_C_KC_LCBR)
 #define _HANDLER__TAP_C_KC_RCBR ALT_T(_TAP_C_KC_RCBR)
 #define _HANDLER_ALT_KC_H ALT_KC_H
-#define _HANDLER_ALT_KC_J ALT_KC_J
 #define _HANDLER_ALT_KC_Q ALT_KC_Q
 #define _HANDLER_ALT_KC_T ALT_KC_T
 #define _HANDLER_ALT_KC_V ALT_KC_V
@@ -94,48 +94,58 @@ enum custom_keycodes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_BASE] = LAYOUT_split_3x5_2(
-                          KC_ESC,                 KC_P,                 KC_M,    QK_ALT_REPEAT_KEY,                KC_NO,                KC_NO,                DEAD2,        QK_REPEAT_KEY,    QK_ALT_REPEAT_KEY,                KC_NO,
-                            KC_S,                 KC_C,                 KC_N,                 KC_T,                DEAD1,                KC_NO,                 KC_A,                 KC_E,                 KC_I,                 KC_H,
-                      MO(_RIGHT),                 KC_F,                 KC_L,                 KC_D,                DEAD3,                KC_NO,                 KC_U,                 KC_O,                 KC_Y,            MO(_LEFT),
+                          KC_ESC,                 KC_P,                 KC_M,    QK_ALT_REPEAT_KEY, KC_NO, KC_NO,                DEAD2,        QK_REPEAT_KEY,    QK_ALT_REPEAT_KEY,                DEAD1,
+                            KC_S,                 KC_C,                 KC_N,                 KC_T, KC_NO, KC_NO,                 KC_A,                 KC_E,                 KC_I,                 KC_H,
+                      MO(_RIGHT),                 KC_F,                 KC_L,                 KC_D, KC_NO, KC_NO,                 KC_U,                 KC_O,                 KC_Y,            MO(_LEFT),
                                         MO(_NAV),                 KC_R,               KC_SPC,           MO(_FNSYM)),
 	[_LEFT] = LAYOUT_split_3x5_2(
-                       S(KC_ESC),              S(KC_P),              S(KC_M), S(QK_ALT_REPEAT_KEY),                KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
-                         S(KC_S),              S(KC_C),              S(KC_N),              S(KC_T),             S(DEAD1),                KC_NO,                KC_NO,                KC_NO,           MO(_MEDIA),                KC_NO,
-                         KC_COLN,              S(KC_F),              S(KC_L),              S(KC_D),             S(DEAD3),                KC_NO, LM(_LMODS, MOD_LSFT), LM(_LMODS, MOD_LCTL), LM(_LMODS, MOD_LALT),                KC_NO,
-                                           KC_NO,              S(KC_R),                KC_NO,                KC_NO),
+                       S(KC_ESC),              S(KC_P),              S(KC_M), S(QK_ALT_REPEAT_KEY), KC_NO, KC_NO,                DEAD1,                KC_NO,                KC_NO,                KC_NO,
+                         S(KC_S),              S(KC_C),              S(KC_N),              S(KC_T), KC_NO, KC_NO, UP(UMLAUT_a, UMLAUT_A), UP(UMLAUT_o, UMLAUT_O), UP(UMLAUT_u, UMLAUT_U),                KC_NO,
+                         KC_COLN,              S(KC_F),              S(KC_L),              S(KC_D), KC_NO, KC_NO, LM(_LMODS, MOD_LSFT), LM(_LMODS, MOD_LCTL), LM(_LMODS, MOD_LALT),                KC_NO,
+                                           KC_NO,              S(KC_R),           MO(_WORDS),            MO(_CASE)),
 	[_RIGHT] = LAYOUT_split_3x5_2(
-                           KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                DEAD3,              KC_DQUO,          A(KC_RIGHT),                KC_NO,
-                           KC_NO,            RCS(KC_F),             A(KC_F7),              C(KC_R),                KC_NO,                KC_NO,              S(KC_A),              S(KC_E),              S(KC_I),              S(KC_H),
-                           KC_NO, LM(_RMODS, MOD_LALT), LM(_RMODS, MOD_LCTL), LM(_RMODS, MOD_LSFT),                KC_NO,                KC_NO,              S(KC_U),              S(KC_O),              S(KC_Y),              KC_QUES,
-                                           KC_NO,                KC_NO,               KC_SPC,                KC_NO),
+                           KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                DEAD3,              KC_DQUO,          A(KC_RIGHT),             S(DEAD1),
+                           KC_NO,                KC_NO,              C(KC_F),              C(KC_R), KC_NO, KC_NO,              S(KC_A),              S(KC_E),              S(KC_I),              S(KC_H),
+                           KC_NO, LM(_RMODS, MOD_LALT), LM(_RMODS, MOD_LCTL), LM(_RMODS, MOD_LSFT), KC_NO, KC_NO,              S(KC_U),              S(KC_O),              S(KC_Y),              KC_QUES,
+                                         C(KC_E),             A(KC_F7),               KC_SPC,                KC_NO),
 	[_LMODS] = LAYOUT_split_3x5_2(
-                          KC_ESC,                 KC_P,                 KC_M,    QK_ALT_REPEAT_KEY,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
-                            KC_S,                 KC_C,                 KC_N,                 KC_T,                DEAD1,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
-                           KC_NO,                 KC_F,                 KC_L,                 KC_D,                DEAD3,                KC_NO, LM(_LMODS, MOD_LSFT), LM(_LMODS, MOD_LCTL), LM(_LMODS, MOD_LALT),                KC_NO,
+                          KC_ESC,                 KC_P,                 KC_M,    QK_ALT_REPEAT_KEY, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+                            KC_S,                 KC_C,                 KC_N,                 KC_T, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+                           KC_NO,                 KC_F,                 KC_L,                 KC_D, KC_NO, KC_NO, LM(_LMODS, MOD_LSFT), LM(_LMODS, MOD_LCTL), LM(_LMODS, MOD_LALT),                KC_NO,
                                            KC_NO,                 KC_R,                KC_NO,                KC_NO),
 	[_RMODS] = LAYOUT_split_3x5_2(
-                           KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                DEAD2,        QK_REPEAT_KEY,    QK_ALT_REPEAT_KEY,                KC_NO,
-                           KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                 KC_A,                 KC_E,                 KC_I,                 KC_H,
-                           KC_NO, LM(_RMODS, MOD_LALT), LM(_RMODS, MOD_LCTL), LM(_RMODS, MOD_LSFT),                KC_NO,                KC_NO,                 KC_U,                 KC_O,                 KC_Y,                KC_NO,
+                           KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                DEAD2,        QK_REPEAT_KEY,    QK_ALT_REPEAT_KEY,                DEAD1,
+                           KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                 KC_A,                 KC_E,                 KC_I,                 KC_H,
+                           KC_NO, LM(_RMODS, MOD_LALT), LM(_RMODS, MOD_LCTL), LM(_RMODS, MOD_LSFT), KC_NO, KC_NO,                 KC_U,                 KC_O,                 KC_Y,                KC_NO,
                                            KC_NO,                KC_NO,               KC_SPC,                KC_NO),
 	[_NAV] = LAYOUT_split_3x5_2(
-                          KC_SPC,              C(KC_X),              C(KC_V),            RCS(KC_Z),                KC_NO,                KC_NO,                KC_NO,               KC_ESC,               KC_INS,                KC_NO,
-                         C(KC_C),              KC_LALT,              KC_LCTL,              KC_LSFT,                KC_NO,                KC_NO,              KC_LEFT,              KC_DOWN,                KC_UP,             KC_RIGHT,
-                         C(KC_Z),              C(KC_W),             NEXT_TAB,          NEXT_WINDOW,                KC_NO,                KC_NO,               KC_ENT,              KC_BSPC,               KC_DEL,               KC_SPC,
+                          KC_SPC,              C(KC_X),              C(KC_V),            RCS(KC_Z), KC_NO, KC_NO,                KC_NO,               KC_ESC,               KC_INS,                KC_NO,
+                         C(KC_C),              KC_LALT,              KC_LCTL,              KC_LSFT, KC_NO, KC_NO,              KC_LEFT,              KC_DOWN,                KC_UP,             KC_RIGHT,
+                         C(KC_Z),              C(KC_W),             NEXT_TAB,          NEXT_WINDOW, KC_NO, KC_NO,               KC_ENT,              KC_BSPC,               KC_DEL,               KC_SPC,
                                            KC_NO,                KC_NO,               KC_TAB, LT(_NUM,_TAP_C_SKC_TAB)),
 	[_FNSYM] = LAYOUT_split_3x5_2(
-                           DEAD2,               KC_F10,                KC_F9,              KC_LGUI,                KC_NO,                KC_NO,                DEAD3,              KC_LPRN,              KC_RPRN,                DEAD1,
-                           KC_F4,         ALT_T(KC_F3),         CTL_T(KC_F2),         SFT_T(KC_F1),                KC_NO,                KC_NO,      SFT_T(KC_MINUS), CTL_T(_TAP_C_KC_LCBR), ALT_T(_TAP_C_KC_RCBR),           CAPS_WORDS,
-                           KC_F8,                KC_F7,                KC_F6,                KC_F5,                KC_NO,                KC_NO,              KC_UNDS,             KC_EQUAL,              KC_PLUS,             KC_SLASH,
+                           DEAD2,               KC_F10,                KC_F9,              KC_LGUI, KC_NO, KC_NO,                DEAD3,              KC_LPRN,              KC_RPRN,                DEAD1,
+                           KC_F4,         ALT_T(KC_F3),         CTL_T(KC_F2),         SFT_T(KC_F1), KC_NO, KC_NO,      SFT_T(KC_MINUS), CTL_T(_TAP_C_KC_LCBR), ALT_T(_TAP_C_KC_RCBR),   LT(_MM,CAPS_WORDS),
+                           KC_F8,                KC_F7,                KC_F6,                KC_F5, KC_NO, KC_NO,              KC_UNDS,             KC_EQUAL,              KC_PLUS,             KC_SLASH,
                                  LT(_NUM,KC_F11),               KC_F12,                KC_NO,                KC_NO),
 	[_NUM] = LAYOUT_split_3x5_2(
-                           KC_NO,              KC_PERC,              KC_COLN,                KC_NO,                KC_NO,                KC_NO,                KC_NO,              KC_ASTR,             KC_MINUS,                KC_NO,
-                            KC_4,          ALT_T(KC_3),          CTL_T(KC_2),          SFT_T(KC_1),                KC_NO,                KC_NO,          SFT_T(KC_0),      CTL_T(KC_COMMA),        ALT_T(KC_DOT),                 KC_9,
-                            KC_8,                 KC_7,                 KC_6,                 KC_5,                KC_NO,                KC_NO,              KC_UNDS,             KC_EQUAL,              KC_PLUS,             KC_SLASH,
+                           KC_NO,              KC_PERC,              KC_COLN,                KC_NO, KC_NO, KC_NO,                KC_NO,              KC_ASTR,             KC_MINUS,                KC_NO,
+                            KC_4,          ALT_T(KC_3),          CTL_T(KC_2),          SFT_T(KC_1), KC_NO, KC_NO,          SFT_T(KC_0),          CTL_T(KC_9),        ALT_T(KC_DOT),             KC_COMMA,
+                            KC_8,                 KC_7,                 KC_6,                 KC_5, KC_NO, KC_NO,              KC_UNDS,             KC_EQUAL,              KC_PLUS,             KC_SLASH,
                                            KC_NO,                KC_NO,                KC_NO,                KC_NO),
-	[_MEDIA] = LAYOUT_split_3x5_2(
-                           KC_NO,              KC_BRID,              KC_BRIU,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
-                         KC_PSCR,              KC_VOLD,              KC_VOLU,              KC_MUTE,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
-                   PRINT_VERSION,              KC_MPRV,              KC_MNXT,              KC_MPLY,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+	[_MM] = LAYOUT_split_3x5_2(
+                           KC_NO,              KC_BRID,              KC_BRIU,                KC_NO, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+                         KC_PSCR,              KC_VOLD,              KC_VOLU,              KC_MUTE, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+                   PRINT_VERSION,              KC_MPRV,              KC_MNXT,              KC_MPLY, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+                                           KC_NO,                KC_NO,                KC_NO,                KC_NO),
+	[_CASE] = LAYOUT_split_3x5_2(
+                           KC_NO,                KC_NO,           KEBAP_CASE,                KC_NO, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+                      SLASH_CASE,           CAPS_WORDS,           SNAKE_CASE,           CAMEL_CASE, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+                         KC_CAPS,             DOT_CASE, SCREAMING_SNAKE_CASE,          PASCAL_CASE, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+                                           KC_NO,                KC_NO,                KC_NO,                KC_NO),
+	[_WORDS] = LAYOUT_split_3x5_2(
+                           KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+                           KC_NO,                KC_NO,               "LGTM",                KC_NO, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+             "Gregor Zeitlinger", "gregor.zeitlinger@grafana.com", "gregor@zeitlinger.de", "zeitlinger@gmail.com", KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
                                            KC_NO,                KC_NO,                KC_NO,                KC_NO),
 };

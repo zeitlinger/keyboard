@@ -24,8 +24,6 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_BASE_KC_Z: return 200;
     case C_BASE_NG: return 200;
     case C_BASE_QU: return 200;
-    case C_BASE_TH: return 200;
-    case C_FNSYM_CAPS_WORDS: return 500;
     case C_FNSYM_KC_AMPR: return 500;
     case C_FNSYM_KC_ASTR: return 500;
     case C_FNSYM_KC_AT: return 500;
@@ -51,16 +49,12 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_FNSYM_KC_SLASH: return 500;
     case C_FNSYM_KC_TILD: return 500;
     case C_FNSYM_KC_UNDS: return 500;
-    case C_LEFT_CAMEL_CASE: return 500;
-    case C_LEFT_CAPS_WORDS: return 500;
-    case C_LEFT_DOT_CASE: return 500;
-    case C_LEFT_KC_CAPS: return 500;
-    case C_LEFT_KEBAP_CASE: return 500;
-    case C_LEFT_PASCAL_CASE: return 500;
+    case C_FNSYM_LT_MMCAPS_WORDS: return 500;
     case C_LEFT_QU: return 500;
-    case C_LEFT_SCREAMING_SNAKE_CASE: return 500;
-    case C_LEFT_SLASH_CASE: return 500;
-    case C_LEFT_SNAKE_CASE: return 500;
+    case C_LEFT_UMUMLAUT_A: return 500;
+    case C_LEFT_UMUMLAUT_O: return 500;
+    case C_LEFT_UMUMLAUT_S: return 500;
+    case C_LEFT_UMUMLAUT_U: return 500;
     case C_NAV_AKC_LEFT_BRACKET: return 500;
     case C_NAV_AKC_RIGHT_BRACKET: return 500;
     case C_NAV_CKC_A: return 500;
@@ -82,21 +76,13 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_NAV_KC_SPC: return 500;
     case C_NAV_RCSKC_V: return 500;
     case C_NAV_RCSKC_Z: return 500;
-    case C_RIGHT_CKC_E: return 500;
-    case C_RIGHT_CKC_F: return 500;
     case C_RIGHT_DOT_SPC: return 500;
     case C_RIGHT_KC_AT: return 500;
     case C_RIGHT_KC_EXLM: return 500;
     case C_RIGHT_KC_GRAVE: return 500;
     case C_RIGHT_N_T: return 500;
+    case C_RIGHT_RCSKC_F: return 500;
     case C_RIGHT_RCSKC_R: return 500;
-    case C_RIGHT_UMUMLAUT_A: return 500;
-    case C_RIGHT_UMUMLAUT_O: return 500;
-    case C_RIGHT_UMUMLAUT_S: return 500;
-    case C_RIGHT_UMUMLAUT_U: return 500;
-    case C_RIGHT_UPUMLAUT_AUMLAUT_A: return 500;
-    case C_RIGHT_UPUMLAUT_OUMLAUT_O: return 500;
-    case C_RIGHT_UPUMLAUT_UUMLAUT_U: return 500;
     case DS_C_BASE_KC_B: return 500;
     case DS_C_BASE_KC_G: return 500;
     case DS_C_BASE_KC_J: return 500;
@@ -162,7 +148,8 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 case KC_ENT: SEND_STRING("and "); return false;
                 case KC_F: SEND_STRING("or"); return false;
                 case KC_G: tap_code16(KC_L); return false;
-                case KC_H: SEND_STRING("ave"); return false;
+                case KC_H: tap_code16(KC_Y); return false;
+                case KC_J: SEND_STRING("ust"); return false;
                 case KC_K: SEND_STRING("now"); return false;
                 case KC_L: tap_code16(KC_M); return false;
                 case KC_M: SEND_STRING("ent"); return false;
@@ -181,7 +168,8 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 case S(KC_D): SEND_STRING("oes"); return false;
                 case S(KC_F): SEND_STRING("or"); return false;
                 case S(KC_G): tap_code16(KC_L); return false;
-                case S(KC_H): SEND_STRING("ave"); return false;
+                case S(KC_H): tap_code16(KC_Y); return false;
+                case S(KC_J): SEND_STRING("ust"); return false;
                 case S(KC_K): SEND_STRING("now"); return false;
                 case S(KC_L): tap_code16(KC_M); return false;
                 case S(KC_M): SEND_STRING("ent"); return false;
@@ -198,7 +186,6 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
             }
             switch (keycode) {
             case _HANDLER_ALT_KC_H: SEND_STRING("ey"); return false;
-            case _HANDLER_ALT_KC_J: SEND_STRING("ust"); return false;
             case _HANDLER_ALT_KC_Q: SEND_STRING("ua"); return false;
             case _HANDLER_ALT_KC_T: SEND_STRING("ion"); return false;
             case _HANDLER_ALT_KC_V: SEND_STRING("er"); return false;
@@ -218,6 +205,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
     case LT(_NUM,_TAP_C_SKC_TAB): return true;
+    case LT(_MM,CAPS_WORDS): return true;
     case LT(_NUM,KC_F11): return true;
     default:
         // Do not select the hold action when another key is pressed.
@@ -236,11 +224,10 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
         case KC_E: return KC_O;
         case KC_ENT: return ALT_KC_ENT;
         case KC_EQUAL: return KC_RABK;
+        case KC_EXLM: return KC_EQUAL;
         case KC_F: return KC_F;
         case KC_G: return KC_N;
         case KC_H: return ALT_KC_H;
-        case KC_I: return KC_Z;
-        case KC_J: return ALT_KC_J;
         case KC_K: return KC_N;
         case KC_L: return KC_P;
         case KC_M: return KC_B;
@@ -268,8 +255,6 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
         case S(KC_F): return KC_F;
         case S(KC_G): return KC_N;
         case S(KC_H): return ALT_KC_H;
-        case S(KC_I): return KC_Z;
-        case S(KC_J): return ALT_KC_J;
         case S(KC_K): return KC_N;
         case S(KC_L): return KC_P;
         case S(KC_M): return KC_B;
