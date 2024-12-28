@@ -151,6 +151,7 @@ fun addSendString(layers: List<Layer>, translator: QmkTranslator): List<Layer> {
                         listOf(sendString(substitution)),
                         key.key
                     )
+                    translator.ignoreMissing.add(key.key)
 
                     key.copy(key = command, keyWithModifier = command)
                 } else {
