@@ -49,7 +49,7 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_FNSYM_KC_SLASH: return 500;
     case C_FNSYM_KC_TILD: return 500;
     case C_FNSYM_KC_UNDS: return 500;
-    case C_FNSYM_LT_MMCAPS_WORDS: return 500;
+    case C_FNSYM_MO_NUM: return 500;
     case C_LEFT_QU: return 500;
     case C_LEFT_UMUMLAUT_A: return 500;
     case C_LEFT_UMUMLAUT_O: return 500;
@@ -130,6 +130,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
     if (record->tap.count) {
         if (record->event.pressed) {
             switch (keycode) {
+            case _HANDLER__TAP_C_UPUMLAUT_UUMLAUT_U: tap_code16(UP(UMLAUT_u, UMLAUT_U)); return false;
             case _HANDLER__TAP_C_SKC_TAB: tap_code16(S(KC_TAB)); return false;
             case _HANDLER__TAP_C_KC_LCBR: tap_code16(KC_LCBR); return false;
             case _HANDLER__TAP_C_KC_RCBR: tap_code16(KC_RCBR); return false;
@@ -209,8 +210,8 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
 
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+    case LT(_MM,_TAP_C_UPUMLAUT_UUMLAUT_U): return true;
     case LT(_NUM,_TAP_C_SKC_TAB): return true;
-    case LT(_MM,CAPS_WORDS): return true;
     case LT(_NUM,KC_F11): return true;
     default:
         // Do not select the hold action when another key is pressed.
