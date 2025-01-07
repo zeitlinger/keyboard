@@ -1,3 +1,5 @@
+import kotlin.streams.toList
+
 fun qmkTranslator(tables: Tables): QmkTranslator {
     val implicitKeys = mutableListOf<QmkKey>()
     val noHoldKeys = mutableListOf<QmkKey>()
@@ -35,6 +37,7 @@ private fun getKeyTable(layerContent: MultiTable): Map<LayerName, MultiTable> = 
     .mapValues { it.value.map { it.map { it.drop(1) } } } // First column
     .toMap()
 
+@OptIn(ExperimentalStdlibApi::class)
 private fun readSymbols(tables: Tables, implicitKeys: MutableList<QmkKey>, noHoldKeys: MutableList<QmkKey>): Symbols {
     val customKeycodes = mutableMapOf<String, CustomKey>()
 
@@ -49,11 +52,17 @@ private fun readSymbols(tables: Tables, implicitKeys: MutableList<QmkKey>, noHol
         val unicode = props["unicode"]
         when {
             unicode != null -> {
-                val name = "U${unicode.padStart(4, '0')}"
+                val codepoint = key.codePoints()
+                    .toList()
+                    .single()
+                    .toHexString(HexFormat.UpperCase)
+                    .trimStart('0')
+                    .padStart(4, '0')
+                val name = "U$codepoint"
                 customKeycodes[name] = CustomKey(
                     QmkKey.of(name), null, CustomCommand(
                         CustomCommandType.OnPress,
-                        listOf("register_unicode(0x$unicode)")
+                        listOf("register_unicode(0x$codepoint)")
                     ), null
                 )
                 listOf(key to name)

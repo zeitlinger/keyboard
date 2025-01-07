@@ -304,13 +304,13 @@ The order of the options is also the order of the layers in the layer stack.
 | 🔆      | KC_BRIU                         |
 | 🔅      | KC_BRID                         |
 | copy    | C(KC_C)                         |
-| ä       | unicode:00E4                    |
-| ö       | unicode:00F6                    |
-| ü       | unicode:00FC                    |
-| Ä       | unicode:00C4                    |
-| Ö       | unicode:00D6                    |
-| Ü       | unicode:00DC                    |
-| ß       | unicode:00DF                    |
+| ä       | unicode                         |
+| ö       | unicode                         |
+| ü       | unicode                         |
+| Ä       | unicode                         |
+| Ö       | unicode                         |
+| Ü       | unicode                         |
+| ß       | unicode                         |
 | repeat  | QK_REPEAT_KEY                   |
 | altRep  | QK_ALT_REPEAT_KEY               |
 | tab ➡️  | custom:NEXT_TAB      NoHold     |
