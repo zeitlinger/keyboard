@@ -46,7 +46,19 @@ private fun readSymbols(tables: Tables, implicitKeys: MutableList<QmkKey>, noHol
                 e.split(":").let { it[0] to it.getOrElse(1) { "true" } }
             }
         val custom = props["custom"]
+        val unicode = props["unicode"]
         when {
+            unicode != null -> {
+                val name = "U${unicode.padStart(4, '0')}"
+                customKeycodes[name] = CustomKey(
+                    QmkKey.of(name), null, CustomCommand(
+                        CustomCommandType.OnPress,
+                        listOf("register_unicode(0x$unicode)")
+                    ), null
+                )
+                listOf(key to name)
+            }
+
             custom != null -> {
                 val qmkKey = QmkKey.of(custom)
                 if (props["NoHold"] != null) {

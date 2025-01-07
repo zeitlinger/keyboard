@@ -113,12 +113,12 @@ Currently unused features:
 | Base  |         |         |    g    |         |         |    ,    |         |         |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Base  |         |    x    |         |         |         |         |    q    |         |
+| Base  |         |    x    |         |         |         |         |  "ng"   |         |
 | Base  |         |   💎    |         |         |         |         |   💎    |         |
 | Base  |         |    b    |         |         |         |         |    .    |         |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Base  |  "qu"   |         |         |         |         |         |         |  "ng"   |
+| Base  |  "qu"   |         |         |         |         |         |         |    q    |
 | Base  |   💎    |         |         |         |         |         |         |   💎    |
 | Base  |    z    |         |         |         |         |         |         |    j    |
 | Base  |         |         |         |         |         |         |         |         |
@@ -161,7 +161,7 @@ Currently unused features:
 | Left  |         |         |         |         |         |         |         |         |
 | Left  |         |         |         |         |         |   💎    |         |         |
 | Left  |         |         |         |         |         |    Ö    |         |         |
-| Left  |         |         |         |         |         |         |         |         |
+| Left  |         |         |         |         |         |         |         |         |                         
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |         |         |         |         |         |         |         |         |
 | Left  |         |         |         |         |         |         |   💎    |         |
@@ -304,13 +304,13 @@ The order of the options is also the order of the layers in the layer stack.
 | 🔆      | KC_BRIU                         |
 | 🔅      | KC_BRID                         |
 | copy    | C(KC_C)                         |
-| ä       | UP(UMLAUT_a, UMLAUT_A)          |
-| ö       | UP(UMLAUT_o, UMLAUT_O)          |
-| ü       | UP(UMLAUT_u, UMLAUT_U)          |
-| Ä       | UM(UMLAUT_A)                    |
-| Ö       | UM(UMLAUT_O)                    |
-| Ü       | UM(UMLAUT_U)                    |
-| ß       | UM(UMLAUT_s)                    |
+| ä       | unicode:00E4                    |
+| ö       | unicode:00F6                    |
+| ü       | unicode:00FC                    |
+| Ä       | unicode:00C4                    |
+| Ö       | unicode:00D6                    |
+| Ü       | unicode:00DC                    |
+| ß       | unicode:00DF                    |
 | repeat  | QK_REPEAT_KEY                   |
 | altRep  | QK_ALT_REPEAT_KEY               |
 | tab ➡️  | custom:NEXT_TAB      NoHold     |

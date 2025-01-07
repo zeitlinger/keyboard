@@ -51,10 +51,10 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_FNSYM_KC_UNDS: return 500;
     case C_FNSYM_MO_NUM: return 500;
     case C_LEFT_QU: return 500;
-    case C_LEFT_UMUMLAUT_A: return 500;
-    case C_LEFT_UMUMLAUT_O: return 500;
-    case C_LEFT_UMUMLAUT_S: return 500;
-    case C_LEFT_UMUMLAUT_U: return 500;
+    case C_LEFT_U00C4: return 500;
+    case C_LEFT_U00D6: return 500;
+    case C_LEFT_U00DC: return 500;
+    case C_LEFT_U00DF: return 500;
     case C_NAV_AKC_LEFT_BRACKET: return 500;
     case C_NAV_AKC_RIGHT_BRACKET: return 500;
     case C_NAV_CKC_A: return 500;
@@ -131,7 +131,6 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
     if (record->tap.count) {
         if (record->event.pressed) {
             switch (keycode) {
-            case _HANDLER__TAP_C_UPUMLAUT_UUMLAUT_U: tap_code16(UP(UMLAUT_u, UMLAUT_U)); return false;
             case _HANDLER__TAP_C_SKC_TAB: tap_code16(S(KC_TAB)); return false;
             case _HANDLER__TAP_C_KC_LCBR: tap_code16(KC_LCBR); return false;
             case _HANDLER__TAP_C_KC_RCBR: tap_code16(KC_RCBR); return false;
@@ -187,6 +186,13 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             switch (keycode) {
+            case _HANDLER_U00E4: register_unicode(0x00E4); return false;
+            case _HANDLER_U00F6: register_unicode(0x00F6); return false;
+            case _HANDLER_U00FC: register_unicode(0x00FC); return false;
+            case _HANDLER_U00C4: register_unicode(0x00C4); return false;
+            case _HANDLER_U00D6: register_unicode(0x00D6); return false;
+            case _HANDLER_U00DC: register_unicode(0x00DC); return false;
+            case _HANDLER_U00DF: register_unicode(0x00DF); return false;
             case _HANDLER_ST_WORDS_1_2: SEND_STRING("LGTM"); return false;
             case _HANDLER_ST_WORDS_2_0: SEND_STRING("Gregor Zeitlinger"); return false;
             case _HANDLER_ST_WORDS_2_1: SEND_STRING("gregor.zeitlinger@grafana.com"); return false;
@@ -211,7 +217,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
 
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-    case LT(_MM,_TAP_C_UPUMLAUT_UUMLAUT_U): return true;
+    case LT(_MM,U00FC): return true;
     case LT(_NUM,_TAP_C_SKC_TAB): return true;
     case LT(_NUM,KC_F11): return true;
     default:

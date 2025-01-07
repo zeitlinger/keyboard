@@ -21,8 +21,15 @@
 #define _WORDS 10
 
 enum custom_keycodes {
-	NEXT_TAB = SAFE_RANGE,
-	NEXT_WINDOW,
+	U00E4 = SAFE_RANGE,
+	U00F6,
+    U00FC,
+    U00C4,
+    U00D6,
+    U00DC,
+    U00DF,
+    NEXT_TAB,
+    NEXT_WINDOW,
     DOT_SPC,
     N_T,
     PRINT_VERSION,
@@ -37,7 +44,6 @@ enum custom_keycodes {
     DEAD1,
     DEAD2,
     DEAD3,
-    _TAP_C_UPUMLAUT_UUMLAUT_U,
     _LMODS_S,
     _LMODS_C,
     _LMODS_A,
@@ -63,6 +69,13 @@ enum custom_keycodes {
     ALT_KC_COMMA
 };
 
+#define _HANDLER_U00E4 U00E4
+#define _HANDLER_U00F6 U00F6
+#define _HANDLER_U00FC LT(_MM,U00FC)
+#define _HANDLER_U00C4 U00C4
+#define _HANDLER_U00D6 U00D6
+#define _HANDLER_U00DC U00DC
+#define _HANDLER_U00DF U00DF
 #define _HANDLER_NEXT_TAB NEXT_TAB
 #define _HANDLER_NEXT_WINDOW NEXT_WINDOW
 #define _HANDLER_DOT_SPC DOT_SPC
@@ -79,7 +92,6 @@ enum custom_keycodes {
 #define _HANDLER_DEAD1 DEAD1
 #define _HANDLER_DEAD2 DEAD2
 #define _HANDLER_DEAD3 DEAD3
-#define _HANDLER__TAP_C_UPUMLAUT_UUMLAUT_U LT(_MM,_TAP_C_UPUMLAUT_UUMLAUT_U)
 #define _HANDLER__LMODS_S _LMODS_S
 #define _HANDLER__LMODS_C _LMODS_C
 #define _HANDLER__LMODS_A _LMODS_A
@@ -112,7 +124,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                         MO(_NAV),                 KC_R,               KC_SPC,           MO(_FNSYM)),
 	[_LEFT] = LAYOUT_split_3x5_2(
                        S(KC_ESC),              S(KC_P),              S(KC_M), S(QK_ALT_REPEAT_KEY), KC_NO, KC_NO,                DEAD1,                KC_NO,                KC_NO,                KC_NO,
-                         S(KC_S),              S(KC_C),              S(KC_N),              S(KC_T), KC_NO, KC_NO, UP(UMLAUT_a, UMLAUT_A), UP(UMLAUT_o, UMLAUT_O), LT(_MM,_TAP_C_UPUMLAUT_UUMLAUT_U),                KC_NO,
+                         S(KC_S),              S(KC_C),              S(KC_N),              S(KC_T), KC_NO, KC_NO,                U00E4,                U00F6,        LT(_MM,U00FC),                KC_NO,
                          KC_COLN,              S(KC_F),              S(KC_L),              S(KC_D), KC_NO, KC_NO, LM(_LMODS, MOD_LSFT), LM(_LMODS, MOD_LCTL), LM(_LMODS, MOD_LALT),                KC_NO,
                                            KC_NO,              S(KC_R),           MO(_WORDS),            MO(_CASE)),
 	[_RIGHT] = LAYOUT_split_3x5_2(
