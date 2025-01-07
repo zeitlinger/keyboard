@@ -131,6 +131,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
     if (record->tap.count) {
         if (record->event.pressed) {
             switch (keycode) {
+            case _HANDLER_U00FC: register_unicode(0x00FC); return false;
             case _HANDLER__TAP_C_SKC_TAB: tap_code16(S(KC_TAB)); return false;
             case _HANDLER__TAP_C_KC_LCBR: tap_code16(KC_LCBR); return false;
             case _HANDLER__TAP_C_KC_RCBR: tap_code16(KC_RCBR); return false;
@@ -188,7 +189,6 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
             switch (keycode) {
             case _HANDLER_U00E4: register_unicode(0x00E4); return false;
             case _HANDLER_U00F6: register_unicode(0x00F6); return false;
-            case _HANDLER_U00FC: register_unicode(0x00FC); return false;
             case _HANDLER_U00C4: register_unicode(0x00C4); return false;
             case _HANDLER_U00D6: register_unicode(0x00D6); return false;
             case _HANDLER_U00DC: register_unicode(0x00DC); return false;

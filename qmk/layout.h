@@ -154,8 +154,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  LT(_NUM,KC_F11),               KC_F12,                KC_NO,                KC_NO),
 	[_NUM] = LAYOUT_split_3x5_2(
                            KC_NO,              KC_PERC,              KC_COLN,                KC_NO, KC_NO, KC_NO,                KC_NO,              KC_ASTR,             KC_MINUS,                KC_NO,
-                            KC_4,          ALT_T(KC_3),          CTL_T(KC_2),          SFT_T(KC_1), KC_NO, KC_NO,          SFT_T(KC_0),          CTL_T(KC_9),        ALT_T(KC_DOT),             KC_COMMA,
-                            KC_8,                 KC_7,                 KC_6,                 KC_5, KC_NO, KC_NO,              KC_UNDS,             KC_EQUAL,              KC_PLUS,             KC_SLASH,
+                            KC_4,          ALT_T(KC_3),          CTL_T(KC_2),          SFT_T(KC_1), KC_NO, KC_NO,          SFT_T(KC_0),      CTL_T(KC_COMMA),        ALT_T(KC_DOT),              KC_UNDS,
+                            KC_8,                 KC_7,                 KC_6,                 KC_5, KC_NO, KC_NO,                 KC_9,             KC_EQUAL,              KC_PLUS,             KC_SLASH,
                                             KC_9,                 KC_0,                KC_NO,                KC_NO),
 	[_MM] = LAYOUT_split_3x5_2(
                            KC_NO,              KC_BRID,              KC_BRIU,                KC_NO, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,

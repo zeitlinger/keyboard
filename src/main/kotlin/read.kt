@@ -85,6 +85,11 @@ private fun layerTapHoldKey(def: String, translator: QmkTranslator, pos: KeyPosi
     if (key in translator.noHoldKeys) {
         throw IllegalArgumentException("key $key not allowed for tap hold at $pos")
     }
+    translator.symbols.customKeycodes[key.key]?.let { customKey ->
+       customKey.command?.let { command ->
+           translator.symbols.customKeycodes[key.key] = customKey.copy(command = command.copy(type = CustomCommandType.OnTap))
+       }
+    }
     val command = QmkKey.of("LT(${translator.reachLayer(parts[1], pos, LayerActivation.TapHold).const()},$key)")
     translator.layerTapHold.add(command)
     return setCustomKeyCommand(translator, key, command, pos)
