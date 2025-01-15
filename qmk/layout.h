@@ -51,8 +51,6 @@ enum custom_keycodes {
     _RMODS_C,
     _RMODS_S,
     _TAP_C_SKC_TAB,
-    _TAP_C_KC_LCBR,
-    _TAP_C_KC_RCBR,
     ST_WORDS_1_2,
     ST_WORDS_2_0,
     ST_WORDS_2_1,
@@ -99,8 +97,6 @@ enum custom_keycodes {
 #define _HANDLER__RMODS_C _RMODS_C
 #define _HANDLER__RMODS_S _RMODS_S
 #define _HANDLER__TAP_C_SKC_TAB LT(_NUM,_TAP_C_SKC_TAB)
-#define _HANDLER__TAP_C_KC_LCBR CTL_T(_TAP_C_KC_LCBR)
-#define _HANDLER__TAP_C_KC_RCBR ALT_T(_TAP_C_KC_RCBR)
 #define _HANDLER_ST_WORDS_1_2 ST_WORDS_1_2
 #define _HANDLER_ST_WORDS_2_0 ST_WORDS_2_0
 #define _HANDLER_ST_WORDS_2_1 ST_WORDS_2_1
@@ -149,8 +145,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                            KC_NO,                KC_NO,               KC_TAB, LT(_NUM,_TAP_C_SKC_TAB)),
 	[_FNSYM] = LAYOUT_split_3x5_2(
                            DEAD2,               KC_F10,                KC_F9,              KC_LGUI, KC_NO, KC_NO,                DEAD3,              KC_LPRN,              KC_RPRN,                DEAD1,
-                           KC_F4,         ALT_T(KC_F3),         CTL_T(KC_F2),         SFT_T(KC_F1), KC_NO, KC_NO,      SFT_T(KC_MINUS), CTL_T(_TAP_C_KC_LCBR), ALT_T(_TAP_C_KC_RCBR),             MO(_NUM),
-                           KC_F8,                KC_F7,                KC_F6,                KC_F5, KC_NO, KC_NO,              KC_UNDS,             KC_EQUAL,              KC_PLUS,             KC_SLASH,
+                           KC_F4,         ALT_T(KC_F3),         CTL_T(KC_F2),         SFT_T(KC_F1), KC_NO, KC_NO,              KC_LSFT,              KC_LCTL,              KC_LALT,             MO(_NUM),
+                           KC_F8,                KC_F7,                KC_F6,                KC_F5, KC_NO, KC_NO,             KC_MINUS,              KC_LCBR,              KC_RCBR,             KC_EQUAL,
                                  LT(_NUM,KC_F11),               KC_F12,                KC_NO,                KC_NO),
 	[_NUM] = LAYOUT_split_3x5_2(
                            KC_NO,              KC_PERC,              KC_COLN,                KC_NO, KC_NO, KC_NO,                KC_NO,              KC_ASTR,             KC_MINUS,                KC_NO,

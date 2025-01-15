@@ -23,17 +23,23 @@ val ignoreDuplicates = setOf(
     "esc",
     "spc",
     "shift",
-    "@",
-    "!",
-    "CapW",
     "altRep",
     "\uD83D\uDC8E", //diamond
 )
 
 private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<Layer>) {
-    val gotKeys = layers.map { it.rows.flatten() + it.combos.flatten().flatten() }
+    val gotKeys = layers
+        .map {
+            val keys = it.rows.flatten() + it.combos.flatten().flatten()
+            if (it.name == "Num") {
+                // non-num keys are only in additional to other layers
+                keys.filter { it.key.key.last().isDigit() }
+            } else {
+                keys
+            }
+        }
         .flatten()
-        .map { it.key.key }
+        .map { it.key.key }.sorted()
 
 
     val want =

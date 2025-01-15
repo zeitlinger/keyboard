@@ -110,6 +110,10 @@ class QmkTranslator(
         (keys[pos.layerName])?.get(pos.tableIndex)?.get(pos.row)?.get(pos.column) ?: ""
 
     fun gotKey(key: String, pos: KeyPosition) {
+        if (pos.layerName == "Num" && !key.first().isDigit()) {
+            // non-num keys are only in additional to other layers
+            return
+        }
         gotKeys[key] = gotKeys.getOrDefault(key, mutableListOf()).apply { add(pos.layerName) }
     }
 }

@@ -26,12 +26,10 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_BASE_QU: return 200;
     case C_FNSYM_KC_AMPR: return 500;
     case C_FNSYM_KC_ASTR: return 500;
-    case C_FNSYM_KC_AT: return 500;
     case C_FNSYM_KC_BACKSLASH: return 500;
     case C_FNSYM_KC_CIRC: return 500;
     case C_FNSYM_KC_DLR: return 500;
     case C_FNSYM_KC_EQUAL: return 500;
-    case C_FNSYM_KC_EXLM: return 500;
     case C_FNSYM_KC_HASH: return 500;
     case C_FNSYM_KC_LABK: return 500;
     case C_FNSYM_KC_LCBR: return 500;
@@ -48,7 +46,6 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_FNSYM_KC_SEMICOLON: return 500;
     case C_FNSYM_KC_SLASH: return 500;
     case C_FNSYM_KC_TILD: return 500;
-    case C_FNSYM_KC_UNDS: return 500;
     case C_FNSYM_MO_NUM: return 500;
     case C_LEFT_QU: return 500;
     case C_LEFT_U00C4: return 500;
@@ -81,6 +78,7 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_RIGHT_KC_AT: return 500;
     case C_RIGHT_KC_EXLM: return 500;
     case C_RIGHT_KC_GRAVE: return 500;
+    case C_RIGHT_KC_UNDS: return 500;
     case C_RIGHT_N_T: return 500;
     case C_RIGHT_RCSKC_F: return 500;
     case C_RIGHT_RCSKC_R: return 500;
@@ -133,8 +131,6 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
             switch (keycode) {
             case _HANDLER_U00FC: register_unicode(0x00FC); return false;
             case _HANDLER__TAP_C_SKC_TAB: tap_code16(S(KC_TAB)); return false;
-            case _HANDLER__TAP_C_KC_LCBR: tap_code16(KC_LCBR); return false;
-            case _HANDLER__TAP_C_KC_RCBR: tap_code16(KC_RCBR); return false;
             default:
                 break;
             }
