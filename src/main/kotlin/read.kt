@@ -74,7 +74,12 @@ fun spaceSeparatedHint(def: String, translator: QmkTranslator, pos: KeyPosition)
     val right = parts[1].trim()
     val left = parts[0].trim()
     return when {
-        parts.size == 2 && right[0].isDigit() -> translateKey(translator, pos, left).copy(comboTimeout = right.toInt())
+        parts.size == 2 -> {
+            val key = translateKey(translator, pos, left)
+            // custom shift in not implemented
+            translator.ignoreMissing.add(translateSimpleKey(translator, right, pos).key)
+            key
+        }
         else -> throw IllegalArgumentException("unknown command '$def' in $pos")
     }
 }

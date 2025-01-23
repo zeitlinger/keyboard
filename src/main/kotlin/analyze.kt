@@ -59,7 +59,7 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
                 it.startsWith("\"") -> false
                 it.contains("(") -> false
                 it.startsWith("DT_") -> false
-                it.startsWith("KC_ACL") -> false
+                it.startsWith("KC_ACL") -> false // mouse keys
                 it == qmkNo -> false
                 it == layerBlocked -> false
                 it == comboTrigger -> false

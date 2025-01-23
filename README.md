@@ -40,6 +40,7 @@ How to read this layout:
 - C-w = Ctrl-w (same for Alt and Shift)
 - f12+Num = tab-mod - f12 on tap and Num on hold
 - "that" = combo that produces "that"
+- [ { = { is the shifted key of [, so it's used when Shift is held (only for information)
 - The symbol table at the bottom shows the meaning of the symbols used in the layout.
 
 Currently unused features:
@@ -126,7 +127,7 @@ Currently unused features:
 | Right |         |         |         |         |  dead3  |    "    |  A-➡️   |         |
 | Right |         |         |   C-f   |   C-r   |         |         |         |         |
 | Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |    ?    |
-| Right |         |         |   C-n   |  A-f7   |    _    |    ;    |         |         |
+| Right |         |         |   C-n   |  A-f7   |   [ {   |   ] }   |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |    `    |         |         |         |
 | Right |         |         |         |   💎    |   💎    |         |         |         |
@@ -140,7 +141,7 @@ Currently unused features:
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |         |         |  .spc   |         |
 | Right |         |         |         |         |         |         |   💎    |         |
-| Right |         |         |         |         |         |         |    _    |         |
+| Right |         |         |         |         |         |         |         |         |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | RMods |         |         |         |         |         |         |         |         |
@@ -151,7 +152,7 @@ Currently unused features:
 | Left  |         |         |         |         |  dead1  |         |         |         |
 | Left  |         |         |         |         |    ä    |    ö    |  ü+Mm   |         |
 | Left  |    :    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
-| Left  |         |         |         |         | *Words  |  *Case  |         |         |
+| Left  |         |         |    _    |         | *Words  |  *Case  |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |         |         |         |         |    ß    |         |         |         |
 | Left  |         |         |         |         |   💎    |         |         |         |
@@ -180,7 +181,7 @@ Currently unused features:
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |  dead2  |   f10   |   f9    |   win   |  dead3  |    (    |    )    |  dead1  |
 | FnSym |   f4    |   f3    |   f2    |   f1    |   🛑    |   🛑    |   🛑    |  *Num   |
-| FnSym |   f8    |   f7    |   f6    |   f5    |    -    |    {    |    }    |    =    |
+| FnSym |   f8    |   f7    |   f6    |   f5    |    -    |    <    |    >    |    =    |
 | FnSym |         |         | f11+Num |   f12   |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |         |         |         |    ^    |    /    |         |         |         |
@@ -188,14 +189,14 @@ Currently unused features:
 | FnSym |         |         |         |    +    |    ~    |         |         |         |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| FnSym |         |         |    *    |         |         |    <    |         |         |
+| FnSym |         |         |    *    |         |         |         |         |         |
 | FnSym |         |         |   💎    |         |         |   💎    |         |         |
-| FnSym |         |         |    #    |         |         |    [    |         |         |
+| FnSym |         |         |    #    |         |         |         |         |         |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| FnSym |         |  pipe   |         |         |         |         |    >    |         |
+| FnSym |         |  pipe   |         |         |         |         |         |         |
 | FnSym |         |   💎    |         |         |         |         |   💎    |         |
-| FnSym |         |    &    |         |         |         |         |    ]    |         |
+| FnSym |         |    &    |         |         |         |         |         |         |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |    %    |         |         |         |         |         |         |    ;    |
@@ -213,12 +214,12 @@ Currently unused features:
 |  Nav  |         |         |         |   C-y   |  ⬅️⬅️   |         |         |         |
 |  Nav  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav  |         |         |   C-a   |         |         |   C-[   |         |         |
-|  Nav  |         |         |   💎    |         |   A-[   |   💎    |   A-]   |         |
+|  Nav  |         |         |   C-a   |         |         |         |         |         |
+|  Nav  |         |         |   💎    |         |         |   💎    |         |         |
 |  Nav  |         |         |   C-d   |         |         |  ⬇️⬇️   |         |         |
 |  Nav  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav  |         |  CS-n   |         |         |         |         |   C-]   |         |
+|  Nav  |         |  CS-n   |         |         |         |         |         |         |
 |  Nav  |         |   💎    |         |         |         |         |   💎    |         |
 |  Nav  |         |   C-k   |         |         |         |         |  ⬆️⬆️   |         |
 |  Nav  |         |         |         |         |         |         |         |         |
