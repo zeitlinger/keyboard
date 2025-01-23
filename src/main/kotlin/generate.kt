@@ -102,6 +102,14 @@ fun run(args: GeneratorArgs) {
             reachable.isEmpty() || reachable.any { it.value != LayerActivation.Hidden }
         }
     replaceTemplate(
+        File(srcDir, "config.h"),
+        File(dstDir, "config.h"),
+        mapOf(
+            "triLayer" to (layers.singleOrNull { LayerFlag.TriLayer in it.option.flags }
+                ?.let { triLayer(it, translator) } ?: ""),
+        )
+    )
+    replaceTemplate(
         File(srcDir, "layout.h"),
         File(dstDir, "layout.h"),
         mapOf(
@@ -112,8 +120,6 @@ fun run(args: GeneratorArgs) {
                 .joinToString("\n") {
                     "#define ${it.key.const()} ${it.value}"
                 },
-            "triLayer" to (layers.singleOrNull { LayerFlag.TriLayer in it.option.flags }
-                ?.let { triLayer(it, translator) } ?: ""),
             "custom0" to userKeycodes[0],
             "customRest" to userKeycodes.drop(1).joinToString(",\n    "),
             "customHandlers" to translator.symbols.customKeycodes.entries
