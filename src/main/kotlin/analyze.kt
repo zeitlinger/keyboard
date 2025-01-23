@@ -72,9 +72,15 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
         entry.value.remove("Num")
     }
 
+    val triLayer = layers.singleOrNull { LayerFlag.TriLayer in it.option.flags }
+        ?.let { "*${it.name}" }
+
     val duplicates = translator.gotKeys
         .filterNot { it.key.startsWith("dead") }
         .filter { it.value.size > 1 }
+        .filter {
+            triLayer == null || it.key != triLayer
+        }
         .keys
         .sorted() - ignoreDuplicates
 
