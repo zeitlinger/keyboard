@@ -70,6 +70,8 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
 
     for (entry in translator.gotKeys) {
         entry.value.remove("Num")
+        entry.value.remove("LMods")
+        entry.value.remove("RMods")
     }
 
     val triLayer = layers.singleOrNull { LayerFlag.TriLayer in it.option.flags }
