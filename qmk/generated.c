@@ -121,8 +121,8 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
     if (record->tap.count) {
         if (record->event.pressed) {
             switch (keycode) {
+            case _HANDLER_U00E4: register_unicode(0x00E4); return false;
             case _HANDLER_U00FC: register_unicode(0x00FC); return false;
-            case _HANDLER__TAP_C_SKC_TAB: tap_code16(S(KC_TAB)); return false;
             default:
                 break;
             }
@@ -175,7 +175,6 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             switch (keycode) {
-            case _HANDLER_U00E4: register_unicode(0x00E4); return false;
             case _HANDLER_U00F6: register_unicode(0x00F6); return false;
             case _HANDLER_U00C4: register_unicode(0x00C4); return false;
             case _HANDLER_U00D6: register_unicode(0x00D6); return false;
@@ -205,9 +204,8 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
 
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+    case LT(_WORDS,U00E4): return true;
     case LT(_MM,U00FC): return true;
-    case LT(_NUM,_TAP_C_SKC_TAB): return true;
-    case LT(_NUM,KC_F11): return true;
     default:
         // Do not select the hold action when another key is pressed.
         return false;

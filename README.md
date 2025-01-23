@@ -150,9 +150,9 @@ Currently unused features:
 | RMods |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |         |         |         |         |  dead1  |         |         |         |
-| Left  |         |         |         |         |    ä    |    ö    |  ü+Mm   |         |
+| Left  |         |         |         |         | ä+Words |    ö    |  ü+Mm   |         |
 | Left  |    :    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
-| Left  |         |         |    _    |         | *Words  |  *Case  |         |         |
+| Left  |         |         |    _    |         |  *Case  |  *Num   |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |         |         |         |         |    ß    |         |         |         |
 | Left  |         |         |         |         |   💎    |         |         |         |
@@ -180,9 +180,9 @@ Currently unused features:
 | LMods |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |  dead2  |   f10   |   f9    |   win   |  dead3  |    (    |    )    |  dead1  |
-| FnSym |   f4    |   f3    |   f2    |   f1    |   🛑    |   🛑    |   🛑    |  *Num   |
-| FnSym |   f8    |   f7    |   f6    |   f5    |    -    |    <    |    >    |    =    |
-| FnSym |         |         | f11+Num |   f12   |   🛑    |   🛑    |         |         |
+| FnSym |   f4    |   f3    |   f2    |   f1    |   🛑    |   🛑    |   🛑    |    =    |
+| FnSym |   f8    |   f7    |   f6    |   f5    |    -    |    <    |    >    |  *Num   |
+| FnSym |         |         |   f11   |   f12   |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |         |         |         |    ^    |         |         |         |         |
 | FnSym |         |         |         |   💎    |   💎    |         |         |         |
@@ -207,7 +207,7 @@ Currently unused features:
 |  Nav  |   spc   |   C-x   |   C-v   |  CS-z   |         |   esc   |   ins   |         |
 |  Nav  |  copy   |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬇️    |   ⬆️    |   ➡️    |
 |  Nav  |   C-z   |   C-w   | tab ➡️  | win ➡️  |   ↩️️   |  bspc   |   del   |   spc   |
-|  Nav  |         |         |   🛑    |   🛑    |   tab   | st+Num  |         |         |
+|  Nav  |         |         |   🛑    |   🛑    |   tab   |  S-tab  |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |         |         |         |  CS-v   |         |         |         |         |
 |  Nav  |         |         |         |   💎    |   💎    |         |         |         |
@@ -234,9 +234,9 @@ Currently unused features:
 |  Nav  |         |         |         |         |         |   C-/   |   💎    |         |
 |  Nav  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Num  |         |    %    |    :    |         |         |    *    |    -    |         |
-|  Num  |    4    |    3    |    2    |    1    |    0    |    ,    |    .    |    _    |
-|  Num  |    8    |    7    |    6    |    5    |    9    |    =    |    +    |    /    |
+|  Num  |         |    .    |    ,    |         |         |         |         |         |
+|  Num  |    4    |    3    |    2    |    1    |         |         |         |         |
+|  Num  |    8    |    7    |    6    |    5    |         |         |         |         |
 |  Num  |         |         |    9    |    0    |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Mm   |         |   🔅    |   🔆    |         |         |         |         |         |
@@ -267,8 +267,8 @@ The order of the options is also the order of the layers in the layer stack.
 |    LMods     |                 | BottomRow+LMods |     Base      |                |                  |               |
 |    RMods     | BottomRow+RMods |                 |               |      Base      |                  |               |
 |     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |      500      |
-|    FnSym     |     HomeRow     |     HomeRow     |               |                | DirectComboRight |      500      |
-|     Num      |     HomeRow     |     HomeRow     |               |                |                  |               |
+|    FnSym     |                 |     HomeRow     |               |                | DirectComboRight |      500      |
+|     Num      |                 |    BottomRow    |               |                |                  |               |
 |      Mm      |                 |                 |               |                |                  |               |
 |     Case     |                 |                 |               |                |                  |               |
 |    Words     |                 |                 |               |                |                  |               |
@@ -293,7 +293,6 @@ The order of the options is also the order of the layers in the layer stack.
 | bspc    | KC_BSPC                         |
 | win     | KC_LGUI                         |
 | tab     | KC_TAB                          |
-| st      | S(KC_TAB)                       |
 | prt     | KC_PSCR                         |
 | pipe    | KC_PIPE                         |
 | 🔇      | KC_MUTE                         |
