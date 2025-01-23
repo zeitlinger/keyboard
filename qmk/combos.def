@@ -48,7 +48,6 @@ COMB(C_NAV_KC_END                       , KC_END                             , K
 COMB(C_NAV_KC_HOME                      , KC_HOME                            , KC_ENT, KC_LEFT)
 COMB(C_NAV_KC_PGDN                      , KC_PGDN                            , KC_BSPC, KC_DOWN)
 COMB(C_NAV_KC_PGUP                      , KC_PGUP                            , KC_DEL, KC_UP)
-COMB(C_NAV_KC_SPC                       , KC_SPC                             , KC_ESC, MO(_NAV))
 COMB(C_NAV_RCSKC_N                      , RCS(KC_N)                          , C(KC_X), KC_LALT)
 COMB(C_NAV_RCSKC_V                      , RCS(KC_V)                          , KC_LSFT, RCS(KC_Z))
 COMB(C_NAV_RCSKC_Z                      , RCS(KC_Z)                          , MO(_NAV), QK_ALT_REPEAT_KEY)
