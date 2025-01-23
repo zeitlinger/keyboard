@@ -51,6 +51,21 @@ fun generateBase(layers: List<Layer>): String {
         }
 }
 
+fun triLayer(layer: Layer, translator: QmkTranslator): String {
+    val reachable = layer.option.reachable
+    if (reachable.size != 2) {
+        throw IllegalStateException("triLayer must have exactly 2 reachable layers: $reachable")
+    }
+    if (reachable.values.any { it != LayerActivation.Hold}) {
+        throw IllegalStateException("triLayer must have hold activation: $reachable")
+    }
+    return listOf(
+        "#define TRI_LAYER_LOWER_LAYER ${translator.layerNumbers.getValue(reachable.keys.first().layerName)}",
+        "#define TRI_LAYER_UPPER_LAYER ${translator.layerNumbers.getValue(reachable.keys.last().layerName)}",
+        "#define TRI_LAYER_ADJUST_LAYER ${translator.layerNumbers.getValue(layer.name)}",
+    ).joinToString("\n")
+}
+
 fun run(args: GeneratorArgs) {
     val tables = readTables(args.configFile.file)
     val translator = qmkTranslator(tables)
@@ -97,6 +112,8 @@ fun run(args: GeneratorArgs) {
                 .joinToString("\n") {
                     "#define ${it.key.const()} ${it.value}"
                 },
+            "triLayer" to (layers.singleOrNull { LayerFlag.TriLayer in it.option.flags }
+                ?.let { triLayer(it, translator) } ?: ""),
             "custom0" to userKeycodes[0],
             "customRest" to userKeycodes.drop(1).joinToString(",\n    "),
             "customHandlers" to translator.symbols.customKeycodes.entries

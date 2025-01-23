@@ -10,6 +10,8 @@
 
 ${layerNumbers}
 
+${triLayer}
+
 enum custom_keycodes {
 	${custom0} = SAFE_RANGE,
 	${customRest}

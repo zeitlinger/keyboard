@@ -20,6 +20,10 @@
 #define _CASE 9
 #define _WORDS 10
 
+#define TRI_LAYER_LOWER_LAYER 1
+#define TRI_LAYER_UPPER_LAYER 6
+#define TRI_LAYER_ADJUST_LAYER 7
+
 enum custom_keycodes {
 	U00E4 = SAFE_RANGE,
 	U00F6,

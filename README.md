@@ -268,7 +268,7 @@ The order of the options is also the order of the layers in the layer stack.
 |    RMods     | BottomRow+RMods |                 |               |      Base      |                  |               |
 |     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |      500      |
 |    FnSym     |                 |     HomeRow     |               |                | DirectComboRight |      500      |
-|     Num      |                 |    BottomRow    |               |                |                  |               |
+|     Num      |                 |    BottomRow    |               |                | TriLayer         |               |
 |      Mm      |                 |                 |               |                |                  |               |
 |     Case     |                 |                 |               |                |                  |               |
 |    Words     |                 |                 |               |                |                  |               |
