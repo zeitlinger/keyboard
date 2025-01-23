@@ -155,7 +155,9 @@ fun run(args: GeneratorArgs) {
         )
     )
 
-    analyze(translator, layers)
+    if (args.printStats) {
+        analyze(translator, layers)
+    }
 
     File(dstDir, "combos.def").writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
 }

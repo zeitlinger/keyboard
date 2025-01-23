@@ -9,6 +9,7 @@ data class GeneratorArgs(
     val generatorDir: GitFile,
     val dstDir: File,
     val versionString: String,
+    val printStats: Boolean ,
 )
 
 val gitTemplate = "https://github.com/zeitlinger/keyboard/blob/main/%s"
@@ -23,6 +24,7 @@ fun main() {
             GitFile(res),
             File("qmk"),
             "use target/qmk to build the firmware to get the git version",
+            true,
         )
     )
     "cp -r qmk target/".runCommand()
@@ -32,6 +34,7 @@ fun main() {
             GitFile(res),
             File("target/qmk"),
             readGitVersion(GitFile(cfg), cfg.name),
+            false,
         )
     )
 }
