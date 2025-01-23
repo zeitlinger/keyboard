@@ -137,15 +137,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                            KC_NO, LM(_RMODS, MOD_LALT), LM(_RMODS, MOD_LCTL), LM(_RMODS, MOD_LSFT), KC_NO, KC_NO,                 KC_U,                 KC_O,                 KC_Y,                KC_NO,
                                            KC_NO,                KC_NO,      KC_LEFT_BRACKET,     KC_RIGHT_BRACKET),
 	[_NAV] = LAYOUT_split_3x5_2(
-                           KC_NO,              C(KC_X),              C(KC_V),            RCS(KC_Z), KC_NO, KC_NO,                KC_NO,               KC_ESC,               KC_INS,                KC_NO,
+                           KC_NO,              C(KC_X),              C(KC_V),            RCS(KC_Z), KC_NO, KC_NO,                KC_NO,               KC_TAB,               KC_ESC,                KC_NO,
                          C(KC_C),              KC_LALT,              KC_LCTL,              KC_LSFT, KC_NO, KC_NO,              KC_LEFT,              KC_DOWN,                KC_UP,             KC_RIGHT,
-                         C(KC_Z),              C(KC_W),             NEXT_TAB,          NEXT_WINDOW, KC_NO, KC_NO,               KC_ENT,              KC_BSPC,               KC_DEL,               KC_SPC,
-                                           KC_NO,                KC_NO,               KC_TAB,                KC_NO),
+                         C(KC_Z),              C(KC_W),             NEXT_TAB,          NEXT_WINDOW, KC_NO, KC_NO,               KC_ENT,              KC_BSPC,               KC_DEL,               KC_INS,
+                                           KC_NO,                KC_NO,               KC_SPC,                KC_NO),
 	[_FNSYM] = LAYOUT_split_3x5_2(
                            DEAD2,               KC_F10,                KC_F9,              KC_LGUI, KC_NO, KC_NO,                DEAD3,              KC_LPRN,              KC_RPRN,                DEAD1,
                            KC_F4,                KC_F3,                KC_F2,                KC_F1, KC_NO, KC_NO,              KC_LSFT,              KC_LCTL,              KC_LALT,             KC_EQUAL,
                            KC_F8,                KC_F7,                KC_F6,                KC_F5, KC_NO, KC_NO,             KC_MINUS,              KC_LABK,              KC_RABK,             MO(_NUM),
-                                          KC_F11,               KC_F12,                KC_NO,                KC_NO),
+                                           KC_NO,               KC_F12,                KC_NO,                KC_NO),
 	[_NUM] = LAYOUT_split_3x5_2(
                            KC_NO,               KC_DOT,             KC_COMMA,                KC_NO, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
                             KC_4,                 KC_3,                 KC_2,                 KC_1, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
