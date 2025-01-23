@@ -39,7 +39,6 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_FNSYM_KC_PLUS: return 500;
     case C_FNSYM_KC_RABK: return 500;
     case C_FNSYM_KC_RPRN: return 500;
-    case C_FNSYM_KC_SEMICOLON: return 500;
     case C_FNSYM_KC_SLASH: return 500;
     case C_FNSYM_KC_TILD: return 500;
     case C_FNSYM_MO_NUM: return 500;
@@ -71,6 +70,7 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_RIGHT_KC_AT: return 500;
     case C_RIGHT_KC_EXLM: return 500;
     case C_RIGHT_KC_GRAVE: return 500;
+    case C_RIGHT_KC_SEMICOLON: return 500;
     case C_RIGHT_N_T: return 500;
     case C_RIGHT_RCSKC_F: return 500;
     case C_RIGHT_RCSKC_R: return 500;
