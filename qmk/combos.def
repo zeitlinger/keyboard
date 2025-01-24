@@ -26,7 +26,7 @@ COMB(C_FNSYM_KC_MINUS                   , KC_MINUS                           , K
 COMB(C_FNSYM_KC_PERC                    , KC_PERC                            , DEAD2, KC_F4)
 COMB(C_FNSYM_KC_PIPE                    , KC_PIPE                            , KC_F10, KC_F3)
 COMB(C_FNSYM_KC_PLUS                    , KC_PLUS                            , KC_F1, KC_F5)
-COMB(C_FNSYM_KC_RABK                    , KC_RABK                            , KC_LCTL, KC_RPRN)
+COMB(C_FNSYM_KC_RABK                    , KC_RABK                            , KC_LALT, KC_RPRN)
 COMB(C_FNSYM_KC_RCBR                    , KC_RCBR                            , KC_Y, MO(_FNSYM))
 COMB(C_FNSYM_KC_RPRN                    , KC_RPRN                            , MO(_FNSYM), QK_ALT_REPEAT_KEY)
 COMB(C_FNSYM_KC_SLASH                   , KC_SLASH                           , KC_LCBR, KC_LCTL)
