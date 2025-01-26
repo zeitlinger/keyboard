@@ -126,7 +126,7 @@ Currently unused features:
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |  dead3  |    "    |  A-➡️   |         |
 | Right |         |         |   C-f   |   C-r   |         |         |         |         |
-| Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |    ?    |
+| Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |    _    |
 | Right |         |         |   C-n   |  A-f7   |    [    |    ]    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |    `    |         |         |         |
@@ -141,7 +141,7 @@ Currently unused features:
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |         |         |  .spc   |         |
 | Right |         |         |         |         |         |         |   💎    |         |
-| Right |         |         |         |         |         |         |    ;    |         |
+| Right |         |         |         |         |         |         |    ?    |         |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | RMods |         |         |         |         |         |         |         |         |
@@ -152,7 +152,7 @@ Currently unused features:
 | Left  |         |         |         |         |  dead1  |         |         |         |
 | Left  |         |         |         |         | ä+Words |    ö    |  ü+Mm   |         |
 | Left  |    :    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
-| Left  |         |         |    _    |         |  *Case  |  *Num   |         |         |
+| Left  |         |         |    ;    |         |  *Case  |  *Num   |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |         |         |         |         |    ß    |         |         |         |
 | Left  |         |         |         |         |   💎    |         |         |         |
@@ -180,7 +180,7 @@ Currently unused features:
 | LMods |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |  dead2  |   f10   |   f9    |   win   |  dead3  |    (    |    )    |  dead1  |
-| FnSym |   f4    |   f3    |   f2    |   f1    |   🛑    |   🛑    |   🛑    |    =    |
+| FnSym |   f4    |   f3    |   f2    |   f1    |   🛑    |   🛑    |   🛑    | =+Num2  |
 | FnSym |   f8    |   f7    |   f6    |   f5    |    -    |    {    |    }    |  *Num   |
 | FnSym |         |         |         |   f12   |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -268,7 +268,8 @@ The order of the options is also the order of the layers in the layer stack.
 |    RMods     | BottomRow+RMods |                 |               |      Base      |                  |               |
 |     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |      500      |
 |    FnSym     |                 |     HomeRow     |               |                | DirectComboRight |      500      |
-|     Num      |                 |    BottomRow    |               |                | TriLayer         |               |
+|     Num      |                 |                 |               |                | TriLayer         |               |
+|     Num2     |                 |     HomeRow     |      Num      |                |                  |               |
 |      Mm      |                 |                 |               |                |                  |               |
 |     Case     |                 |                 |               |                |                  |               |
 |    Words     |                 |                 |               |                |                  |               |
