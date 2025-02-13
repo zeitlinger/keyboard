@@ -94,7 +94,7 @@ Currently unused features:
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-| Base  |   esc   |    p    |    m    |         |  dead2  | repeat  | altRep  |  dead1  |
+| Base  |   esc   |    p    |    m    |  dead3  |  dead2  | repeat  | altRep  |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
 | Base  |         |         |  *Nav   |    r    |   spc   | *FnSym  |         |         |
