@@ -94,7 +94,7 @@ Currently unused features:
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-| Base  |   esc   |    p    |    m    | altRep  |  dead2  | repeat  | altRep  |  dead1  |
+| Base  |   esc   |    p    |    m    |         |  dead2  | repeat  | altRep  |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
 | Base  |         |         |  *Nav   |    r    |   spc   | *FnSym  |         |         |
@@ -127,7 +127,7 @@ Currently unused features:
 | Right |         |         |         |         |  dead3  |    "    |  A-➡️   |         |
 | Right |         |         |   C-f   |   C-r   |         |         |         |         |
 | Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |    _    |
-| Right |         |         |   C-n   |  A-f7   |    [    |    ]    |         |         |
+| Right |         |         |  A-f7   |   C-n   |    [    |    ]    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |    `    |         |         |         |
 | Right |         |         |         |   💎    |   💎    |         |         |         |
