@@ -151,9 +151,10 @@ fun addMods(key: QmkKey, vararg modifier: Modifier): QmkKey =
     QmkKey.of(
         if (modifier.size == 1) "${modifier[0].short}($key)" else
             when (modifier.toSet()) {
+                setOf(Modifier.Alt, Modifier.Shift) -> "LSA(${key})"
                 setOf(Modifier.Alt, Modifier.Ctrl) -> "LCA(${key})"
                 setOf(Modifier.Shift, Modifier.Ctrl) -> "RCS(${key})"
-                else -> throw IllegalStateException("unknown modifier '$modifier'")
+                else -> throw IllegalStateException("unknown modifier '${modifier.joinToString(", ")}'")
             }
     )
 
