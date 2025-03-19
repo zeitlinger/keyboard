@@ -70,8 +70,7 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_NAV_RCSKC_Z: return 500;
     case C_NUM_LCAKC_L: return 500;
     case C_NUM_LSAKC_B: return 500;
-    case C_NUM_LSAKC_O: return 500;
-    case C_NUM_LSAKC_P: return 500;
+    case C_NUM_LSAKC_S: return 500;
     case C_NUM_LSAKC_X: return 500;
     case C_RIGHT_DOT_SPC: return 500;
     case C_RIGHT_KC_AT: return 500;

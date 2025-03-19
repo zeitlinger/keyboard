@@ -37,6 +37,7 @@ How to read this layout:
 - empty = use key from base layer
 - FnSym = capitalized words are layer names - if they are a key, the layer is activated as toggled or one shot layer (if the "OneShot" flag is set in the layer flags)
 - *Mouse = layer is active while key is held
+- $Mouse = layer is active while key is held (double tap to lock layer)
 - C-w = Ctrl-w (same for Alt and Shift)
 - f12+Num = tab-mod - f12 on tap and Num on hold
 - "that" = combo that produces "that"
@@ -46,7 +47,6 @@ How to read this layout:
 Currently unused features:
 
 - /+Ctrl = tab-mod - / on tab and CTRL on hold
-- $Mouse = layer is active while key is held (double tap to lock layer)
 - #Mouse = toggle layer
 - @Num = layer is active for the next keypress
 - Sym/Nav = layer is active for the next keypress: 
@@ -97,7 +97,7 @@ Currently unused features:
 | Base  |   esc   |    p    |    m    |  dead3  |  dead2  | repeat  | altRep  |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
-| Base  |         |         |  *Nav   |    r    |   spc   | *FnSym  |         |         |
+| Base  |         |         |  $Nav   |    r    |   spc   | *FnSym  |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |         |    v    |  "ing"  |         |         |         |
 | Base  |         |         |         |   💎    |   💎    |         |         |         |
@@ -249,9 +249,9 @@ Currently unused features:
 |  Num  |         |  AS-b   |         |         |         |         |         |         |
 |  Num  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Num  |  AS-p   |         |         |         |         |         |         |         |
+|  Num  |         |         |         |         |         |         |         |         |
 |  Num  |   💎    |         |         |         |         |         |         |         |
-|  Num  |  AS-o   |         |         |         |         |         |         |         |
+|  Num  |  AS-s   |         |         |         |         |         |         |         |
 |  Num  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Mm   |         |   🔅    |   🔆    |         |         |         |         |         |
