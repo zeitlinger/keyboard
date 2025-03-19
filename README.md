@@ -204,7 +204,7 @@ Currently unused features:
 | FnSym |    $    |         |         |         |         |         |         |    \    |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav  |         |   C-x   |   C-v   |  CS-z   |         |   esc   |   ins   |         |
+|  Nav  |         |   C-x   |   C-v   |  CS-z   |   --    |   esc   |   ins   |         |
 |  Nav  |  copy   |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬇️    |   ⬆️    |   ➡️    |
 |  Nav  |   C-z   |   C-w   | tab ➡️  | win ➡️  |   ↩️️   |  bspc   |   del   |   tab   |
 |  Nav  |         |         |   🛑    |   🛑    |   spc   |         |         |         |
