@@ -91,7 +91,7 @@ class QmkTranslator(
     fun reachLayer(layerName: LayerName, pos: KeyPosition, activation: LayerActivation): LayerRef {
         val option = layerOptions[layerName] ?: throw IllegalArgumentException("unknown layer $layerName in $pos")
         val number = layerNumbers[layerName]
-        if (number != null && activation != LayerActivation.Toggle) {
+        if (number != null && activation !in setOf(LayerActivation.Toggle, LayerActivation.ChangeDefault)) {
             assertTargetOrder(layerName, pos)
         }
         if (pos.layerName != layerName) {

@@ -8,18 +8,19 @@
 
 #define VERSION_STRING "use target/qmk to build the firmware to get the git version"
 
-#define _BASE 0
-#define _LEFT 1
-#define _RIGHT 2
-#define _LMODS 3
-#define _RMODS 4
-#define _NAV 5
-#define _FNSYM 6
-#define _NUM 7
-#define _NUM2 8
-#define _MM 9
-#define _CASE 10
-#define _WORDS 11
+#define _NAV2 0
+#define _BASE 1
+#define _LEFT 2
+#define _RIGHT 3
+#define _LMODS 4
+#define _RMODS 5
+#define _NAV 6
+#define _FNSYM 7
+#define _NUM 8
+#define _NUM2 9
+#define _MM 10
+#define _CASE 11
+#define _WORDS 12
 
 enum custom_keycodes {
 	U00E4 = SAFE_RANGE,
@@ -112,6 +113,11 @@ enum custom_keycodes {
 #define _HANDLER_ALT_KC_COMMA ALT_KC_COMMA
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+	[_NAV2] = LAYOUT_split_3x5_2(
+                           KC_NO,              C(KC_X),              C(KC_V),            RCS(KC_Z), KC_NO, KC_NO,                KC_NO,               KC_ESC,               KC_INS,                KC_NO,
+                         C(KC_C),              KC_LALT,              KC_LCTL,              KC_LSFT, KC_NO, KC_NO,              KC_LEFT,              KC_DOWN,                KC_UP,             KC_RIGHT,
+                         C(KC_Z),              C(KC_W),               KC_TAB,              KC_LGUI, KC_NO, KC_NO,               KC_ENT,              KC_BSPC,               KC_DEL,               KC_TAB,
+                                       MO(_BASE),                KC_NO,               KC_SPC,           MO(_FNSYM)),
 	[_BASE] = LAYOUT_split_3x5_2(
                           KC_ESC,                 KC_P,                 KC_M,                DEAD3, KC_NO, KC_NO,                DEAD2,        QK_REPEAT_KEY,    QK_ALT_REPEAT_KEY,                DEAD1,
                             KC_S,                 KC_C,                 KC_N,                 KC_T, KC_NO, KC_NO,                 KC_A,                 KC_E,                 KC_I,                 KC_H,
