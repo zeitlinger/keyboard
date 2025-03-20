@@ -109,7 +109,7 @@ private fun directCombos(
         layers,
     )
 
-    val base = layers[0]
+    val base = layers.first { LayerFlag.Alternate !in it.option.flags }
     return layerBase.flatten()
         // only if the layer can be reached directly from the base layer
         .filter { it.isReal() && it.key !in translator.noHoldKeys && filter(it) }
@@ -124,7 +124,7 @@ private fun directCombos(
 }
 
 private fun firstNonToggleActivation(layer: Layer, layers: List<Layer>): List<KeyPosition> =
-    layer.option.reachable.entries.firstOrNull { it.value != LayerActivation.Toggle }
+    layer.option.reachable.entries.firstOrNull { !it.value.isToggle() }
         ?.let { entry ->
             val keyPosition = entry.key
             val layerName = keyPosition.layerName

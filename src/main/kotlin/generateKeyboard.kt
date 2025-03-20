@@ -57,9 +57,11 @@ enum class LayerActivation(val prefix: String?, val method: String?) {
     Hidden(null, null),
     TapHold(null, null),
     ModTap(null, null);
+
+    fun isToggle(): Boolean = this == Toggle || this == ChangeDefault
 }
 
-enum class LayerFlag { Shifted, DirectComboLeft, DirectComboRight, TriLayer }
+enum class LayerFlag { Alternate, Shifted, DirectComboLeft, DirectComboRight, TriLayer }
 
 typealias LayerName = String
 
