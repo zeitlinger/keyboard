@@ -23,7 +23,7 @@ val ignoreDuplicates = setOf(
     "esc",
     "spc",
     "shift",
-    "altRep",
+    "*FnSym",
     "\uD83D\uDC8E", //diamond
 )
 
