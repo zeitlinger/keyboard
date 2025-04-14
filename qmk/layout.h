@@ -149,7 +149,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                          C(KC_Z),              C(KC_W),             NEXT_TAB,          NEXT_WINDOW, KC_NO, KC_NO,               KC_ENT,              KC_BSPC,               KC_DEL,               KC_TAB,
                                            KC_NO,                KC_NO,               KC_SPC,                KC_NO),
 	[_FNSYM] = LAYOUT_split_3x5_2(
-                           DEAD2,               KC_F10,                KC_F9,              KC_LGUI, KC_NO, KC_NO,                DEAD3,              KC_LPRN,              KC_RPRN,                DEAD1,
+                           DEAD2,               KC_F10,                KC_F9,                DEAD2, KC_NO, KC_NO,                DEAD3,              KC_LPRN,              KC_RPRN,                DEAD1,
                            KC_F4,                KC_F3,                KC_F2,                KC_F1, KC_NO, KC_NO,              KC_LSFT,              KC_LCTL,              KC_LALT,   LT(_NUM2,KC_EQUAL),
                            KC_F8,                KC_F7,                KC_F6,                KC_F5, KC_NO, KC_NO,             KC_MINUS,              KC_LCBR,              KC_RCBR,             MO(_NUM),
                                            KC_NO,               KC_F12,                KC_NO,                KC_NO),
