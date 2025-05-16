@@ -75,9 +75,9 @@ bool process_xcase_activation(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 bool process_switcher(uint16_t keycode, keyrecord_t *record) {
+    bool switch_tab = keycode == _HANDLER_NEXT_TAB;
     if (record->event.pressed) {
         bool switch_window = keycode == _HANDLER_NEXT_WINDOW;
-        bool switch_tab = keycode == _HANDLER_NEXT_TAB;
 
         if ((is_tab_switcher_active && !switch_tab) || (is_window_switcher_active && !switch_window)) {
             //can use any key as shift tap key in switcher
@@ -93,15 +93,18 @@ bool process_switcher(uint16_t keycode, keyrecord_t *record) {
             tap_code16(KC_TAB);
             return false;
         }
-
-        if (switch_tab) {
-            if (!is_tab_switcher_active) {
-                is_tab_switcher_active = true;
-                register_code(KC_LCTL);
-            }
-            tap_code16(KC_TAB);
-            return false;
+    }
+    if (switch_tab) {
+        if (!is_tab_switcher_active) {
+            is_tab_switcher_active = true;
+            register_code(KC_LCTL);
         }
+        if (record->event.pressed) {
+            register_code(KC_TAB);
+        } else {
+            unregister_code(KC_TAB);
+        }
+        return false;
     }
     return true;
 }
