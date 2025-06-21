@@ -54,43 +54,43 @@ Currently unused features:
 
 > **Note**: The layout is generated from this file directly.
 
-| Repeat | Alt Repeat  | Repeat Key |
-|:------:|:-----------:|:----------:|
-|   a    |      u      |            |
-|   b    |      l      |  "ecause"  |
-|   c    |      k      |            |
-|   d    |      v      |   "oes"    |
-|   e    |      o      |            |
-|   f    |      f      |    "or"    |
-|   g    |      n      |     l      |
-|   h    |    "ey"     |     y      |
-|   i    |             |            |
-|   j    |             |   "ust"    |
-|   k    |      n      |   "now"    |
-|   l    |      p      |     m      |
-|   m    |      b      |   "ent"    |
-|   n    |      l      |     k      |
-|   o    |      e      |            |
-|   p    |      l      |     s      |
-|   q    |    "ua"     |            |
-|   r    |      k      |            |
-|   s    |      p      |     s      |
-|   t    |    "ion"    |   "ing"    |
-|   u    |      a      |            |
-|   v    |    "er"     |    "en"    |
-|   w    |      n      |     s      |
-|   x    |      p      |     c      |
-|   y    |             |     i      |
-|   z    | "eitlinger" |     i      |
-|  spc   |   "the "    |   "and "   |
-|  tab   |   "the "    |   "and "   |
-|  ↩️️   |   "the "    |   "and "   |
-|   ~    |      /      |            |
-|   ,    |   " but "   |  " and "   |
-|   .    |      /      |    "./"    |
-|   -    |      >      |            |
-|   =    |      >      |            |
-|   !    |      =      |            |
+| Repeat | Alt Repeat  | Repeat Key | Repeat Key 2 |
+|:------:|:-----------:|:----------:|:------------:|
+|   a    |      u      |            |              |
+|   b    |      l      |  "ecause"  |              |
+|   c    |      k      |            |              |
+|   d    |      v      |   "oes"    |    "n't"     |
+|   e    |      o      |            |              |
+|   f    |      f      |    "or"    |              |
+|   g    |      n      |     l      |              |
+|   h    |    "ey"     |     y      |              |
+|   i    |             |            |              |
+|   j    |             |   "ust"    |              |
+|   k    |      n      |   "now"    |              |
+|   l    |      p      |     m      |              |
+|   m    |      b      |   "ent"    |              |
+|   n    |      l      |     k      |              |
+|   o    |      e      |            |              |
+|   p    |      l      |     s      |              |
+|   q    |    "ua"     |            |              |
+|   r    |      k      |            |              |
+|   s    |      p      |     s      |              |
+|   t    |    "ion"    |   "ing"    |              |
+|   u    |      a      |            |              |
+|   v    |    "er"     |    "en"    |              |
+|   w    |      n      |     s      |              |
+|   x    |      p      |     c      |              |
+|   y    |             |     i      |              |
+|   z    | "eitlinger" |     i      |              |
+|  spc   |   "the "    |   "and "   |              |
+|  tab   |   "the "    |   "and "   |              |
+|  ↩️️   |   "the "    |   "and "   |              |
+|   ~    |      /      |            |              |
+|   ,    |   " but "   |  " and "   |              |
+|   .    |      /      |    "./"    |              |
+|   -    |      >      |            |              |
+|   =    |      >      |            |              |
+|   !    |      =      |            |              |
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|

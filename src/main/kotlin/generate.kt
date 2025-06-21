@@ -141,9 +141,8 @@ fun run(args: GeneratorArgs) {
             "altRepeat" to translator.altRepeat.entries.sortedBy { it.key.key }.map {
                 "case ${it.key}: return ${it.value};"
             }.indented(8),
-            "repeat" to translator.repeat.entries.sortedBy { it.key.key }.map {
-                "case ${it.key}: ${it.value};"
-            }.indented(16),
+            "repeat" to repeatBlock(translator.repeat),
+            "repeat2" to repeatBlock(translator.repeat2),
             "oneShotOnUpLayerPressed" to translator.oneShotOnUpLayer.sortedBy { it.up.const() }
                 .map {
                     "case ${it.activation.key.key}: alternateLayer = ${it.up.const()}; break;"
@@ -160,6 +159,12 @@ fun run(args: GeneratorArgs) {
     }
 
     File(dstDir, "combos.def").writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
+}
+
+private fun repeatBlock(map: MutableMap<QmkKey, String>): String {
+    return map.entries.sortedBy { it.key.key }.map {
+        "case ${it.key}: ${it.value};"
+    }.indented(16)
 }
 
 fun addSendString(layers: List<Layer>, translator: QmkTranslator): List<Layer> {
@@ -213,7 +218,17 @@ private fun addRepeat(translator: QmkTranslator, row: List<String>, pos: KeyPosi
         }
         addRepeat(translator.altRepeat, base, command)
     }
-    val repeat = row[2]
+    addRepeatCommand(row[2], translator, pos, translator.repeat, base)
+    addRepeatCommand(row[3], translator, pos, translator.repeat2, base)
+}
+
+private fun addRepeatCommand(
+    repeat: String,
+    translator: QmkTranslator,
+    pos: KeyPosition,
+    map: MutableMap<QmkKey, String>,
+    base: QmkKey
+) {
     if (repeat.isNotBlank()) {
         val command = when {
             repeat.length == 1 -> tap(translator.toQmk(repeat, pos)) + "; return false"
@@ -221,7 +236,7 @@ private fun addRepeat(translator: QmkTranslator, row: List<String>, pos: KeyPosi
 
             else -> throw IllegalArgumentException("unknown command '${repeat}' in $pos")
         }
-        addRepeat(translator.repeat, base, command)
+        addRepeat(map, base, command)
     }
 }
 

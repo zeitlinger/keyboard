@@ -142,6 +142,12 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
         }
     } else {
         if (record->event.pressed) {
+            if (get_repeat_key_count() > 1) {
+                switch (keycode) {
+                case KC_D: SEND_STRING("n't"); return false;
+                case S(KC_D): SEND_STRING("n't"); return false;
+                }
+            }
             if (get_repeat_key_count() > 0) {
                 switch (keycode) {
                 case KC_B: SEND_STRING("ecause"); return false;

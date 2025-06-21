@@ -45,6 +45,11 @@ ${customKeycodesOnTapPress}
         }
     } else {
         if (record->event.pressed) {
+            if (get_repeat_key_count() > 1) {
+                switch (keycode) {
+${repeat2}
+                }
+            }
             if (get_repeat_key_count() > 0) {
                 switch (keycode) {
 ${repeat}
