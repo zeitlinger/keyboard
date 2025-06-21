@@ -371,4 +371,4 @@ The order of the options is also the order of the layers in the layer stack.
 
 - should be usable with any keyboard layout
 
-qmk flash -kb ferris/sweep -km zeitlinger -bl avrdude-split-left
+uv run qmk flash -kb ferris/sweep -km zeitlinger -bl avrdude-split-left

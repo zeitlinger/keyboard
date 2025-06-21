@@ -52,6 +52,7 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_LEFT_U00D6: return 500;
     case C_LEFT_U00DC: return 500;
     case C_LEFT_U00DF: return 500;
+    case C_NAV_AKC_F12: return 500;
     case C_NAV_CKC_A: return 500;
     case C_NAV_CKC_C: return 500;
     case C_NAV_CKC_D: return 500;
@@ -67,11 +68,12 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_NAV_KC_HOME: return 500;
     case C_NAV_KC_PGDN: return 500;
     case C_NAV_KC_PGUP: return 500;
+    case C_NAV_LCAKC_B: return 500;
     case C_NAV_RCSKC_N: return 500;
     case C_NAV_RCSKC_V: return 500;
     case C_NAV_RCSKC_Z: return 500;
+    case C_NUM_AKC_F1: return 500;
     case C_NUM_CKC_G: return 500;
-    case C_NUM_LCAKC_B: return 500;
     case C_NUM_LCAKC_L: return 500;
     case C_NUM_LSAKC_B: return 500;
     case C_NUM_LSAKC_S: return 500;
