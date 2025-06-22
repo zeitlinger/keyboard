@@ -378,5 +378,5 @@ The order of the options is also the order of the layers in the layer stack.
 
 QMK: https://github.com/zeitlinger/qmk_firmware/tree/ferris
 
-- run `mise run install` to install the dependencies
-- run `uv run qmk flash -kb ferris/sweep -km zeitlinger -bl avrdude-split-left` to flash the keyboard
+- run `mise run install` to install the dependencies in QMK directory
+- run `mise run flash` to flash the keyboard in this directory
