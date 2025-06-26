@@ -53,7 +53,7 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_LEFT_U00DC: return 500;
     case C_LEFT_U00DF: return 500;
     case C_NAV_AKC_F12: return 500;
-        case C_NAV_CKC_A: return 500;
+    case C_NAV_CKC_A: return 500;
     case C_NAV_CKC_C: return 500;
     case C_NAV_CKC_D: return 500;
     case C_NAV_CKC_E: return 500;
@@ -124,12 +124,12 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
         alternateLayer = -1;
         if (layer == _BASE) {
             switch (al) {
-
+            
             }
         }
     } else if (layer == _BASE && record->event.pressed) {
         switch (keycode) {
-
+        
         }
     }
 
