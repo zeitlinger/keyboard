@@ -157,7 +157,7 @@ Currently unused features:
 | Left  |         |         |         |         |  dead1  |         |         |         |
 | Left  |         |         |         |         |  *Case  | *Words  |   *Mm   |         |
 | Left  |    :    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
-| Left  |         |         |    ;    |         |         |  *Num   |         |         |
+| Left  |         |         |    ;    |         |  *ANum  |  *Num   |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |  "Qu"   |         |         |         |         |         |         |         |
 | Left  |   💎    |         |         |         |         |         |         |         |
@@ -264,6 +264,11 @@ Currently unused features:
 |  Num  |  AS-s   |         |         |         |         |         |         |         |
 |  Num  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| ANum  |         |         |         |         |         |         |         |         |
+| ANum  |   A-4   |   A-3   |   A-2   |   A-1   |         |         |         |         |
+| ANum  |   A-8   |   A-7   |   A-6   |   A-5   |         |         |         |         |
+| ANum  |         |         |   A-9   |   A-0   |   🛑    |   🛑    |         |         |
+|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Mm   |         |   🔅    |   🔆    |         |         |         |         |         |
 |  Mm   |   prt   |   🔈    |   🔊    |   🔇    |         |         |         |   🛑    |
 |  Mm   |   ver   |   ⏮️    |   ⏭️    |   ⏯️    |         |         |         |         |
@@ -296,6 +301,7 @@ The order of the options is also the order of the layers in the layer stack.
 |    FnSym     |                 |     HomeRow     |               |                | DirectComboRight |      500      |
 |     Num      |                 |                 |               |                | TriLayer         |      500      |
 |     Num2     |                 |     HomeRow     |      Num      |                |                  |               |
+|     ANum     |                 |                 |               |                |                  |               |
 |      Mm      |                 |                 |               |                |                  |               |
 |     Case     |                 |                 |               |                |                  |               |
 |    Words     |                 |                 |               |                |                  |               |
