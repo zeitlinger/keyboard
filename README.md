@@ -303,7 +303,7 @@ The order of the options is also the order of the layers in the layer stack.
 |    LMods     |                 | BottomRow+LMods |     Base      |                |                  |               |
 |    RMods     | BottomRow+RMods |                 |               |      Base      |                  |               |
 |     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |      500      |
-|    FnSym     |     HomeRow     |     HomeRow     |               |                | DirectComboRight |      500      |
+|    FnSym     |                 |     HomeRow     |               |                | DirectComboRight |      500      |
 |     Num      |                 |                 |               |                | TriLayer         |      500      |
 |     Num2     |                 |     HomeRow     |      Num      |                |                  |               |
 |      Mm      |                 |                 |               |                |                  |               |
