@@ -26,9 +26,6 @@ enum custom_keycodes {
 	U00E4 = SAFE_RANGE,
 	U00F6,
     U00FC,
-    U00C4,
-    U00D6,
-    U00DC,
     U00DF,
     NEXT_TAB,
     NEXT_WINDOW,
@@ -67,12 +64,9 @@ enum custom_keycodes {
     ALT_KC_COMMA
 };
 
-#define _HANDLER_U00E4 LT(_WORDS,U00E4)
+#define _HANDLER_U00E4 U00E4
 #define _HANDLER_U00F6 U00F6
-#define _HANDLER_U00FC LT(_MM,U00FC)
-#define _HANDLER_U00C4 U00C4
-#define _HANDLER_U00D6 U00D6
-#define _HANDLER_U00DC U00DC
+#define _HANDLER_U00FC U00FC
 #define _HANDLER_U00DF U00DF
 #define _HANDLER_NEXT_TAB NEXT_TAB
 #define _HANDLER_NEXT_WINDOW NEXT_WINDOW
@@ -123,7 +117,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                        MO(_NUM2),            DF(_BASE),               KC_SPC,           MO(_FNSYM)),
 	[_LEFT] = LAYOUT_split_3x5_2(
                        S(KC_ESC),              S(KC_P),              S(KC_M),             S(DEAD3), KC_NO, KC_NO,                DEAD1,                KC_NO,                KC_NO,                KC_NO,
-                         S(KC_S),              S(KC_C),              S(KC_N),              S(KC_T), KC_NO, KC_NO,     LT(_WORDS,U00E4),                U00F6,        LT(_MM,U00FC),                KC_NO,
+                         S(KC_S),              S(KC_C),              S(KC_N),              S(KC_T), KC_NO, KC_NO,           MO(_WORDS),                KC_NO,              MO(_MM),                KC_NO,
                          KC_COLN,              S(KC_F),              S(KC_L),              S(KC_D), KC_NO, KC_NO, LM(_LMODS, MOD_LSFT), LM(_LMODS, MOD_LCTL), LM(_LMODS, MOD_LALT),                KC_NO,
                                     KC_SEMICOLON,              S(KC_R),            MO(_CASE),             MO(_NUM)),
 	[_RIGHT] = LAYOUT_split_3x5_2(

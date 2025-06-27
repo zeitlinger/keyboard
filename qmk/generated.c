@@ -47,10 +47,6 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_FNSYM_LT_NUM2KC_EQUAL: return 500;
     case C_FNSYM_MO_NUM: return 500;
     case C_LEFT_QU: return 500;
-    case C_LEFT_U00C4: return 500;
-    case C_LEFT_U00D6: return 500;
-    case C_LEFT_U00DC: return 500;
-    case C_LEFT_U00DF: return 500;
     case C_NAV_AKC_F12: return 500;
     case C_NAV_CKC_A: return 500;
     case C_NAV_CKC_C: return 500;
@@ -88,6 +84,10 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_RIGHT_N_T: return 500;
     case C_RIGHT_RCSKC_F: return 500;
     case C_RIGHT_RCSKC_R: return 500;
+    case C_RIGHT_U00DF: return 500;
+    case C_RIGHT_U00E4: return 500;
+    case C_RIGHT_U00F6: return 500;
+    case C_RIGHT_U00FC: return 500;
     case DS_C_BASE_KC_B: return 500;
     case DS_C_BASE_KC_G: return 500;
     case DS_C_BASE_KC_J: return 500;
@@ -135,8 +135,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
     if (record->tap.count) {
         if (record->event.pressed) {
             switch (keycode) {
-            case _HANDLER_U00E4: register_unicode(0x00E4); return false;
-            case _HANDLER_U00FC: register_unicode(0x00FC); return false;
+            
             default:
                 break;
             }
@@ -195,10 +194,9 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             switch (keycode) {
+            case _HANDLER_U00E4: register_unicode(0x00E4); return false;
             case _HANDLER_U00F6: register_unicode(0x00F6); return false;
-            case _HANDLER_U00C4: register_unicode(0x00C4); return false;
-            case _HANDLER_U00D6: register_unicode(0x00D6); return false;
-            case _HANDLER_U00DC: register_unicode(0x00DC); return false;
+            case _HANDLER_U00FC: register_unicode(0x00FC); return false;
             case _HANDLER_U00DF: register_unicode(0x00DF); return false;
             case _HANDLER_ST_WORDS_1_2: SEND_STRING("LGTM"); return false;
             case _HANDLER_ST_WORDS_2_0: SEND_STRING("Gregor Zeitlinger"); return false;
@@ -224,8 +222,6 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
 
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-    case LT(_WORDS,U00E4): return true;
-    case LT(_MM,U00FC): return true;
     case LT(_NUM2,KC_EQUAL): return true;
     default:
         // Do not select the hold action when another key is pressed.
