@@ -32,7 +32,6 @@ enum custom_keycodes {
     U00DF,
     NEXT_TAB,
     NEXT_WINDOW,
-    DOT_SPC,
     N_T,
     PRINT_VERSION,
     CAPS_WORDS,
@@ -77,7 +76,6 @@ enum custom_keycodes {
 #define _HANDLER_U00DF U00DF
 #define _HANDLER_NEXT_TAB NEXT_TAB
 #define _HANDLER_NEXT_WINDOW NEXT_WINDOW
-#define _HANDLER_DOT_SPC DOT_SPC
 #define _HANDLER_N_T N_T
 #define _HANDLER_PRINT_VERSION PRINT_VERSION
 #define _HANDLER_CAPS_WORDS CAPS_WORDS
@@ -150,7 +148,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                            KC_NO,                KC_NO,               KC_SPC,                KC_NO),
 	[_FNSYM] = LAYOUT_split_3x5_2(
                            DEAD2,               KC_F10,                KC_F9,                DEAD2, KC_NO, KC_NO,                DEAD3,              KC_LPRN,              KC_RPRN,                DEAD1,
-                           KC_F4,         ALT_T(KC_F3),         CTL_T(KC_F2),         SFT_T(KC_F1), KC_NO, KC_NO,              KC_LSFT,              KC_LCTL,              KC_LALT,   LT(_NUM2,KC_EQUAL),
+                           KC_F4,                KC_F3,                KC_F2,                KC_F1, KC_NO, KC_NO,              KC_LSFT,              KC_LCTL,              KC_LALT,   LT(_NUM2,KC_EQUAL),
                            KC_F8,                KC_F7,                KC_F6,                KC_F5, KC_NO, KC_NO,             KC_MINUS,              KC_LCBR,              KC_RCBR,             MO(_NUM),
                                            KC_NO,               KC_F12,                KC_NO,                KC_NO),
 	[_NUM] = LAYOUT_split_3x5_2(

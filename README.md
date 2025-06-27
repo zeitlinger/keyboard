@@ -139,7 +139,7 @@ Currently unused features:
 | Right |         |         |  CS-f   |         |         |    !    |         |         |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right |         |         |         |         |         |         |  .spc   |         |
+| Right |         |         |         |         |         |         |    \    |         |
 | Right |         |         |         |         |         |         |   💎    |         |
 | Right |         |         |         |         |         |         |    ?    |         |
 | Right |         |         |         |         |         |         |         |         |
@@ -199,9 +199,9 @@ Currently unused features:
 | FnSym |         |    &    |         |         |         |         |    #    |         |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| FnSym |    %    |         |         |         |         |         |         |         |
+| FnSym |         |         |         |         |         |         |         |         |
 | FnSym |   💎    |         |         |         |         |         |         |   💎    |
-| FnSym |    $    |         |         |         |         |         |         |    \    |
+| FnSym |    $    |         |         |         |         |         |         |    %    |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |         |   C-x   |   C-v   |  CS-z   |         |   esc   |   ins   |         |
@@ -352,7 +352,6 @@ The order of the options is also the order of the layers in the layer stack.
 | altRep  | QK_ALT_REPEAT_KEY               |
 | tab ➡️  | custom:NEXT_TAB      NoHold     |
 | win ➡️  | custom:NEXT_WINDOW   NoHold     |
-| .spc    | custom:DOT_SPC                  |
 | n't     | custom:N_T                      |
 | ver     | custom:PRINT_VERSION            |
 | CapsL   | KC_CAPS                         |
