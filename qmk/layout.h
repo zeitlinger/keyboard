@@ -27,6 +27,9 @@ enum custom_keycodes {
 	U00E4 = SAFE_RANGE,
 	U00F6,
     U00FC,
+    U00C4,
+    U00D6,
+    U00DC,
     U00DF,
     NEXT_TAB,
     NEXT_WINDOW,
@@ -68,6 +71,9 @@ enum custom_keycodes {
 #define _HANDLER_U00E4 U00E4
 #define _HANDLER_U00F6 U00F6
 #define _HANDLER_U00FC U00FC
+#define _HANDLER_U00C4 U00C4
+#define _HANDLER_U00D6 U00D6
+#define _HANDLER_U00DC U00DC
 #define _HANDLER_U00DF U00DF
 #define _HANDLER_NEXT_TAB NEXT_TAB
 #define _HANDLER_NEXT_WINDOW NEXT_WINDOW

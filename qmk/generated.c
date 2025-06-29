@@ -84,6 +84,9 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_RIGHT_N_T: return 500;
     case C_RIGHT_RCSKC_F: return 500;
     case C_RIGHT_RCSKC_R: return 500;
+    case C_RIGHT_U00C4: return 500;
+    case C_RIGHT_U00D6: return 500;
+    case C_RIGHT_U00DC: return 500;
     case C_RIGHT_U00DF: return 500;
     case C_RIGHT_U00E4: return 500;
     case C_RIGHT_U00F6: return 500;
@@ -197,6 +200,9 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
             case _HANDLER_U00E4: register_unicode(0x00E4); return false;
             case _HANDLER_U00F6: register_unicode(0x00F6); return false;
             case _HANDLER_U00FC: register_unicode(0x00FC); return false;
+            case _HANDLER_U00C4: register_unicode(0x00C4); return false;
+            case _HANDLER_U00D6: register_unicode(0x00D6); return false;
+            case _HANDLER_U00DC: register_unicode(0x00DC); return false;
             case _HANDLER_U00DF: register_unicode(0x00DF); return false;
             case _HANDLER_ST_WORDS_1_2: SEND_STRING("LGTM"); return false;
             case _HANDLER_ST_WORDS_2_0: SEND_STRING("Gregor Zeitlinger"); return false;
