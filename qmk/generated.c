@@ -148,12 +148,15 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
             if (get_repeat_key_count() > 1) {
                 switch (keycode) {
                 case KC_D: SEND_STRING("n't"); return false;
+                case KC_G: tap_code16(KC_O); return false;
                 case S(KC_D): SEND_STRING("n't"); return false;
+                case S(KC_G): tap_code16(KC_O); return false;
                 }
             }
             if (get_repeat_key_count() > 0) {
                 switch (keycode) {
                 case KC_B: SEND_STRING("ecause"); return false;
+                case KC_C: tap_code16(KC_P); return false;
                 case KC_COMMA: SEND_STRING(" and "); return false;
                 case KC_D: SEND_STRING("oes"); return false;
                 case KC_DOT: SEND_STRING("./"); return false;
@@ -177,6 +180,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 case KC_Y: tap_code16(KC_I); return false;
                 case KC_Z: tap_code16(KC_I); return false;
                 case S(KC_B): SEND_STRING("ecause"); return false;
+                case S(KC_C): tap_code16(KC_P); return false;
                 case S(KC_D): SEND_STRING("oes"); return false;
                 case S(KC_F): SEND_STRING("or"); return false;
                 case S(KC_G): tap_code16(KC_L); return false;
