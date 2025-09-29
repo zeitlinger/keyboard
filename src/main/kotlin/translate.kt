@@ -53,8 +53,8 @@ class QmkTranslator(
 
     init {
         val files = mapOf(
-            "/home/gregor/qmk_firmware/data/constants/keycodes/keycodes_0.0.1_basic.hjson" to "keycodes",
-            "/home/gregor/qmk_firmware/data/constants/keycodes/extras/keycodes_us_0.0.1.hjson" to "aliases",
+            "../qmk_firmware/data/constants/keycodes/keycodes_0.0.1_basic.hjson" to "keycodes",
+            "../qmk_firmware/data/constants/keycodes/extras/keycodes_us_0.0.1.hjson" to "aliases",
         )
         map = files.flatMap { file ->
             val aliases = JsonValue.readHjson(FileReader(file.key))
