@@ -26,9 +26,6 @@ enum custom_keycodes {
 	U00E4 = SAFE_RANGE,
 	U00F6,
     U00FC,
-    U00C4,
-    U00D6,
-    U00DC,
     U00DF,
     NEXT_TAB,
     NEXT_WINDOW,
@@ -70,9 +67,6 @@ enum custom_keycodes {
 #define _HANDLER_U00E4 U00E4
 #define _HANDLER_U00F6 U00F6
 #define _HANDLER_U00FC U00FC
-#define _HANDLER_U00C4 U00C4
-#define _HANDLER_U00D6 U00D6
-#define _HANDLER_U00DC U00DC
 #define _HANDLER_U00DF U00DF
 #define _HANDLER_NEXT_TAB NEXT_TAB
 #define _HANDLER_NEXT_WINDOW NEXT_WINDOW
@@ -124,7 +118,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_RIGHT] = LAYOUT_split_3x5_2(
                            KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                DEAD3,              KC_DQUO,          A(KC_RIGHT),             S(DEAD1),
                            KC_NO,                KC_NO,              C(KC_F),              C(KC_R), KC_NO, KC_NO,              S(KC_A),              S(KC_E),              S(KC_I),              S(KC_H),
-                           KC_NO, LM(_RMODS, MOD_LALT), LM(_RMODS, MOD_LCTL),           MO(_WORDS), KC_NO, KC_NO,              S(KC_U),              S(KC_O),              S(KC_Y),              KC_UNDS,
+                           KC_NO, LM(_RMODS, MOD_LALT), LM(_RMODS, MOD_LCTL), LM(_RMODS, MOD_LSFT), KC_NO, KC_NO,              S(KC_U),              S(KC_O),              S(KC_Y),              KC_UNDS,
                                         A(KC_F7),              C(KC_N),      KC_LEFT_BRACKET,     KC_RIGHT_BRACKET),
 	[_LMODS] = LAYOUT_split_3x5_2(
                           KC_ESC,                 KC_P,                 KC_M,                DEAD3, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
@@ -137,7 +131,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                            KC_NO, LM(_RMODS, MOD_LALT), LM(_RMODS, MOD_LCTL), LM(_RMODS, MOD_LSFT), KC_NO, KC_NO,                 KC_U,                 KC_O,                 KC_Y,             KC_EQUAL,
                                            KC_NO,                KC_NO,      KC_LEFT_BRACKET,     KC_RIGHT_BRACKET),
 	[_NAV] = LAYOUT_split_3x5_2(
-                           KC_NO,              C(KC_X),              C(KC_V),            RCS(KC_Z), KC_NO, KC_NO,                KC_NO,               KC_ESC,               KC_INS,                KC_NO,
+                           KC_NO,              C(KC_X),              C(KC_V),            RCS(KC_Z), KC_NO, KC_NO,                DEAD1,               KC_ESC,               KC_INS,                DEAD2,
                          C(KC_C),              KC_LALT,              KC_LCTL,              KC_LSFT, KC_NO, KC_NO,              KC_LEFT,              KC_DOWN,                KC_UP,             KC_RIGHT,
                          C(KC_Z),              C(KC_W),             NEXT_TAB,          NEXT_WINDOW, KC_NO, KC_NO,               KC_ENT,              KC_BSPC,               KC_DEL,               KC_TAB,
                                            KC_NO,                KC_NO,               KC_SPC,                KC_NO),
@@ -173,7 +167,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                            KC_NO,                KC_NO,                KC_NO,                KC_NO),
 	[_WORDS] = LAYOUT_split_3x5_2(
                            KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
-                           KC_NO,                KC_NO,         ST_WORDS_1_2,                KC_NO, KC_NO, KC_NO,                U00E4,                U00F6,                U00FC,                U00DF,
-                    ST_WORDS_2_0,         ST_WORDS_2_1,         ST_WORDS_2_2,         ST_WORDS_2_3, KC_NO, KC_NO,                U00C4,                U00D6,                U00DC,                KC_NO,
+                           KC_NO,                KC_NO,         ST_WORDS_1_2,                KC_NO, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+                    ST_WORDS_2_0,         ST_WORDS_2_1,         ST_WORDS_2_2,         ST_WORDS_2_3, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
                                            KC_NO,                KC_NO,                KC_NO,                KC_NO),
 };
