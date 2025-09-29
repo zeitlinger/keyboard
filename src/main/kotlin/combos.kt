@@ -43,7 +43,7 @@ const val comboTrigger = "\uD83D\uDC8E" // 💎
 
 val goodComboLayers: Map<String, (Int) -> Boolean> = mapOf(
     "Nav" to { true },
-    "FnSyn" to { true },
+    "FnSym" to { true },
 //    "Left" to { it < 4 },
 //    "Right" to { it >= 4 },
 )
