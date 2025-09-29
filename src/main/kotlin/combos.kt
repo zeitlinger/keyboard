@@ -26,7 +26,13 @@ data class Combo(
                 return emptyList()
             }
             if (triggers.any { it.keyWithModifier.isNo }) {
-                throw IllegalStateException("no KC_NO allowed in $source combo triggers:\n$name\n${triggers.joinToString("\n")}")
+                throw IllegalStateException(
+                    "no KC_NO allowed in $source combo triggers:\n$name\n${
+                        triggers.joinToString(
+                            "\n"
+                        )
+                    }"
+                )
             }
             return listOf(Combo(type, name, result, triggers.sortedBy { it.keyWithModifier.key }, timeout))
         }
@@ -35,10 +41,56 @@ data class Combo(
 
 const val comboTrigger = "\uD83D\uDC8E" // 💎
 
-fun generateAllCombos(layers: List<Layer>, translator: QmkTranslator): List<Combo> =
-    layers.flatMap { layer ->
+val goodComboLayers: Map<String, (Int) -> Boolean> = mapOf(
+    "Nav" to { true },
+    "FnSyn" to { true },
+//    "Left" to { it < 4 },
+//    "Right" to { it >= 4 },
+)
+
+fun generateAllCombos(layers: List<Layer>, translator: QmkTranslator): List<Combo> {
+    val lists = layers.map { layer ->
         layerCombos(translator, layer, layer.combos, layer.rows, layers)
-    }.also { checkForDuplicateCombos(it) }
+    }
+    val goodTriggers: Set<Set<KeyPosition>> = combo2Positions(lists[0])
+    val goodValues = combo2Values(lists[0])
+
+    for (layer in layers.zip(lists).subList(1, lists.size)) {
+        val layerName = layer.first.name
+
+        val pred = goodComboLayers[layerName]
+        if (pred == null) {
+            continue
+        }
+
+        val positions = combo2Positions(layer.second)
+        val missing = (goodTriggers - positions).filter { pred(it.iterator().next().column) }
+
+        if (missing.isNotEmpty()) {
+            val text = missing.joinToString("\n") {
+                val indexOf = goodTriggers.indexOf(it)
+                goodValues[indexOf]
+            }
+            println("missing combos in layer $layerName:\n$text")
+        }
+    }
+
+    return lists.flatten().also { checkForDuplicateCombos(it) }
+}
+
+private fun combo2Positions(combos: List<Combo>): Set<Set<KeyPosition>> = combos
+    .filter { it.triggers.size == 2 }
+    .map { combo ->
+        combo.triggers
+            .map { it.pos.copy(layerName = "Base") }
+            .toSet()
+    }.toSet()
+
+private fun combo2Values(combos: List<Combo>): List<String> = combos
+    .filter { it.triggers.size == 2 && !it.name.startsWith("S_") }
+    .map { combo ->
+        combo.result.key
+    }
 
 private fun checkForDuplicateCombos(combos: List<Combo>) {
     combos.groupBy { it.triggers.map { it.key.key } }
@@ -118,7 +170,7 @@ private fun directCombos(
 //            if (LayerActivation.entries.any { it.method != null && triggers[0].key.key.startsWith(it.method) }) {
 //                emptyList()
 //            } else {
-                keyCombos(key, ComboSource.Direct, triggers, translator, layer, layers)
+            keyCombos(key, ComboSource.Direct, triggers, translator, layer, layers)
 //            }
         }
 }
