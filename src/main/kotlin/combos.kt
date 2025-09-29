@@ -41,11 +41,11 @@ data class Combo(
 
 const val comboTrigger = "\uD83D\uDC8E" // 💎
 
-val goodComboLayers: Map<String, (Int) -> Boolean> = mapOf(
-    "Nav" to { true },
-    "FnSym" to { true },
-//    "Left" to { it < 4 },
-//    "Right" to { it >= 4 },
+val goodComboLayers: Map<String, (Int, String) -> Boolean> = mapOf(
+"Nav" to { _, _ -> true },
+"FnSym" to { _, _ -> true },
+"Left" to { col, key -> col < 4 && !key.matches(Regex("KC_[A-Z]")) },
+"Right" to { col, key -> col >= 4 && !key.matches(Regex("KC_[A-Z]")) },
 )
 
 fun generateAllCombos(layers: List<Layer>, translator: QmkTranslator): List<Combo> {
@@ -58,18 +58,16 @@ fun generateAllCombos(layers: List<Layer>, translator: QmkTranslator): List<Comb
     for (layer in layers.zip(lists).subList(1, lists.size)) {
         val layerName = layer.first.name
 
-        val pred = goodComboLayers[layerName]
-        if (pred == null) {
-            continue
-        }
+        val pred = goodComboLayers[layerName] ?: continue
 
         val positions = combo2Positions(layer.second)
-        val missing = (goodTriggers - positions).filter { pred(it.iterator().next().column) }
+        val missing = (goodTriggers - positions).filter {
+            pred(it.iterator().next().column, goodValues[goodTriggers.indexOf(it)])
+        }
 
         if (missing.isNotEmpty()) {
             val text = missing.joinToString("\n") {
-                val indexOf = goodTriggers.indexOf(it)
-                goodValues[indexOf]
+                goodValues[goodTriggers.indexOf(it)]
             }
             println("missing combos in layer $layerName:\n$text")
         }
