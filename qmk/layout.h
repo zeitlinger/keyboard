@@ -9,19 +9,18 @@
 #define VERSION_STRING "use target/qmk to build the firmware to get the git version"
 
 #define _BASE 0
-#define _NAV2 1
-#define _LEFT 2
-#define _RIGHT 3
-#define _LMODS 4
-#define _RMODS 5
-#define _NAV 6
-#define _FNSYM 7
-#define _NUM 8
-#define _NUM2 9
-#define _ANUM 10
-#define _MM 11
-#define _CASE 12
-#define _WORDS 13
+#define _LEFT 1
+#define _RIGHT 2
+#define _LMODS 3
+#define _RMODS 4
+#define _NAV 5
+#define _FNSYM 6
+#define _NUM 7
+#define _NUM2 8
+#define _ANUM 9
+#define _MM 10
+#define _CASE 11
+#define _WORDS 12
 
 enum custom_keycodes {
 	U00E4 = SAFE_RANGE,
@@ -117,11 +116,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                             KC_S,                 KC_C,                 KC_N,                 KC_T, KC_NO, KC_NO,                 KC_A,                 KC_E,                 KC_I,                 KC_H,
                       MO(_RIGHT),                 KC_F,                 KC_L,                 KC_D, KC_NO, KC_NO,                 KC_U,                 KC_O,                 KC_Y,            MO(_LEFT),
                                         MO(_NAV),                 KC_R,               KC_SPC,           MO(_FNSYM)),
-	[_NAV2] = LAYOUT_split_3x5_2(
-                           KC_NO,              C(KC_X),              C(KC_V),            RCS(KC_Z), KC_NO, KC_NO,                KC_NO,               KC_ESC,               KC_INS,                KC_NO,
-                         C(KC_C),              KC_LALT,              KC_LCTL,              KC_LSFT, KC_NO, KC_NO,              KC_LEFT,              KC_DOWN,                KC_UP,             KC_RIGHT,
-                         C(KC_Z),              C(KC_W),               KC_TAB,              KC_LGUI, KC_NO, KC_NO,               KC_ENT,              KC_BSPC,               KC_DEL,               KC_TAB,
-                                       MO(_NUM2),            DF(_BASE),               KC_SPC,           MO(_FNSYM)),
 	[_LEFT] = LAYOUT_split_3x5_2(
                        S(KC_ESC),              S(KC_P),              S(KC_M),             S(DEAD3), KC_NO, KC_NO,                DEAD1,                KC_NO,                KC_NO,                KC_NO,
                          S(KC_S),              S(KC_C),              S(KC_N),              S(KC_T), KC_NO, KC_NO,            MO(_CASE),           MO(_WORDS),              MO(_MM),                KC_NO,

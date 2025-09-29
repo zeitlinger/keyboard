@@ -1,5 +1,4 @@
 // file is generated from https://github.com/zeitlinger/keyboard/blob/main/README.md
-COMB(C_BASE_DF_NAV2                     , DF(_NAV2)                          , QK_ALT_REPEAT_KEY, QK_REPEAT_KEY)
 COMB(C_BASE_KC_B                        , KC_B                               , KC_C, KC_F)
 COMB(C_BASE_KC_COMMA                    , KC_COMMA                           , KC_E, KC_O)
 COMB(C_BASE_KC_DOT                      , KC_DOT                             , KC_I, KC_Y)

@@ -104,11 +104,6 @@ Currently unused features:
 | Base  |         |         |         |    k    |  "ion"  |         |         |         |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Base  |         |         |         |         |         |   💎    |  >Nav2  |         |
-| Base  |         |         |         |         |         |         |         |         |
-| Base  |         |         |         |         |         |         |         |         |
-| Base  |         |         |         |         |         |         |         |         |
-|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |    w    |         |         |    '    |         |         |
 | Base  |         |         |   💎    |         |         |   💎    |         |         |
 | Base  |         |         |    g    |         |         |    ,    |         |         |
@@ -229,11 +224,6 @@ Currently unused features:
 |  Nav  |         |         |         |         |         |         |   💎    |   C-p   |
 |  Nav  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Nav2  |         |         |         |         |         |         |         |         |
-| Nav2  |         |         |         |         |         |         |         |         |
-| Nav2  |         |         |         |         |         |         |         |         |
-| Nav2  |         |         |  *Num2  |  >Base  |         | *FnSym  |         |         |
-|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Num  |  dead1  |    ,    |    .    |  dead2  |         |         |         |         |
 |  Num  |    4    |    3    |    2    |    1    |         |         |         |         |
 |  Num  |    8    |    7    |    6    |    5    |         |         |         |         |
@@ -287,7 +277,6 @@ The order of the options is also the order of the layers in the layer stack.
 | LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags            | Combo Timeout |
 |:------------:|:---------------:|:---------------:|:-------------:|:--------------:|------------------|:-------------:|
 |     Base     |                 |                 |               |                |                  |      200      |
-|     Nav2     |     HomeRow     |                 |      Nav      |      Nav       | Alternate        |      500      |
 |     Left     |                 | BottomRow+LMods |     Base      |                | Shifted          |      500      |
 |    Right     | BottomRow+RMods |                 |               |      Base      | Shifted          |      500      |
 |    LMods     |                 | BottomRow+LMods |     Base      |                |                  |               |
