@@ -321,10 +321,10 @@ The order of the options is also the order of the layers in the layer stack.
 | 🔆      | KC_BRIU                         |
 | 🔅      | KC_BRID                         |
 | copy    | C(KC_C)                         |
-| ä       | unicode                         |
-| ö       | unicode                         |
-| ü       | unicode                         |
-| ß       | unicode                         |
+| ä       | UP(UMLAUT_a, UMLAUT_A)          |
+| ö       | UP(UMLAUT_o, UMLAUT_O)          |
+| ü       | UP(UMLAUT_u, UMLAUT_U)          |
+| ß       | UM(UMLAUT_s)                    |
 | repeat  | QK_REPEAT_KEY                   |
 | altRep  | QK_ALT_REPEAT_KEY               |
 | tab ➡️  | custom:NEXT_TAB      NoHold     |
