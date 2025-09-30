@@ -68,10 +68,10 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_NAV_RCSKC_N: return 500;
     case C_NAV_RCSKC_V: return 500;
     case C_NAV_RCSKC_Z: return 500;
-    case C_NAV_U00DF: return 500;
-    case C_NAV_U00E4: return 500;
-    case C_NAV_U00F6: return 500;
-    case C_NAV_U00FC: return 500;
+    case C_NAV_UMUMLAUT_S: return 500;
+    case C_NAV_UPUMLAUT_AUMLAUT_A: return 500;
+    case C_NAV_UPUMLAUT_OUMLAUT_O: return 500;
+    case C_NAV_UPUMLAUT_UUMLAUT_U: return 500;
     case C_NUM_AKC_F1: return 500;
     case C_NUM_CKC_G: return 500;
     case C_NUM_LCAKC_L: return 500;
@@ -197,10 +197,6 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             switch (keycode) {
-            case _HANDLER_U00E4: register_unicode(0x00E4); return false;
-            case _HANDLER_U00F6: register_unicode(0x00F6); return false;
-            case _HANDLER_U00FC: register_unicode(0x00FC); return false;
-            case _HANDLER_U00DF: register_unicode(0x00DF); return false;
             case _HANDLER_ST_WORDS_1_2: SEND_STRING("LGTM"); return false;
             case _HANDLER_ST_WORDS_2_0: SEND_STRING("Gregor Zeitlinger"); return false;
             case _HANDLER_ST_WORDS_2_1: SEND_STRING("gregor.zeitlinger@grafana.com"); return false;

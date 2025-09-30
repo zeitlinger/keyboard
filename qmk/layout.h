@@ -23,12 +23,8 @@
 #define _WORDS 12
 
 enum custom_keycodes {
-	U00E4 = SAFE_RANGE,
-	U00F6,
-    U00FC,
-    U00DF,
-    NEXT_TAB,
-    NEXT_WINDOW,
+	NEXT_TAB = SAFE_RANGE,
+	NEXT_WINDOW,
     N_T,
     PRINT_VERSION,
     CAPS_WORDS,
@@ -64,10 +60,6 @@ enum custom_keycodes {
     ALT_KC_COMMA
 };
 
-#define _HANDLER_U00E4 U00E4
-#define _HANDLER_U00F6 U00F6
-#define _HANDLER_U00FC U00FC
-#define _HANDLER_U00DF U00DF
 #define _HANDLER_NEXT_TAB NEXT_TAB
 #define _HANDLER_NEXT_WINDOW NEXT_WINDOW
 #define _HANDLER_N_T N_T
