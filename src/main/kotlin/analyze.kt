@@ -51,7 +51,7 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
                     .toSet()
 
     val missing =
-        want - gotKeys.toSet() - translator.ignoreMissing.map { it.key }.toSet()
+        want - gotKeys.toSet() - translator.ignoreMissing.map { it.key }.toSet() - setOf("KC_PLUS")
     val unexpected = (gotKeys.toSet() - want.toSet())
         .filter {
             when {

@@ -8,7 +8,8 @@
 
 ### Notes
 
-- The keyboard layout is generated using [generateKeyboard](src/main/kotlin/generateKeyboard.kt) from this file.  => link to [Generator](#generator)
+- The keyboard layout is generated using [generateKeyboard](src/main/kotlin/generateKeyboard.kt)
+  from this file. => link to [Generator](#generator)
 - The generated keyboard can be found in the qmk directory.
 - tested with [Ferris Sweep](https://keebmaker.com/products/ferris-sweep) keyboard
 
@@ -24,8 +25,9 @@ On all other layers, the modifiers are as shown in the table below.
 
 ### Window and Tab switching
 
-- win ➡️ and  tab ➡️ are used to Short windows and tabs.
-- Once you press any of those keys, you're in switcher mode, where all other keys are replaced by shift-tab.
+- win ➡️ and tab ➡️ are used to Short windows and tabs.
+- Once you press any of those keys, you're in switcher mode, where all other keys are replaced by
+  shift-tab.
 - Switcher mode is exited when you go back to the base layer.
 
 ## Layout
@@ -33,9 +35,11 @@ On all other layers, the modifiers are as shown in the table below.
 How to read this layout:
 
 - 💎 = combo key (e.g. middle and index finger in top row pressed together produce "b")
-- 🛑 = key can't be used because the layer was activated with that key or because it's reserved for a modifier
+- 🛑 = key can't be used because the layer was activated with that key or because it's reserved for a
+  modifier
 - empty = use key from base layer
-- FnSym = capitalized words are layer names - if they are a key, the layer is activated as toggled or one shot layer (if the "OneShot" flag is set in the layer flags)
+- FnSym = capitalized words are layer names - if they are a key, the layer is activated as toggled
+  or one shot layer (if the "OneShot" flag is set in the layer flags)
 - *Mouse = layer is active while key is held
 - C-w = Ctrl-w (same for Alt and Shift)
 - f12+Num = tab-mod - f12 on tap and Num on hold
@@ -49,8 +53,9 @@ Currently unused features:
 - $Mouse = layer is active while key is held (double tap to lock layer)
 - #Mouse = toggle layer
 - @Num = layer is active for the next keypress
-- Sym/Nav = layer is active for the next keypress: 
-  If the activation key is still down when the next key is pressed, the Nav layer is used, otherwise the Sym layer is used
+- Sym/Nav = layer is active for the next keypress:
+  If the activation key is still down when the next key is pressed, the Nav layer is used, otherwise
+  the Sym layer is used
 
 > **Note**: The layout is generated from this file directly.
 
@@ -164,9 +169,9 @@ Currently unused features:
 | FnSym |   f8    |   f7    |   f6    |   f5    |    -    |    {    |    }    |  *Num   |
 | FnSym |         |         |         |   f12   |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| FnSym |         |         |         |    ➕    |   win   |         |         |         |
+| FnSym |         |         |         |    ➖    |   win   |         |         |         |
 | FnSym |         |         |         |   💎    |   💎    |         |         |         |
-| FnSym |         |         |         |    +    |    ~    |         |         |         |
+| FnSym |         |         |         |    ➕    |    ~    |         |         |         |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |         |         |    *    |         |         |    <    |         |         |
@@ -179,7 +184,7 @@ Currently unused features:
 | FnSym |         |    &    |         |         |         |         |    #    |         |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| FnSym |    ➖    |         |         |         |         |         |         |    ^    |
+| FnSym |         |         |         |         |         |         |         |    ^    |
 | FnSym |   💎    |         |         |         |         |         |         |   💎    |
 | FnSym |    $    |         |         |         |         |         |         |    %    |
 | FnSym |         |         |         |         |         |         |         |         |
@@ -353,7 +358,7 @@ The order of the options is also the order of the layers in the layer stack.
 | win ➡️  | custom:NEXT_WINDOW   NoHold     |
 | n't     | custom:N_T                      |
 | ver     | custom:PRINT_VERSION            |
-| CapW    | custom:CAPS_WORDS                |
+| CapW    | custom:CAPS_WORDS               |
 | sn_case | custom:SNAKE_CASE               |
 | SN_CASE | custom:SCREAMING_SNAKE_CASE     |
 | camCase | custom:CAMEL_CASE               |
