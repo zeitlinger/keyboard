@@ -149,7 +149,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                            KC_NO,                KC_NO,                KC_NO,                KC_NO),
 	[_CASE] = LAYOUT_split_3x5_2(
                            KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
-                      SLASH_CASE,          PASCAL_CASE,            CAPS_WORDS, SCREAMING_SNAKE_CASE, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+                      SLASH_CASE,          PASCAL_CASE,           CAPS_WORDS, SCREAMING_SNAKE_CASE, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
                         DOT_CASE,           CAMEL_CASE,           KEBAP_CASE,           SNAKE_CASE, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
                                            KC_NO,                KC_NO,                KC_NO,                KC_NO),
 };
