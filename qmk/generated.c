@@ -8,8 +8,6 @@ int layer = _BASE;
 
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     switch(index) {
-    case C_BASE_ING: return 200;
-    case C_BASE_ION: return 200;
     case C_BASE_KC_B: return 200;
     case C_BASE_KC_COMMA: return 200;
     case C_BASE_KC_DOT: return 200;
@@ -22,14 +20,14 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_BASE_KC_W: return 200;
     case C_BASE_KC_X: return 200;
     case C_BASE_KC_Z: return 200;
-    case C_BASE_NG: return 200;
-    case C_BASE_QU: return 200;
     case C_FNSYM_KC_AMPR: return 500;
     case C_FNSYM_KC_ASTR: return 500;
     case C_FNSYM_KC_CIRC: return 500;
     case C_FNSYM_KC_DLR: return 500;
     case C_FNSYM_KC_F11: return 500;
     case C_FNSYM_KC_HASH: return 500;
+    case C_FNSYM_KC_KP_MINUS: return 500;
+    case C_FNSYM_KC_KP_PLUS: return 500;
     case C_FNSYM_KC_LABK: return 500;
     case C_FNSYM_KC_LCBR: return 500;
     case C_FNSYM_KC_LGUI: return 500;
@@ -45,7 +43,6 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_FNSYM_KC_TILD: return 500;
     case C_FNSYM_LT_NUM2KC_EQUAL: return 500;
     case C_FNSYM_MO_NUM: return 500;
-    case C_LEFT_QU: return 500;
     case C_NAV_AKC_F12: return 500;
     case C_NAV_CKC_A: return 500;
     case C_NAV_CKC_C: return 500;
@@ -96,6 +93,15 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case DS_C_BASE_KC_W: return 500;
     case DS_C_BASE_KC_X: return 500;
     case DS_C_BASE_KC_Z: return 500;
+    case SUB_1: return 200;
+    case SUB_2: return 200;
+    case SUB_3: return 200;
+    case SUB_4: return 200;
+    case SUB_5: return 500;
+    case SUB_6: return 500;
+    case SUB_7: return 500;
+    case SUB_8: return 500;
+    case SUB_9: return 500;
     case S_C_BASE_KC_B: return 500;
     case S_C_BASE_KC_G: return 500;
     case S_C_BASE_KC_J: return 500;
@@ -197,11 +203,6 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             switch (keycode) {
-            case _HANDLER_ST_WORDS_1_2: SEND_STRING("LGTM"); return false;
-            case _HANDLER_ST_WORDS_2_0: SEND_STRING("Gregor Zeitlinger"); return false;
-            case _HANDLER_ST_WORDS_2_1: SEND_STRING("gregor.zeitlinger@grafana.com"); return false;
-            case _HANDLER_ST_WORDS_2_2: SEND_STRING("gregor@zeitlinger.de"); return false;
-            case _HANDLER_ST_WORDS_2_3: SEND_STRING("zeitlinger@gmail.com"); return false;
             case _HANDLER_ALT_KC_H: SEND_STRING("ey"); return false;
             case _HANDLER_ALT_KC_Q: SEND_STRING("ua"); return false;
             case _HANDLER_ALT_KC_T: SEND_STRING("ion"); return false;

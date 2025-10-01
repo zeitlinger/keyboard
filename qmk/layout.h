@@ -18,9 +18,9 @@
 #define _NUM 7
 #define _NUM2 8
 #define _ANUM 9
-#define _MM 10
-#define _CASE 11
-#define _WORDS 12
+#define _CNUM 10
+#define _MM 11
+#define _CASE 12
 
 enum custom_keycodes {
 	NEXT_TAB = SAFE_RANGE,
@@ -44,11 +44,6 @@ enum custom_keycodes {
     _RMODS_A,
     _RMODS_C,
     _RMODS_S,
-    ST_WORDS_1_2,
-    ST_WORDS_2_0,
-    ST_WORDS_2_1,
-    ST_WORDS_2_2,
-    ST_WORDS_2_3,
     ALT_KC_H,
     ALT_KC_Q,
     ALT_KC_T,
@@ -81,11 +76,6 @@ enum custom_keycodes {
 #define _HANDLER__RMODS_A _RMODS_A
 #define _HANDLER__RMODS_C _RMODS_C
 #define _HANDLER__RMODS_S _RMODS_S
-#define _HANDLER_ST_WORDS_1_2 ST_WORDS_1_2
-#define _HANDLER_ST_WORDS_2_0 ST_WORDS_2_0
-#define _HANDLER_ST_WORDS_2_1 ST_WORDS_2_1
-#define _HANDLER_ST_WORDS_2_2 ST_WORDS_2_2
-#define _HANDLER_ST_WORDS_2_3 ST_WORDS_2_3
 #define _HANDLER_ALT_KC_H ALT_KC_H
 #define _HANDLER_ALT_KC_Q ALT_KC_Q
 #define _HANDLER_ALT_KC_T ALT_KC_T
@@ -104,7 +94,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                         MO(_NAV),                 KC_R,               KC_SPC,           MO(_FNSYM)),
 	[_LEFT] = LAYOUT_split_3x5_2(
                        S(KC_ESC),              S(KC_P),              S(KC_M),             S(DEAD3), KC_NO, KC_NO,                DEAD1,                KC_NO,                KC_NO,                KC_NO,
-                         S(KC_S),              S(KC_C),              S(KC_N),              S(KC_T), KC_NO, KC_NO,            MO(_CASE),           MO(_WORDS),              MO(_MM),                KC_NO,
+                         S(KC_S),              S(KC_C),              S(KC_N),              S(KC_T), KC_NO, KC_NO,            MO(_CNUM),            MO(_CASE),              MO(_MM),                KC_NO,
                          KC_COLN,              S(KC_F),              S(KC_L),              S(KC_D), KC_NO, KC_NO, LM(_LMODS, MOD_LSFT), LM(_LMODS, MOD_LCTL), LM(_LMODS, MOD_LALT),                KC_NO,
                                     KC_SEMICOLON,              S(KC_R),            MO(_ANUM),             MO(_NUM)),
 	[_RIGHT] = LAYOUT_split_3x5_2(
@@ -147,19 +137,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                          A(KC_4),              A(KC_3),              A(KC_2),              A(KC_1), KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
                          A(KC_8),              A(KC_7),              A(KC_6),              A(KC_5), KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
                                          A(KC_9),              A(KC_0),                KC_NO,                KC_NO),
+	[_CNUM] = LAYOUT_split_3x5_2(
+                           KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+                         C(KC_4),              C(KC_3),              C(KC_2),              C(KC_1), KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+                         C(KC_8),              C(KC_7),              C(KC_6),              C(KC_5), KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+                                         C(KC_9),              C(KC_0),                KC_NO,                KC_NO),
 	[_MM] = LAYOUT_split_3x5_2(
                            KC_NO,              KC_BRID,              KC_BRIU,                KC_NO, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
                          KC_PSCR,              KC_VOLD,              KC_VOLU,              KC_MUTE, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
                    PRINT_VERSION,              KC_MPRV,              KC_MNXT,              KC_MPLY, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
                                            KC_NO,                KC_NO,                KC_NO,                KC_NO),
 	[_CASE] = LAYOUT_split_3x5_2(
-                           KC_NO,                KC_NO,           KEBAP_CASE,                KC_NO, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
-                      SLASH_CASE,           CAPS_WORDS,           SNAKE_CASE,           CAMEL_CASE, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
-                         KC_CAPS,             DOT_CASE, SCREAMING_SNAKE_CASE,          PASCAL_CASE, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
-                                           KC_NO,                KC_NO,                KC_NO,                KC_NO),
-	[_WORDS] = LAYOUT_split_3x5_2(
                            KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
-                           KC_NO,                KC_NO,         ST_WORDS_1_2,                KC_NO, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
-                    ST_WORDS_2_0,         ST_WORDS_2_1,         ST_WORDS_2_2,         ST_WORDS_2_3, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+                      SLASH_CASE,          PASCAL_CASE,            CAPS_WORDS, SCREAMING_SNAKE_CASE, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+                        DOT_CASE,           CAMEL_CASE,           KEBAP_CASE,           SNAKE_CASE, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
                                            KC_NO,                KC_NO,                KC_NO,                KC_NO),
 };

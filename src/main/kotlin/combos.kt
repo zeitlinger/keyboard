@@ -1,5 +1,19 @@
+var subtitution = 0;
+var comboMap = mutableMapOf<String, String>()
+
 enum class ComboType(val template: String) {
-    Combo("COMB(%s, %s, %s)"), Substitution("SUBS(%s, %s, %s)")
+    Combo("COMB(%s, %s, %s)") {
+        override fun name(vararg parts: String): String = comboName(*parts)
+    },
+    Substitution("SUBS(%s, %s, %s)") {
+        override fun name(vararg parts: String): String =
+            comboMap.computeIfAbsent(parts.joinToString("#")) { _ ->
+                subtitution += 1
+                "SUB_$subtitution"
+            }
+    };
+
+    abstract fun name(vararg parts: String): String
 }
 
 enum class ComboSource {
@@ -42,10 +56,10 @@ data class Combo(
 const val comboTrigger = "\uD83D\uDC8E" // 💎
 
 val goodComboLayers: Map<String, (Int, String) -> Boolean> = mapOf(
-"Nav" to { _, _ -> true },
-"FnSym" to { _, _ -> true },
-"Left" to { col, key -> col < 4 && !key.matches(Regex("KC_[A-Z]")) },
-"Right" to { col, key -> col >= 4 && !key.matches(Regex("KC_[A-Z]")) },
+    "Nav" to { _, _ -> true },
+    "FnSym" to { _, _ -> true },
+    "Left" to { col, key -> col < 4 && !key.matches(Regex("KC_[A-Z]")) },
+    "Right" to { col, key -> col >= 4 && !key.matches(Regex("KC_[A-Z]")) },
 )
 
 fun generateAllCombos(layers: List<Layer>, translator: QmkTranslator): List<Combo> {
@@ -221,7 +235,7 @@ private fun keyCombos(
 ): List<Combo> {
     val qmkKey = translator.originalKeys[key.pos] ?: key.key
     val type = if (qmkKey.substitution != null) ComboType.Substitution else ComboType.Combo
-    val name = comboName(layer.name, qmkKey.key)
+    val name = type.name(layer.name, qmkKey.key)
     return combos(type, source, name, qmkKey, triggers, key.comboTimeout, translator, layers, layer)
 }
 

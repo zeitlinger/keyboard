@@ -145,7 +145,7 @@ Currently unused features:
 | RMods |         |         |         |         |    [    |    ]    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |         |         |         |         |  dead1  |         |         |         |
-| Left  |         |         |         |         | *Words  |  *Case  |   *Mm   |         |
+| Left  |         |         |         |         |  *CNum  |  *Case  |   *Mm   |         |
 | Left  |    :    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
 | Left  |         |         |    ;    |         |  *ANum  |  *Num   |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -164,7 +164,7 @@ Currently unused features:
 | FnSym |   f8    |   f7    |   f6    |   f5    |    -    |    {    |    }    |  *Num   |
 | FnSym |         |         |         |   f12   |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| FnSym |         |         |         |    ^    |   win   |         |         |         |
+| FnSym |         |         |         |    ➕    |   win   |         |         |         |
 | FnSym |         |         |         |   💎    |   💎    |         |         |         |
 | FnSym |         |         |         |    +    |    ~    |         |         |         |
 | FnSym |         |         |         |         |         |         |         |         |
@@ -179,7 +179,7 @@ Currently unused features:
 | FnSym |         |    &    |         |         |         |         |    #    |         |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| FnSym |         |         |         |         |         |         |         |         |
+| FnSym |    ➖    |         |         |         |         |         |         |    ^    |
 | FnSym |   💎    |         |         |         |         |         |         |   💎    |
 | FnSym |    $    |         |         |         |         |         |         |    %    |
 | FnSym |         |         |         |         |         |         |         |         |
@@ -254,6 +254,31 @@ Currently unused features:
 | ANum  |   A-8   |   A-7   |   A-6   |   A-5   |         |         |         |         |
 | ANum  |         |         |   A-9   |   A-0   |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| CNum  |         |         |         |         |         |         |         |         |
+| CNum  |   C-4   |   C-3   |   C-2   |   C-1   |         |         |         |         |
+| CNum  |   C-8   |   C-7   |   C-6   |   C-5   |         |         |         |         |
+| CNum  |         |         |   C-9   |   C-0   |   🛑    |   🛑    |         |         |
+|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| CNum  |         |         |         |         |         |         |         |         |
+| CNum  |         |         |         |   💎    |         |         |         |         |
+| CNum  |         |         |         |  goog@  |         |         |         |         |
+| CNum  |         |         |         |         |         |         |         |         |
+|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| CNum  |         |         |         |         |         |         |         |         |
+| CNum  |         |         |   💎    |         |         |         |         |         |
+| CNum  |         |         |  zeit@  |         |         |         |         |         |
+| CNum  |         |         |         |         |         |         |         |         |
+|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| CNum  |         |         |         |         |         |         |         |         |
+| CNum  |         |   💎    |         |         |         |         |         |         |
+| CNum  |         |  gra@   |         |         |         |         |         |         |
+| CNum  |         |         |         |         |         |         |         |         |
+|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| CNum  |         |         |         |         |         |         |         |         |
+| CNum  |   💎    |         |         |         |         |         |         |         |
+| CNum  |   GZ    |         |         |         |         |         |         |         |
+| CNum  |         |         |         |         |         |         |         |         |
+|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Mm   |         |   🔅    |   🔆    |         |         |         |         |         |
 |  Mm   |   prt   |   🔈    |   🔊    |   🔇    |         |         |         |   🛑    |
 |  Mm   |   ver   |   ⏮️    |   ⏭️    |   ⏯️    |         |         |         |         |
@@ -263,11 +288,6 @@ Currently unused features:
 | Case  | sl/case | PasCase |  CapW   | SN_CASE |         |         |         |         |
 | Case  | do.case | camCase | kb-case | sn_case |         |         |         |         |
 | Case  |         |         |         |         |         |         |         |         |
-|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Words |         |         |         |         |         |         |         |         |
-| Words |         |         | "LGTM"  |         |         |         |         |         |
-| Words |   GZ    |  gra@   |  zeit@  |  goog@  |         |         |         |         |
-| Words |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
 ## Options
@@ -286,9 +306,9 @@ The order of the options is also the order of the layers in the layer stack.
 |     Num      |                 |                 |               |                | TriLayer         |      500      |
 |     Num2     |                 |     HomeRow     |      Num      |                |                  |               |
 |     ANum     |                 |                 |               |                |                  |               |
+|     CNum     |                 |                 |               |                |                  |      500      |
 |      Mm      |                 |                 |               |                |                  |               |
 |     Case     |                 |                 |               |                |                  |               |
-|    Words     |                 |                 |               |                |                  |               |
 
 ## Symbols
 
@@ -302,6 +322,8 @@ The order of the options is also the order of the layers in the layer stack.
 | ⬆️⬆️    | KC_PGUP                         |
 | ➡️      | KC_RIGHT                        |
 | ➡️➡️    | KC_END                          |
+| ➖       | KC_KP_MINUS                     |
+| ➕       | KC_KP_PLUS                      |
 | ins     | KC_INS                          |
 | del     | KC_DEL                          |
 | spc     | KC_SPC                          |
@@ -331,8 +353,7 @@ The order of the options is also the order of the layers in the layer stack.
 | win ➡️  | custom:NEXT_WINDOW   NoHold     |
 | n't     | custom:N_T                      |
 | ver     | custom:PRINT_VERSION            |
-| CapsL   | KC_CAPS                         |
-| CapW    | custom:CAPS_WORDS               |
+| CapW    | custom:CAPS_WORDS                |
 | sn_case | custom:SNAKE_CASE               |
 | SN_CASE | custom:SCREAMING_SNAKE_CASE     |
 | camCase | custom:CAMEL_CASE               |
