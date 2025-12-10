@@ -184,12 +184,12 @@ Currently unused features:
 | FnSym |         |    &    |         |         |         |         |    #    |         |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| FnSym |         |         |         |         |         |         |         |    ^    |
+| FnSym |  "😀"   |         |         |         |         |         |         |    ^    |
 | FnSym |   💎    |         |         |         |         |         |         |   💎    |
 | FnSym |    $    |         |         |         |         |         |         |    %    |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav  |         |   C-x   |   C-v   |  CS-z   |  dead1  |   esc   |   ins   |  dead2  |
+|  Nav  |  dead3  |   C-x   |   C-v   |  CS-z   |  dead1  |   esc   |   ins   |  dead2  |
 |  Nav  |  copy   |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬇️    |   ⬆️    |   ➡️    |
 |  Nav  |   C-z   |   C-w   | tab ➡️  | win ➡️  |   ↩️️   |  bspc   |   del   |   tab   |
 |  Nav  |         |         |   🛑    |   🛑    |   spc   |         |         |         |
@@ -209,7 +209,7 @@ Currently unused features:
 |  Nav  |         |   C-k   |         |         |         |         |  ⬆️⬆️   |         |
 |  Nav  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav  |         |         |         |         |         |         |         |    ß    |
+|  Nav  |  CS-e   |         |         |         |         |         |         |    ß    |
 |  Nav  |   💎    |         |         |         |         |         |         |   💎    |
 |  Nav  |   C-e   |         |         |         |         |         |         |  ➡️➡️   |
 |  Nav  |         |         |         |         |         |         |         |         |
@@ -307,16 +307,16 @@ The order of the options is also the order of the layers in the layer stack.
 | LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags            | Combo Timeout |
 |:------------:|:---------------:|:---------------:|:-------------:|:--------------:|------------------|:-------------:|
 |     Base     |                 |                 |               |                |                  |      200      |
-|     Left     |                 | BottomRow+LMods |     Base      |                | Shifted          |      500      |
-|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted          |      500      |
+|     Left     |                 | BottomRow+LMods |     Base      |                | Shifted          |      200      |
+|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted          |      200      |
 |    LMods     |                 | BottomRow+LMods |     Base      |                |                  |               |
 |    RMods     | BottomRow+RMods |                 |               |      Base      |                  |               |
-|     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |      500      |
-|    FnSym     |                 |     HomeRow     |               |                | DirectComboRight |      500      |
-|     Num      |                 |                 |               |                | TriLayer         |      500      |
+|     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |      200      |
+|    FnSym     |                 |     HomeRow     |               |                | DirectComboRight |      200      |
+|     Num      |                 |                 |               |                | TriLayer         |      200      |
 |     Num2     |                 |     HomeRow     |      Num      |                |                  |               |
 |     ANum     |                 |                 |               |                |                  |               |
-|     CNum     |                 |                 |               |                |                  |      500      |
+|     CNum     |                 |                 |               |                |                  |      200      |
 |      Mm      |                 |                 |               |                |                  |               |
 |     Case     |                 |                 |               |                |                  |               |
 
