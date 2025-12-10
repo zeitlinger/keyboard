@@ -23,6 +23,7 @@ const uint32_t PROGMEM unicode_map[] = {
     [UMLAUT_u]  = 0x00FC, // ü
     [UMLAUT_U]  = 0x00DC, // Ü
     [UMLAUT_s]  = 0x00DF // ß
+    [SMILEY]    = 0x1F600 // 😀
 };
 
 #include "layout.h"

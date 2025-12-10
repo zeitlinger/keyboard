@@ -43,6 +43,7 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_FNSYM_KC_TILD: return 200;
     case C_FNSYM_LT_NUM2KC_EQUAL: return 200;
     case C_FNSYM_MO_NUM: return 200;
+    case C_FNSYM_UMSMILEY: return 200;
     case C_NAV_AKC_F12: return 200;
     case C_NAV_CKC_A: return 200;
     case C_NAV_CKC_B: return 200;

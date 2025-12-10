@@ -184,7 +184,7 @@ Currently unused features:
 | FnSym |         |    &    |         |         |         |         |    #    |         |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| FnSym |  "😀"   |         |         |         |         |         |         |    ^    |
+| FnSym |   😀    |         |         |         |         |         |         |    ^    |
 | FnSym |   💎    |         |         |         |         |         |         |   💎    |
 | FnSym |    $    |         |         |         |         |         |         |    %    |
 | FnSym |         |         |         |         |         |         |         |         |
@@ -357,6 +357,7 @@ The order of the options is also the order of the layers in the layer stack.
 | ö       | UP(UMLAUT_o, UMLAUT_O)          |
 | ü       | UP(UMLAUT_u, UMLAUT_U)          |
 | ß       | UM(UMLAUT_s)                    |
+| 😀      | UM(SMILEY)                      |
 | repeat  | QK_REPEAT_KEY                   |
 | altRep  | QK_ALT_REPEAT_KEY               |
 | tab ➡️  | custom:NEXT_TAB      NoHold     |
