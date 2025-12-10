@@ -83,7 +83,7 @@ fun generateAllCombos(layers: List<Layer>, translator: QmkTranslator): List<Comb
             val text = missing.joinToString("\n") {
                 goodValues[goodTriggers.indexOf(it)]
             }
-            println("missing combos in layer $layerName:\n$text")
+            println("could add good combos in layer $layerName:\n$text")
         }
     }
 

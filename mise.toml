@@ -1,8 +1,14 @@
 [tools]
+java = "latest"
+maven = "latest"
 python = "3"
 uv = "latest"
 
+[tasks.generate]
+description = "Generate the keyboard files"
+run = "mvn compile exec:java"
+
 [tasks.flash]
 description = "Flash the keyboard"
-alias = "f"
+depends = "generate"
 run = "uv run qmk flash -kb ferris/sweep -km zeitlinger -bl avrdude-split-left"
