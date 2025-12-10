@@ -14,12 +14,13 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_BASE_KC_G: return 200;
     case C_BASE_KC_J: return 200;
     case C_BASE_KC_K: return 200;
+    case C_BASE_KC_M: return 200;
+    case C_BASE_KC_P: return 200;
     case C_BASE_KC_Q: return 200;
-    case C_BASE_KC_QUOTE: return 200;
     case C_BASE_KC_V: return 200;
-    case C_BASE_KC_W: return 200;
-    case C_BASE_KC_X: return 200;
     case C_BASE_KC_Z: return 200;
+    case C_BASE_QK_ALT_REPEAT_KEY: return 200;
+    case C_BASE_QK_REPEAT_KEY: return 200;
     case C_FNSYM_KC_AMPR: return 500;
     case C_FNSYM_KC_ASTR: return 500;
     case C_FNSYM_KC_CIRC: return 500;
@@ -44,6 +45,7 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_FNSYM_MO_NUM: return 500;
     case C_NAV_AKC_F12: return 500;
     case C_NAV_CKC_A: return 500;
+    case C_NAV_CKC_B: return 500;
     case C_NAV_CKC_C: return 500;
     case C_NAV_CKC_D: return 500;
     case C_NAV_CKC_E: return 500;
@@ -87,28 +89,27 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case DS_C_BASE_KC_G: return 500;
     case DS_C_BASE_KC_J: return 500;
     case DS_C_BASE_KC_K: return 500;
+    case DS_C_BASE_KC_M: return 500;
+    case DS_C_BASE_KC_P: return 500;
     case DS_C_BASE_KC_Q: return 500;
     case DS_C_BASE_KC_V: return 500;
-    case DS_C_BASE_KC_W: return 500;
-    case DS_C_BASE_KC_X: return 500;
     case DS_C_BASE_KC_Z: return 500;
     case SUB_1: return 200;
     case SUB_2: return 200;
     case SUB_3: return 200;
-    case SUB_4: return 200;
+    case SUB_4: return 500;
     case SUB_5: return 500;
     case SUB_6: return 500;
     case SUB_7: return 500;
     case SUB_8: return 500;
-    case SUB_9: return 500;
     case S_C_BASE_KC_B: return 500;
     case S_C_BASE_KC_G: return 500;
     case S_C_BASE_KC_J: return 500;
     case S_C_BASE_KC_K: return 500;
+    case S_C_BASE_KC_M: return 500;
+    case S_C_BASE_KC_P: return 500;
     case S_C_BASE_KC_Q: return 500;
     case S_C_BASE_KC_V: return 500;
-    case S_C_BASE_KC_W: return 500;
-    case S_C_BASE_KC_X: return 500;
     case S_C_BASE_KC_Z: return 500;
     default:
         return COMBO_TERM;
@@ -202,6 +203,8 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             switch (keycode) {
+            case _HANDLER_ST_BASE_0_6: SEND_STRING("ng"); return false;
+            case _HANDLER_ST_RMODS_0_6: SEND_STRING("ng"); return false;
             case _HANDLER_ALT_KC_H: SEND_STRING("ey"); return false;
             case _HANDLER_ALT_KC_Q: SEND_STRING("ua"); return false;
             case _HANDLER_ALT_KC_T: SEND_STRING("ion"); return false;
