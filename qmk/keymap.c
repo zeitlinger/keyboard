@@ -12,7 +12,8 @@ enum unicode_names {
     UMLAUT_o,
     UMLAUT_U,
     UMLAUT_u,
-    UMLAUT_s
+    UMLAUT_s,
+    SMILEY
 };
 
 const uint32_t PROGMEM unicode_map[] = {
