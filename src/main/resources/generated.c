@@ -47,7 +47,7 @@ ${customKeycodesOnTapPress}
         if (record->event.pressed) {
             if (get_repeat_key_count() > 1) {
                 switch (keycode) {
-${repeat2}
+${repeatContinueA}
                 }
             }
             if (get_repeat_key_count() > 0) {
@@ -76,7 +76,7 @@ ${holdOnOtherKeyPress}
 
 uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
     switch (keycode) {
-${altRepeat}
+${repeatB}
     }
 
     return KC_TRNS;

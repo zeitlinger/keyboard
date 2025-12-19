@@ -138,11 +138,11 @@ fun run(args: GeneratorArgs) {
             "customKeycodesOnTapPress" to customKeycodes(translator, CustomCommandType.OnTap),
             "customKeycodesOnPress" to customKeycodes(translator, CustomCommandType.OnPress),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
-            "altRepeat" to translator.altRepeat.entries.sortedBy { it.key.key }.map {
+            "repeatB" to translator.repeatB.entries.sortedBy { it.key.key }.map {
                 "case ${it.key}: return ${it.value};"
             }.indented(8),
-            "repeat" to repeatBlock(translator.repeat),
-            "repeat2" to repeatBlock(translator.repeat2),
+            "repeatA" to repeatBlock(translator.repeatA),
+            "repeatContinueA" to repeatBlock(translator.repeatContinueA),
             "oneShotOnUpLayerPressed" to translator.oneShotOnUpLayer.sortedBy { it.up.const() }
                 .map {
                     "case ${it.activation.key.key}: alternateLayer = ${it.up.const()}; break;"
@@ -202,24 +202,30 @@ private fun getComboLines(combos: List<Combo>) = combos.map { combo ->
 
 private fun addRepeat(translator: QmkTranslator, row: List<String>, pos: KeyPosition) {
     val base = translator.toQmk(row[0], pos)
-    val alt = row[1]
-    if (alt.isNotBlank()) {
+    val repeatA = row[0]
+    val repeatContinueA = row[1]
+    val repeatB = row[2]
+    val repeatContinueB = row[3]
+    val repeatC = row[4]
+    val repeatContinueC = row[5]
+
+    if (repeatB.isNotBlank()) {
         val command = when {
-            alt.length == 1 -> translator.toQmk(alt, pos).key
-            isWord(alt) -> customCommand(
+            repeatB.length == 1 -> translator.toQmk(repeatB, pos).key
+            isWord(repeatB) -> customCommand(
                 translator,
                 QmkKey.of("${"ALT"}_${base}"),
                 CustomCommandType.OnPress,
-                listOf(sendString(alt)),
+                listOf(sendString(repeatB)),
                 base
             ).key
 
-            else -> throw IllegalArgumentException("unknown command '${alt}' in $pos")
+            else -> throw IllegalArgumentException("unknown command '$repeatB' in $pos")
         }
-        addRepeat(translator.altRepeat, base, command)
+        addRepeat(translator.repeatB, base, command)
     }
-    addRepeatCommand(row[2], translator, pos, translator.repeat, base)
-    addRepeatCommand(row[3], translator, pos, translator.repeat2, base)
+    addRepeatCommand(repeatA, translator, pos, translator.repeatA, base)
+    addRepeatCommand(repeatContinueA, translator, pos, translator.repeatContinueA, base)
 }
 
 private fun addRepeatCommand(
