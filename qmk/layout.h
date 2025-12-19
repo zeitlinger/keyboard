@@ -46,23 +46,7 @@ enum custom_keycodes {
     _LMODS_A,
     _RMODS_A,
     _RMODS_C,
-    _RMODS_S,
-    ALT_KC_B,
-    ALT_KC_D,
-    ALT_KC_F,
-    ALT_KC_H,
-    ALT_KC_J,
-    ALT_KC_K,
-    ALT_KC_M,
-    ALT_KC_Q,
-    ALT_KC_T,
-    ALT_KC_V,
-    ALT_KC_Z,
-    ALT_KC_SPC,
-    ALT_KC_TAB,
-    ALT_KC_ENT,
-    ALT_KC_COMMA,
-    ALT_KC_DOT
+    _RMODS_S
 };
 
 #define _HANDLER_ALTREP_A ALTREP_A
@@ -89,22 +73,6 @@ enum custom_keycodes {
 #define _HANDLER__RMODS_A _RMODS_A
 #define _HANDLER__RMODS_C _RMODS_C
 #define _HANDLER__RMODS_S _RMODS_S
-#define _HANDLER_ALT_KC_B ALT_KC_B
-#define _HANDLER_ALT_KC_D ALT_KC_D
-#define _HANDLER_ALT_KC_F ALT_KC_F
-#define _HANDLER_ALT_KC_H ALT_KC_H
-#define _HANDLER_ALT_KC_J ALT_KC_J
-#define _HANDLER_ALT_KC_K ALT_KC_K
-#define _HANDLER_ALT_KC_M ALT_KC_M
-#define _HANDLER_ALT_KC_Q ALT_KC_Q
-#define _HANDLER_ALT_KC_T ALT_KC_T
-#define _HANDLER_ALT_KC_V ALT_KC_V
-#define _HANDLER_ALT_KC_Z ALT_KC_Z
-#define _HANDLER_ALT_KC_SPC ALT_KC_SPC
-#define _HANDLER_ALT_KC_TAB ALT_KC_TAB
-#define _HANDLER_ALT_KC_ENT ALT_KC_ENT
-#define _HANDLER_ALT_KC_COMMA ALT_KC_COMMA
-#define _HANDLER_ALT_KC_DOT ALT_KC_DOT
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_BASE] = LAYOUT_split_3x5_2(

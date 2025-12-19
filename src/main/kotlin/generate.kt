@@ -232,19 +232,13 @@ private fun addRepeatEntry(
     pos: KeyPosition,
     map: MutableMap<QmkKey, String>,
     base: QmkKey,
-    def: String,
+    repeat: String,
 ) {
     val command = when {
-        def.length == 1 -> translator.toQmk(def, pos).key
-        isWord(def) -> customCommand(
-            translator,
-            QmkKey.of("${"ALT"}_${base}"),
-            CustomCommandType.OnPress,
-            listOf(sendString(def)),
-            base
-        ).key
+        repeat.length == 1 -> tap(translator.toQmk(repeat, pos)) + "; return false;"
+        isWord(repeat) -> sendString(repeat) + "; return false;"
 
-        else -> throw IllegalArgumentException("unknown command '$def' in $pos")
+        else -> throw IllegalArgumentException("unknown command '${repeat}' in $pos")
     }
 
     map[base] = command
