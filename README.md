@@ -362,8 +362,9 @@ The order of the options is also the order of the layers in the layer stack.
 | ü       | UP(UMLAUT_u, UMLAUT_U)          |
 | ß       | UM(UMLAUT_s)                    |
 | 😀      | UM(SMILEY)                      |
-| repeatA | QK_REPEAT_KEY                   |
-| repeatB | QK_ALT_REPEAT_KEY               |
+| repeatA | custom:ALTREP_A                 |
+| repeatB | custom:ALTREP_B                 |
+| repeatC | custom:ALTREP_C                 |
 | tab ➡️  | custom:NEXT_TAB      NoHold     |
 | win ➡️  | custom:NEXT_WINDOW   NoHold     |
 | n't     | custom:N_T                      |
