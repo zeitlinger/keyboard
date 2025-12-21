@@ -66,24 +66,24 @@ Currently unused features:
 | Magic |   Magic A   | Magic A (2) | Magic B  | Magic B (2) | Magic C | Magic C (2) |
 |:-----:|:-----------:|:-----------:|:--------:|:-----------:|:-------:|:-----------:|
 |   a   |             |             |          |             |    u    |             |
-|   b   |      l      |             | "ecause" |             |         |             |
-|   c   |      k      |             |    p     |             |         |             |
+|   b   |      l      |             | "ecause" |             |    l    |             |
+|   c   |      k      |             |    p     |             |    k    |             |
 |   d   |      v      |             |  "oes"   |    "n't"    | "on't"  |             |
-|   e   |      o      |             |          |             |         |             |
+|   e   |      o      |             |          |             |    o    |             |
 |   f   |      f      |             |   "or"   |             |         |             |
 |   g   |      n      |             |    k     |             |    l    |      o      |
 |   h   |      y      |             |   "ey"   |             |         |             |
 |   i   |      '      |             |          |             |         |             |
 |   j   |   "just"    |             |          |             |         |             |
-|   k   |      n      |             |  "now"   |             |         |             |
+|   k   |      n      |             |  "now"   |             |    n    |             |
 |   l   |      p      |             |    m     |             |    v    |             |
-|   m   |      b      |             |  "ent"   |             |         |             |
+|   m   |      b      |             |  "ent"   |             |    b    |             |
 |   n   |      g      |             |    k     |             |  "ly"   |             |
 |   o   |      e      |             |          |             |         |             |
-|   p   |      l      |             |    s     |             |         |             |
+|   p   |      l      |             |    s     |             |    l    |             |
 |   q   |    "ua"     |             |          |             |         |             |
 |   r   |      k      |             |          |             |         |             |
-|   s   |      p      |             |    s     |             |         |             |
+|   s   |      p      |             |    s     |             |    p    |             |
 |   t   |    "ion"    |             |  "ing"   |             |         |             |
 |   u   |      a      |             |          |             |         |             |
 |   v   |    "er"     |             |   "en"   |             |         |             |
