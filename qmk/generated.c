@@ -274,16 +274,30 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 } else {
                     switch (get_last_keycode()) {
                         case KC_A: tap_code16(KC_U); return false;
+                        case KC_B: tap_code16(KC_L); return false;
+                        case KC_C: tap_code16(KC_K); return false;
                         case KC_D: SEND_STRING("on't"); return false;
+                        case KC_E: tap_code16(KC_O); return false;
                         case KC_G: tap_code16(KC_L); return false;
+                        case KC_K: tap_code16(KC_N); return false;
                         case KC_L: tap_code16(KC_V); return false;
+                        case KC_M: tap_code16(KC_B); return false;
                         case KC_N: SEND_STRING("ly"); return false;
+                        case KC_P: tap_code16(KC_L); return false;
+                        case KC_S: tap_code16(KC_P); return false;
                         case KC_SPC: tap_code16(KC_BSPC); SEND_STRING(". "); add_oneshot_mods(MOD_BIT(KC_LSFT)); return false;
                         case S(KC_A): tap_code16(KC_U); return false;
+                        case S(KC_B): tap_code16(KC_L); return false;
+                        case S(KC_C): tap_code16(KC_K); return false;
                         case S(KC_D): SEND_STRING("on't"); return false;
+                        case S(KC_E): tap_code16(KC_O); return false;
                         case S(KC_G): tap_code16(KC_L); return false;
+                        case S(KC_K): tap_code16(KC_N); return false;
                         case S(KC_L): tap_code16(KC_V); return false;
+                        case S(KC_M): tap_code16(KC_B); return false;
                         case S(KC_N): SEND_STRING("ly"); return false;
+                        case S(KC_P): tap_code16(KC_L); return false;
+                        case S(KC_S): tap_code16(KC_P); return false;
                     }
                 }    
                 return false;
