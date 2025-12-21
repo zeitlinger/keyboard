@@ -8,8 +8,6 @@ int layer = _BASE;
 
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     switch(index) {
-    case C_BASE_ALTREP_A: return 200;
-    case C_BASE_ALTREP_B: return 200;
     case C_BASE_KC_B: return 200;
     case C_BASE_KC_COMMA: return 200;
     case C_BASE_KC_DOT: return 200;
@@ -21,6 +19,8 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_BASE_KC_Q: return 200;
     case C_BASE_KC_V: return 200;
     case C_BASE_KC_Z: return 200;
+    case C_BASE_MAGIC_A: return 200;
+    case C_BASE_MAGIC_B: return 200;
     case C_FNSYM_KC_AMPR: return 200;
     case C_FNSYM_KC_ASTR: return 200;
     case C_FNSYM_KC_CIRC: return 200;
@@ -150,7 +150,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
     } else {
         if (record->event.pressed) {
             switch (keycode) {
-            case ALTREP_A:
+            case MAGIC_A:
                 if (get_repeat_key_count() > 1) {
                     switch (get_last_keycode()) {
                         case KC_D: SEND_STRING("n't"); return false;
@@ -206,7 +206,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     }
                 }    
                 return false;
-            case ALTREP_B:
+            case MAGIC_B:
                 if (get_repeat_key_count() > 1) {
                     switch (get_last_keycode()) {
                         case KC_B: tap_code16(KC_I); return false;
@@ -274,7 +274,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     }
                 }    
                 return false;
-            case ALTREP_C:
+            case MAGIC_C:
                 if (get_repeat_key_count() > 1) {
                     switch (get_last_keycode()) {
             
@@ -303,20 +303,12 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
-uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
-    switch (keycode) {
-${repeatB}
-    }
-
-    return KC_TRNS;
-}
-
 bool remember_last_key_user(uint16_t keycode, keyrecord_t* record,
                             uint8_t* remembered_mods) {
     switch (keycode) {
-        case ALTREP_A:
-        case ALTREP_B:
-        case ALTREP_C:
+        case MAGIC_A:
+        case MAGIC_B:
+        case MAGIC_C:
             return false;
     }
 

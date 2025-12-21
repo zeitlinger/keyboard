@@ -29,7 +29,7 @@ data class OneShotOnUpLayer(
     val activation: Key,
 )
 
-data class RepeatInfo(
+data class MagicInfo(
     val trigger: QmkKey,
     val firstPress: MutableMap<QmkKey, String>,
     val secondPress: MutableMap<QmkKey, String>,
@@ -53,7 +53,7 @@ class QmkTranslator(
     val ignoreUnexpected: MutableList<String>,
     val gotKeys: MutableMap<String, MutableList<String>>,
     val noHoldKeys: List<QmkKey>,
-    val repeat: List<RepeatInfo>,
+    val magic: List<MagicInfo>,
     val oneShotOnUpLayer: MutableList<OneShotOnUpLayer>,
     val originalKeys: MutableMap<KeyPosition, QmkKey>,
 ) {

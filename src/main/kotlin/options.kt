@@ -24,7 +24,7 @@ fun qmkTranslator(tables: Tables): QmkTranslator {
         mutableListOf(),
         mutableMapOf(),
         noHoldKeys,
-        listOf(RepeatInfo("ALTREP_A"), RepeatInfo("ALTREP_B"), RepeatInfo("ALTREP_C")),
+        listOf(MagicInfo("MAGIC_A"), MagicInfo("MAGIC_B"), MagicInfo("MAGIC_C")),
         mutableListOf(),
         mutableMapOf(),
     )

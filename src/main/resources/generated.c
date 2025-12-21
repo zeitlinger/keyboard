@@ -46,7 +46,7 @@ ${customKeycodesOnTapPress}
     } else {
         if (record->event.pressed) {
             switch (keycode) {
-${repeat}
+${magic}
 ${customKeycodesOnPress}
             default:
                 break;
@@ -65,20 +65,12 @@ ${holdOnOtherKeyPress}
     }
 }
 
-uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
-    switch (keycode) {
-${repeatB}
-    }
-
-    return KC_TRNS;
-}
-
 bool remember_last_key_user(uint16_t keycode, keyrecord_t* record,
                             uint8_t* remembered_mods) {
     switch (keycode) {
-        case ALTREP_A:
-        case ALTREP_B:
-        case ALTREP_C:
+        case MAGIC_A:
+        case MAGIC_B:
+        case MAGIC_C:
             return false;
     }
 

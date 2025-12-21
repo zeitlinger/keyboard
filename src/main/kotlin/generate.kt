@@ -83,10 +83,10 @@ fun run(args: GeneratorArgs) {
         "case ${it.name}: return ${it.timeout};"
     }.sorted()
 
-    tables.getOptional("Repeat")?.let {
+    tables.getOptional("Magic")?.let {
         it.forEachIndexed { index, row ->
-            val pos = KeyPosition(0, index, 0, "alt repeat", 0)
-            addRepeat(translator, row, pos)
+            val pos = KeyPosition(0, index, 0, "alt magic", 0)
+            addMagic(translator, row, pos)
         }
     }
 
@@ -138,7 +138,7 @@ fun run(args: GeneratorArgs) {
             "customKeycodesOnTapPress" to customKeycodes(translator, CustomCommandType.OnTap),
             "customKeycodesOnPress" to customKeycodes(translator, CustomCommandType.OnPress),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
-            "repeat" to translator.repeat.map { repeatBlock(it) }.indented(12),
+            "magic" to translator.magic.map { magicBlock(it) }.indented(12),
             "oneShotOnUpLayerPressed" to translator.oneShotOnUpLayer.sortedBy { it.up.const() }
                 .map {
                     "case ${it.activation.key.key}: alternateLayer = ${it.up.const()}; break;"
@@ -157,23 +157,23 @@ fun run(args: GeneratorArgs) {
     File(dstDir, "combos.def").writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
 }
 
-private fun repeatBlock(repeat: RepeatInfo): String {
+private fun magicBlock(magic: MagicInfo): String {
     return """
-    case ${repeat.trigger.key}:
+    case ${magic.trigger.key}:
         if (get_repeat_key_count() > 1) {
             switch (get_last_keycode()) {
-${repeatSwitch(repeat.secondPress)}
+${magicSwitch(magic.secondPress)}
             }
         } else {
             switch (get_last_keycode()) {
-${repeatSwitch(repeat.firstPress)}
+${magicSwitch(magic.firstPress)}
             }
         }    
         return false;
     """.trimIndent()
 }
 
-private fun repeatSwitch(secondPress: MutableMap<QmkKey, String>): String =
+private fun magicSwitch(secondPress: MutableMap<QmkKey, String>): String =
     secondPress.entries.sortedBy { it.key.key }.map {
         "case ${it.key}: ${it.value}"
     }.indented(16)
@@ -211,7 +211,7 @@ private fun getComboLines(combos: List<Combo>) = combos.map { combo ->
     )
 }.sorted()
 
-private fun addRepeat(translator: QmkTranslator, row: List<String>, pos: KeyPosition) {
+private fun addMagic(translator: QmkTranslator, row: List<String>, pos: KeyPosition) {
     val base = translator.toQmk(row[0], pos)
 
     row.drop(1).chunked(2).forEachIndexed { index, def ->
@@ -219,26 +219,26 @@ private fun addRepeat(translator: QmkTranslator, row: List<String>, pos: KeyPosi
         val secondPress = def.getOrNull(1) ?: ""
 
         if (firstPress.isNotBlank()) {
-            addRepeatEntry(translator, pos, translator.repeat[index].firstPress, base, firstPress)
+            addMagicEntry(translator, pos, translator.magic[index].firstPress, base, firstPress)
             if (secondPress.isNotBlank()) {
-                addRepeatEntry(translator, pos, translator.repeat[index].secondPress, base, secondPress)
+                addMagicEntry(translator, pos, translator.magic[index].secondPress, base, secondPress)
             }
         }
     }
 }
 
-private fun addRepeatEntry(
+private fun addMagicEntry(
     translator: QmkTranslator,
     pos: KeyPosition,
     map: MutableMap<QmkKey, String>,
     base: QmkKey,
-    repeat: String,
+    magic: String,
 ) {
     val command = when {
-        repeat.length == 1 -> tap(translator.toQmk(repeat, pos)) + "; return false;"
-        isWord(repeat) -> sendString(repeat) + "; return false;"
+        magic.length == 1 -> tap(translator.toQmk(magic, pos)) + "; return false;"
+        isWord(magic) -> sendString(magic) + "; return false;"
 
-        else -> throw IllegalArgumentException("unknown command '${repeat}' in $pos")
+        else -> throw IllegalArgumentException("unknown command '${magic}' in $pos")
     }
 
     map[base] = command

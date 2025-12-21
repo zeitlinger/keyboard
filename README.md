@@ -59,51 +59,51 @@ Currently unused features:
 
 > **Note**: The layout is generated from this file directly.
   
-- Repeat A = Repeat Key A
-- Repeat A (2) = 2nd press of Repeat Key A
+- Magic A = Magic Key A
+- Magic A (2) = 2nd press of Magic Key A
 -  
 
-| Repeat | Repeat A | Repeat A (2) |  Repeat B   | Repeat B | Repeat C | Repeat C (2) |
-|:------:|:--------:|:------------:|:-----------:|:--------:|----------|--------------|
-|   a    |          |              |      u      |          |          |              |
-|   b    | "ecause" |              |      l      |    i     |          |              |
-|   c    |    p     |              |      k      |          |          |              |
-|   d    |  "oes"   |    "n't"     |      v      |          |          |              |
-|   e    |          |              |      o      |          |          |              |
-|   f    |   "or"   |              |      f      |          |          |              |
-|   g    |    l     |      o       |      n      |          |          |              |
-|   h    |    y     |              |    "ey"     |          |          |              |
-|   i    |          |              |             |          |          |              |
-|   j    |  "ust"   |              |             |          |          |              |
-|   k    |  "now"   |              |      n      |          |          |              |
-|   l    |    m     |              |      p      |          |          |              |
-|   m    |  "ent"   |              |      b      |          |          |              |
-|   n    |    k     |              |      g      |          |          |              |
-|   o    |          |              |      e      |          |          |              |
-|   p    |    s     |              |      l      |    i     |          |              |
-|   q    |          |              |    "ua"     |          |          |              |
-|   r    |          |              |      k      |          |          |              |
-|   s    |    s     |              |      p      |          |          |              |
-|   t    |  "ing"   |              |    "ion"    |          |          |              |
-|   u    |          |              |      a      |          |          |              |
-|   v    |   "en"   |              |    "er"     |          |          |              |
-|   w    |    s     |              |      n      |          |          |              |
-|   x    |    c     |              |      p      |          |          |              |
-|   y    |    i     |              |             |          |          |              |
-|   z    |    i     |              | "eitlinger" |          |          |              |
-|  spc   |  "and "  |              |   "the "    |          |          |              |
-|  tab   |  "and "  |              |   "the "    |          |          |              |
-|  ↩️️   |  "and "  |              |   "the "    |          |          |              |
-|   ~    |          |              |      /      |          |          |              |
-|   ,    | " and "  |              |   " but "   |          |          |              |
-|   .    |   "./"   |              |      /      |          |          |              |
-|   -    |          |              |      >      |          |          |              |
-|   =    |          |              |      >      |          |          |              |
-|   !    |          |              |      =      |          |          |              |
+| Magic |   Magic A   | Magic A (2) | Magic B  | Magic B (2) | Magic C | Magic C (2) |
+|:-----:|:-----------:|:-----------:|:--------:|:-----------:|:-------:|-------------|
+|   a   |      u      |             |          |             |         |             |
+|   b   |      l      |             | "ecause" |             |         |             |
+|   c   |      k      |             |    p     |             |         |             |
+|   d   |      v      |             |  "oes"   |    "n't"    |         |             |
+|   e   |      o      |             |          |             |         |             |
+|   f   |      f      |             |   "or"   |             |         |             |
+|   g   |      n      |             |    l     |      o      |         |             |
+|   h   |    "ey"     |             |    y     |             |         |             |
+|   i   |             |             |          |             |         |             |
+|   j   |             |             |  "ust"   |             |         |             |
+|   k   |      n      |             |  "now"   |             |         |             |
+|   l   |      p      |             |    m     |             |         |             |
+|   m   |      b      |             |  "ent"   |             |         |             |
+|   n   |      g      |             |    k     |             |  "ly"   |             |
+|   o   |      e      |             |          |             |         |             |
+|   p   |      l      |             |    s     |             |         |             |
+|   q   |    "ua"     |             |          |             |         |             |
+|   r   |      k      |             |          |             |         |             |
+|   s   |      p      |             |    s     |             |         |             |
+|   t   |    "ion"    |             |  "ing"   |             |         |             |
+|   u   |      a      |             |          |             |         |             |
+|   v   |    "er"     |             |   "en"   |             |         |             |
+|   w   |      n      |             |    s     |             |         |             |
+|   x   |      p      |             |    c     |             |         |             |
+|   y   |             |             |    i     |             |         |             |
+|   z   | "eitlinger" |             |    i     |             |         |             |
+|  spc  |   "the "    |             |  "and "  |             |         |             |
+|  tab  |   "the "    |             |  "and "  |             |         |             |
+|  ↩️️  |   "the "    |             |  "and "  |             |         |             |
+|   ~   |      /      |             |          |             |         |             |
+|   ,   |   " but "   |             | " and "  |             |         |             |
+|   .   |      /      |             |   "./"   |             |         |             |
+|   -   |      >      |             |          |             |         |             |
+|   =   |      >      |             |          |             |         |             |
+|   !   |      =      |             |          |             |         |             |
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-| Base  |   esc   |    x    |    w    |  dead3  |  dead2  |    '    | repeatC |  dead1  |
+| Base  |   esc   |    x    |    w    |  dead3  |  dead2  |    '    | magicC  |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
 | Base  |         |         |  *Nav   |    r    |   spc   | *FnSym  |         |         |
@@ -113,12 +113,12 @@ Currently unused features:
 | Base  |         |         |         |    k    |  "ion"  |         |         |         |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Base  |         |         |    m    |         |         | repeatA |         |         |
+| Base  |         |         |    m    |         |         | magicB  |         |         |
 | Base  |         |         |   💎    |         |         |   💎    |         |         |
 | Base  |         |         |    g    |         |         |    ,    |         |         |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Base  |         |    p    |         |         |         |         | repeatB |         |
+| Base  |         |    p    |         |         |         |         | magicA  |         |
 | Base  |         |   💎    |         |         |         |         |   💎    |         |
 | Base  |         |    b    |         |         |         |         |    .    |         |
 | Base  |         |         |         |         |         |         |         |         |
@@ -362,9 +362,9 @@ The order of the options is also the order of the layers in the layer stack.
 | ü       | UP(UMLAUT_u, UMLAUT_U)          |
 | ß       | UM(UMLAUT_s)                    |
 | 😀      | UM(SMILEY)                      |
-| repeatA | custom:ALTREP_A                 |
-| repeatB | custom:ALTREP_B                 |
-| repeatC | custom:ALTREP_C                 |
+| magicA  | custom:MAGIC_A                  |
+| magicB  | custom:MAGIC_B                  |
+| magicC  | custom:MAGIC_C                  |
 | tab ➡️  | custom:NEXT_TAB      NoHold     |
 | win ➡️  | custom:NEXT_WINDOW   NoHold     |
 | n't     | custom:N_T                      |
