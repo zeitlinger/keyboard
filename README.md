@@ -64,19 +64,19 @@ Currently unused features:
 -  
 
 | Magic |   Magic A   | Magic A (2) | Magic B  | Magic B (2) | Magic C | Magic C (2) |
-|:-----:|:-----------:|:-----------:|:--------:|:-----------:|:-------:|-------------|
-|   a   |      u      |             |          |             |         |             |
+|:-----:|:-----------:|:-----------:|:--------:|:-----------:|:-------:|:-----------:|
+|   a   |             |             |          |             |    u    |             |
 |   b   |      l      |             | "ecause" |             |         |             |
 |   c   |      k      |             |    p     |             |         |             |
-|   d   |      v      |             |  "oes"   |    "n't"    |         |             |
+|   d   |      v      |             |  "oes"   |    "n't"    | "on't"  |             |
 |   e   |      o      |             |          |             |         |             |
 |   f   |      f      |             |   "or"   |             |         |             |
-|   g   |      n      |             |    l     |      o      |         |             |
-|   h   |    "ey"     |             |    y     |             |         |             |
-|   i   |             |             |          |             |         |             |
-|   j   |             |             |  "ust"   |             |         |             |
+|   g   |      n      |             |    k     |             |    l    |      o      |
+|   h   |      y      |             |   "ey"   |             |         |             |
+|   i   |      '      |             |          |             |         |             |
+|   j   |   "just"    |             |          |             |         |             |
 |   k   |      n      |             |  "now"   |             |         |             |
-|   l   |      p      |             |    m     |             |         |             |
+|   l   |      p      |             |    m     |             |    v    |             |
 |   m   |      b      |             |  "ent"   |             |         |             |
 |   n   |      g      |             |    k     |             |  "ly"   |             |
 |   o   |      e      |             |          |             |         |             |
@@ -89,9 +89,9 @@ Currently unused features:
 |   v   |    "er"     |             |   "en"   |             |         |             |
 |   w   |      n      |             |    s     |             |         |             |
 |   x   |      p      |             |    c     |             |         |             |
-|   y   |             |             |    i     |             |         |             |
-|   z   | "eitlinger" |             |    i     |             |         |             |
-|  spc  |   "the "    |             |  "and "  |             |         |             |
+|   y   |             |             |          |             |         |             |
+|   z   | "eitlinger" |             |          |             |         |             |
+|  spc  |   "the "    |             |  "and "  |             | dotSpc  |             |
 |  tab  |   "the "    |             |  "and "  |             |         |             |
 |  ↩️️  |   "the "    |             |  "and "  |             |         |             |
 |   ~   |      /      |             |          |             |         |             |
@@ -103,14 +103,14 @@ Currently unused features:
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-| Base  |   esc   |    x    |    w    |  dead3  |  dead2  |    '    | magicC  |  dead1  |
+| Base  |   esc   |    x    |    w    |  dead3  |  dead2  |    '    |  "ion"  |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
 | Base  |         |         |  *Nav   |    r    |   spc   | *FnSym  |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |         |    v    |  "ing"  |         |         |         |
 | Base  |         |         |         |   💎    |   💎    |         |         |         |
-| Base  |         |         |         |    k    |  "ion"  |         |         |         |
+| Base  |         |         |         |    k    | magicA  |         |         |         |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |    m    |         |         | magicB  |         |         |
@@ -118,7 +118,7 @@ Currently unused features:
 | Base  |         |         |    g    |         |         |    ,    |         |         |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Base  |         |    p    |         |         |         |         | magicA  |         |
+| Base  |         |    p    |         |         |         |         | magicC  |         |
 | Base  |         |   💎    |         |         |         |         |   💎    |         |
 | Base  |         |    b    |         |         |         |         |    .    |         |
 | Base  |         |         |         |         |         |         |         |         |

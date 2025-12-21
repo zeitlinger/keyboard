@@ -235,6 +235,7 @@ private fun addMagicEntry(
     magic: String,
 ) {
     val command = when {
+        magic == "dotSpc" -> "tap_code16(KC_BSPC); SEND_STRING(\". \"); add_oneshot_mods(MOD_BIT(KC_LSFT)); return false;"
         magic.length == 1 -> tap(translator.toQmk(magic, pos)) + "; return false;"
         isWord(magic) -> sendString(magic) + "; return false;"
 
