@@ -76,9 +76,9 @@ ${repeatB}
 bool remember_last_key_user(uint16_t keycode, keyrecord_t* record,
                             uint8_t* remembered_mods) {
     switch (keycode) {
-        case ALTREP1:
-        case ALTREP2:
-        case ALTREP3:
+        case ALTREP_A:
+        case ALTREP_B:
+        case ALTREP_C:
             return false;
     }
 
