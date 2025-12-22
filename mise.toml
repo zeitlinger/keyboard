@@ -11,4 +11,4 @@ run = "mvn compile exec:java"
 [tasks.flash]
 description = "Flash the keyboard"
 depends = "generate"
-run = "uv run qmk flash -kb ferris/sweep -km zeitlinger -bl avrdude-split-left"
+run = "uv run qmk flash -kb ferris/sweep -km zeitlinger -bl avrdude-split-right"
