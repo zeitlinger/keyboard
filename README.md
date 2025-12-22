@@ -74,18 +74,18 @@ Currently unused features:
 |   g   |      n      |             |    k     |             |    l    |      o      |
 |   h   |      y      |             |   "ey"   |             |         |             |
 |   i   |      '      |             |          |             |         |             |
-|   j   |   "just"    |             |          |             |         |             |
+|   j   |    "ust"    |             |          |             |         |             |
 |   k   |      n      |             |  "now"   |             |    n    |             |
 |   l   |      p      |             |    m     |             |    v    |             |
 |   m   |      b      |             |  "ent"   |             |    b    |             |
 |   n   |      g      |             |    k     |             |  "ly"   |             |
 |   o   |      e      |             |          |             |         |             |
 |   p   |      l      |             |    s     |             |    l    |             |
-|   q   |    "ua"     |             |          |             |         |             |
+|   q   |             |             |          |             |         |             |
 |   r   |      k      |             |          |             |         |             |
-|   s   |      p      |             |    s     |             |    p    |             |
-|   t   |    "ion"    |             |  "ing"   |             |         |             |
-|   u   |      a      |             |          |             |         |             |
+|   s   |      p      |             |  "ion"   |             |    p    |             |
+|   t   |    "ion"    |             |  "ing"   |             |  "ion"  |             |
+|   u   |             |             |          |             |    a    |             |
 |   v   |    "er"     |             |   "en"   |             |         |             |
 |   w   |      n      |             |    s     |             |         |             |
 |   x   |      p      |             |    c     |             |         |             |

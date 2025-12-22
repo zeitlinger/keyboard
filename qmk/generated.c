@@ -170,7 +170,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                         case KC_G: tap_code16(KC_N); return false;
                         case KC_H: tap_code16(KC_Y); return false;
                         case KC_I: tap_code16(KC_QUOTE); return false;
-                        case KC_J: SEND_STRING("just"); return false;
+                        case KC_J: SEND_STRING("ust"); return false;
                         case KC_K: tap_code16(KC_N); return false;
                         case KC_L: tap_code16(KC_P); return false;
                         case KC_M: tap_code16(KC_B); return false;
@@ -178,14 +178,12 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                         case KC_N: tap_code16(KC_G); return false;
                         case KC_O: tap_code16(KC_E); return false;
                         case KC_P: tap_code16(KC_L); return false;
-                        case KC_Q: SEND_STRING("ua"); return false;
                         case KC_R: tap_code16(KC_K); return false;
                         case KC_S: tap_code16(KC_P); return false;
                         case KC_SPC: SEND_STRING("the "); return false;
                         case KC_T: SEND_STRING("ion"); return false;
                         case KC_TAB: SEND_STRING("the "); return false;
                         case KC_TILD: tap_code16(KC_SLASH); return false;
-                        case KC_U: tap_code16(KC_A); return false;
                         case KC_V: SEND_STRING("er"); return false;
                         case KC_W: tap_code16(KC_N); return false;
                         case KC_X: tap_code16(KC_P); return false;
@@ -198,18 +196,16 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                         case S(KC_G): tap_code16(KC_N); return false;
                         case S(KC_H): tap_code16(KC_Y); return false;
                         case S(KC_I): tap_code16(KC_QUOTE); return false;
-                        case S(KC_J): SEND_STRING("just"); return false;
+                        case S(KC_J): SEND_STRING("ust"); return false;
                         case S(KC_K): tap_code16(KC_N); return false;
                         case S(KC_L): tap_code16(KC_P); return false;
                         case S(KC_M): tap_code16(KC_B); return false;
                         case S(KC_N): tap_code16(KC_G); return false;
                         case S(KC_O): tap_code16(KC_E); return false;
                         case S(KC_P): tap_code16(KC_L); return false;
-                        case S(KC_Q): SEND_STRING("ua"); return false;
                         case S(KC_R): tap_code16(KC_K); return false;
                         case S(KC_S): tap_code16(KC_P); return false;
                         case S(KC_T): SEND_STRING("ion"); return false;
-                        case S(KC_U): tap_code16(KC_A); return false;
                         case S(KC_V): SEND_STRING("er"); return false;
                         case S(KC_W): tap_code16(KC_N); return false;
                         case S(KC_X): tap_code16(KC_P); return false;
@@ -239,7 +235,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                         case KC_M: SEND_STRING("ent"); return false;
                         case KC_N: tap_code16(KC_K); return false;
                         case KC_P: tap_code16(KC_S); return false;
-                        case KC_S: tap_code16(KC_S); return false;
+                        case KC_S: SEND_STRING("ion"); return false;
                         case KC_SPC: SEND_STRING("and "); return false;
                         case KC_T: SEND_STRING("ing"); return false;
                         case KC_TAB: SEND_STRING("and "); return false;
@@ -257,7 +253,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                         case S(KC_M): SEND_STRING("ent"); return false;
                         case S(KC_N): tap_code16(KC_K); return false;
                         case S(KC_P): tap_code16(KC_S); return false;
-                        case S(KC_S): tap_code16(KC_S); return false;
+                        case S(KC_S): SEND_STRING("ion"); return false;
                         case S(KC_T): SEND_STRING("ing"); return false;
                         case S(KC_V): SEND_STRING("en"); return false;
                         case S(KC_W): tap_code16(KC_S); return false;
@@ -286,6 +282,8 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                         case KC_P: tap_code16(KC_L); return false;
                         case KC_S: tap_code16(KC_P); return false;
                         case KC_SPC: tap_code16(KC_BSPC); SEND_STRING(". "); add_oneshot_mods(MOD_BIT(KC_LSFT)); return false;
+                        case KC_T: SEND_STRING("ion"); return false;
+                        case KC_U: tap_code16(KC_A); return false;
                         case S(KC_A): tap_code16(KC_U); return false;
                         case S(KC_B): tap_code16(KC_L); return false;
                         case S(KC_C): tap_code16(KC_K); return false;
@@ -298,6 +296,8 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                         case S(KC_N): SEND_STRING("ly"); return false;
                         case S(KC_P): tap_code16(KC_L); return false;
                         case S(KC_S): tap_code16(KC_P); return false;
+                        case S(KC_T): SEND_STRING("ion"); return false;
+                        case S(KC_U): tap_code16(KC_A); return false;
                     }
                 }    
                 return false;
