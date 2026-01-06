@@ -155,7 +155,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_B: tap_code16(KC_L); return false;
                     case KC_C: tap_code16(KC_K); return false;
                     case KC_COMMA: SEND_STRING(" but "); return false;
-                    case KC_D: SEND_STRING("doesn't"); return false;
+                    case KC_D: SEND_STRING("oesn't"); return false;
                     case KC_DOT: tap_code16(KC_SLASH); return false;
                     case KC_E: tap_code16(KC_O); return false;
                     case KC_ENT: SEND_STRING("the "); return false;
@@ -185,7 +185,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_Z: SEND_STRING("eitlinger"); return false;
                     case S(KC_B): tap_code16(KC_L); return false;
                     case S(KC_C): tap_code16(KC_K); return false;
-                    case S(KC_D): SEND_STRING("doesn't"); return false;
+                    case S(KC_D): SEND_STRING("oesn't"); return false;
                     case S(KC_E): tap_code16(KC_O); return false;
                     case S(KC_F): tap_code16(KC_F); return false;
                     case S(KC_G): tap_code16(KC_N); return false;
