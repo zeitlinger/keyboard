@@ -68,7 +68,7 @@ Currently unused features:
 |   a   |             |          |    u    |
 |   b   |      l      | "ecause" |    l    |
 |   c   |      k      |    p     |    k    |
-|   d   |  "doesn't"  |  "oes"   | "on't"  |
+|   d   |  "oesn't"   |  "oes"   | "on't"  |
 |   e   |      o      |          |    o    |
 |   f   |      f      |   "or"   |         |
 |   g   |      n      |    k     |    l    |
