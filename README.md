@@ -68,12 +68,12 @@ Currently unused features:
 |   a   |             |             |          |             |    u    |             |
 |   b   |      l      |             | "ecause" |             |    l    |             |
 |   c   |      k      |             |    p     |             |    k    |             |
-|   d   |      v      |             |  "oes"   |    "n't"    | "on't"  |             |
+|   d   |  "doesn't"  |             |  "oes"   |    "n't"    | "on't"  |             |
 |   e   |      o      |             |          |             |    o    |             |
 |   f   |      f      |             |   "or"   |             |         |             |
 |   g   |      n      |             |    k     |             |    l    |      o      |
 |   h   |      y      |             |   "ey"   |             |         |             |
-|   i   |      '      |             |          |             |         |             |
+|   i   |      '      |             |  "'ll"   |             |  "'ve"  |             |
 |   j   |    "ust"    |             |          |             |         |             |
 |   k   |      n      |             |  "now"   |             |    n    |             |
 |   l   |      p      |             |    m     |             |    v    |             |
@@ -91,7 +91,7 @@ Currently unused features:
 |   x   |      p      |             |    c     |             |         |             |
 |   y   |             |             |          |             |         |             |
 |   z   | "eitlinger" |             |          |             |         |             |
-|  spc  |   "the "    |             |  "and "  |             | dotSpc  |             |
+|  spc  |   "the "    |             |  dotSpc  |             | "the "  |             |
 |  tab  |   "the "    |             |  "and "  |             |         |             |
 |  ↩️️  |   "the "    |             |  "and "  |             |         |             |
 |   ~   |      /      |             |          |             |         |             |
