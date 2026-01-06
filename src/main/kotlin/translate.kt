@@ -31,12 +31,10 @@ data class OneShotOnUpLayer(
 
 data class MagicInfo(
     val trigger: QmkKey,
-    val firstPress: MutableMap<QmkKey, String>,
-    val secondPress: MutableMap<QmkKey, String>,
+    val press: MutableMap<QmkKey, String>,
 ) {
     constructor(trigger: String) : this(
         QmkKey.of(trigger),
-        mutableMapOf(),
         mutableMapOf(),
     )
 }

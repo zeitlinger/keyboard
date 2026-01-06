@@ -63,43 +63,43 @@ Currently unused features:
 - Magic A (2) = 2nd press of Magic Key A
 -  
 
-| Magic |   Magic A   | Magic A (2) | Magic B  | Magic B (2) | Magic C | Magic C (2) |
-|:-----:|:-----------:|:-----------:|:--------:|:-----------:|:-------:|:-----------:|
-|   a   |             |             |          |             |    u    |             |
-|   b   |      l      |             | "ecause" |             |    l    |             |
-|   c   |      k      |             |    p     |             |    k    |             |
-|   d   |  "doesn't"  |             |  "oes"   |    "n't"    | "on't"  |             |
-|   e   |      o      |             |          |             |    o    |             |
-|   f   |      f      |             |   "or"   |             |         |             |
-|   g   |      n      |             |    k     |             |    l    |      o      |
-|   h   |      y      |             |   "ey"   |             |         |             |
-|   i   |      '      |             |  "'ll"   |             |  "'ve"  |             |
-|   j   |    "ust"    |             |          |             |         |             |
-|   k   |      n      |             |  "now"   |             |    n    |             |
-|   l   |      p      |             |    m     |             |    v    |             |
-|   m   |      b      |             |  "ent"   |             |    b    |             |
-|   n   |      g      |             |    k     |             |  "ly"   |             |
-|   o   |      e      |             |          |             |         |             |
-|   p   |      l      |             |    s     |             |    l    |             |
-|   q   |             |             |          |             |         |             |
-|   r   |      k      |             |          |             |         |             |
-|   s   |      p      |             |  "ion"   |             |    p    |             |
-|   t   |    "ion"    |             |  "ing"   |             |  "ion"  |             |
-|   u   |             |             |          |             |    a    |             |
-|   v   |    "er"     |             |   "en"   |             |         |             |
-|   w   |      n      |             |    s     |             |         |             |
-|   x   |      p      |             |    c     |             |         |             |
-|   y   |             |             |          |             |         |             |
-|   z   | "eitlinger" |             |          |             |         |             |
-|  spc  |   "the "    |             |  dotSpc  |             | "the "  |             |
-|  tab  |   "the "    |             |  "and "  |             |         |             |
-|  ↩️️  |   "the "    |             |  "and "  |             |         |             |
-|   ~   |      /      |             |          |             |         |             |
-|   ,   |   " but "   |             | " and "  |             |         |             |
-|   .   |      /      |             |   "./"   |             |         |             |
-|   -   |      >      |             |          |             |         |             |
-|   =   |      >      |             |          |             |         |             |
-|   !   |      =      |             |          |             |         |             |
+| Magic |   Magic A   | Magic B  | Magic C |
+|:-----:|:-----------:|:--------:|:-------:|
+|   a   |             |          |    u    |
+|   b   |      l      | "ecause" |    l    |
+|   c   |      k      |    p     |    k    |
+|   d   |  "doesn't"  |  "oes"   | "on't"  |
+|   e   |      o      |          |    o    |
+|   f   |      f      |   "or"   |         |
+|   g   |      n      |    k     |    l    |
+|   h   |      y      |   "ey"   |         |
+|   i   |      '      |  "'ve"   |         |
+|   j   |    "ust"    |          |         |
+|   k   |      n      |  "now"   |    n    |
+|   l   |      p      |    m     |    v    |
+|   m   |      b      |  "ent"   |    b    |
+|   n   |      g      |    k     |  "ly"   |
+|   o   |      e      |          |         |
+|   p   |      l      |    s     |    l    |
+|   q   |             |          |         |
+|   r   |      k      |          |         |
+|   s   |      p      |  "ion"   |    p    |
+|   t   |    "ion"    |  "ing"   |  "ion"  |
+|   u   |             |          |    a    |
+|   v   |    "er"     |   "en"   |         |
+|   w   |      n      |    s     |         |
+|   x   |      p      |    c     |         |
+|   y   |             |          |         |
+|   z   | "eitlinger" |          |         |
+|  spc  |   "the "    |  dotSpc  | "the "  |
+|  tab  |   "the "    |  "and "  |         |
+|  ↩️️  |   "the "    |  "and "  |         |
+|   ~   |      /      |          |         |
+|   ,   |   " but "   | " and "  |         |
+|   .   |      /      |   "./"   |         |
+|   -   |      >      |          |         |
+|   =   |      >      |          |         |
+|   !   |      =      |          |         |
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|

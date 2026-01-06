@@ -85,7 +85,7 @@ fun run(args: GeneratorArgs) {
 
     tables.getOptional("Magic")?.let {
         it.forEachIndexed { index, row ->
-            val pos = KeyPosition(0, index, 0, "alt magic", 0)
+            val pos = KeyPosition(0, index, 0, "magic", 0)
             addMagic(translator, row, pos)
         }
     }
@@ -160,23 +160,17 @@ fun run(args: GeneratorArgs) {
 private fun magicBlock(magic: MagicInfo): String {
     return """
     case ${magic.trigger.key}:
-        if (get_repeat_key_count() > 1) {
-            switch (get_last_keycode()) {
-${magicSwitch(magic.secondPress)}
-            }
-        } else {
-            switch (get_last_keycode()) {
-${magicSwitch(magic.firstPress)}
-            }
-        }    
+        switch (get_last_keycode()) {
+${magicSwitch(magic.press)}
+        }
         return false;
     """.trimIndent()
 }
 
-private fun magicSwitch(secondPress: MutableMap<QmkKey, String>): String =
-    secondPress.entries.sortedBy { it.key.key }.map {
+private fun magicSwitch(map: MutableMap<QmkKey, String>): String =
+    map.entries.sortedBy { it.key.key }.map {
         "case ${it.key}: ${it.value}"
-    }.indented(16)
+    }.indented(12)
 
 fun addSendString(layers: List<Layer>, translator: QmkTranslator): List<Layer> {
     return layers.map {
@@ -214,15 +208,9 @@ private fun getComboLines(combos: List<Combo>) = combos.map { combo ->
 private fun addMagic(translator: QmkTranslator, row: List<String>, pos: KeyPosition) {
     val base = translator.toQmk(row[0], pos)
 
-    row.drop(1).chunked(2).forEachIndexed { index, def ->
-        val firstPress = def.getOrNull(0) ?: ""
-        val secondPress = def.getOrNull(1) ?: ""
-
-        if (firstPress.isNotBlank()) {
-            addMagicEntry(translator, pos, translator.magic[index].firstPress, base, firstPress)
-            if (secondPress.isNotBlank()) {
-                addMagicEntry(translator, pos, translator.magic[index].secondPress, base, secondPress)
-            }
+    row.drop(1).forEachIndexed { index, def ->
+        if (def.isNotBlank()) {
+            addMagicEntry(translator, pos, translator.magic[index].press, base, def)
         }
     }
 }
@@ -232,14 +220,14 @@ private fun addMagicEntry(
     pos: KeyPosition,
     map: MutableMap<QmkKey, String>,
     base: QmkKey,
-    magic: String,
+    def: String,
 ) {
     val command = when {
-        magic == "dotSpc" -> "tap_code16(KC_BSPC); SEND_STRING(\". \"); add_oneshot_mods(MOD_BIT(KC_LSFT)); return false;"
-        magic.length == 1 -> tap(translator.toQmk(magic, pos)) + "; return false;"
-        isWord(magic) -> sendString(magic) + "; return false;"
+        def == "dotSpc" -> "tap_code16(KC_BSPC); SEND_STRING(\". \"); add_oneshot_mods(MOD_BIT(KC_LSFT)); return false;"
+        def.length == 1 -> tap(translator.toQmk(def, pos)) + "; return false;"
+        isWord(def) -> sendString(def) + "; return false;"
 
-        else -> throw IllegalArgumentException("unknown command '${magic}' in $pos")
+        else -> throw IllegalArgumentException("unknown command '${def}' in $pos")
     }
 
     map[base] = command
