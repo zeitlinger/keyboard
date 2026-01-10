@@ -74,10 +74,13 @@ fun generateChordTransitions(chordInfo: ChordInfo): String {
     val lines = mutableListOf<String>()
 
     for ((state, keyMap) in chordInfo.transitions.toSortedMap()) {
-        val chordComment = chordInfo.stateToChord[state]?.let { " // $it" } ?: ""
+        val chordComment = chordInfo.stateToChord[state]?.let { "// $it" } ?: null
         for ((key, nextState) in keyMap.toSortedMap()) {
             val qmkKey = "KC_${key.uppercase()}"
-            lines.add("case $state:$chordComment if (keycode == $qmkKey) return $nextState; break;")
+            if (chordComment != null) {
+                lines.add(chordComment)
+            }
+            lines.add("case $state: if (keycode == $qmkKey) return $nextState; break;")
         }
     }
 
@@ -89,9 +92,16 @@ fun generateChordTransitions(chordInfo: ChordInfo): String {
 }
 
 fun generateChordOutputs(chordInfo: ChordInfo): String {
-    return chordInfo.outputs.toSortedMap().entries.joinToString("\n") { (state, output) ->
-        val chordComment = chordInfo.stateToChord[state]?.let { " // $it" } ?: ""
-        "case $state:$chordComment SEND_STRING(\"$output\"); break;"
+    val lines = mutableListOf<String>()
+
+    for ((state, output) in chordInfo.outputs.toSortedMap()) {
+        val chordComment = chordInfo.stateToChord[state]?.let { "// $it" } ?: null
+        if (chordComment != null) {
+            lines.add(chordComment)
+        }
+        lines.add("case $state: SEND_STRING(\"$output\"); break;")
     }
+
+    return lines.joinToString("\n")
 }
 
