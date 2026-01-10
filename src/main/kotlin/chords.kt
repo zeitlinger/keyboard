@@ -1,13 +1,15 @@
 data class TrieNode(
     val state: Int,
     val children: MutableMap<String, TrieNode> = mutableMapOf(),
-    var output: String? = null
+    var output: String? = null,
+    val chordSequence: String = "" // Track the chord sequence that led to this state
 )
 
 data class ChordInfo(
     val transitions: Map<Int, Map<String, Int>>, // state -> (key -> next_state)
     val outputs: Map<Int, String>, // state -> output string
-    val maxState: Int
+    val maxState: Int,
+    val stateToChord: Map<Int, String> // state -> chord sequence for comments
 )
 
 fun buildChordTrie(chordTable: Table?): ChordInfo? {
@@ -15,7 +17,7 @@ fun buildChordTrie(chordTable: Table?): ChordInfo? {
         return null
     }
 
-    val root = TrieNode(state = 1) // State 0 = inactive, State 1 = root
+    val root = TrieNode(state = 1, chordSequence = "") // State 0 = inactive, State 1 = root
     var nextState = 2
 
     // Build trie from chord definitions
@@ -28,10 +30,12 @@ fun buildChordTrie(chordTable: Table?): ChordInfo? {
         }
 
         var currentNode = root
+        var builtSequence = ""
         for (char in chordSequence) {
             val key = char.toString().lowercase()
+            builtSequence += key
             if (!currentNode.children.containsKey(key)) {
-                currentNode.children[key] = TrieNode(state = nextState++)
+                currentNode.children[key] = TrieNode(state = nextState++, chordSequence = builtSequence)
             }
             currentNode = currentNode.children[key]!!
         }
@@ -41,8 +45,12 @@ fun buildChordTrie(chordTable: Table?): ChordInfo? {
     // Convert trie to lookup tables
     val transitions = mutableMapOf<Int, MutableMap<String, Int>>()
     val outputs = mutableMapOf<Int, String>()
+    val stateToChord = mutableMapOf<Int, String>()
 
     fun collectNodes(node: TrieNode) {
+        if (node.chordSequence.isNotEmpty()) {
+            stateToChord[node.state] = node.chordSequence
+        }
         if (node.children.isNotEmpty()) {
             transitions[node.state] = node.children.mapValues { it.value.state }.toMutableMap()
         }
@@ -57,7 +65,8 @@ fun buildChordTrie(chordTable: Table?): ChordInfo? {
     return ChordInfo(
         transitions = transitions,
         outputs = outputs,
-        maxState = nextState - 1
+        maxState = nextState - 1,
+        stateToChord = stateToChord
     )
 }
 
@@ -65,9 +74,10 @@ fun generateChordTransitions(chordInfo: ChordInfo): String {
     val lines = mutableListOf<String>()
 
     for ((state, keyMap) in chordInfo.transitions.toSortedMap()) {
+        val chordComment = chordInfo.stateToChord[state]?.let { " // $it" } ?: ""
         for ((key, nextState) in keyMap.toSortedMap()) {
             val qmkKey = "KC_${key.uppercase()}"
-            lines.add("case $state: if (keycode == $qmkKey) return $nextState; break;")
+            lines.add("case $state:$chordComment if (keycode == $qmkKey) return $nextState; break;")
         }
     }
 
@@ -80,7 +90,8 @@ fun generateChordTransitions(chordInfo: ChordInfo): String {
 
 fun generateChordOutputs(chordInfo: ChordInfo): String {
     return chordInfo.outputs.toSortedMap().entries.joinToString("\n") { (state, output) ->
-        "case $state: SEND_STRING(\"$output\"); break;"
+        val chordComment = chordInfo.stateToChord[state]?.let { " // $it" } ?: ""
+        "case $state:$chordComment SEND_STRING(\"$output\"); break;"
     }
 }
 
