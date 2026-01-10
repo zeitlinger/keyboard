@@ -101,9 +101,14 @@ Currently unused features:
 |   =   |      >      |          |         |
 |   !   |      =      |          |         |
 
+| Chord | output     |
+|-------|------------|
+| ab    | "for "     |
+| abc   | "because " |
+
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-| Base  |   esc   |    x    |    w    |  dead3  |  dead2  |    '    |  "ion"  |  dead1  |
+| Base  |   esc   |    x    |    w    |  dead3  |  dead2  |    '    |  chord  |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
 | Base  |         |         |  *Nav   |    r    |   spc   | *FnSym  |         |         |
@@ -365,6 +370,7 @@ The order of the options is also the order of the layers in the layer stack.
 | magicA  | custom:MAGIC_A                  |
 | magicB  | custom:MAGIC_B                  |
 | magicC  | custom:MAGIC_C                  |
+| chord   | custom:CHORD_KEY     NoHold     |
 | tab ➡️  | custom:NEXT_TAB      NoHold     |
 | win ➡️  | custom:NEXT_WINDOW   NoHold     |
 | n't     | custom:N_T                      |

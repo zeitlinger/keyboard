@@ -43,6 +43,43 @@ bool is_window_switcher_active = false;
 bool is_tab_switcher_active = false;
 bool is_one_shot_mouse_active = false;
 
+bool process_chord_mode(uint16_t keycode, keyrecord_t *record) {
+    // Handle chord key press
+    if (keycode == _HANDLER_CHORD_KEY) {
+        if (record->event.pressed) {
+            chord_state = 1; // Activate chord mode at root of trie
+        }
+        return false;
+    }
+
+    // If chord mode is active
+    if (chord_state > 0) {
+        // Handle space release to end chord mode
+        if (keycode == KC_SPACE) {
+            if (!record->event.pressed) {
+                // Output the chord result based on final state
+                chord_output(chord_state);
+                chord_state = 0; // Reset to inactive
+            }
+            return false;
+        }
+
+        // Process other keys during chord mode
+        if (record->event.pressed) {
+            int next_state = chord_transition(chord_state, keycode);
+            if (next_state > 0) {
+                chord_state = next_state;
+            } else {
+                // Invalid transition, reset chord mode
+                chord_state = 0;
+            }
+            return false;
+        }
+    }
+
+    return true;
+}
+
 bool process_xcase_activation(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
         switch (keycode) {
@@ -110,6 +147,9 @@ bool process_switcher(uint16_t keycode, keyrecord_t *record) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_record_generated(keycode, record)) {
+        return false;
+    }
+    if (!process_chord_mode(keycode, record)) {
         return false;
     }
     if (!process_case_modes(keycode, record)) {

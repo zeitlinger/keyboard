@@ -5,6 +5,27 @@
 
 int alternateLayer = -1;
 int layer = _BASE;
+int chord_state = 0; // 0 = inactive, 1+ = trie states
+
+int chord_transition(int state, uint16_t keycode) {
+    switch (state) {
+        case 1: if (keycode == KC_A) return 2; break;
+        case 2: if (keycode == KC_B) return 3; break;
+        case 3: if (keycode == KC_C) return 4; break;
+    default:
+        return state; // Invalid transition, ignore and stay in current state
+    }
+    return 0;
+}
+
+void chord_output(int state) {
+    switch (state) {
+        case 3: SEND_STRING("for "); break;
+        case 4: SEND_STRING("because "); break;
+    default:
+        break;
+    }
+}
 
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     switch(index) {
@@ -283,8 +304,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case S(KC_U): tap_code16(KC_A); return false;
                 }
                 return false;
-            case _HANDLER_ST_BASE_0_6: SEND_STRING("ion"); return false;
-            case _HANDLER_ST_RMODS_0_6: SEND_STRING("ion"); return false;
+            
             default:
                 break;
             }

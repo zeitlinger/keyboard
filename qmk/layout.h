@@ -26,6 +26,7 @@ enum custom_keycodes {
 	MAGIC_A = SAFE_RANGE,
 	MAGIC_B,
     MAGIC_C,
+    CHORD_KEY,
     NEXT_TAB,
     NEXT_WINDOW,
     N_T,
@@ -46,14 +47,13 @@ enum custom_keycodes {
     _LMODS_A,
     _RMODS_A,
     _RMODS_C,
-    _RMODS_S,
-    ST_BASE_0_6,
-    ST_RMODS_0_6
+    _RMODS_S
 };
 
 #define _HANDLER_MAGIC_A MAGIC_A
 #define _HANDLER_MAGIC_B MAGIC_B
 #define _HANDLER_MAGIC_C MAGIC_C
+#define _HANDLER_CHORD_KEY CHORD_KEY
 #define _HANDLER_NEXT_TAB NEXT_TAB
 #define _HANDLER_NEXT_WINDOW NEXT_WINDOW
 #define _HANDLER_N_T N_T
@@ -75,12 +75,10 @@ enum custom_keycodes {
 #define _HANDLER__RMODS_A _RMODS_A
 #define _HANDLER__RMODS_C _RMODS_C
 #define _HANDLER__RMODS_S _RMODS_S
-#define _HANDLER_ST_BASE_0_6 ST_BASE_0_6
-#define _HANDLER_ST_RMODS_0_6 ST_RMODS_0_6
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_BASE] = LAYOUT_split_3x5_2(
-                          KC_ESC,                 KC_X,                 KC_W,                DEAD3, KC_NO, KC_NO,                DEAD2,             KC_QUOTE,          ST_BASE_0_6,                DEAD1,
+                          KC_ESC,                 KC_X,                 KC_W,                DEAD3, KC_NO, KC_NO,                DEAD2,             KC_QUOTE,            CHORD_KEY,                DEAD1,
                             KC_S,                 KC_C,                 KC_N,                 KC_T, KC_NO, KC_NO,                 KC_A,                 KC_E,                 KC_I,                 KC_H,
                       MO(_RIGHT),                 KC_F,                 KC_L,                 KC_D, KC_NO, KC_NO,                 KC_U,                 KC_O,                 KC_Y,            MO(_LEFT),
                                         MO(_NAV),                 KC_R,               KC_SPC,           MO(_FNSYM)),
@@ -100,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                         KC_MINUS,                 KC_F,                 KC_L,                 KC_D, KC_NO, KC_NO, LM(_LMODS, MOD_LSFT), LM(_LMODS, MOD_LCTL), LM(_LMODS, MOD_LALT),                KC_NO,
                                            KC_NO,                 KC_R,                KC_NO,                KC_NO),
 	[_RMODS] = LAYOUT_split_3x5_2(
-                           KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                DEAD2,             KC_QUOTE,         ST_RMODS_0_6,                DEAD1,
+                           KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                DEAD2,             KC_QUOTE,            CHORD_KEY,                DEAD1,
                            KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                 KC_A,                 KC_E,                 KC_I,                 KC_H,
                            KC_NO, LM(_RMODS, MOD_LALT), LM(_RMODS, MOD_LCTL), LM(_RMODS, MOD_LSFT), KC_NO, KC_NO,                 KC_U,                 KC_O,                 KC_Y,             KC_EQUAL,
                                            KC_NO,                KC_NO,      KC_LEFT_BRACKET,     KC_RIGHT_BRACKET),

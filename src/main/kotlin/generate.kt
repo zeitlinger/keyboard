@@ -90,6 +90,8 @@ fun run(args: GeneratorArgs) {
         }
     }
 
+    val chordInfo = buildChordTrie(tables.getOptional("Chord"))
+
     val srcDir = args.generatorDir.file
     val dstDir = args.dstDir
     val generationNote =
@@ -139,6 +141,8 @@ fun run(args: GeneratorArgs) {
             "customKeycodesOnPress" to customKeycodes(translator, CustomCommandType.OnPress),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
             "magic" to translator.magic.map { magicBlock(it) }.indented(12),
+            "chordTransitions" to (chordInfo?.let { generateChordTransitions(it).prependIndent(" ".repeat(8)) } ?: "" as String),
+            "chordOutputs" to (chordInfo?.let { generateChordOutputs(it).prependIndent(" ".repeat(8)) } ?: "" as String),
             "oneShotOnUpLayerPressed" to translator.oneShotOnUpLayer.sortedBy { it.up.const() }
                 .map {
                     "case ${it.activation.key.key}: alternateLayer = ${it.up.const()}; break;"
