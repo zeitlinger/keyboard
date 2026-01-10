@@ -19,13 +19,13 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_L) return 64;
                     if (keycode == KC_M) return 75;
                     if (keycode == KC_N) return 85;
-                    if (keycode == KC_P) return 104;
+                    if (keycode == KC_P) return 100;
                     if (keycode == KC_R) return 112;
-                    if (keycode == KC_S) return 135;
-                    if (keycode == KC_T) return 158;
-                    if (keycode == KC_V) return 177;
-                    if (keycode == KC_W) return 183;
-                    if (keycode == KC_Z) return 197;
+                    if (keycode == KC_S) return 129;
+                    if (keycode == KC_T) return 149;
+                    if (keycode == KC_V) return 166;
+                    if (keycode == KC_W) return 169;
+                    if (keycode == KC_Z) return 183;
                     break;
                 // b
                 case 2:
@@ -66,8 +66,8 @@ int chord_transition(int state, uint16_t keycode) {
                 // d
                 case 28:
                     if (keycode == KC_A) return 29;
-                    if (keycode == KC_C) return 31;
-                    if (keycode == KC_E) return 30;
+                    if (keycode == KC_C) return 30;
+                    if (keycode == KC_E) return 31;
                     if (keycode == KC_F) return 32;
                     if (keycode == KC_N) return 33;
                     if (keycode == KC_O) return 35;
@@ -86,8 +86,8 @@ int chord_transition(int state, uint16_t keycode) {
                 case 39:
                     if (keycode == KC_A) return 40;
                     if (keycode == KC_I) return 43;
-                    if (keycode == KC_L) return 49;
-                    if (keycode == KC_O) return 48;
+                    if (keycode == KC_L) return 48;
+                    if (keycode == KC_O) return 49;
                     if (keycode == KC_T) return 50;
                     if (keycode == KC_U) return 51;
                     break;
@@ -132,239 +132,210 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_F) return 67;
                     if (keycode == KC_H) return 68;
                     if (keycode == KC_I) return 69;
-                    if (keycode == KC_M) return 72;
-                    if (keycode == KC_O) return 73;
-                    if (keycode == KC_S) return 70;
-                    if (keycode == KC_T) return 71;
+                    if (keycode == KC_M) return 70;
+                    if (keycode == KC_O) return 71;
+                    if (keycode == KC_S) return 72;
+                    if (keycode == KC_T) return 73;
                     if (keycode == KC_Y) return 74;
                     break;
                 // m
                 case 75:
                     if (keycode == KC_E) return 76;
-                    if (keycode == KC_H) return 78;
-                    if (keycode == KC_I) return 79;
-                    if (keycode == KC_M) return 81;
-                    if (keycode == KC_O) return 77;
+                    if (keycode == KC_H) return 77;
+                    if (keycode == KC_I) return 78;
+                    if (keycode == KC_M) return 80;
+                    if (keycode == KC_O) return 81;
                     if (keycode == KC_S) return 82;
                     if (keycode == KC_U) return 83;
                     if (keycode == KC_Y) return 84;
                     break;
                 // mi
-                case 79:
-                    if (keycode == KC_N) return 80;
+                case 78:
+                    if (keycode == KC_N) return 79;
                     break;
                 // n
                 case 85:
                     if (keycode == KC_A) return 86;
-                    if (keycode == KC_C) return 93;
-                    if (keycode == KC_D) return 87;
-                    if (keycode == KC_E) return 89;
-                    if (keycode == KC_H) return 90;
-                    if (keycode == KC_I) return 91;
-                    if (keycode == KC_O) return 94;
-                    if (keycode == KC_S) return 97;
-                    if (keycode == KC_T) return 100;
-                    if (keycode == KC_U) return 101;
-                    if (keycode == KC_Y) return 102;
-                    break;
-                // nd
-                case 87:
-                    if (keycode == KC_E) return 88;
-                    break;
-                // ni
-                case 91:
-                    if (keycode == KC_G) return 92;
+                    if (keycode == KC_C) return 87;
+                    if (keycode == KC_H) return 88;
+                    if (keycode == KC_I) return 89;
+                    if (keycode == KC_O) return 90;
+                    if (keycode == KC_S) return 93;
+                    if (keycode == KC_T) return 96;
+                    if (keycode == KC_U) return 97;
+                    if (keycode == KC_Y) return 98;
                     break;
                 // no
-                case 94:
-                    if (keycode == KC_T) return 95;
-                    if (keycode == KC_U) return 96;
+                case 90:
+                    if (keycode == KC_T) return 91;
+                    if (keycode == KC_U) return 92;
                     break;
                 // ns
-                case 97:
-                    if (keycode == KC_I) return 98;
-                    if (keycode == KC_T) return 99;
+                case 93:
+                    if (keycode == KC_I) return 94;
+                    if (keycode == KC_T) return 95;
                     break;
                 // ny
-                case 102:
-                    if (keycode == KC_O) return 103;
+                case 98:
+                    if (keycode == KC_O) return 99;
                     break;
                 // p
-                case 104:
-                    if (keycode == KC_A) return 105;
-                    if (keycode == KC_E) return 107;
-                    if (keycode == KC_H) return 110;
-                    if (keycode == KC_I) return 111;
-                    if (keycode == KC_O) return 116;
-                    if (keycode == KC_R) return 117;
-                    if (keycode == KC_U) return 120;
+                case 100:
+                    if (keycode == KC_A) return 101;
+                    if (keycode == KC_E) return 103;
+                    if (keycode == KC_O) return 107;
+                    if (keycode == KC_R) return 108;
+                    if (keycode == KC_U) return 111;
                     break;
                 // pa
-                case 105:
-                    if (keycode == KC_R) return 106;
+                case 101:
+                    if (keycode == KC_R) return 102;
                     break;
                 // pe
-                case 107:
-                    if (keycode == KC_A) return 115;
-                    if (keycode == KC_N) return 108;
-                    if (keycode == KC_R) return 109;
+                case 103:
+                    if (keycode == KC_A) return 104;
+                    if (keycode == KC_N) return 105;
+                    if (keycode == KC_R) return 106;
+                    break;
+                // pr
+                case 108:
+                    if (keycode == KC_E) return 109;
+                    if (keycode == KC_O) return 110;
                     break;
                 // r
                 case 112:
-                    if (keycode == KC_A) return 121;
-                    if (keycode == KC_D) return 122;
-                    if (keycode == KC_E) return 113;
-                    if (keycode == KC_I) return 128;
-                    if (keycode == KC_L) return 129;
-                    if (keycode == KC_N) return 130;
-                    if (keycode == KC_O) return 131;
-                    if (keycode == KC_S) return 132;
-                    if (keycode == KC_Y) return 133;
+                    if (keycode == KC_A) return 113;
+                    if (keycode == KC_D) return 114;
+                    if (keycode == KC_E) return 115;
+                    if (keycode == KC_I) return 122;
+                    if (keycode == KC_L) return 123;
+                    if (keycode == KC_N) return 124;
+                    if (keycode == KC_O) return 125;
+                    if (keycode == KC_S) return 126;
+                    if (keycode == KC_Y) return 127;
                     break;
                 // re
-                case 113:
-                    if (keycode == KC_A) return 123;
-                    if (keycode == KC_M) return 124;
-                    if (keycode == KC_P) return 114;
-                    if (keycode == KC_S) return 125;
-                    if (keycode == KC_T) return 126;
-                    if (keycode == KC_V) return 127;
-                    break;
-                // pr
-                case 117:
-                    if (keycode == KC_E) return 118;
-                    if (keycode == KC_O) return 119;
+                case 115:
+                    if (keycode == KC_A) return 116;
+                    if (keycode == KC_M) return 117;
+                    if (keycode == KC_P) return 118;
+                    if (keycode == KC_S) return 119;
+                    if (keycode == KC_T) return 120;
+                    if (keycode == KC_V) return 121;
                     break;
                 // ry
-                case 133:
-                    if (keycode == KC_O) return 134;
+                case 127:
+                    if (keycode == KC_O) return 128;
                     break;
                 // s
-                case 135:
-                    if (keycode == KC_E) return 136;
-                    if (keycode == KC_I) return 138;
-                    if (keycode == KC_L) return 140;
-                    if (keycode == KC_M) return 143;
-                    if (keycode == KC_N) return 145;
-                    if (keycode == KC_O) return 146;
-                    if (keycode == KC_T) return 148;
-                    if (keycode == KC_U) return 152;
-                    if (keycode == KC_Y) return 157;
+                case 129:
+                    if (keycode == KC_E) return 130;
+                    if (keycode == KC_I) return 132;
+                    if (keycode == KC_L) return 134;
+                    if (keycode == KC_M) return 137;
+                    if (keycode == KC_N) return 139;
+                    if (keycode == KC_O) return 140;
+                    if (keycode == KC_T) return 142;
+                    if (keycode == KC_U) return 144;
+                    if (keycode == KC_Y) return 148;
                     break;
                 // se
-                case 136:
-                    if (keycode == KC_C) return 137;
+                case 130:
+                    if (keycode == KC_C) return 131;
                     break;
                 // si
-                case 138:
-                    if (keycode == KC_L) return 139;
+                case 132:
+                    if (keycode == KC_L) return 133;
                     break;
                 // sl
-                case 140:
-                    if (keycode == KC_I) return 141;
-                    if (keycode == KC_O) return 142;
+                case 134:
+                    if (keycode == KC_I) return 135;
+                    if (keycode == KC_O) return 136;
                     break;
                 // sm
-                case 143:
-                    if (keycode == KC_I) return 144;
+                case 137:
+                    if (keycode == KC_I) return 138;
                     break;
                 // so
-                case 146:
-                    if (keycode == KC_M) return 147;
+                case 140:
+                    if (keycode == KC_M) return 141;
                     break;
                 // st
-                case 148:
-                    if (keycode == KC_A) return 149;
-                    if (keycode == KC_O) return 150;
-                    if (keycode == KC_U) return 151;
+                case 142:
+                    if (keycode == KC_O) return 143;
                     break;
                 // su
-                case 152:
-                    if (keycode == KC_D) return 153;
-                    if (keycode == KC_P) return 154;
-                    if (keycode == KC_R) return 155;
-                    break;
-                // sur
-                case 155:
-                    if (keycode == KC_P) return 156;
+                case 144:
+                    if (keycode == KC_D) return 145;
+                    if (keycode == KC_P) return 146;
+                    if (keycode == KC_R) return 147;
                     break;
                 // t
-                case 158:
-                    if (keycode == KC_A) return 159;
-                    if (keycode == KC_C) return 162;
-                    if (keycode == KC_H) return 163;
-                    if (keycode == KC_I) return 170;
-                    if (keycode == KC_N) return 166;
-                    if (keycode == KC_O) return 172;
-                    if (keycode == KC_S) return 175;
+                case 149:
+                    if (keycode == KC_A) return 150;
+                    if (keycode == KC_C) return 152;
+                    if (keycode == KC_H) return 153;
+                    if (keycode == KC_I) return 158;
+                    if (keycode == KC_N) return 160;
+                    if (keycode == KC_O) return 161;
+                    if (keycode == KC_S) return 164;
                     if (keycode == KC_Y) return 165;
                     break;
                 // ta
-                case 159:
-                    if (keycode == KC_B) return 160;
-                    if (keycode == KC_N) return 161;
+                case 150:
+                    if (keycode == KC_B) return 151;
                     break;
                 // th
-                case 163:
-                    if (keycode == KC_A) return 164;
-                    if (keycode == KC_O) return 167;
-                    if (keycode == KC_R) return 169;
+                case 153:
+                    if (keycode == KC_A) return 154;
+                    if (keycode == KC_O) return 155;
+                    if (keycode == KC_R) return 157;
                     break;
                 // tho
-                case 167:
-                    if (keycode == KC_U) return 168;
+                case 155:
+                    if (keycode == KC_U) return 156;
                     break;
                 // ti
-                case 170:
-                    if (keycode == KC_C) return 171;
+                case 158:
+                    if (keycode == KC_C) return 159;
                     break;
                 // to
-                case 172:
-                    if (keycode == KC_G) return 173;
-                    if (keycode == KC_W) return 174;
-                    break;
-                // ts
-                case 175:
-                    if (keycode == KC_I) return 176;
+                case 161:
+                    if (keycode == KC_G) return 162;
+                    if (keycode == KC_W) return 163;
                     break;
                 // v
-                case 177:
-                    if (keycode == KC_A) return 178;
-                    if (keycode == KC_E) return 179;
-                    if (keycode == KC_I) return 181;
-                    if (keycode == KC_Y) return 182;
-                    break;
-                // ve
-                case 179:
-                    if (keycode == KC_R) return 180;
+                case 166:
+                    if (keycode == KC_I) return 167;
+                    if (keycode == KC_Y) return 168;
                     break;
                 // w
-                case 183:
-                    if (keycode == KC_A) return 184;
-                    if (keycode == KC_H) return 186;
-                    if (keycode == KC_I) return 190;
-                    if (keycode == KC_R) return 193;
-                    if (keycode == KC_S) return 194;
-                    if (keycode == KC_U) return 195;
-                    if (keycode == KC_Y) return 196;
+                case 169:
+                    if (keycode == KC_A) return 170;
+                    if (keycode == KC_H) return 172;
+                    if (keycode == KC_I) return 176;
+                    if (keycode == KC_R) return 179;
+                    if (keycode == KC_S) return 180;
+                    if (keycode == KC_U) return 181;
+                    if (keycode == KC_Y) return 182;
                     break;
                 // wa
-                case 184:
-                    if (keycode == KC_L) return 185;
+                case 170:
+                    if (keycode == KC_L) return 171;
                     break;
                 // wh
-                case 186:
-                    if (keycode == KC_A) return 187;
-                    if (keycode == KC_E) return 188;
+                case 172:
+                    if (keycode == KC_A) return 173;
+                    if (keycode == KC_E) return 174;
                     break;
                 // whe
-                case 188:
-                    if (keycode == KC_R) return 189;
+                case 174:
+                    if (keycode == KC_R) return 175;
                     break;
                 // wi
-                case 190:
-                    if (keycode == KC_N) return 191;
-                    if (keycode == KC_T) return 192;
+                case 176:
+                    if (keycode == KC_N) return 177;
+                    if (keycode == KC_T) return 178;
                     break;
     default:
         return state; // Invalid transition, ignore and stay in current state
@@ -428,10 +399,10 @@ void chord_output(int state) {
         case 28: SEND_STRING("didn't"); break;
                 // da
         case 29: SEND_STRING("today"); break;
-                // de
-        case 30: SEND_STRING("video"); break;
                 // dc
-        case 31: SEND_STRING("decide"); break;
+        case 30: SEND_STRING("decide"); break;
+                // de
+        case 31: SEND_STRING("video"); break;
                 // df
         case 32: SEND_STRING("different"); break;
                 // dnt
@@ -458,10 +429,10 @@ void chord_output(int state) {
         case 46: SEND_STRING("finger"); break;
                 // fini
         case 47: SEND_STRING("finish"); break;
-                // fo
-        case 48: SEND_STRING("information"); break;
                 // fl
-        case 49: SEND_STRING("follow"); break;
+        case 48: SEND_STRING("follow"); break;
+                // fo
+        case 49: SEND_STRING("information"); break;
                 // ft
         case 50: SEND_STRING("software"); break;
                 // fu
@@ -502,30 +473,28 @@ void chord_output(int state) {
         case 68: SEND_STRING("health"); break;
                 // li
         case 69: SEND_STRING("light"); break;
-                // ls
-        case 70: SEND_STRING("listen"); break;
-                // lt
-        case 71: SEND_STRING("little"); break;
                 // lm
-        case 72: SEND_STRING("almost"); break;
+        case 70: SEND_STRING("almost"); break;
                 // lo
-        case 73: SEND_STRING("along"); break;
+        case 71: SEND_STRING("along"); break;
+                // ls
+        case 72: SEND_STRING("listen"); break;
+                // lt
+        case 73: SEND_STRING("little"); break;
                 // ly
         case 74: SEND_STRING("always"); break;
                 // m
         case 75: SEND_STRING("more"); break;
                 // me
         case 76: SEND_STRING("message"); break;
-                // mo
-        case 77: SEND_STRING("someone"); break;
                 // mh
-        case 78: SEND_STRING("might"); break;
-                // mi
-        case 79: SEND_STRING("email"); break;
+        case 77: SEND_STRING("might"); break;
                 // min
-        case 80: SEND_STRING("minute"); break;
+        case 79: SEND_STRING("minute"); break;
                 // mm
-        case 81: SEND_STRING("moment"); break;
+        case 80: SEND_STRING("moment"); break;
+                // mo
+        case 81: SEND_STRING("someone"); break;
                 // ms
         case 82: SEND_STRING("items"); break;
                 // mu
@@ -533,205 +502,175 @@ void chord_output(int state) {
                 // my
         case 84: SEND_STRING("myself"); break;
                 // n
-        case 85: SEND_STRING("never"); break;
+        case 85: SEND_STRING("understand"); break;
                 // na
         case 86: SEND_STRING("anyway"); break;
-                // nd
-        case 87: SEND_STRING("under"); break;
-                // nde
-        case 88: SEND_STRING("understand"); break;
-                // ne
-        case 89: SEND_STRING("online"); break;
-                // nh
-        case 90: SEND_STRING("anything"); break;
-                // ni
-        case 91: SEND_STRING("university"); break;
-                // nig
-        case 92: SEND_STRING("night"); break;
                 // nc
-        case 93: SEND_STRING("links"); break;
+        case 87: SEND_STRING("links"); break;
+                // nh
+        case 88: SEND_STRING("anything"); break;
+                // ni
+        case 89: SEND_STRING("university"); break;
                 // not
-        case 95: SEND_STRING("another"); break;
+        case 91: SEND_STRING("another"); break;
                 // nou
-        case 96: SEND_STRING("enough"); break;
+        case 92: SEND_STRING("enough"); break;
                 // ns
-        case 97: SEND_STRING("answer"); break;
+        case 93: SEND_STRING("answer"); break;
                 // nsi
-        case 98: SEND_STRING("inside"); break;
+        case 94: SEND_STRING("inside"); break;
                 // nst
-        case 99: SEND_STRING("instead"); break;
+        case 95: SEND_STRING("instead"); break;
                 // nt
-        case 100: SEND_STRING("nothing"); break;
+        case 96: SEND_STRING("nothing"); break;
                 // nu
-        case 101: SEND_STRING("number"); break;
+        case 97: SEND_STRING("number"); break;
                 // ny
-        case 102: SEND_STRING("company"); break;
+        case 98: SEND_STRING("company"); break;
                 // nyo
-        case 103: SEND_STRING("anyone"); break;
+        case 99: SEND_STRING("anyone"); break;
                 // p
-        case 104: SEND_STRING("people"); break;
+        case 100: SEND_STRING("people"); break;
                 // pa
-        case 105: SEND_STRING("privacy"); break;
+        case 101: SEND_STRING("privacy"); break;
                 // par
-        case 106: SEND_STRING("parent"); break;
+        case 102: SEND_STRING("parent"); break;
                 // pe
-        case 107: SEND_STRING("place"); break;
+        case 103: SEND_STRING("place"); break;
+                // pea
+        case 104: SEND_STRING("please"); break;
                 // pen
-        case 108: SEND_STRING("happen"); break;
+        case 105: SEND_STRING("happen"); break;
                 // per
-        case 109: SEND_STRING("person"); break;
-                // ph
-        case 110: SEND_STRING("phone"); break;
-                // pi
-        case 111: SEND_STRING("price"); break;
+        case 106: SEND_STRING("person"); break;
+                // po
+        case 107: SEND_STRING("product"); break;
+                // pr
+        case 108: SEND_STRING("problem"); break;
+                // pre
+        case 109: SEND_STRING("pretty"); break;
+                // pro
+        case 110: SEND_STRING("probably"); break;
+                // pu
+        case 111: SEND_STRING("public"); break;
                 // r
         case 112: SEND_STRING("really"); break;
-                // rep
-        case 114: SEND_STRING("reply"); break;
-                // pea
-        case 115: SEND_STRING("please"); break;
-                // po
-        case 116: SEND_STRING("product"); break;
-                // pr
-        case 117: SEND_STRING("problem"); break;
-                // pre
-        case 118: SEND_STRING("pretty"); break;
-                // pro
-        case 119: SEND_STRING("probably"); break;
-                // pu
-        case 120: SEND_STRING("public"); break;
                 // ra
-        case 121: SEND_STRING("program"); break;
+        case 113: SEND_STRING("program"); break;
                 // rd
-        case 122: SEND_STRING("order"); break;
+        case 114: SEND_STRING("order"); break;
                 // rea
-        case 123: SEND_STRING("ready"); break;
+        case 116: SEND_STRING("ready"); break;
                 // rem
-        case 124: SEND_STRING("remember"); break;
+        case 117: SEND_STRING("remember"); break;
+                // rep
+        case 118: SEND_STRING("reply"); break;
                 // res
-        case 125: SEND_STRING("there's"); break;
+        case 119: SEND_STRING("there's"); break;
                 // ret
-        case 126: SEND_STRING("return"); break;
+        case 120: SEND_STRING("return"); break;
                 // rev
-        case 127: SEND_STRING("review"); break;
+        case 121: SEND_STRING("review"); break;
                 // ri
-        case 128: SEND_STRING("right"); break;
+        case 122: SEND_STRING("right"); break;
                 // rl
-        case 129: SEND_STRING("world"); break;
+        case 123: SEND_STRING("world"); break;
                 // rn
-        case 130: SEND_STRING("morning"); break;
+        case 124: SEND_STRING("morning"); break;
                 // ro
-        case 131: SEND_STRING("around"); break;
+        case 125: SEND_STRING("around"); break;
                 // rs
-        case 132: SEND_STRING("years"); break;
+        case 126: SEND_STRING("years"); break;
                 // ryo
-        case 134: SEND_STRING("everyone"); break;
+        case 128: SEND_STRING("everyone"); break;
                 // s
-        case 135: SEND_STRING("should"); break;
+        case 129: SEND_STRING("should"); break;
                 // se
-        case 136: SEND_STRING("search"); break;
+        case 130: SEND_STRING("search"); break;
                 // sec
-        case 137: SEND_STRING("second"); break;
+        case 131: SEND_STRING("second"); break;
                 // sil
-        case 139: SEND_STRING("silence"); break;
+        case 133: SEND_STRING("silence"); break;
                 // sli
-        case 141: SEND_STRING("slightly"); break;
+        case 135: SEND_STRING("slightly"); break;
                 // slo
-        case 142: SEND_STRING("slowly"); break;
-                // sm
-        case 143: SEND_STRING("small"); break;
+        case 136: SEND_STRING("slowly"); break;
                 // smi
-        case 144: SEND_STRING("smile"); break;
+        case 138: SEND_STRING("smile"); break;
                 // sn
-        case 145: SEND_STRING("wasn't"); break;
+        case 139: SEND_STRING("wasn't"); break;
                 // som
-        case 147: SEND_STRING("something"); break;
-                // st
-        case 148: SEND_STRING("start"); break;
-                // sta
-        case 149: SEND_STRING("stare"); break;
+        case 141: SEND_STRING("something"); break;
                 // sto
-        case 150: SEND_STRING("stood"); break;
-                // stu
-        case 151: SEND_STRING("stupid"); break;
+        case 143: SEND_STRING("stood"); break;
                 // su
-        case 152: SEND_STRING("support"); break;
+        case 144: SEND_STRING("support"); break;
                 // sud
-        case 153: SEND_STRING("suddenly"); break;
+        case 145: SEND_STRING("suddenly"); break;
                 // sup
-        case 154: SEND_STRING("suppose"); break;
-                // surp
-        case 156: SEND_STRING("surprise"); break;
+        case 146: SEND_STRING("suppose"); break;
+                // sur
+        case 147: SEND_STRING("surprise"); break;
                 // sy
-        case 157: SEND_STRING("system"); break;
+        case 148: SEND_STRING("system"); break;
                 // t
-        case 158: SEND_STRING("think"); break;
+        case 149: SEND_STRING("think"); break;
                 // ta
-        case 159: SEND_STRING("contact"); break;
+        case 150: SEND_STRING("contact"); break;
                 // tab
-        case 160: SEND_STRING("table"); break;
-                // tan
-        case 161: SEND_STRING("stand"); break;
+        case 151: SEND_STRING("table"); break;
                 // tc
-        case 162: SEND_STRING("watch"); break;
-                // th
-        case 163: SEND_STRING("they"); break;
+        case 152: SEND_STRING("watch"); break;
                 // tha
-        case 164: SEND_STRING("thanks"); break;
+        case 154: SEND_STRING("thanks"); break;
+                // thou
+        case 156: SEND_STRING("thought"); break;
+                // thr
+        case 157: SEND_STRING("through"); break;
+                // tic
+        case 159: SEND_STRING("notice"); break;
+                // tn
+        case 160: SEND_STRING("thing"); break;
+                // to
+        case 161: SEND_STRING("though"); break;
+                // tog
+        case 162: SEND_STRING("together"); break;
+                // tow
+        case 163: SEND_STRING("toward"); break;
+                // ts
+        case 164: SEND_STRING("that's"); break;
                 // ty
         case 165: SEND_STRING("thank you"); break;
-                // tn
-        case 166: SEND_STRING("thing"); break;
-                // thou
-        case 168: SEND_STRING("thought"); break;
-                // thr
-        case 169: SEND_STRING("through"); break;
-                // tic
-        case 171: SEND_STRING("notice"); break;
-                // to
-        case 172: SEND_STRING("though"); break;
-                // tog
-        case 173: SEND_STRING("together"); break;
-                // tow
-        case 174: SEND_STRING("toward"); break;
-                // ts
-        case 175: SEND_STRING("that's"); break;
-                // tsi
-        case 176: SEND_STRING("outside"); break;
                 // v
-        case 177: SEND_STRING("even"); break;
-                // va
-        case 178: SEND_STRING("available"); break;
-                // ver
-        case 180: SEND_STRING("every"); break;
+        case 166: SEND_STRING("available"); break;
                 // vi
-        case 181: SEND_STRING("services"); break;
+        case 167: SEND_STRING("services"); break;
                 // vy
-        case 182: SEND_STRING("everything"); break;
+        case 168: SEND_STRING("everything"); break;
                 // w
-        case 183: SEND_STRING("would"); break;
+        case 169: SEND_STRING("would"); break;
                 // wal
-        case 185: SEND_STRING("walk"); break;
+        case 171: SEND_STRING("walk"); break;
                 // wh
-        case 186: SEND_STRING("which"); break;
+        case 172: SEND_STRING("which"); break;
                 // wha
-        case 187: SEND_STRING("what's"); break;
+        case 173: SEND_STRING("what's"); break;
                 // wher
-        case 189: SEND_STRING("where"); break;
+        case 175: SEND_STRING("where"); break;
                 // win
-        case 191: SEND_STRING("window"); break;
+        case 177: SEND_STRING("window"); break;
                 // wit
-        case 192: SEND_STRING("without"); break;
+        case 178: SEND_STRING("without"); break;
                 // wr
-        case 193: SEND_STRING("wrong"); break;
+        case 179: SEND_STRING("wrong"); break;
                 // ws
-        case 194: SEND_STRING("reviews"); break;
+        case 180: SEND_STRING("reviews"); break;
                 // wu
-        case 195: SEND_STRING("wouldn't"); break;
+        case 181: SEND_STRING("wouldn't"); break;
                 // wy
-        case 196: SEND_STRING("worry"); break;
+        case 182: SEND_STRING("worry"); break;
                 // z
-        case 197: SEND_STRING("realize"); break;
+        case 183: SEND_STRING("realize"); break;
     default:
         return;
     }
