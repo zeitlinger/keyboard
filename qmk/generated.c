@@ -10,8 +10,10 @@ int chord_state = 0; // 0 = inactive, 1+ = trie states
 int chord_transition(int state, uint16_t keycode) {
     switch (state) {
         case 1: if (keycode == KC_A) return 2; break;
-        case 2: // a if (keycode == KC_B) return 3; break;
-        case 3: // ab if (keycode == KC_C) return 4; break;
+                // a
+        case 2: if (keycode == KC_B) return 3; break;
+                // ab
+        case 3: if (keycode == KC_C) return 4; break;
     default:
         return state; // Invalid transition, ignore and stay in current state
     }
@@ -20,8 +22,10 @@ int chord_transition(int state, uint16_t keycode) {
 
 void chord_output(int state) {
     switch (state) {
-        case 3: // ab SEND_STRING("for "); break;
-        case 4: // abc SEND_STRING("because "); break;
+                // ab
+        case 3: SEND_STRING("for "); break;
+                // abc
+        case 4: SEND_STRING("because "); break;
     default:
         break;
     }
