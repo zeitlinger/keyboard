@@ -91,7 +91,7 @@ Currently unused features:
 |   x   |      p      |    c     |         |
 |   y   |             |          |         |
 |   z   | "eitlinger" |          |         |
-|  spc  |   "the "    |  dotSpc  | "the "  |
+|  spc  |   "the "    |          | "the "  |
 |  tab  |   "the "    |  "and "  |         |
 |  ↩️️  |   "the "    |  "and "  |         |
 |   ~   |      /      |          |         |
@@ -103,111 +103,83 @@ Currently unused features:
 
 | Chord | output        |
 |-------|---------------|
-| gi    | "again"       |
 | ba    | "back"        |
-| be    | "been"        |
-| beca  | "because"     |
+| be    | "because"     |
 | bef   | "before"      |
-| beli  | "believe"     |
+| bel   | "believe"     |
 | bet   | "better"      |
-| betw  | "between"     |
+| bew   | "between"     |
 | bh    | "behind"      |
 | bl    | "black"       |
 | bo    | "about"       |
-| br    | "brother"     |
-| bre   | "breath"      |
-| brea  | "break"       |
+| br    | "break"       |
 | bu    | "business"    |
 | ca    | "actually"    |
-| cau   | "caught"      |
 | ce    | "service"     |
 | ch    | "research"    |
-| cha   | "change"      |
-| chai  | "chair"       |
 | ci    | "click"       |
-| cl    | "class"       |
-| co    | "could"       |
+| cl    | "couple"      |
+| cn    | "change"      |
 | con   | "continue"    |
 | cou   | "course"      |
-| coup  | "couple"      |
 | cov   | "cover"       |
 | cr    | "across"      |
+| ct    | "caught"      |
 | cu    | "couldn't"    |
 | cy    | "policy"      |
 | da    | "today"       |
 | de    | "video"       |
-| dec   | "decide"      |
+| dc    | "decide"      |
 | di    | "didn't"      |
-| dif   | "different"   |
+| df    | "different"   |
 | dn    | "didn't"      |
 | dnt   | "hadn't"      |
 | do    | "don't"       |
 | doe   | "doesn't"     |
-| dow   | "down"        |
-| dr    | "dress"       |
 | du    | "products"    |
 | dy    | "already"     |
-| fa    | "face"        |
 | fam   | "family"      |
 | fat   | "father"      |
-| fe    | "after"       |
-| ff    | "stuff"       |
-| fi    | "first"       |
 | fig   | "figure"      |
 | fin   | "finally"     |
 | fing  | "finger"      |
 | fini  | "finish"      |
-| fl    | "floor"       |
 | fo    | "information" |
-| fol   | "follow"      |
-| fr    | "from"        |
-| fri   | "friend"      |
+| fl    | "follow"      |
 | ft    | "software"    |
 | fu    | "found"       |
 | ga    | "began"       |
 | ge    | "general"     |
 | gh    | "rights"      |
-| gi    | "against"     |
+| gi    | "again"       |
 | gl    | "glance"      |
 | go    | "group"       |
 | gr    | "great"       |
 | gro   | "ground"      |
+| gs    | "against"     |
 | gu    | "guess"       |
-| kit   | "kitchen"     |
-| ko    | "know"        |
-| ks    | "books"       |
+| ky    | "quickly"     |
+| ks    | "question"    |
 | la    | "laugh"       |
-| le    | "close"       |
-| lea   | "leave"       |
-| leas  | "least"       |
+| le    | "leave"       |
 | lf    | "himself"     |
 | lh    | "health"      |
-| li    | "like"        |
-| lig   | "light"       |
-| lis   | "listen"      |
-| lit   | "little"      |
+| li    | "light"       |
+| ls    | "listen"      |
+| lt    | "little"      |
 | lm    | "almost"      |
-| lo    | "look"        |
-| lon   | "along"       |
-| lone  | "alone"       |
+| lo    | "along"       |
 | ly    | "always"      |
-| ma    | "make"        |
-| mat   | "matter"      |
-| may   | "maybe"       |
 | me    | "message"     |
-| meo   | "someone"     |
+| mo    | "someone"     |
 | mh    | "might"       |
 | mi    | "email"       |
 | min   | "minute"      |
-| mo    | "more"        |
-| mome  | "moment"      |
-| mou   | "mouth"       |
+| mm    | "moment"      |
 | ms    | "items"       |
-| mth   | "mother"      |
 | mu    | "music"       |
 | my    | "myself"      |
 | na    | "anyway"      |
-| nc    | "since"       |
 | nd    | "under"       |
 | nde   | "understand"  |
 | ne    | "online"      |
@@ -215,86 +187,55 @@ Currently unused features:
 | nh    | "anything"    |
 | ni    | "university"  |
 | nig   | "night"       |
-| nk    | "links"       |
+| nc    | "links"       |
 | not   | "another"     |
-| noth  | "nothing"     |
 | nou   | "enough"      |
 | ns    | "answer"      |
 | nsi   | "inside"      |
 | nst   | "instead"     |
-| nt    | "front"       |
-| nti   | "until"       |
+| nt    | "nothing"     |
 | nu    | "number"      |
 | ny    | "company"     |
 | nyo   | "anyone"      |
 | pa    | "privacy"     |
-| pap   | "paper"       |
 | par   | "parent"      |
 | pe    | "place"       |
 | pen   | "happen"      |
-| peo   | "people"      |
 | per   | "person"      |
 | ph    | "phone"       |
 | pi    | "price"       |
-| pl    | "reply"       |
-| ple   | "please"      |
+| rep   | "reply"       |
+| pea   | "please"      |
 | po    | "product"     |
-| poi   | "point"       |
+| pp    | "people"      |
 | pr    | "problem"     |
 | pre   | "pretty"      |
-| prob  | "probably"    |
+| pro   | "probably"    |
 | pu    | "public"      |
-| py    | "copyright"   |
-| qu    | "quite"       |
-| que   | "question"    |
-| qui   | "quickly"     |
 | ra    | "program"     |
-| rai   | "raise"       |
 | rd    | "order"       |
 | re    | "really"      |
 | rea   | "ready"       |
-| reas  | "reason"      |
 | rem   | "remember"    |
 | res   | "there's"     |
 | ret   | "return"      |
 | rev   | "review"      |
-| rg    | "large"       |
-| rh    | "reach"       |
 | ri    | "right"       |
 | rl    | "world"       |
-| rly   | "early"       |
 | rn    | "morning"     |
 | ro    | "around"      |
-| roo   | "room"        |
-| rr    | "sorry"       |
 | rs    | "years"       |
-| rse   | "herself"     |
-| rt    | "heart"       |
-| ru    | "shrug"       |
-| ry    | "january"     |
 | ryo   | "everyone"    |
-| sa    | "state"       |
-| sc    | "scream"      |
-| sch   | "school"      |
 | se    | "search"      |
 | sec   | "second"      |
-| sh    | "shook"       |
-| shi   | "shirt"       |
-| sho   | "should"      |
-| shor  | "short"       |
-| shou  | "shoulder"    |
-| si    | "still"       |
+| s     | "should"      |
 | sil   | "silence"     |
-| sis   | "sister"      |
-| sl    | "sleep"       |
 | sli   | "slightly"    |
 | slo   | "slowly"      |
 | sm    | "small"       |
 | smi   | "smile"       |
 | sn    | "wasn't"      |
-| so    | "some"        |
 | som   | "something"   |
-| sou   | "sound"       |
 | st    | "start"       |
 | sta   | "stare"       |
 | sto   | "stood"       |
@@ -308,50 +249,29 @@ Currently unused features:
 | tab   | "table"       |
 | tan   | "stand"       |
 | tc    | "watch"       |
-| te    | "other"       |
-| tem   | "them"        |
 | th    | "they"        |
-| tha   | "thank"       |
-| the   | "there"       |
-| thei  | "their"       |
-| ther  | "either"      |
-| thes  | "these"       |
+| tha   | "thanks"      |
+| ty    | "thank you"   |
 | thi   | "think"       |
-| thin  | "thing"       |
-| tho   | "those"       |
+| tn    | "thing"       |
 | thou  | "thought"     |
 | thr   | "through"     |
-| thre  | "three"       |
-| ti    | "time"        |
 | tic   | "notice"      |
 | to    | "though"      |
-| toge  | "together"    |
+| tog   | "together"    |
 | tow   | "toward"      |
-| tr    | "street"      |
 | ts    | "that's"      |
 | tsi   | "outside"     |
-| tu    | "turn"        |
 | va    | "available"   |
-| ve    | "even"        |
 | ver   | "every"       |
 | vi    | "services"    |
-| vo    | "voice"       |
 | vy    | "everything"  |
 | wal   | "walk"        |
-| wat   | "water"       |
-| wel   | "well"        |
 | wh    | "which"       |
 | wha   | "what's"      |
 | wher  | "where"       |
-| whi   | "whisper"     |
-| whit  | "white"       |
-| who   | "whole"       |
-| wi    | "while"       |
 | win   | "window"      |
-| with  | "without"     |
-| wo    | "would"       |
-| wom   | "woman"       |
-| won   | "wonder"      |
+| wit   | "without"     |
 | wr    | "wrong"       |
 | ws    | "reviews"     |
 | wu    | "wouldn't"    |
@@ -411,7 +331,7 @@ Currently unused features:
 | RMods |         |         |         |         |    [    |    ]    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |         |         |         |         |  dead1  |         |         |         |
-| Left  |         |         |         |         |  *CNum  |  *Case  |   *Mm   |         |
+| Left  |         |         |         |         |  *CNum  |         |   *Mm   |         |
 | Left  |    :    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
 | Left  |         |         |    ;    |         |  *ANum  |  *Num   |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -555,11 +475,6 @@ Currently unused features:
 |  Mm   |   ver   |   ⏮️    |   ⏭️    |   ⏯️    |         |         |         |         |
 |  Mm   |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Case  |         |         |         |         |         |         |         |         |
-| Case  | sl/case | PasCase |  CapW   | SN_CASE |         |         |         |         |
-| Case  | do.case | camCase | kb-case | sn_case |         |         |         |         |
-| Case  |         |         |         |         |         |         |         |         |
-|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
 ## Options
 
@@ -579,7 +494,6 @@ The order of the options is also the order of the layers in the layer stack.
 |     ANum     |                 |                 |               |                |                  |               |
 |     CNum     |                 |                 |               |                |                  |      200      |
 |      Mm      |                 |                 |               |                |                  |               |
-|     Case     |                 |                 |               |                |                  |               |
 
 ## Symbols
 
@@ -628,13 +542,6 @@ The order of the options is also the order of the layers in the layer stack.
 | n't     | custom:N_T                      |
 | ver     | custom:PRINT_VERSION            |
 | CapW    | custom:CAPS_WORDS               |
-| sn_case | custom:SNAKE_CASE               |
-| SN_CASE | custom:SCREAMING_SNAKE_CASE     |
-| camCase | custom:CAMEL_CASE               |
-| PasCase | custom:PASCAL_CASE              |
-| sl/case | custom:SLASH_CASE               |
-| do.case | custom:DOT_CASE                 |
-| kb-case | custom:KEBAP_CASE               |
 | dead1   | custom:DEAD1                    |
 | dead2   | custom:DEAD2                    |
 | dead3   | custom:DEAD3                    |
