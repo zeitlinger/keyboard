@@ -48,30 +48,40 @@ bool process_chord_mode(uint16_t keycode, keyrecord_t *record) {
     if (keycode == _HANDLER_CHORD_KEY) {
         if (record->event.pressed) {
             chord_state = 1; // Activate chord mode at root of trie
+            chord_depth = 0; // Reset depth counter
         }
         return false;
     }
 
     // If chord mode is active
     if (chord_state > 0) {
-        // Handle space release to end chord mode
-        if (keycode == KC_SPACE) {
-            if (!record->event.pressed) {
-                // Output the chord result based on final state
-                chord_output(chord_state);
-                chord_state = 0; // Reset to inactive
-            }
-            return false;
-        }
-
-        // Process other keys during chord mode
         if (record->event.pressed) {
+            // Handle space as "completion" key for 1-letter chords
+            if (keycode == KC_SPC && chord_depth >= 1) {
+                // Output the chord word (if state has output) and add space
+                chord_output(chord_state);
+                tap_code16(KC_SPC);
+                chord_state = 0; // Reset to inactive
+                chord_depth = 0;
+                return false;
+            }
+
+            // Try to transition to next state with the pressed key
             int next_state = chord_transition(chord_state, keycode);
             if (next_state > 0) {
                 chord_state = next_state;
+                chord_depth++;
+
+                // Emit immediately after 2nd letter (for 2-letter chords)
+                if (chord_depth == 2) {
+                    chord_output(chord_state);
+                    chord_state = 0; // Reset to inactive
+                    chord_depth = 0;
+                }
             } else {
                 // Invalid transition, reset chord mode
                 chord_state = 0;
+                chord_depth = 0;
             }
             return false;
         }

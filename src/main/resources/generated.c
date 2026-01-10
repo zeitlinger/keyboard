@@ -6,6 +6,7 @@
 int alternateLayer = -1;
 int layer = _BASE;
 int chord_state = 0; // 0 = inactive, 1+ = trie states
+int chord_depth = 0; // Track number of letters in current chord
 
 ${chordDecoder}
 
@@ -24,7 +25,6 @@ ${chordOutputs}
     default:
         return;
     }
-    tap_code16(KC_SPC);
 }
 
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {

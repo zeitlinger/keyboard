@@ -103,7 +103,7 @@ Currently unused features:
 
 | Chord | output        |
 |-------|---------------|
-| bi    | "been"        |
+| b     | "been"        |
 | bk    | "back"        |
 | ba    | "about"       |
 | be    | "because"     |
@@ -115,7 +115,7 @@ Currently unused features:
 | bn    | "black"       |
 | br    | "break"       |
 | bu    | "business"    |
-| cu    | "could"       |
+| c     | "could"       |
 | ca    | "actually"    |
 | ce    | "service"     |
 | ch    | "research"    |
@@ -129,7 +129,7 @@ Currently unused features:
 | ct    | "caught"      |
 | cd    | "couldn't"    |
 | cy    | "policy"      |
-| di    | "didn't"      |
+| d     | "didn't"      |
 | da    | "today"       |
 | dc    | "decide"      |
 | de    | "video"       |
@@ -137,7 +137,7 @@ Currently unused features:
 | dn    | "hadn't"      |
 | du    | "products"    |
 | dy    | "already"     |
-| fo    | "from"        |
+| f     | "from"        |
 | fa    | "family"      |
 | ft    | "father"      |
 | fg    | "figure"      |
@@ -145,10 +145,10 @@ Currently unused features:
 | fi    | "finger"      |
 | fs    | "finish"      |
 | fl    | "follow"      |
-| fe    | "information" |
+| fo    | "information" |
 | fw    | "software"    |
 | fu    | "found"       |
-| ga    | "again"       |
+| g     | "again"       |
 | ge    | "began"       |
 | gj    | "general"     |
 | gh    | "rights"      |
@@ -158,12 +158,12 @@ Currently unused features:
 | gd    | "ground"      |
 | gs    | "against"     |
 | gu    | "guess"       |
-| ke    | "question"    |
+| k     | "question"    |
 | ky    | "quickly"     |
-| le    | "length"      |
+| l     | "length"      |
 | lk    | "like"        |
 | la    | "laugh"       |
-| lj    | "leave"       |
+| le    | "leave"       |
 | lf    | "himself"     |
 | lh    | "health"      |
 | li    | "light"       |
@@ -172,7 +172,7 @@ Currently unused features:
 | lq    | "listen"      |
 | lt    | "little"      |
 | ly    | "always"      |
-| mq    | "more"        |
+| m     | "more"        |
 | me    | "message"     |
 | mh    | "might"       |
 | mi    | "minute"      |
@@ -181,9 +181,9 @@ Currently unused features:
 | ms    | "items"       |
 | mu    | "music"       |
 | my    | "myself"      |
+| n     | "understand"  |
 | na    | "anyway"      |
 | nc    | "links"       |
-| nd    | "understand"  |
 | nh    | "anything"    |
 | ni    | "university"  |
 | no    | "another"     |
@@ -195,10 +195,10 @@ Currently unused features:
 | nz    | "number"      |
 | ny    | "company"     |
 | np    | "anyone"      |
-| pe    | "people"      |
+| p     | "people"      |
 | pa    | "privacy"     |
 | pr    | "parent"      |
-| pq    | "place"       |
+| pe    | "place"       |
 | pl    | "please"      |
 | pn    | "happen"      |
 | ps    | "person"      |
@@ -207,10 +207,10 @@ Currently unused features:
 | pt    | "pretty"      |
 | py    | "probably"    |
 | pu    | "public"      |
-| re    | "really"      |
+| r     | "really"      |
 | ra    | "program"     |
 | rw    | "order"       |
-| rj    | "ready"       |
+| re    | "ready"       |
 | rm    | "remember"    |
 | rp    | "reply"       |
 | rs    | "there's"     |
@@ -222,7 +222,7 @@ Currently unused features:
 | ro    | "around"      |
 | ry    | "years"       |
 | rq    | "everyone"    |
-| sa    | "should"      |
+| s     | "should"      |
 | se    | "search"      |
 | sc    | "second"      |
 | si    | "silence"     |
@@ -236,7 +236,7 @@ Currently unused features:
 | sp    | "suppose"     |
 | sr    | "surprise"    |
 | sy    | "system"      |
-| ti    | "think"       |
+| t     | "think"       |
 | ta    | "contact"     |
 | tb    | "table"       |
 | tc    | "watch"       |
@@ -250,11 +250,11 @@ Currently unused features:
 | tw    | "toward"      |
 | ts    | "that's"      |
 | ty    | "thank you"   |
-| ve    | "have"        |
+| v     | "have"        |
 | va    | "available"   |
 | vi    | "services"    |
 | vy    | "everything"  |
-| wq    | "would"       |
+| w     | "would"       |
 | wa    | "walk"        |
 | wh    | "which"       |
 | wt    | "what's"      |
@@ -265,7 +265,7 @@ Currently unused features:
 | ws    | "reviews"     |
 | wu    | "wouldn't"    |
 | wy    | "worry"       |
-| za    | "realize"     |
+| z     | "realize"     |
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
