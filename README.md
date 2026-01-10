@@ -160,7 +160,8 @@ Currently unused features:
 | gu    | "guess"       |
 | k     | "question"    |
 | ky    | "quickly"     |
-| l     | "like"        |
+| l     | "length"      |
+| lk    | "like"        |
 | la    | "laugh"       |
 | le    | "leave"       |
 | lf    | "himself"     |
