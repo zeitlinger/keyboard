@@ -103,7 +103,8 @@ Currently unused features:
 
 | Chord | output        |
 |-------|---------------|
-| b     | "back"        |
+| b     | "been"        |
+| bk    | "back"        |
 | ba    | "about"       |
 | be    | "because"     |
 | bef   | "before"      |
@@ -134,8 +135,6 @@ Currently unused features:
 | de    | "video"       |
 | df    | "different"   |
 | dnt   | "hadn't"      |
-| do    | "don't"       |
-| doe   | "doesn't"     |
 | du    | "products"    |
 | dy    | "already"     |
 | f     | "from"        |
@@ -228,7 +227,6 @@ Currently unused features:
 | sil   | "silence"     |
 | sli   | "slightly"    |
 | slo   | "slowly"      |
-| smi   | "smile"       |
 | sn    | "wasn't"      |
 | som   | "something"   |
 | sto   | "stood"       |
@@ -251,7 +249,8 @@ Currently unused features:
 | tow   | "toward"      |
 | ts    | "that's"      |
 | ty    | "thank you"   |
-| v     | "available"   |
+| v     | "have"        |
+| va    | "available"   |
 | vi    | "services"    |
 | vy    | "everything"  |
 | w     | "would"       |
@@ -269,7 +268,7 @@ Currently unused features:
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-| Base  |   esc   |    x    |    w    |  dead3  |  dead2  |    '    |  chord  |  dead1  |
+| Base  |   esc   |    x    |    w    |  dead3  |  dead2  |    '    | magicC  |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
 | Base  |         |         |  *Nav   |    r    |   spc   | *FnSym  |         |         |
@@ -284,7 +283,7 @@ Currently unused features:
 | Base  |         |         |    g    |         |         |    ,    |         |         |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Base  |         |    p    |         |         |         |         | magicC  |         |
+| Base  |         |    p    |         |         |         |         |  chord  |         |
 | Base  |         |   💎    |         |         |         |         |   💎    |         |
 | Base  |         |    b    |         |         |         |         |    .    |         |
 | Base  |         |         |         |         |         |         |         |         |
