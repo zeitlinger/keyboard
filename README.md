@@ -101,268 +101,262 @@ Currently unused features:
 |   =   |      >      |          |         |
 |   !   |      =      |          |         |
 
-| Chord | output         |
-|-------|----------------|
-| ag    | "again "       |
-| ba    | "back "        |
-| be    | "been "        |
-| beca  | "because "     |
-| bef   | "before "      |
-| beli  | "believe "     |
-| bet   | "better "      |
-| betw  | "between "     |
-| bh    | "behind "      |
-| bl    | "black "       |
-| bo    | "about "       |
-| br    | "brother "     |
-| bre   | "breath "      |
-| brea  | "break "       |
-| bu    | "business "    |
-| ca    | "actually "    |
-| cau   | "caught "      |
-| ce    | "service "     |
-| ch    | "research "    |
-| cha   | "change "      |
-| chai  | "chair "       |
-| ci    | "click "       |
-| cl    | "class "       |
-| co    | "could "       |
-| con   | "continue "    |
-| cou   | "course "      |
-| coup  | "couple "      |
-| cov   | "cover "       |
-| cr    | "across "      |
-| cu    | "couldn't "    |
-| cy    | "policy "      |
-| da    | "today "       |
-| de    | "video "       |
-| dec   | "decide "      |
-| di    | "didn't "      |
-| dif   | "different "   |
-| dn    | "didn't "      |
-| dnt   | "hadn't "      |
-| do    | "don't "       |
-| doe   | "doesn't "     |
-| dow   | "down "        |
-| dr    | "dress "       |
-| du    | "products "    |
-| dy    | "already "     |
-| fa    | "face "        |
-| fam   | "family "      |
-| fat   | "father "      |
-| fe    | "after "       |
-| ff    | "stuff "       |
-| fi    | "first "       |
-| fig   | "figure "      |
-| fin   | "finally "     |
-| fing  | "finger "      |
-| fini  | "finish "      |
-| fl    | "floor "       |
-| fo    | "information " |
-| fol   | "follow "      |
-| fr    | "from "        |
-| fri   | "friend "      |
-| ft    | "software "    |
-| fu    | "found "       |
-| ga    | "began "       |
-| ge    | "general "     |
-| gh    | "rights "      |
-| gi    | "against "     |
-| gl    | "glance "      |
-| go    | "group "       |
-| gr    | "great "       |
-| gro   | "ground "      |
-| gu    | "guess "       |
-| kit   | "kitchen "     |
-| ko    | "know "        |
-| ks    | "books "       |
-| la    | "laugh "       |
-| le    | "close "       |
-| lea   | "leave "       |
-| leas  | "least "       |
-| lf    | "himself "     |
-| lh    | "health "      |
-| li    | "like "        |
-| lig   | "light "       |
-| lis   | "listen "      |
-| lit   | "little "      |
-| lm    | "almost "      |
-| lo    | "look "        |
-| lon   | "along "       |
-| lone  | "alone "       |
-| ly    | "always "      |
-| ma    | "make "        |
-| mat   | "matter "      |
-| may   | "maybe "       |
-| me    | "message "     |
-| meo   | "someone "     |
-| mh    | "might "       |
-| mi    | "email "       |
-| min   | "minute "      |
-| mo    | "more "        |
-| mome  | "moment "      |
-| mou   | "mouth "       |
-| ms    | "items "       |
-| mth   | "mother "      |
-| mu    | "music "       |
-| my    | "myself "      |
-| na    | "anyway "      |
-| nc    | "since "       |
-| nd    | "under "       |
-| nde   | "understand "  |
-| ne    | "online "      |
-| nev   | "never "       |
-| nh    | "anything "    |
-| ni    | "university "  |
-| nig   | "night "       |
-| nk    | "links "       |
-| no    | "now "         |
-| not   | "another "     |
-| noth  | "nothing "     |
-| nou   | "enough "      |
-| ns    | "answer "      |
-| nsi   | "inside "      |
-| nst   | "instead "     |
-| nt    | "front "       |
-| nti   | "until "       |
-| nu    | "number "      |
-| ny    | "company "     |
-| nyo   | "anyone "      |
-| pa    | "privacy "     |
-| pap   | "paper "       |
-| par   | "parent "      |
-| pe    | "place "       |
-| pen   | "happen "      |
-| peo   | "people "      |
-| per   | "person "      |
-| ph    | "phone "       |
-| pi    | "price "       |
-| pl    | "reply "       |
-| ple   | "please "      |
-| po    | "product "     |
-| poi   | "point "       |
-| pr    | "problem "     |
-| pre   | "pretty "      |
-| prob  | "probably "    |
-| pu    | "public "      |
-| py    | "copyright "   |
-| qu    | "quite "       |
-| que   | "question "    |
-| qui   | "quickly "     |
-| ra    | "program "     |
-| rai   | "raise "       |
-| rd    | "order "       |
-| re    | "really "      |
-| rea   | "ready "       |
-| reas  | "reason "      |
-| rem   | "remember "    |
-| res   | "there's "     |
-| ret   | "return "      |
-| rev   | "review "      |
-| rg    | "large "       |
-| rh    | "reach "       |
-| ri    | "right "       |
-| rl    | "world "       |
-| rly   | "early "       |
-| rn    | "morning "     |
-| ro    | "around "      |
-| roo   | "room "        |
-| rr    | "sorry "       |
-| rs    | "years "       |
-| rse   | "herself "     |
-| rt    | "heart "       |
-| ru    | "shrug "       |
-| ry    | "january "     |
-| ryo   | "everyone "    |
-| sa    | "state "       |
-| sc    | "scream "      |
-| sch   | "school "      |
-| se    | "search "      |
-| sec   | "second "      |
-| sh    | "shook "       |
-| shi   | "shirt "       |
-| sho   | "should "      |
-| shor  | "short "       |
-| shou  | "shoulder "    |
-| si    | "still "       |
-| sil   | "silence "     |
-| sis   | "sister "      |
-| sl    | "sleep "       |
-| sli   | "slightly "    |
-| slo   | "slowly "      |
-| sm    | "small "       |
-| smi   | "smile "       |
-| sn    | "wasn't "      |
-| so    | "some "        |
-| som   | "something "   |
-| sou   | "sound "       |
-| st    | "start "       |
-| sta   | "stare "       |
-| sto   | "stood "       |
-| stu   | "stupid "      |
-| su    | "support "     |
-| sud   | "suddenly "    |
-| sup   | "suppose "     |
-| surp  | "surprise "    |
-| sy    | "system "      |
-| ta    | "contact "     |
-| tab   | "table "       |
-| tan   | "stand "       |
-| tc    | "watch "       |
-| te    | "other "       |
-| tem   | "them "        |
-| th    | "they "        |
-| tha   | "thank "       |
-| the   | "there "       |
-| thei  | "their "       |
-| ther  | "either "      |
-| thes  | "these "       |
-| thi   | "think "       |
-| thin  | "thing "       |
-| tho   | "those "       |
-| thou  | "thought "     |
-| thr   | "through "     |
-| thre  | "three "       |
-| ti    | "time "        |
-| tic   | "notice "      |
-| to    | "though "      |
-| toge  | "together "    |
-| tow   | "toward "      |
-| tr    | "street "      |
-| ts    | "that's "      |
-| tsi   | "outside "     |
-| tu    | "turn "        |
-| va    | "available "   |
-| ve    | "even "        |
-| ver   | "every "       |
-| vi    | "services "    |
-| vo    | "voice "       |
-| vr    | "over "        |
-| vy    | "everything "  |
-| wa    | "what "        |
-| wal   | "walk "        |
-| wan   | "want "        |
-| wat   | "water "       |
-| we    | "were "        |
-| wel   | "well "        |
-| wh    | "which "       |
-| wha   | "what's "      |
-| whe   | "when "        |
-| wher  | "where "       |
-| whi   | "whisper "     |
-| whit  | "white "       |
-| who   | "whole "       |
-| wi    | "while "       |
-| win   | "window "      |
-| with  | "without "     |
-| wo    | "would "       |
-| wom   | "woman "       |
-| won   | "wonder "      |
-| wr    | "wrong "       |
-| ws    | "reviews "     |
-| wu    | "wouldn't "    |
-| wy    | "worry "       |
-| ze    | "realize "     |
+| Chord | output        |
+|-------|---------------|
+| gi    | "again"       |
+| ba    | "back"        |
+| be    | "been"        |
+| beca  | "because"     |
+| bef   | "before"      |
+| beli  | "believe"     |
+| bet   | "better"      |
+| betw  | "between"     |
+| bh    | "behind"      |
+| bl    | "black"       |
+| bo    | "about"       |
+| br    | "brother"     |
+| bre   | "breath"      |
+| brea  | "break"       |
+| bu    | "business"    |
+| ca    | "actually"    |
+| cau   | "caught"      |
+| ce    | "service"     |
+| ch    | "research"    |
+| cha   | "change"      |
+| chai  | "chair"       |
+| ci    | "click"       |
+| cl    | "class"       |
+| co    | "could"       |
+| con   | "continue"    |
+| cou   | "course"      |
+| coup  | "couple"      |
+| cov   | "cover"       |
+| cr    | "across"      |
+| cu    | "couldn't"    |
+| cy    | "policy"      |
+| da    | "today"       |
+| de    | "video"       |
+| dec   | "decide"      |
+| di    | "didn't"      |
+| dif   | "different"   |
+| dn    | "didn't"      |
+| dnt   | "hadn't"      |
+| do    | "don't"       |
+| doe   | "doesn't"     |
+| dow   | "down"        |
+| dr    | "dress"       |
+| du    | "products"    |
+| dy    | "already"     |
+| fa    | "face"        |
+| fam   | "family"      |
+| fat   | "father"      |
+| fe    | "after"       |
+| ff    | "stuff"       |
+| fi    | "first"       |
+| fig   | "figure"      |
+| fin   | "finally"     |
+| fing  | "finger"      |
+| fini  | "finish"      |
+| fl    | "floor"       |
+| fo    | "information" |
+| fol   | "follow"      |
+| fr    | "from"        |
+| fri   | "friend"      |
+| ft    | "software"    |
+| fu    | "found"       |
+| ga    | "began"       |
+| ge    | "general"     |
+| gh    | "rights"      |
+| gi    | "against"     |
+| gl    | "glance"      |
+| go    | "group"       |
+| gr    | "great"       |
+| gro   | "ground"      |
+| gu    | "guess"       |
+| kit   | "kitchen"     |
+| ko    | "know"        |
+| ks    | "books"       |
+| la    | "laugh"       |
+| le    | "close"       |
+| lea   | "leave"       |
+| leas  | "least"       |
+| lf    | "himself"     |
+| lh    | "health"      |
+| li    | "like"        |
+| lig   | "light"       |
+| lis   | "listen"      |
+| lit   | "little"      |
+| lm    | "almost"      |
+| lo    | "look"        |
+| lon   | "along"       |
+| lone  | "alone"       |
+| ly    | "always"      |
+| ma    | "make"        |
+| mat   | "matter"      |
+| may   | "maybe"       |
+| me    | "message"     |
+| meo   | "someone"     |
+| mh    | "might"       |
+| mi    | "email"       |
+| min   | "minute"      |
+| mo    | "more"        |
+| mome  | "moment"      |
+| mou   | "mouth"       |
+| ms    | "items"       |
+| mth   | "mother"      |
+| mu    | "music"       |
+| my    | "myself"      |
+| na    | "anyway"      |
+| nc    | "since"       |
+| nd    | "under"       |
+| nde   | "understand"  |
+| ne    | "online"      |
+| nev   | "never"       |
+| nh    | "anything"    |
+| ni    | "university"  |
+| nig   | "night"       |
+| nk    | "links"       |
+| not   | "another"     |
+| noth  | "nothing"     |
+| nou   | "enough"      |
+| ns    | "answer"      |
+| nsi   | "inside"      |
+| nst   | "instead"     |
+| nt    | "front"       |
+| nti   | "until"       |
+| nu    | "number"      |
+| ny    | "company"     |
+| nyo   | "anyone"      |
+| pa    | "privacy"     |
+| pap   | "paper"       |
+| par   | "parent"      |
+| pe    | "place"       |
+| pen   | "happen"      |
+| peo   | "people"      |
+| per   | "person"      |
+| ph    | "phone"       |
+| pi    | "price"       |
+| pl    | "reply"       |
+| ple   | "please"      |
+| po    | "product"     |
+| poi   | "point"       |
+| pr    | "problem"     |
+| pre   | "pretty"      |
+| prob  | "probably"    |
+| pu    | "public"      |
+| py    | "copyright"   |
+| qu    | "quite"       |
+| que   | "question"    |
+| qui   | "quickly"     |
+| ra    | "program"     |
+| rai   | "raise"       |
+| rd    | "order"       |
+| re    | "really"      |
+| rea   | "ready"       |
+| reas  | "reason"      |
+| rem   | "remember"    |
+| res   | "there's"     |
+| ret   | "return"      |
+| rev   | "review"      |
+| rg    | "large"       |
+| rh    | "reach"       |
+| ri    | "right"       |
+| rl    | "world"       |
+| rly   | "early"       |
+| rn    | "morning"     |
+| ro    | "around"      |
+| roo   | "room"        |
+| rr    | "sorry"       |
+| rs    | "years"       |
+| rse   | "herself"     |
+| rt    | "heart"       |
+| ru    | "shrug"       |
+| ry    | "january"     |
+| ryo   | "everyone"    |
+| sa    | "state"       |
+| sc    | "scream"      |
+| sch   | "school"      |
+| se    | "search"      |
+| sec   | "second"      |
+| sh    | "shook"       |
+| shi   | "shirt"       |
+| sho   | "should"      |
+| shor  | "short"       |
+| shou  | "shoulder"    |
+| si    | "still"       |
+| sil   | "silence"     |
+| sis   | "sister"      |
+| sl    | "sleep"       |
+| sli   | "slightly"    |
+| slo   | "slowly"      |
+| sm    | "small"       |
+| smi   | "smile"       |
+| sn    | "wasn't"      |
+| so    | "some"        |
+| som   | "something"   |
+| sou   | "sound"       |
+| st    | "start"       |
+| sta   | "stare"       |
+| sto   | "stood"       |
+| stu   | "stupid"      |
+| su    | "support"     |
+| sud   | "suddenly"    |
+| sup   | "suppose"     |
+| surp  | "surprise"    |
+| sy    | "system"      |
+| ta    | "contact"     |
+| tab   | "table"       |
+| tan   | "stand"       |
+| tc    | "watch"       |
+| te    | "other"       |
+| tem   | "them"        |
+| th    | "they"        |
+| tha   | "thank"       |
+| the   | "there"       |
+| thei  | "their"       |
+| ther  | "either"      |
+| thes  | "these"       |
+| thi   | "think"       |
+| thin  | "thing"       |
+| tho   | "those"       |
+| thou  | "thought"     |
+| thr   | "through"     |
+| thre  | "three"       |
+| ti    | "time"        |
+| tic   | "notice"      |
+| to    | "though"      |
+| toge  | "together"    |
+| tow   | "toward"      |
+| tr    | "street"      |
+| ts    | "that's"      |
+| tsi   | "outside"     |
+| tu    | "turn"        |
+| va    | "available"   |
+| ve    | "even"        |
+| ver   | "every"       |
+| vi    | "services"    |
+| vo    | "voice"       |
+| vy    | "everything"  |
+| wal   | "walk"        |
+| wat   | "water"       |
+| wel   | "well"        |
+| wh    | "which"       |
+| wha   | "what's"      |
+| wher  | "where"       |
+| whi   | "whisper"     |
+| whit  | "white"       |
+| who   | "whole"       |
+| wi    | "while"       |
+| win   | "window"      |
+| with  | "without"     |
+| wo    | "would"       |
+| wom   | "woman"       |
+| won   | "wonder"      |
+| wr    | "wrong"       |
+| ws    | "reviews"     |
+| wu    | "wouldn't"    |
+| wy    | "worry"       |
+| ze    | "realize"     |
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|

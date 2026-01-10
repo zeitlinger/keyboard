@@ -20,8 +20,9 @@ void chord_output(int state) {
     switch (state) {
 ${chordOutputs}
     default:
-        break;
+        return;
     }
+    tap_code16(KC_SPC);
 }
 
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
