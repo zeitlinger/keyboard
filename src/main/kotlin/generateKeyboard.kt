@@ -16,6 +16,7 @@ val gitTemplate = "https://github.com/zeitlinger/keyboard/blob/main/%s"
 val gitVersionTemplate = "https://github.com/zeitlinger/keyboard/blob/%s/%s"
 
 fun main() {
+    System.err.println("=== Generator Starting ===")
     val cfg = File("README.md")
     val res = File("src/main/resources")
     run(

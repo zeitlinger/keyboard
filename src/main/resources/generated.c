@@ -7,6 +7,8 @@ int alternateLayer = -1;
 int layer = _BASE;
 int chord_state = 0; // 0 = inactive, 1+ = trie states
 
+${chordDecoder}
+
 int chord_transition(int state, uint16_t keycode) {
     switch (state) {
 ${chordTransitions}

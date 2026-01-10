@@ -131,6 +131,8 @@ fun run(args: GeneratorArgs) {
         )
     )
 
+    val encodedChordData = chordInfo?.let { generateChordOutputs(it) }
+
     replaceTemplate(
         File(srcDir, "generated.c"),
         File(dstDir, "generated.c"),
@@ -142,7 +144,8 @@ fun run(args: GeneratorArgs) {
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
             "magic" to translator.magic.map { magicBlock(it) }.indented(12),
             "chordTransitions" to (chordInfo?.let { generateChordTransitions(it).prependIndent(" ".repeat(8)) } ?: "" as String),
-            "chordOutputs" to (chordInfo?.let { generateChordOutputs(it).prependIndent(" ".repeat(8)) } ?: "" as String),
+            "chordOutputs" to (encodedChordData?.outputs?.prependIndent(" ".repeat(8)) ?: "" as String),
+            "chordDecoder" to (encodedChordData?.decoder ?: ""),
             "oneShotOnUpLayerPressed" to translator.oneShotOnUpLayer.sortedBy { it.up.const() }
                 .map {
                     "case ${it.activation.key.key}: alternateLayer = ${it.up.const()}; break;"
@@ -156,6 +159,13 @@ fun run(args: GeneratorArgs) {
 
     if (args.printStats) {
         analyze(translator, layers)
+    }
+
+    // Always print chord encoding statistics
+    encodedChordData?.let {
+        System.err.println("=== CHORD ENCODING STATISTICS ===")
+        System.err.println(it.statistics)
+        println(it.statistics)
     }
 
     File(dstDir, "combos.def").writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))

@@ -103,17 +103,230 @@ fun generateChordTransitions(chordInfo: ChordInfo): String {
     }
 }
 
-fun generateChordOutputs(chordInfo: ChordInfo): String {
-    val lines = mutableListOf<String>()
+data class EncodedChordData(
+    val outputs: String, // C code for chord outputs
+    val decoder: String?, // Optional decoder function
+    val statistics: String // Memory usage statistics
+)
 
+fun generateChordOutputs(chordInfo: ChordInfo): EncodedChordData {
+    // Analyze all chord output strings
+    val allStrings = chordInfo.outputs.values.toList()
+
+    // Calculate raw memory usage
+    val rawSize = allStrings.sumOf { it.length + 1 } // +1 for null terminator
+
+    // Try encoding
+    val encodingResult = tryEncodeChordStrings(chordInfo.outputs)
+
+    // Determine whether to use encoding
+    val useEncoding = encodingResult != null && encodingResult.totalSize < rawSize
+
+    val stats = if (encodingResult != null) {
+        val compressionRatio = "%.1f".format((encodingResult.dataSize.toDouble() / rawSize) * 100)
+        if (useEncoding) {
+            "Chord strings: 5-BIT ENCODED ✓ - data=${encodingResult.dataSize}B ($compressionRatio% of raw) + decoder=${encodingResult.decoderSize}B = ${encodingResult.totalSize}B vs raw ${rawSize}B (SAVED ${rawSize - encodingResult.totalSize}B, ${100 - (encodingResult.totalSize * 100 / rawSize)}%)"
+        } else {
+            "Chord strings: RAW - raw=${rawSize}B is better than 5-bit encoded ${encodingResult.totalSize}B (data=${encodingResult.dataSize}B @$compressionRatio% + decoder=${encodingResult.decoderSize}B)"
+        }
+    } else {
+        "Chord strings: raw $rawSize bytes (encoding not possible - >32 unique characters)"
+    }
+
+    return if (useEncoding && encodingResult != null) {
+        EncodedChordData(
+            outputs = generateEncodedOutputs(chordInfo, encodingResult),
+            decoder = generateDecoder(encodingResult),
+            statistics = stats
+        )
+    } else {
+        EncodedChordData(
+            outputs = generateRawOutputs(chordInfo),
+            decoder = null,
+            statistics = stats
+        )
+    }
+}
+
+private fun generateRawOutputs(chordInfo: ChordInfo): String {
+    val lines = mutableListOf<String>()
     for ((state, output) in chordInfo.outputs.toSortedMap()) {
-        val chordComment = chordInfo.stateToChord[state]?.let { "        // $it" } ?: null
+        val chordComment = chordInfo.stateToChord[state]?.let { "        // $it" }
         if (chordComment != null) {
             lines.add(chordComment)
         }
         lines.add("case $state: SEND_STRING(\"$output\"); break;")
     }
+    return lines.joinToString("\n")
+}
+
+data class ChordEncoding(
+    val encodedData: Map<Int, ByteArray>, // state -> encoded bytes
+    val charToCode: Map<Char, Int>, // character -> encoding value
+    val codeToChar: Map<Int, Char>, // encoding value -> character
+    val dataSize: Int, // Raw data bytes
+    val decoderSize: Int, // Decoder overhead
+    val totalSize: Int // Total bytes used (data + decoder overhead)
+)
+
+private fun tryEncodeChordStrings(outputs: Map<Int, String>): ChordEncoding? {
+    // Build character frequency map
+    val charFreq = mutableMapOf<Char, Int>()
+    outputs.values.forEach { str ->
+        str.forEach { char ->
+            charFreq[char] = charFreq.getOrDefault(char, 0) + 1
+        }
+    }
+
+    // Create sorted character list by frequency (most common first)
+    val sortedChars = charFreq.entries.sortedByDescending { it.value }.map { it.key }
+
+    // Check if we have too many unique characters (>32 won't fit in 5-bit encoding)
+    if (sortedChars.size > 32) {
+        return null
+    }
+
+    // Assign codes: use values 0-31 for 5-bit encoding
+    val charToCode = sortedChars.mapIndexed { index, char -> char to index }.toMap()
+    val codeToChar = charToCode.entries.associate { it.value to it.key }
+
+    // Encode strings with 5-bit packing: pack multiple 5-bit values into bytes
+    val encodedData = mutableMapOf<Int, ByteArray>()
+    var totalDataSize = 0
+
+    outputs.forEach { (state, str) ->
+        // Calculate how many bytes needed for 5-bit packed data
+        val numBits = str.length * 5
+        val numBytes = (numBits + 7) / 8  // Round up to nearest byte
+
+        val encoded = ByteArray(1 + numBytes)  // 1 byte for length + packed data
+        encoded[0] = str.length.toByte()
+
+        // Pack 5-bit codes into bytes
+        var bitOffset = 0
+        str.forEachIndexed { index, char ->
+            val code = charToCode[char] ?: 0
+            val byteIndex = bitOffset / 8
+            val bitInByte = bitOffset % 8
+
+            // Write 5-bit code across byte boundaries if needed
+            if (bitInByte <= 3) {
+                // Fits in current byte
+                encoded[1 + byteIndex] = (encoded[1 + byteIndex].toInt() or (code shl bitInByte)).toByte()
+            } else {
+                // Spans two bytes
+                encoded[1 + byteIndex] = (encoded[1 + byteIndex].toInt() or (code shl bitInByte)).toByte()
+                encoded[2 + byteIndex] = ((code shr (8 - bitInByte)) and 0xFF).toByte()
+            }
+
+            bitOffset += 5
+        }
+
+        encodedData[state] = encoded
+        totalDataSize += encoded.size
+    }
+
+    // Calculate decoder overhead:
+    // - Lookup table: 1 byte per character (sortedChars.size)
+    // - Function code: ~150 bytes (bit unpacking is more complex)
+    // - Global buffer declaration: ~20 bytes
+    val lookupTableSize = sortedChars.size
+    val functionCodeSize = 150 // Bit manipulation decoder is larger
+    val decoderOverhead = lookupTableSize + functionCodeSize
+
+    val totalSize = totalDataSize + decoderOverhead
+
+    return ChordEncoding(encodedData, charToCode, codeToChar, totalDataSize, decoderOverhead, totalSize)
+}
+
+private fun generateEncodedOutputs(chordInfo: ChordInfo, encoding: ChordEncoding): String {
+    val lines = mutableListOf<String>()
+
+    // Build offset map and collect all data
+    val offsets = mutableMapOf<Int, Int>()
+    var currentOffset = 0
+
+    for ((state, _) in chordInfo.outputs.toSortedMap()) {
+        offsets[state] = currentOffset
+        currentOffset += encoding.encodedData[state]!!.size
+    }
+
+    // Generate switch cases with offset lookups
+    for ((state, output) in chordInfo.outputs.toSortedMap()) {
+        val chordComment = chordInfo.stateToChord[state]?.let { "        // $it" }
+        if (chordComment != null) {
+            lines.add(chordComment)
+        }
+        lines.add("case $state: chord_decode_send(chord_data + ${offsets[state]}); break;")
+    }
 
     return lines.joinToString("\n")
+}
+
+private fun generateDecoder(encoding: ChordEncoding): String {
+    val lookupEntries = encoding.codeToChar.entries.sortedBy { it.key }.map { (code, char) ->
+        val escapedChar = when (char) {
+            '\'' -> "\\'"
+            '\\' -> "\\\\"
+            '\n' -> "\\n"
+            '\r' -> "\\r"
+            '\t' -> "\\t"
+            else -> char.toString()
+        }
+        "'$escapedChar'"
+    }
+
+    // Build global buffer with all encoded strings
+    val allEncodedBytes = mutableListOf<Byte>()
+    encoding.encodedData.entries.sortedBy { it.key }.forEach { (_, bytes) ->
+        allEncodedBytes.addAll(bytes.toList())
+    }
+
+    // Format as hex bytes, 16 per line
+    val hexLines = allEncodedBytes.chunked(16).map { chunk ->
+        "    " + chunk.joinToString(", ") { "0x%02x".format(it.toInt() and 0xFF) }
+    }
+
+    return """
+// Chord string decoder lookup table (5-bit codes -> characters)
+static const char chord_char_lookup[] = {
+    ${lookupEntries.joinToString(", ")}
+};
+
+// Global buffer containing all 5-bit packed chord strings
+static const uint8_t chord_data[] = {
+${hexLines.joinToString(",\n")}
+};
+
+// Decode and send 5-bit packed chord string from buffer
+static void chord_decode_send(const uint8_t* data) {
+    uint8_t len = data[0];  // First byte is string length
+    data++;  // Move to packed data
+    
+    uint16_t bitOffset = 0;
+    for (uint8_t i = 0; i < len; i++) {
+        // Extract 5-bit code from packed data
+        uint8_t byteIndex = bitOffset / 8;
+        uint8_t bitInByte = bitOffset % 8;
+        
+        uint8_t code;
+        if (bitInByte <= 3) {
+            // Code fits in current byte
+            code = (data[byteIndex] >> bitInByte) & 0x1F;
+        } else {
+            // Code spans two bytes
+            uint8_t lowBits = (data[byteIndex] >> bitInByte);
+            uint8_t highBits = (data[byteIndex + 1] << (8 - bitInByte));
+            code = (lowBits | highBits) & 0x1F;
+        }
+        
+        if (code < sizeof(chord_char_lookup)) {
+            send_char(chord_char_lookup[code]);
+        }
+        
+        bitOffset += 5;
+    }
+}
+""".trimIndent()
 }
 
