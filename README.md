@@ -101,10 +101,47 @@ Currently unused features:
 |   =   |      >      |          |         |
 |   !   |      =      |          |         |
 
-| Chord | output     |
-|-------|------------|
-| ab    | "for "     |
-| abc   | "because " |
+| Chord | output       |
+|-------|--------------|
+| ag    | "again "     |
+| ba    | "back "      |
+| be    | "been "      |
+| bef   | "before "    |
+| co    | "could "     |
+| di    | "didn't "    |
+| do    | "don't "     |
+| dow   | "down "      |
+| fa    | "face "      |
+| fr    | "from "      |
+| ko    | "know "      |
+| li    | "like "      |
+| lo    | "look "      |
+| ma    | "make "      |
+| mo    | "more "      |
+| no    | "now "       |
+| re    | "really "    |
+| ri    | "right "     |
+| ro    | "around "    |
+| roo   | "room "      |
+| smi   | "smile "     |
+| so    | "some "      |
+| som   | "something " |
+| te    | "other "     |
+| tem   | "them "      |
+| th    | "they "      |
+| thei  | "their "     |
+| thi   | "think "     |
+| ti    | "time "      |
+| tu    | "turn "      |
+| ve    | "even "      |
+| vr    | "over "      |
+| wa    | "what "      |
+| wal   | "walk "      |
+| wan   | "want "      |
+| we    | "were "      |
+| wel   | "well "      |
+| whe   | "when "      |
+| wo    | "would "     |
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
