@@ -91,7 +91,7 @@ Currently unused features:
 |   x   |      p      |    c     |         |
 |   y   |             |          |         |
 |   z   | "eitlinger" |          |         |
-|  spc  |   "the "    |          | "the "  |
+|  spc  |   "the "    |  dotSpc  | "the "  |
 |  tab  |   "the "    |  "and "  |         |
 |  ↩️️  |   "the "    |  "and "  |         |
 |   ~   |      /      |          |         |
@@ -336,7 +336,7 @@ Currently unused features:
 | RMods |         |         |         |         |    [    |    ]    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |         |         |         |         |  dead1  |         |         |         |
-| Left  |         |         |         |         |  *CNum  |         |   *Mm   |         |
+| Left  |         |         |         |         |  *CNum  |  *Case  |   *Mm   |         |
 | Left  |    :    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
 | Left  |         |         |    ;    |         |  *ANum  |  *Num   |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -480,6 +480,11 @@ Currently unused features:
 |  Mm   |   ver   |   ⏮️    |   ⏭️    |   ⏯️    |         |         |         |         |
 |  Mm   |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| Case  |         |         |         |         |         |         |         |         |
+| Case  | sl/case | PasCase |  CapW   | SN_CASE |         |         |         |         |
+| Case  | do.case | camCase | kb-case | sn_case |         |         |         |         |
+| Case  |         |         |         |         |         |         |         |         |
+|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 
 ## Options
 
@@ -499,6 +504,7 @@ The order of the options is also the order of the layers in the layer stack.
 |     ANum     |                 |                 |               |                |                  |               |
 |     CNum     |                 |                 |               |                |                  |      200      |
 |      Mm      |                 |                 |               |                |                  |               |
+|     Case     |                 |                 |               |                |                  |               |
 
 ## Symbols
 
@@ -547,6 +553,13 @@ The order of the options is also the order of the layers in the layer stack.
 | n't     | custom:N_T                      |
 | ver     | custom:PRINT_VERSION            |
 | CapW    | custom:CAPS_WORDS               |
+| sn_case | custom:SNAKE_CASE               |
+| SN_CASE | custom:SCREAMING_SNAKE_CASE     |
+| camCase | custom:CAMEL_CASE               |
+| PasCase | custom:PASCAL_CASE              |
+| sl/case | custom:SLASH_CASE               |
+| do.case | custom:DOT_CASE                 |
+| kb-case | custom:KEBAP_CASE               |
 | dead1   | custom:DEAD1                    |
 | dead2   | custom:DEAD2                    |
 | dead3   | custom:DEAD3                    |
