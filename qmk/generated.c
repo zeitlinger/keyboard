@@ -9,11 +9,139 @@ int chord_state = 0; // 0 = inactive, 1+ = trie states
 
 int chord_transition(int state, uint16_t keycode) {
     switch (state) {
-        case 1: if (keycode == KC_A) return 2; break;
+                case 1:
+                    if (keycode == KC_A) return 2;
+                    if (keycode == KC_B) return 4;
+                    if (keycode == KC_C) return 8;
+                    if (keycode == KC_D) return 10;
+                    if (keycode == KC_F) return 14;
+                    if (keycode == KC_K) return 17;
+                    if (keycode == KC_L) return 19;
+                    if (keycode == KC_M) return 22;
+                    if (keycode == KC_N) return 25;
+                    if (keycode == KC_R) return 27;
+                    if (keycode == KC_S) return 32;
+                    if (keycode == KC_T) return 37;
+                    if (keycode == KC_V) return 46;
+                    if (keycode == KC_W) return 49;
+                    break;
                 // a
-        case 2: if (keycode == KC_B) return 3; break;
-                // ab
-        case 3: if (keycode == KC_C) return 4; break;
+                case 2:
+                    if (keycode == KC_G) return 3;
+                    break;
+                // b
+                case 4:
+                    if (keycode == KC_A) return 5;
+                    if (keycode == KC_E) return 6;
+                    break;
+                // be
+                case 6:
+                    if (keycode == KC_F) return 7;
+                    break;
+                // c
+                case 8:
+                    if (keycode == KC_O) return 9;
+                    break;
+                // d
+                case 10:
+                    if (keycode == KC_I) return 11;
+                    if (keycode == KC_O) return 12;
+                    break;
+                // do
+                case 12:
+                    if (keycode == KC_W) return 13;
+                    break;
+                // f
+                case 14:
+                    if (keycode == KC_A) return 15;
+                    if (keycode == KC_R) return 16;
+                    break;
+                // k
+                case 17:
+                    if (keycode == KC_O) return 18;
+                    break;
+                // l
+                case 19:
+                    if (keycode == KC_I) return 20;
+                    if (keycode == KC_O) return 21;
+                    break;
+                // m
+                case 22:
+                    if (keycode == KC_A) return 23;
+                    if (keycode == KC_O) return 24;
+                    break;
+                // n
+                case 25:
+                    if (keycode == KC_O) return 26;
+                    break;
+                // r
+                case 27:
+                    if (keycode == KC_E) return 28;
+                    if (keycode == KC_I) return 29;
+                    if (keycode == KC_O) return 30;
+                    break;
+                // ro
+                case 30:
+                    if (keycode == KC_O) return 31;
+                    break;
+                // s
+                case 32:
+                    if (keycode == KC_M) return 33;
+                    if (keycode == KC_O) return 35;
+                    break;
+                // sm
+                case 33:
+                    if (keycode == KC_I) return 34;
+                    break;
+                // so
+                case 35:
+                    if (keycode == KC_M) return 36;
+                    break;
+                // t
+                case 37:
+                    if (keycode == KC_E) return 38;
+                    if (keycode == KC_H) return 40;
+                    if (keycode == KC_I) return 44;
+                    if (keycode == KC_U) return 45;
+                    break;
+                // te
+                case 38:
+                    if (keycode == KC_M) return 39;
+                    break;
+                // th
+                case 40:
+                    if (keycode == KC_E) return 41;
+                    if (keycode == KC_I) return 43;
+                    break;
+                // the
+                case 41:
+                    if (keycode == KC_I) return 42;
+                    break;
+                // v
+                case 46:
+                    if (keycode == KC_E) return 47;
+                    if (keycode == KC_R) return 48;
+                    break;
+                // w
+                case 49:
+                    if (keycode == KC_A) return 50;
+                    if (keycode == KC_E) return 53;
+                    if (keycode == KC_H) return 55;
+                    if (keycode == KC_O) return 57;
+                    break;
+                // wa
+                case 50:
+                    if (keycode == KC_L) return 51;
+                    if (keycode == KC_N) return 52;
+                    break;
+                // we
+                case 53:
+                    if (keycode == KC_L) return 54;
+                    break;
+                // wh
+                case 55:
+                    if (keycode == KC_E) return 56;
+                    break;
     default:
         return state; // Invalid transition, ignore and stay in current state
     }
@@ -22,10 +150,84 @@ int chord_transition(int state, uint16_t keycode) {
 
 void chord_output(int state) {
     switch (state) {
-                // ab
-        case 3: SEND_STRING("for "); break;
-                // abc
-        case 4: SEND_STRING("because "); break;
+                // ag
+        case 3: SEND_STRING("again "); break;
+                // ba
+        case 5: SEND_STRING("back "); break;
+                // be
+        case 6: SEND_STRING("been "); break;
+                // bef
+        case 7: SEND_STRING("before "); break;
+                // co
+        case 9: SEND_STRING("could "); break;
+                // di
+        case 11: SEND_STRING("didn't "); break;
+                // do
+        case 12: SEND_STRING("don't "); break;
+                // dow
+        case 13: SEND_STRING("down "); break;
+                // fa
+        case 15: SEND_STRING("face "); break;
+                // fr
+        case 16: SEND_STRING("from "); break;
+                // ko
+        case 18: SEND_STRING("know "); break;
+                // li
+        case 20: SEND_STRING("like "); break;
+                // lo
+        case 21: SEND_STRING("look "); break;
+                // ma
+        case 23: SEND_STRING("make "); break;
+                // mo
+        case 24: SEND_STRING("more "); break;
+                // no
+        case 26: SEND_STRING("now "); break;
+                // re
+        case 28: SEND_STRING("really "); break;
+                // ri
+        case 29: SEND_STRING("right "); break;
+                // ro
+        case 30: SEND_STRING("around "); break;
+                // roo
+        case 31: SEND_STRING("room "); break;
+                // smi
+        case 34: SEND_STRING("smile "); break;
+                // so
+        case 35: SEND_STRING("some "); break;
+                // som
+        case 36: SEND_STRING("something "); break;
+                // te
+        case 38: SEND_STRING("other "); break;
+                // tem
+        case 39: SEND_STRING("them "); break;
+                // th
+        case 40: SEND_STRING("they "); break;
+                // thei
+        case 42: SEND_STRING("their "); break;
+                // thi
+        case 43: SEND_STRING("think "); break;
+                // ti
+        case 44: SEND_STRING("time "); break;
+                // tu
+        case 45: SEND_STRING("turn "); break;
+                // ve
+        case 47: SEND_STRING("even "); break;
+                // vr
+        case 48: SEND_STRING("over "); break;
+                // wa
+        case 50: SEND_STRING("what "); break;
+                // wal
+        case 51: SEND_STRING("walk "); break;
+                // wan
+        case 52: SEND_STRING("want "); break;
+                // we
+        case 53: SEND_STRING("were "); break;
+                // wel
+        case 54: SEND_STRING("well "); break;
+                // whe
+        case 56: SEND_STRING("when "); break;
+                // wo
+        case 57: SEND_STRING("would "); break;
     default:
         break;
     }

@@ -74,14 +74,16 @@ fun generateChordTransitions(chordInfo: ChordInfo): String {
     val lines = mutableListOf<String>()
 
     for ((state, keyMap) in chordInfo.transitions.toSortedMap()) {
-        val chordComment = chordInfo.stateToChord[state]?.let { "        // $it" } ?: null
+        val chordComment = chordInfo.stateToChord[state]?.let { "        // $it" } ?: ""
+        if (chordComment.isNotEmpty()) {
+            lines.add(chordComment)
+        }
+        lines.add("        case $state:")
         for ((key, nextState) in keyMap.toSortedMap()) {
             val qmkKey = "KC_${key.uppercase()}"
-            if (chordComment != null) {
-                lines.add(chordComment)
-            }
-            lines.add("case $state: if (keycode == $qmkKey) return $nextState; break;")
+            lines.add("            if (keycode == $qmkKey) return $nextState;")
         }
+        lines.add("            break;")
     }
 
     return if (lines.isEmpty()) {
