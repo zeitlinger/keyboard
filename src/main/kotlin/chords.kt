@@ -20,6 +20,16 @@ fun buildChordTrie(chordTable: Table?): ChordInfo? {
     val root = TrieNode(state = 1, chordSequence = "") // State 0 = inactive, State 1 = root
     var nextState = 2
 
+    // check for duplicate chord sequences
+    val seenChords = mutableSetOf<String>()
+    for (row in chordTable) {
+        val chordSequence = row[0].trim()
+        if (chordSequence in seenChords) {
+            throw IllegalArgumentException("Duplicate chord sequence found: '$chordSequence'")
+        }
+        seenChords.add(chordSequence)
+    }
+
     // Build trie from chord definitions
     for (row in chordTable) {
         val chordSequence = row[0].trim()
