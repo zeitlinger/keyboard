@@ -197,10 +197,10 @@ bool process_switcher(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (!process_record_generated(keycode, record)) {
+    if (!process_chord_mode(keycode, record)) {
         return false;
     }
-    if (!process_chord_mode(keycode, record)) {
+    if (!process_record_generated(keycode, record)) {
         return false;
     }
     if (!process_case_modes(keycode, record)) {
