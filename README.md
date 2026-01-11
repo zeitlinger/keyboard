@@ -113,6 +113,7 @@ Currently unused features:
 | br    | "break"         |
 | bu    | "business"      |
 | by    | "body"          |
+| b.    | "boolean"       |
 | b,    | "observability" |
 | c     | "could"         |
 | ca    | "actually"      |
@@ -124,6 +125,7 @@ Currently unused features:
 | cr    | "across"        |
 | cu    | "current"       |
 | cy    | "policy"        |
+| c.    | "const"         |
 | c,    | "couldn't"      |
 | d     | "didn't"        |
 | da    | "today"         |
@@ -134,6 +136,7 @@ Currently unused features:
 | dr    | "their"         |
 | du    | "products"      |
 | dy    | "already"       |
+| d.    | "data"          |
 | d,    | "hadn't"        |
 | f     | "from"          |
 | fa    | "family"        |
@@ -145,6 +148,7 @@ Currently unused features:
 | fr    | "software"      |
 | fu    | "found"         |
 | fy    | "forty"         |
+| f.    | "false"         |
 | g     | "again"         |
 | ga    | "glance"        |
 | ge    | "began"         |
@@ -163,6 +167,7 @@ Currently unused features:
 | ko    | "know"          |
 | kr    | "work"          |
 | ky    | "quickly"       |
+| k.    | "key"           |
 | l     | "length"        |
 | la    | "laugh"         |
 | le    | "leave"         |
@@ -173,6 +178,7 @@ Currently unused features:
 | lr    | "later"         |
 | lu    | "almost"        |
 | ly    | "always"        |
+| l.    | "class"         |
 | m     | "more"          |
 | ma    | "someone"       |
 | me    | "message"       |
@@ -182,6 +188,7 @@ Currently unused features:
 | mo    | "most"          |
 | mu    | "music"         |
 | my    | "myself"        |
+| m.    | "method"        |
 | n     | "understand"    |
 | na    | "anyway"        |
 | ne    | "number"        |
@@ -192,6 +199,7 @@ Currently unused features:
 | nr    | "near"          |
 | nu    | "enough"        |
 | ny    | "company"       |
+| n.    | "null"          |
 | p     | "people"        |
 | pa    | "privacy"       |
 | pe    | "place"         |
@@ -201,6 +209,7 @@ Currently unused features:
 | pr    | "parent"        |
 | pu    | "public"        |
 | py    | "probably"      |
+| p.    | "promise"       |
 | r     | "really"        |
 | ra    | "program"       |
 | re    | "ready"         |
@@ -210,6 +219,7 @@ Currently unused features:
 | ro    | "around"        |
 | ru    | "true"          |
 | ry    | "years"         |
+| r.    | "error"         |
 | s     | "should"        |
 | sa    | "same"          |
 | se    | "search"        |
@@ -220,6 +230,7 @@ Currently unused features:
 | sr    | "surprise"      |
 | su    | "support"       |
 | sy    | "system"        |
+| s.    | "string"        |
 | s,    | "wasn't"        |
 | t     | "think"         |
 | ta    | "contact"       |
@@ -231,6 +242,7 @@ Currently unused features:
 | tr    | "there"         |
 | tu    | "though"        |
 | ty    | "thank you"     |
+| t.    | "type"          |
 | v     | "have"          |
 | va    | "available"     |
 | ve    | "very"          |
@@ -239,6 +251,7 @@ Currently unused features:
 | vr    | "never"         |
 | vu    | "value"         |
 | vy    | "everything"    |
+| v.    | "void"          |
 | w     | "would"         |
 | wa    | "walk"          |
 | we    | "were"          |
@@ -248,10 +261,19 @@ Currently unused features:
 | wo    | "without"       |
 | wr    | "where"         |
 | wy    | "worry"         |
+| w.    | "await"         |
 | w,    | "wouldn't"      |
+| xa    | "example"       |
+| xe    | "execute"       |
+| xi    | "existing"      |
+| xj    | "exception"     |
+| x.    | "export"        |
 | z     | "realize"       |
 | za    | "organize"      |
 | ze    | "zero"          |
+| zi    | "size"          |
+| zo    | "zone"          |
+| z.    | "async"         |
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
