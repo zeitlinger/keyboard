@@ -9,6 +9,7 @@
 ### Features
 
 - **[Chord Mode](CHORD_MODE.md)** - Type 220+ common words with just two letters! See the [complete documentation](CHORD_MODE.md) for details.
+- **[Design Philosophy](DESIGN_PHILOSOPHY.md)** - Learn about the hardware, ergonomics, and design principles behind this layout
 - **Home Row Mods** - Modifiers on home row for ergonomic access
 - **Window/Tab Switching** - Fast application and tab switching
 - **X-Case** - Multiple case conversion modes (camelCase, snake_case, etc.)
