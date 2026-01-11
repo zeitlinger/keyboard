@@ -44,35 +44,26 @@ bool is_tab_switcher_active = false;
 bool is_one_shot_mouse_active = false;
 
 bool process_chord_mode(uint16_t keycode, keyrecord_t *record) {
-    // Handle chord key press
-    if (keycode == _HANDLER_CHORD_KEY) {
-        if (record->event.pressed) {
-            chord_state = CHORD_ROOT; // Activate chord mode at root of trie (negative state)
-            chord_depth = 0; // Reset depth counter
-        }
-        return false;
-    }
-
     // Handle CHORD_MODIFIER state (after a chord was output)
     if (chord_state == CHORD_MODIFIER && record->event.pressed) {
         // Check for suffix keys based on keycode
         switch (keycode) {
-            case ING: // "ing" combo
+            case ING:
                 tap_code16(KC_BSPC);
                 SEND_STRING("ing ");
                 chord_state = CHORD_INACTIVE;
                 return false;
-            case MAGIC_A: // Use for "ly"
+            case MAGIC_A:
                 tap_code16(KC_BSPC);
                 SEND_STRING("ly ");
                 chord_state = CHORD_INACTIVE;
                 return false;
-            case MAGIC_B: // Use for "ed"
+            case MAGIC_B:
                 tap_code16(KC_BSPC);
                 SEND_STRING("ed ");
                 chord_state = CHORD_INACTIVE;
                 return false;
-            case MAGIC_C: // Use for "s"
+            case _HANDLER_CHORD_KEY:
                 tap_code16(KC_BSPC);
                 SEND_STRING("s ");
                 chord_state = CHORD_INACTIVE;
@@ -93,6 +84,15 @@ bool process_chord_mode(uint16_t keycode, keyrecord_t *record) {
         // If not a modifier key, exit CHORD_MODIFIER state and process normally
         chord_state = CHORD_INACTIVE;
         return true;
+    }
+
+    // Handle chord key press
+    if (keycode == _HANDLER_CHORD_KEY) {
+        if (record->event.pressed) {
+            chord_state = CHORD_ROOT; // Activate chord mode at root of trie (negative state)
+            chord_depth = 0; // Reset depth counter
+        }
+        return false;
     }
 
     if (chord_state != CHORD_INACTIVE && chord_state != CHORD_MODIFIER) {
