@@ -107,7 +107,17 @@ fun generateChordTransitions(translator: QmkTranslator, chordInfo: ChordInfo): S
         lines.add("        case $state:")
         for ((key, nextState) in keyMap.toSortedMap()) {
             val qmkKey = translator.toQmkIgnoringPosition(key)
-            lines.add("            if (keycode == $qmkKey) return $nextState;")
+
+            // Add comment showing what this transition leads to
+            val comment = if (nextState >= 0) {
+                // nextState is a byte offset - look up the output string
+                chordInfo.outputs[nextState]?.let { output -> " // \"$output\"" } ?: ""
+            } else {
+                // nextState is another transition state - show the chord prefix
+                chordInfo.stateToChord[nextState]?.let { chord -> " // $chord..." } ?: ""
+            }
+
+            lines.add("            if (keycode == $qmkKey) return $nextState;$comment")
         }
         lines.add("            break;")
     }

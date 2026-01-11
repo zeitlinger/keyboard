@@ -230,8 +230,8 @@ private fun addMagicEntry(
             val str = extractString(def)
             val offset = magicStringOffsets[str]
             if (offset != null) {
-                // Use 5-bit encoded string
-                "chord_decode_send(chord_data + $offset); return false;"
+                // Use encoded string with offset, add comment with the actual string
+                "chord_decode_send($offset); return false; // \"$str\""
             } else {
                 // Fall back to SEND_STRING if not encoded
                 sendString(def) + "; return false;"

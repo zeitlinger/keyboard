@@ -149,291 +149,291 @@ int chord_transition(int state, uint16_t keycode) {
     switch (state) {
                 // z
                 case -220:
-                    if (keycode == KC_SPC) return 63;
-                    if (keycode == KC_COMMA) return 58;
-                    if (keycode == KC_DOT) return 54;
-                    if (keycode == KC_A) return 48;
-                    if (keycode == KC_E) return 43;
-                    if (keycode == KC_H) return 33;
-                    if (keycode == KC_J) return 26;
-                    if (keycode == KC_R) return 20;
-                    if (keycode == KC_U) return 11;
-                    if (keycode == KC_Y) return 0;
+                    if (keycode == KC_SPC) return 63; // "realize"
+                    if (keycode == KC_COMMA) return 58; // "smile"
+                    if (keycode == KC_DOT) return 54; // "async"
+                    if (keycode == KC_A) return 48; // "organize"
+                    if (keycode == KC_E) return 43; // "github"
+                    if (keycode == KC_H) return 33; // "spring starter"
+                    if (keycode == KC_J) return 26; // "javaagent"
+                    if (keycode == KC_R) return 20; // "rolldice"
+                    if (keycode == KC_U) return 11; // "spring boot"
+                    if (keycode == KC_Y) return 0; // "Grafana Labs"
                     break;
                 // x
                 case -207:
-                    if (keycode == KC_SPC) return 144;
-                    if (keycode == KC_COMMA) return 131;
-                    if (keycode == KC_DOT) return 125;
-                    if (keycode == KC_A) return 118;
-                    if (keycode == KC_E) return 112;
-                    if (keycode == KC_H) return 107;
-                    if (keycode == KC_I) return 101;
-                    if (keycode == KC_J) return 94;
-                    if (keycode == KC_O) return 84;
-                    if (keycode == KC_R) return 79;
-                    if (keycode == KC_U) return 75;
-                    if (keycode == KC_Y) return 69;
+                    if (keycode == KC_SPC) return 144; // "context"
+                    if (keycode == KC_COMMA) return 131; // "declarative config"
+                    if (keycode == KC_DOT) return 125; // "export"
+                    if (keycode == KC_A) return 118; // "example"
+                    if (keycode == KC_E) return 112; // "execute"
+                    if (keycode == KC_H) return 107; // "https"
+                    if (keycode == KC_I) return 101; // "existing"
+                    if (keycode == KC_J) return 94; // "exception"
+                    if (keycode == KC_O) return 84; // "OpenTelemetry"
+                    if (keycode == KC_R) return 79; // "resource"
+                    if (keycode == KC_U) return 75; // "actual"
+                    if (keycode == KC_Y) return 69; // "telemetry"
                     break;
                 // w
                 case -195:
-                    if (keycode == KC_SPC) return 197;
-                    if (keycode == KC_COMMA) return 189;
-                    if (keycode == KC_DOT) return 184;
-                    if (keycode == KC_A) return 180;
-                    if (keycode == KC_H) return 176;
-                    if (keycode == KC_I) return 172;
-                    if (keycode == KC_J) return 168;
-                    if (keycode == KC_O) return 163;
-                    if (keycode == KC_R) return 159;
-                    if (keycode == KC_U) return 154;
-                    if (keycode == KC_Y) return 150;
+                    if (keycode == KC_SPC) return 197; // "would"
+                    if (keycode == KC_COMMA) return 189; // "wouldn't"
+                    if (keycode == KC_DOT) return 184; // "await"
+                    if (keycode == KC_A) return 180; // "walk"
+                    if (keycode == KC_H) return 176; // "which"
+                    if (keycode == KC_I) return 172; // "with"
+                    if (keycode == KC_J) return 168; // "wrong"
+                    if (keycode == KC_O) return 163; // "without"
+                    if (keycode == KC_R) return 159; // "where"
+                    if (keycode == KC_U) return 154; // "internal"
+                    if (keycode == KC_Y) return 150; // "worry"
                     break;
                 // v
                 case -182:
-                    if (keycode == KC_SPC) return 256;
-                    if (keycode == KC_COMMA) return 251;
-                    if (keycode == KC_DOT) return 247;
-                    if (keycode == KC_A) return 240;
-                    if (keycode == KC_E) return 236;
-                    if (keycode == KC_H) return 231;
-                    if (keycode == KC_I) return 225;
-                    if (keycode == KC_J) return 221;
-                    if (keycode == KC_O) return 217;
-                    if (keycode == KC_R) return 213;
-                    if (keycode == KC_U) return 209;
-                    if (keycode == KC_Y) return 202;
+                    if (keycode == KC_SPC) return 256; // "have"
+                    if (keycode == KC_COMMA) return 251; // "contrib"
+                    if (keycode == KC_DOT) return 247; // "void"
+                    if (keycode == KC_A) return 240; // "available"
+                    if (keycode == KC_E) return 236; // "very"
+                    if (keycode == KC_H) return 231; // "version"
+                    if (keycode == KC_I) return 225; // "services"
+                    if (keycode == KC_J) return 221; // "notice"
+                    if (keycode == KC_O) return 217; // "over"
+                    if (keycode == KC_R) return 213; // "never"
+                    if (keycode == KC_U) return 209; // "value"
+                    if (keycode == KC_Y) return 202; // "everything"
                     break;
                 // t
                 case -169:
-                    if (keycode == KC_SPC) return 303;
-                    if (keycode == KC_COMMA) return 299;
-                    if (keycode == KC_DOT) return 295;
-                    if (keycode == KC_A) return 292;
-                    if (keycode == KC_E) return 288;
-                    if (keycode == KC_H) return 285;
-                    if (keycode == KC_I) return 281;
-                    if (keycode == KC_J) return 276;
-                    if (keycode == KC_O) return 271;
-                    if (keycode == KC_R) return 267;
-                    if (keycode == KC_U) return 263;
-                    if (keycode == KC_Y) return 260;
+                    if (keycode == KC_SPC) return 303; // "think"
+                    if (keycode == KC_COMMA) return 299; // "tenant"
+                    if (keycode == KC_DOT) return 295; // "type"
+                    if (keycode == KC_A) return 292; // "that"
+                    if (keycode == KC_E) return 288; // "these"
+                    if (keycode == KC_H) return 285; // "this"
+                    if (keycode == KC_I) return 281; // "time"
+                    if (keycode == KC_J) return 276; // "through"
+                    if (keycode == KC_O) return 271; // "thought"
+                    if (keycode == KC_R) return 267; // "there"
+                    if (keycode == KC_U) return 263; // "though"
+                    if (keycode == KC_Y) return 260; // "they"
                     break;
                 // s
                 case -156:
-                    if (keycode == KC_SPC) return 362;
-                    if (keycode == KC_COMMA) return 356;
-                    if (keycode == KC_DOT) return 352;
-                    if (keycode == KC_A) return 348;
-                    if (keycode == KC_E) return 344;
-                    if (keycode == KC_H) return 340;
-                    if (keycode == KC_I) return 335;
-                    if (keycode == KC_J) return 329;
-                    if (keycode == KC_O) return 324;
-                    if (keycode == KC_R) return 318;
-                    if (keycode == KC_U) return 312;
-                    if (keycode == KC_Y) return 307;
+                    if (keycode == KC_SPC) return 362; // "should"
+                    if (keycode == KC_COMMA) return 356; // "wasn't"
+                    if (keycode == KC_DOT) return 352; // "string"
+                    if (keycode == KC_A) return 348; // "same"
+                    if (keycode == KC_E) return 344; // "search"
+                    if (keycode == KC_H) return 340; // "share"
+                    if (keycode == KC_I) return 335; // "someone"
+                    if (keycode == KC_J) return 329; // "subject"
+                    if (keycode == KC_O) return 324; // "slowly"
+                    if (keycode == KC_R) return 318; // "surprise"
+                    if (keycode == KC_U) return 312; // "support"
+                    if (keycode == KC_Y) return 307; // "system"
                     break;
                 // r
                 case -144:
-                    if (keycode == KC_SPC) return 411;
-                    if (keycode == KC_COMMA) return 407;
-                    if (keycode == KC_DOT) return 403;
-                    if (keycode == KC_A) return 397;
-                    if (keycode == KC_E) return 392;
-                    if (keycode == KC_H) return 387;
-                    if (keycode == KC_I) return 383;
-                    if (keycode == KC_J) return 379;
-                    if (keycode == KC_O) return 374;
-                    if (keycode == KC_U) return 371;
-                    if (keycode == KC_Y) return 367;
+                    if (keycode == KC_SPC) return 411; // "really"
+                    if (keycode == KC_COMMA) return 407; // "route"
+                    if (keycode == KC_DOT) return 403; // "error"
+                    if (keycode == KC_A) return 397; // "program"
+                    if (keycode == KC_E) return 392; // "ready"
+                    if (keycode == KC_H) return 387; // "review"
+                    if (keycode == KC_I) return 383; // "right"
+                    if (keycode == KC_J) return 379; // "return"
+                    if (keycode == KC_O) return 374; // "around"
+                    if (keycode == KC_U) return 371; // "true"
+                    if (keycode == KC_Y) return 367; // "years"
                     break;
                 // q
                 case -133:
-                    if (keycode == KC_SPC) return 458;
-                    if (keycode == KC_COMMA) return 453;
-                    if (keycode == KC_A) return 448;
-                    if (keycode == KC_E) return 443;
-                    if (keycode == KC_H) return 436;
-                    if (keycode == KC_I) return 432;
-                    if (keycode == KC_J) return 427;
-                    if (keycode == KC_O) return 423;
-                    if (keycode == KC_U) return 419;
-                    if (keycode == KC_Y) return 415;
+                    if (keycode == KC_SPC) return 458; // "spring"
+                    if (keycode == KC_COMMA) return 453; // "spring"
+                    if (keycode == KC_A) return 448; // "starter"
+                    if (keycode == KC_E) return 443; // "request"
+                    if (keycode == KC_H) return 436; // "describe"
+                    if (keycode == KC_I) return 432; // "issues"
+                    if (keycode == KC_J) return 427; // "feature"
+                    if (keycode == KC_O) return 423; // "blob"
+                    if (keycode == KC_U) return 419; // "query"
+                    if (keycode == KC_Y) return 415; // "tests"
                     break;
                 // p
                 case -120:
-                    if (keycode == KC_SPC) return 522;
-                    if (keycode == KC_COMMA) return 517;
-                    if (keycode == KC_DOT) return 511;
-                    if (keycode == KC_A) return 505;
-                    if (keycode == KC_E) return 501;
-                    if (keycode == KC_H) return 497;
-                    if (keycode == KC_I) return 493;
-                    if (keycode == KC_J) return 487;
-                    if (keycode == KC_O) return 481;
-                    if (keycode == KC_R) return 476;
-                    if (keycode == KC_U) return 470;
-                    if (keycode == KC_Y) return 463;
+                    if (keycode == KC_SPC) return 522; // "people"
+                    if (keycode == KC_COMMA) return 517; // "please"
+                    if (keycode == KC_DOT) return 511; // "promise"
+                    if (keycode == KC_A) return 505; // "privacy"
+                    if (keycode == KC_E) return 501; // "place"
+                    if (keycode == KC_H) return 497; // "http"
+                    if (keycode == KC_I) return 493; // "point"
+                    if (keycode == KC_J) return 487; // "problem"
+                    if (keycode == KC_O) return 481; // "product"
+                    if (keycode == KC_R) return 476; // "parent"
+                    if (keycode == KC_U) return 470; // "public"
+                    if (keycode == KC_Y) return 463; // "probably"
                     break;
                 // n
                 case -107:
-                    if (keycode == KC_SPC) return 575;
-                    if (keycode == KC_COMMA) return 571;
-                    if (keycode == KC_DOT) return 568;
-                    if (keycode == KC_A) return 563;
-                    if (keycode == KC_E) return 558;
-                    if (keycode == KC_H) return 553;
-                    if (keycode == KC_I) return 550;
-                    if (keycode == KC_J) return 545;
-                    if (keycode == KC_O) return 540;
-                    if (keycode == KC_R) return 537;
-                    if (keycode == KC_U) return 533;
-                    if (keycode == KC_Y) return 527;
+                    if (keycode == KC_SPC) return 575; // "understand"
+                    if (keycode == KC_COMMA) return 571; // "single"
+                    if (keycode == KC_DOT) return 568; // "null"
+                    if (keycode == KC_A) return 563; // "anyway"
+                    if (keycode == KC_E) return 558; // "number"
+                    if (keycode == KC_H) return 553; // "anything"
+                    if (keycode == KC_I) return 550; // "into"
+                    if (keycode == KC_J) return 545; // "instead"
+                    if (keycode == KC_O) return 540; // "another"
+                    if (keycode == KC_R) return 537; // "near"
+                    if (keycode == KC_U) return 533; // "enough"
+                    if (keycode == KC_Y) return 527; // "company"
                     break;
                 // m
                 case -96:
-                    if (keycode == KC_SPC) return 623;
-                    if (keycode == KC_COMMA) return 619;
-                    if (keycode == KC_DOT) return 614;
-                    if (keycode == KC_A) return 610;
-                    if (keycode == KC_E) return 605;
-                    if (keycode == KC_H) return 601;
-                    if (keycode == KC_I) return 596;
-                    if (keycode == KC_J) return 591;
-                    if (keycode == KC_U) return 587;
-                    if (keycode == KC_Y) return 582;
+                    if (keycode == KC_SPC) return 623; // "more"
+                    if (keycode == KC_COMMA) return 619; // "lgtm"
+                    if (keycode == KC_DOT) return 614; // "method"
+                    if (keycode == KC_A) return 610; // "some"
+                    if (keycode == KC_E) return 605; // "message"
+                    if (keycode == KC_H) return 601; // "might"
+                    if (keycode == KC_I) return 596; // "minute"
+                    if (keycode == KC_J) return 591; // "major"
+                    if (keycode == KC_U) return 587; // "music"
+                    if (keycode == KC_Y) return 582; // "myself"
                     break;
                 // l
                 case -83:
-                    if (keycode == KC_SPC) return 671;
-                    if (keycode == KC_COMMA) return 667;
-                    if (keycode == KC_DOT) return 663;
-                    if (keycode == KC_A) return 660;
-                    if (keycode == KC_E) return 655;
-                    if (keycode == KC_H) return 651;
-                    if (keycode == KC_I) return 647;
-                    if (keycode == KC_J) return 643;
-                    if (keycode == KC_O) return 639;
-                    if (keycode == KC_R) return 635;
-                    if (keycode == KC_U) return 630;
-                    if (keycode == KC_Y) return 627;
+                    if (keycode == KC_SPC) return 671; // "like"
+                    if (keycode == KC_COMMA) return 667; // "level"
+                    if (keycode == KC_DOT) return 663; // "class"
+                    if (keycode == KC_A) return 660; // "also"
+                    if (keycode == KC_E) return 655; // "leave"
+                    if (keycode == KC_H) return 651; // "health"
+                    if (keycode == KC_I) return 647; // "light"
+                    if (keycode == KC_J) return 643; // "large"
+                    if (keycode == KC_O) return 639; // "along"
+                    if (keycode == KC_R) return 635; // "later"
+                    if (keycode == KC_U) return 630; // "almost"
+                    if (keycode == KC_Y) return 627; // "only"
                     break;
                 // k
                 case -70:
-                    if (keycode == KC_SPC) return 723;
-                    if (keycode == KC_COMMA) return 718;
-                    if (keycode == KC_DOT) return 715;
-                    if (keycode == KC_A) return 710;
-                    if (keycode == KC_E) return 706;
-                    if (keycode == KC_H) return 702;
-                    if (keycode == KC_I) return 698;
-                    if (keycode == KC_J) return 693;
-                    if (keycode == KC_O) return 689;
-                    if (keycode == KC_R) return 685;
-                    if (keycode == KC_U) return 681;
-                    if (keycode == KC_Y) return 675;
+                    if (keycode == KC_SPC) return 723; // "question"
+                    if (keycode == KC_COMMA) return 718; // "config"
+                    if (keycode == KC_DOT) return 715; // "key"
+                    if (keycode == KC_A) return 710; // "make"
+                    if (keycode == KC_E) return 706; // "keep"
+                    if (keycode == KC_H) return 702; // "check"
+                    if (keycode == KC_I) return 698; // "kind"
+                    if (keycode == KC_J) return 693; // "java"
+                    if (keycode == KC_O) return 689; // "know"
+                    if (keycode == KC_R) return 685; // "work"
+                    if (keycode == KC_U) return 681; // "caller"
+                    if (keycode == KC_Y) return 675; // "quickly"
                     break;
                 // j
                 case -65:
-                    if (keycode == KC_SPC) return 743;
-                    if (keycode == KC_A) return 737;
-                    if (keycode == KC_E) return 733;
-                    if (keycode == KC_O) return 729;
+                    if (keycode == KC_SPC) return 743; // "just"
+                    if (keycode == KC_A) return 737; // "import"
+                    if (keycode == KC_E) return 733; // "when"
+                    if (keycode == KC_O) return 729; // "other"
                     break;
                 // g
                 case -52:
-                    if (keycode == KC_SPC) return 803;
-                    if (keycode == KC_COMMA) return 797;
-                    if (keycode == KC_DOT) return 786;
-                    if (keycode == KC_A) return 782;
-                    if (keycode == KC_E) return 778;
-                    if (keycode == KC_H) return 774;
-                    if (keycode == KC_I) return 769;
-                    if (keycode == KC_J) return 764;
-                    if (keycode == KC_O) return 760;
-                    if (keycode == KC_R) return 756;
-                    if (keycode == KC_U) return 752;
-                    if (keycode == KC_Y) return 747;
+                    if (keycode == KC_SPC) return 803; // "again"
+                    if (keycode == KC_COMMA) return 797; // "Grafana"
+                    if (keycode == KC_DOT) return 786; // "Grafana Labs"
+                    if (keycode == KC_A) return 782; // "glance"
+                    if (keycode == KC_E) return 778; // "began"
+                    if (keycode == KC_H) return 774; // "rights"
+                    if (keycode == KC_I) return 769; // "giving"
+                    if (keycode == KC_J) return 764; // "general"
+                    if (keycode == KC_O) return 760; // "group"
+                    if (keycode == KC_R) return 756; // "great"
+                    if (keycode == KC_U) return 752; // "guess"
+                    if (keycode == KC_Y) return 747; // "every"
                     break;
                 // f
                 case -39:
-                    if (keycode == KC_SPC) return 860;
-                    if (keycode == KC_COMMA) return 856;
-                    if (keycode == KC_DOT) return 852;
-                    if (keycode == KC_A) return 847;
-                    if (keycode == KC_E) return 843;
-                    if (keycode == KC_H) return 840;
-                    if (keycode == KC_I) return 836;
-                    if (keycode == KC_J) return 831;
-                    if (keycode == KC_O) return 823;
-                    if (keycode == KC_R) return 816;
-                    if (keycode == KC_U) return 811;
-                    if (keycode == KC_Y) return 807;
+                    if (keycode == KC_SPC) return 860; // "from"
+                    if (keycode == KC_COMMA) return 856; // "fails"
+                    if (keycode == KC_DOT) return 852; // "false"
+                    if (keycode == KC_A) return 847; // "after"
+                    if (keycode == KC_E) return 843; // "feel"
+                    if (keycode == KC_H) return 840; // "then"
+                    if (keycode == KC_I) return 836; // "first"
+                    if (keycode == KC_J) return 831; // "finger"
+                    if (keycode == KC_O) return 823; // "information"
+                    if (keycode == KC_R) return 816; // "software"
+                    if (keycode == KC_U) return 811; // "found"
+                    if (keycode == KC_Y) return 807; // "forty"
                     break;
                 // d
                 case -27:
-                    if (keycode == KC_SPC) return 911;
-                    if (keycode == KC_COMMA) return 905;
-                    if (keycode == KC_DOT) return 901;
-                    if (keycode == KC_A) return 897;
-                    if (keycode == KC_E) return 893;
-                    if (keycode == KC_H) return 890;
-                    if (keycode == KC_I) return 885;
-                    if (keycode == KC_J) return 880;
-                    if (keycode == KC_R) return 876;
-                    if (keycode == KC_U) return 870;
-                    if (keycode == KC_Y) return 864;
+                    if (keycode == KC_SPC) return 911; // "didn't"
+                    if (keycode == KC_COMMA) return 905; // "hadn't"
+                    if (keycode == KC_DOT) return 901; // "data"
+                    if (keycode == KC_A) return 897; // "today"
+                    if (keycode == KC_E) return 893; // "them"
+                    if (keycode == KC_H) return 890; // "than"
+                    if (keycode == KC_I) return 885; // "during"
+                    if (keycode == KC_J) return 880; // "build"
+                    if (keycode == KC_R) return 876; // "their"
+                    if (keycode == KC_U) return 870; // "products"
+                    if (keycode == KC_Y) return 864; // "already"
                     break;
                 // c
                 case -14:
-                    if (keycode == KC_SPC) return 974;
-                    if (keycode == KC_COMMA) return 967;
-                    if (keycode == KC_DOT) return 963;
-                    if (keycode == KC_A) return 958;
-                    if (keycode == KC_E) return 952;
-                    if (keycode == KC_H) return 947;
-                    if (keycode == KC_I) return 943;
-                    if (keycode == KC_J) return 937;
-                    if (keycode == KC_O) return 932;
-                    if (keycode == KC_R) return 928;
-                    if (keycode == KC_U) return 923;
-                    if (keycode == KC_Y) return 918;
+                    if (keycode == KC_SPC) return 974; // "could"
+                    if (keycode == KC_COMMA) return 967; // "couldn't"
+                    if (keycode == KC_DOT) return 963; // "const"
+                    if (keycode == KC_A) return 958; // "actually"
+                    if (keycode == KC_E) return 952; // "service"
+                    if (keycode == KC_H) return 947; // "research"
+                    if (keycode == KC_I) return 943; // "click"
+                    if (keycode == KC_J) return 937; // "project"
+                    if (keycode == KC_O) return 932; // "continue"
+                    if (keycode == KC_R) return 928; // "across"
+                    if (keycode == KC_U) return 923; // "current"
+                    if (keycode == KC_Y) return 918; // "policy"
                     break;
                 // b
                 case -2:
-                    if (keycode == KC_SPC) return 1035;
-                    if (keycode == KC_COMMA) return 1024;
-                    if (keycode == KC_DOT) return 1019;
-                    if (keycode == KC_A) return 1015;
-                    if (keycode == KC_H) return 1010;
-                    if (keycode == KC_I) return 1006;
-                    if (keycode == KC_J) return 1000;
-                    if (keycode == KC_O) return 994;
-                    if (keycode == KC_R) return 989;
-                    if (keycode == KC_U) return 983;
-                    if (keycode == KC_Y) return 978;
+                    if (keycode == KC_SPC) return 1035; // "about"
+                    if (keycode == KC_COMMA) return 1024; // "observability"
+                    if (keycode == KC_DOT) return 1019; // "boolean"
+                    if (keycode == KC_A) return 1015; // "been"
+                    if (keycode == KC_H) return 1010; // "behind"
+                    if (keycode == KC_I) return 1006; // "being"
+                    if (keycode == KC_J) return 1000; // "between"
+                    if (keycode == KC_O) return 994; // "become"
+                    if (keycode == KC_R) return 989; // "break"
+                    if (keycode == KC_U) return 983; // "business"
+                    if (keycode == KC_Y) return 978; // "body"
                     break;
                 case -1:
-                    if (keycode == KC_B) return -2;
-                    if (keycode == KC_C) return -14;
-                    if (keycode == KC_D) return -27;
-                    if (keycode == KC_F) return -39;
-                    if (keycode == KC_G) return -52;
-                    if (keycode == KC_J) return -65;
-                    if (keycode == KC_K) return -70;
-                    if (keycode == KC_L) return -83;
-                    if (keycode == KC_M) return -96;
-                    if (keycode == KC_N) return -107;
-                    if (keycode == KC_P) return -120;
-                    if (keycode == KC_Q) return -133;
-                    if (keycode == KC_R) return -144;
-                    if (keycode == KC_S) return -156;
-                    if (keycode == KC_T) return -169;
-                    if (keycode == KC_V) return -182;
-                    if (keycode == KC_W) return -195;
-                    if (keycode == KC_X) return -207;
-                    if (keycode == KC_Z) return -220;
+                    if (keycode == KC_B) return -2; // b...
+                    if (keycode == KC_C) return -14; // c...
+                    if (keycode == KC_D) return -27; // d...
+                    if (keycode == KC_F) return -39; // f...
+                    if (keycode == KC_G) return -52; // g...
+                    if (keycode == KC_J) return -65; // j...
+                    if (keycode == KC_K) return -70; // k...
+                    if (keycode == KC_L) return -83; // l...
+                    if (keycode == KC_M) return -96; // m...
+                    if (keycode == KC_N) return -107; // n...
+                    if (keycode == KC_P) return -120; // p...
+                    if (keycode == KC_Q) return -133; // q...
+                    if (keycode == KC_R) return -144; // r...
+                    if (keycode == KC_S) return -156; // s...
+                    if (keycode == KC_T) return -169; // t...
+                    if (keycode == KC_V) return -182; // v...
+                    if (keycode == KC_W) return -195; // w...
+                    if (keycode == KC_X) return -207; // x...
+                    if (keycode == KC_Z) return -220; // z...
                     break;
     default:
         // Invalid transition, stop chord mode
@@ -576,18 +576,18 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 switch (get_last_keycode()) {
                     case KC_B: tap_code16(KC_L); return false;
                     case KC_C: tap_code16(KC_K); return false;
-                    case KC_COMMA: chord_decode_send(1099); return false;
-                    case KC_D: chord_decode_send(1044); return false;
+                    case KC_COMMA: chord_decode_send(1099); return false; // " but "
+                    case KC_D: chord_decode_send(1044); return false; // "oesn't"
                     case KC_DOT: tap_code16(KC_SLASH); return false;
                     case KC_E: tap_code16(KC_O); return false;
-                    case KC_ENT: chord_decode_send(1091); return false;
+                    case KC_ENT: chord_decode_send(1091); return false; // "the "
                     case KC_EQUAL: tap_code16(KC_RABK); return false;
                     case KC_EXLM: tap_code16(KC_EQUAL); return false;
                     case KC_F: tap_code16(KC_F); return false;
                     case KC_G: tap_code16(KC_N); return false;
                     case KC_H: tap_code16(KC_Y); return false;
                     case KC_I: tap_code16(KC_QUOTE); return false;
-                    case KC_J: chord_decode_send(1064); return false;
+                    case KC_J: chord_decode_send(1064); return false; // "ust"
                     case KC_K: tap_code16(KC_N); return false;
                     case KC_L: tap_code16(KC_P); return false;
                     case KC_M: tap_code16(KC_B); return false;
@@ -597,23 +597,23 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_P: tap_code16(KC_L); return false;
                     case KC_R: tap_code16(KC_K); return false;
                     case KC_S: tap_code16(KC_P); return false;
-                    case KC_SPC: chord_decode_send(1091); return false;
-                    case KC_T: chord_decode_send(1075); return false;
-                    case KC_TAB: chord_decode_send(1091); return false;
+                    case KC_SPC: chord_decode_send(1091); return false; // "the "
+                    case KC_T: chord_decode_send(1075); return false; // "ion"
+                    case KC_TAB: chord_decode_send(1091); return false; // "the "
                     case KC_TILD: tap_code16(KC_SLASH); return false;
-                    case KC_V: chord_decode_send(1081); return false;
+                    case KC_V: chord_decode_send(1081); return false; // "er"
                     case KC_W: tap_code16(KC_N); return false;
                     case KC_X: tap_code16(KC_P); return false;
-                    case KC_Z: chord_decode_send(1085); return false;
+                    case KC_Z: chord_decode_send(1085); return false; // "eitlinger"
                     case S(KC_B): tap_code16(KC_L); return false;
                     case S(KC_C): tap_code16(KC_K); return false;
-                    case S(KC_D): chord_decode_send(1044); return false;
+                    case S(KC_D): chord_decode_send(1044); return false; // "oesn't"
                     case S(KC_E): tap_code16(KC_O); return false;
                     case S(KC_F): tap_code16(KC_F); return false;
                     case S(KC_G): tap_code16(KC_N); return false;
                     case S(KC_H): tap_code16(KC_Y); return false;
                     case S(KC_I): tap_code16(KC_QUOTE); return false;
-                    case S(KC_J): chord_decode_send(1064); return false;
+                    case S(KC_J): chord_decode_send(1064); return false; // "ust"
                     case S(KC_K): tap_code16(KC_N); return false;
                     case S(KC_L): tap_code16(KC_P); return false;
                     case S(KC_M): tap_code16(KC_B); return false;
@@ -622,56 +622,56 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case S(KC_P): tap_code16(KC_L); return false;
                     case S(KC_R): tap_code16(KC_K); return false;
                     case S(KC_S): tap_code16(KC_P); return false;
-                    case S(KC_T): chord_decode_send(1075); return false;
-                    case S(KC_V): chord_decode_send(1081); return false;
+                    case S(KC_T): chord_decode_send(1075); return false; // "ion"
+                    case S(KC_V): chord_decode_send(1081); return false; // "er"
                     case S(KC_W): tap_code16(KC_N); return false;
                     case S(KC_X): tap_code16(KC_P); return false;
-                    case S(KC_Z): chord_decode_send(1085); return false;
+                    case S(KC_Z): chord_decode_send(1085); return false; // "eitlinger"
                 }
                 return false;
             case MAGIC_B:
                 switch (get_last_keycode()) {
                     case KC_A: tap_code16(KC_U); return false;
-                    case KC_B: chord_decode_send(1040); return false;
+                    case KC_B: chord_decode_send(1040); return false; // "ecause"
                     case KC_C: tap_code16(KC_P); return false;
-                    case KC_COMMA: chord_decode_send(1104); return false;
-                    case KC_D: chord_decode_send(1049); return false;
-                    case KC_DOT: chord_decode_send(1109); return false;
-                    case KC_ENT: chord_decode_send(1095); return false;
-                    case KC_F: chord_decode_send(1056); return false;
+                    case KC_COMMA: chord_decode_send(1104); return false; // " and "
+                    case KC_D: chord_decode_send(1049); return false; // "oes"
+                    case KC_DOT: chord_decode_send(1109); return false; // "./"
+                    case KC_ENT: chord_decode_send(1095); return false; // "and "
+                    case KC_F: chord_decode_send(1056); return false; // "or"
                     case KC_G: tap_code16(KC_K); return false;
-                    case KC_H: chord_decode_send(1058); return false;
-                    case KC_I: chord_decode_send(1060); return false;
-                    case KC_K: chord_decode_send(1067); return false;
+                    case KC_H: chord_decode_send(1058); return false; // "ey"
+                    case KC_I: chord_decode_send(1060); return false; // "'ve"
+                    case KC_K: chord_decode_send(1067); return false; // "now"
                     case KC_L: tap_code16(KC_M); return false;
-                    case KC_M: chord_decode_send(1070); return false;
+                    case KC_M: chord_decode_send(1070); return false; // "ent"
                     case KC_N: tap_code16(KC_K); return false;
                     case KC_P: tap_code16(KC_S); return false;
-                    case KC_S: chord_decode_send(1075); return false;
+                    case KC_S: chord_decode_send(1075); return false; // "ion"
                     case KC_SPC: tap_code16(KC_BSPC); SEND_STRING(". "); add_oneshot_mods(MOD_BIT(KC_LSFT)); return false;
-                    case KC_T: chord_decode_send(1078); return false;
-                    case KC_TAB: chord_decode_send(1095); return false;
+                    case KC_T: chord_decode_send(1078); return false; // "ing"
+                    case KC_TAB: chord_decode_send(1095); return false; // "and "
                     case KC_U: tap_code16(KC_A); return false;
-                    case KC_V: chord_decode_send(1083); return false;
+                    case KC_V: chord_decode_send(1083); return false; // "en"
                     case KC_W: tap_code16(KC_S); return false;
                     case KC_X: tap_code16(KC_C); return false;
                     case S(KC_A): tap_code16(KC_U); return false;
-                    case S(KC_B): chord_decode_send(1040); return false;
+                    case S(KC_B): chord_decode_send(1040); return false; // "ecause"
                     case S(KC_C): tap_code16(KC_P); return false;
-                    case S(KC_D): chord_decode_send(1049); return false;
-                    case S(KC_F): chord_decode_send(1056); return false;
+                    case S(KC_D): chord_decode_send(1049); return false; // "oes"
+                    case S(KC_F): chord_decode_send(1056); return false; // "or"
                     case S(KC_G): tap_code16(KC_K); return false;
-                    case S(KC_H): chord_decode_send(1058); return false;
-                    case S(KC_I): chord_decode_send(1060); return false;
-                    case S(KC_K): chord_decode_send(1067); return false;
+                    case S(KC_H): chord_decode_send(1058); return false; // "ey"
+                    case S(KC_I): chord_decode_send(1060); return false; // "'ve"
+                    case S(KC_K): chord_decode_send(1067); return false; // "now"
                     case S(KC_L): tap_code16(KC_M); return false;
-                    case S(KC_M): chord_decode_send(1070); return false;
+                    case S(KC_M): chord_decode_send(1070); return false; // "ent"
                     case S(KC_N): tap_code16(KC_K); return false;
                     case S(KC_P): tap_code16(KC_S); return false;
-                    case S(KC_S): chord_decode_send(1075); return false;
-                    case S(KC_T): chord_decode_send(1078); return false;
+                    case S(KC_S): chord_decode_send(1075); return false; // "ion"
+                    case S(KC_T): chord_decode_send(1078); return false; // "ing"
                     case S(KC_U): tap_code16(KC_A); return false;
-                    case S(KC_V): chord_decode_send(1083); return false;
+                    case S(KC_V): chord_decode_send(1083); return false; // "en"
                     case S(KC_W): tap_code16(KC_S); return false;
                     case S(KC_X): tap_code16(KC_C); return false;
                 }
@@ -681,30 +681,30 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_A: tap_code16(KC_U); return false;
                     case KC_B: tap_code16(KC_L); return false;
                     case KC_C: tap_code16(KC_K); return false;
-                    case KC_D: chord_decode_send(1052); return false;
+                    case KC_D: chord_decode_send(1052); return false; // "on't"
                     case KC_E: tap_code16(KC_O); return false;
                     case KC_G: tap_code16(KC_L); return false;
                     case KC_K: tap_code16(KC_N); return false;
                     case KC_L: tap_code16(KC_V); return false;
                     case KC_M: tap_code16(KC_B); return false;
-                    case KC_N: chord_decode_send(1073); return false;
+                    case KC_N: chord_decode_send(1073); return false; // "ly"
                     case KC_P: tap_code16(KC_L); return false;
                     case KC_S: tap_code16(KC_P); return false;
-                    case KC_SPC: chord_decode_send(1091); return false;
-                    case KC_T: chord_decode_send(1075); return false;
+                    case KC_SPC: chord_decode_send(1091); return false; // "the "
+                    case KC_T: chord_decode_send(1075); return false; // "ion"
                     case S(KC_A): tap_code16(KC_U); return false;
                     case S(KC_B): tap_code16(KC_L); return false;
                     case S(KC_C): tap_code16(KC_K); return false;
-                    case S(KC_D): chord_decode_send(1052); return false;
+                    case S(KC_D): chord_decode_send(1052); return false; // "on't"
                     case S(KC_E): tap_code16(KC_O); return false;
                     case S(KC_G): tap_code16(KC_L); return false;
                     case S(KC_K): tap_code16(KC_N); return false;
                     case S(KC_L): tap_code16(KC_V); return false;
                     case S(KC_M): tap_code16(KC_B); return false;
-                    case S(KC_N): chord_decode_send(1073); return false;
+                    case S(KC_N): chord_decode_send(1073); return false; // "ly"
                     case S(KC_P): tap_code16(KC_L); return false;
                     case S(KC_S): tap_code16(KC_P); return false;
-                    case S(KC_T): chord_decode_send(1075); return false;
+                    case S(KC_T): chord_decode_send(1075); return false; // "ion"
                 }
                 return false;
             
