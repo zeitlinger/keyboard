@@ -106,213 +106,232 @@ int chord_transition(int state, uint16_t keycode) {
     switch (state) {
                 case 1:
                     if (keycode == KC_B) return 2;
-                    if (keycode == KC_C) return 14;
-                    if (keycode == KC_D) return 28;
-                    if (keycode == KC_F) return 36;
-                    if (keycode == KC_G) return 47;
-                    if (keycode == KC_K) return 57;
-                    if (keycode == KC_L) return 59;
-                    if (keycode == KC_M) return 71;
-                    if (keycode == KC_N) return 80;
-                    if (keycode == KC_P) return 94;
-                    if (keycode == KC_R) return 106;
-                    if (keycode == KC_S) return 121;
-                    if (keycode == KC_T) return 135;
-                    if (keycode == KC_V) return 149;
-                    if (keycode == KC_W) return 153;
-                    if (keycode == KC_Z) return 164;
+                    if (keycode == KC_C) return 15;
+                    if (keycode == KC_D) return 30;
+                    if (keycode == KC_F) return 39;
+                    if (keycode == KC_G) return 51;
+                    if (keycode == KC_K) return 62;
+                    if (keycode == KC_L) return 65;
+                    if (keycode == KC_M) return 78;
+                    if (keycode == KC_N) return 88;
+                    if (keycode == KC_P) return 103;
+                    if (keycode == KC_R) return 116;
+                    if (keycode == KC_S) return 132;
+                    if (keycode == KC_T) return 147;
+                    if (keycode == KC_V) return 162;
+                    if (keycode == KC_W) return 167;
+                    if (keycode == KC_Z) return 179;
                     break;
                 // b
                 case 2:
-                    if (keycode == KC_A) return 4;
-                    if (keycode == KC_D) return 6;
-                    if (keycode == KC_E) return 5;
-                    if (keycode == KC_H) return 10;
-                    if (keycode == KC_K) return 3;
-                    if (keycode == KC_L) return 7;
-                    if (keycode == KC_N) return 11;
-                    if (keycode == KC_R) return 12;
-                    if (keycode == KC_T) return 8;
-                    if (keycode == KC_U) return 13;
-                    if (keycode == KC_W) return 9;
+                    if (keycode == KC_SPC) return 3;
+                    if (keycode == KC_A) return 5;
+                    if (keycode == KC_D) return 7;
+                    if (keycode == KC_E) return 6;
+                    if (keycode == KC_H) return 11;
+                    if (keycode == KC_K) return 4;
+                    if (keycode == KC_L) return 8;
+                    if (keycode == KC_N) return 12;
+                    if (keycode == KC_R) return 13;
+                    if (keycode == KC_T) return 9;
+                    if (keycode == KC_U) return 14;
+                    if (keycode == KC_W) return 10;
                     break;
                 // c
-                case 14:
-                    if (keycode == KC_A) return 15;
-                    if (keycode == KC_D) return 26;
-                    if (keycode == KC_E) return 16;
-                    if (keycode == KC_H) return 17;
-                    if (keycode == KC_I) return 18;
-                    if (keycode == KC_L) return 19;
-                    if (keycode == KC_N) return 20;
-                    if (keycode == KC_O) return 21;
-                    if (keycode == KC_Q) return 22;
-                    if (keycode == KC_R) return 24;
-                    if (keycode == KC_T) return 25;
-                    if (keycode == KC_V) return 23;
-                    if (keycode == KC_Y) return 27;
+                case 15:
+                    if (keycode == KC_SPC) return 16;
+                    if (keycode == KC_A) return 17;
+                    if (keycode == KC_D) return 28;
+                    if (keycode == KC_E) return 18;
+                    if (keycode == KC_H) return 19;
+                    if (keycode == KC_I) return 20;
+                    if (keycode == KC_L) return 21;
+                    if (keycode == KC_N) return 22;
+                    if (keycode == KC_O) return 23;
+                    if (keycode == KC_Q) return 24;
+                    if (keycode == KC_R) return 26;
+                    if (keycode == KC_T) return 27;
+                    if (keycode == KC_V) return 25;
+                    if (keycode == KC_Y) return 29;
                     break;
                 // d
-                case 28:
-                    if (keycode == KC_A) return 29;
-                    if (keycode == KC_C) return 30;
-                    if (keycode == KC_E) return 31;
-                    if (keycode == KC_F) return 32;
-                    if (keycode == KC_N) return 33;
-                    if (keycode == KC_U) return 34;
-                    if (keycode == KC_Y) return 35;
+                case 30:
+                    if (keycode == KC_SPC) return 31;
+                    if (keycode == KC_A) return 32;
+                    if (keycode == KC_C) return 33;
+                    if (keycode == KC_E) return 34;
+                    if (keycode == KC_F) return 35;
+                    if (keycode == KC_N) return 36;
+                    if (keycode == KC_U) return 37;
+                    if (keycode == KC_Y) return 38;
                     break;
                 // f
-                case 36:
-                    if (keycode == KC_A) return 37;
-                    if (keycode == KC_G) return 39;
-                    if (keycode == KC_I) return 41;
-                    if (keycode == KC_L) return 43;
-                    if (keycode == KC_N) return 40;
-                    if (keycode == KC_O) return 44;
-                    if (keycode == KC_S) return 42;
-                    if (keycode == KC_T) return 38;
-                    if (keycode == KC_U) return 46;
-                    if (keycode == KC_W) return 45;
+                case 39:
+                    if (keycode == KC_SPC) return 40;
+                    if (keycode == KC_A) return 41;
+                    if (keycode == KC_G) return 43;
+                    if (keycode == KC_I) return 45;
+                    if (keycode == KC_L) return 47;
+                    if (keycode == KC_N) return 44;
+                    if (keycode == KC_O) return 48;
+                    if (keycode == KC_S) return 46;
+                    if (keycode == KC_T) return 42;
+                    if (keycode == KC_U) return 50;
+                    if (keycode == KC_W) return 49;
                     break;
                 // g
-                case 47:
-                    if (keycode == KC_D) return 54;
-                    if (keycode == KC_E) return 48;
-                    if (keycode == KC_H) return 50;
-                    if (keycode == KC_J) return 49;
-                    if (keycode == KC_O) return 52;
-                    if (keycode == KC_R) return 53;
-                    if (keycode == KC_S) return 55;
-                    if (keycode == KC_U) return 56;
-                    if (keycode == KC_Z) return 51;
+                case 51:
+                    if (keycode == KC_SPC) return 52;
+                    if (keycode == KC_D) return 59;
+                    if (keycode == KC_E) return 53;
+                    if (keycode == KC_H) return 55;
+                    if (keycode == KC_J) return 54;
+                    if (keycode == KC_O) return 57;
+                    if (keycode == KC_R) return 58;
+                    if (keycode == KC_S) return 60;
+                    if (keycode == KC_U) return 61;
+                    if (keycode == KC_Z) return 56;
                     break;
                 // k
-                case 57:
-                    if (keycode == KC_Y) return 58;
+                case 62:
+                    if (keycode == KC_SPC) return 63;
+                    if (keycode == KC_Y) return 64;
                     break;
                 // l
-                case 59:
-                    if (keycode == KC_A) return 61;
-                    if (keycode == KC_E) return 62;
-                    if (keycode == KC_F) return 63;
-                    if (keycode == KC_H) return 64;
-                    if (keycode == KC_I) return 65;
-                    if (keycode == KC_K) return 60;
-                    if (keycode == KC_O) return 67;
-                    if (keycode == KC_Q) return 68;
-                    if (keycode == KC_T) return 69;
-                    if (keycode == KC_Y) return 70;
-                    if (keycode == KC_Z) return 66;
+                case 65:
+                    if (keycode == KC_SPC) return 66;
+                    if (keycode == KC_A) return 68;
+                    if (keycode == KC_E) return 69;
+                    if (keycode == KC_F) return 70;
+                    if (keycode == KC_H) return 71;
+                    if (keycode == KC_I) return 72;
+                    if (keycode == KC_K) return 67;
+                    if (keycode == KC_O) return 74;
+                    if (keycode == KC_Q) return 75;
+                    if (keycode == KC_T) return 76;
+                    if (keycode == KC_Y) return 77;
+                    if (keycode == KC_Z) return 73;
                     break;
                 // m
-                case 71:
-                    if (keycode == KC_A) return 76;
-                    if (keycode == KC_E) return 72;
-                    if (keycode == KC_H) return 73;
-                    if (keycode == KC_I) return 74;
-                    if (keycode == KC_S) return 77;
-                    if (keycode == KC_U) return 78;
-                    if (keycode == KC_Y) return 79;
-                    if (keycode == KC_Z) return 75;
+                case 78:
+                    if (keycode == KC_SPC) return 79;
+                    if (keycode == KC_A) return 84;
+                    if (keycode == KC_E) return 80;
+                    if (keycode == KC_H) return 81;
+                    if (keycode == KC_I) return 82;
+                    if (keycode == KC_S) return 85;
+                    if (keycode == KC_U) return 86;
+                    if (keycode == KC_Y) return 87;
+                    if (keycode == KC_Z) return 83;
                     break;
                 // n
-                case 80:
-                    if (keycode == KC_A) return 81;
-                    if (keycode == KC_C) return 82;
-                    if (keycode == KC_H) return 83;
-                    if (keycode == KC_I) return 84;
-                    if (keycode == KC_J) return 89;
-                    if (keycode == KC_O) return 85;
-                    if (keycode == KC_P) return 93;
-                    if (keycode == KC_Q) return 88;
-                    if (keycode == KC_S) return 87;
-                    if (keycode == KC_T) return 90;
-                    if (keycode == KC_U) return 86;
-                    if (keycode == KC_Y) return 92;
-                    if (keycode == KC_Z) return 91;
+                case 88:
+                    if (keycode == KC_SPC) return 89;
+                    if (keycode == KC_A) return 90;
+                    if (keycode == KC_C) return 91;
+                    if (keycode == KC_H) return 92;
+                    if (keycode == KC_I) return 93;
+                    if (keycode == KC_J) return 98;
+                    if (keycode == KC_O) return 94;
+                    if (keycode == KC_P) return 102;
+                    if (keycode == KC_Q) return 97;
+                    if (keycode == KC_S) return 96;
+                    if (keycode == KC_T) return 99;
+                    if (keycode == KC_U) return 95;
+                    if (keycode == KC_Y) return 101;
+                    if (keycode == KC_Z) return 100;
                     break;
                 // p
-                case 94:
-                    if (keycode == KC_A) return 95;
-                    if (keycode == KC_E) return 97;
-                    if (keycode == KC_L) return 98;
-                    if (keycode == KC_N) return 99;
-                    if (keycode == KC_O) return 101;
-                    if (keycode == KC_R) return 96;
-                    if (keycode == KC_S) return 100;
-                    if (keycode == KC_T) return 103;
-                    if (keycode == KC_U) return 105;
-                    if (keycode == KC_Y) return 104;
-                    if (keycode == KC_Z) return 102;
+                case 103:
+                    if (keycode == KC_SPC) return 104;
+                    if (keycode == KC_A) return 105;
+                    if (keycode == KC_E) return 107;
+                    if (keycode == KC_L) return 108;
+                    if (keycode == KC_N) return 109;
+                    if (keycode == KC_O) return 111;
+                    if (keycode == KC_R) return 106;
+                    if (keycode == KC_S) return 110;
+                    if (keycode == KC_T) return 113;
+                    if (keycode == KC_U) return 115;
+                    if (keycode == KC_Y) return 114;
+                    if (keycode == KC_Z) return 112;
                     break;
                 // r
-                case 106:
-                    if (keycode == KC_A) return 107;
-                    if (keycode == KC_E) return 109;
-                    if (keycode == KC_H) return 114;
-                    if (keycode == KC_I) return 115;
-                    if (keycode == KC_L) return 116;
-                    if (keycode == KC_M) return 110;
-                    if (keycode == KC_N) return 117;
-                    if (keycode == KC_O) return 118;
-                    if (keycode == KC_P) return 111;
-                    if (keycode == KC_Q) return 120;
-                    if (keycode == KC_S) return 112;
-                    if (keycode == KC_W) return 108;
-                    if (keycode == KC_Y) return 119;
-                    if (keycode == KC_Z) return 113;
+                case 116:
+                    if (keycode == KC_SPC) return 117;
+                    if (keycode == KC_A) return 118;
+                    if (keycode == KC_E) return 120;
+                    if (keycode == KC_H) return 125;
+                    if (keycode == KC_I) return 126;
+                    if (keycode == KC_L) return 127;
+                    if (keycode == KC_M) return 121;
+                    if (keycode == KC_N) return 128;
+                    if (keycode == KC_O) return 129;
+                    if (keycode == KC_P) return 122;
+                    if (keycode == KC_Q) return 131;
+                    if (keycode == KC_S) return 123;
+                    if (keycode == KC_W) return 119;
+                    if (keycode == KC_Y) return 130;
+                    if (keycode == KC_Z) return 124;
                     break;
                 // s
-                case 121:
-                    if (keycode == KC_C) return 123;
-                    if (keycode == KC_D) return 131;
-                    if (keycode == KC_E) return 122;
-                    if (keycode == KC_I) return 124;
-                    if (keycode == KC_L) return 125;
-                    if (keycode == KC_M) return 128;
-                    if (keycode == KC_N) return 127;
-                    if (keycode == KC_O) return 126;
-                    if (keycode == KC_P) return 132;
-                    if (keycode == KC_R) return 133;
-                    if (keycode == KC_T) return 129;
-                    if (keycode == KC_U) return 130;
-                    if (keycode == KC_Y) return 134;
+                case 132:
+                    if (keycode == KC_SPC) return 133;
+                    if (keycode == KC_C) return 135;
+                    if (keycode == KC_D) return 143;
+                    if (keycode == KC_E) return 134;
+                    if (keycode == KC_I) return 136;
+                    if (keycode == KC_L) return 137;
+                    if (keycode == KC_M) return 140;
+                    if (keycode == KC_N) return 139;
+                    if (keycode == KC_O) return 138;
+                    if (keycode == KC_P) return 144;
+                    if (keycode == KC_R) return 145;
+                    if (keycode == KC_T) return 141;
+                    if (keycode == KC_U) return 142;
+                    if (keycode == KC_Y) return 146;
                     break;
                 // t
-                case 135:
-                    if (keycode == KC_A) return 136;
-                    if (keycode == KC_B) return 137;
-                    if (keycode == KC_C) return 138;
-                    if (keycode == KC_E) return 142;
-                    if (keycode == KC_G) return 145;
-                    if (keycode == KC_H) return 139;
-                    if (keycode == KC_N) return 143;
-                    if (keycode == KC_O) return 140;
-                    if (keycode == KC_S) return 147;
-                    if (keycode == KC_U) return 144;
-                    if (keycode == KC_W) return 146;
-                    if (keycode == KC_Y) return 148;
-                    if (keycode == KC_Z) return 141;
+                case 147:
+                    if (keycode == KC_SPC) return 148;
+                    if (keycode == KC_A) return 149;
+                    if (keycode == KC_B) return 150;
+                    if (keycode == KC_C) return 151;
+                    if (keycode == KC_E) return 155;
+                    if (keycode == KC_G) return 158;
+                    if (keycode == KC_H) return 152;
+                    if (keycode == KC_N) return 156;
+                    if (keycode == KC_O) return 153;
+                    if (keycode == KC_S) return 160;
+                    if (keycode == KC_U) return 157;
+                    if (keycode == KC_W) return 159;
+                    if (keycode == KC_Y) return 161;
+                    if (keycode == KC_Z) return 154;
                     break;
                 // v
-                case 149:
-                    if (keycode == KC_A) return 150;
-                    if (keycode == KC_I) return 151;
-                    if (keycode == KC_Y) return 152;
+                case 162:
+                    if (keycode == KC_SPC) return 163;
+                    if (keycode == KC_A) return 164;
+                    if (keycode == KC_I) return 165;
+                    if (keycode == KC_Y) return 166;
                     break;
                 // w
-                case 153:
-                    if (keycode == KC_A) return 154;
-                    if (keycode == KC_H) return 155;
-                    if (keycode == KC_I) return 158;
-                    if (keycode == KC_O) return 159;
-                    if (keycode == KC_R) return 157;
-                    if (keycode == KC_S) return 161;
-                    if (keycode == KC_T) return 156;
-                    if (keycode == KC_U) return 162;
-                    if (keycode == KC_Y) return 163;
-                    if (keycode == KC_Z) return 160;
+                case 167:
+                    if (keycode == KC_SPC) return 168;
+                    if (keycode == KC_A) return 169;
+                    if (keycode == KC_H) return 170;
+                    if (keycode == KC_I) return 173;
+                    if (keycode == KC_O) return 174;
+                    if (keycode == KC_R) return 172;
+                    if (keycode == KC_S) return 176;
+                    if (keycode == KC_T) return 171;
+                    if (keycode == KC_U) return 177;
+                    if (keycode == KC_Y) return 178;
+                    if (keycode == KC_Z) return 175;
+                    break;
+                // z
+                case 179:
+                    if (keycode == KC_SPC) return 180;
                     break;
     default:
         // Invalid transition, stop chord mode
@@ -323,332 +342,332 @@ int chord_transition(int state, uint16_t keycode) {
 
 void chord_output(int state) {
     switch (state) {
-                // b
-        case 2: chord_decode_send(chord_data + 0); break;
+                // b 
+        case 3: chord_decode_send(chord_data + 0); break;
                 // bk
-        case 3: chord_decode_send(chord_data + 4); break;
+        case 4: chord_decode_send(chord_data + 4); break;
                 // ba
-        case 4: chord_decode_send(chord_data + 8); break;
+        case 5: chord_decode_send(chord_data + 8); break;
                 // be
-        case 5: chord_decode_send(chord_data + 13); break;
+        case 6: chord_decode_send(chord_data + 13); break;
                 // bd
-        case 6: chord_decode_send(chord_data + 19); break;
+        case 7: chord_decode_send(chord_data + 19); break;
                 // bl
-        case 7: chord_decode_send(chord_data + 24); break;
+        case 8: chord_decode_send(chord_data + 24); break;
                 // bt
-        case 8: chord_decode_send(chord_data + 30); break;
+        case 9: chord_decode_send(chord_data + 30); break;
                 // bw
-        case 9: chord_decode_send(chord_data + 35); break;
+        case 10: chord_decode_send(chord_data + 35); break;
                 // bh
-        case 10: chord_decode_send(chord_data + 41); break;
+        case 11: chord_decode_send(chord_data + 41); break;
                 // bn
-        case 11: chord_decode_send(chord_data + 46); break;
+        case 12: chord_decode_send(chord_data + 46); break;
                 // br
-        case 12: chord_decode_send(chord_data + 51); break;
+        case 13: chord_decode_send(chord_data + 51); break;
                 // bu
-        case 13: chord_decode_send(chord_data + 56); break;
-                // c
-        case 14: chord_decode_send(chord_data + 62); break;
+        case 14: chord_decode_send(chord_data + 56); break;
+                // c 
+        case 16: chord_decode_send(chord_data + 62); break;
                 // ca
-        case 15: chord_decode_send(chord_data + 67); break;
+        case 17: chord_decode_send(chord_data + 67); break;
                 // ce
-        case 16: chord_decode_send(chord_data + 73); break;
+        case 18: chord_decode_send(chord_data + 73); break;
                 // ch
-        case 17: chord_decode_send(chord_data + 79); break;
+        case 19: chord_decode_send(chord_data + 79); break;
                 // ci
-        case 18: chord_decode_send(chord_data + 85); break;
+        case 20: chord_decode_send(chord_data + 85); break;
                 // cl
-        case 19: chord_decode_send(chord_data + 90); break;
+        case 21: chord_decode_send(chord_data + 90); break;
                 // cn
-        case 20: chord_decode_send(chord_data + 95); break;
+        case 22: chord_decode_send(chord_data + 95); break;
                 // co
-        case 21: chord_decode_send(chord_data + 100); break;
+        case 23: chord_decode_send(chord_data + 100); break;
                 // cq
-        case 22: chord_decode_send(chord_data + 106); break;
+        case 24: chord_decode_send(chord_data + 106); break;
                 // cv
-        case 23: chord_decode_send(chord_data + 111); break;
+        case 25: chord_decode_send(chord_data + 111); break;
                 // cr
-        case 24: chord_decode_send(chord_data + 116); break;
+        case 26: chord_decode_send(chord_data + 116); break;
                 // ct
-        case 25: chord_decode_send(chord_data + 121); break;
+        case 27: chord_decode_send(chord_data + 121); break;
                 // cd
-        case 26: chord_decode_send(chord_data + 126); break;
+        case 28: chord_decode_send(chord_data + 126); break;
                 // cy
-        case 27: chord_decode_send(chord_data + 132); break;
-                // d
-        case 28: chord_decode_send(chord_data + 137); break;
+        case 29: chord_decode_send(chord_data + 132); break;
+                // d 
+        case 31: chord_decode_send(chord_data + 137); break;
                 // da
-        case 29: chord_decode_send(chord_data + 142); break;
+        case 32: chord_decode_send(chord_data + 142); break;
                 // dc
-        case 30: chord_decode_send(chord_data + 147); break;
+        case 33: chord_decode_send(chord_data + 147); break;
                 // de
-        case 31: chord_decode_send(chord_data + 152); break;
+        case 34: chord_decode_send(chord_data + 152); break;
                 // df
-        case 32: chord_decode_send(chord_data + 157); break;
+        case 35: chord_decode_send(chord_data + 157); break;
                 // dn
-        case 33: chord_decode_send(chord_data + 164); break;
+        case 36: chord_decode_send(chord_data + 164); break;
                 // du
-        case 34: chord_decode_send(chord_data + 169); break;
+        case 37: chord_decode_send(chord_data + 169); break;
                 // dy
-        case 35: chord_decode_send(chord_data + 175); break;
-                // f
-        case 36: chord_decode_send(chord_data + 181); break;
+        case 38: chord_decode_send(chord_data + 175); break;
+                // f 
+        case 40: chord_decode_send(chord_data + 181); break;
                 // fa
-        case 37: chord_decode_send(chord_data + 185); break;
+        case 41: chord_decode_send(chord_data + 185); break;
                 // ft
-        case 38: chord_decode_send(chord_data + 190); break;
+        case 42: chord_decode_send(chord_data + 190); break;
                 // fg
-        case 39: chord_decode_send(chord_data + 195); break;
+        case 43: chord_decode_send(chord_data + 195); break;
                 // fn
-        case 40: chord_decode_send(chord_data + 200); break;
+        case 44: chord_decode_send(chord_data + 200); break;
                 // fi
-        case 41: chord_decode_send(chord_data + 206); break;
+        case 45: chord_decode_send(chord_data + 206); break;
                 // fs
-        case 42: chord_decode_send(chord_data + 211); break;
+        case 46: chord_decode_send(chord_data + 211); break;
                 // fl
-        case 43: chord_decode_send(chord_data + 216); break;
+        case 47: chord_decode_send(chord_data + 216); break;
                 // fo
-        case 44: chord_decode_send(chord_data + 221); break;
+        case 48: chord_decode_send(chord_data + 221); break;
                 // fw
-        case 45: chord_decode_send(chord_data + 229); break;
+        case 49: chord_decode_send(chord_data + 229); break;
                 // fu
-        case 46: chord_decode_send(chord_data + 235); break;
-                // g
-        case 47: chord_decode_send(chord_data + 240); break;
+        case 50: chord_decode_send(chord_data + 235); break;
+                // g 
+        case 52: chord_decode_send(chord_data + 240); break;
                 // ge
-        case 48: chord_decode_send(chord_data + 245); break;
+        case 53: chord_decode_send(chord_data + 245); break;
                 // gj
-        case 49: chord_decode_send(chord_data + 250); break;
+        case 54: chord_decode_send(chord_data + 250); break;
                 // gh
-        case 50: chord_decode_send(chord_data + 256); break;
+        case 55: chord_decode_send(chord_data + 256); break;
                 // gz
-        case 51: chord_decode_send(chord_data + 261); break;
+        case 56: chord_decode_send(chord_data + 261); break;
                 // go
-        case 52: chord_decode_send(chord_data + 266); break;
+        case 57: chord_decode_send(chord_data + 266); break;
                 // gr
-        case 53: chord_decode_send(chord_data + 271); break;
+        case 58: chord_decode_send(chord_data + 271); break;
                 // gd
-        case 54: chord_decode_send(chord_data + 276); break;
+        case 59: chord_decode_send(chord_data + 276); break;
                 // gs
-        case 55: chord_decode_send(chord_data + 281); break;
+        case 60: chord_decode_send(chord_data + 281); break;
                 // gu
-        case 56: chord_decode_send(chord_data + 287); break;
-                // k
-        case 57: chord_decode_send(chord_data + 292); break;
+        case 61: chord_decode_send(chord_data + 287); break;
+                // k 
+        case 63: chord_decode_send(chord_data + 292); break;
                 // ky
-        case 58: chord_decode_send(chord_data + 298); break;
-                // l
-        case 59: chord_decode_send(chord_data + 304); break;
+        case 64: chord_decode_send(chord_data + 298); break;
+                // l 
+        case 66: chord_decode_send(chord_data + 304); break;
                 // lk
-        case 60: chord_decode_send(chord_data + 309); break;
+        case 67: chord_decode_send(chord_data + 309); break;
                 // la
-        case 61: chord_decode_send(chord_data + 313); break;
+        case 68: chord_decode_send(chord_data + 313); break;
                 // le
-        case 62: chord_decode_send(chord_data + 318); break;
+        case 69: chord_decode_send(chord_data + 318); break;
                 // lf
-        case 63: chord_decode_send(chord_data + 323); break;
+        case 70: chord_decode_send(chord_data + 323); break;
                 // lh
-        case 64: chord_decode_send(chord_data + 329); break;
+        case 71: chord_decode_send(chord_data + 329); break;
                 // li
-        case 65: chord_decode_send(chord_data + 334); break;
+        case 72: chord_decode_send(chord_data + 334); break;
                 // lz
-        case 66: chord_decode_send(chord_data + 339); break;
+        case 73: chord_decode_send(chord_data + 339); break;
                 // lo
-        case 67: chord_decode_send(chord_data + 344); break;
+        case 74: chord_decode_send(chord_data + 344); break;
                 // lq
-        case 68: chord_decode_send(chord_data + 349); break;
+        case 75: chord_decode_send(chord_data + 349); break;
                 // lt
-        case 69: chord_decode_send(chord_data + 354); break;
+        case 76: chord_decode_send(chord_data + 354); break;
                 // ly
-        case 70: chord_decode_send(chord_data + 359); break;
-                // m
-        case 71: chord_decode_send(chord_data + 364); break;
+        case 77: chord_decode_send(chord_data + 359); break;
+                // m 
+        case 79: chord_decode_send(chord_data + 364); break;
                 // me
-        case 72: chord_decode_send(chord_data + 368); break;
+        case 80: chord_decode_send(chord_data + 368); break;
                 // mh
-        case 73: chord_decode_send(chord_data + 374); break;
+        case 81: chord_decode_send(chord_data + 374); break;
                 // mi
-        case 74: chord_decode_send(chord_data + 379); break;
+        case 82: chord_decode_send(chord_data + 379); break;
                 // mz
-        case 75: chord_decode_send(chord_data + 384); break;
+        case 83: chord_decode_send(chord_data + 384); break;
                 // ma
-        case 76: chord_decode_send(chord_data + 389); break;
+        case 84: chord_decode_send(chord_data + 389); break;
                 // ms
-        case 77: chord_decode_send(chord_data + 395); break;
+        case 85: chord_decode_send(chord_data + 395); break;
                 // mu
-        case 78: chord_decode_send(chord_data + 400); break;
+        case 86: chord_decode_send(chord_data + 400); break;
                 // my
-        case 79: chord_decode_send(chord_data + 405); break;
-                // n
-        case 80: chord_decode_send(chord_data + 410); break;
+        case 87: chord_decode_send(chord_data + 405); break;
+                // n 
+        case 89: chord_decode_send(chord_data + 410); break;
                 // na
-        case 81: chord_decode_send(chord_data + 418); break;
+        case 90: chord_decode_send(chord_data + 418); break;
                 // nc
-        case 82: chord_decode_send(chord_data + 423); break;
+        case 91: chord_decode_send(chord_data + 423); break;
                 // nh
-        case 83: chord_decode_send(chord_data + 428); break;
+        case 92: chord_decode_send(chord_data + 428); break;
                 // ni
-        case 84: chord_decode_send(chord_data + 434); break;
+        case 93: chord_decode_send(chord_data + 434); break;
                 // no
-        case 85: chord_decode_send(chord_data + 442); break;
+        case 94: chord_decode_send(chord_data + 442); break;
                 // nu
-        case 86: chord_decode_send(chord_data + 448); break;
+        case 95: chord_decode_send(chord_data + 448); break;
                 // ns
-        case 87: chord_decode_send(chord_data + 453); break;
+        case 96: chord_decode_send(chord_data + 453); break;
                 // nq
-        case 88: chord_decode_send(chord_data + 458); break;
+        case 97: chord_decode_send(chord_data + 458); break;
                 // nj
-        case 89: chord_decode_send(chord_data + 463); break;
+        case 98: chord_decode_send(chord_data + 463); break;
                 // nt
-        case 90: chord_decode_send(chord_data + 469); break;
+        case 99: chord_decode_send(chord_data + 469); break;
                 // nz
-        case 91: chord_decode_send(chord_data + 475); break;
+        case 100: chord_decode_send(chord_data + 475); break;
                 // ny
-        case 92: chord_decode_send(chord_data + 480); break;
+        case 101: chord_decode_send(chord_data + 480); break;
                 // np
-        case 93: chord_decode_send(chord_data + 486); break;
-                // p
-        case 94: chord_decode_send(chord_data + 491); break;
+        case 102: chord_decode_send(chord_data + 486); break;
+                // p 
+        case 104: chord_decode_send(chord_data + 491); break;
                 // pa
-        case 95: chord_decode_send(chord_data + 496); break;
+        case 105: chord_decode_send(chord_data + 496); break;
                 // pr
-        case 96: chord_decode_send(chord_data + 502); break;
+        case 106: chord_decode_send(chord_data + 502); break;
                 // pe
-        case 97: chord_decode_send(chord_data + 507); break;
+        case 107: chord_decode_send(chord_data + 507); break;
                 // pl
-        case 98: chord_decode_send(chord_data + 512); break;
+        case 108: chord_decode_send(chord_data + 512); break;
                 // pn
-        case 99: chord_decode_send(chord_data + 517); break;
+        case 109: chord_decode_send(chord_data + 517); break;
                 // ps
-        case 100: chord_decode_send(chord_data + 522); break;
+        case 110: chord_decode_send(chord_data + 522); break;
                 // po
-        case 101: chord_decode_send(chord_data + 527); break;
+        case 111: chord_decode_send(chord_data + 527); break;
                 // pz
-        case 102: chord_decode_send(chord_data + 533); break;
+        case 112: chord_decode_send(chord_data + 533); break;
                 // pt
-        case 103: chord_decode_send(chord_data + 539); break;
+        case 113: chord_decode_send(chord_data + 539); break;
                 // py
-        case 104: chord_decode_send(chord_data + 544); break;
+        case 114: chord_decode_send(chord_data + 544); break;
                 // pu
-        case 105: chord_decode_send(chord_data + 550); break;
-                // r
-        case 106: chord_decode_send(chord_data + 555); break;
+        case 115: chord_decode_send(chord_data + 550); break;
+                // r 
+        case 117: chord_decode_send(chord_data + 555); break;
                 // ra
-        case 107: chord_decode_send(chord_data + 560); break;
+        case 118: chord_decode_send(chord_data + 560); break;
                 // rw
-        case 108: chord_decode_send(chord_data + 566); break;
+        case 119: chord_decode_send(chord_data + 566); break;
                 // re
-        case 109: chord_decode_send(chord_data + 571); break;
+        case 120: chord_decode_send(chord_data + 571); break;
                 // rm
-        case 110: chord_decode_send(chord_data + 576); break;
+        case 121: chord_decode_send(chord_data + 576); break;
                 // rp
-        case 111: chord_decode_send(chord_data + 582); break;
+        case 122: chord_decode_send(chord_data + 582); break;
                 // rs
-        case 112: chord_decode_send(chord_data + 587); break;
+        case 123: chord_decode_send(chord_data + 587); break;
                 // rz
-        case 113: chord_decode_send(chord_data + 593); break;
+        case 124: chord_decode_send(chord_data + 593); break;
                 // rh
-        case 114: chord_decode_send(chord_data + 598); break;
+        case 125: chord_decode_send(chord_data + 598); break;
                 // ri
-        case 115: chord_decode_send(chord_data + 603); break;
+        case 126: chord_decode_send(chord_data + 603); break;
                 // rl
-        case 116: chord_decode_send(chord_data + 608); break;
+        case 127: chord_decode_send(chord_data + 608); break;
                 // rn
-        case 117: chord_decode_send(chord_data + 613); break;
+        case 128: chord_decode_send(chord_data + 613); break;
                 // ro
-        case 118: chord_decode_send(chord_data + 619); break;
+        case 129: chord_decode_send(chord_data + 619); break;
                 // ry
-        case 119: chord_decode_send(chord_data + 624); break;
+        case 130: chord_decode_send(chord_data + 624); break;
                 // rq
-        case 120: chord_decode_send(chord_data + 629); break;
-                // s
-        case 121: chord_decode_send(chord_data + 635); break;
+        case 131: chord_decode_send(chord_data + 629); break;
+                // s 
+        case 133: chord_decode_send(chord_data + 635); break;
                 // se
-        case 122: chord_decode_send(chord_data + 640); break;
+        case 134: chord_decode_send(chord_data + 640); break;
                 // sc
-        case 123: chord_decode_send(chord_data + 645); break;
+        case 135: chord_decode_send(chord_data + 645); break;
                 // si
-        case 124: chord_decode_send(chord_data + 650); break;
+        case 136: chord_decode_send(chord_data + 650); break;
                 // sl
-        case 125: chord_decode_send(chord_data + 656); break;
+        case 137: chord_decode_send(chord_data + 656); break;
                 // so
-        case 126: chord_decode_send(chord_data + 662); break;
+        case 138: chord_decode_send(chord_data + 662); break;
                 // sn
-        case 127: chord_decode_send(chord_data + 667); break;
+        case 139: chord_decode_send(chord_data + 667); break;
                 // sm
-        case 128: chord_decode_send(chord_data + 672); break;
+        case 140: chord_decode_send(chord_data + 672); break;
                 // st
-        case 129: chord_decode_send(chord_data + 679); break;
+        case 141: chord_decode_send(chord_data + 679); break;
                 // su
-        case 130: chord_decode_send(chord_data + 684); break;
+        case 142: chord_decode_send(chord_data + 684); break;
                 // sd
-        case 131: chord_decode_send(chord_data + 690); break;
+        case 143: chord_decode_send(chord_data + 690); break;
                 // sp
-        case 132: chord_decode_send(chord_data + 696); break;
+        case 144: chord_decode_send(chord_data + 696); break;
                 // sr
-        case 133: chord_decode_send(chord_data + 702); break;
+        case 145: chord_decode_send(chord_data + 702); break;
                 // sy
-        case 134: chord_decode_send(chord_data + 708); break;
-                // t
-        case 135: chord_decode_send(chord_data + 713); break;
+        case 146: chord_decode_send(chord_data + 708); break;
+                // t 
+        case 148: chord_decode_send(chord_data + 713); break;
                 // ta
-        case 136: chord_decode_send(chord_data + 718); break;
+        case 149: chord_decode_send(chord_data + 718); break;
                 // tb
-        case 137: chord_decode_send(chord_data + 724); break;
+        case 150: chord_decode_send(chord_data + 724); break;
                 // tc
-        case 138: chord_decode_send(chord_data + 729); break;
+        case 151: chord_decode_send(chord_data + 729); break;
                 // th
-        case 139: chord_decode_send(chord_data + 734); break;
+        case 152: chord_decode_send(chord_data + 734); break;
                 // to
-        case 140: chord_decode_send(chord_data + 739); break;
+        case 153: chord_decode_send(chord_data + 739); break;
                 // tz
-        case 141: chord_decode_send(chord_data + 745); break;
+        case 154: chord_decode_send(chord_data + 745); break;
                 // te
-        case 142: chord_decode_send(chord_data + 751); break;
+        case 155: chord_decode_send(chord_data + 751); break;
                 // tn
-        case 143: chord_decode_send(chord_data + 756); break;
+        case 156: chord_decode_send(chord_data + 756); break;
                 // tu
-        case 144: chord_decode_send(chord_data + 761); break;
+        case 157: chord_decode_send(chord_data + 761); break;
                 // tg
-        case 145: chord_decode_send(chord_data + 766); break;
+        case 158: chord_decode_send(chord_data + 766); break;
                 // tw
-        case 146: chord_decode_send(chord_data + 772); break;
+        case 159: chord_decode_send(chord_data + 772); break;
                 // ts
-        case 147: chord_decode_send(chord_data + 777); break;
+        case 160: chord_decode_send(chord_data + 777); break;
                 // ty
-        case 148: chord_decode_send(chord_data + 782); break;
-                // v
-        case 149: chord_decode_send(chord_data + 789); break;
+        case 161: chord_decode_send(chord_data + 782); break;
+                // v 
+        case 163: chord_decode_send(chord_data + 789); break;
                 // va
-        case 150: chord_decode_send(chord_data + 793); break;
+        case 164: chord_decode_send(chord_data + 793); break;
                 // vi
-        case 151: chord_decode_send(chord_data + 800); break;
+        case 165: chord_decode_send(chord_data + 800); break;
                 // vy
-        case 152: chord_decode_send(chord_data + 806); break;
-                // w
-        case 153: chord_decode_send(chord_data + 814); break;
+        case 166: chord_decode_send(chord_data + 806); break;
+                // w 
+        case 168: chord_decode_send(chord_data + 814); break;
                 // wa
-        case 154: chord_decode_send(chord_data + 819); break;
+        case 169: chord_decode_send(chord_data + 819); break;
                 // wh
-        case 155: chord_decode_send(chord_data + 823); break;
+        case 170: chord_decode_send(chord_data + 823); break;
                 // wt
-        case 156: chord_decode_send(chord_data + 828); break;
+        case 171: chord_decode_send(chord_data + 828); break;
                 // wr
-        case 157: chord_decode_send(chord_data + 833); break;
+        case 172: chord_decode_send(chord_data + 833); break;
                 // wi
-        case 158: chord_decode_send(chord_data + 838); break;
+        case 173: chord_decode_send(chord_data + 838); break;
                 // wo
-        case 159: chord_decode_send(chord_data + 843); break;
+        case 174: chord_decode_send(chord_data + 843); break;
                 // wz
-        case 160: chord_decode_send(chord_data + 849); break;
+        case 175: chord_decode_send(chord_data + 849); break;
                 // ws
-        case 161: chord_decode_send(chord_data + 854); break;
+        case 176: chord_decode_send(chord_data + 854); break;
                 // wu
-        case 162: chord_decode_send(chord_data + 860); break;
+        case 177: chord_decode_send(chord_data + 860); break;
                 // wy
-        case 163: chord_decode_send(chord_data + 866); break;
-                // z
-        case 164: chord_decode_send(chord_data + 871); break;
+        case 178: chord_decode_send(chord_data + 866); break;
+                // z 
+        case 180: chord_decode_send(chord_data + 871); break;
     default:
         return;
     }

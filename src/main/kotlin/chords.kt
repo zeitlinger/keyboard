@@ -32,11 +32,16 @@ fun buildChordTrie(chordTable: Table?): ChordInfo? {
 
     // Build trie from chord definitions
     for (row in chordTable) {
-        val chordSequence = row[0].trim()
+        var chordSequence = row[0].trim()
         val output = row[1].trim().removeSurrounding("\"")
 
-        if (chordSequence.isBlank() || output.isBlank()) {
-            continue
+        chordSequence = when (chordSequence.length) {
+            1 -> "$chordSequence " // single character chords get a trailing space
+            2 -> chordSequence // two character chords are fine as-is
+            else -> throw IllegalArgumentException("Chord sequence must be 1 or 2 characters: '$chordSequence'")
+        }
+        if (output.isBlank()) {
+            throw IllegalArgumentException("Chord output cannot be blank for chord sequence: '$chordSequence'")
         }
 
         var currentNode = root
@@ -90,7 +95,11 @@ fun generateChordTransitions(chordInfo: ChordInfo): String {
         }
         lines.add("        case $state:")
         for ((key, nextState) in keyMap.toSortedMap()) {
-            val qmkKey = "KC_${key.uppercase()}"
+            val qmkKey =
+                when (key) {
+                    " " -> "KC_SPC"
+                    else -> "KC_${key.uppercase()}"
+                }
             lines.add("            if (keycode == $qmkKey) return $nextState;")
         }
         lines.add("            break;")

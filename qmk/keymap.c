@@ -56,16 +56,6 @@ bool process_chord_mode(uint16_t keycode, keyrecord_t *record) {
     // If chord mode is active
     if (chord_state > 0) {
         if (record->event.pressed) {
-            // Handle space as "completion" key for 1-letter chords
-            if (keycode == KC_SPC && chord_depth >= 1) {
-                // Output the chord word (if state has output) and add space
-                chord_output(chord_state);
-                tap_code16(KC_SPC);
-                chord_state = 0; // Reset to inactive
-                chord_depth = 0;
-                return false;
-            }
-
             // Try to transition to next state with the pressed key
             int next_state = chord_transition(chord_state, keycode);
             if (next_state > 0) {
@@ -75,6 +65,7 @@ bool process_chord_mode(uint16_t keycode, keyrecord_t *record) {
                 // Emit immediately after 2nd letter (for 2-letter chords)
                 if (chord_depth == 2) {
                     chord_output(chord_state);
+                    tap_code16(KC_SPC);
                     chord_state = 0; // Reset to inactive
                     chord_depth = 0;
                 }
