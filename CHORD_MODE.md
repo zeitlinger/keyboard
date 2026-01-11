@@ -30,6 +30,24 @@ To capitalize the first letter of a chord output:
 - Chord key + **space** + `d` + `r` → outputs "**Their** "
 - Chord key + **space** + `t` + `i` → outputs "**Time** "
 
+### Adding Suffixes
+
+After a chord outputs, you can add common suffixes by pressing modifier keys:
+
+1. **Type a chord** (e.g., `nr` → "near ")
+2. **Press a modifier key**:
+   - **"ing" combo** → "nearing"
+   - **Magic A** → "nearly"
+   - **Magic B** → "neared"
+   - **Magic C** → "nears"
+
+**Examples:**
+- Chord + `kr` + "ing" combo → "**working**"
+- Chord + `ka` + Magic C → "**makes**"
+- Chord + `qu` + Magic A → "**queryly**"
+
+See [CHORD_MODIFIER_FEATURE.md](CHORD_MODIFIER_FEATURE.md) for complete documentation.
+
 ## Chord Table
 
 The keyboard includes **220+ pre-configured chords** covering:

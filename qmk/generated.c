@@ -7,6 +7,7 @@ int alternateLayer = -1;
 int layer = _BASE;
 #define CHORD_ROOT -1
 #define CHORD_INACTIVE -10000
+#define CHORD_MODIFIER -10001
 int chord_state = CHORD_INACTIVE; // negative = transition states, non-negative = byte offsets
 int chord_depth = 0; // Track number of letters in current chord
 

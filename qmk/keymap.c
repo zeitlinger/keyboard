@@ -47,13 +47,51 @@ bool process_chord_mode(uint16_t keycode, keyrecord_t *record) {
     // Handle chord key press
     if (keycode == _HANDLER_CHORD_KEY) {
         if (record->event.pressed) {
-            chord_state = -1; // Activate chord mode at root of trie (negative state)
+            chord_state = CHORD_ROOT; // Activate chord mode at root of trie (negative state)
             chord_depth = 0; // Reset depth counter
         }
         return false;
     }
 
-    if (chord_state != CHORD_INACTIVE) {
+    // Handle CHORD_MODIFIER state (after a chord was output)
+    if (chord_state == CHORD_MODIFIER && record->event.pressed) {
+        bool handled = false;
+        const char *suffix = NULL;
+
+        // Check for suffix keys based on keycode
+        switch (keycode) {
+            case SUB_2: // "ing" combo
+                suffix = "ing";
+                handled = true;
+                break;
+            case MAGIC_A: // Use for "ly"
+                suffix = "ly";
+                handled = true;
+                break;
+            case MAGIC_B: // Use for "ed"
+                suffix = "ed";
+                handled = true;
+                break;
+            case MAGIC_C: // Use for "s"
+                suffix = "s";
+                handled = true;
+                break;
+        }
+
+        if (handled && suffix) {
+            // Delete the trailing space and add the suffix
+            tap_code16(KC_BSPC);
+            SEND_STRING(suffix);
+            chord_state = CHORD_INACTIVE; // Reset chord state
+            return false; // Don't process further
+        }
+
+        // If not a modifier key, exit CHORD_MODIFIER state and process normally
+        chord_state = CHORD_INACTIVE;
+        return true;
+    }
+
+    if (chord_state != CHORD_INACTIVE && chord_state != CHORD_MODIFIER) {
         if (record->event.pressed) {
             // Special handling for space at root: enable one-shot shift and stay in chord mode
             if (keycode == KC_SPC && chord_state == CHORD_ROOT && chord_depth == 0) {
@@ -73,9 +111,9 @@ bool process_chord_mode(uint16_t keycode, keyrecord_t *record) {
                     if (chord_state >= 0) {
                         chord_decode_send(chord_data + chord_state);
                         tap_code16(KC_SPC);
+                        chord_state = CHORD_MODIFIER; // Enter modifier state
+                        chord_depth = 0;
                     }
-                    chord_state = CHORD_INACTIVE; // Reset to inactive
-                    chord_depth = 0;
                 }
             } else {
                 // Invalid transition, reset chord mode
