@@ -76,7 +76,9 @@ class QmkTranslator(
                 }
                 key.takeUnless { it.contains("KP_") || it.contains("NONUS_") }?.let { o.get("label").asString() to it }
             }
-        }.toMap()
+        }.toMap() + mapOf(
+            " " to "KC_SPC",
+        )
     }
 
     fun toQmk(key: String, pos: KeyPosition): QmkKey {
