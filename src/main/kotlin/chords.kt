@@ -396,7 +396,8 @@ ${hexLines.joinToString(",\n")}
 };
 
 // Decode and send 4/8-bit variable-length encoded chord string from buffer
-static void chord_decode_send(const uint8_t* data) {
+static void chord_decode_send(uint16_t offset) {
+    const uint8_t* data = chord_data + offset;
     uint8_t len = data[0];  // First byte is string length
     data++;  // Move to encoded data
     

@@ -96,7 +96,8 @@ static const uint8_t chord_data[] = {
 };
 
 // Decode and send 4/8-bit variable-length encoded chord string from buffer
-static void chord_decode_send(const uint8_t* data) {
+static void chord_decode_send(uint16_t offset) {
+    const uint8_t* data = chord_data + offset;
     uint8_t len = data[0];  // First byte is string length
     data++;  // Move to encoded data
     
@@ -575,18 +576,18 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 switch (get_last_keycode()) {
                     case KC_B: tap_code16(KC_L); return false;
                     case KC_C: tap_code16(KC_K); return false;
-                    case KC_COMMA: chord_decode_send(chord_data + 1099); return false;
-                    case KC_D: chord_decode_send(chord_data + 1044); return false;
+                    case KC_COMMA: chord_decode_send(1099); return false;
+                    case KC_D: chord_decode_send(1044); return false;
                     case KC_DOT: tap_code16(KC_SLASH); return false;
                     case KC_E: tap_code16(KC_O); return false;
-                    case KC_ENT: chord_decode_send(chord_data + 1091); return false;
+                    case KC_ENT: chord_decode_send(1091); return false;
                     case KC_EQUAL: tap_code16(KC_RABK); return false;
                     case KC_EXLM: tap_code16(KC_EQUAL); return false;
                     case KC_F: tap_code16(KC_F); return false;
                     case KC_G: tap_code16(KC_N); return false;
                     case KC_H: tap_code16(KC_Y); return false;
                     case KC_I: tap_code16(KC_QUOTE); return false;
-                    case KC_J: chord_decode_send(chord_data + 1064); return false;
+                    case KC_J: chord_decode_send(1064); return false;
                     case KC_K: tap_code16(KC_N); return false;
                     case KC_L: tap_code16(KC_P); return false;
                     case KC_M: tap_code16(KC_B); return false;
@@ -596,23 +597,23 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_P: tap_code16(KC_L); return false;
                     case KC_R: tap_code16(KC_K); return false;
                     case KC_S: tap_code16(KC_P); return false;
-                    case KC_SPC: chord_decode_send(chord_data + 1091); return false;
-                    case KC_T: chord_decode_send(chord_data + 1075); return false;
-                    case KC_TAB: chord_decode_send(chord_data + 1091); return false;
+                    case KC_SPC: chord_decode_send(1091); return false;
+                    case KC_T: chord_decode_send(1075); return false;
+                    case KC_TAB: chord_decode_send(1091); return false;
                     case KC_TILD: tap_code16(KC_SLASH); return false;
-                    case KC_V: chord_decode_send(chord_data + 1081); return false;
+                    case KC_V: chord_decode_send(1081); return false;
                     case KC_W: tap_code16(KC_N); return false;
                     case KC_X: tap_code16(KC_P); return false;
-                    case KC_Z: chord_decode_send(chord_data + 1085); return false;
+                    case KC_Z: chord_decode_send(1085); return false;
                     case S(KC_B): tap_code16(KC_L); return false;
                     case S(KC_C): tap_code16(KC_K); return false;
-                    case S(KC_D): chord_decode_send(chord_data + 1044); return false;
+                    case S(KC_D): chord_decode_send(1044); return false;
                     case S(KC_E): tap_code16(KC_O); return false;
                     case S(KC_F): tap_code16(KC_F); return false;
                     case S(KC_G): tap_code16(KC_N); return false;
                     case S(KC_H): tap_code16(KC_Y); return false;
                     case S(KC_I): tap_code16(KC_QUOTE); return false;
-                    case S(KC_J): chord_decode_send(chord_data + 1064); return false;
+                    case S(KC_J): chord_decode_send(1064); return false;
                     case S(KC_K): tap_code16(KC_N); return false;
                     case S(KC_L): tap_code16(KC_P); return false;
                     case S(KC_M): tap_code16(KC_B); return false;
@@ -621,56 +622,56 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case S(KC_P): tap_code16(KC_L); return false;
                     case S(KC_R): tap_code16(KC_K); return false;
                     case S(KC_S): tap_code16(KC_P); return false;
-                    case S(KC_T): chord_decode_send(chord_data + 1075); return false;
-                    case S(KC_V): chord_decode_send(chord_data + 1081); return false;
+                    case S(KC_T): chord_decode_send(1075); return false;
+                    case S(KC_V): chord_decode_send(1081); return false;
                     case S(KC_W): tap_code16(KC_N); return false;
                     case S(KC_X): tap_code16(KC_P); return false;
-                    case S(KC_Z): chord_decode_send(chord_data + 1085); return false;
+                    case S(KC_Z): chord_decode_send(1085); return false;
                 }
                 return false;
             case MAGIC_B:
                 switch (get_last_keycode()) {
                     case KC_A: tap_code16(KC_U); return false;
-                    case KC_B: chord_decode_send(chord_data + 1040); return false;
+                    case KC_B: chord_decode_send(1040); return false;
                     case KC_C: tap_code16(KC_P); return false;
-                    case KC_COMMA: chord_decode_send(chord_data + 1104); return false;
-                    case KC_D: chord_decode_send(chord_data + 1049); return false;
-                    case KC_DOT: chord_decode_send(chord_data + 1109); return false;
-                    case KC_ENT: chord_decode_send(chord_data + 1095); return false;
-                    case KC_F: chord_decode_send(chord_data + 1056); return false;
+                    case KC_COMMA: chord_decode_send(1104); return false;
+                    case KC_D: chord_decode_send(1049); return false;
+                    case KC_DOT: chord_decode_send(1109); return false;
+                    case KC_ENT: chord_decode_send(1095); return false;
+                    case KC_F: chord_decode_send(1056); return false;
                     case KC_G: tap_code16(KC_K); return false;
-                    case KC_H: chord_decode_send(chord_data + 1058); return false;
-                    case KC_I: chord_decode_send(chord_data + 1060); return false;
-                    case KC_K: chord_decode_send(chord_data + 1067); return false;
+                    case KC_H: chord_decode_send(1058); return false;
+                    case KC_I: chord_decode_send(1060); return false;
+                    case KC_K: chord_decode_send(1067); return false;
                     case KC_L: tap_code16(KC_M); return false;
-                    case KC_M: chord_decode_send(chord_data + 1070); return false;
+                    case KC_M: chord_decode_send(1070); return false;
                     case KC_N: tap_code16(KC_K); return false;
                     case KC_P: tap_code16(KC_S); return false;
-                    case KC_S: chord_decode_send(chord_data + 1075); return false;
+                    case KC_S: chord_decode_send(1075); return false;
                     case KC_SPC: tap_code16(KC_BSPC); SEND_STRING(". "); add_oneshot_mods(MOD_BIT(KC_LSFT)); return false;
-                    case KC_T: chord_decode_send(chord_data + 1078); return false;
-                    case KC_TAB: chord_decode_send(chord_data + 1095); return false;
+                    case KC_T: chord_decode_send(1078); return false;
+                    case KC_TAB: chord_decode_send(1095); return false;
                     case KC_U: tap_code16(KC_A); return false;
-                    case KC_V: chord_decode_send(chord_data + 1083); return false;
+                    case KC_V: chord_decode_send(1083); return false;
                     case KC_W: tap_code16(KC_S); return false;
                     case KC_X: tap_code16(KC_C); return false;
                     case S(KC_A): tap_code16(KC_U); return false;
-                    case S(KC_B): chord_decode_send(chord_data + 1040); return false;
+                    case S(KC_B): chord_decode_send(1040); return false;
                     case S(KC_C): tap_code16(KC_P); return false;
-                    case S(KC_D): chord_decode_send(chord_data + 1049); return false;
-                    case S(KC_F): chord_decode_send(chord_data + 1056); return false;
+                    case S(KC_D): chord_decode_send(1049); return false;
+                    case S(KC_F): chord_decode_send(1056); return false;
                     case S(KC_G): tap_code16(KC_K); return false;
-                    case S(KC_H): chord_decode_send(chord_data + 1058); return false;
-                    case S(KC_I): chord_decode_send(chord_data + 1060); return false;
-                    case S(KC_K): chord_decode_send(chord_data + 1067); return false;
+                    case S(KC_H): chord_decode_send(1058); return false;
+                    case S(KC_I): chord_decode_send(1060); return false;
+                    case S(KC_K): chord_decode_send(1067); return false;
                     case S(KC_L): tap_code16(KC_M); return false;
-                    case S(KC_M): chord_decode_send(chord_data + 1070); return false;
+                    case S(KC_M): chord_decode_send(1070); return false;
                     case S(KC_N): tap_code16(KC_K); return false;
                     case S(KC_P): tap_code16(KC_S); return false;
-                    case S(KC_S): chord_decode_send(chord_data + 1075); return false;
-                    case S(KC_T): chord_decode_send(chord_data + 1078); return false;
+                    case S(KC_S): chord_decode_send(1075); return false;
+                    case S(KC_T): chord_decode_send(1078); return false;
                     case S(KC_U): tap_code16(KC_A); return false;
-                    case S(KC_V): chord_decode_send(chord_data + 1083); return false;
+                    case S(KC_V): chord_decode_send(1083); return false;
                     case S(KC_W): tap_code16(KC_S); return false;
                     case S(KC_X): tap_code16(KC_C); return false;
                 }
@@ -680,30 +681,30 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_A: tap_code16(KC_U); return false;
                     case KC_B: tap_code16(KC_L); return false;
                     case KC_C: tap_code16(KC_K); return false;
-                    case KC_D: chord_decode_send(chord_data + 1052); return false;
+                    case KC_D: chord_decode_send(1052); return false;
                     case KC_E: tap_code16(KC_O); return false;
                     case KC_G: tap_code16(KC_L); return false;
                     case KC_K: tap_code16(KC_N); return false;
                     case KC_L: tap_code16(KC_V); return false;
                     case KC_M: tap_code16(KC_B); return false;
-                    case KC_N: chord_decode_send(chord_data + 1073); return false;
+                    case KC_N: chord_decode_send(1073); return false;
                     case KC_P: tap_code16(KC_L); return false;
                     case KC_S: tap_code16(KC_P); return false;
-                    case KC_SPC: chord_decode_send(chord_data + 1091); return false;
-                    case KC_T: chord_decode_send(chord_data + 1075); return false;
+                    case KC_SPC: chord_decode_send(1091); return false;
+                    case KC_T: chord_decode_send(1075); return false;
                     case S(KC_A): tap_code16(KC_U); return false;
                     case S(KC_B): tap_code16(KC_L); return false;
                     case S(KC_C): tap_code16(KC_K); return false;
-                    case S(KC_D): chord_decode_send(chord_data + 1052); return false;
+                    case S(KC_D): chord_decode_send(1052); return false;
                     case S(KC_E): tap_code16(KC_O); return false;
                     case S(KC_G): tap_code16(KC_L); return false;
                     case S(KC_K): tap_code16(KC_N); return false;
                     case S(KC_L): tap_code16(KC_V); return false;
                     case S(KC_M): tap_code16(KC_B); return false;
-                    case S(KC_N): chord_decode_send(chord_data + 1073); return false;
+                    case S(KC_N): chord_decode_send(1073); return false;
                     case S(KC_P): tap_code16(KC_L); return false;
                     case S(KC_S): tap_code16(KC_P); return false;
-                    case S(KC_T): chord_decode_send(chord_data + 1075); return false;
+                    case S(KC_T): chord_decode_send(1075); return false;
                 }
                 return false;
             
