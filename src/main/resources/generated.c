@@ -5,7 +5,8 @@
 
 int alternateLayer = -1;
 int layer = _BASE;
-int chord_state = -1000; // -1000 = inactive, -1 = root, other negative = transition states, non-negative = byte offsets
+# #define CHORD_INACTIVE -10000
+int chord_state = CHORD_INACTIVE; // -1 = root, other negative = transition states, non-negative = byte offsets
 int chord_depth = 0; // Track number of letters in current chord
 
 ${chordDecoder}
@@ -15,9 +16,9 @@ int chord_transition(int state, uint16_t keycode) {
 ${chordTransitions}
     default:
         // Invalid transition, stop chord mode
-        return -1000;
+        return CHORD_INACTIVE;
     }
-    return -1000;
+    return CHORD_INACTIVE;
 }
 
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {

@@ -5,65 +5,73 @@
 
 int alternateLayer = -1;
 int layer = _BASE;
-int chord_state = -1000; // -1000 = inactive, -1 = root, other negative = transition states, non-negative = byte offsets
+# #define CHORD_INACTIVE -10000
+int chord_state = CHORD_INACTIVE; // -1 = root, other negative = transition states, non-negative = byte offsets
 int chord_depth = 0; // Track number of letters in current chord
 
 // Chord string decoder lookup table (5-bit codes -> characters)
 static const char chord_char_lookup[] = {
-    'e', 'r', 'a', 't', 'o', 'n', 'i', 's', 'l', 'u', 'h', 'c', 'g', 'y', 'd', 'm', 'b', 'w', 'p', 'v', 'k', 'f', '\'', 'j', 'z', 'q', ' '
+    'e', 'r', 'a', 't', 'o', 'n', 'i', 's', 'l', 'u', 'h', 'c', 'g', 'y', 'd', 'm', 'p', 'b', 'w', 'v', 'k', 'f', '\'', 'x', 'z', 'j', 'q', ' '
 };
 
 // Global buffer containing all 5-bit packed chord strings
 static const uint8_t chord_data[] = {
-    0x04, 0x18, 0x04, 0x02, 0x08, 0x24, 0x30, 0x51, 0x0c, 0x06, 0x07, 0x01, 0x08, 0x64, 0x30, 0x00,
-    0x08, 0x91, 0x24, 0xe4, 0x8a, 0x1d, 0x05, 0x91, 0x84, 0xd0, 0x00, 0x05, 0x51, 0x81, 0x00, 0x00,
-    0x07, 0xd1, 0x0c, 0x45, 0xd2, 0x00, 0x05, 0x31, 0x90, 0xc2, 0x00, 0x06, 0xd1, 0x14, 0x47, 0x22,
-    0x05, 0x51, 0x99, 0xa5, 0x00, 0x04, 0x11, 0x04, 0x00, 0x04, 0x51, 0x20, 0x0a, 0x05, 0x91, 0x24,
-    0xe4, 0x00, 0x0a, 0x60, 0x82, 0xd0, 0x86, 0x32, 0x85, 0x01, 0x05, 0x53, 0xa0, 0x04, 0x00, 0x05,
-    0x05, 0x4c, 0x10, 0x00, 0x04, 0x64, 0x82, 0x00, 0x08, 0x07, 0x84, 0x69, 0x16, 0x38, 0x04, 0x13,
-    0x84, 0x06, 0x09, 0x62, 0x0a, 0x83, 0x04, 0x44, 0x00, 0x04, 0x4a, 0x4c, 0x00, 0x09, 0x43, 0x89,
-    0x42, 0x75, 0x23, 0x09, 0x06, 0x43, 0x91, 0xc4, 0x14, 0x05, 0x43, 0x81, 0x00, 0x00, 0x07, 0x43,
-    0x91, 0xc4, 0xd4, 0x00, 0x07, 0x43, 0x05, 0x92, 0x98, 0x02, 0x04, 0xc3, 0x3c, 0x00, 0x06, 0x43,
-    0x89, 0x42, 0x0f, 0x06, 0x85, 0x0c, 0xb3, 0x00, 0x07, 0x8b, 0x94, 0x21, 0xd6, 0x00, 0x05, 0x43,
-    0x99, 0x42, 0x01, 0x06, 0x51, 0x9c, 0x62, 0x07, 0x06, 0xa7, 0x9d, 0x01, 0x1e, 0x07, 0x27, 0x49,
-    0x49, 0xc2, 0x00, 0x08, 0x27, 0x05, 0x19, 0xcc, 0x01, 0x06, 0x07, 0x91, 0x88, 0x1a, 0x07, 0x27,
-    0xc1, 0x0b, 0xd6, 0x00, 0x07, 0xc7, 0x20, 0x50, 0x16, 0x00, 0x05, 0x47, 0x89, 0x00, 0x00, 0x06,
-    0x07, 0x88, 0xb0, 0x14, 0x04, 0x47, 0x3c, 0x00, 0x06, 0x47, 0x91, 0x84, 0x1c, 0x05, 0x0d, 0x88,
-    0x70, 0x00, 0x04, 0x23, 0x24, 0x00, 0x06, 0x22, 0x90, 0x54, 0x1c, 0x06, 0x01, 0x8c, 0x14, 0x0a,
-    0x05, 0xc1, 0x30, 0x35, 0x00, 0x06, 0x01, 0x4c, 0x03, 0x22, 0x05, 0x01, 0x08, 0xd7, 0x00, 0x07,
-    0x32, 0x10, 0x16, 0xc4, 0x03, 0x06, 0x01, 0x08, 0x84, 0x1a, 0x08, 0x32, 0x10, 0x28, 0x20, 0x6a,
-    0x06, 0x32, 0x41, 0x64, 0x16, 0x06, 0x52, 0x04, 0x50, 0x06, 0x07, 0x32, 0x10, 0x97, 0xd6, 0x00,
-    0x07, 0x32, 0x10, 0x88, 0xc0, 0x03, 0x05, 0x92, 0x98, 0x32, 0x00, 0x05, 0x12, 0x89, 0x05, 0x00,
-    0x07, 0x32, 0x98, 0x29, 0x56, 0x03, 0x06, 0x12, 0x10, 0x89, 0x00, 0x07, 0x8b, 0x3c, 0x29, 0x4a,
-    0x03, 0x06, 0xa0, 0x90, 0xc4, 0x14, 0x04, 0x05, 0x88, 0x00, 0x07, 0xa2, 0x90, 0xa1, 0x40, 0x00,
-    0x07, 0xa6, 0x9c, 0x01, 0x84, 0x03, 0x0a, 0xa9, 0x98, 0x09, 0xc2, 0x31, 0xa3, 0x01, 0x08, 0xa2,
-    0xb4, 0xa1, 0x4c, 0x61, 0x06, 0x25, 0x3d, 0x08, 0x02, 0x06, 0xa2, 0xb4, 0x28, 0x1a, 0x0a, 0xa9,
-    0x38, 0x10, 0xce, 0x10, 0xc5, 0x01, 0x06, 0xaf, 0x1d, 0x80, 0x2a, 0x05, 0x2f, 0x1d, 0xb3, 0x00,
-    0x04, 0x8f, 0x9c, 0x01, 0x05, 0x4f, 0x5c, 0x12, 0x00, 0x06, 0xcf, 0x94, 0x34, 0x00, 0x05, 0xcf,
-    0x30, 0x35, 0x00, 0x07, 0x0f, 0x9c, 0x23, 0x18, 0x00, 0x07, 0x87, 0x3c, 0x40, 0x0a, 0x00, 0x04,
-    0x8f, 0x04, 0x00, 0x06, 0x02, 0x45, 0xd1, 0x0e, 0x06, 0x02, 0x3d, 0x72, 0x06, 0x05, 0x48, 0x0c,
-    0x10, 0x00, 0x05, 0x02, 0x91, 0xc2, 0x00, 0x05, 0x48, 0x04, 0x06, 0x00, 0x05, 0xc8, 0x30, 0x35,
-    0x00, 0x06, 0x0a, 0x08, 0x34, 0x14, 0x05, 0x08, 0x88, 0x09, 0x00, 0x05, 0x48, 0x24, 0xa6, 0x00,
-    0x06, 0x08, 0x14, 0x36, 0x14, 0x07, 0x39, 0x99, 0x45, 0x51, 0x03, 0x04, 0x91, 0x04, 0x0a, 0x04,
-    0xb4, 0x90, 0x08, 0x04, 0x37, 0x9d, 0x01, 0x04, 0xd4, 0x14, 0x07, 0x04, 0x14, 0x00, 0x09, 0x04,
-    0x4f, 0x50, 0x00, 0x08, 0x39, 0x81, 0x33, 0x0c, 0x29, 0x05, 0x60, 0x82, 0xd0, 0x00, 0x05, 0x2c,
-    0x81, 0x73, 0x00, 0x05, 0x2c, 0x00, 0x31, 0x00, 0x05, 0x2c, 0x90, 0x24, 0x01, 0x07, 0x0c, 0x14,
-    0x10, 0x04, 0x02, 0x06, 0xcc, 0x4c, 0x53, 0x18, 0x06, 0xc1, 0x30, 0x35, 0x0e, 0x05, 0x10, 0x30,
-    0x51, 0x00, 0x06, 0x0c, 0x89, 0xb2, 0x00, 0x05, 0x82, 0x09, 0x53, 0x00, 0x05, 0x95, 0x84, 0xd1,
-    0x00, 0x05, 0x95, 0xa4, 0xe2, 0x00, 0x08, 0x87, 0xd4, 0x11, 0x45, 0x00, 0x0b, 0xa6, 0x54, 0x12,
-    0x9e, 0x18, 0x86, 0x14, 0x05, 0xd5, 0x84, 0x33, 0x00, 0x06, 0xd5, 0x14, 0x06, 0x02, 0x05, 0xd5,
-    0xd4, 0xa1, 0x00, 0x04, 0x15, 0x00, 0x04, 0x06, 0x55, 0x3c, 0x83, 0x1a, 0x04, 0x35, 0x90, 0x07,
-    0x06, 0x4a, 0xb8, 0x62, 0x07, 0x07, 0x02, 0x05, 0x20, 0x5c, 0x03, 0x08, 0x32, 0x10, 0x97, 0xd6,
-    0x38, 0x05, 0x43, 0x01, 0x13, 0x00, 0x07, 0x8e, 0x80, 0x53, 0xec, 0x00, 0x06, 0x2e, 0x05, 0x53,
-    0x18, 0x05, 0x43, 0x99, 0xe0, 0x00, 0x05, 0xd3, 0x38, 0x40, 0x00, 0x05, 0x83, 0x38, 0xd1, 0x00,
-    0x06, 0xce, 0xb8, 0x62, 0x07, 0x08, 0x8b, 0x24, 0xe4, 0x8a, 0x1d, 0x06, 0x92, 0x20, 0xb3, 0x1a,
-    0x07, 0x2b, 0x85, 0x00, 0xca, 0x00, 0x06, 0x62, 0x05, 0x72, 0x0e, 0x08, 0x8b, 0x94, 0x61, 0x4a,
-    0x02, 0x07, 0x32, 0x90, 0x0b, 0xd6, 0x00, 0x05, 0x0b, 0x99, 0x45, 0x01, 0x08, 0x01, 0x1c, 0x20,
-    0xc2, 0x52, 0x07, 0x07, 0x84, 0x69, 0x16, 0x00, 0x08, 0x62, 0x8d, 0x24, 0x10, 0x6a, 0x05, 0x8b,
-    0x24, 0xe4, 0x00, 0x0d, 0x04, 0x1e, 0x10, 0xa6, 0x80, 0x06, 0x99, 0xd1, 0x00, 0x04, 0x90, 0xb8,
-    0x06, 0x08, 0x30, 0x1d, 0x53, 0xc0, 0x39, 0x05, 0x30, 0x00, 0x41, 0x01, 0x06, 0x10, 0x2c, 0xf2,
-    0x00, 0x07, 0x10, 0x8c, 0x08, 0x40, 0x01, 0x05, 0x10, 0x98, 0xc2, 0x00, 0x06, 0x10, 0x28, 0x53,
-    0x1c, 0x07, 0x10, 0x2c, 0x91, 0x0e, 0x00, 0x05, 0x02, 0x92, 0x34, 0x00, 0x04, 0x10, 0x80, 0x02
+    0x05, 0xe2, 0xb4, 0xb2, 0x00, 0x04, 0x98, 0x14, 0x00, 0x04, 0xc7, 0x60, 0x00, 0x04, 0x18, 0x04,
+    0x02, 0x08, 0x24, 0x30, 0x51, 0x0c, 0x06, 0x07, 0x01, 0x08, 0x64, 0x30, 0x00, 0x06, 0xe0, 0x42,
+    0x12, 0x06, 0x09, 0xe0, 0x2e, 0x00, 0x87, 0x21, 0x05, 0x08, 0xe0, 0x9a, 0x33, 0x4c, 0x61, 0x07,
+    0xe0, 0x82, 0x95, 0x06, 0x00, 0x07, 0xe0, 0x8a, 0x07, 0x11, 0x00, 0x08, 0x92, 0x24, 0xe4, 0x8a,
+    0x1d, 0x05, 0x42, 0x0a, 0x33, 0x00, 0x05, 0x92, 0x84, 0xd0, 0x00, 0x05, 0x52, 0x81, 0x00, 0x00,
+    0x07, 0xd2, 0x0c, 0x45, 0xd2, 0x00, 0x05, 0x32, 0x90, 0xc2, 0x00, 0x06, 0xd2, 0x14, 0x47, 0x24,
+    0x05, 0x52, 0x99, 0xa5, 0x00, 0x04, 0x12, 0x04, 0x00, 0x04, 0x52, 0x20, 0x0a, 0x05, 0x92, 0x24,
+    0xe4, 0x00, 0x04, 0x93, 0x18, 0x07, 0x0a, 0x60, 0x82, 0xd0, 0x86, 0x32, 0x85, 0x01, 0x05, 0x53,
+    0xa0, 0x04, 0x00, 0x05, 0x05, 0x4c, 0x10, 0x00, 0x04, 0x64, 0x82, 0x00, 0x08, 0x07, 0x84, 0x69,
+    0x16, 0x38, 0x04, 0x13, 0x84, 0x06, 0x09, 0x62, 0x0a, 0x83, 0x44, 0x44, 0x00, 0x04, 0x4a, 0x4c,
+    0x00, 0x04, 0xa3, 0x41, 0x00, 0x09, 0x43, 0x89, 0x42, 0x77, 0x23, 0x09, 0x06, 0x43, 0x91, 0xc4,
+    0x14, 0x05, 0x43, 0x81, 0x00, 0x00, 0x07, 0x43, 0x91, 0xc4, 0xd4, 0x00, 0x07, 0x43, 0x05, 0x92,
+    0x98, 0x02, 0x04, 0xc3, 0x3c, 0x00, 0x06, 0x43, 0x89, 0x42, 0x0f, 0x06, 0x85, 0x0c, 0xb3, 0x00,
+    0x07, 0x8b, 0x94, 0x21, 0xd6, 0x00, 0x05, 0x43, 0x99, 0x42, 0x01, 0x06, 0x52, 0x9c, 0x62, 0x07,
+    0x06, 0x67, 0x04, 0x53, 0x18, 0x06, 0xa7, 0x9d, 0x01, 0x1e, 0x07, 0x27, 0x41, 0x48, 0xc2, 0x00,
+    0x08, 0x27, 0x05, 0x18, 0xcc, 0x01, 0x06, 0x07, 0x11, 0x89, 0x1a, 0x07, 0x27, 0xc5, 0x0c, 0xd6,
+    0x00, 0x07, 0xc7, 0x20, 0x50, 0x16, 0x00, 0x05, 0x47, 0x89, 0x00, 0x00, 0x06, 0x07, 0x88, 0xb0,
+    0x14, 0x04, 0x47, 0x3c, 0x00, 0x06, 0x47, 0x91, 0x84, 0x1c, 0x05, 0x20, 0x04, 0x12, 0x00, 0x05,
+    0x0d, 0x88, 0x70, 0x00, 0x04, 0x23, 0x24, 0x00, 0x06, 0x22, 0x90, 0x54, 0x1c, 0x06, 0x01, 0x8c,
+    0x14, 0x0a, 0x05, 0xc1, 0x30, 0x35, 0x00, 0x06, 0x01, 0x4c, 0x03, 0x24, 0x05, 0x01, 0x08, 0xd7,
+    0x00, 0x07, 0x30, 0x10, 0x16, 0xc4, 0x03, 0x06, 0x01, 0x08, 0x84, 0x1a, 0x07, 0x30, 0x90, 0x67,
+    0x0e, 0x00, 0x08, 0x30, 0x90, 0x28, 0x22, 0x6a, 0x06, 0x30, 0x45, 0x64, 0x16, 0x06, 0x50, 0x04,
+    0x50, 0x06, 0x07, 0x30, 0x10, 0x97, 0xd6, 0x00, 0x07, 0x30, 0x90, 0x88, 0xc0, 0x03, 0x05, 0x90,
+    0x98, 0x32, 0x00, 0x05, 0x10, 0x89, 0x05, 0x00, 0x07, 0x30, 0x98, 0x29, 0x56, 0x03, 0x06, 0x10,
+    0x10, 0x88, 0x00, 0x04, 0x25, 0x21, 0x04, 0x07, 0x8b, 0x3c, 0x28, 0x4a, 0x03, 0x06, 0xa0, 0x90,
+    0xc4, 0x14, 0x04, 0x05, 0x88, 0x00, 0x07, 0xa2, 0x90, 0xa1, 0x40, 0x00, 0x07, 0xa6, 0x9c, 0x01,
+    0x84, 0x03, 0x0a, 0xa9, 0x98, 0x09, 0xc2, 0x31, 0xa3, 0x01, 0x08, 0xa2, 0xb4, 0xa1, 0x4c, 0x61,
+    0x06, 0x25, 0xbd, 0x08, 0x02, 0x06, 0xa2, 0x34, 0x29, 0x1a, 0x0a, 0xa9, 0x38, 0x10, 0xce, 0x10,
+    0xc5, 0x01, 0x06, 0x0f, 0x0c, 0x45, 0x1c, 0x06, 0xaf, 0x1d, 0x80, 0x2a, 0x05, 0x2f, 0x1d, 0xb3,
+    0x00, 0x04, 0x8f, 0x9c, 0x01, 0x05, 0x4f, 0x64, 0x12, 0x00, 0x06, 0xcf, 0x94, 0x34, 0x00, 0x05,
+    0xcf, 0x30, 0x35, 0x00, 0x07, 0x0f, 0x9c, 0x23, 0x18, 0x00, 0x07, 0x87, 0x3c, 0x40, 0x0a, 0x00,
+    0x04, 0x8f, 0x04, 0x00, 0x05, 0x0b, 0x89, 0x73, 0x00, 0x06, 0x02, 0x49, 0xd1, 0x0e, 0x06, 0x02,
+    0x3d, 0x72, 0x06, 0x05, 0x48, 0x0c, 0x10, 0x00, 0x05, 0x02, 0x91, 0xc2, 0x00, 0x05, 0x48, 0x04,
+    0x06, 0x00, 0x05, 0xc8, 0x30, 0x35, 0x00, 0x06, 0x0a, 0x08, 0x34, 0x14, 0x05, 0x08, 0x88, 0x09,
+    0x00, 0x05, 0x48, 0x24, 0xa6, 0x00, 0x06, 0x08, 0x14, 0x36, 0x14, 0x03, 0x14, 0x34, 0x07, 0x3a,
+    0x99, 0x45, 0x51, 0x03, 0x04, 0x92, 0x04, 0x0a, 0x04, 0xb4, 0x10, 0x09, 0x04, 0x39, 0x9d, 0x01,
+    0x04, 0xd4, 0x14, 0x07, 0x04, 0x14, 0x00, 0x08, 0x04, 0x4f, 0x50, 0x00, 0x08, 0x3a, 0x81, 0x33,
+    0x0c, 0x29, 0x05, 0x60, 0x82, 0xd0, 0x00, 0x05, 0x2c, 0x81, 0x73, 0x00, 0x05, 0x2c, 0x00, 0x31,
+    0x00, 0x05, 0x2c, 0x90, 0x04, 0x01, 0x07, 0x0c, 0x14, 0x10, 0x04, 0x02, 0x06, 0xcc, 0x4c, 0x53,
+    0x18, 0x06, 0xc1, 0x30, 0x35, 0x0e, 0x05, 0x11, 0x30, 0x51, 0x00, 0x06, 0x0c, 0x89, 0xb2, 0x00,
+    0x05, 0x82, 0x09, 0x53, 0x00, 0x05, 0x55, 0xa0, 0x03, 0x00, 0x05, 0x95, 0x84, 0xd1, 0x00, 0x05,
+    0x95, 0xa4, 0xe2, 0x00, 0x08, 0x87, 0xd4, 0x21, 0x45, 0x00, 0x0b, 0xa6, 0x54, 0x12, 0x9e, 0x18,
+    0x86, 0x14, 0x05, 0xd5, 0x84, 0x33, 0x00, 0x06, 0xd5, 0x14, 0x06, 0x02, 0x05, 0xd5, 0xd4, 0xa1,
+    0x00, 0x04, 0x15, 0x00, 0x04, 0x06, 0x55, 0x3c, 0x83, 0x1a, 0x04, 0x35, 0x90, 0x07, 0x06, 0x4a,
+    0xb8, 0x62, 0x07, 0x04, 0x4e, 0x0c, 0x01, 0x07, 0x02, 0x05, 0x20, 0x5c, 0x03, 0x08, 0x30, 0x10,
+    0x97, 0xd6, 0x38, 0x05, 0x43, 0x01, 0x13, 0x00, 0x07, 0x8e, 0x80, 0x53, 0xec, 0x00, 0x06, 0x2e,
+    0x05, 0x53, 0x18, 0x05, 0x43, 0x99, 0xe0, 0x00, 0x05, 0xd3, 0x38, 0x40, 0x00, 0x05, 0x83, 0x38,
+    0xd1, 0x00, 0x06, 0xce, 0xb8, 0x62, 0x07, 0x08, 0x8b, 0x24, 0xe4, 0x8a, 0x1d, 0x05, 0x8b, 0x94,
+    0x33, 0x00, 0x06, 0x90, 0x20, 0xb3, 0x1a, 0x07, 0x2b, 0x85, 0x00, 0xca, 0x00, 0x06, 0x62, 0x05,
+    0x72, 0x0e, 0x08, 0x8b, 0x94, 0x61, 0x4a, 0x02, 0x07, 0x30, 0x90, 0x0c, 0xd6, 0x00, 0x05, 0x0b,
+    0x99, 0x45, 0x01, 0x08, 0x01, 0x1c, 0x20, 0xc2, 0x52, 0x07, 0x07, 0x84, 0x69, 0x16, 0x00, 0x08,
+    0x62, 0x8d, 0x24, 0x10, 0x6a, 0x05, 0x8b, 0x24, 0xe4, 0x00, 0x0d, 0x24, 0x1e, 0x10, 0xa6, 0x88,
+    0x06, 0x99, 0xd1, 0x00, 0x07, 0x91, 0x10, 0x04, 0x44, 0x01, 0x04, 0x91, 0xb8, 0x06, 0x08, 0x31,
+    0x1d, 0x53, 0xc0, 0x39, 0x05, 0x31, 0x00, 0x41, 0x01, 0x06, 0x11, 0x2c, 0xf2, 0x00, 0x07, 0x11,
+    0x0c, 0x09, 0x40, 0x01, 0x05, 0x11, 0x98, 0xc2, 0x00, 0x06, 0x11, 0x28, 0x53, 0x1c, 0x07, 0x11,
+    0x2c, 0x91, 0x0e, 0x00, 0x05, 0x22, 0x92, 0x34, 0x00, 0x04, 0x11, 0x80, 0x02
 };
 
 // Decode and send 5-bit packed chord string from buffer
@@ -99,225 +107,251 @@ static void chord_decode_send(const uint8_t* data) {
 int chord_transition(int state, uint16_t keycode) {
     switch (state) {
                 // z
-                case -163:
-                    if (keycode == KC_SPC) return 10;
-                    if (keycode == KC_A) return 4;
-                    if (keycode == KC_E) return 0;
+                case -183:
+                    if (keycode == KC_SPC) return 23;
+                    if (keycode == KC_DOT) return 0;
+                    if (keycode == KC_A) return 17;
+                    if (keycode == KC_E) return 13;
+                    if (keycode == KC_I) return 9;
+                    if (keycode == KC_O) return 5;
+                    break;
+                // x
+                case -177:
+                    if (keycode == KC_DOT) return 29;
+                    if (keycode == KC_A) return 53;
+                    if (keycode == KC_E) return 47;
+                    if (keycode == KC_I) return 41;
+                    if (keycode == KC_J) return 34;
                     break;
                 // w
-                case -152:
-                    if (keycode == KC_SPC) return 61;
-                    if (keycode == KC_COMMA) return 16;
-                    if (keycode == KC_A) return 57;
-                    if (keycode == KC_E) return 53;
-                    if (keycode == KC_H) return 48;
-                    if (keycode == KC_I) return 43;
-                    if (keycode == KC_J) return 38;
-                    if (keycode == KC_O) return 32;
-                    if (keycode == KC_R) return 27;
-                    if (keycode == KC_Y) return 22;
+                case -165:
+                    if (keycode == KC_SPC) return 109;
+                    if (keycode == KC_COMMA) return 59;
+                    if (keycode == KC_DOT) return 65;
+                    if (keycode == KC_A) return 105;
+                    if (keycode == KC_E) return 101;
+                    if (keycode == KC_H) return 96;
+                    if (keycode == KC_I) return 91;
+                    if (keycode == KC_J) return 86;
+                    if (keycode == KC_O) return 80;
+                    if (keycode == KC_R) return 75;
+                    if (keycode == KC_Y) return 70;
                     break;
                 // v
-                case -143:
-                    if (keycode == KC_SPC) return 105;
-                    if (keycode == KC_A) return 98;
-                    if (keycode == KC_E) return 94;
-                    if (keycode == KC_I) return 88;
-                    if (keycode == KC_O) return 84;
-                    if (keycode == KC_R) return 79;
-                    if (keycode == KC_U) return 74;
-                    if (keycode == KC_Y) return 66;
+                case -155:
+                    if (keycode == KC_SPC) return 157;
+                    if (keycode == KC_DOT) return 114;
+                    if (keycode == KC_A) return 150;
+                    if (keycode == KC_E) return 146;
+                    if (keycode == KC_I) return 140;
+                    if (keycode == KC_O) return 136;
+                    if (keycode == KC_R) return 131;
+                    if (keycode == KC_U) return 126;
+                    if (keycode == KC_Y) return 118;
                     break;
                 // t
-                case -132:
-                    if (keycode == KC_SPC) return 158;
-                    if (keycode == KC_A) return 152;
-                    if (keycode == KC_E) return 147;
-                    if (keycode == KC_H) return 142;
-                    if (keycode == KC_I) return 138;
-                    if (keycode == KC_J) return 132;
-                    if (keycode == KC_O) return 126;
-                    if (keycode == KC_R) return 121;
-                    if (keycode == KC_U) return 116;
-                    if (keycode == KC_Y) return 109;
+                case -143:
+                    if (keycode == KC_SPC) return 214;
+                    if (keycode == KC_DOT) return 161;
+                    if (keycode == KC_A) return 208;
+                    if (keycode == KC_E) return 203;
+                    if (keycode == KC_H) return 198;
+                    if (keycode == KC_I) return 194;
+                    if (keycode == KC_J) return 188;
+                    if (keycode == KC_O) return 182;
+                    if (keycode == KC_R) return 177;
+                    if (keycode == KC_U) return 172;
+                    if (keycode == KC_Y) return 165;
                     break;
                 // s
-                case -120:
-                    if (keycode == KC_SPC) return 216;
-                    if (keycode == KC_COMMA) return 163;
-                    if (keycode == KC_A) return 212;
-                    if (keycode == KC_E) return 207;
-                    if (keycode == KC_H) return 202;
-                    if (keycode == KC_I) return 196;
-                    if (keycode == KC_J) return 190;
-                    if (keycode == KC_O) return 185;
-                    if (keycode == KC_R) return 179;
-                    if (keycode == KC_U) return 173;
-                    if (keycode == KC_Y) return 168;
+                case -130:
+                    if (keycode == KC_SPC) return 277;
+                    if (keycode == KC_COMMA) return 219;
+                    if (keycode == KC_DOT) return 224;
+                    if (keycode == KC_A) return 273;
+                    if (keycode == KC_E) return 268;
+                    if (keycode == KC_H) return 263;
+                    if (keycode == KC_I) return 257;
+                    if (keycode == KC_J) return 251;
+                    if (keycode == KC_O) return 246;
+                    if (keycode == KC_R) return 240;
+                    if (keycode == KC_U) return 234;
+                    if (keycode == KC_Y) return 229;
                     break;
                 // r
-                case -110:
-                    if (keycode == KC_SPC) return 261;
-                    if (keycode == KC_A) return 255;
-                    if (keycode == KC_E) return 250;
-                    if (keycode == KC_H) return 245;
-                    if (keycode == KC_I) return 240;
-                    if (keycode == KC_J) return 235;
-                    if (keycode == KC_O) return 230;
-                    if (keycode == KC_U) return 226;
-                    if (keycode == KC_Y) return 221;
+                case -119:
+                    if (keycode == KC_SPC) return 327;
+                    if (keycode == KC_DOT) return 282;
+                    if (keycode == KC_A) return 321;
+                    if (keycode == KC_E) return 316;
+                    if (keycode == KC_H) return 311;
+                    if (keycode == KC_I) return 306;
+                    if (keycode == KC_J) return 301;
+                    if (keycode == KC_O) return 296;
+                    if (keycode == KC_U) return 292;
+                    if (keycode == KC_Y) return 287;
                     break;
                 // p
-                case -100:
-                    if (keycode == KC_SPC) return 310;
-                    if (keycode == KC_A) return 304;
-                    if (keycode == KC_E) return 299;
-                    if (keycode == KC_I) return 294;
-                    if (keycode == KC_J) return 288;
-                    if (keycode == KC_O) return 282;
-                    if (keycode == KC_R) return 277;
-                    if (keycode == KC_U) return 272;
-                    if (keycode == KC_Y) return 266;
+                case -108:
+                    if (keycode == KC_SPC) return 382;
+                    if (keycode == KC_DOT) return 332;
+                    if (keycode == KC_A) return 376;
+                    if (keycode == KC_E) return 371;
+                    if (keycode == KC_I) return 366;
+                    if (keycode == KC_J) return 360;
+                    if (keycode == KC_O) return 354;
+                    if (keycode == KC_R) return 349;
+                    if (keycode == KC_U) return 344;
+                    if (keycode == KC_Y) return 338;
                     break;
                 // n
-                case -89:
-                    if (keycode == KC_SPC) return 366;
-                    if (keycode == KC_A) return 361;
-                    if (keycode == KC_E) return 356;
-                    if (keycode == KC_H) return 350;
-                    if (keycode == KC_I) return 342;
-                    if (keycode == KC_J) return 336;
-                    if (keycode == KC_O) return 330;
-                    if (keycode == KC_R) return 326;
-                    if (keycode == KC_U) return 321;
-                    if (keycode == KC_Y) return 315;
+                case -96:
+                    if (keycode == KC_SPC) return 442;
+                    if (keycode == KC_DOT) return 387;
+                    if (keycode == KC_A) return 437;
+                    if (keycode == KC_E) return 432;
+                    if (keycode == KC_H) return 426;
+                    if (keycode == KC_I) return 418;
+                    if (keycode == KC_J) return 412;
+                    if (keycode == KC_O) return 406;
+                    if (keycode == KC_R) return 402;
+                    if (keycode == KC_U) return 397;
+                    if (keycode == KC_Y) return 391;
                     break;
                 // m
-                case -79:
-                    if (keycode == KC_SPC) return 415;
-                    if (keycode == KC_A) return 409;
-                    if (keycode == KC_E) return 403;
-                    if (keycode == KC_H) return 398;
-                    if (keycode == KC_I) return 393;
-                    if (keycode == KC_J) return 388;
-                    if (keycode == KC_O) return 384;
-                    if (keycode == KC_U) return 379;
-                    if (keycode == KC_Y) return 374;
+                case -85:
+                    if (keycode == KC_SPC) return 496;
+                    if (keycode == KC_DOT) return 450;
+                    if (keycode == KC_A) return 490;
+                    if (keycode == KC_E) return 484;
+                    if (keycode == KC_H) return 479;
+                    if (keycode == KC_I) return 474;
+                    if (keycode == KC_J) return 469;
+                    if (keycode == KC_O) return 465;
+                    if (keycode == KC_U) return 460;
+                    if (keycode == KC_Y) return 455;
                     break;
                 // l
-                case -68:
-                    if (keycode == KC_SPC) return 464;
-                    if (keycode == KC_A) return 459;
-                    if (keycode == KC_E) return 454;
-                    if (keycode == KC_H) return 449;
-                    if (keycode == KC_I) return 444;
-                    if (keycode == KC_J) return 439;
-                    if (keycode == KC_O) return 434;
-                    if (keycode == KC_R) return 429;
-                    if (keycode == KC_U) return 424;
-                    if (keycode == KC_Y) return 419;
-                    break;
-                // k
-                case -59:
-                    if (keycode == KC_SPC) return 499;
-                    if (keycode == KC_A) return 495;
-                    if (keycode == KC_E) return 491;
-                    if (keycode == KC_I) return 487;
-                    if (keycode == KC_J) return 483;
-                    if (keycode == KC_O) return 479;
-                    if (keycode == KC_R) return 475;
-                    if (keycode == KC_Y) return 469;
-                    break;
-                // g
-                case -48:
-                    if (keycode == KC_SPC) return 551;
-                    if (keycode == KC_A) return 546;
-                    if (keycode == KC_E) return 541;
-                    if (keycode == KC_H) return 536;
-                    if (keycode == KC_I) return 531;
+                case -73:
+                    if (keycode == KC_SPC) return 550;
+                    if (keycode == KC_DOT) return 500;
+                    if (keycode == KC_A) return 545;
+                    if (keycode == KC_E) return 540;
+                    if (keycode == KC_H) return 535;
+                    if (keycode == KC_I) return 530;
                     if (keycode == KC_J) return 525;
                     if (keycode == KC_O) return 520;
                     if (keycode == KC_R) return 515;
                     if (keycode == KC_U) return 510;
                     if (keycode == KC_Y) return 505;
                     break;
+                // k
+                case -63:
+                    if (keycode == KC_SPC) return 588;
+                    if (keycode == KC_DOT) return 555;
+                    if (keycode == KC_A) return 584;
+                    if (keycode == KC_E) return 580;
+                    if (keycode == KC_I) return 576;
+                    if (keycode == KC_J) return 572;
+                    if (keycode == KC_O) return 568;
+                    if (keycode == KC_R) return 564;
+                    if (keycode == KC_Y) return 558;
+                    break;
+                // g
+                case -52:
+                    if (keycode == KC_SPC) return 640;
+                    if (keycode == KC_A) return 635;
+                    if (keycode == KC_E) return 630;
+                    if (keycode == KC_H) return 625;
+                    if (keycode == KC_I) return 620;
+                    if (keycode == KC_J) return 614;
+                    if (keycode == KC_O) return 609;
+                    if (keycode == KC_R) return 604;
+                    if (keycode == KC_U) return 599;
+                    if (keycode == KC_Y) return 594;
+                    break;
                 // f
-                case -37:
-                    if (keycode == KC_SPC) return 604;
-                    if (keycode == KC_A) return 599;
-                    if (keycode == KC_E) return 595;
-                    if (keycode == KC_H) return 590;
-                    if (keycode == KC_I) return 585;
-                    if (keycode == KC_J) return 580;
-                    if (keycode == KC_O) return 572;
-                    if (keycode == KC_R) return 566;
-                    if (keycode == KC_U) return 561;
-                    if (keycode == KC_Y) return 556;
+                case -40:
+                    if (keycode == KC_SPC) return 698;
+                    if (keycode == KC_DOT) return 645;
+                    if (keycode == KC_A) return 693;
+                    if (keycode == KC_E) return 689;
+                    if (keycode == KC_H) return 684;
+                    if (keycode == KC_I) return 679;
+                    if (keycode == KC_J) return 674;
+                    if (keycode == KC_O) return 666;
+                    if (keycode == KC_R) return 660;
+                    if (keycode == KC_U) return 655;
+                    if (keycode == KC_Y) return 650;
                     break;
                 // d
-                case -26:
-                    if (keycode == KC_SPC) return 656;
-                    if (keycode == KC_COMMA) return 608;
-                    if (keycode == KC_A) return 651;
-                    if (keycode == KC_E) return 646;
-                    if (keycode == KC_H) return 641;
-                    if (keycode == KC_I) return 636;
-                    if (keycode == KC_O) return 630;
-                    if (keycode == KC_R) return 625;
-                    if (keycode == KC_U) return 619;
-                    if (keycode == KC_Y) return 613;
+                case -28:
+                    if (keycode == KC_SPC) return 754;
+                    if (keycode == KC_COMMA) return 702;
+                    if (keycode == KC_DOT) return 707;
+                    if (keycode == KC_A) return 749;
+                    if (keycode == KC_E) return 744;
+                    if (keycode == KC_H) return 739;
+                    if (keycode == KC_I) return 734;
+                    if (keycode == KC_O) return 728;
+                    if (keycode == KC_R) return 723;
+                    if (keycode == KC_U) return 717;
+                    if (keycode == KC_Y) return 711;
                     break;
                 // c
-                case -14:
-                    if (keycode == KC_SPC) return 718;
-                    if (keycode == KC_COMMA) return 661;
-                    if (keycode == KC_A) return 712;
-                    if (keycode == KC_E) return 706;
-                    if (keycode == KC_H) return 700;
-                    if (keycode == KC_I) return 695;
-                    if (keycode == KC_J) return 689;
-                    if (keycode == KC_O) return 683;
-                    if (keycode == KC_R) return 678;
-                    if (keycode == KC_U) return 672;
-                    if (keycode == KC_Y) return 667;
+                case -15:
+                    if (keycode == KC_SPC) return 821;
+                    if (keycode == KC_COMMA) return 759;
+                    if (keycode == KC_DOT) return 765;
+                    if (keycode == KC_A) return 815;
+                    if (keycode == KC_E) return 809;
+                    if (keycode == KC_H) return 803;
+                    if (keycode == KC_I) return 798;
+                    if (keycode == KC_J) return 792;
+                    if (keycode == KC_O) return 786;
+                    if (keycode == KC_R) return 781;
+                    if (keycode == KC_U) return 775;
+                    if (keycode == KC_Y) return 770;
                     break;
                 // b
                 case -2:
-                    if (keycode == KC_SPC) return 780;
-                    if (keycode == KC_COMMA) return 723;
-                    if (keycode == KC_A) return 775;
-                    if (keycode == KC_E) return 769;
-                    if (keycode == KC_H) return 764;
-                    if (keycode == KC_I) return 759;
-                    if (keycode == KC_J) return 753;
-                    if (keycode == KC_O) return 748;
-                    if (keycode == KC_R) return 743;
-                    if (keycode == KC_U) return 737;
-                    if (keycode == KC_Y) return 733;
+                    if (keycode == KC_SPC) return 889;
+                    if (keycode == KC_COMMA) return 826;
+                    if (keycode == KC_DOT) return 836;
+                    if (keycode == KC_A) return 884;
+                    if (keycode == KC_E) return 878;
+                    if (keycode == KC_H) return 873;
+                    if (keycode == KC_I) return 868;
+                    if (keycode == KC_J) return 862;
+                    if (keycode == KC_O) return 857;
+                    if (keycode == KC_R) return 852;
+                    if (keycode == KC_U) return 846;
+                    if (keycode == KC_Y) return 842;
                     break;
                 case -1:
                     if (keycode == KC_B) return -2;
-                    if (keycode == KC_C) return -14;
-                    if (keycode == KC_D) return -26;
-                    if (keycode == KC_F) return -37;
-                    if (keycode == KC_G) return -48;
-                    if (keycode == KC_K) return -59;
-                    if (keycode == KC_L) return -68;
-                    if (keycode == KC_M) return -79;
-                    if (keycode == KC_N) return -89;
-                    if (keycode == KC_P) return -100;
-                    if (keycode == KC_R) return -110;
-                    if (keycode == KC_S) return -120;
-                    if (keycode == KC_T) return -132;
-                    if (keycode == KC_V) return -143;
-                    if (keycode == KC_W) return -152;
-                    if (keycode == KC_Z) return -163;
+                    if (keycode == KC_C) return -15;
+                    if (keycode == KC_D) return -28;
+                    if (keycode == KC_F) return -40;
+                    if (keycode == KC_G) return -52;
+                    if (keycode == KC_K) return -63;
+                    if (keycode == KC_L) return -73;
+                    if (keycode == KC_M) return -85;
+                    if (keycode == KC_N) return -96;
+                    if (keycode == KC_P) return -108;
+                    if (keycode == KC_R) return -119;
+                    if (keycode == KC_S) return -130;
+                    if (keycode == KC_T) return -143;
+                    if (keycode == KC_V) return -155;
+                    if (keycode == KC_W) return -165;
+                    if (keycode == KC_X) return -177;
+                    if (keycode == KC_Z) return -183;
                     break;
     default:
         // Invalid transition, stop chord mode
-        return -1000;
+        return CHORD_INACTIVE;
     }
-    return -1000;
+    return CHORD_INACTIVE;
 }
 
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
@@ -523,6 +557,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 return false;
             case MAGIC_B:
                 switch (get_last_keycode()) {
+                    case KC_A: tap_code16(KC_U); return false;
                     case KC_B: SEND_STRING("ecause"); return false;
                     case KC_C: tap_code16(KC_P); return false;
                     case KC_COMMA: SEND_STRING(" and "); return false;
@@ -542,9 +577,11 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_SPC: tap_code16(KC_BSPC); SEND_STRING(". "); add_oneshot_mods(MOD_BIT(KC_LSFT)); return false;
                     case KC_T: SEND_STRING("ing"); return false;
                     case KC_TAB: SEND_STRING("and "); return false;
+                    case KC_U: tap_code16(KC_A); return false;
                     case KC_V: SEND_STRING("en"); return false;
                     case KC_W: tap_code16(KC_S); return false;
                     case KC_X: tap_code16(KC_C); return false;
+                    case S(KC_A): tap_code16(KC_U); return false;
                     case S(KC_B): SEND_STRING("ecause"); return false;
                     case S(KC_C): tap_code16(KC_P); return false;
                     case S(KC_D): SEND_STRING("oes"); return false;
@@ -559,6 +596,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case S(KC_P): tap_code16(KC_S); return false;
                     case S(KC_S): SEND_STRING("ion"); return false;
                     case S(KC_T): SEND_STRING("ing"); return false;
+                    case S(KC_U): tap_code16(KC_A); return false;
                     case S(KC_V): SEND_STRING("en"); return false;
                     case S(KC_W): tap_code16(KC_S); return false;
                     case S(KC_X): tap_code16(KC_C); return false;
@@ -580,7 +618,6 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_S: tap_code16(KC_P); return false;
                     case KC_SPC: SEND_STRING("the "); return false;
                     case KC_T: SEND_STRING("ion"); return false;
-                    case KC_U: tap_code16(KC_A); return false;
                     case S(KC_A): tap_code16(KC_U); return false;
                     case S(KC_B): tap_code16(KC_L); return false;
                     case S(KC_C): tap_code16(KC_K); return false;
@@ -594,7 +631,6 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case S(KC_P): tap_code16(KC_L); return false;
                     case S(KC_S): tap_code16(KC_P); return false;
                     case S(KC_T): SEND_STRING("ion"); return false;
-                    case S(KC_U): tap_code16(KC_A); return false;
                 }
                 return false;
             

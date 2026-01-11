@@ -53,12 +53,11 @@ bool process_chord_mode(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
-    // If chord mode is active (not -1000)
-    if (chord_state != -1000) {
+    if (chord_state != CHORD_INACTIVE) {
         if (record->event.pressed) {
             // Try to transition to next state with the pressed key
             int next_state = chord_transition(chord_state, keycode);
-            if (next_state != -1000 && next_state != chord_state) { // Valid transition (changed state)
+            if (next_state != CHORD_INACTIVE && next_state != chord_state) { // Valid transition (changed state)
                 chord_state = next_state;
                 chord_depth++;
 
@@ -69,12 +68,12 @@ bool process_chord_mode(uint16_t keycode, keyrecord_t *record) {
                         chord_decode_send(chord_data + chord_state);
                         tap_code16(KC_SPC);
                     }
-                    chord_state = -1000; // Reset to inactive
+                    chord_state = CHORD_INACTIVE; // Reset to inactive
                     chord_depth = 0;
                 }
             } else {
                 // Invalid transition, reset chord mode
-                chord_state = -1000;
+                chord_state = CHORD_INACTIVE;
                 chord_depth = 0;
             }
             return false;
