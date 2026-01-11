@@ -114,7 +114,7 @@ Currently unused features:
 | br    | "break"       |
 | bt    | "better"      |
 | bu    | "business"    |
-| bw    | "between"     |
+| bj    | "between"     |
 | c     | "could"       |
 | ca    | "actually"    |
 | cd    | "couldn't"    |
@@ -147,7 +147,7 @@ Currently unused features:
 | fs    | "finish"      |
 | ft    | "father"      |
 | fu    | "found"       |
-| fw    | "software"    |
+| fr    | "software"    |
 | g     | "again"       |
 | ga    | "glance"      |
 | gd    | "ground"      |
