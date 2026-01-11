@@ -192,7 +192,7 @@ See [Magic Keys section in README](README.md#magic-keys) for complete list.
 
 - All letters
 - Common punctuation
-- Space, backspace, enter
+- Space
 - Shift keys (both pinkies)
 - Layer activation keys
 
@@ -200,25 +200,31 @@ See [Magic Keys section in README](README.md#magic-keys) for complete list.
 
 1. **Nav Layer** - Navigation and shortcuts
     - Arrow keys
+    - Enter, Backspace, Delete
     - Home, End, Page Up/Down
     - Copy, paste, cut
     - Window/tab switching
 
 2. **FnSym Layer** - Symbols and function keys
-    - Numbers on home row
     - Symbols (!, @, #, etc.)
     - Function keys (F1-F12)
     - Brackets, quotes
 
 3. **Num Layer** (Tri-layer) - Number pad
-    - Activated when both Nav + FnSym active
+    - Activated when both right shift and FnSym active
     - Dedicated number entry
-    - Calculator-style layout
 
 4. **Specialized Layers:**
-    - Mouse layer (one-shot)
     - Case conversion layer
     - Media keys layer
+
+
+| Decimals   | Number Layer | FN Sym Layer |
+|------------|--------------|--------------|
+| Home row   | 4 3 2 1      | F4 F3 F2 F1  |
+| Bottom row | 8 7 6 5      | F8 F7 F6 F5  |
+| Top row    | , 9          | F10 F9       |
+| Left thumb | . 0          | F12 F11      |
 
 **Benefits:**
 
@@ -233,7 +239,7 @@ See [Magic Keys section in README](README.md#magic-keys) for complete list.
 
 - Is it a tap or hold?
 - Requires tuning timing thresholds
-- Can cause accidental modifier activation
+- Can cause accidental modifier activation when typing fast
 - Slows down typing
 
 **Solution:** No home row mods on base layer
@@ -243,7 +249,7 @@ See [Magic Keys section in README](README.md#magic-keys) for complete list.
 - **Shift** - Both pinky fingers (bottom row)
 - **Other modifiers** - Available when shift is held
 
-**Shift Key Strategy:**
+**Shift Key Strategy for Base Layer:**
 
 When LEFT or RIGHT shift is held:
 
@@ -254,7 +260,12 @@ When LEFT or RIGHT shift is held:
 
 **Example Modifier Combinations:**
 
-- Alt+Shift: Hold pinky (shift) + ring (alt) + index (shift)
+Note: All modifier keys are in bottom row
+
+- A: Hold left pinky (shift) + index (a)
+- T: Hold right pinky (shift) + index (t)
+- Ctrl-a: Hold left pinky (shift) + middle (ctrl) + index (a)
+- Alt+Shift-a: Hold left pinky (shift) + ring (alt) + index (shift)
 - Ctrl+Shift: Hold pinky (shift) + middle (ctrl) + index (shift)
 
 **Benefits:**
@@ -276,7 +287,7 @@ The chord system is extensively documented in [CHORD_MODE.md](CHORD_MODE.md).
 
 **Key Integration:**
 
-- Chord key on home row (easy access)
+- Chord activation key on home row (easy access)
 - 220+ words available via 2-letter chords
 - Reduces keystrokes by 50-80% for common words
 - Works seamlessly with other layout features
@@ -291,7 +302,7 @@ The chord system is extensively documented in [CHORD_MODE.md](CHORD_MODE.md).
 
 ### Starting Point
 
-**Base Layout:** [Hands Down](https://sites.google.com/alanreiser.com/handsdown) - Vibranium variant
+**Base Layout:** [Hands Down](https://sites.google.com/alanreiser.com/handsdown) - Vibranium variant (adapted to avoid inner columns)
 
 **Why Hands Down:**
 
@@ -324,7 +335,7 @@ The chord system is extensively documented in [CHORD_MODE.md](CHORD_MODE.md).
 - **Language:** Kotlin
 - **Input:** README.md (human-readable layout description)
 - **Output:** QMK firmware files
-- **Validation:** Can verify most output manually
+- **Validation:** Lots of automated checks
 
 **Why a Generator:**
 
@@ -357,14 +368,8 @@ The chord system is extensively documented in [CHORD_MODE.md](CHORD_MODE.md).
 **Build Process:**
 
 ```bash
-# Generate QMK files from README.md
-mvn exec:java -Dexec.mainClass="GenerateKt" -Dexec.args="README.md qmk"
-
-# Flash keyboard
+# Build and flash keyboard
 mise run flash
-
-# Install dependencies
-mise run install
 ```
 
 **Workflow:**
