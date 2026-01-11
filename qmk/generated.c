@@ -210,25 +210,8 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_U) return 323; // "support"
                     if (keycode == KC_Y) return 318; // "system"
                     break;
-                // r
-                case -140:
-                    if (keycode == KC_SPC) return 429; // "really"
-                    if (keycode == KC_COMMA) return 425; // "route"
-                    if (keycode == KC_DOT) return 421; // "error"
-                    if (keycode == KC_A) return 415; // "program"
-                    if (keycode == KC_E) return 410; // "ready"
-                    if (keycode == KC_H) return 405; // "review"
-                    if (keycode == KC_I) return 401; // "right"
-                    if (keycode == KC_J) return 397; // "return"
-                    if (keycode == KC_O) return 392; // "around"
-                    if (keycode == KC_P) return 195; // "query"
-                    if (keycode == KC_S) return 297; // "request"
-                    if (keycode == KC_T) return 257; // "they"
-                    if (keycode == KC_U) return 389; // "true"
-                    if (keycode == KC_Y) return 385; // "years"
-                    break;
                 // p
-                case -127:
+                case -128:
                     if (keycode == KC_SPC) return 492; // "people"
                     if (keycode == KC_COMMA) return 487; // "please"
                     if (keycode == KC_DOT) return 481; // "promise"
@@ -243,7 +226,7 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_Y) return 433; // "probably"
                     break;
                 // l
-                case -89:
+                case -90:
                     if (keycode == KC_SPC) return 654; // "like"
                     if (keycode == KC_COMMA) return 650; // "level"
                     if (keycode == KC_DOT) return 646; // "class"
@@ -259,7 +242,7 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_Y) return 606; // "only"
                     break;
                 // k
-                case -76:
+                case -77:
                     if (keycode == KC_SPC) return 706; // "question"
                     if (keycode == KC_COMMA) return 701; // "config"
                     if (keycode == KC_DOT) return 698; // "key"
@@ -274,7 +257,7 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_Y) return 658; // "quickly"
                     break;
                 // t
-                case -74:
+                case -75:
                     if (keycode == KC_SPC) return 314; // "think"
                     if (keycode == KC_COMMA) return 310; // "tenant"
                     if (keycode == KC_DOT) return 306; // "type"
@@ -290,7 +273,7 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_Y) return 260; // "thank you"
                     break;
                 // n
-                case -71:
+                case -72:
                     if (keycode == KC_SPC) return 548; // "understand"
                     if (keycode == KC_COMMA) return 544; // "single"
                     if (keycode == KC_DOT) return 541; // "null"
@@ -307,9 +290,28 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_U) return 503; // "enough"
                     if (keycode == KC_Y) return 497; // "company"
                     break;
+                // r
+                case -64:
+                    if (keycode == KC_SPC) return 429; // "really"
+                    if (keycode == KC_COMMA) return 425; // "route"
+                    if (keycode == KC_DOT) return 421; // "error"
+                    if (keycode == KC_A) return 415; // "program"
+                    if (keycode == KC_E) return 410; // "ready"
+                    if (keycode == KC_G) return 774; // "rights"
+                    if (keycode == KC_H) return 405; // "review"
+                    if (keycode == KC_I) return 401; // "right"
+                    if (keycode == KC_J) return 397; // "return"
+                    if (keycode == KC_L) return 195; // "query"
+                    if (keycode == KC_O) return 392; // "around"
+                    if (keycode == KC_S) return 297; // "request"
+                    if (keycode == KC_T) return 257; // "they"
+                    if (keycode == KC_U) return 389; // "true"
+                    if (keycode == KC_Y) return 385; // "years"
+                    if (keycode == KC_Z) return 52; // "realize"
+                    break;
                 // z
-                case -59:
-                    if (keycode == KC_SPC) return 52; // "realize"
+                case -58:
+                    if (keycode == KC_SPC) return 817; // "Zeitlinger"
                     if (keycode == KC_COMMA) return 47; // "smile"
                     if (keycode == KC_DOT) return 43; // "async"
                     if (keycode == KC_A) return 37; // "organize"
@@ -319,16 +321,14 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_J) return 9; // "javaagent"
                     if (keycode == KC_O) return 806; // "Grafana Labs"
                     if (keycode == KC_U) return 0; // "Spring Boot"
-                    if (keycode == KC_Y) return 778; // "gregor.zeitlinger@grafana.com"
                     break;
                 // g
                 case -55:
                     if (keycode == KC_SPC) return 829; // "again"
                     if (keycode == KC_COMMA) return 824; // "Gregor"
-                    if (keycode == KC_DOT) return 817; // "Zeitlinger"
+                    if (keycode == KC_DOT) return 763; // "Grafana"
                     if (keycode == KC_A) return 802; // "glance"
                     if (keycode == KC_E) return 798; // "began"
-                    if (keycode == KC_H) return 774; // "rights"
                     if (keycode == KC_I) return 769; // "giving"
                     if (keycode == KC_J) return 758; // "general"
                     if (keycode == KC_O) return 754; // "group"
@@ -387,6 +387,7 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_COMMA) return 1009; // "couldn't"
                     if (keycode == KC_DOT) return 1005; // "const"
                     if (keycode == KC_A) return 1000; // "actually"
+                    if (keycode == KC_C) return 778; // "gregor.zeitlinger@grafana.com"
                     if (keycode == KC_E) return 994; // "service"
                     if (keycode == KC_H) return 989; // "research"
                     if (keycode == KC_I) return 985; // "click"
@@ -402,7 +403,6 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_SPC) return 1073; // "about"
                     if (keycode == KC_COMMA) return 1062; // "observability"
                     if (keycode == KC_DOT) return 1057; // "boolean"
-                    if (keycode == KC_E) return 763; // "Grafana"
                     if (keycode == KC_H) return 1052; // "behind"
                     if (keycode == KC_I) return 1048; // "being"
                     if (keycode == KC_J) return 1042; // "between"
@@ -417,18 +417,18 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_D) return -27; // d...
                     if (keycode == KC_F) return -39; // f...
                     if (keycode == KC_G) return -55; // g...
-                    if (keycode == KC_K) return -76; // k...
-                    if (keycode == KC_L) return -89; // l...
+                    if (keycode == KC_K) return -77; // k...
+                    if (keycode == KC_L) return -90; // l...
                     if (keycode == KC_M) return -52; // m...
-                    if (keycode == KC_N) return -71; // n...
-                    if (keycode == KC_P) return -127; // p...
-                    if (keycode == KC_R) return -140; // r...
+                    if (keycode == KC_N) return -72; // n...
+                    if (keycode == KC_P) return -128; // p...
+                    if (keycode == KC_R) return -64; // r...
                     if (keycode == KC_S) return -152; // s...
-                    if (keycode == KC_T) return -74; // t...
+                    if (keycode == KC_T) return -75; // t...
                     if (keycode == KC_V) return -181; // v...
                     if (keycode == KC_W) return -195; // w...
                     if (keycode == KC_X) return -208; // x...
-                    if (keycode == KC_Z) return -59; // z...
+                    if (keycode == KC_Z) return -58; // z...
                     break;
     default:
         // Invalid transition, stop chord mode

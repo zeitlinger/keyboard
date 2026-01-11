@@ -165,14 +165,14 @@ Currently unused features:
 | fy    | "forty"                         |
 | g     | "again"                         |
 | g,    | "Gregor"                        |
-| g.    | "Zeitlinger"                    |
+| z     | "Zeitlinger"                    |
 | zo    | "Grafana Labs"                  |
 | ga    | "glance"                        |
 | ge    | "began"                         |
-| zy    | "gregor.zeitlinger@grafana.com" |
-| gh    | "rights"                        |
+| cc    | "gregor.zeitlinger@grafana.com" |
+| rg    | "rights"                        |
 | gi    | "giving"                        |
-| be    | "Grafana"                       |
+| g.    | "Grafana"                       |
 | gj    | "general"                       |
 | go    | "group"                         |
 | gr    | "great"                         |
@@ -292,7 +292,7 @@ Currently unused features:
 | vr    | "never"                         |
 | vu    | "value"                         |
 | vy    | "everything"                    |
-| rp    | "query"                         |
+| rl    | "query"                         |
 | w     | "would"                         |
 | w,    | "wouldn't"                      |
 | w.    | "await"                         |
@@ -317,7 +317,7 @@ Currently unused features:
 | xr    | "resource"                      |
 | xu    | "actual"                        |
 | xy    | "telemetry"                     |
-| z     | "realize"                       |
+| rz    | "realize"                       |
 | z,    | "smile"                         |
 | z.    | "async"                         |
 | za    | "organize"                      |

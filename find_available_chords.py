@@ -27,9 +27,9 @@ available = []
 for left in 'scntfldzbgkpmxwvr':
     available.append(left)
 
-    available.append(left + 'r')
+    # available.append(left + 'r')
     available.append('r'  + left)
-    available.append(left + left)
+    # available.append(left + left)
 
     for right in 'aeihy,.juor':
         available.append(left + right)
