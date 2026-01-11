@@ -231,45 +231,76 @@ private fun tryEncodeChordStrings(outputs: Map<Int, String>): ChordEncoding {
     // Create sorted character list by frequency (most common first)
     val sortedChars = charFreq.entries.sortedByDescending { it.value }.map { it.key }
 
-    // Check if we have too many unique characters (>32 won't fit in 5-bit encoding)
-    if (sortedChars.size > 32) {
-        throw IllegalArgumentException("Chord encoding must have 32 bytes, got ${sortedChars.joinToString(", ")} unique characters")
+    // 4/8-bit encoding scheme:
+    // - First 14 characters (codes 0-13) use 4 bits
+    // - Remaining characters use 8 bits with 0xE or 0xF prefix (1110xxxx or 1111xxxx patterns)
+    // - This allows up to 14 + 32 = 46 unique characters
+    val maxChars = 14 + 32
+    if (sortedChars.size > maxChars) {
+        throw IllegalArgumentException("Chord encoding supports max $maxChars characters, got ${sortedChars.size} unique characters")
     }
 
-    // Assign codes: use values 0-31 for 5-bit encoding
-    val charToCode = sortedChars.mapIndexed { index, char -> char to index }.toMap()
+    // Assign codes:
+    // - 0-13 (0000-1101): 4-bit codes for most common characters
+    // - 0xE0-0xEF, 0xF0-0xFF: 8-bit codes for less common characters
+    val charToCode = mutableMapOf<Char, Int>()
+    sortedChars.forEachIndexed { index, char ->
+        val code = if (index < 14) {
+            index  // 0-13: use 4 bits directly
+        } else {
+            // 14+: use 8-bit codes starting at 0xE0
+            0xE0 + (index - 14)
+        }
+        charToCode[char] = code
+    }
     val codeToChar = charToCode.entries.associate { it.value to it.key }
 
-    // Encode strings with 5-bit packing: pack multiple 5-bit values into bytes
+    // Encode strings with 4/8-bit variable-length encoding
     val encodedData = mutableMapOf<Int, ByteArray>()
     var totalDataSize = 0
 
     outputs.forEach { (state, str) ->
-        // Calculate how many bytes needed for 5-bit packed data
-        val numBits = str.length * 5
-        val numBytes = (numBits + 7) / 8  // Round up to nearest byte
+        // Calculate how many nibbles/bytes needed
+        val dataBytes = mutableListOf<Byte>()
+        var currentByte = 0
+        var isHighNibble = true  // Start with high nibble
 
-        val encoded = ByteArray(1 + numBytes)  // 1 byte for length + packed data
-        encoded[0] = str.length.toByte()
-
-        // Pack 5-bit codes into bytes
-        var bitOffset = 0
         str.forEach { char ->
             val code = charToCode[char] ?: 0
-            val byteIndex = bitOffset / 8
-            val bitInByte = bitOffset % 8
 
-            // Write 5-bit code across byte boundaries if needed
-            if (bitInByte <= 3) {
-                // Fits in current byte
-                encoded[1 + byteIndex] = (encoded[1 + byteIndex].toInt() or (code shl bitInByte)).toByte()
+            if (code < 14) {
+                // 4-bit code - pack into nibbles
+                if (isHighNibble) {
+                    currentByte = code shl 4
+                    isHighNibble = false
+                } else {
+                    currentByte = currentByte or code
+                    dataBytes.add(currentByte.toByte())
+                    isHighNibble = true
+                    currentByte = 0
+                }
             } else {
-                // Spans two bytes
-                encoded[1 + byteIndex] = (encoded[1 + byteIndex].toInt() or (code shl bitInByte)).toByte()
-                encoded[2 + byteIndex] = ((code shr (8 - bitInByte)) and 0xFF).toByte()
+                // 8-bit code - need to flush current byte first if we have a high nibble
+                if (!isHighNibble) {
+                    dataBytes.add(currentByte.toByte())
+                    isHighNibble = true
+                    currentByte = 0
+                }
+                // Add the full 8-bit code
+                dataBytes.add(code.toByte())
             }
+        }
 
-            bitOffset += 5
+        // Flush remaining nibble if any
+        if (!isHighNibble) {
+            dataBytes.add(currentByte.toByte())
+        }
+
+        // Create final encoded array: 1 byte for length + data bytes
+        val encoded = ByteArray(1 + dataBytes.size)
+        encoded[0] = str.length.toByte()
+        dataBytes.forEachIndexed { index, byte ->
+            encoded[1 + index] = byte
         }
 
         encodedData[state] = encoded
@@ -277,11 +308,12 @@ private fun tryEncodeChordStrings(outputs: Map<Int, String>): ChordEncoding {
     }
 
     // Calculate decoder overhead:
-    // - Lookup table: 1 byte per character (sortedChars.size)
-    // - Function code: ~150 bytes (bit unpacking is more complex)
+    // - Lookup table for 8-bit codes: up to 32 characters
+    // - Function code: ~120 bytes (simpler byte-aligned logic)
     // - Global buffer declaration: ~20 bytes
-    val lookupTableSize = sortedChars.size
-    val functionCodeSize = 150 // Bit manipulation decoder is larger
+    val extendedCharsCount = if (sortedChars.size > 14) sortedChars.size - 14 else 0
+    val lookupTableSize = extendedCharsCount
+    val functionCodeSize = 120
     val decoderOverhead = lookupTableSize + functionCodeSize
 
     val totalSize = totalDataSize + decoderOverhead
@@ -290,8 +322,26 @@ private fun tryEncodeChordStrings(outputs: Map<Int, String>): ChordEncoding {
 }
 
 private fun generateDecoder(encoding: ChordEncoding): String {
-    val lookupEntries = encoding.codeToChar.entries.sortedBy { it.key }.map { (_, char) ->
+    // Separate the 4-bit codes (0-13) and 8-bit codes (0xE0+)
+    val fourBitChars = mutableListOf<Char>()
+    val eightBitChars = mutableListOf<Pair<Int, Char>>()
+
+    encoding.codeToChar.entries.sortedBy { it.key }.forEach { (code, char) ->
+        if (code < 14) {
+            // Ensure we have the right index
+            while (fourBitChars.size < code) {
+                fourBitChars.add('\u0000')
+            }
+            fourBitChars.add(char)
+        } else {
+            eightBitChars.add(code to char)
+        }
+    }
+
+    // Build 4-bit lookup table
+    val fourBitLookup = fourBitChars.map { char ->
         val escapedChar = when (char) {
+            '\u0000' -> "\\0"
             '\'' -> "\\'"
             '\\' -> "\\\\"
             '\n' -> "\\n"
@@ -300,6 +350,25 @@ private fun generateDecoder(encoding: ChordEncoding): String {
             else -> char.toString()
         }
         "'$escapedChar'"
+    }
+
+    // Build 8-bit lookup entries (only for extended codes)
+    val eightBitLookup = if (eightBitChars.isNotEmpty()) {
+        "static const char chord_char_extended[] = {\n" +
+        "    " + eightBitChars.map { (_, char) ->
+            val escapedChar = when (char) {
+                '\'' -> "\\'"
+                '\\' -> "\\\\"
+                '\n' -> "\\n"
+                '\r' -> "\\r"
+                '\t' -> "\\t"
+                else -> char.toString()
+            }
+            "'$escapedChar'"
+        }.joinToString(", ") + "\n" +
+        "};\n\n"
+    } else {
+        ""
     }
 
     // Build global buffer with all encoded strings
@@ -314,43 +383,64 @@ private fun generateDecoder(encoding: ChordEncoding): String {
     }
 
     return """
-// Chord string decoder lookup table (5-bit codes -> characters)
-static const char chord_char_lookup[] = {
-    ${lookupEntries.joinToString(", ")}
+// Chord string decoder lookup tables
+// 4-bit codes (0-13) for most common characters
+static const char chord_char_4bit[] = {
+    ${fourBitLookup.joinToString(", ")}
 };
 
-// Global buffer containing all 5-bit packed chord strings
+// 8-bit codes (0xE0+) for less common characters
+$eightBitLookup// Global buffer containing all 4/8-bit variable-length encoded chord strings
 static const uint8_t chord_data[] = {
 ${hexLines.joinToString(",\n")}
 };
 
-// Decode and send 5-bit packed chord string from buffer
+// Decode and send 4/8-bit variable-length encoded chord string from buffer
 static void chord_decode_send(const uint8_t* data) {
     uint8_t len = data[0];  // First byte is string length
-    data++;  // Move to packed data
+    data++;  // Move to encoded data
     
-    uint16_t bitOffset = 0;
+    uint8_t byteIndex = 0;
+    bool highNibble = true;  // Start with high nibble
+    
     for (uint8_t i = 0; i < len; i++) {
-        // Extract 5-bit code from packed data
-        uint8_t byteIndex = bitOffset / 8;
-        uint8_t bitInByte = bitOffset % 8;
-        
         uint8_t code;
-        if (bitInByte <= 3) {
-            // Code fits in current byte
-            code = (data[byteIndex] >> bitInByte) & 0x1F;
+        
+        if (highNibble) {
+            // Read high nibble
+            code = (data[byteIndex] >> 4) & 0x0F;
+            
+            // Check if this is a 4-bit or 8-bit code
+            if (code >= 14) {
+                // This is the start of an 8-bit code - read the full byte
+                code = data[byteIndex];
+                byteIndex++;
+                highNibble = true;  // Next read starts at high nibble
+                
+                // Decode 8-bit extended character
+                if (code >= 0xE0 && code < 0xE0 + sizeof(chord_char_extended)) {
+                    send_char(chord_char_extended[code - 0xE0]);
+                }
+            } else {
+                // This is a 4-bit code
+                highNibble = false;  // Next read is low nibble
+                
+                // Decode 4-bit character
+                if (code < sizeof(chord_char_4bit)) {
+                    send_char(chord_char_4bit[code]);
+                }
+            }
         } else {
-            // Code spans two bytes
-            uint8_t lowBits = (data[byteIndex] >> bitInByte);
-            uint8_t highBits = (data[byteIndex + 1] << (8 - bitInByte));
-            code = (lowBits | highBits) & 0x1F;
+            // Read low nibble
+            code = data[byteIndex] & 0x0F;
+            byteIndex++;
+            highNibble = true;  // Next read starts at high nibble
+            
+            // Decode 4-bit character
+            if (code < sizeof(chord_char_4bit)) {
+                send_char(chord_char_4bit[code]);
+            }
         }
-        
-        if (code < sizeof(chord_char_lookup)) {
-            send_char(chord_char_lookup[code]);
-        }
-        
-        bitOffset += 5;
     }
 }
 """.trimIndent()

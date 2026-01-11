@@ -167,15 +167,29 @@ state = -1000 (inactive)
 
 ### Data Compression
 
-**Without capitalization:** Chords use 5-bit encoding:
-- Each character encoded in 5 bits (32 possible characters)
-- ~25% space savings over raw strings
-- Typical: 784B data + 177B decoder = 961B total
+**Variable-length 4/8-bit encoding:**
+- Each character encoded using either 4 or 8 bits
+- **4-bit codes (0-13)**: Used for the 14 most common characters
+- **8-bit codes (0xE0-0xFF)**: Used for less common characters, punctuation, space, apostrophe, uppercase
+- Byte-aligned for efficient access and simpler implementation
+- Supports up to 46 unique characters (14 + 32)
 
-**With capitalization:** Raw storage (current):
-- Capitalized words (Spring, Boot, OpenTelemetry, etc.) exceed 32 unique characters
-- Falls back to raw storage: ~1531 bytes
-- Trade-off for proper noun capitalization
+**Encoding scheme:**
+- The 14 most frequent characters use 4 bits each (codes 0-13)
+- Less common characters use a full byte with prefix 0xE or 0xF (codes 0xE0-0xFF)
+- Characters are packed into bytes, using nibbles for common chars
+- When an 8-bit code is encountered (high nibble ≥ 14), read the full byte
+
+**Example:**
+If 'e', 't', 'a' are codes 0-2, and 'Q' is code 0xE0:
+- "eta" → `0x10, 0x2` (two nibbles packed: 1=t, 0=e in first byte, 2=a in high nibble of second)
+- "eQa" → `0x0`, `0xE0`, `0x2` (e in low nibble, Q as full byte, a in high nibble)
+
+**Memory savings:**
+- Common characters: ~50% space compared to ASCII (4 bits vs 8 bits)
+- Mixed content: ~30-40% space savings on average
+- Typical: ~600-900B data + 120B decoder = 720-1020B total (was 1531B raw)
+- Better alignment with byte boundaries simplifies implementation
 
 ### Automatic Space Insertion
 
