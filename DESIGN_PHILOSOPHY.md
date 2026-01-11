@@ -13,9 +13,9 @@ maintaining ergonomic positioning.
 The [Ferris Sweep](https://keebmaker.com/products/ferris-sweep) is a 34-key split keyboard
 featuring:
 
-- **Minimal key count** (34 keys total, 17 per hand)
+- **Minimal key count** (34 keys total, 17 per hand, but inner columns unused, effectively 14 per
+  hand)
 - **Aggressive columnar stagger** for natural finger alignment
-- **No outer columns** - forces efficient layer usage
 - **Compact footprint** - minimal hand/wrist movement required
 
 ### Key Switches: Kailh Choc Light Blue (gChoc)
@@ -112,8 +112,7 @@ The light actuation force is critical for this layout, as it relies heavily on:
 - Top row + middle row combos possible for pinky finger
 - This expands usable keys without sacrificing comfort
 
-**Example:** The letter `v` on bottom row (left index) can combo with top row for additional
-functionality.
+**Example:** The letter `t` on home row (left index) can combo with top row for `v` comfortably.
 
 ### 3. Inner Columns
 
@@ -133,7 +132,7 @@ functionality.
 **Preferred Movement Types:**
 
 1. **Rolls** (sequential keys, same hand)
-    - Example: "the", "ing", "ion"
+    - Example: "you"
     - Fluid motion, minimal effort
     - Fast and comfortable
 
@@ -167,7 +166,7 @@ functionality.
 
 **Example:** Letter `n` followed by "magic A" outputs "ng"
 
-- Both `n` and `g` would normally be on middle finger (SFB)
+- Both `n` and `g` would normally be a same finger bigram (SFB), because they are both on middle finger
 - Magic key transforms this into efficient typing
 - Maintains speed while optimizing layout
 

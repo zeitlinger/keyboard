@@ -38,7 +38,7 @@ On all other layers, the modifiers are as shown in the table below.
   shift-tab.
 - Switcher mode is exited when you go back to the base layer.
 
-## Layout
+## Definition
 
 How to read this layout:
 
@@ -66,10 +66,8 @@ Currently unused features:
   the Sym layer is used
 
 > **Note**: The layout is generated from this file directly.
-  
-- Magic A = Magic Key A
-- Magic A (2) = 2nd press of Magic Key A
--  
+ 
+## Magic Keys
 
 | Magic |   Magic A   | Magic B  | Magic C |
 |:-----:|:-----------:|:--------:|:-------:|
@@ -119,7 +117,6 @@ Currently unused features:
 |-------|----------------------|
 | b     | "been"               |
 | ba    | "about"              |
-| be    | "because"            |
 | bh    | "behind"             |
 | bi    | "being"              |
 | bj    | "between"            |
@@ -146,7 +143,6 @@ Currently unused features:
 | de    | "video"              |
 | dh    | "third"              |
 | di    | "during"             |
-| do    | "doesn't"            |
 | dr    | "their"              |
 | du    | "products"           |
 | dy    | "already"            |
@@ -331,6 +327,8 @@ Currently unused features:
 | zj    | "javaagent"          |
 | zr    | "rolldice"           |
 | z,    | "smile"              |
+
+## Layout
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
