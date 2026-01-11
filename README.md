@@ -162,8 +162,6 @@ Currently unused features:
 | fu    | "found"              |
 | fy    | "forty"              |
 | g     | "again"              |
-| g,    | "Grafana"            |
-| g.    | "Grafana Labs"       |
 | ga    | "glance"             |
 | ge    | "began"              |
 | gh    | "rights"             |
@@ -173,10 +171,13 @@ Currently unused features:
 | gr    | "great"              |
 | gu    | "guess"              |
 | gy    | "every"              |
+| g,    | "Gregor"             |
 | j     | "just"               |
 | ja    | "import"             |
 | je    | "when"               |
 | jo    | "other"              |
+| j,    | "Grafana"            |
+| j.    | "Grafana Labs"       |
 | k     | "question"           |
 | k,    | "config"             |
 | k.    | "key"                |
@@ -236,7 +237,6 @@ Currently unused features:
 | pu    | "public"             |
 | py    | "probably"           |
 | q     | "spring"             |
-| q,    | "spring"             |
 | qa    | "starter"            |
 | qe    | "request"            |
 | qh    | "describe"           |
@@ -319,12 +319,11 @@ Currently unused features:
 | z,    | "smile"              |
 | z.    | "async"              |
 | za    | "organize"           |
-| ze    | "github"             |
-| zh    | "spring starter"     |
+| ze    | "GitHub"             |
+| zh    | "Spring starter"     |
 | zj    | "javaagent"          |
 | zr    | "rolldice"           |
-| zu    | "spring boot"        |
-| zy    | "Grafana Labs"       |
+| zu    | "Spring Boot"        |
 
 ## Layout
 

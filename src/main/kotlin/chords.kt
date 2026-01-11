@@ -23,12 +23,19 @@ fun buildChordTrie(chordTable: Table?): ChordInfo? {
 
     // check for duplicate chord sequences
     val seenChords = mutableSetOf<String>()
+    val seenWords = mutableSetOf<String>()
     for (row in chordTable) {
         val chordSequence = row[0].trim()
         if (chordSequence in seenChords) {
             throw IllegalArgumentException("Duplicate chord sequence found: '$chordSequence'")
         }
         seenChords.add(chordSequence)
+
+        val output = row[1].trim().removeSurrounding("\"")
+        if (output in seenWords) {
+            throw IllegalArgumentException("Duplicate chord output found: '$output'")
+        }
+        seenWords.add(output)
     }
 
     // Build trie from chord definitions
