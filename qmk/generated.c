@@ -5,8 +5,9 @@
 
 int alternateLayer = -1;
 int layer = _BASE;
+#define CHORD_ROOT -1
 #define CHORD_INACTIVE -10000
-int chord_state = CHORD_INACTIVE; // -1 = root, other negative = transition states, non-negative = byte offsets
+int chord_state = CHORD_INACTIVE; // negative = transition states, non-negative = byte offsets
 int chord_depth = 0; // Track number of letters in current chord
 
 // Chord string decoder lookup table (5-bit codes -> characters)

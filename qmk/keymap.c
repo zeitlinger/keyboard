@@ -55,6 +55,12 @@ bool process_chord_mode(uint16_t keycode, keyrecord_t *record) {
 
     if (chord_state != CHORD_INACTIVE) {
         if (record->event.pressed) {
+            // Special handling for space at root: enable one-shot shift and stay in chord mode
+            if (keycode == KC_SPC && chord_state == CHORD_ROOT && chord_depth == 0) {
+                add_oneshot_mods(MOD_BIT(KC_LSFT));
+                return false; // Stay in chord mode, don't process space
+            }
+
             // Try to transition to next state with the pressed key
             int next_state = chord_transition(chord_state, keycode);
             if (next_state != CHORD_INACTIVE && next_state != chord_state) { // Valid transition (changed state)
