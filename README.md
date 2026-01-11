@@ -6,6 +6,13 @@
 - [The T-34 keyboard layout](https://www.jonashietala.se/blog/2021/06/03/the-t-34-keyboard-layout/)
 - [X-Case](https://github.com/andrewjrae/kyria-keymap#x-case)
 
+### Features
+
+- **[Chord Mode](CHORD_MODE.md)** - Type 220+ common words with just two letters! See the [complete documentation](CHORD_MODE.md) for details.
+- **Home Row Mods** - Modifiers on home row for ergonomic access
+- **Window/Tab Switching** - Fast application and tab switching
+- **X-Case** - Multiple case conversion modes (camelCase, snake_case, etc.)
+
 ### Notes
 
 - The keyboard layout is generated using [generateKeyboard](src/main/kotlin/generateKeyboard.kt)
@@ -100,6 +107,12 @@ Currently unused features:
 |   -   |      >      |          |         |
 |   =   |      >      |          |         |
 |   !   |      =      |          |         |
+
+## Chord Table
+
+> **📖 [Complete Chord Mode Documentation](CHORD_MODE.md)**  
+> Learn how to use chords to type 220+ common words with just two letters!  
+> Includes usage guide, capitalization, customization, and more.
 
 | Chord | output               |
 |-------|----------------------|
