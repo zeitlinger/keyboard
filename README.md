@@ -138,6 +138,7 @@ Currently unused features:
 | dy    | "already"       |
 | d.    | "data"          |
 | d,    | "hadn't"        |
+| dj    | "build"         |
 | f     | "from"          |
 | fa    | "family"        |
 | fe    | "feel"          |
@@ -149,6 +150,7 @@ Currently unused features:
 | fu    | "found"         |
 | fy    | "forty"         |
 | f.    | "false"         |
+| f,    | "fails"         |
 | g     | "again"         |
 | ga    | "glance"        |
 | ge    | "began"         |
@@ -159,6 +161,10 @@ Currently unused features:
 | gr    | "great"         |
 | gu    | "guess"         |
 | gy    | "every"         |
+| g.    | "github"        |
+| g,    | "grafana"       |
+| j     | "java"          |
+| ja    | "import"        |
 | k     | "question"      |
 | ka    | "make"          |
 | ke    | "keep"          |
@@ -168,6 +174,9 @@ Currently unused features:
 | kr    | "work"          |
 | ky    | "quickly"       |
 | k.    | "key"           |
+| k,    | "config"        |
+| kh    | "check"         |
+| ku    | "caller"        |
 | l     | "length"        |
 | la    | "laugh"         |
 | le    | "leave"         |
@@ -179,6 +188,7 @@ Currently unused features:
 | lu    | "almost"        |
 | ly    | "always"        |
 | l.    | "class"         |
+| l,    | "level"         |
 | m     | "more"          |
 | ma    | "someone"       |
 | me    | "message"       |
@@ -210,6 +220,11 @@ Currently unused features:
 | pu    | "public"        |
 | py    | "probably"      |
 | p.    | "promise"       |
+| ph    | "http"          |
+| q     | "spring"        |
+| qu    | "query"         |
+| qi    | "issues"        |
+| qo    | "blob"          |
 | r     | "really"        |
 | ra    | "program"       |
 | re    | "ready"         |
@@ -220,6 +235,7 @@ Currently unused features:
 | ru    | "true"          |
 | ry    | "years"         |
 | r.    | "error"         |
+| r,    | "route"         |
 | s     | "should"        |
 | sa    | "same"          |
 | se    | "search"        |
@@ -243,6 +259,7 @@ Currently unused features:
 | tu    | "though"        |
 | ty    | "thank you"     |
 | t.    | "type"          |
+| t,    | "tenant"        |
 | v     | "have"          |
 | va    | "available"     |
 | ve    | "very"          |
@@ -252,6 +269,7 @@ Currently unused features:
 | vu    | "value"         |
 | vy    | "everything"    |
 | v.    | "void"          |
+| vh    | "version"       |
 | w     | "would"         |
 | wa    | "walk"          |
 | we    | "were"          |
@@ -263,11 +281,15 @@ Currently unused features:
 | wy    | "worry"         |
 | w.    | "await"         |
 | w,    | "wouldn't"      |
+| wu    | "internal"      |
+| x     | "context"       |
 | xa    | "example"       |
 | xe    | "execute"       |
 | xi    | "existing"      |
 | xj    | "exception"     |
 | x.    | "export"        |
+| xh    | "https"         |
+| xu    | "actual"        |
 | z     | "realize"       |
 | za    | "organize"      |
 | ze    | "zero"          |
