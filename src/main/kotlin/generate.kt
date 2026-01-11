@@ -83,14 +83,18 @@ fun run(args: GeneratorArgs) {
         "case ${it.name}: return ${it.timeout};"
     }.sorted()
 
+    val magicStrings = collectMagicStrings(tables)
+    val chordInfo = buildChordTrie(tables.getOptional("Chord"))
+
+    val encodedChordData = chordInfo?.let { generateChordOutputs(it, magicStrings) }
+    val finalChordInfo = encodedChordData?.remappedChordInfo ?: chordInfo // Use remapped if available
+
     tables.getOptional("Magic")?.let {
         it.forEachIndexed { index, row ->
             val pos = KeyPosition(0, index, 0, "magic", 0)
-            addMagic(translator, row, pos)
+            addMagic(translator, row, pos, encodedChordData?.magicStringOffsets ?: emptyMap())
         }
     }
-
-    val chordInfo = buildChordTrie(tables.getOptional("Chord"))
 
     val srcDir = args.generatorDir.file
     val dstDir = args.dstDir
@@ -131,9 +135,6 @@ fun run(args: GeneratorArgs) {
         )
     )
 
-    val encodedChordData = chordInfo?.let { generateChordOutputs(it) }
-    val finalChordInfo = encodedChordData?.remappedChordInfo ?: chordInfo // Use remapped if available
-
     replaceTemplate(
         File(srcDir, "generated.c"),
         File(dstDir, "generated.c"),
@@ -144,7 +145,7 @@ fun run(args: GeneratorArgs) {
             "customKeycodesOnPress" to customKeycodes(translator, CustomCommandType.OnPress),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
             "magic" to translator.magic.map { magicBlock(it) }.indented(12),
-            "chordTransitions" to (finalChordInfo?.let { generateChordTransitions(translator, it).prependIndent(" ".repeat(8)) } ?: "" as String),
+            "chordTransitions" to (finalChordInfo?.let { generateChordTransitions(translator, it).prependIndent(" ".repeat(8)) } ?: ""),
             "chordDecoder" to (encodedChordData?.decoder ?: ""),
         )
     )
@@ -204,12 +205,12 @@ private fun getComboLines(combos: List<Combo>) = combos.map { combo ->
     )
 }.sorted()
 
-private fun addMagic(translator: QmkTranslator, row: List<String>, pos: KeyPosition) {
+private fun addMagic(translator: QmkTranslator, row: List<String>, pos: KeyPosition, magicStringOffsets: Map<String, Int>) {
     val base = translator.toQmk(row[0], pos)
 
     row.drop(1).forEachIndexed { index, def ->
         if (def.isNotBlank()) {
-            addMagicEntry(translator, pos, translator.magic[index].press, base, def)
+            addMagicEntry(translator, pos, translator.magic[index].press, base, def, magicStringOffsets)
         }
     }
 }
@@ -220,12 +221,22 @@ private fun addMagicEntry(
     map: MutableMap<QmkKey, String>,
     base: QmkKey,
     def: String,
+    magicStringOffsets: Map<String, Int>,
 ) {
     val command = when {
         def == "dotSpc" -> "tap_code16(KC_BSPC); SEND_STRING(\". \"); add_oneshot_mods(MOD_BIT(KC_LSFT)); return false;"
         def.length == 1 -> tap(translator.toQmk(def, pos)) + "; return false;"
-        isWord(def) -> sendString(def) + "; return false;"
-
+        isWord(def) -> {
+            val str = extractString(def)
+            val offset = magicStringOffsets[str]
+            if (offset != null) {
+                // Use 5-bit encoded string
+                "chord_decode_send(chord_data + $offset); return false;"
+            } else {
+                // Fall back to SEND_STRING if not encoded
+                sendString(def) + "; return false;"
+            }
+        }
         else -> throw IllegalArgumentException("unknown command '${def}' in $pos")
     }
 
@@ -237,7 +248,21 @@ private fun addMagicEntry(
 
 private fun isWord(alt: String) = alt.startsWith("\"") && alt.endsWith("\"")
 
+private fun extractString(alt: String) = alt.removeSurrounding("\"")
+
 private fun sendString(alt: String) = "SEND_STRING(${alt})"
+
+private fun collectMagicStrings(tables: Tables): List<String> {
+    val magicStrings = mutableSetOf<String>()
+    tables.getOptional("Magic")?.forEach { row ->
+        row.drop(1).forEach { def ->
+            if (isWord(def)) {
+                magicStrings.add(extractString(def))
+            }
+        }
+    }
+    return magicStrings.toList()
+}
 
 fun customKeycodes(translator: QmkTranslator, type: CustomCommandType): String =
     translator.symbols.customKeycodes.entries

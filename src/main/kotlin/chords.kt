@@ -121,24 +121,39 @@ fun generateChordTransitions(translator: QmkTranslator, chordInfo: ChordInfo): S
 
 data class EncodedChordData(
     val decoder: String?, // Optional decoder function
-    val remappedChordInfo: ChordInfo? = null // ChordInfo with byte offsets as states
+    val remappedChordInfo: ChordInfo? = null, // ChordInfo with byte offsets as states
+    val magicStringOffsets: Map<String, Int> = emptyMap() // magic string -> byte offset
 )
 
-fun generateChordOutputs(chordInfo: ChordInfo): EncodedChordData {
-    // Analyze all chord output strings
-    val allStrings = chordInfo.outputs.values.toList()
+fun generateChordOutputs(chordInfo: ChordInfo, magicStrings: List<String> = emptyList()): EncodedChordData {
+    // Combine chord outputs and magic strings for unified encoding
+    val allOutputs = chordInfo.outputs.toMutableMap()
+    val magicStringToTempState = mutableMapOf<String, Int>()
+    var tempState = chordInfo.outputs.keys.maxOrNull()?.let { it + 1 } ?: 0
 
-    // Try encoding
-    val encodingResult = tryEncodeChordStrings(chordInfo.outputs)
+    // Assign temporary states to magic strings for encoding
+    magicStrings.forEach { str ->
+        if (str !in magicStringToTempState.keys) {
+            magicStringToTempState[str] = tempState++
+            allOutputs[magicStringToTempState[str]!!] = str
+        }
+    }
 
-    // Determine whether to use encoding
+    // Try encoding all strings together
+    val encodingResult = tryEncodeChordStrings(allOutputs)
 
-    // Compute byte offset mapping
+    // Compute byte offset mapping for chord outputs
     val stateToByteOffset = mutableMapOf<Int, Int>()
     var currentOffset = 0
-    for ((state, _) in chordInfo.outputs.toSortedMap()) {
+    for ((state, _) in allOutputs.toSortedMap()) {
         stateToByteOffset[state] = currentOffset
         currentOffset += encodingResult.encodedData[state]!!.size
+    }
+
+    // Build magic string offsets map
+    val magicStringOffsets = mutableMapOf<String, Int>()
+    magicStringToTempState.forEach { (str, state) ->
+        magicStringOffsets[str] = stateToByteOffset[state]!!
     }
 
     // Remap chord info: transition states keep negative, output states become byte offsets
@@ -146,7 +161,8 @@ fun generateChordOutputs(chordInfo: ChordInfo): EncodedChordData {
 
     return EncodedChordData(
         decoder = generateDecoder(encodingResult),
-        remappedChordInfo = remappedChordInfo
+        remappedChordInfo = remappedChordInfo,
+        magicStringOffsets = magicStringOffsets
     )
 }
 
