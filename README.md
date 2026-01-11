@@ -177,10 +177,9 @@ Currently unused features:
 | go    | "group"                         |
 | gr    | "great"                         |
 | gu    | "guess"                         |
-| gx    | "zeitlinger@gmail.com"          |
+| nn    | "zeitlinger@gmail.com"          |
 | gy    | "every"                         |
-| gz    | "gregor@zeitlinger.de"          |
-| j     | "just"                          |
+| tt    | "gregor@zeitlinger.de"          |
 | k     | "question"                      |
 | k,    | "config"                        |
 | k.    | "key"                           |
