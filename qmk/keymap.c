@@ -66,7 +66,7 @@ bool process_chord_mode(uint16_t keycode, keyrecord_t *record) {
                 if (chord_depth == 2) {
                     // If state is non-negative, it's a data offset - output directly
                     if (chord_state >= 0) {
-                        chord_decode_send(chord_data + state);
+                        chord_decode_send(chord_data + chord_state);
                         tap_code16(KC_SPC);
                     }
                     chord_state = -1000; // Reset to inactive
