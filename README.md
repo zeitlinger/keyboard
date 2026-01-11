@@ -136,12 +136,12 @@ Currently unused features:
 | cn    | "been"                          |
 | co    | "continue"                      |
 | cr    | "across"                        |
-| cs    | "this"                          |
 | cu    | "current"                       |
 | cy    | "policy"                        |
 | d     | "didn't"                        |
 | d,    | "hadn't"                        |
 | d.    | "data"                          |
+| da    | "describe"                      |
 | de    | "them"                          |
 | dh    | "than"                          |
 | di    | "during"                        |
@@ -161,28 +161,26 @@ Currently unused features:
 | fo    | "information"                   |
 | fr    | "software"                      |
 | fu    | "found"                         |
+| fy    | "feature"                       |
 | fy    | "forty"                         |
 | g     | "again"                         |
+| g,    | "Gregor"                        |
+| g.    | "Zeitlinger"                    |
+| ga    | "Grafana Labs"                  |
 | ga    | "glance"                        |
 | ge    | "began"                         |
+| gh    | "gregor.zeitlinger@grafana.com" |
 | gh    | "rights"                        |
 | gi    | "giving"                        |
+| gj    | "Grafana"                       |
 | gj    | "general"                       |
 | go    | "group"                         |
 | gr    | "great"                         |
 | gu    | "guess"                         |
-| gy    | "every"                         |
-| g,    | "Gregor"                        |
-| g.    | "Zeitlinger"                    |
 | gx    | "zeitlinger@gmail.com"          |
+| gy    | "every"                         |
 | gz    | "gregor@zeitlinger.de"          |
 | j     | "just"                          |
-| ja    | "import"                        |
-| je    | "when"                          |
-| jh    | "gregor.zeitlinger@grafana.com" |
-| jo    | "other"                         |
-| j,    | "Grafana"                       |
-| j.    | "Grafana Labs"                  |
 | k     | "question"                      |
 | k,    | "config"                        |
 | k.    | "key"                           |
@@ -201,7 +199,6 @@ Currently unused features:
 | la    | "also"                          |
 | ld    | "with"                          |
 | le    | "leave"                         |
-| lf    | "for"                           |
 | lh    | "health"                        |
 | li    | "light"                         |
 | lj    | "large"                         |
@@ -215,6 +212,7 @@ Currently unused features:
 | ma    | "some"                          |
 | me    | "message"                       |
 | mh    | "might"                         |
+| mi    | "import"                        |
 | mi    | "minute"                        |
 | mj    | "major"                         |
 | mu    | "music"                         |
@@ -244,15 +242,6 @@ Currently unused features:
 | pr    | "parent"                        |
 | pu    | "public"                        |
 | py    | "probably"                      |
-| q     | "spring"                        |
-| qa    | "starter"                       |
-| qe    | "request"                       |
-| qh    | "describe"                      |
-| qi    | "issues"                        |
-| qj    | "feature"                       |
-| qo    | "blob"                          |
-| qu    | "query"                         |
-| qy    | "tests"                         |
 | r     | "really"                        |
 | r,    | "route"                         |
 | r.    | "error"                         |
@@ -268,8 +257,10 @@ Currently unused features:
 | s,    | "wasn't"                        |
 | s.    | "string"                        |
 | sa    | "same"                          |
+| sc    | "this"                          |
 | se    | "search"                        |
 | sh    | "share"                         |
+| si    | "issues"                        |
 | si    | "someone"                       |
 | sj    | "subject"                       |
 | so    | "slowly"                        |
@@ -279,13 +270,17 @@ Currently unused features:
 | t     | "think"                         |
 | t,    | "tenant"                        |
 | t.    | "type"                          |
+| ta    | "starter"                       |
 | ta    | "today"                         |
+| te    | "request"                       |
 | te    | "these"                         |
+| th    | "other"                         |
 | ti    | "time"                          |
 | tj    | "through"                       |
 | to    | "thought"                       |
 | tr    | "there"                         |
 | tu    | "though"                        |
+| ty    | "tests"                         |
 | ty    | "they"                          |
 | v     | "even"                          |
 | v,    | "contrib"                       |
@@ -299,10 +294,12 @@ Currently unused features:
 | vr    | "never"                         |
 | vu    | "value"                         |
 | vy    | "everything"                    |
+| vy    | "query"                         |
 | w     | "would"                         |
 | w,    | "wouldn't"                      |
 | w.    | "await"                         |
 | wa    | "walk"                          |
+| we    | "when"                          |
 | wh    | "which"                         |
 | wi    | "will"                          |
 | wj    | "wrong"                         |
@@ -328,8 +325,8 @@ Currently unused features:
 | za    | "organize"                      |
 | ze    | "GitHub"                        |
 | zh    | "Spring starter"                |
+| zi    | "spring"                        |
 | zj    | "javaagent"                     |
-| zr    | "rolldice"                      |
 | zu    | "Spring Boot"                   |
 
 ## Layout
