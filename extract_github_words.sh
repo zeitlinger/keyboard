@@ -1,4 +1,4 @@
-cl#!/bin/bash
+#!/bin/bash
 
 # Script to extract common words from GitHub issues using GitHub API
 # Usage: ./extract_github_words.sh [github_token]

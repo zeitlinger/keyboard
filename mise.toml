@@ -1,5 +1,6 @@
 [tools]
 java = "latest"
+jq = "latest"
 maven = "latest"
 python = "3"
 uv = "latest"
