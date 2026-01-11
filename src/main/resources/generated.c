@@ -5,7 +5,7 @@
 
 int alternateLayer = -1;
 int layer = _BASE;
-int chord_state = 0; // 0 = inactive, 1+ = trie states
+int chord_state = -1000; // -1000 = inactive, -1 = root, other negative = transition states, non-negative = byte offsets
 int chord_depth = 0; // Track number of letters in current chord
 
 ${chordDecoder}
@@ -15,9 +15,9 @@ int chord_transition(int state, uint16_t keycode) {
 ${chordTransitions}
     default:
         // Invalid transition, stop chord mode
-        return 0;
+        return -1000;
     }
-    return 0;
+    return -1000;
 }
 
 void chord_output(int state) {

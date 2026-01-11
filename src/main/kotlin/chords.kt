@@ -9,7 +9,8 @@ data class ChordInfo(
     val transitions: Map<Int, Map<String, Int>>, // state -> (key -> next_state)
     val outputs: Map<Int, String>, // state -> output string
     val maxState: Int,
-    val stateToChord: Map<Int, String> // state -> chord sequence for comments
+    val stateToChord: Map<Int, String>, // state -> chord sequence for comments
+    val trie: TrieNode? = null // Optional trie structure for two-pass processing
 )
 
 fun buildChordTrie(chordTable: Table?): ChordInfo? {
@@ -17,8 +18,8 @@ fun buildChordTrie(chordTable: Table?): ChordInfo? {
         return null
     }
 
-    val root = TrieNode(state = 1, chordSequence = "") // State 0 = inactive, State 1 = root
-    var nextState = 2
+    val root = TrieNode(state = -1, chordSequence = "") // State 0 = inactive, State -1 = root
+    var nextState = -2 // Negative states for transitions
 
     // check for duplicate chord sequences
     val seenChords = mutableSetOf<String>()
@@ -50,14 +51,23 @@ fun buildChordTrie(chordTable: Table?): ChordInfo? {
             val key = char.toString().lowercase()
             builtSequence += key
             if (!currentNode.children.containsKey(key)) {
-                currentNode.children[key] = TrieNode(state = nextState++, chordSequence = builtSequence)
+                currentNode.children[key] = TrieNode(state = nextState--, chordSequence = builtSequence)
             }
             currentNode = currentNode.children[key]!!
         }
         currentNode.output = output
     }
 
-    // Convert trie to lookup tables
+    // Collect all nodes
+    val allNodes = mutableListOf<TrieNode>()
+    fun collectAllNodes(node: TrieNode) {
+        allNodes.add(node)
+        node.children.values.forEach { collectAllNodes(it) }
+    }
+    collectAllNodes(root)
+
+    // Convert trie to lookup tables - keep temporary negative states for now
+    // They will be remapped to byte offsets during encoding
     val transitions = mutableMapOf<Int, MutableMap<String, Int>>()
     val outputs = mutableMapOf<Int, String>()
     val stateToChord = mutableMapOf<Int, String>()
@@ -80,8 +90,9 @@ fun buildChordTrie(chordTable: Table?): ChordInfo? {
     return ChordInfo(
         transitions = transitions,
         outputs = outputs,
-        maxState = nextState - 1,
-        stateToChord = stateToChord
+        maxState = -nextState - 1, // Count of transition states
+        stateToChord = stateToChord,
+        trie = root
     )
 }
 
@@ -115,7 +126,8 @@ fun generateChordTransitions(chordInfo: ChordInfo): String {
 data class EncodedChordData(
     val outputs: String, // C code for chord outputs
     val decoder: String?, // Optional decoder function
-    val statistics: String // Memory usage statistics
+    val statistics: String, // Memory usage statistics
+    val remappedChordInfo: ChordInfo? = null // ChordInfo with byte offsets as states
 )
 
 fun generateChordOutputs(chordInfo: ChordInfo): EncodedChordData {
@@ -143,18 +155,75 @@ fun generateChordOutputs(chordInfo: ChordInfo): EncodedChordData {
     }
 
     return if (useEncoding && encodingResult != null) {
+        // Compute byte offset mapping
+        val stateToByteOffset = mutableMapOf<Int, Int>()
+        var currentOffset = 0
+        for ((state, _) in chordInfo.outputs.toSortedMap()) {
+            stateToByteOffset[state] = currentOffset
+            currentOffset += encodingResult.encodedData[state]!!.size
+        }
+
+        // Remap chord info: transition states keep negative, output states become byte offsets
+        val remappedChordInfo = remapChordInfoStates(chordInfo, stateToByteOffset)
+
         EncodedChordData(
-            outputs = generateEncodedOutputs(chordInfo, encodingResult),
+            outputs = generateEncodedOutputs(chordInfo, encodingResult, stateToByteOffset),
             decoder = generateDecoder(encodingResult),
-            statistics = stats
+            statistics = stats,
+            remappedChordInfo = remappedChordInfo
         )
     } else {
         EncodedChordData(
             outputs = generateRawOutputs(chordInfo),
             decoder = null,
-            statistics = stats
+            statistics = stats,
+            remappedChordInfo = null // No remapping for raw outputs
         )
     }
+}
+
+// Remap states: transition states stay negative, output states become byte offsets
+private fun remapChordInfoStates(chordInfo: ChordInfo, stateToByteOffset: Map<Int, Int>): ChordInfo {
+    val stateMapping = mutableMapOf<Int, Int>()
+
+    // Map output states to byte offsets
+    stateToByteOffset.forEach { (state, offset) ->
+        stateMapping[state] = offset
+    }
+
+    // Keep negative (transition) states as-is
+    chordInfo.transitions.keys.filter { it < 0 }.forEach { state ->
+        stateMapping[state] = state
+    }
+
+    // Remap transitions
+    val remappedTransitions = mutableMapOf<Int, MutableMap<String, Int>>()
+    chordInfo.transitions.forEach { (state, keyMap) ->
+        val mappedState = stateMapping[state]!!
+        remappedTransitions[mappedState] = keyMap.mapValues { (_, nextState) ->
+            stateMapping[nextState] ?: nextState
+        }.toMutableMap()
+    }
+
+    // Remap outputs
+    val remappedOutputs = mutableMapOf<Int, String>()
+    chordInfo.outputs.forEach { (state, output) ->
+        remappedOutputs[stateMapping[state]!!] = output
+    }
+
+    // Remap stateToChord
+    val remappedStateToChord = mutableMapOf<Int, String>()
+    chordInfo.stateToChord.forEach { (state, chord) ->
+        remappedStateToChord[stateMapping[state]!!] = chord
+    }
+
+    return ChordInfo(
+        transitions = remappedTransitions,
+        outputs = remappedOutputs,
+        maxState = remappedOutputs.keys.maxOrNull() ?: 0,
+        stateToChord = remappedStateToChord,
+        trie = chordInfo.trie
+    )
 }
 
 private fun generateRawOutputs(chordInfo: ChordInfo): String {
@@ -248,28 +317,9 @@ private fun tryEncodeChordStrings(outputs: Map<Int, String>): ChordEncoding? {
     return ChordEncoding(encodedData, charToCode, codeToChar, totalDataSize, decoderOverhead, totalSize)
 }
 
-private fun generateEncodedOutputs(chordInfo: ChordInfo, encoding: ChordEncoding): String {
-    val lines = mutableListOf<String>()
-
-    // Build offset map and collect all data
-    val offsets = mutableMapOf<Int, Int>()
-    var currentOffset = 0
-
-    for ((state, _) in chordInfo.outputs.toSortedMap()) {
-        offsets[state] = currentOffset
-        currentOffset += encoding.encodedData[state]!!.size
-    }
-
-    // Generate switch cases with offset lookups
-    for ((state, output) in chordInfo.outputs.toSortedMap()) {
-        val chordComment = chordInfo.stateToChord[state]?.let { "        // $it" }
-        if (chordComment != null) {
-            lines.add(chordComment)
-        }
-        lines.add("case $state: chord_decode_send(chord_data + ${offsets[state]}); break;")
-    }
-
-    return lines.joinToString("\n")
+private fun generateEncodedOutputs(chordInfo: ChordInfo, encoding: ChordEncoding, stateToByteOffset: Map<Int, Int>): String {
+    // Return empty - we'll use a special marker to indicate direct offset mode
+    return "DIRECT_OFFSET_MODE"
 }
 
 private fun generateDecoder(encoding: ChordEncoding): String {

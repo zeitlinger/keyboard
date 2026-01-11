@@ -47,31 +47,34 @@ bool process_chord_mode(uint16_t keycode, keyrecord_t *record) {
     // Handle chord key press
     if (keycode == _HANDLER_CHORD_KEY) {
         if (record->event.pressed) {
-            chord_state = 1; // Activate chord mode at root of trie
+            chord_state = -1; // Activate chord mode at root of trie (negative state)
             chord_depth = 0; // Reset depth counter
         }
         return false;
     }
 
-    // If chord mode is active
-    if (chord_state > 0) {
+    // If chord mode is active (not -1000)
+    if (chord_state != -1000) {
         if (record->event.pressed) {
             // Try to transition to next state with the pressed key
             int next_state = chord_transition(chord_state, keycode);
-            if (next_state > 0) {
+            if (next_state != -1000 && next_state != chord_state) { // Valid transition (changed state)
                 chord_state = next_state;
                 chord_depth++;
 
-                // Emit immediately after 2nd letter (for 2-letter chords)
+                // Emit immediately after 2nd letter
                 if (chord_depth == 2) {
-                    chord_output(chord_state);
-                    tap_code16(KC_SPC);
-                    chord_state = 0; // Reset to inactive
+                    // If state is non-negative, it's a data offset - output directly
+                    if (chord_state >= 0) {
+                        chord_output(chord_state);
+                        tap_code16(KC_SPC);
+                    }
+                    chord_state = -1000; // Reset to inactive
                     chord_depth = 0;
                 }
             } else {
                 // Invalid transition, reset chord mode
-                chord_state = 0;
+                chord_state = -1000;
                 chord_depth = 0;
             }
             return false;

@@ -132,6 +132,16 @@ fun run(args: GeneratorArgs) {
     )
 
     val encodedChordData = chordInfo?.let { generateChordOutputs(it) }
+    val finalChordInfo = encodedChordData?.remappedChordInfo ?: chordInfo // Use remapped if available
+
+    // Check if we're using direct offset mode
+    val useDirectOffsetMode = encodedChordData?.outputs == "DIRECT_OFFSET_MODE"
+    val chordOutputsCode = if (useDirectOffsetMode) {
+        // Generate a switch-less function body
+        "// State is byte offset directly\n        chord_decode_send(chord_data + state);"
+    } else {
+        encodedChordData?.outputs ?: ""
+    }
 
     replaceTemplate(
         File(srcDir, "generated.c"),
@@ -143,8 +153,8 @@ fun run(args: GeneratorArgs) {
             "customKeycodesOnPress" to customKeycodes(translator, CustomCommandType.OnPress),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
             "magic" to translator.magic.map { magicBlock(it) }.indented(12),
-            "chordTransitions" to (chordInfo?.let { generateChordTransitions(it).prependIndent(" ".repeat(8)) } ?: "" as String),
-            "chordOutputs" to (encodedChordData?.outputs?.prependIndent(" ".repeat(8)) ?: "" as String),
+            "chordTransitions" to (finalChordInfo?.let { generateChordTransitions(it).prependIndent(" ".repeat(8)) } ?: "" as String),
+            "chordOutputs" to chordOutputsCode.prependIndent(" ".repeat(8)),
             "chordDecoder" to (encodedChordData?.decoder ?: ""),
             "oneShotOnUpLayerPressed" to translator.oneShotOnUpLayer.sortedBy { it.up.const() }
                 .map {
