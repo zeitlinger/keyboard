@@ -121,7 +121,6 @@ fun generateChordTransitions(translator: QmkTranslator, chordInfo: ChordInfo): S
 
 data class EncodedChordData(
     val decoder: String?, // Optional decoder function
-    val statistics: String, // Memory usage statistics
     val remappedChordInfo: ChordInfo? = null // ChordInfo with byte offsets as states
 )
 
@@ -129,50 +128,26 @@ fun generateChordOutputs(chordInfo: ChordInfo): EncodedChordData {
     // Analyze all chord output strings
     val allStrings = chordInfo.outputs.values.toList()
 
-    // Calculate raw memory usage
-    val rawSize = allStrings.sumOf { it.length + 1 } // +1 for null terminator
-
     // Try encoding
     val encodingResult = tryEncodeChordStrings(chordInfo.outputs)
 
     // Determine whether to use encoding
-    val useEncoding = encodingResult != null && encodingResult.totalSize < rawSize
 
-    val stats = if (encodingResult != null) {
-        val compressionRatio = "%.1f".format((encodingResult.dataSize.toDouble() / rawSize) * 100)
-        if (useEncoding) {
-            "Chord strings: 5-BIT ENCODED ✓ - data=${encodingResult.dataSize}B ($compressionRatio% of raw) + decoder=${encodingResult.decoderSize}B = ${encodingResult.totalSize}B vs raw ${rawSize}B (SAVED ${rawSize - encodingResult.totalSize}B, ${100 - (encodingResult.totalSize * 100 / rawSize)}%)"
-        } else {
-            "Chord strings: RAW - raw=${rawSize}B is better than 5-bit encoded ${encodingResult.totalSize}B (data=${encodingResult.dataSize}B @$compressionRatio% + decoder=${encodingResult.decoderSize}B)"
-        }
-    } else {
-        "Chord strings: raw $rawSize bytes (encoding not possible - >32 unique characters)"
+    // Compute byte offset mapping
+    val stateToByteOffset = mutableMapOf<Int, Int>()
+    var currentOffset = 0
+    for ((state, _) in chordInfo.outputs.toSortedMap()) {
+        stateToByteOffset[state] = currentOffset
+        currentOffset += encodingResult.encodedData[state]!!.size
     }
 
-    return if (useEncoding && encodingResult != null) {
-        // Compute byte offset mapping
-        val stateToByteOffset = mutableMapOf<Int, Int>()
-        var currentOffset = 0
-        for ((state, _) in chordInfo.outputs.toSortedMap()) {
-            stateToByteOffset[state] = currentOffset
-            currentOffset += encodingResult.encodedData[state]!!.size
-        }
+    // Remap chord info: transition states keep negative, output states become byte offsets
+    val remappedChordInfo = remapChordInfoStates(chordInfo, stateToByteOffset)
 
-        // Remap chord info: transition states keep negative, output states become byte offsets
-        val remappedChordInfo = remapChordInfoStates(chordInfo, stateToByteOffset)
-
-        EncodedChordData(
-            decoder = generateDecoder(encodingResult),
-            statistics = stats,
-            remappedChordInfo = remappedChordInfo
-        )
-    } else {
-        EncodedChordData(
-            decoder = null,
-            statistics = stats,
-            remappedChordInfo = null // No remapping for raw outputs
-        )
-    }
+    return EncodedChordData(
+        decoder = generateDecoder(encodingResult),
+        remappedChordInfo = remappedChordInfo
+    )
 }
 
 // Remap states: transition states stay negative, output states become byte offsets
@@ -228,7 +203,7 @@ data class ChordEncoding(
     val totalSize: Int // Total bytes used (data + decoder overhead)
 )
 
-private fun tryEncodeChordStrings(outputs: Map<Int, String>): ChordEncoding? {
+private fun tryEncodeChordStrings(outputs: Map<Int, String>): ChordEncoding {
     // Build character frequency map
     val charFreq = mutableMapOf<Char, Int>()
     outputs.values.forEach { str ->
@@ -242,7 +217,7 @@ private fun tryEncodeChordStrings(outputs: Map<Int, String>): ChordEncoding? {
 
     // Check if we have too many unique characters (>32 won't fit in 5-bit encoding)
     if (sortedChars.size > 32) {
-        return null
+        throw IllegalArgumentException("Chord encoding must have 32 bytes, got ${sortedChars.joinToString(", ")} unique characters")
     }
 
     // Assign codes: use values 0-31 for 5-bit encoding
@@ -263,7 +238,7 @@ private fun tryEncodeChordStrings(outputs: Map<Int, String>): ChordEncoding? {
 
         // Pack 5-bit codes into bytes
         var bitOffset = 0
-        str.forEachIndexed { index, char ->
+        str.forEach { char ->
             val code = charToCode[char] ?: 0
             val byteIndex = bitOffset / 8
             val bitInByte = bitOffset % 8
@@ -298,17 +273,8 @@ private fun tryEncodeChordStrings(outputs: Map<Int, String>): ChordEncoding? {
     return ChordEncoding(encodedData, charToCode, codeToChar, totalDataSize, decoderOverhead, totalSize)
 }
 
-private fun generateEncodedOutputs(
-    chordInfo: ChordInfo,
-    encoding: ChordEncoding,
-    stateToByteOffset: Map<Int, Int>
-): String {
-    // Return empty - we'll use a special marker to indicate direct offset mode
-    return "DIRECT_OFFSET_MODE"
-}
-
 private fun generateDecoder(encoding: ChordEncoding): String {
-    val lookupEntries = encoding.codeToChar.entries.sortedBy { it.key }.map { (code, char) ->
+    val lookupEntries = encoding.codeToChar.entries.sortedBy { it.key }.map { (_, char) ->
         val escapedChar = when (char) {
             '\'' -> "\\'"
             '\\' -> "\\\\"

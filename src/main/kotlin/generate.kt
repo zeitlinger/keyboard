@@ -161,13 +161,6 @@ fun run(args: GeneratorArgs) {
         analyze(translator, layers)
     }
 
-    // Always print chord encoding statistics
-    encodedChordData?.let {
-        System.err.println("=== CHORD ENCODING STATISTICS ===")
-        System.err.println(it.statistics)
-        println(it.statistics)
-    }
-
     File(dstDir, "combos.def").writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
 }
 

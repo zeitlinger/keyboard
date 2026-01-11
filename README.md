@@ -161,8 +161,8 @@ Currently unused features:
 | gr    | "great"              |
 | gu    | "guess"              |
 | gy    | "every"              |
-| g.    | "github"             |
-| g,    | "grafana"            |
+| g.    | "Grafana Labs"       |
+| g,    | "Grafana"            |
 | j     | "java"               |
 | ja    | "import"             |
 | k     | "question"           |
@@ -228,12 +228,11 @@ Currently unused features:
 | qu    | "query"              |
 | qi    | "issues"             |
 | qo    | "blob"               |
-| q,    | "Spring"             |
+| q,    | "spring"             |
 | qa    | "starter"            |
 | qe    | "request"            |
 | qh    | "describe"           |
 | qj    | "feature"            |
-| qr    | "Grafana"            |
 | qy    | "tests"              |
 | r     | "really"             |
 | ra    | "program"            |
@@ -312,9 +311,9 @@ Currently unused features:
 | zi    | "size"               |
 | zo    | "zone"               |
 | z.    | "async"              |
-| zh    | "Spring starter"     |
-| zu    | "Spring Boot"        |
-| zy    | "Grafana Labs"       |
+| zh    | "spring starter"     |
+| zu    | "spring boot"        |
+| zy    | "github"             |
 | zj    | "javaagent"          |
 | zr    | "rolldice"           |
 | z,    | "smile"              |
