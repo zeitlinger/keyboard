@@ -161,18 +161,18 @@ Currently unused features:
 | fo    | "information"                   |
 | fr    | "software"                      |
 | fu    | "found"                         |
-| fy    | "feature"                       |
+| mo    | "feature"                       |
 | fy    | "forty"                         |
 | g     | "again"                         |
 | g,    | "Gregor"                        |
 | g.    | "Zeitlinger"                    |
-| ga    | "Grafana Labs"                  |
+| zo    | "Grafana Labs"                  |
 | ga    | "glance"                        |
 | ge    | "began"                         |
-| gh    | "gregor.zeitlinger@grafana.com" |
+| zy    | "gregor.zeitlinger@grafana.com" |
 | gh    | "rights"                        |
 | gi    | "giving"                        |
-| gj    | "Grafana"                       |
+| be    | "Grafana"                       |
 | gj    | "general"                       |
 | go    | "group"                         |
 | gr    | "great"                         |
@@ -212,7 +212,7 @@ Currently unused features:
 | ma    | "some"                          |
 | me    | "message"                       |
 | mh    | "might"                         |
-| mi    | "import"                        |
+| do    | "import"                        |
 | mi    | "minute"                        |
 | mj    | "major"                         |
 | mu    | "music"                         |
@@ -224,7 +224,7 @@ Currently unused features:
 | ne    | "number"                        |
 | nh    | "anything"                      |
 | ni    | "into"                          |
-| nj    | "instead"                       |
+| nd    | "instead"                       |
 | no    | "another"                       |
 | nr    | "near"                          |
 | nt    | "that"                          |
@@ -260,7 +260,7 @@ Currently unused features:
 | sc    | "this"                          |
 | se    | "search"                        |
 | sh    | "share"                         |
-| si    | "issues"                        |
+| nj    | "issues"                        |
 | si    | "someone"                       |
 | sj    | "subject"                       |
 | so    | "slowly"                        |
@@ -270,9 +270,8 @@ Currently unused features:
 | t     | "think"                         |
 | t,    | "tenant"                        |
 | t.    | "type"                          |
-| ta    | "starter"                       |
 | ta    | "today"                         |
-| te    | "request"                       |
+| rs    | "request"                       |
 | te    | "these"                         |
 | th    | "other"                         |
 | ti    | "time"                          |
@@ -280,8 +279,8 @@ Currently unused features:
 | to    | "thought"                       |
 | tr    | "there"                         |
 | tu    | "though"                        |
-| ty    | "tests"                         |
-| ty    | "they"                          |
+| ty    | "thank you"                     |
+| rt    | "they"                          |
 | v     | "even"                          |
 | v,    | "contrib"                       |
 | v.    | "void"                          |
@@ -294,7 +293,7 @@ Currently unused features:
 | vr    | "never"                         |
 | vu    | "value"                         |
 | vy    | "everything"                    |
-| vy    | "query"                         |
+| rp    | "query"                         |
 | w     | "would"                         |
 | w,    | "wouldn't"                      |
 | w.    | "await"                         |
