@@ -124,7 +124,6 @@ fun generateChordTransitions(chordInfo: ChordInfo): String {
 }
 
 data class EncodedChordData(
-    val outputs: String, // C code for chord outputs
     val decoder: String?, // Optional decoder function
     val statistics: String, // Memory usage statistics
     val remappedChordInfo: ChordInfo? = null // ChordInfo with byte offsets as states
@@ -167,14 +166,12 @@ fun generateChordOutputs(chordInfo: ChordInfo): EncodedChordData {
         val remappedChordInfo = remapChordInfoStates(chordInfo, stateToByteOffset)
 
         EncodedChordData(
-            outputs = generateEncodedOutputs(chordInfo, encodingResult, stateToByteOffset),
             decoder = generateDecoder(encodingResult),
             statistics = stats,
             remappedChordInfo = remappedChordInfo
         )
     } else {
         EncodedChordData(
-            outputs = generateRawOutputs(chordInfo),
             decoder = null,
             statistics = stats,
             remappedChordInfo = null // No remapping for raw outputs
@@ -224,18 +221,6 @@ private fun remapChordInfoStates(chordInfo: ChordInfo, stateToByteOffset: Map<In
         stateToChord = remappedStateToChord,
         trie = chordInfo.trie
     )
-}
-
-private fun generateRawOutputs(chordInfo: ChordInfo): String {
-    val lines = mutableListOf<String>()
-    for ((state, output) in chordInfo.outputs.toSortedMap()) {
-        val chordComment = chordInfo.stateToChord[state]?.let { "        // $it" }
-        if (chordComment != null) {
-            lines.add(chordComment)
-        }
-        lines.add("case $state: SEND_STRING(\"$output\"); break;")
-    }
-    return lines.joinToString("\n")
 }
 
 data class ChordEncoding(

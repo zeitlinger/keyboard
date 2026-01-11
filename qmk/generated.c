@@ -340,15 +340,6 @@ int chord_transition(int state, uint16_t keycode) {
     return -1000;
 }
 
-void chord_output(int state) {
-    switch (state) {
-        // State is byte offset directly
-                chord_decode_send(chord_data + state);
-    default:
-        return;
-    }
-}
-
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     switch(index) {
     case C_BASE_CHORD_KEY: return 200;
