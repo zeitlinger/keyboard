@@ -55,35 +55,28 @@ bool process_chord_mode(uint16_t keycode, keyrecord_t *record) {
 
     // Handle CHORD_MODIFIER state (after a chord was output)
     if (chord_state == CHORD_MODIFIER && record->event.pressed) {
-        bool handled = false;
-        const char *suffix = NULL;
-
         // Check for suffix keys based on keycode
         switch (keycode) {
-            case SUB_2: // "ing" combo
-                suffix = "ing";
-                handled = true;
-                break;
+            case ING: // "ing" combo
+                tap_code16(KC_BSPC);
+                SEND_STRING("ing ");
+                chord_state = CHORD_INACTIVE;
+                return false;
             case MAGIC_A: // Use for "ly"
-                suffix = "ly";
-                handled = true;
-                break;
+                tap_code16(KC_BSPC);
+                SEND_STRING("ly ");
+                chord_state = CHORD_INACTIVE;
+                return false;
             case MAGIC_B: // Use for "ed"
-                suffix = "ed";
-                handled = true;
-                break;
+                tap_code16(KC_BSPC);
+                SEND_STRING("ed ");
+                chord_state = CHORD_INACTIVE;
+                return false;
             case MAGIC_C: // Use for "s"
-                suffix = "s";
-                handled = true;
-                break;
-        }
-
-        if (handled && suffix) {
-            // Delete the trailing space and add the suffix
-            tap_code16(KC_BSPC);
-            SEND_STRING(suffix);
-            chord_state = CHORD_INACTIVE; // Reset chord state
-            return false; // Don't process further
+                tap_code16(KC_BSPC);
+                SEND_STRING("s ");
+                chord_state = CHORD_INACTIVE;
+                return false;
         }
 
         // If not a modifier key, exit CHORD_MODIFIER state and process normally
@@ -246,6 +239,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case _HANDLER_N_T:
         if (record->event.pressed) {
             SEND_STRING("n't");
+        }
+        return false;
+    #endif
+    #ifdef _HANDLER_ING
+    case _HANDLER_ING:
+        if (record->event.pressed) {
+            SEND_STRING("ing");
         }
         return false;
     #endif

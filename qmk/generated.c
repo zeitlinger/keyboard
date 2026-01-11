@@ -426,6 +426,7 @@ int chord_transition(int state, uint16_t keycode) {
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     switch(index) {
     case C_BASE_CHORD_KEY: return 200;
+    case C_BASE_ING: return 200;
     case C_BASE_KC_B: return 200;
     case C_BASE_KC_COMMA: return 200;
     case C_BASE_KC_DOT: return 200;
@@ -520,7 +521,6 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case SUB_4: return 200;
     case SUB_5: return 200;
     case SUB_6: return 200;
-    case SUB_7: return 200;
     case S_C_BASE_KC_B: return 200;
     case S_C_BASE_KC_G: return 200;
     case S_C_BASE_KC_J: return 200;

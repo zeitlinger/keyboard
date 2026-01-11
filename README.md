@@ -338,7 +338,7 @@ Currently unused features:
 | Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
 | Base  |         |         |  *Nav   |    r    |   spc   | *FnSym  |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Base  |         |         |         |    v    |  "ing"  |         |         |         |
+| Base  |         |         |         |    v    |   ing   |         |         |         |
 | Base  |         |         |         |   💎    |   💎    |         |         |         |
 | Base  |         |         |         |    k    | magicA  |         |         |         |
 | Base  |         |         |         |         |         |         |         |         |
@@ -599,6 +599,7 @@ The order of the options is also the order of the layers in the layer stack.
 | tab ➡️  | custom:NEXT_TAB      NoHold     |
 | win ➡️  | custom:NEXT_WINDOW   NoHold     |
 | n't     | custom:N_T                      |
+| ing     | custom:ING                      |
 | ver     | custom:PRINT_VERSION            |
 | CapW    | custom:CAPS_WORDS               |
 | sn_case | custom:SNAKE_CASE               |
