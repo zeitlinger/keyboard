@@ -129,6 +129,7 @@ Currently unused features:
 | c,    | "couldn't"                      |
 | c.    | "const"                         |
 | ca    | "actually"                      |
+| cc    | "gregor.zeitlinger@grafana.com" |
 | ce    | "service"                       |
 | ch    | "research"                      |
 | ci    | "click"                         |
@@ -146,6 +147,7 @@ Currently unused features:
 | dh    | "than"                          |
 | di    | "during"                        |
 | dj    | "build"                         |
+| do    | "import"                        |
 | dr    | "their"                         |
 | du    | "products"                      |
 | dy    | "already"                       |
@@ -161,25 +163,18 @@ Currently unused features:
 | fo    | "information"                   |
 | fr    | "software"                      |
 | fu    | "found"                         |
-| mo    | "feature"                       |
 | fy    | "forty"                         |
 | g     | "again"                         |
 | g,    | "Gregor"                        |
-| z     | "Zeitlinger"                    |
-| zo    | "Grafana Labs"                  |
+| g.    | "Grafana"                       |
 | ga    | "glance"                        |
 | ge    | "began"                         |
-| cc    | "gregor.zeitlinger@grafana.com" |
-| rg    | "rights"                        |
 | gi    | "giving"                        |
-| g.    | "Grafana"                       |
 | gj    | "general"                       |
 | go    | "group"                         |
 | gr    | "great"                         |
 | gu    | "guess"                         |
-| nn    | "zeitlinger@gmail.com"          |
 | gy    | "every"                         |
-| tt    | "gregor@zeitlinger.de"          |
 | k     | "question"                      |
 | k,    | "config"                        |
 | k.    | "key"                           |
@@ -211,19 +206,21 @@ Currently unused features:
 | ma    | "some"                          |
 | me    | "message"                       |
 | mh    | "might"                         |
-| do    | "import"                        |
 | mi    | "minute"                        |
 | mj    | "major"                         |
+| mo    | "feature"                       |
 | mu    | "music"                         |
 | my    | "myself"                        |
 | n     | "understand"                    |
 | n,    | "single"                        |
 | n.    | "null"                          |
 | na    | "anyway"                        |
+| nd    | "instead"                       |
 | ne    | "number"                        |
 | nh    | "anything"                      |
 | ni    | "into"                          |
-| nd    | "instead"                       |
+| nj    | "issues"                        |
+| nn    | "zeitlinger@gmail.com"          |
 | no    | "another"                       |
 | nr    | "near"                          |
 | nt    | "that"                          |
@@ -246,12 +243,17 @@ Currently unused features:
 | r.    | "error"                         |
 | ra    | "program"                       |
 | re    | "ready"                         |
+| rg    | "rights"                        |
 | rh    | "review"                        |
 | ri    | "right"                         |
 | rj    | "return"                        |
+| rl    | "query"                         |
 | ro    | "around"                        |
+| rs    | "request"                       |
+| rt    | "they"                          |
 | ru    | "true"                          |
 | ry    | "years"                         |
+| rz    | "realize"                       |
 | s     | "should"                        |
 | s,    | "wasn't"                        |
 | s.    | "string"                        |
@@ -259,7 +261,6 @@ Currently unused features:
 | sc    | "this"                          |
 | se    | "search"                        |
 | sh    | "share"                         |
-| nj    | "issues"                        |
 | si    | "someone"                       |
 | sj    | "subject"                       |
 | so    | "slowly"                        |
@@ -270,16 +271,15 @@ Currently unused features:
 | t,    | "tenant"                        |
 | t.    | "type"                          |
 | ta    | "today"                         |
-| rs    | "request"                       |
 | te    | "these"                         |
 | th    | "other"                         |
 | ti    | "time"                          |
 | tj    | "through"                       |
 | to    | "thought"                       |
 | tr    | "there"                         |
+| tt    | "gregor@zeitlinger.de"          |
 | tu    | "though"                        |
 | ty    | "thank you"                     |
-| rt    | "they"                          |
 | v     | "even"                          |
 | v,    | "contrib"                       |
 | v.    | "void"                          |
@@ -292,7 +292,6 @@ Currently unused features:
 | vr    | "never"                         |
 | vu    | "value"                         |
 | vy    | "everything"                    |
-| rl    | "query"                         |
 | w     | "would"                         |
 | w,    | "wouldn't"                      |
 | w.    | "await"                         |
@@ -317,7 +316,7 @@ Currently unused features:
 | xr    | "resource"                      |
 | xu    | "actual"                        |
 | xy    | "telemetry"                     |
-| rz    | "realize"                       |
+| z     | "Zeitlinger"                    |
 | z,    | "smile"                         |
 | z.    | "async"                         |
 | za    | "organize"                      |
@@ -325,6 +324,7 @@ Currently unused features:
 | zh    | "Spring starter"                |
 | zi    | "spring"                        |
 | zj    | "javaagent"                     |
+| zo    | "Grafana Labs"                  |
 | zu    | "Spring Boot"                   |
 
 ## Layout

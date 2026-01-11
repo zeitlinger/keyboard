@@ -18,74 +18,74 @@ static const char chord_char_4bit[] = {
 
 // 8-bit codes (0xE0+) for less common characters
 static const char chord_char_extended[] = {
-    'm', 'p', 'd', 'b', 'v', 'w', 'f', 'k', ' ', '\'', 'x', 'j', '.', 'z', 'G', 'q', '@', 'S', 'Z', 'L', 'H', 'B', 'O', 'T', '/'
+    'm', 'p', 'd', 'b', 'v', 'w', 'f', 'k', ' ', '\'', 'x', '.', 'z', 'j', 'G', 'q', '@', 'S', 'O', 'T', 'Z', 'H', 'L', 'B', '/'
 };
 
 // Global buffer containing all 4/8-bit variable-length encoded chord strings
 static const uint8_t chord_data[] = {
-    0x0b, 0xf1, 0xe1, 0x26, 0x49, 0xe8, 0xf5, 0x55, 0x10, 0x09, 0xeb, 0x30, 0xe4, 0x33, 0x90, 0x41,
-    0x06, 0x80, 0xe1, 0x26, 0x49, 0x0e, 0xf1, 0xe1, 0x26, 0x49, 0xe8, 0x81, 0x32, 0x10, 0x20, 0x06,
-    0xee, 0x61, 0xf4, 0xa0, 0xe3, 0x08, 0x52, 0x93, 0x46, 0xed, 0x00, 0x05, 0x38, 0xd4, 0xc0, 0x05,
-    0x80, 0xe0, 0x67, 0x00, 0x07, 0x20, 0x37, 0x60, 0xed, 0x00, 0x09, 0x10, 0x70, 0xe0, 0x01, 0x2d,
-    0x06, 0x3c, 0x1a, 0x37, 0x08, 0x20, 0x85, 0xa2, 0xc0, 0x0d, 0xf6, 0xe1, 0x04, 0xf7, 0x07, 0x00,
-    0xe0, 0x01, 0x2d, 0x09, 0x00, 0xea, 0xc0, 0xe1, 0x16, 0x54, 0x08, 0x00, 0xea, 0x68, 0x16, 0x49,
-    0x05, 0xb1, 0x10, 0xe1, 0x80, 0x07, 0x00, 0xea, 0x0c, 0xa1, 0x00, 0x07, 0x00, 0xea, 0x30, 0xe0,
-    0xe1, 0x70, 0x06, 0x00, 0xea, 0xe1, 0x52, 0x10, 0x12, 0xe2, 0x0c, 0x73, 0x23, 0x16, 0xe4, 0x00,
-    0xe8, 0xc5, 0x40, 0xe6, 0x69, 0x07, 0xc5, 0x41, 0x00, 0xea, 0x10, 0x05, 0xe5, 0x52, 0x2d, 0x08,
-    0x64, 0x10, 0x24, 0x37, 0x05, 0xe5, 0xb0, 0x20, 0x07, 0xe5, 0x61, 0xb5, 0xa1, 0x05, 0xe5, 0x25,
-    0x49, 0x04, 0xe5, 0x67, 0x70, 0x05, 0xe5, 0xb6, 0xcb, 0x04, 0xe5, 0xb0, 0x40, 0x04, 0xe5, 0x37,
-    0xe7, 0x05, 0x30, 0xe5, 0x36, 0x10, 0x08, 0xe5, 0x5a, 0x70, 0xe2, 0x40, 0xe9, 0x10, 0x05, 0xe5,
-    0x5a, 0x70, 0xe2, 0x05, 0xef, 0xa0, 0x2d, 0x0a, 0x00, 0xe4, 0x02, 0xd1, 0xb6, 0x49, 0x05, 0xe4,
-    0x37, 0xa0, 0x05, 0x40, 0xe4, 0x02, 0x04, 0x50, 0xe4, 0x02, 0x06, 0x45, 0x16, 0xc0, 0x08, 0x80,
-    0x20, 0xe4, 0x6c, 0x08, 0x07, 0xe4, 0x02, 0x86, 0x54, 0x04, 0xe4, 0x02, 0xd0, 0x09, 0x30, 0xe4,
-    0x36, 0x73, 0xe3, 0x70, 0x04, 0xe4, 0x56, 0xe2, 0x07, 0xc5, 0x41, 0x26, 0xe3, 0x04, 0x00, 0xe4,
-    0x04, 0x04, 0x1b, 0x0d, 0x09, 0x1b, 0x34, 0xe7, 0xe8, 0xd5, 0xa0, 0x06, 0x1b, 0x5a, 0x9b, 0x05,
-    0x1b, 0x02, 0x00, 0x07, 0x1b, 0x5a, 0x9b, 0x10, 0x07, 0x1b, 0x25, 0xa9, 0xb0, 0x04, 0x16, 0xe0,
-    0x00, 0x05, 0x51, 0xb0, 0x20, 0x05, 0x1b, 0x08, 0x00, 0x07, 0x20, 0xef, 0xa0, 0x81, 0x05, 0x15,
-    0xe2, 0x3d, 0x04, 0x1d, 0xe1, 0x00, 0x06, 0x10, 0x43, 0x41, 0x05, 0x1b, 0x64, 0xe7, 0x06, 0x8d,
-    0x81, 0x00, 0xe0, 0x07, 0x8a, 0xe1, 0xe1, 0x52, 0x10, 0x08, 0x8a, 0x20, 0xe1, 0x26, 0x80, 0x06,
-    0x87, 0x50, 0xe5, 0x7d, 0x07, 0x8a, 0xe3, 0xeb, 0x0c, 0x10, 0x07, 0x85, 0xe0, 0x05, 0x40, 0x06,
-    0x68, 0x8a, 0x08, 0x05, 0x8b, 0x32, 0x00, 0x06, 0x80, 0x32, 0xcb, 0x04, 0x1b, 0x68, 0x04, 0x83,
-    0xe0, 0x00, 0x06, 0x81, 0x26, 0x49, 0x06, 0xe5, 0x38, 0x40, 0xe9, 0x10, 0x06, 0x8b, 0x5a, 0x70,
-    0xe2, 0x05, 0xd0, 0x32, 0x80, 0x04, 0x12, 0xa0, 0x06, 0x32, 0x5a, 0x40, 0xe2, 0x06, 0x20, 0x1a,
-    0x24, 0x05, 0x26, 0x9b, 0x10, 0x06, 0x20, 0xe4, 0x60, 0xe5, 0x05, 0x20, 0x30, 0xe2, 0xd0, 0x07,
+    0x0b, 0xf1, 0xe1, 0x26, 0x49, 0xe8, 0xf7, 0x55, 0x10, 0x0c, 0xee, 0x23, 0xe6, 0x34, 0x30, 0xe8,
+    0xf6, 0x30, 0xe3, 0x80, 0x09, 0xed, 0x30, 0xe4, 0x33, 0x90, 0x41, 0x06, 0x80, 0xe1, 0x26, 0x49,
+    0x0e, 0xf1, 0xe1, 0x26, 0x49, 0xe8, 0x81, 0x32, 0x10, 0x20, 0x06, 0xee, 0x61, 0xf5, 0xa0, 0xe3,
+    0x08, 0x52, 0x93, 0x46, 0xec, 0x00, 0x05, 0x38, 0xd4, 0xc0, 0x05, 0x80, 0xe0, 0x67, 0x00, 0x0a,
+    0xf4, 0x06, 0x17, 0x64, 0x90, 0x20, 0x09, 0x10, 0x70, 0xe0, 0x01, 0x2d, 0x06, 0x3c, 0x1a, 0x37,
+    0x08, 0x20, 0x85, 0xa2, 0xc0, 0x0d, 0xf2, 0xe1, 0x04, 0xf3, 0x07, 0x00, 0xe0, 0x01, 0x2d, 0x09,
+    0x00, 0xea, 0xc0, 0xe1, 0x16, 0x54, 0x08, 0x00, 0xea, 0x68, 0x16, 0x49, 0x05, 0xb1, 0x10, 0xe1,
+    0x80, 0x07, 0x00, 0xea, 0x0c, 0xa1, 0x00, 0x07, 0x00, 0xea, 0x30, 0xe0, 0xe1, 0x70, 0x06, 0x00,
+    0xea, 0xe1, 0x52, 0x10, 0x12, 0xe2, 0x0c, 0x73, 0x23, 0x16, 0xe4, 0x00, 0xe8, 0xc5, 0x40, 0xe6,
+    0x69, 0x07, 0xc5, 0x41, 0x00, 0xea, 0x10, 0x05, 0xe5, 0x52, 0x2d, 0x08, 0x64, 0x10, 0x24, 0x37,
+    0x05, 0xe5, 0xb0, 0x20, 0x07, 0xe5, 0x61, 0xb5, 0xa1, 0x05, 0xe5, 0x25, 0x49, 0x04, 0xe5, 0x67,
+    0x70, 0x05, 0xe5, 0xb6, 0xcb, 0x04, 0xe5, 0xb0, 0x40, 0x04, 0xe5, 0x37, 0xe7, 0x05, 0x30, 0xe5,
+    0x36, 0x10, 0x08, 0xe5, 0x5a, 0x70, 0xe2, 0x40, 0xe9, 0x10, 0x05, 0xe5, 0x5a, 0x70, 0xe2, 0x0a,
+    0x00, 0xe4, 0x02, 0xd1, 0xb6, 0x49, 0x05, 0xe4, 0x37, 0xa0, 0x05, 0x40, 0xe4, 0x02, 0x04, 0x50,
+    0xe4, 0x02, 0x06, 0x45, 0x16, 0xc0, 0x08, 0x80, 0x20, 0xe4, 0x6c, 0x08, 0x07, 0xe4, 0x02, 0x86,
+    0x54, 0x04, 0xe4, 0x02, 0xd0, 0x09, 0x30, 0xe4, 0x36, 0x73, 0xe3, 0x70, 0x04, 0xe4, 0x56, 0xe2,
+    0x07, 0xc5, 0x41, 0x26, 0xe3, 0x04, 0x00, 0xe4, 0x04, 0x09, 0x1b, 0x34, 0xe7, 0xe8, 0xd5, 0xa0,
+    0x06, 0x1b, 0x5a, 0x9b, 0x14, 0x92, 0x09, 0x52, 0xf0, 0xec, 0x06, 0x17, 0x64, 0x90, 0x20, 0xeb,
+    0xe2, 0x00, 0x05, 0x1b, 0x02, 0x00, 0x07, 0x1b, 0x5a, 0x9b, 0x10, 0x07, 0x1b, 0x25, 0xa9, 0xb0,
+    0x04, 0x16, 0xe0, 0x00, 0x05, 0x51, 0xb0, 0x20, 0x05, 0x1b, 0x08, 0x00, 0x05, 0x15, 0xe2, 0x3d,
+    0x04, 0x1d, 0xe1, 0x00, 0x06, 0x10, 0x43, 0x41, 0x05, 0x1b, 0x64, 0xe7, 0x06, 0x8d, 0x81, 0x00,
+    0xe0, 0x07, 0x8a, 0xe1, 0xe1, 0x52, 0x10, 0x08, 0x8a, 0x20, 0xe1, 0x26, 0x80, 0x06, 0x87, 0x50,
+    0xe5, 0x7d, 0x07, 0x8a, 0xe3, 0xed, 0x0c, 0x10, 0x07, 0x85, 0xe0, 0x05, 0x40, 0x05, 0x8b, 0x32,
+    0x00, 0x06, 0x80, 0x32, 0xcb, 0x04, 0x1b, 0x68, 0x04, 0x83, 0xe0, 0x00, 0x06, 0x81, 0x26, 0x49,
+    0x06, 0xe5, 0x38, 0x40, 0xe9, 0x10, 0x06, 0x8b, 0x5a, 0x70, 0xe2, 0x07, 0x20, 0x37, 0x60, 0xec,
+    0x00, 0x05, 0xd0, 0x32, 0x80, 0x04, 0x12, 0xa0, 0x04, 0x1b, 0x0d, 0x07, 0x20, 0xef, 0xa0, 0x81,
+    0x06, 0x32, 0x5a, 0x40, 0xe2, 0x05, 0xef, 0xa0, 0x2d, 0x06, 0x20, 0x1a, 0x24, 0x05, 0x26, 0x9b,
+    0x10, 0x06, 0x20, 0xe4, 0x60, 0xe5, 0x06, 0x26, 0x9b, 0x18, 0x05, 0x20, 0x30, 0xe2, 0xd0, 0x07,
     0xe1, 0x25, 0x92, 0x30, 0xe0, 0x05, 0x02, 0x25, 0x20, 0x05, 0x25, 0xa1, 0x00, 0x06, 0x20, 0x37,
     0x7d, 0x08, 0xe1, 0x25, 0xe3, 0x30, 0xe3, 0x7d, 0x06, 0xe1, 0xa0, 0xe3, 0x76, 0xc0, 0x06, 0xe1,
     0x32, 0x04, 0x10, 0x07, 0xe1, 0x25, 0xe2, 0xac, 0x10, 0x07, 0xe1, 0x25, 0xe3, 0x70, 0xe0, 0x05,
     0xe1, 0x56, 0x41, 0x04, 0xb1, 0x10, 0xe1, 0x05, 0xe1, 0x73, 0xc0, 0x07, 0xe1, 0x26, 0xe4, 0x3c,
     0xd0, 0x07, 0xe1, 0x25, 0xe0, 0x68, 0x00, 0x06, 0xe1, 0x70, 0x38, 0x00, 0x06, 0xe1, 0x05, 0xe1,
     0x70, 0x07, 0xc5, 0xe0, 0xe1, 0x34, 0xd0, 0x06, 0x04, 0x5a, 0x9b, 0x04, 0x1b, 0x31, 0x04, 0x40,
-    0x32, 0x07, 0x34, 0x51, 0xb0, 0x20, 0x07, 0x64, 0x81, 0x03, 0xe2, 0x04, 0x64, 0x15, 0x08, 0x34,
-    0xd1, 0xb6, 0x49, 0x06, 0x4a, 0xe0, 0xe3, 0x02, 0x06, 0x34, 0xd0, 0xe5, 0x3d, 0x04, 0x4a, 0x77,
-    0x06, 0x86, 0x49, 0x70, 0x0a, 0xa4, 0xe2, 0x02, 0x81, 0x34, 0xe2, 0x06, 0xe0, 0xd8, 0x07, 0xe6,
-    0x05, 0xe0, 0xa8, 0x6c, 0x05, 0xe0, 0x30, 0xeb, 0x52, 0x06, 0xe0, 0x64, 0xa1, 0x00, 0x06, 0x60,
-    0xe0, 0xe1, 0x52, 0x10, 0x05, 0xe0, 0x69, 0xb1, 0x07, 0xe0, 0x08, 0x83, 0x90, 0x04, 0x85, 0xe0,
-    0x00, 0x06, 0xe0, 0x01, 0xb5, 0xe2, 0x04, 0x79, 0x10, 0xe0, 0x04, 0xe0, 0x52, 0x00, 0x04, 0x54,
-    0x7d, 0x06, 0x37, 0xe0, 0x58, 0x10, 0x05, 0x73, 0x10, 0x20, 0x05, 0x37, 0x54, 0x90, 0x05, 0x73,
-    0x29, 0x00, 0x05, 0x76, 0x9b, 0x10, 0x06, 0xb0, 0x37, 0x1b, 0x05, 0x70, 0x30, 0xe4, 0x00, 0x04,
-    0xe5, 0x61, 0xb0, 0x04, 0x37, 0x85, 0x05, 0xc7, 0x38, 0x80, 0x05, 0x70, 0xe4, 0x07, 0x04, 0x76,
-    0xe7, 0x00, 0x07, 0xef, 0xa6, 0xc0, 0xe7, 0x7d, 0x06, 0xc3, 0x77, 0x02, 0x04, 0xe5, 0x52, 0xe7,
-    0x04, 0xe7, 0x45, 0xe5, 0x04, 0xeb, 0x30, 0xe4, 0x30, 0x04, 0xe7, 0x64, 0xe2, 0x05, 0xcb, 0x0c,
-    0xe7, 0x04, 0xe7, 0x00, 0xe1, 0x04, 0xe0, 0x30, 0xe7, 0x00, 0x03, 0xe7, 0x0d, 0x06, 0xc5, 0x40,
-    0xe6, 0x69, 0x08, 0xef, 0xa0, 0x81, 0x65, 0x40, 0x14, 0x92, 0x09, 0x52, 0xf0, 0xed, 0x06, 0x17,
-    0x64, 0x90, 0x20, 0xec, 0xe2, 0x00, 0x05, 0x00, 0xe4, 0x02, 0xd0, 0x14, 0xed, 0x06, 0x17, 0x64,
-    0x90, 0x20, 0xf0, 0x90, 0xe0, 0x36, 0x70, 0xec, 0xc5, 0xe0, 0x05, 0x9a, 0x08, 0x80, 0x05, 0x92,
-    0x03, 0x10, 0x05, 0x92, 0x5a, 0xe1, 0x07, 0x90, 0x40, 0x23, 0x70, 0x07, 0xee, 0x23, 0xe6, 0x34,
-    0x30, 0x06, 0x96, 0xe4, 0x64, 0x90, 0x06, 0x26, 0x9b, 0x18, 0x1d, 0x92, 0x09, 0x52, 0xec, 0xed,
-    0x06, 0x17, 0x64, 0x90, 0x20, 0xf0, 0x92, 0x30, 0xe6, 0x34, 0x30, 0xec, 0xc5, 0xe0, 0x05, 0xe3,
-    0x09, 0x34, 0x06, 0x97, 0x34, 0xc0, 0x0c, 0xee, 0x23, 0xe6, 0x34, 0x30, 0xe8, 0xf3, 0x30, 0xe3,
-    0x80, 0x0a, 0xf2, 0x06, 0x17, 0x64, 0x90, 0x20, 0x06, 0xee, 0x20, 0x95, 0x20, 0x05, 0x39, 0x36,
-    0x40, 0x05, 0xe6, 0x52, 0x1d, 0x07, 0xe6, 0x03, 0x1a, 0x20, 0x05, 0xe6, 0x5a, 0x40, 0xe2, 0x08,
-    0x85, 0xe6, 0x10, 0xe5, 0x32, 0x00, 0x0b, 0x64, 0xe6, 0x52, 0xe0, 0x31, 0x65, 0x40, 0x04, 0xb3,
-    0xe4, 0x00, 0x06, 0xe6, 0x64, 0x90, 0x20, 0x05, 0xe6, 0x62, 0x81, 0x04, 0x1b, 0x04, 0x04, 0xe6,
-    0x00, 0x70, 0x05, 0x30, 0xe6, 0x10, 0x20, 0x05, 0xe6, 0x37, 0x80, 0x05, 0xe6, 0x36, 0x78, 0x04,
-    0xe6, 0x25, 0xe0, 0x07, 0x37, 0x20, 0x30, 0xe2, 0xd0, 0x08, 0xe1, 0x25, 0xe2, 0xac, 0x18, 0x05,
-    0x1b, 0x06, 0x20, 0x05, 0xe3, 0xa6, 0x70, 0xe2, 0x06, 0xe2, 0xa2, 0x64, 0x90, 0x04, 0x1b, 0x34,
-    0x04, 0x1b, 0x00, 0xe0, 0x08, 0xe2, 0x08, 0xc2, 0x60, 0xe3, 0x00, 0x04, 0xe2, 0x31, 0x30, 0x06,
-    0xb3, 0xe2, 0x40, 0xe9, 0x10, 0x06, 0xe2, 0x60, 0xe2, 0x40, 0xe9, 0x10, 0x06, 0xe1, 0x57, 0x6c,
-    0xd0, 0x07, 0xca, 0x22, 0x04, 0x10, 0x06, 0x3c, 0x25, 0x88, 0x08, 0xc5, 0x41, 0x64, 0xa0, 0x04,
-    0xe3, 0x00, 0x40, 0x07, 0xe1, 0x25, 0xeb, 0x0c, 0x10, 0x05, 0xc7, 0x6c, 0xe7, 0x08, 0x20, 0x80,
-    0x32, 0xcb, 0x07, 0x80, 0x20, 0xe4, 0x6c, 0x00, 0x08, 0x3c, 0x1a, 0x37, 0x7d, 0x05, 0xc5, 0x48,
+    0x32, 0x07, 0x34, 0x51, 0xb0, 0x20, 0x14, 0xec, 0x06, 0x17, 0x64, 0x90, 0x20, 0xf0, 0x90, 0xe0,
+    0x36, 0x70, 0xeb, 0xc5, 0xe0, 0x06, 0x68, 0x8a, 0x08, 0x04, 0x64, 0x15, 0x08, 0x34, 0xd1, 0xb6,
+    0x49, 0x06, 0x4a, 0xe0, 0xe3, 0x02, 0x07, 0x64, 0x81, 0x03, 0xe2, 0x06, 0x34, 0xd0, 0xe5, 0x3d,
+    0x04, 0x4a, 0x77, 0x06, 0x86, 0x49, 0x70, 0x0a, 0xa4, 0xe2, 0x02, 0x81, 0x34, 0xe2, 0x06, 0xe0,
+    0xd8, 0x07, 0xe6, 0x05, 0xe0, 0xa8, 0x6c, 0x07, 0xe6, 0x03, 0x1a, 0x20, 0x05, 0xe0, 0x30, 0xed,
+    0x52, 0x06, 0xe0, 0x64, 0xa1, 0x00, 0x05, 0xe0, 0x69, 0xb1, 0x07, 0xe0, 0x08, 0x83, 0x90, 0x04,
+    0x85, 0xe0, 0x00, 0x06, 0xe0, 0x01, 0xb5, 0xe2, 0x04, 0x79, 0x10, 0xe0, 0x04, 0xe0, 0x52, 0x00,
+    0x04, 0x54, 0x7d, 0x06, 0x37, 0xe0, 0x58, 0x10, 0x05, 0x73, 0x10, 0x20, 0x05, 0x37, 0x54, 0x90,
+    0x05, 0x73, 0x29, 0x00, 0x05, 0x76, 0x9b, 0x10, 0x06, 0xb0, 0x37, 0x1b, 0x05, 0x70, 0x30, 0xe4,
+    0x00, 0x04, 0xe5, 0x61, 0xb0, 0x04, 0x37, 0x85, 0x05, 0xc7, 0x38, 0x80, 0x05, 0x70, 0xe4, 0x07,
+    0x04, 0x76, 0xe7, 0x00, 0x07, 0xef, 0xa6, 0xc0, 0xe7, 0x7d, 0x06, 0xc3, 0x77, 0x02, 0x04, 0xe5,
+    0x52, 0xe7, 0x04, 0xe7, 0x45, 0xe5, 0x04, 0xed, 0x30, 0xe4, 0x30, 0x04, 0xe7, 0x64, 0xe2, 0x05,
+    0xcb, 0x0c, 0xe7, 0x04, 0xe7, 0x00, 0xe1, 0x04, 0xe0, 0x30, 0xe7, 0x00, 0x03, 0xe7, 0x0d, 0x06,
+    0xc5, 0x40, 0xe6, 0x69, 0x08, 0xef, 0xa0, 0x81, 0x65, 0x40, 0x05, 0x00, 0xe4, 0x02, 0xd0, 0x05,
+    0x9a, 0x08, 0x80, 0x05, 0x92, 0x03, 0x10, 0x05, 0x92, 0x5a, 0xe1, 0x07, 0x90, 0x40, 0x23, 0x70,
+    0x06, 0x96, 0xe4, 0x64, 0x90, 0x05, 0xe3, 0x09, 0x34, 0x06, 0x97, 0x34, 0xc0, 0x07, 0xee, 0x23,
+    0xe6, 0x34, 0x30, 0x06, 0xee, 0x20, 0x95, 0x20, 0x05, 0x39, 0x36, 0x40, 0x05, 0xe6, 0x52, 0x1d,
+    0x05, 0xe6, 0x5a, 0x40, 0xe2, 0x08, 0x85, 0xe6, 0x10, 0xe5, 0x32, 0x00, 0x0b, 0x64, 0xe6, 0x52,
+    0xe0, 0x31, 0x65, 0x40, 0x04, 0xb3, 0xe4, 0x00, 0x06, 0xe6, 0x64, 0x90, 0x20, 0x05, 0xe6, 0x62,
+    0x81, 0x04, 0x1b, 0x04, 0x04, 0xe6, 0x00, 0x70, 0x05, 0x30, 0xe6, 0x10, 0x20, 0x05, 0xe6, 0x37,
+    0x80, 0x05, 0xe6, 0x36, 0x78, 0x04, 0xe6, 0x25, 0xe0, 0x07, 0x37, 0x20, 0x30, 0xe2, 0xd0, 0x08,
+    0xe1, 0x25, 0xe2, 0xac, 0x18, 0x05, 0x1b, 0x06, 0x20, 0x06, 0x60, 0xe0, 0xe1, 0x52, 0x10, 0x05,
+    0xe3, 0xa6, 0x70, 0xe2, 0x06, 0xe2, 0xa2, 0x64, 0x90, 0x04, 0x1b, 0x34, 0x04, 0x1b, 0x00, 0xe0,
+    0x08, 0xe2, 0x08, 0xc2, 0x60, 0xe3, 0x00, 0x04, 0xe2, 0x31, 0x30, 0x06, 0xb3, 0xe2, 0x40, 0xe9,
+    0x10, 0x06, 0xe2, 0x60, 0xe2, 0x40, 0xe9, 0x10, 0x06, 0xe1, 0x57, 0x6c, 0xd0, 0x07, 0xca, 0x22,
+    0x04, 0x10, 0x06, 0x3c, 0x25, 0x88, 0x08, 0xc5, 0x41, 0x64, 0xa0, 0x04, 0xe3, 0x00, 0x40, 0x07,
+    0xe1, 0x25, 0xed, 0x0c, 0x10, 0x05, 0xc7, 0x6c, 0xe7, 0x08, 0x20, 0x80, 0x32, 0xcb, 0x07, 0x80,
+    0x20, 0xe4, 0x6c, 0x00, 0x1d, 0x92, 0x09, 0x52, 0xeb, 0xec, 0x06, 0x17, 0x64, 0x90, 0x20, 0xf0,
+    0x92, 0x30, 0xe6, 0x34, 0x30, 0xeb, 0xc5, 0xe0, 0x08, 0x3c, 0x1a, 0x37, 0x7d, 0x05, 0xc5, 0x48,
     0x10, 0x08, 0xc5, 0xa7, 0xe2, 0x40, 0xe9, 0x10, 0x05, 0xc5, 0xa7, 0xe2, 0x04, 0xe3, 0x50, 0xe2,
     0xd0, 0x08, 0xe3, 0xa8, 0x64, 0x08, 0x80, 0x05, 0xe3, 0x20, 0x30, 0xe7, 0x06, 0xe3, 0x0c, 0x50,
     0xe0, 0x00, 0x07, 0xe3, 0x01, 0xe5, 0x00, 0x40, 0x05, 0xe3, 0x06, 0x49, 0x06, 0xe3, 0x0b, 0x64,
@@ -94,7 +94,7 @@ static const uint8_t chord_data[] = {
     0x50, 0x80, 0x04, 0x54, 0xe9, 0x10, 0x02, 0x52, 0x02, 0x0d, 0x03, 0xe9, 0xe4, 0x00, 0x03, 0xa8,
     0x10, 0x03, 0x45, 0xe5, 0x03, 0x04, 0x10, 0x02, 0x7d, 0x03, 0x65, 0x40, 0x03, 0x64, 0x90, 0x02,
     0x02, 0x02, 0x04, 0x09, 0x06, 0x17, 0x64, 0x90, 0x20, 0x04, 0x1b, 0x00, 0xe8, 0x04, 0x34, 0xe2,
-    0xe8, 0x05, 0xe8, 0xe3, 0xa1, 0xe8, 0x05, 0xe8, 0x34, 0xe2, 0xe8, 0x02, 0xec, 0xf8
+    0xe8, 0x05, 0xe8, 0xe3, 0xa1, 0xe8, 0x05, 0xe8, 0x34, 0xe2, 0xe8, 0x02, 0xeb, 0xf8
 };
 
 // Decode and send 4/8-bit variable-length encoded chord string from buffer
@@ -149,237 +149,237 @@ static void chord_decode_send(uint16_t offset) {
 
 int chord_transition(int state, uint16_t keycode) {
     switch (state) {
+                // z
+                case -219:
+                    if (keycode == KC_SPC) return 63; // "Zeitlinger"
+                    if (keycode == KC_COMMA) return 58; // "smile"
+                    if (keycode == KC_DOT) return 54; // "async"
+                    if (keycode == KC_A) return 48; // "organize"
+                    if (keycode == KC_E) return 42; // "GitHub"
+                    if (keycode == KC_H) return 32; // "Spring starter"
+                    if (keycode == KC_I) return 27; // "spring"
+                    if (keycode == KC_J) return 20; // "javaagent"
+                    if (keycode == KC_O) return 9; // "Grafana Labs"
+                    if (keycode == KC_U) return 0; // "Spring Boot"
+                    break;
                 // x
-                case -208:
-                    if (keycode == KC_SPC) return 133; // "context"
-                    if (keycode == KC_COMMA) return 120; // "declarative config"
-                    if (keycode == KC_DOT) return 114; // "export"
-                    if (keycode == KC_A) return 107; // "example"
-                    if (keycode == KC_E) return 101; // "execute"
-                    if (keycode == KC_H) return 96; // "https"
-                    if (keycode == KC_I) return 90; // "existing"
-                    if (keycode == KC_J) return 83; // "exception"
-                    if (keycode == KC_O) return 73; // "OpenTelemetry"
-                    if (keycode == KC_R) return 68; // "resource"
-                    if (keycode == KC_U) return 64; // "actual"
-                    if (keycode == KC_Y) return 58; // "telemetry"
+                case -206:
+                    if (keycode == KC_SPC) return 145; // "context"
+                    if (keycode == KC_COMMA) return 132; // "declarative config"
+                    if (keycode == KC_DOT) return 126; // "export"
+                    if (keycode == KC_A) return 119; // "example"
+                    if (keycode == KC_E) return 113; // "execute"
+                    if (keycode == KC_H) return 108; // "https"
+                    if (keycode == KC_I) return 102; // "existing"
+                    if (keycode == KC_J) return 95; // "exception"
+                    if (keycode == KC_O) return 85; // "OpenTelemetry"
+                    if (keycode == KC_R) return 80; // "resource"
+                    if (keycode == KC_U) return 76; // "actual"
+                    if (keycode == KC_Y) return 70; // "telemetry"
                     break;
                 // w
-                case -195:
-                    if (keycode == KC_SPC) return 190; // "would"
-                    if (keycode == KC_COMMA) return 182; // "wouldn't"
-                    if (keycode == KC_DOT) return 177; // "await"
-                    if (keycode == KC_A) return 173; // "walk"
-                    if (keycode == KC_E) return 169; // "when"
-                    if (keycode == KC_H) return 165; // "which"
-                    if (keycode == KC_I) return 161; // "will"
-                    if (keycode == KC_J) return 157; // "wrong"
-                    if (keycode == KC_O) return 152; // "without"
-                    if (keycode == KC_R) return 148; // "where"
-                    if (keycode == KC_U) return 143; // "internal"
-                    if (keycode == KC_Y) return 139; // "worry"
+                case -193:
+                    if (keycode == KC_SPC) return 202; // "would"
+                    if (keycode == KC_COMMA) return 194; // "wouldn't"
+                    if (keycode == KC_DOT) return 189; // "await"
+                    if (keycode == KC_A) return 185; // "walk"
+                    if (keycode == KC_E) return 181; // "when"
+                    if (keycode == KC_H) return 177; // "which"
+                    if (keycode == KC_I) return 173; // "will"
+                    if (keycode == KC_J) return 169; // "wrong"
+                    if (keycode == KC_O) return 164; // "without"
+                    if (keycode == KC_R) return 160; // "where"
+                    if (keycode == KC_U) return 155; // "internal"
+                    if (keycode == KC_Y) return 151; // "worry"
                     break;
                 // v
-                case -181:
-                    if (keycode == KC_SPC) return 253; // "even"
-                    if (keycode == KC_COMMA) return 248; // "contrib"
-                    if (keycode == KC_DOT) return 244; // "void"
-                    if (keycode == KC_A) return 237; // "available"
-                    if (keycode == KC_E) return 233; // "very"
-                    if (keycode == KC_H) return 228; // "version"
-                    if (keycode == KC_I) return 222; // "services"
-                    if (keycode == KC_J) return 218; // "notice"
-                    if (keycode == KC_O) return 214; // "over"
-                    if (keycode == KC_R) return 210; // "never"
-                    if (keycode == KC_U) return 206; // "value"
-                    if (keycode == KC_Y) return 199; // "everything"
+                case -180:
+                    if (keycode == KC_SPC) return 261; // "even"
+                    if (keycode == KC_COMMA) return 256; // "contrib"
+                    if (keycode == KC_DOT) return 252; // "void"
+                    if (keycode == KC_A) return 245; // "available"
+                    if (keycode == KC_E) return 241; // "very"
+                    if (keycode == KC_H) return 236; // "version"
+                    if (keycode == KC_I) return 230; // "services"
+                    if (keycode == KC_J) return 226; // "notice"
+                    if (keycode == KC_O) return 222; // "over"
+                    if (keycode == KC_R) return 218; // "never"
+                    if (keycode == KC_U) return 214; // "value"
+                    if (keycode == KC_Y) return 207; // "everything"
+                    break;
+                // t
+                case -166:
+                    if (keycode == KC_SPC) return 328; // "think"
+                    if (keycode == KC_COMMA) return 324; // "tenant"
+                    if (keycode == KC_DOT) return 320; // "type"
+                    if (keycode == KC_A) return 316; // "today"
+                    if (keycode == KC_E) return 312; // "these"
+                    if (keycode == KC_H) return 308; // "other"
+                    if (keycode == KC_I) return 304; // "time"
+                    if (keycode == KC_J) return 299; // "through"
+                    if (keycode == KC_O) return 294; // "thought"
+                    if (keycode == KC_R) return 290; // "there"
+                    if (keycode == KC_T) return 276; // "gregor@zeitlinger.de"
+                    if (keycode == KC_U) return 272; // "though"
+                    if (keycode == KC_Y) return 265; // "thank you"
                     break;
                 // s
                 case -152:
-                    if (keycode == KC_SPC) return 380; // "should"
-                    if (keycode == KC_COMMA) return 374; // "wasn't"
-                    if (keycode == KC_DOT) return 370; // "string"
-                    if (keycode == KC_A) return 366; // "same"
-                    if (keycode == KC_C) return 363; // "this"
-                    if (keycode == KC_E) return 359; // "search"
-                    if (keycode == KC_H) return 355; // "share"
-                    if (keycode == KC_I) return 346; // "someone"
-                    if (keycode == KC_J) return 340; // "subject"
-                    if (keycode == KC_O) return 335; // "slowly"
-                    if (keycode == KC_R) return 329; // "surprise"
-                    if (keycode == KC_U) return 323; // "support"
-                    if (keycode == KC_Y) return 318; // "system"
-                    break;
-                // p
-                case -128:
-                    if (keycode == KC_SPC) return 492; // "people"
-                    if (keycode == KC_COMMA) return 487; // "please"
-                    if (keycode == KC_DOT) return 481; // "promise"
-                    if (keycode == KC_A) return 475; // "privacy"
-                    if (keycode == KC_E) return 471; // "place"
-                    if (keycode == KC_H) return 467; // "http"
-                    if (keycode == KC_I) return 463; // "point"
-                    if (keycode == KC_J) return 457; // "problem"
-                    if (keycode == KC_O) return 451; // "product"
-                    if (keycode == KC_R) return 446; // "parent"
-                    if (keycode == KC_U) return 440; // "public"
-                    if (keycode == KC_Y) return 433; // "probably"
-                    break;
-                // l
-                case -90:
-                    if (keycode == KC_SPC) return 654; // "like"
-                    if (keycode == KC_COMMA) return 650; // "level"
-                    if (keycode == KC_DOT) return 646; // "class"
-                    if (keycode == KC_A) return 643; // "also"
-                    if (keycode == KC_D) return 639; // "with"
-                    if (keycode == KC_E) return 634; // "leave"
-                    if (keycode == KC_H) return 630; // "health"
-                    if (keycode == KC_I) return 626; // "light"
-                    if (keycode == KC_J) return 622; // "large"
-                    if (keycode == KC_O) return 618; // "along"
-                    if (keycode == KC_R) return 614; // "later"
-                    if (keycode == KC_U) return 609; // "almost"
-                    if (keycode == KC_Y) return 606; // "only"
-                    break;
-                // k
-                case -77:
-                    if (keycode == KC_SPC) return 706; // "question"
-                    if (keycode == KC_COMMA) return 701; // "config"
-                    if (keycode == KC_DOT) return 698; // "key"
-                    if (keycode == KC_A) return 693; // "make"
-                    if (keycode == KC_E) return 689; // "keep"
-                    if (keycode == KC_H) return 685; // "check"
-                    if (keycode == KC_I) return 681; // "kind"
-                    if (keycode == KC_J) return 676; // "java"
-                    if (keycode == KC_O) return 672; // "know"
-                    if (keycode == KC_R) return 668; // "work"
-                    if (keycode == KC_U) return 664; // "caller"
-                    if (keycode == KC_Y) return 658; // "quickly"
-                    break;
-                // t
-                case -75:
-                    if (keycode == KC_SPC) return 314; // "think"
-                    if (keycode == KC_COMMA) return 310; // "tenant"
-                    if (keycode == KC_DOT) return 306; // "type"
-                    if (keycode == KC_A) return 302; // "today"
-                    if (keycode == KC_E) return 293; // "these"
-                    if (keycode == KC_H) return 289; // "other"
-                    if (keycode == KC_I) return 285; // "time"
-                    if (keycode == KC_J) return 280; // "through"
-                    if (keycode == KC_O) return 275; // "thought"
-                    if (keycode == KC_R) return 271; // "there"
-                    if (keycode == KC_T) return 712; // "gregor@zeitlinger.de"
-                    if (keycode == KC_U) return 267; // "though"
-                    if (keycode == KC_Y) return 260; // "thank you"
-                    break;
-                // n
-                case -72:
-                    if (keycode == KC_SPC) return 548; // "understand"
-                    if (keycode == KC_COMMA) return 544; // "single"
-                    if (keycode == KC_DOT) return 541; // "null"
-                    if (keycode == KC_A) return 536; // "anyway"
-                    if (keycode == KC_D) return 518; // "instead"
-                    if (keycode == KC_E) return 531; // "number"
-                    if (keycode == KC_H) return 526; // "anything"
-                    if (keycode == KC_I) return 523; // "into"
-                    if (keycode == KC_J) return 351; // "issues"
-                    if (keycode == KC_N) return 731; // "zeitlinger@gmail.com"
-                    if (keycode == KC_O) return 513; // "another"
-                    if (keycode == KC_R) return 510; // "near"
-                    if (keycode == KC_T) return 507; // "that"
-                    if (keycode == KC_U) return 503; // "enough"
-                    if (keycode == KC_Y) return 497; // "company"
+                    if (keycode == KC_SPC) return 390; // "should"
+                    if (keycode == KC_COMMA) return 384; // "wasn't"
+                    if (keycode == KC_DOT) return 380; // "string"
+                    if (keycode == KC_A) return 376; // "same"
+                    if (keycode == KC_C) return 373; // "this"
+                    if (keycode == KC_E) return 369; // "search"
+                    if (keycode == KC_H) return 365; // "share"
+                    if (keycode == KC_I) return 360; // "someone"
+                    if (keycode == KC_J) return 354; // "subject"
+                    if (keycode == KC_O) return 349; // "slowly"
+                    if (keycode == KC_R) return 343; // "surprise"
+                    if (keycode == KC_U) return 337; // "support"
+                    if (keycode == KC_Y) return 332; // "system"
                     break;
                 // r
-                case -64:
-                    if (keycode == KC_SPC) return 429; // "really"
-                    if (keycode == KC_COMMA) return 425; // "route"
-                    if (keycode == KC_DOT) return 421; // "error"
-                    if (keycode == KC_A) return 415; // "program"
-                    if (keycode == KC_E) return 410; // "ready"
-                    if (keycode == KC_G) return 774; // "rights"
-                    if (keycode == KC_H) return 405; // "review"
-                    if (keycode == KC_I) return 401; // "right"
-                    if (keycode == KC_J) return 397; // "return"
-                    if (keycode == KC_L) return 195; // "query"
-                    if (keycode == KC_O) return 392; // "around"
-                    if (keycode == KC_S) return 297; // "request"
-                    if (keycode == KC_T) return 257; // "they"
-                    if (keycode == KC_U) return 389; // "true"
-                    if (keycode == KC_Y) return 385; // "years"
-                    if (keycode == KC_Z) return 52; // "realize"
+                case -135:
+                    if (keycode == KC_SPC) return 461; // "really"
+                    if (keycode == KC_COMMA) return 457; // "route"
+                    if (keycode == KC_DOT) return 453; // "error"
+                    if (keycode == KC_A) return 447; // "program"
+                    if (keycode == KC_E) return 442; // "ready"
+                    if (keycode == KC_G) return 438; // "rights"
+                    if (keycode == KC_H) return 433; // "review"
+                    if (keycode == KC_I) return 429; // "right"
+                    if (keycode == KC_J) return 425; // "return"
+                    if (keycode == KC_L) return 421; // "query"
+                    if (keycode == KC_O) return 416; // "around"
+                    if (keycode == KC_S) return 411; // "request"
+                    if (keycode == KC_T) return 408; // "they"
+                    if (keycode == KC_U) return 405; // "true"
+                    if (keycode == KC_Y) return 401; // "years"
+                    if (keycode == KC_Z) return 395; // "realize"
                     break;
-                // z
-                case -58:
-                    if (keycode == KC_SPC) return 817; // "Zeitlinger"
-                    if (keycode == KC_COMMA) return 47; // "smile"
-                    if (keycode == KC_DOT) return 43; // "async"
-                    if (keycode == KC_A) return 37; // "organize"
-                    if (keycode == KC_E) return 31; // "GitHub"
-                    if (keycode == KC_H) return 21; // "Spring starter"
-                    if (keycode == KC_I) return 16; // "spring"
-                    if (keycode == KC_J) return 9; // "javaagent"
-                    if (keycode == KC_O) return 806; // "Grafana Labs"
-                    if (keycode == KC_U) return 0; // "Spring Boot"
+                // p
+                case -122:
+                    if (keycode == KC_SPC) return 524; // "people"
+                    if (keycode == KC_COMMA) return 519; // "please"
+                    if (keycode == KC_DOT) return 513; // "promise"
+                    if (keycode == KC_A) return 507; // "privacy"
+                    if (keycode == KC_E) return 503; // "place"
+                    if (keycode == KC_H) return 499; // "http"
+                    if (keycode == KC_I) return 495; // "point"
+                    if (keycode == KC_J) return 489; // "problem"
+                    if (keycode == KC_O) return 483; // "product"
+                    if (keycode == KC_R) return 478; // "parent"
+                    if (keycode == KC_U) return 472; // "public"
+                    if (keycode == KC_Y) return 465; // "probably"
+                    break;
+                // n
+                case -106:
+                    if (keycode == KC_SPC) return 599; // "understand"
+                    if (keycode == KC_COMMA) return 595; // "single"
+                    if (keycode == KC_DOT) return 592; // "null"
+                    if (keycode == KC_A) return 587; // "anyway"
+                    if (keycode == KC_D) return 582; // "instead"
+                    if (keycode == KC_E) return 577; // "number"
+                    if (keycode == KC_H) return 572; // "anything"
+                    if (keycode == KC_I) return 569; // "into"
+                    if (keycode == KC_J) return 565; // "issues"
+                    if (keycode == KC_N) return 550; // "zeitlinger@gmail.com"
+                    if (keycode == KC_O) return 545; // "another"
+                    if (keycode == KC_R) return 542; // "near"
+                    if (keycode == KC_T) return 539; // "that"
+                    if (keycode == KC_U) return 535; // "enough"
+                    if (keycode == KC_Y) return 529; // "company"
+                    break;
+                // m
+                case -94:
+                    if (keycode == KC_SPC) return 652; // "more"
+                    if (keycode == KC_COMMA) return 648; // "lgtm"
+                    if (keycode == KC_DOT) return 643; // "method"
+                    if (keycode == KC_A) return 639; // "some"
+                    if (keycode == KC_E) return 634; // "message"
+                    if (keycode == KC_H) return 630; // "might"
+                    if (keycode == KC_I) return 625; // "minute"
+                    if (keycode == KC_J) return 620; // "major"
+                    if (keycode == KC_O) return 615; // "feature"
+                    if (keycode == KC_U) return 611; // "music"
+                    if (keycode == KC_Y) return 606; // "myself"
+                    break;
+                // l
+                case -80:
+                    if (keycode == KC_SPC) return 704; // "like"
+                    if (keycode == KC_COMMA) return 700; // "level"
+                    if (keycode == KC_DOT) return 696; // "class"
+                    if (keycode == KC_A) return 693; // "also"
+                    if (keycode == KC_D) return 689; // "with"
+                    if (keycode == KC_E) return 684; // "leave"
+                    if (keycode == KC_H) return 680; // "health"
+                    if (keycode == KC_I) return 676; // "light"
+                    if (keycode == KC_J) return 672; // "large"
+                    if (keycode == KC_O) return 668; // "along"
+                    if (keycode == KC_R) return 664; // "later"
+                    if (keycode == KC_U) return 659; // "almost"
+                    if (keycode == KC_Y) return 656; // "only"
+                    break;
+                // k
+                case -67:
+                    if (keycode == KC_SPC) return 756; // "question"
+                    if (keycode == KC_COMMA) return 751; // "config"
+                    if (keycode == KC_DOT) return 748; // "key"
+                    if (keycode == KC_A) return 743; // "make"
+                    if (keycode == KC_E) return 739; // "keep"
+                    if (keycode == KC_H) return 735; // "check"
+                    if (keycode == KC_I) return 731; // "kind"
+                    if (keycode == KC_J) return 726; // "java"
+                    if (keycode == KC_O) return 722; // "know"
+                    if (keycode == KC_R) return 718; // "work"
+                    if (keycode == KC_U) return 714; // "caller"
+                    if (keycode == KC_Y) return 708; // "quickly"
                     break;
                 // g
                 case -55:
-                    if (keycode == KC_SPC) return 829; // "again"
-                    if (keycode == KC_COMMA) return 824; // "Gregor"
-                    if (keycode == KC_DOT) return 763; // "Grafana"
-                    if (keycode == KC_A) return 802; // "glance"
-                    if (keycode == KC_E) return 798; // "began"
-                    if (keycode == KC_I) return 769; // "giving"
-                    if (keycode == KC_J) return 758; // "general"
-                    if (keycode == KC_O) return 754; // "group"
-                    if (keycode == KC_R) return 750; // "great"
-                    if (keycode == KC_U) return 746; // "guess"
-                    if (keycode == KC_Y) return 726; // "every"
-                    break;
-                // m
-                case -52:
-                    if (keycode == KC_SPC) return 602; // "more"
-                    if (keycode == KC_COMMA) return 598; // "lgtm"
-                    if (keycode == KC_DOT) return 593; // "method"
-                    if (keycode == KC_A) return 589; // "some"
-                    if (keycode == KC_E) return 584; // "message"
-                    if (keycode == KC_H) return 580; // "might"
-                    if (keycode == KC_I) return 569; // "minute"
-                    if (keycode == KC_J) return 564; // "major"
-                    if (keycode == KC_O) return 837; // "feature"
-                    if (keycode == KC_U) return 560; // "music"
-                    if (keycode == KC_Y) return 555; // "myself"
+                    if (keycode == KC_SPC) return 808; // "again"
+                    if (keycode == KC_COMMA) return 803; // "Gregor"
+                    if (keycode == KC_DOT) return 797; // "Grafana"
+                    if (keycode == KC_A) return 793; // "glance"
+                    if (keycode == KC_E) return 789; // "began"
+                    if (keycode == KC_I) return 784; // "giving"
+                    if (keycode == KC_J) return 779; // "general"
+                    if (keycode == KC_O) return 775; // "group"
+                    if (keycode == KC_R) return 771; // "great"
+                    if (keycode == KC_U) return 767; // "guess"
+                    if (keycode == KC_Y) return 762; // "every"
                     break;
                 // f
-                case -39:
-                    if (keycode == KC_SPC) return 895; // "from"
-                    if (keycode == KC_COMMA) return 891; // "fails"
-                    if (keycode == KC_DOT) return 887; // "false"
-                    if (keycode == KC_A) return 882; // "after"
-                    if (keycode == KC_E) return 878; // "feel"
-                    if (keycode == KC_H) return 875; // "then"
-                    if (keycode == KC_I) return 871; // "first"
-                    if (keycode == KC_J) return 866; // "finger"
-                    if (keycode == KC_L) return 862; // "have"
-                    if (keycode == KC_O) return 854; // "information"
-                    if (keycode == KC_R) return 847; // "software"
-                    if (keycode == KC_U) return 842; // "found"
-                    if (keycode == KC_Y) return 833; // "forty"
+                case -41:
+                    if (keycode == KC_SPC) return 869; // "from"
+                    if (keycode == KC_COMMA) return 865; // "fails"
+                    if (keycode == KC_DOT) return 861; // "false"
+                    if (keycode == KC_A) return 856; // "after"
+                    if (keycode == KC_E) return 852; // "feel"
+                    if (keycode == KC_H) return 849; // "then"
+                    if (keycode == KC_I) return 845; // "first"
+                    if (keycode == KC_J) return 840; // "finger"
+                    if (keycode == KC_L) return 836; // "have"
+                    if (keycode == KC_O) return 828; // "information"
+                    if (keycode == KC_R) return 821; // "software"
+                    if (keycode == KC_U) return 816; // "found"
+                    if (keycode == KC_Y) return 812; // "forty"
                     break;
                 // d
-                case -27:
-                    if (keycode == KC_SPC) return 949; // "didn't"
-                    if (keycode == KC_COMMA) return 943; // "hadn't"
-                    if (keycode == KC_DOT) return 939; // "data"
-                    if (keycode == KC_A) return 932; // "describe"
-                    if (keycode == KC_E) return 928; // "them"
-                    if (keycode == KC_H) return 925; // "than"
-                    if (keycode == KC_I) return 920; // "during"
-                    if (keycode == KC_J) return 915; // "build"
-                    if (keycode == KC_O) return 574; // "import"
-                    if (keycode == KC_R) return 911; // "their"
-                    if (keycode == KC_U) return 905; // "products"
-                    if (keycode == KC_Y) return 899; // "already"
+                case -28:
+                    if (keycode == KC_SPC) return 929; // "didn't"
+                    if (keycode == KC_COMMA) return 923; // "hadn't"
+                    if (keycode == KC_DOT) return 919; // "data"
+                    if (keycode == KC_A) return 912; // "describe"
+                    if (keycode == KC_E) return 908; // "them"
+                    if (keycode == KC_H) return 905; // "than"
+                    if (keycode == KC_I) return 900; // "during"
+                    if (keycode == KC_J) return 895; // "build"
+                    if (keycode == KC_O) return 889; // "import"
+                    if (keycode == KC_R) return 885; // "their"
+                    if (keycode == KC_U) return 879; // "products"
+                    if (keycode == KC_Y) return 873; // "already"
                     break;
                 // c
                 case -13:
@@ -387,16 +387,16 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_COMMA) return 1009; // "couldn't"
                     if (keycode == KC_DOT) return 1005; // "const"
                     if (keycode == KC_A) return 1000; // "actually"
-                    if (keycode == KC_C) return 778; // "gregor.zeitlinger@grafana.com"
-                    if (keycode == KC_E) return 994; // "service"
-                    if (keycode == KC_H) return 989; // "research"
-                    if (keycode == KC_I) return 985; // "click"
-                    if (keycode == KC_J) return 979; // "project"
-                    if (keycode == KC_N) return 975; // "been"
-                    if (keycode == KC_O) return 970; // "continue"
-                    if (keycode == KC_R) return 966; // "across"
-                    if (keycode == KC_U) return 961; // "current"
-                    if (keycode == KC_Y) return 956; // "policy"
+                    if (keycode == KC_C) return 980; // "gregor.zeitlinger@grafana.com"
+                    if (keycode == KC_E) return 974; // "service"
+                    if (keycode == KC_H) return 969; // "research"
+                    if (keycode == KC_I) return 965; // "click"
+                    if (keycode == KC_J) return 959; // "project"
+                    if (keycode == KC_N) return 955; // "been"
+                    if (keycode == KC_O) return 950; // "continue"
+                    if (keycode == KC_R) return 946; // "across"
+                    if (keycode == KC_U) return 941; // "current"
+                    if (keycode == KC_Y) return 936; // "policy"
                     break;
                 // b
                 case -2:
@@ -414,21 +414,21 @@ int chord_transition(int state, uint16_t keycode) {
                 case -1:
                     if (keycode == KC_B) return -2; // b...
                     if (keycode == KC_C) return -13; // c...
-                    if (keycode == KC_D) return -27; // d...
-                    if (keycode == KC_F) return -39; // f...
+                    if (keycode == KC_D) return -28; // d...
+                    if (keycode == KC_F) return -41; // f...
                     if (keycode == KC_G) return -55; // g...
-                    if (keycode == KC_K) return -77; // k...
-                    if (keycode == KC_L) return -90; // l...
-                    if (keycode == KC_M) return -52; // m...
-                    if (keycode == KC_N) return -72; // n...
-                    if (keycode == KC_P) return -128; // p...
-                    if (keycode == KC_R) return -64; // r...
+                    if (keycode == KC_K) return -67; // k...
+                    if (keycode == KC_L) return -80; // l...
+                    if (keycode == KC_M) return -94; // m...
+                    if (keycode == KC_N) return -106; // n...
+                    if (keycode == KC_P) return -122; // p...
+                    if (keycode == KC_R) return -135; // r...
                     if (keycode == KC_S) return -152; // s...
-                    if (keycode == KC_T) return -75; // t...
-                    if (keycode == KC_V) return -181; // v...
-                    if (keycode == KC_W) return -195; // w...
-                    if (keycode == KC_X) return -208; // x...
-                    if (keycode == KC_Z) return -58; // z...
+                    if (keycode == KC_T) return -166; // t...
+                    if (keycode == KC_V) return -180; // v...
+                    if (keycode == KC_W) return -193; // w...
+                    if (keycode == KC_X) return -206; // x...
+                    if (keycode == KC_Z) return -219; // z...
                     break;
     default:
         // Invalid transition, stop chord mode
