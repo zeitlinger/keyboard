@@ -115,10 +115,10 @@ Currently unused features:
 
 | Chord | output               |
 |-------|----------------------|
-| b     | "been"               |
+| b     | "about"              |
 | b,    | "observability"      |
 | b.    | "boolean"            |
-| ba    | "about"              |
+| ba    | "been"               |
 | bh    | "behind"             |
 | bi    | "being"              |
 | bj    | "between"            |
@@ -142,8 +142,8 @@ Currently unused features:
 | d,    | "hadn't"             |
 | d.    | "data"               |
 | da    | "today"              |
-| de    | "video"              |
-| dh    | "third"              |
+| de    | "them"               |
+| dh    | "than"               |
 | di    | "during"             |
 | dj    | "build"              |
 | dr    | "their"              |
@@ -152,11 +152,11 @@ Currently unused features:
 | f     | "from"               |
 | f,    | "fails"              |
 | f.    | "false"              |
-| fa    | "family"             |
+| fa    | "after"              |
 | fe    | "feel"               |
-| fh    | "fifth"              |
-| fi    | "finger"             |
-| fj    | "first"              |
+| fh    | "then"               |
+| fi    | "first"              |
+| fj    | "finger"             |
 | fo    | "information"        |
 | fr    | "software"           |
 | fu    | "found"              |
@@ -173,8 +173,10 @@ Currently unused features:
 | gr    | "great"              |
 | gu    | "guess"              |
 | gy    | "every"              |
-| j     | "java"               |
+| j     | "just"               |
 | ja    | "import"             |
+| je    | "when"               |
+| jo    | "other"              |
 | k     | "question"           |
 | k,    | "config"             |
 | k.    | "key"                |
@@ -182,15 +184,15 @@ Currently unused features:
 | ke    | "keep"               |
 | kh    | "check"              |
 | ki    | "kind"               |
-| kj    | "just"               |
+| kj    | "java"               |
 | ko    | "know"               |
 | kr    | "work"               |
 | ku    | "caller"             |
 | ky    | "quickly"            |
-| l     | "length"             |
+| l     | "like"               |
 | l,    | "level"              |
 | l.    | "class"              |
-| la    | "laugh"              |
+| la    | "also"               |
 | le    | "leave"              |
 | lh    | "health"             |
 | li    | "light"              |
@@ -198,11 +200,11 @@ Currently unused features:
 | lo    | "along"              |
 | lr    | "later"              |
 | lu    | "almost"             |
-| ly    | "always"             |
+| ly    | "only"               |
 | m     | "more"               |
 | m,    | "lgtm"               |
 | m.    | "method"             |
-| ma    | "someone"            |
+| ma    | "some"               |
 | me    | "message"            |
 | mh    | "might"              |
 | mi    | "minute"             |
@@ -215,7 +217,7 @@ Currently unused features:
 | na    | "anyway"             |
 | ne    | "number"             |
 | nh    | "anything"           |
-| ni    | "university"         |
+| ni    | "into"               |
 | nj    | "instead"            |
 | no    | "another"            |
 | nr    | "near"               |
@@ -260,29 +262,33 @@ Currently unused features:
 | sa    | "same"               |
 | se    | "search"             |
 | sh    | "share"              |
-| si    | "silence"            |
+| si    | "someone"            |
 | sj    | "subject"            |
 | so    | "slowly"             |
 | sr    | "surprise"           |
 | su    | "support"            |
 | sy    | "system"             |
 | t     | "think"              |
-| t,    | "type"               |
-| t.    | "tenant"             |
-| ta    | "contact"            |
-| te    | "notice"             |
-| th    | "thanks"             |
+| t,    | "tenant"             |
+| t.    | "type"               |
+| ta    | "that"               |
+| te    | "these"              |
+| th    | "this"               |
+| ti    | "time"               |
 | tj    | "through"            |
 | to    | "thought"            |
 | tr    | "there"              |
 | tu    | "though"             |
-| ty    | "thank you"          |
+| ty    | "they"               |
 | v     | "have"               |
 | v,    | "contrib"            |
+| v.    | "void"               |
 | va    | "available"          |
+| ve    | "very"               |
 | vh    | "version"            |
 | vi    | "services"           |
-| vj    | "like"               |
+| vj    | "notice"             |
+| vo    | "over"               |
 | vr    | "never"              |
 | vu    | "value"              |
 | vy    | "everything"         |
@@ -291,7 +297,7 @@ Currently unused features:
 | w.    | "await"              |
 | wa    | "walk"               |
 | wh    | "which"              |
-| wi    | "window"             |
+| wi    | "with"               |
 | wj    | "wrong"              |
 | wo    | "without"            |
 | wr    | "where"              |
@@ -311,13 +317,14 @@ Currently unused features:
 | xy    | "telemetry"          |
 | z     | "realize"            |
 | z,    | "smile"              |
+| z.    | "async"              |
 | za    | "organize"           |
 | ze    | "github"             |
 | zh    | "spring starter"     |
 | zj    | "javaagent"          |
 | zr    | "rolldice"           |
 | zu    | "spring boot"        |
-| zy    | "async"              |
+| zy    | "Grafana Labs"       |
 
 ## Layout
 
