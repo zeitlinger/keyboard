@@ -348,6 +348,7 @@ Average improvement for heavy users:
 - [Trie Data Structure](https://en.wikipedia.org/wiki/Trie)
 - [Word Frequency Analysis](https://en.wikipedia.org/wiki/Most_common_words_in_English)
 - [Keyboard Layouts](https://en.wikipedia.org/wiki/Keyboard_layout)
+- [Sartak's Keyboard Layout](https://github.com/sartak/keyboard)
 
 ## Credits
 

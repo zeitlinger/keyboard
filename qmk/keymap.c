@@ -77,6 +77,17 @@ bool process_chord_mode(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING("s ");
                 chord_state = CHORD_INACTIVE;
                 return false;
+            case KC_DOT:
+                tap_code16(KC_BSPC);
+                SEND_STRING(". ");
+                add_oneshot_mods(MOD_BIT(KC_LSFT));
+                chord_state = CHORD_INACTIVE;
+                return false;
+            case KC_COMMA:
+                tap_code16(KC_BSPC);
+                SEND_STRING(", ");
+                chord_state = CHORD_INACTIVE;
+                return false;
         }
 
         // If not a modifier key, exit CHORD_MODIFIER state and process normally
