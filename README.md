@@ -65,7 +65,7 @@ Currently unused features:
 
 | Magic |   Magic A   | Magic B  | Magic C |
 |:-----:|:-----------:|:--------:|:-------:|
-|   a   |             |          |    u    |
+|   a   |             |    u     |    u    |
 |   b   |      l      | "ecause" |    l    |
 |   c   |      k      |    p     |    k    |
 |   d   |  "oesn't"   |  "oes"   | "on't"  |
@@ -85,7 +85,7 @@ Currently unused features:
 |   r   |      k      |          |         |
 |   s   |      p      |  "ion"   |    p    |
 |   t   |    "ion"    |  "ing"   |  "ion"  |
-|   u   |             |          |    a    |
+|   u   |             |    a     |         |
 |   v   |    "er"     |   "en"   |         |
 |   w   |      n      |    s     |         |
 |   x   |      p      |    c     |         |
