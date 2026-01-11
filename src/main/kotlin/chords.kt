@@ -96,7 +96,7 @@ fun buildChordTrie(chordTable: Table?): ChordInfo? {
     )
 }
 
-fun generateChordTransitions(chordInfo: ChordInfo): String {
+fun generateChordTransitions(translator: QmkTranslator, chordInfo: ChordInfo): String {
     val lines = mutableListOf<String>()
 
     for ((state, keyMap) in chordInfo.transitions.toSortedMap()) {
@@ -106,11 +106,7 @@ fun generateChordTransitions(chordInfo: ChordInfo): String {
         }
         lines.add("        case $state:")
         for ((key, nextState) in keyMap.toSortedMap()) {
-            val qmkKey =
-                when (key) {
-                    " " -> "KC_SPC"
-                    else -> "KC_${key.uppercase()}"
-                }
+            val qmkKey = translator.toQmkIgnoringPosition(key)
             lines.add("            if (keycode == $qmkKey) return $nextState;")
         }
         lines.add("            break;")
@@ -302,7 +298,11 @@ private fun tryEncodeChordStrings(outputs: Map<Int, String>): ChordEncoding? {
     return ChordEncoding(encodedData, charToCode, codeToChar, totalDataSize, decoderOverhead, totalSize)
 }
 
-private fun generateEncodedOutputs(chordInfo: ChordInfo, encoding: ChordEncoding, stateToByteOffset: Map<Int, Int>): String {
+private fun generateEncodedOutputs(
+    chordInfo: ChordInfo,
+    encoding: ChordEncoding,
+    stateToByteOffset: Map<Int, Int>
+): String {
     // Return empty - we'll use a special marker to indicate direct offset mode
     return "DIRECT_OFFSET_MODE"
 }

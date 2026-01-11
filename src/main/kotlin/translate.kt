@@ -15,8 +15,9 @@ data class QmkKey(
 
     companion object {
         fun substitution(kay: String, substitutionCombo: String): QmkKey {
-           return QmkKey(kay, substitutionCombo)
+            return QmkKey(kay, substitutionCombo)
         }
+
         fun of(key: String): QmkKey {
             return QmkKey(key, null)
         }
@@ -82,10 +83,7 @@ class QmkTranslator(
         return key
             .let { symbols.replace(it, pos, this) }
             .let { translatedKey ->
-                map.getOrDefault(
-                    translatedKey.replaceFirstChar { it.titlecase() },
-                    translatedKey
-                )
+                toQmkIgnoringPosition(translatedKey)
             }
             .let {
                 val substitutionCombo = if (it.startsWith("\"") && it.endsWith("\"")) it else null
@@ -96,6 +94,11 @@ class QmkTranslator(
                 }
             }
     }
+
+    fun toQmkIgnoringPosition(translatedKey: String): String = map.getOrDefault(
+        translatedKey.replaceFirstChar { it.titlecase() },
+        translatedKey
+    )
 
     fun reachLayer(layerName: LayerName, pos: KeyPosition, activation: LayerActivation): LayerRef {
         val option = layerOptions[layerName] ?: throw IllegalArgumentException("unknown layer $layerName in $pos")

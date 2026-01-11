@@ -144,7 +144,7 @@ fun run(args: GeneratorArgs) {
             "customKeycodesOnPress" to customKeycodes(translator, CustomCommandType.OnPress),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
             "magic" to translator.magic.map { magicBlock(it) }.indented(12),
-            "chordTransitions" to (finalChordInfo?.let { generateChordTransitions(it).prependIndent(" ".repeat(8)) } ?: "" as String),
+            "chordTransitions" to (finalChordInfo?.let { generateChordTransitions(translator, it).prependIndent(" ".repeat(8)) } ?: "" as String),
             "chordDecoder" to (encodedChordData?.decoder ?: ""),
             "oneShotOnUpLayerPressed" to translator.oneShotOnUpLayer.sortedBy { it.up.const() }
                 .map {

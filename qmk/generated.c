@@ -65,11 +65,12 @@ static const uint8_t chord_data[] = {
     0x28, 0x96, 0x02, 0x06, 0xab, 0x28, 0x72, 0x00, 0x06, 0x62, 0x91, 0x72, 0x0e, 0x08, 0xab, 0x8c,
     0x60, 0x86, 0x02, 0x06, 0x2b, 0x89, 0xc1, 0x00, 0x06, 0xab, 0xa8, 0x87, 0x00, 0x05, 0x0b, 0x99,
     0x55, 0x01, 0x08, 0x04, 0x1c, 0x20, 0xc8, 0x4a, 0x07, 0x07, 0x10, 0x6a, 0x16, 0x00, 0x08, 0xab,
-    0x28, 0xd4, 0x86, 0x0d, 0x08, 0x62, 0x05, 0x25, 0x10, 0x72, 0x05, 0xab, 0x28, 0xd4, 0x00, 0x07,
-    0x12, 0x04, 0x08, 0xc0, 0x00, 0x08, 0x52, 0x1d, 0x33, 0xc0, 0x39, 0x06, 0x12, 0x84, 0x00, 0x08,
-    0x05, 0x92, 0x00, 0x51, 0x01, 0x05, 0x12, 0x89, 0x55, 0x01, 0x07, 0x12, 0x20, 0x03, 0x28, 0x00,
-    0x04, 0x52, 0xac, 0x0a, 0x06, 0x12, 0x24, 0x33, 0x1a, 0x07, 0x12, 0x2c, 0xa1, 0x0e, 0x00, 0x06,
-    0x12, 0xcc, 0x42, 0x00, 0x05, 0x42, 0x16, 0x15, 0x00, 0x04, 0x12, 0x80, 0x01
+    0x28, 0xd4, 0x86, 0x0d, 0x08, 0x62, 0x05, 0x25, 0x10, 0x72, 0x05, 0xab, 0x28, 0xd4, 0x00, 0x0d,
+    0x45, 0x1e, 0x40, 0xa8, 0x90, 0x06, 0x99, 0xe0, 0x00, 0x07, 0x12, 0x04, 0x08, 0xc0, 0x00, 0x08,
+    0x52, 0x1d, 0x33, 0xc0, 0x39, 0x06, 0x12, 0x84, 0x00, 0x08, 0x05, 0x92, 0x00, 0x51, 0x01, 0x05,
+    0x12, 0x89, 0x55, 0x01, 0x07, 0x12, 0x20, 0x03, 0x28, 0x00, 0x04, 0x52, 0xac, 0x0a, 0x06, 0x12,
+    0x24, 0x33, 0x1a, 0x07, 0x12, 0x2c, 0xa1, 0x0e, 0x00, 0x06, 0x12, 0xcc, 0x42, 0x00, 0x05, 0x42,
+    0x16, 0x15, 0x00, 0x04, 0x12, 0x80, 0x01
 };
 
 // Decode and send 5-bit packed chord string from buffer
@@ -105,12 +106,12 @@ static void chord_decode_send(const uint8_t* data) {
 int chord_transition(int state, uint16_t keycode) {
     switch (state) {
                 // z
-                case -179:
-                    if (keycode == KC_SPC) return 0;
+                case -180:
+                    if (keycode ==  ) return 0;
                     break;
                 // w
-                case -167:
-                    if (keycode == KC_SPC) return 58;
+                case -168:
+                    if (keycode ==  ) return 58;
                     if (keycode == KC_A) return 54;
                     if (keycode == KC_H) return 49;
                     if (keycode == KC_I) return 44;
@@ -123,15 +124,15 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_Y) return 6;
                     break;
                 // v
-                case -162:
-                    if (keycode == KC_SPC) return 84;
+                case -163:
+                    if (keycode ==  ) return 84;
                     if (keycode == KC_A) return 77;
                     if (keycode == KC_I) return 71;
                     if (keycode == KC_Y) return 63;
                     break;
                 // t
-                case -147:
-                    if (keycode == KC_SPC) return 159;
+                case -148:
+                    if (keycode ==  ) return 159;
                     if (keycode == KC_A) return 153;
                     if (keycode == KC_B) return 148;
                     if (keycode == KC_C) return 143;
@@ -147,8 +148,8 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_Y) return 88;
                     break;
                 // s
-                case -132:
-                    if (keycode == KC_SPC) return 237;
+                case -133:
+                    if (keycode ==  ) return 237;
                     if (keycode == KC_C) return 232;
                     if (keycode == KC_D) return 226;
                     if (keycode == KC_E) return 221;
@@ -164,8 +165,8 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_Y) return 164;
                     break;
                 // r
-                case -116:
-                    if (keycode == KC_SPC) return 317;
+                case -117:
+                    if (keycode ==  ) return 317;
                     if (keycode == KC_A) return 311;
                     if (keycode == KC_E) return 306;
                     if (keycode == KC_H) return 301;
@@ -182,8 +183,8 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_Y) return 242;
                     break;
                 // p
-                case -103:
-                    if (keycode == KC_SPC) return 381;
+                case -104:
+                    if (keycode ==  ) return 381;
                     if (keycode == KC_A) return 375;
                     if (keycode == KC_E) return 370;
                     if (keycode == KC_J) return 364;
@@ -197,8 +198,8 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_Y) return 322;
                     break;
                 // n
-                case -88:
-                    if (keycode == KC_SPC) return 459;
+                case -89:
+                    if (keycode ==  ) return 459;
                     if (keycode == KC_A) return 454;
                     if (keycode == KC_C) return 449;
                     if (keycode == KC_D) return 444;
@@ -214,8 +215,8 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_Y) return 386;
                     break;
                 // m
-                case -78:
-                    if (keycode == KC_SPC) return 509;
+                case -79:
+                    if (keycode ==  ) return 509;
                     if (keycode == KC_A) return 503;
                     if (keycode == KC_E) return 497;
                     if (keycode == KC_H) return 492;
@@ -226,8 +227,8 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_Y) return 467;
                     break;
                 // l
-                case -65:
-                    if (keycode == KC_SPC) return 568;
+                case -66:
+                    if (keycode ==  ) return 568;
                     if (keycode == KC_A) return 563;
                     if (keycode == KC_E) return 558;
                     if (keycode == KC_F) return 552;
@@ -241,13 +242,13 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_Y) return 513;
                     break;
                 // k
-                case -62:
-                    if (keycode == KC_SPC) return 579;
+                case -63:
+                    if (keycode ==  ) return 579;
                     if (keycode == KC_Y) return 573;
                     break;
                 // g
-                case -51:
-                    if (keycode == KC_SPC) return 632;
+                case -52:
+                    if (keycode ==  ) return 632;
                     if (keycode == KC_A) return 627;
                     if (keycode == KC_D) return 622;
                     if (keycode == KC_E) return 617;
@@ -259,8 +260,8 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_U) return 585;
                     break;
                 // f
-                case -39:
-                    if (keycode == KC_SPC) return 692;
+                case -40:
+                    if (keycode ==  ) return 692;
                     if (keycode == KC_A) return 687;
                     if (keycode == KC_G) return 682;
                     if (keycode == KC_I) return 677;
@@ -273,8 +274,8 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_U) return 643;
                     break;
                 // d
-                case -30:
-                    if (keycode == KC_SPC) return 735;
+                case -31:
+                    if (keycode ==  ) return 735;
                     if (keycode == KC_A) return 730;
                     if (keycode == KC_C) return 725;
                     if (keycode == KC_E) return 720;
@@ -284,8 +285,8 @@ int chord_transition(int state, uint16_t keycode) {
                     if (keycode == KC_Y) return 696;
                     break;
                 // c
-                case -15:
-                    if (keycode == KC_SPC) return 810;
+                case -16:
+                    if (keycode ==  ) return 810;
                     if (keycode == KC_A) return 804;
                     if (keycode == KC_D) return 798;
                     if (keycode == KC_E) return 792;
@@ -302,36 +303,37 @@ int chord_transition(int state, uint16_t keycode) {
                     break;
                 // b
                 case -2:
-                    if (keycode == KC_SPC) return 873;
-                    if (keycode == KC_A) return 868;
-                    if (keycode == KC_D) return 863;
-                    if (keycode == KC_E) return 857;
-                    if (keycode == KC_H) return 852;
-                    if (keycode == KC_J) return 815;
-                    if (keycode == KC_K) return 848;
-                    if (keycode == KC_L) return 842;
-                    if (keycode == KC_N) return 837;
-                    if (keycode == KC_R) return 832;
-                    if (keycode == KC_T) return 827;
-                    if (keycode == KC_U) return 821;
+                    if (keycode ==  ) return 883;
+                    if (keycode == KC_COMMA) return 815;
+                    if (keycode == KC_A) return 878;
+                    if (keycode == KC_D) return 873;
+                    if (keycode == KC_E) return 867;
+                    if (keycode == KC_H) return 862;
+                    if (keycode == KC_J) return 825;
+                    if (keycode == KC_K) return 858;
+                    if (keycode == KC_L) return 852;
+                    if (keycode == KC_N) return 847;
+                    if (keycode == KC_R) return 842;
+                    if (keycode == KC_T) return 837;
+                    if (keycode == KC_U) return 831;
                     break;
                 case -1:
                     if (keycode == KC_B) return -2;
-                    if (keycode == KC_C) return -15;
-                    if (keycode == KC_D) return -30;
-                    if (keycode == KC_F) return -39;
-                    if (keycode == KC_G) return -51;
-                    if (keycode == KC_K) return -62;
-                    if (keycode == KC_L) return -65;
-                    if (keycode == KC_M) return -78;
-                    if (keycode == KC_N) return -88;
-                    if (keycode == KC_P) return -103;
-                    if (keycode == KC_R) return -116;
-                    if (keycode == KC_S) return -132;
-                    if (keycode == KC_T) return -147;
-                    if (keycode == KC_V) return -162;
-                    if (keycode == KC_W) return -167;
-                    if (keycode == KC_Z) return -179;
+                    if (keycode == KC_C) return -16;
+                    if (keycode == KC_D) return -31;
+                    if (keycode == KC_F) return -40;
+                    if (keycode == KC_G) return -52;
+                    if (keycode == KC_K) return -63;
+                    if (keycode == KC_L) return -66;
+                    if (keycode == KC_M) return -79;
+                    if (keycode == KC_N) return -89;
+                    if (keycode == KC_P) return -104;
+                    if (keycode == KC_R) return -117;
+                    if (keycode == KC_S) return -133;
+                    if (keycode == KC_T) return -148;
+                    if (keycode == KC_V) return -163;
+                    if (keycode == KC_W) return -168;
+                    if (keycode == KC_Z) return -180;
                     break;
     default:
         // Invalid transition, stop chord mode
