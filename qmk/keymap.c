@@ -63,7 +63,7 @@ bool process_chord_mode(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING("ed ");
                 chord_state = CHORD_INACTIVE;
                 return false;
-            case _HANDLER_CHORD_KEY:
+            case MAGIC_C:
                 tap_code16(KC_BSPC);
                 SEND_STRING("s ");
                 chord_state = CHORD_INACTIVE;
