@@ -100,7 +100,3 @@ COMB(S_C_BASE_KC_V                      , S(KC_V)                            , S
 COMB(S_C_BASE_KC_Z                      , S(KC_Z)                            , KC_COLN, S(KC_S))
 SUBS(SUB_1                              , "qu"                               , KC_ESC, KC_S)
 SUBS(SUB_2                              , "Qu"                               , S(KC_ESC), S(KC_S))
-SUBS(SUB_3                              , "zeitlinger@gmail.com"             , C(KC_1), C(KC_5))
-SUBS(SUB_4                              , "gregor@zeitlinger.de"             , C(KC_2), C(KC_6))
-SUBS(SUB_5                              , "gregor.zeitlinger@grafana.com"    , C(KC_3), C(KC_7))
-SUBS(SUB_6                              , "Gregor Zeitlinger"                , C(KC_4), C(KC_8))
