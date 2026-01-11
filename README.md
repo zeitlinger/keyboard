@@ -118,7 +118,7 @@ Currently unused features:
 | b,    | "observability" |             
 | c     | "could"         |
 | ca    | "actually"      |
-| cd    | "couldn't"      |
+| c,    | "couldn't"      |
 | ce    | "service"       |
 | ch    | "research"      |
 | ci    | "click"         |
@@ -135,7 +135,7 @@ Currently unused features:
 | dc    | "decide"        |
 | de    | "video"         |
 | df    | "different"     |
-| dn    | "hadn't"        |
+| d,    | "hadn't"        |
 | du    | "products"      |
 | dy    | "already"       |
 | f     | "from"          |
@@ -230,7 +230,7 @@ Currently unused features:
 | si    | "silence"       |
 | sl    | "slightly"      |
 | sm    | "something"     |
-| sn    | "wasn't"        |
+| s,    | "wasn't"        |
 | so    | "slowly"        |
 | sp    | "suppose"       |
 | sr    | "surprise"      |
@@ -264,7 +264,7 @@ Currently unused features:
 | wr    | "where"         |
 | ws    | "reviews"       |
 | wt    | "what's"        |
-| wu    | "wouldn't"      |
+| w,    | "wouldn't"      |
 | wy    | "worry"         |
 | z     | "realize"       |
 
