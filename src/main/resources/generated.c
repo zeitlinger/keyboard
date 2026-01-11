@@ -14,7 +14,8 @@ int chord_transition(int state, uint16_t keycode) {
     switch (state) {
 ${chordTransitions}
     default:
-        return state; // Invalid transition, ignore and stay in current state
+        // Invalid transition, stop chord mode
+        return 0;
     }
     return 0;
 }
