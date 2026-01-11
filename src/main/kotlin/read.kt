@@ -47,18 +47,6 @@ fun translateKey(
                 else -> keyWithModifier(def, translator, pos)
             }
 
-            def.contains("/") && def.length > 1 -> {
-                val parts = def.split("/")
-                val up = parts[0].trim()
-                val down = parts[1].trim()
-                val key = layerKey(translator, pos, down, LayerActivation.Hold)
-                translator.reachLayer(up, pos, LayerActivation.Hidden)
-                if (translator.oneShotOnUpLayer.none { it.down == down }) {
-                    translator.oneShotOnUpLayer.add(OneShotOnUpLayer(down, up, key))
-                }
-                key
-            }
-
             else -> translateSimpleKey(translator, def, pos)
         }
     }

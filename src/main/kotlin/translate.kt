@@ -24,12 +24,6 @@ data class QmkKey(
     }
 }
 
-data class OneShotOnUpLayer(
-    val down: LayerName,
-    val up: LayerName,
-    val activation: Key,
-)
-
 data class MagicInfo(
     val trigger: QmkKey,
     val press: MutableMap<QmkKey, String>,
@@ -53,7 +47,6 @@ class QmkTranslator(
     val gotKeys: MutableMap<String, MutableList<String>>,
     val noHoldKeys: List<QmkKey>,
     val magic: List<MagicInfo>,
-    val oneShotOnUpLayer: MutableList<OneShotOnUpLayer>,
     val originalKeys: MutableMap<KeyPosition, QmkKey>,
 ) {
 

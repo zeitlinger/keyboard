@@ -146,14 +146,6 @@ fun run(args: GeneratorArgs) {
             "magic" to translator.magic.map { magicBlock(it) }.indented(12),
             "chordTransitions" to (finalChordInfo?.let { generateChordTransitions(translator, it).prependIndent(" ".repeat(8)) } ?: "" as String),
             "chordDecoder" to (encodedChordData?.decoder ?: ""),
-            "oneShotOnUpLayerPressed" to translator.oneShotOnUpLayer.sortedBy { it.up.const() }
-                .map {
-                    "case ${it.activation.key.key}: alternateLayer = ${it.up.const()}; break;"
-                }.indented(8),
-            "oneShotOnUpLayerKey" to translator.oneShotOnUpLayer.sortedBy { it.up.const() }
-                .map {
-                    "case ${it.up.const()}:\n${oneShotOnUpLayerKey(it, layers)}"
-                }.indented(12),
         )
     )
 
@@ -257,22 +249,6 @@ fun customKeycodes(translator: QmkTranslator, type: CustomCommandType): String =
 
 fun holdOnOtherKeyPress(layerTapToggle: Set<QmkKey>): String =
     layerTapToggle.map { "case ${it}: return true;" }.indented(4)
-
-fun oneShotOnUpLayerKey(oneShotOnUpLayer: OneShotOnUpLayer, layers: List<Layer>): String {
-    val up = layers.single { it.name == oneShotOnUpLayer.up }
-    val base = layers.first()
-    val list = base.rows.flatMapIndexed { rowIndex, row ->
-        row.flatMapIndexed { columnIndex, key ->
-            val upKey = up.rows[rowIndex][columnIndex]
-            if (upKey.isReal()) {
-                listOf("    case ${key.keyWithModifier.key}: return tap(${upKey.keyWithModifier.key});")
-            } else {
-                emptyList()
-            }
-        }
-    }
-    return listOf("switch (keycode) {\n${list.joinToString("\n")}", "}", "break;").indented(4)
-}
 
 private fun List<String>.indented(indent: Int): String =
     this.joinToString("\n").prependIndent(" ".repeat(indent))

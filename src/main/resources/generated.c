@@ -3,7 +3,6 @@
  * ${generationNote}
  */
 
-int alternateLayer = -1;
 int layer = _BASE;
 #define CHORD_ROOT -1
 #define CHORD_INACTIVE -10000
@@ -38,20 +37,6 @@ bool tap(uint16_t keycode) {
 }
 
 bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
-    if (alternateLayer >= 0 && record->event.pressed) {
-        int al = alternateLayer;
-        alternateLayer = -1;
-        if (layer == _BASE) {
-            switch (al) {
-${oneShotOnUpLayerKey}
-            }
-        }
-    } else if (layer == _BASE && record->event.pressed) {
-        switch (keycode) {
-${oneShotOnUpLayerPressed}
-        }
-    }
-
     if (record->tap.count) {
         if (record->event.pressed) {
             switch (keycode) {
