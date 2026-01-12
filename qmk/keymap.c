@@ -61,6 +61,11 @@ bool process_chord_mode(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING("ing ");
                 chord_state = CHORD_INACTIVE;
                 return false;
+            case N_T:
+                tap_code16(KC_BSPC);
+                SEND_STRING("n't ");
+                chord_state = CHORD_INACTIVE;
+                return false;
             case MAGIC_A:
                 tap_code16(KC_BSPC);
                 SEND_STRING("ly ");
