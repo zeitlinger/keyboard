@@ -59,27 +59,27 @@ bool process_chord_mode(uint16_t keycode, keyrecord_t *record) {
                     tap_code16(KC_BSPC); // Delete the vowel
                 }
                 SEND_STRING("ing ");
-                chord_state = CHORD_INACTIVE;
+                // Stay in CHORD_MODIFIER to allow chaining suffixes like "ly"
                 return false;
             case N_T:
                 tap_code16(KC_BSPC);
                 SEND_STRING("n't ");
-                chord_state = CHORD_INACTIVE;
+                // Stay in CHORD_MODIFIER to allow chaining suffixes like "ly"
                 return false;
             case MAGIC_A:
                 tap_code16(KC_BSPC);
-                SEND_STRING("ly ");
-                chord_state = CHORD_INACTIVE;
+                SEND_STRING("ed ");
+                // Stay in CHORD_MODIFIER to allow chaining suffixes like "ly"
                 return false;
             case MAGIC_B:
                 tap_code16(KC_BSPC);
-                SEND_STRING("ed ");
-                chord_state = CHORD_INACTIVE;
+                SEND_STRING("ly ");
+                // Stay in CHORD_MODIFIER to allow chaining suffixes like "ly"
                 return false;
             case MAGIC_C:
                 tap_code16(KC_BSPC);
                 SEND_STRING("s ");
-                chord_state = CHORD_INACTIVE;
+                // Stay in CHORD_MODIFIER to allow chaining suffixes like "ly"
                 return false;
             case KC_DOT:
                 tap_code16(KC_BSPC);
