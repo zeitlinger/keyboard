@@ -118,6 +118,7 @@ Currently unused features:
 | b     | "about"                         |
 | b,    | "observability"                 |
 | b.    | "boolean"                       |
+| be    | "began"                         |
 | bh    | "behind"                        |
 | bi    | "being"                         |
 | bj    | "between"                       |
@@ -129,7 +130,6 @@ Currently unused features:
 | c,    | "couldn't"                      |
 | c.    | "const"                         |
 | ca    | "actually"                      |
-| cc    | "gregor.zeitlinger@grafana.com" |
 | ce    | "service"                       |
 | ch    | "research"                      |
 | ci    | "click"                         |
@@ -143,6 +143,7 @@ Currently unused features:
 | d,    | "hadn't"                        |
 | d.    | "data"                          |
 | da    | "describe"                      |
+| dd    | "zeitlinger@gmail.com"          |
 | de    | "them"                          |
 | dh    | "than"                          |
 | di    | "during"                        |
@@ -156,6 +157,7 @@ Currently unused features:
 | f.    | "false"                         |
 | fa    | "after"                         |
 | fe    | "feel"                          |
+| ff    | "gregor.zeitlinger@grafana.com" |
 | fh    | "then"                          |
 | fi    | "first"                         |
 | fj    | "finger"                        |
@@ -165,10 +167,9 @@ Currently unused features:
 | fu    | "found"                         |
 | fy    | "forty"                         |
 | g     | "again"                         |
-| g,    | "Gregor"                        |
 | g.    | "Grafana"                       |
 | ga    | "glance"                        |
-| ge    | "began"                         |
+| gg    | "Gregor"                        |
 | gi    | "giving"                        |
 | gj    | "general"                       |
 | go    | "group"                         |
@@ -196,6 +197,7 @@ Currently unused features:
 | lh    | "health"                        |
 | li    | "light"                         |
 | lj    | "large"                         |
+| ll    | "gregor@zeitlinger.de"          |
 | lo    | "along"                         |
 | lr    | "later"                         |
 | lu    | "almost"                        |
@@ -220,7 +222,6 @@ Currently unused features:
 | nh    | "anything"                      |
 | ni    | "into"                          |
 | nj    | "issues"                        |
-| nn    | "zeitlinger@gmail.com"          |
 | no    | "another"                       |
 | nr    | "near"                          |
 | nt    | "that"                          |
@@ -235,6 +236,7 @@ Currently unused features:
 | pi    | "point"                         |
 | pj    | "problem"                       |
 | po    | "product"                       |
+| pp    | "Prometheus"                    |
 | pr    | "parent"                        |
 | pu    | "public"                        |
 | py    | "probably"                      |
@@ -277,7 +279,7 @@ Currently unused features:
 | tj    | "through"                       |
 | to    | "thought"                       |
 | tr    | "there"                         |
-| tt    | "gregor@zeitlinger.de"          |
+| tt    | "OpenTelemetry"                 |
 | tu    | "though"                        |
 | ty    | "thank you"                     |
 | v     | "even"                          |
@@ -305,18 +307,15 @@ Currently unused features:
 | wu    | "internal"                      |
 | wy    | "worry"                         |
 | x     | "context"                       |
-| x,    | "declarative config"            |
 | x.    | "export"                        |
 | xa    | "example"                       |
 | xe    | "execute"                       |
 | xh    | "https"                         |
 | xi    | "existing"                      |
 | xj    | "exception"                     |
-| xo    | "OpenTelemetry"                 |
 | xr    | "resource"                      |
 | xu    | "actual"                        |
 | xy    | "telemetry"                     |
-| z     | "Zeitlinger"                    |
 | z,    | "smile"                         |
 | z.    | "async"                         |
 | za    | "organize"                      |
@@ -326,6 +325,8 @@ Currently unused features:
 | zj    | "javaagent"                     |
 | zo    | "Grafana Labs"                  |
 | zu    | "Spring Boot"                   |
+| zy    | "declarative config"            |
+| zz    | "Zeitlinger"                    |
 
 ## Layout
 
