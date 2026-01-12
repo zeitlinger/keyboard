@@ -215,7 +215,6 @@ Currently unused features:
 | my    | "myself"                        |
 | n     | "understand"                    |
 | n,    | "single"                        |
-| n.    | "null"                          |
 | na    | "anyway"                        |
 | nd    | "instead"                       |
 | ne    | "number"                        |

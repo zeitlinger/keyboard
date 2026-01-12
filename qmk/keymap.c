@@ -39,6 +39,8 @@ const uint32_t PROGMEM unicode_map[] = {
 #include "casemodes.h"
 #include "generated.c"
 
+extern char last_chord_char; // Track last character from chord for suffix modifications
+
 bool is_window_switcher_active = false;
 bool is_tab_switcher_active = false;
 bool is_one_shot_mouse_active = false;
@@ -49,7 +51,13 @@ bool process_chord_mode(uint16_t keycode, keyrecord_t *record) {
         // Check for suffix keys based on keycode
         switch (keycode) {
             case ING:
-                tap_code16(KC_BSPC);
+                tap_code16(KC_BSPC); // Delete space
+                // Check if last character is a vowel (a, e, i, o, u)
+                if (last_chord_char == 'a' || last_chord_char == 'e' ||
+                    last_chord_char == 'i' || last_chord_char == 'o' ||
+                    last_chord_char == 'u') {
+                    tap_code16(KC_BSPC); // Delete the vowel
+                }
                 SEND_STRING("ing ");
                 chord_state = CHORD_INACTIVE;
                 return false;

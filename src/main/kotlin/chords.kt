@@ -414,42 +414,51 @@ static const uint8_t chord_data[] = {
 ${hexLines.joinToString(",\n")}
 };
 
+char last_chord_char = '\0'; // Track last character sent in chord for suffix modifications
+
 // Decode and send 4/8-bit variable-length encoded chord string from buffer
 static void chord_decode_send(uint16_t offset) {
     const uint8_t* data = chord_data + offset;
     uint8_t len = data[0];  // First byte is string length
     data++;  // Move to encoded data
-    
+
     uint8_t byteIndex = 0;
     bool highNibble = true;  // Start with high nibble
     uint8_t charCount = 0;  // Count of characters actually sent
-    
+
+    last_chord_char = '\0'; // Reset at start
+
     while (charCount < len) {
         uint8_t code;
-        
+        char c = '\0';
+
         if (highNibble) {
             // Read high nibble
             code = (data[byteIndex] >> 4) & 0x0F;
-            
+
             // Check if this is a 4-bit or 8-bit code
             if (code >= 14) {
                 // This is the start of an 8-bit code - read the full byte
                 code = data[byteIndex];
                 byteIndex++;
                 highNibble = true;  // Next read starts at high nibble
-                
+
                 // Decode 8-bit extended character
                 if (code >= 0xE0 && code < 0xE0 + sizeof(chord_char_extended)) {
-                    send_char(chord_char_extended[code - 0xE0]);
+                    c = chord_char_extended[code - 0xE0];
+                    send_char(c);
+                    last_chord_char = c;
                     charCount++;
                 }
             } else {
                 // This is a 4-bit code
                 highNibble = false;  // Next read is low nibble
-                
+
                 // Decode 4-bit character
                 if (code < sizeof(chord_char_4bit)) {
-                    send_char(chord_char_4bit[code]);
+                    c = chord_char_4bit[code];
+                    send_char(c);
+                    last_chord_char = c;
                     charCount++;
                 }
             }
@@ -458,16 +467,18 @@ static void chord_decode_send(uint16_t offset) {
             code = data[byteIndex] & 0x0F;
             byteIndex++;
             highNibble = true;  // Next read starts at high nibble
-            
+
             // Check if this is a filler nibble (0xF means skip)
             if (code == 0x0F) {
                 // Skip this nibble, it's just padding
                 continue;
             }
-            
+
             // Decode 4-bit character
             if (code < sizeof(chord_char_4bit)) {
-                send_char(chord_char_4bit[code]);
+                c = chord_char_4bit[code];
+                send_char(c);
+                last_chord_char = c;
                 charCount++;
             }
         }
