@@ -297,8 +297,10 @@ private fun tryEncodeChordStrings(outputs: Map<Int, String>): ChordEncoding {
                     currentByte = 0
                 }
             } else {
-                // 8-bit code - need to flush current byte first if we have a high nibble
+                // 8-bit code - need to flush current byte first if we have a high nibble written
                 if (!isHighNibble) {
+                    // Fill the low nibble with 0xF (15) to indicate "skip this nibble"
+                    currentByte = currentByte or 0x0F
                     dataBytes.add(currentByte.toByte())
                     isHighNibble = true
                     currentByte = 0
@@ -420,8 +422,9 @@ static void chord_decode_send(uint16_t offset) {
     
     uint8_t byteIndex = 0;
     bool highNibble = true;  // Start with high nibble
+    uint8_t charCount = 0;  // Count of characters actually sent
     
-    for (uint8_t i = 0; i < len; i++) {
+    while (charCount < len) {
         uint8_t code;
         
         if (highNibble) {
@@ -438,6 +441,7 @@ static void chord_decode_send(uint16_t offset) {
                 // Decode 8-bit extended character
                 if (code >= 0xE0 && code < 0xE0 + sizeof(chord_char_extended)) {
                     send_char(chord_char_extended[code - 0xE0]);
+                    charCount++;
                 }
             } else {
                 // This is a 4-bit code
@@ -446,6 +450,7 @@ static void chord_decode_send(uint16_t offset) {
                 // Decode 4-bit character
                 if (code < sizeof(chord_char_4bit)) {
                     send_char(chord_char_4bit[code]);
+                    charCount++;
                 }
             }
         } else {
@@ -454,9 +459,16 @@ static void chord_decode_send(uint16_t offset) {
             byteIndex++;
             highNibble = true;  // Next read starts at high nibble
             
+            // Check if this is a filler nibble (0xF means skip)
+            if (code == 0x0F) {
+                // Skip this nibble, it's just padding
+                continue;
+            }
+            
             // Decode 4-bit character
             if (code < sizeof(chord_char_4bit)) {
                 send_char(chord_char_4bit[code]);
+                charCount++;
             }
         }
     }
