@@ -69,43 +69,43 @@ Currently unused features:
  
 ## Magic Keys
 
-| Magic |   Magic A   | Magic B  | Magic C |
-|:-----:|:-----------:|:--------:|:-------:|
-|   a   |             |    u     |    u    |
-|   b   |      l      | "ecause" |    l    |
-|   c   |      k      |    p     |    k    |
-|   d   |  "oesn't"   |  "oes"   | "on't"  |
-|   e   |      o      |          |    o    |
-|   f   |      f      |   "or"   |         |
-|   g   |      n      |    k     |    l    |
-|   h   |      y      |   "ey"   |         |
-|   i   |      '      |  "'ve"   |         |
-|   j   |    "ust"    |          |         |
-|   k   |      n      |  "now"   |    n    |
-|   l   |      p      |    m     |    v    |
-|   m   |      b      |  "ent"   |    b    |
-|   n   |      g      |    k     |  "ly"   |
-|   o   |      e      |          |         |
-|   p   |      l      |    s     |    l    |
-|   q   |             |          |         |
-|   r   |      k      |          |         |
-|   s   |      p      |  "ion"   |    p    |
-|   t   |    "ion"    |  "ing"   |  "ion"  |
-|   u   |             |    a     |         |
-|   v   |    "er"     |   "en"   |         |
-|   w   |      n      |    s     |         |
-|   x   |      p      |    c     |         |
-|   y   |             |          |         |
-|   z   | "eitlinger" |          |         |
-|  spc  |   "the "    |  dotSpc  | "the "  |
-|  tab  |   "the "    |  "and "  |         |
-|  ↩️️  |   "the "    |  "and "  |         |
-|   ~   |      /      |          |         |
-|   ,   |   " but "   | " and "  |         |
-|   .   |      /      |   "./"   |         |
-|   -   |      >      |          |         |
-|   =   |      >      |          |         |
-|   !   |      =      |          |         |
+| Magic | Magic A  | Magic B  | Magic C |
+|:-----:|:--------:|:--------:|:-------:|
+|   a   |          |    u     |    u    |
+|   b   |    l     | "ecause" |    l    |
+|   c   |    k     |    p     |    k    |
+|   d   | "oesn't" |  "oes"   | "on't"  |
+|   e   |    o     |          |    o    |
+|   f   |    f     |   "or"   |         |
+|   g   |    n     |    k     |    l    |
+|   h   |    y     |   "ey"   |         |
+|   i   |    '     |  "'ve"   |         |
+|   j   |  "ust"   |          |         |
+|   k   |    n     |  "now"   |    n    |
+|   l   |    p     |    m     |    v    |
+|   m   |    b     |  "ent"   |    l    |
+|   n   |    g     |    k     |  "ly"   |
+|   o   |    e     |          |         |
+|   p   |    l     |    s     |    l    |
+|   q   |          |          |         |
+|   r   |    k     |          |         |
+|   s   |    p     |  "ion"   |    p    |
+|   t   |  "ion"   |  "ing"   |  "ion"  |
+|   u   |          |    a     |         |
+|   v   |   "er"   |   "en"   |         |
+|   w   |    n     |    s     |         |
+|   x   |    p     |    c     |         |
+|   y   |          |          |         |
+|   z   |          |          |         |
+|  spc  |  "the "  |  dotSpc  | "the "  |
+|  tab  |  "the "  |  "and "  |         |
+|  ↩️️  |  "the "  |  "and "  |         |
+|   ~   |    /     |          |         |
+|   ,   | " but "  | " and "  |         |
+|   .   |    /     |   "./"   |         |
+|   -   |    >     |          |         |
+|   =   |    >     |          |         |
+|   !   |    =     |          |         |
 
 ## Chord Table
 
@@ -191,7 +191,7 @@ Currently unused features:
 | l     | "like"                          |
 | l,    | "level"                         |
 | l.    | "class"                         |
-| la    | "also"                          |
+| la    | "language"                      |
 | ld    | "with"                          |
 | le    | "leave"                         |
 | lh    | "health"                        |
@@ -222,8 +222,6 @@ Currently unused features:
 | ni    | "into"                          |
 | nj    | "issues"                        |
 | no    | "another"                       |
-| nr    | "near"                          |
-| nt    | "that"                          |
 | nu    | "enough"                        |
 | ny    | "company"                       |
 | p     | "people"                        |
@@ -231,7 +229,6 @@ Currently unused features:
 | p.    | "promise"                       |
 | pa    | "privacy"                       |
 | pe    | "place"                         |
-| ph    | "http"                          |
 | pi    | "point"                         |
 | pj    | "problem"                       |
 | po    | "product"                       |
@@ -441,9 +438,9 @@ Currently unused features:
 |  Nav  |         |   C-k   |         |         |         |         |  ⬆️⬆️   |         |
 |  Nav  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav  |  CS-e   |         |         |         |         |         |         |    ß    |
+|  Nav  |   C-e   |         |         |         |         |         |         |    ß    |
 |  Nav  |   💎    |         |         |         |         |         |         |   💎    |
-|  Nav  |   C-e   |         |         |         |         |         |         |  ➡️➡️   |
+|  Nav  |  CS-c   |         |         |         |         |         |         |  ➡️➡️   |
 |  Nav  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |         |         |         |         |         |         |         |         |

@@ -29,19 +29,18 @@ for left in 'scntfldzbgkpmxwvr':
 
     # available.append(left + 'r')
     available.append('r'  + left)
-    # available.append(left + left)
+    available.append(left + left)
 
     for right in 'aeihy,.juor':
         available.append(left + right)
 
     # add good rolls
     rolls = {
-        's': 'c',
-        'c': 'ns',
-        'n': 'tds',
-        'f': 'lt',
-        'l': 'dcs',
-        't': 'ncs',
+        's': 'cnt',
+        'c': 'nt',
+        'n': 'td',
+        'f': 'ld',
+        'l': 'd',
     }
     if left in rolls:
         for right in rolls[left]:
