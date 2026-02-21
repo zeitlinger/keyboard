@@ -358,7 +358,7 @@ Currently unused features:
 | Right |         |         |         |         |  dead3  |    "    |  A-➡️   |         |
 | Right |         |         |   C-f   |   C-r   |         |         |         |         |
 | Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |    _    |
-| Right |         |         |  CS-c   |  CS-v   |    [    |    ]    |         |         |
+| Right |         |         |  A-f7   |   C-n   |    [    |    ]    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |    `    |         |         |         |
 | Right |         |         |         |   💎    |   💎    |         |         |         |
@@ -420,12 +420,12 @@ Currently unused features:
 | FnSym |    $    |         |         |         |         |         |         |    %    |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav  |  dead3  |   C-x   |   C-v   |  CS-z   |  dead1  |   esc   |   ins   |  dead2  |
-|  Nav  |  copy   |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬇️    |   ⬆️    |   ➡️    |
+|  Nav  |  dead3  |   C-x   |  CS-v   |  CS-z   |  dead1  |   esc   |   ins   |  dead2  |
+|  Nav  |  CS-v   |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬇️    |   ⬆️    |   ➡️    |
 |  Nav  |   C-z   |   C-w   | tab ➡️  | win ➡️  |   ↩️️   |  bspc   |   del   |   tab   |
 |  Nav  |         |         |   🛑    |   🛑    |   spc   |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav  |         |         |         |  A-f7   |    ü    |         |         |         |
+|  Nav  |         |         |         |   C-v   |    ü    |         |         |         |
 |  Nav  |         |         |         |   💎    |   💎    |         |         |         |
 |  Nav  |         |         |         |   C-y   |  ⬅️⬅️   |         |         |         |
 |  Nav  |         |         |         |         |         |         |         |         |
@@ -442,7 +442,7 @@ Currently unused features:
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |   C-e   |         |         |         |         |         |         |    ß    |
 |  Nav  |   💎    |         |         |         |         |         |         |   💎    |
-|  Nav  |   C-n   |         |         |         |         |         |         |  ➡️➡️   |
+|  Nav  |   C-c   |         |         |         |         |         |         |  ➡️➡️   |
 |  Nav  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |         |         |         |         |         |         |         |         |
@@ -563,7 +563,6 @@ The order of the options is also the order of the layers in the layer stack.
 | 🔈      | KC_VOLD                         |
 | 🔆      | KC_BRIU                         |
 | 🔅      | KC_BRID                         |
-| copy    | C(KC_C)                         |
 | ä       | UP(UMLAUT_a, UMLAUT_A)          |
 | ö       | UP(UMLAUT_o, UMLAUT_O)          |
 | ü       | UP(UMLAUT_u, UMLAUT_U)          |
