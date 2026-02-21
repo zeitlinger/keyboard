@@ -112,217 +112,219 @@ Currently unused features:
 > **📖 [Complete Chord Mode Documentation](CHORD_MODE.md)**  
 > Learn how to use chords to type 220+ common words with just two letters!  
 > Includes usage guide, capitalization, customization, and more.
+ 
+- Used = has been incorporated into daily routine (plan means those are next to learn)
 
-| Chord | output                          |
-|-------|---------------------------------|
-| b     | "about"                         |
-| b,    | "observability"                 |
-| b.    | "boolean"                       |
-| be    | "began"                         |
-| bh    | "behind"                        |
-| bi    | "being"                         |
-| bj    | "between"                       |
-| bo    | "become"                        |
-| br    | "break"                         |
-| bu    | "business"                      |
-| by    | "body"                          |
-| c     | "could"                         |
-| c,    | "couldn't"                      |
-| c.    | "const"                         |
-| ca    | "actually"                      |
-| ce    | "service"                       |
-| ch    | "research"                      |
-| ci    | "click"                         |
-| cj    | "project"                       |
-| cn    | "been"                          |
-| co    | "continue"                      |
-| cr    | "across"                        |
-| cu    | "current"                       |
-| cy    | "policy"                        |
-| d     | "didn't"                        |
-| d,    | "hadn't"                        |
-| d.    | "data"                          |
-| da    | "describe"                      |
-| dd    | "zeitlinger@gmail.com"          |
-| de    | "them"                          |
-| dh    | "than"                          |
-| di    | "during"                        |
-| dj    | "build"                         |
-| do    | "import"                        |
-| dr    | "their"                         |
-| du    | "products"                      |
-| dy    | "already"                       |
-| f     | "from"                          |
-| f,    | "fails"                         |
-| f.    | "false"                         |
-| fa    | "after"                         |
-| fe    | "feel"                          |
-| ff    | "gregor.zeitlinger@grafana.com" |
-| fh    | "then"                          |
-| fi    | "first"                         |
-| fj    | "finger"                        |
-| fl    | "have"                          |
-| fo    | "information"                   |
-| fr    | "software"                      |
-| fu    | "found"                         |
-| fy    | "forty"                         |
-| g     | "again"                         |
-| g.    | "Grafana"                       |
-| ga    | "glance"                        |
-| gg    | "Gregor"                        |
-| gi    | "giving"                        |
-| gj    | "general"                       |
-| go    | "group"                         |
-| gr    | "great"                         |
-| gu    | "guess"                         |
-| gy    | "every"                         |
-| k     | "question"                      |
-| k,    | "config"                        |
-| k.    | "key"                           |
-| ka    | "make"                          |
-| ke    | "keep"                          |
-| kh    | "check"                         |
-| ki    | "kind"                          |
-| kj    | "java"                          |
-| ko    | "know"                          |
-| kr    | "work"                          |
-| ku    | "caller"                        |
-| ky    | "quickly"                       |
-| l     | "like"                          |
-| l,    | "level"                         |
-| l.    | "class"                         |
-| la    | "language"                      |
-| ld    | "with"                          |
-| le    | "leave"                         |
-| lh    | "health"                        |
-| li    | "light"                         |
-| lj    | "large"                         |
-| ll    | "gregor@zeitlinger.de"          |
-| lo    | "along"                         |
-| lr    | "later"                         |
-| lu    | "almost"                        |
-| ly    | "only"                          |
-| m     | "more"                          |
-| m,    | "lgtm"                          |
-| m.    | "method"                        |
-| ma    | "some"                          |
-| me    | "message"                       |
-| mh    | "might"                         |
-| mi    | "minute"                        |
-| mj    | "major"                         |
-| mo    | "feature"                       |
-| mu    | "music"                         |
-| my    | "myself"                        |
-| n     | "understand"                    |
-| n,    | "single"                        |
-| na    | "anyway"                        |
-| nd    | "instead"                       |
-| ne    | "number"                        |
-| nh    | "anything"                      |
-| ni    | "into"                          |
-| nj    | "issues"                        |
-| no    | "another"                       |
-| nu    | "enough"                        |
-| ny    | "company"                       |
-| p     | "people"                        |
-| p,    | "please"                        |
-| p.    | "promise"                       |
-| pa    | "privacy"                       |
-| pe    | "place"                         |
-| pi    | "point"                         |
-| pj    | "problem"                       |
-| po    | "product"                       |
-| pp    | "Prometheus"                    |
-| pr    | "parent"                        |
-| pu    | "public"                        |
-| py    | "probably"                      |
-| r     | "really"                        |
-| r,    | "route"                         |
-| r.    | "error"                         |
-| ra    | "program"                       |
-| re    | "ready"                         |
-| rg    | "rights"                        |
-| rh    | "review"                        |
-| ri    | "right"                         |
-| rj    | "return"                        |
-| rl    | "query"                         |
-| ro    | "around"                        |
-| rs    | "request"                       |
-| rt    | "they"                          |
-| ru    | "true"                          |
-| ry    | "years"                         |
-| rz    | "realize"                       |
-| s     | "should"                        |
-| s,    | "wasn't"                        |
-| s.    | "string"                        |
-| sa    | "same"                          |
-| sc    | "this"                          |
-| se    | "search"                        |
-| sh    | "share"                         |
-| si    | "someone"                       |
-| sj    | "subject"                       |
-| so    | "slowly"                        |
-| sr    | "surprise"                      |
-| su    | "support"                       |
-| sy    | "system"                        |
-| t     | "think"                         |
-| t,    | "tenant"                        |
-| t.    | "type"                          |
-| ta    | "today"                         |
-| te    | "these"                         |
-| th    | "other"                         |
-| ti    | "time"                          |
-| tj    | "through"                       |
-| to    | "thought"                       |
-| tr    | "there"                         |
-| tt    | "OpenTelemetry"                 |
-| tu    | "though"                        |
-| ty    | "thank you"                     |
-| v     | "even"                          |
-| v,    | "contrib"                       |
-| v.    | "void"                          |
-| va    | "available"                     |
-| ve    | "very"                          |
-| vh    | "version"                       |
-| vi    | "services"                      |
-| vj    | "notice"                        |
-| vo    | "over"                          |
-| vr    | "never"                         |
-| vu    | "value"                         |
-| vy    | "everything"                    |
-| w     | "would"                         |
-| w,    | "wouldn't"                      |
-| w.    | "await"                         |
-| wa    | "walk"                          |
-| we    | "when"                          |
-| wh    | "which"                         |
-| wi    | "will"                          |
-| wj    | "wrong"                         |
-| wo    | "without"                       |
-| wr    | "where"                         |
-| wu    | "internal"                      |
-| wy    | "worry"                         |
-| x     | "context"                       |
-| x.    | "export"                        |
-| xa    | "example"                       |
-| xe    | "execute"                       |
-| xh    | "https"                         |
-| xi    | "existing"                      |
-| xj    | "exception"                     |
-| xr    | "resource"                      |
-| xu    | "actual"                        |
-| xy    | "telemetry"                     |
-| z,    | "smile"                         |
-| z.    | "async"                         |
-| za    | "organize"                      |
-| ze    | "GitHub"                        |
-| zh    | "Spring starter"                |
-| zi    | "spring"                        |
-| zj    | "javaagent"                     |
-| zo    | "Grafana Labs"                  |
-| zu    | "Spring Boot"                   |
-| zy    | "declarative config"            |
-| zz    | "Zeitlinger"                    |
+| Chord | output                          | Used |
+|-------|---------------------------------|------|
+| b     | "about"                         |      |
+| b,    | "observability"                 |      |
+| b.    | "boolean"                       |      |
+| be    | "began"                         |      |
+| bh    | "behind"                        |      |
+| bi    | "being"                         |      |
+| bj    | "between"                       |      |
+| bo    | "become"                        |      |
+| br    | "break"                         |      |
+| bu    | "business"                      |      |
+| by    | "body"                          |      |
+| c     | "could"                         |      |
+| c,    | "couldn't"                      |      |
+| c.    | "const"                         |      |
+| ca    | "actually"                      |      |
+| ce    | "service"                       |      |
+| ch    | "research"                      |      |
+| ci    | "click"                         |      |
+| cj    | "project"                       |      |
+| cn    | "been"                          |      |
+| co    | "continue"                      |      |
+| cr    | "across"                        |      |
+| cu    | "current"                       |      |
+| cy    | "policy"                        |      |
+| d     | "didn't"                        |      |
+| d,    | "hadn't"                        |      |
+| d.    | "data"                          |      |
+| da    | "describe"                      |      |
+| dd    | "zeitlinger@gmail.com"          |      |
+| de    | "them"                          |      |
+| dh    | "than"                          |      |
+| di    | "during"                        |      |
+| dj    | "build"                         |      |
+| do    | "import"                        |      |
+| dr    | "their"                         |      |
+| du    | "products"                      |      |
+| dy    | "already"                       |      |
+| f     | "from"                          |      |
+| f,    | "fails"                         |      |
+| f.    | "false"                         |      |
+| fa    | "after"                         |      |
+| fe    | "feel"                          |      |
+| ff    | "gregor.zeitlinger@grafana.com" |      |
+| fh    | "then"                          |      |
+| fi    | "first"                         |      |
+| fj    | "finger"                        |      |
+| fl    | "have"                          |      |
+| fo    | "information"                   |      |
+| fr    | "software"                      |      |
+| fu    | "found"                         |      |
+| fy    | "forty"                         |      |
+| g     | "again"                         |      |
+| g.    | "Grafana"                       |      |
+| ga    | "glance"                        |      |
+| gg    | "Gregor"                        |      |
+| gi    | "giving"                        |      |
+| gj    | "general"                       |      |
+| go    | "global"                        | plan |
+| gr    | "great"                         |      |
+| gu    | "guess"                         |      |
+| gy    | "every"                         |      |
+| k     | "question"                      |      |
+| k,    | "config"                        |      |
+| k.    | "key"                           |      |
+| ka    | "make"                          |      |
+| ke    | "keep"                          |      |
+| kh    | "check"                         |      |
+| ki    | "kind"                          |      |
+| kj    | "java"                          |      |
+| ko    | "know"                          |      |
+| kr    | "work"                          |      |
+| ku    | "caller"                        |      |
+| ky    | "quickly"                       |      |
+| l     | "like"                          |      |
+| l,    | "level"                         |      |
+| l.    | "class"                         |      |
+| la    | "language"                      | plan |
+| ld    | "with"                          |      |
+| le    | "leave"                         |      |
+| lh    | "health"                        |      |
+| li    | "light"                         |      |
+| lj    | "large"                         |      |
+| ll    | "gregor@zeitlinger.de"          |      |
+| lo    | "along"                         |      |
+| lr    | "later"                         |      |
+| lu    | "almost"                        |      |
+| ly    | "only"                          |      |
+| m     | "more"                          |      |
+| m,    | "lgtm"                          |      |
+| m.    | "method"                        |      |
+| ma    | "some"                          |      |
+| me    | "message"                       |      |
+| mh    | "might"                         |      |
+| mi    | "minute"                        |      |
+| mj    | "major"                         |      |
+| mo    | "feature"                       |      |
+| mu    | "music"                         |      |
+| my    | "myself"                        |      |
+| n     | "understand"                    |      |
+| n,    | "single"                        |      |
+| na    | "anyway"                        |      |
+| nd    | "instead"                       |      |
+| ne    | "number"                        |      |
+| nh    | "anything"                      |      |
+| ni    | "into"                          |      |
+| nj    | "issues"                        |      |
+| no    | "another"                       |      |
+| nu    | "enough"                        |      |
+| ny    | "company"                       |      |
+| p     | "people"                        |      |
+| p,    | "please"                        |      |
+| p.    | "promise"                       |      |
+| pa    | "privacy"                       |      |
+| pe    | "place"                         |      |
+| pi    | "point"                         |      |
+| pj    | "problem"                       |      |
+| po    | "product"                       |      |
+| pp    | "Prometheus"                    |      |
+| pr    | "parent"                        |      |
+| pu    | "public"                        |      |
+| py    | "probably"                      |      |
+| r     | "really"                        |      |
+| r,    | "route"                         |      |
+| r.    | "error"                         |      |
+| ra    | "program"                       |      |
+| re    | "ready"                         |      |
+| rg    | "rights"                        |      |
+| rh    | "review"                        |      |
+| ri    | "right"                         |      |
+| rj    | "return"                        |      |
+| rl    | "query"                         |      |
+| ro    | "around"                        |      |
+| rs    | "request"                       |      |
+| rt    | "they"                          |      |
+| ru    | "true"                          |      |
+| ry    | "years"                         |      |
+| rz    | "realize"                       |      |
+| s     | "should"                        |      |
+| s,    | "wasn't"                        |      |
+| s.    | "string"                        |      |
+| sa    | "same"                          |      |
+| sc    | "this"                          |      |
+| se    | "search"                        |      |
+| sh    | "share"                         |      |
+| si    | "someone"                       |      |
+| sj    | "subject"                       |      |
+| so    | "slowly"                        |      |
+| sr    | "surprise"                      |      |
+| su    | "support"                       |      |
+| sy    | "system"                        |      |
+| t     | "think"                         |      |
+| t,    | "tenant"                        |      |
+| t.    | "type"                          |      |
+| ta    | "today"                         |      |
+| te    | "these"                         |      |
+| th    | "other"                         |      |
+| ti    | "time"                          |      |
+| tj    | "through"                       |      |
+| to    | "thought"                       |      |
+| tr    | "there"                         |      |
+| tt    | "OpenTelemetry"                 |      |
+| tu    | "though"                        |      |
+| ty    | "thank you"                     |      |
+| v     | "even"                          |      |
+| v,    | "contrib"                       |      |
+| v.    | "void"                          |      |
+| va    | "available"                     |      |
+| ve    | "very"                          |      |
+| vh    | "version"                       |      |
+| vi    | "services"                      |      |
+| vj    | "notice"                        |      |
+| vo    | "over"                          |      |
+| vr    | "never"                         |      |
+| vu    | "value"                         |      |
+| vy    | "everything"                    |      |
+| w     | "would"                         |      |
+| w,    | "wouldn't"                      |      |
+| w.    | "await"                         |      |
+| wa    | "walk"                          |      |
+| we    | "when"                          |      |
+| wh    | "which"                         |      |
+| wi    | "will"                          |      |
+| wj    | "wrong"                         |      |
+| wo    | "without"                       |      |
+| wr    | "where"                         |      |
+| wu    | "internal"                      |      |
+| wy    | "worry"                         |      |
+| x     | "context"                       |      |
+| x.    | "export"                        |      |
+| xa    | "example"                       |      |
+| xe    | "execute"                       |      |
+| xh    | "https"                         |      |
+| xi    | "existing"                      |      |
+| xj    | "exception"                     |      |
+| xr    | "resource"                      |      |
+| xu    | "actual"                        |      |
+| xy    | "telemetry"                     |      |
+| z,    | "smile"                         |      |
+| z.    | "async"                         |      |
+| za    | "organize"                      |      |
+| ze    | "GitHub"                        |      |
+| zh    | "Spring starter"                |      |
+| zi    | "spring"                        |      |
+| zj    | "javaagent"                     |      |
+| zo    | "Grafana Labs"                  |      |
+| zu    | "Spring Boot"                   |      |
+| zy    | "declarative config"            | yes  |
+| zz    | "Zeitlinger"                    |      |
 
 ## Layout
 
@@ -356,7 +358,7 @@ Currently unused features:
 | Right |         |         |         |         |  dead3  |    "    |  A-➡️   |         |
 | Right |         |         |   C-f   |   C-r   |         |         |         |         |
 | Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |    _    |
-| Right |         |         |  A-f7   |   C-n   |    [    |    ]    |         |         |
+| Right |         |         |  CS-c   |  CS-v   |    [    |    ]    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |    `    |         |         |         |
 | Right |         |         |         |   💎    |   💎    |         |         |         |
@@ -423,7 +425,7 @@ Currently unused features:
 |  Nav  |   C-z   |   C-w   | tab ➡️  | win ➡️  |   ↩️️   |  bspc   |   del   |   tab   |
 |  Nav  |         |         |   🛑    |   🛑    |   spc   |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav  |         |         |         |  CS-v   |    ü    |         |         |         |
+|  Nav  |         |         |         |  A-f7   |    ü    |         |         |         |
 |  Nav  |         |         |         |   💎    |   💎    |         |         |         |
 |  Nav  |         |         |         |   C-y   |  ⬅️⬅️   |         |         |         |
 |  Nav  |         |         |         |         |         |         |         |         |
@@ -440,7 +442,7 @@ Currently unused features:
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |   C-e   |         |         |         |         |         |         |    ß    |
 |  Nav  |   💎    |         |         |         |         |         |         |   💎    |
-|  Nav  |  CS-c   |         |         |         |         |         |         |  ➡️➡️   |
+|  Nav  |   C-n   |         |         |         |         |         |         |  ➡️➡️   |
 |  Nav  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |         |         |         |         |         |         |         |         |
