@@ -496,7 +496,6 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_FNSYM_MO_NUM: return 200;
     case C_FNSYM_UMSMILEY: return 200;
     case C_NAV_AKC_F12: return 200;
-    case C_NAV_AKC_F7: return 200;
     case C_NAV_CKC_A: return 200;
     case C_NAV_CKC_B: return 200;
     case C_NAV_CKC_C: return 200;
@@ -504,7 +503,6 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_NAV_CKC_E: return 200;
     case C_NAV_CKC_F12: return 200;
     case C_NAV_CKC_K: return 200;
-    case C_NAV_CKC_N: return 200;
     case C_NAV_CKC_P: return 200;
     case C_NAV_CKC_SLASH: return 200;
     case C_NAV_CKC_V: return 200;
@@ -518,6 +516,8 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_NAV_KC_PGUP: return 200;
     case C_NAV_LCAKC_B: return 200;
     case C_NAV_RCSKC_N: return 200;
+    case C_NAV_RCSKC_V_0: return 200;
+    case C_NAV_RCSKC_V_1: return 200;
     case C_NAV_RCSKC_Z: return 200;
     case C_NAV_UMUMLAUT_S: return 200;
     case C_NAV_UPUMLAUT_AUMLAUT_A: return 200;
