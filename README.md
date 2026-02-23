@@ -141,13 +141,10 @@ Currently unused features:
 | cr    | "across"                        |      |
 | cu    | "current"                       |      |
 | cy    | "policy"                        |      |
-| d     | "didn't"                        |      |
+| d     | "didn't"                        | plan |
 | d,    | "hadn't"                        |      |
-| d.    | "data"                          |      |
 | da    | "describe"                      |      |
 | dd    | "zeitlinger@gmail.com"          |      |
-| de    | "them"                          |      |
-| dh    | "than"                          |      |
 | di    | "during"                        |      |
 | dj    | "build"                         |      |
 | do    | "import"                        |      |
@@ -420,12 +417,12 @@ Currently unused features:
 | FnSym |    $    |         |         |         |         |         |         |    %    |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav  |  dead3  |   C-x   |  CS-v   |  CS-z   |  dead1  |   esc   |   ins   |  dead2  |
-|  Nav  |  CS-c   |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬇️    |   ⬆️    |   ➡️    |
+|  Nav  |  dead3  |   C-x   |   C-v   |  CS-z   |  dead1  |   esc   |   ins   |  dead2  |
+|  Nav  |  copy   |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬇️    |   ⬆️    |   ➡️    |
 |  Nav  |   C-z   |   C-w   | tab ➡️  | win ➡️  |   ↩️️   |  bspc   |   del   |   tab   |
 |  Nav  |         |         |   🛑    |   🛑    |   spc   |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav  |         |         |         |   C-v   |    ü    |         |         |         |
+|  Nav  |         |         |         |  CS-v   |    ü    |         |         |         |
 |  Nav  |         |         |         |   💎    |   💎    |         |         |         |
 |  Nav  |         |         |         |   C-y   |  ⬅️⬅️   |         |         |         |
 |  Nav  |         |         |         |         |         |         |         |         |
@@ -442,7 +439,7 @@ Currently unused features:
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |   C-e   |         |         |         |         |         |         |    ß    |
 |  Nav  |   💎    |         |         |         |         |         |         |   💎    |
-|  Nav  |   C-c   |         |         |         |         |         |         |  ➡️➡️   |
+|  Nav  |  CS-c   |         |         |         |         |         |         |  ➡️➡️   |
 |  Nav  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |         |         |         |         |         |         |         |         |
@@ -563,6 +560,7 @@ The order of the options is also the order of the layers in the layer stack.
 | 🔈      | KC_VOLD                         |
 | 🔆      | KC_BRIU                         |
 | 🔅      | KC_BRID                         |
+| copy    | C(KC_C)                         |
 | ä       | UP(UMLAUT_a, UMLAUT_A)          |
 | ö       | UP(UMLAUT_o, UMLAUT_O)          |
 | ü       | UP(UMLAUT_u, UMLAUT_U)          |
