@@ -263,6 +263,7 @@ Currently unused features:
 | so    | "slowly"                        |      |
 | sr    | "surprise"                      |      |
 | su    | "support"                       |      |
+| ss    | "something"                     |      |
 | sy    | "system"                        |      |
 | t     | "think"                         |      |
 | t,    | "tenant"                        |      |
