@@ -96,6 +96,19 @@ fun run(args: GeneratorArgs) {
         }
     }
 
+    tables.getOptional("Adaptives")?.let {
+        it.forEachIndexed { index, row ->
+            val pos = KeyPosition(0, index, 0, "adaptives", 0)
+            val after = translator.toQmk(row[0], pos)
+            val key = translator.toQmk(row[1], pos)
+            val output = translator.toQmk(row[2], pos)
+            translator.adaptives.add(AdaptiveRule(key, after, output))
+            if (isLetter(after)) {
+                translator.adaptives.add(AdaptiveRule(key, shifted(after), output))
+            }
+        }
+    }
+
     val srcDir = args.generatorDir.file
     val dstDir = args.dstDir
     val generationNote =
@@ -145,6 +158,7 @@ fun run(args: GeneratorArgs) {
             "customKeycodesOnPress" to customKeycodes(translator, CustomCommandType.OnPress),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
             "magic" to translator.magic.map { magicBlock(it) }.indented(12),
+            "adaptives" to adaptiveBlocks(translator.adaptives).indented(12),
             "chordTransitions" to (finalChordInfo?.let { generateChordTransitions(translator, it).prependIndent(" ".repeat(8)) } ?: ""),
             "chordDecoder" to (encodedChordData?.decoder ?: ""),
         )
@@ -166,6 +180,20 @@ ${magicSwitch(magic.press)}
         return false;
     """.trimIndent()
 }
+
+private fun adaptiveBlocks(rules: List<AdaptiveRule>): List<String> =
+    rules.groupBy { it.key }.map { (key, entries) ->
+        val cases = entries.sortedBy { it.after.key }.joinToString("\n") {
+            "    case ${it.after}: tap_code16(${it.output}); return false;"
+        }
+        """
+        case $key:
+            switch (get_last_keycode()) {
+        $cases
+            }
+            break;
+        """.trimIndent()
+    }
 
 private fun magicSwitch(map: MutableMap<QmkKey, String>): String =
     map.entries.sortedBy { it.key.key }.map {

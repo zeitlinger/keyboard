@@ -34,6 +34,12 @@ data class MagicInfo(
     )
 }
 
+data class AdaptiveRule(
+    val key: QmkKey,    // the key that adapts (e.g. KC_H)
+    val after: QmkKey,  // previous key that triggers adaptation (e.g. KC_N)
+    val output: QmkKey, // what to output instead (e.g. KC_G)
+)
+
 class QmkTranslator(
     val symbols: Symbols,
     val layerOptions: Map<LayerName, LayerOption>,
@@ -48,6 +54,7 @@ class QmkTranslator(
     val noHoldKeys: List<QmkKey>,
     val magic: List<MagicInfo>,
     val originalKeys: MutableMap<KeyPosition, QmkKey>,
+    val adaptives: MutableList<AdaptiveRule>,
 ) {
 
     private val map: Map<String, String>

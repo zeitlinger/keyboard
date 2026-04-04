@@ -84,7 +84,7 @@ Currently unused features:
 |   k   |    n     |  "now"   |    n    |
 |   l   |    p     |    m     |    v    |
 |   m   |    b     |  "ent"   |    l    |
-|   n   |    g     |    k     |  "ly"   |
+|   n   |    h     |    k     |  "ly"   |
 |   o   |    e     |          |         |
 |   p   |    l     |    s     |    l    |
 |   q   |          |          |         |
@@ -106,6 +106,12 @@ Currently unused features:
 |   -   |    >     |          |         |
 |   =   |    >     |          |         |
 |   !   |    =     |          |         |
+
+## Adaptives
+
+| After | Key | Output |
+|:-----:|:---:|:------:|
+|   n   |  h  |   g    |
 
 ## Chord Table
 

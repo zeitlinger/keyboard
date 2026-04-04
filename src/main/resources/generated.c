@@ -49,6 +49,7 @@ ${customKeycodesOnTapPress}
         if (record->event.pressed) {
             switch (keycode) {
 ${magic}
+${adaptives}
 ${customKeycodesOnPress}
             default:
                 break;
