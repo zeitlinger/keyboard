@@ -183,16 +183,9 @@ ${magicSwitch(magic.press)}
 
 private fun adaptiveBlocks(rules: List<AdaptiveRule>): List<String> =
     rules.groupBy { it.key }.map { (key, entries) ->
-        val cases = entries.sortedBy { it.after.key }.joinToString("\n") {
-            "    case ${it.after}: tap_code16(${it.output}); return false;"
-        }
-        """
-        case $key:
-            switch (get_last_keycode()) {
-        $cases
-            }
-            break;
-        """.trimIndent()
+        val cases = entries.sortedBy { it.after.key }
+            .joinToString("\n") { "        case ${it.after}: tap_code16(${it.output}); return false;" }
+        "case $key:\n    switch (get_last_keycode()) {\n$cases\n    }\n    break;"
     }
 
 private fun magicSwitch(map: MutableMap<QmkKey, String>): String =
