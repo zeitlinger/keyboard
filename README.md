@@ -109,9 +109,9 @@ Currently unused features:
 
 ## Adaptives
 
-| After | Key | Output |
-|:-----:|:---:|:------:|
-|   n   |  h  |   g    |
+| Adaptives | Key | Output |
+|:---------:|:---:|:------:|
+|     n     |  h  |   g    |
 
 ## Chord Table
 
