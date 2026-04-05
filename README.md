@@ -119,7 +119,6 @@ Currently unused features:
 |     m     |  h  |   b    |
 |     g     |  k  |   n    |
 |     g     |  b  |   l    |
-|     p     |  v  |   s    |
 |     k     |  x  |   n    |
 |     x     |  r  |   p    |
 |     x     |  d  |   c    |
