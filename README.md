@@ -86,7 +86,7 @@ Currently unused features:
 |   m   |    h     |  "ent"   |    l    |
 |   n   |    h     |    k     |  "ly"   |
 |   o   |    e     |          |         |
-|   p   |    m     |    s     |    l    |
+|   p   |    m     |    v     |    l    |
 |   q   |          |          |         |
 |   r   |    k     |          |         |
 |   s   |    p     |  "ion"   |    p    |
@@ -113,6 +113,7 @@ Currently unused features:
 |:---------:|:---:|:------:|
 |     n     |  h  |   g    |
 |     p     |  m  |   l    |
+|     p     |  v  |   s    |
 |     a     |  o  |   u    |
 |     u     |  h  |   a    |
 |     w     |  t  |   n    |
