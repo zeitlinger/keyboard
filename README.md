@@ -169,7 +169,6 @@ Currently unused features:
 | dr    | "their"                         |      |
 | du    | "products"                      |      |
 | dy    | "already"                       |      |
-| f     | "from"                          |      |
 | f,    | "fails"                         |      |
 | f.    | "false"                         |      |
 | fa    | "after"                         |      |
@@ -190,14 +189,9 @@ Currently unused features:
 | gi    | "giving"                        |      |
 | gj    | "general"                       |      |
 | go    | "global"                        | plan |
-| gr    | "great"                         |      |
-| gu    | "guess"                         |      |
 | gy    | "every"                         |      |
 | k     | "question"                      |      |
 | k,    | "config"                        |      |
-| k.    | "key"                           |      |
-| ka    | "make"                          |      |
-| ke    | "keep"                          |      |
 | kh    | "check"                         |      |
 | ki    | "kind"                          |      |
 | kj    | "java"                          |      |
@@ -205,7 +199,6 @@ Currently unused features:
 | kr    | "work"                          |      |
 | ku    | "caller"                        |      |
 | ky    | "quickly"                       |      |
-| l     | "like"                          |      |
 | l,    | "level"                         |      |
 | l.    | "class"                         |      |
 | la    | "language"                      | plan |
@@ -219,10 +212,8 @@ Currently unused features:
 | lr    | "later"                         |      |
 | lu    | "almost"                        |      |
 | ly    | "only"                          |      |
-| m     | "more"                          |      |
 | m,    | "lgtm"                          |      |
 | m.    | "method"                        |      |
-| ma    | "some"                          |      |
 | me    | "message"                       |      |
 | mh    | "might"                         |      |
 | mi    | "minute"                        |      |
@@ -255,25 +246,18 @@ Currently unused features:
 | py    | "probably"                      |      |
 | r     | "really"                        |      |
 | r,    | "route"                         |      |
-| r.    | "error"                         |      |
 | ra    | "program"                       |      |
-| re    | "ready"                         |      |
 | rg    | "rights"                        |      |
 | rh    | "review"                        |      |
-| ri    | "right"                         |      |
 | rj    | "return"                        |      |
 | rl    | "query"                         |      |
 | ro    | "around"                        |      |
 | rs    | "request"                       |      |
-| rt    | "they"                          |      |
-| ru    | "true"                          |      |
 | ry    | "years"                         |      |
 | rz    | "realize"                       |      |
 | s     | "should"                        |      |
 | s,    | "wasn't"                        |      |
 | s.    | "string"                        |      |
-| sa    | "same"                          |      |
-| sc    | "this"                          |      |
 | se    | "search"                        |      |
 | sh    | "share"                         |      |
 | si    | "someone"                       |      |
@@ -285,7 +269,6 @@ Currently unused features:
 | sy    | "system"                        |      |
 | t     | "think"                         |      |
 | t,    | "tenant"                        |      |
-| t.    | "type"                          |      |
 | ta    | "today"                         |      |
 | te    | "these"                         |      |
 | th    | "other"                         |      |
@@ -296,11 +279,8 @@ Currently unused features:
 | tt    | "OpenTelemetry"                 |      |
 | tu    | "though"                        |      |
 | ty    | "thank you"                     |      |
-| v     | "even"                          |      |
 | v,    | "contrib"                       |      |
-| v.    | "void"                          |      |
 | va    | "available"                     |      |
-| ve    | "very"                          |      |
 | vh    | "version"                       |      |
 | vi    | "services"                      |      |
 | vj    | "notice"                        |      |
@@ -308,10 +288,8 @@ Currently unused features:
 | vr    | "never"                         |      |
 | vu    | "value"                         |      |
 | vy    | "everything"                    |      |
-| w     | "would"                         |      |
 | w,    | "wouldn't"                      |      |
 | w.    | "await"                         |      |
-| wa    | "walk"                          |      |
 | we    | "when"                          |      |
 | wh    | "which"                         |      |
 | wi    | "will"                          |      |
