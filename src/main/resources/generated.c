@@ -36,13 +36,11 @@ bool tap(uint16_t keycode) {
     return false;
 }
 
-// Saved before process_repeat_key updates get_last_keycode() to the current key.
-// Used by adaptive rules so they see the trigger key, not the physical key pressed.
-static uint16_t adaptive_last_key = KC_NO;
-
 bool pre_process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
-        adaptive_last_key = get_last_keycode();
+        switch (keycode) {
+${adaptives}
+        }
     }
     return true;
 }
@@ -60,7 +58,6 @@ ${customKeycodesOnTapPress}
         if (record->event.pressed) {
             switch (keycode) {
 ${magic}
-${adaptives}
 ${customKeycodesOnPress}
             default:
                 break;
