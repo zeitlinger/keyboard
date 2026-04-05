@@ -71,31 +71,31 @@ Currently unused features:
 
 | Magic | Magic A  | Magic B  | Magic C |
 |:-----:|:--------:|:--------:|:-------:|
-|   a   |          |    u     |    u    |
+|   a   |          |    o     |    u    |
 |   b   |    l     | "ecause" |    l    |
 |   c   |    k     |    p     |    k    |
 |   d   | "oesn't" |  "oes"   | "on't"  |
 |   e   |    o     |          |    o    |
 |   f   |    f     |   "or"   |         |
-|   g   |    n     |    k     |    l    |
+|   g   |    n     |    k     |    b    |
 |   h   |    y     |   "ey"   |         |
 |   i   |    '     |  "'ve"   |         |
 |   j   |  "ust"   |          |         |
-|   k   |    n     |  "now"   |    n    |
+|   k   |    x     |  "now"   |    n    |
 |   l   |    p     |    m     |    v    |
-|   m   |    b     |  "ent"   |    l    |
+|   m   |    h     |  "ent"   |    l    |
 |   n   |    h     |    k     |  "ly"   |
 |   o   |    e     |          |         |
-|   p   |    l     |    s     |    l    |
+|   p   |    v     |    s     |    l    |
 |   q   |          |          |         |
 |   r   |    k     |          |         |
 |   s   |    p     |  "ion"   |    p    |
 |   t   |  "ion"   |  "ing"   |  "ion"  |
-|   u   |          |    a     |         |
+|   u   |          |    h     |         |
 |   v   |   "er"   |   "en"   |         |
-|   w   |    n     |    s     |         |
-|   x   |    p     |    c     |         |
-|   y   |          |          |         |
+|   w   |    t     |    s     |         |
+|   x   |    r     |    c     |         |
+|   y   |    h     |          |         |
 |   z   |          |          |         |
 |  spc  |  "the "  |  dotSpc  | "the "  |
 |  tab  |  "the "  |  "and "  |         |
@@ -112,6 +112,18 @@ Currently unused features:
 | Adaptives | Key | Output |
 |:---------:|:---:|:------:|
 |     n     |  h  |   g    |
+|     p     |  v  |   l    |
+|     a     |  o  |   u    |
+|     u     |  h  |   a    |
+|     w     |  t  |   n    |
+|     m     |  h  |   b    |
+|     g     |  k  |   n    |
+|     g     |  b  |   l    |
+|     p     |  v  |   s    |
+|     k     |  x  |   n    |
+|     x     |  r  |   p    |
+|     x     |  d  |   c    |
+|     y     |  h  |   i    |
 
 ## Chord Table
 

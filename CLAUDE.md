@@ -17,7 +17,7 @@ Tools are managed by mise (Java, Maven, Python, jq, uv). Run `mise install` if n
 
 ## Architecture
 
-**The README.md is the source of truth for the keyboard layout.** The generator parses its markdown tables (layout, options, symbols, magic keys, chords) and produces QMK C code.
+**The README.md is the source of truth for the keyboard layout.** The generator parses its markdown tables (layout, options, symbols, magic keys, adaptives, chords) and produces QMK C code.
 
 ### Generator (Kotlin, `src/main/kotlin/`)
 
@@ -45,9 +45,13 @@ The generator runs twice: once to `qmk/` (with placeholder version) and once to 
 
 ## Workflow
 
-1. Edit layout tables in `README.md` (layers, combos, chords, magic keys, symbols, options)
+1. Edit layout tables in `README.md` (layers, combos, chords, magic keys, adaptives, symbols, options)
 2. Run `mise run generate` to regenerate `qmk/generated.c` and `qmk/combos.def`
 3. Run `mise run flash` to build and flash
+
+## Agent Knowledge
+
+Consult [agents/README.md](agents/README.md) before working on layout ergonomics, motion analysis, or adaptives. Load only the files relevant to the current task.
 
 ## Key Concepts
 
@@ -55,5 +59,6 @@ The generator runs twice: once to `qmk/` (with placeholder version) and once to 
 - **Combos**: Two keys pressed together produce a different output (marked with 💎 in layout)
 - **Chords**: Two-letter sequences that expand to common words (Chord Table in README)
 - **Magic keys**: Context-sensitive keys that output different characters based on the previous keypress
+- **Adaptives**: Regular keys that output a different character when typed after a specific key (e.g. `h` after `n` → `g`, giving "ng" without a combo). To find new candidates: [agents/suggest-adaptives.md](agents/suggest-adaptives.md).
 - **Dead keys**: Modifier keys (dead1/dead2/dead3) used for layer switching
 - **X-Case**: Automatic case conversion modes (camelCase, snake_case, etc.)

@@ -46,6 +46,7 @@
                 <configuration>
                     <mainClass>GenerateKeyboardKt</mainClass>
                 </configuration>
+
             </plugin>
         </plugins>
     </build>

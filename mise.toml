@@ -9,6 +9,7 @@ uv = "latest"
 description = "Generate the keyboard files"
 run = "mvn compile exec:java"
 
+
 [tasks.flash]
 description = "Flash the keyboard"
 depends = "generate"
