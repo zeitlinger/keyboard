@@ -600,7 +600,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_MINUS: tap_code16(KC_RABK); return false;
                     case KC_N: tap_code16(KC_H); return false;
                     case KC_O: tap_code16(KC_E); return false;
-                    case KC_P: tap_code16(KC_V); return false;
+                    case KC_P: tap_code16(KC_M); return false;
                     case KC_R: tap_code16(KC_K); return false;
                     case KC_S: tap_code16(KC_P); return false;
                     case KC_SPC: chord_decode_send(1115); return false; // "the "
@@ -625,7 +625,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case S(KC_M): tap_code16(KC_H); return false;
                     case S(KC_N): tap_code16(KC_H); return false;
                     case S(KC_O): tap_code16(KC_E); return false;
-                    case S(KC_P): tap_code16(KC_V); return false;
+                    case S(KC_P): tap_code16(KC_M); return false;
                     case S(KC_R): tap_code16(KC_K); return false;
                     case S(KC_S): tap_code16(KC_P); return false;
                     case S(KC_T): chord_decode_send(1105); return false; // "ion"
@@ -725,7 +725,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case S(KC_Y): tap_code16(KC_I); return false;
                 }
                 break;
-            case KC_V:
+            case KC_M:
                 switch (get_last_keycode()) {
                     case KC_P: tap_code16(KC_L); return false;
                     case S(KC_P): tap_code16(KC_L); return false;
