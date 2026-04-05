@@ -86,7 +86,7 @@ Currently unused features:
 |   m   |    h     |  "ent"   |    l    |
 |   n   |    h     |    k     |  "ly"   |
 |   o   |    e     |          |         |
-|   p   |    v     |    s     |    l    |
+|   p   |    m     |    s     |    l    |
 |   q   |          |          |         |
 |   r   |    k     |          |         |
 |   s   |    p     |  "ion"   |    p    |
@@ -112,7 +112,7 @@ Currently unused features:
 | Adaptives | Key | Output |
 |:---------:|:---:|:------:|
 |     n     |  h  |   g    |
-|     p     |  v  |   l    |
+|     p     |  m  |   l    |
 |     a     |  o  |   u    |
 |     u     |  h  |   a    |
 |     w     |  t  |   n    |
