@@ -31,6 +31,33 @@ def load_existing_adaptives():
                 existing[(m.group(1), m.group(2))] = m.group(3)
     return existing
 
+
+def load_magic_coverage():
+    """Parse the Magic Keys table → set of (trigger, output) pairs covered by magic.
+
+    A magic entry covers the sacrifice: if magic already maps trigger→output,
+    typing trigger+physical_key won't lose any intended bigrams.
+    Only single-char outputs count (multi-char strings are expansions, not bigram coverage).
+    """
+    covered = set()
+    in_table = False
+    for line in README.read_text().splitlines():
+        if '## Magic Keys' in line:
+            in_table = True
+            continue
+        if in_table:
+            if line.startswith('##'):
+                break
+            # | trigger | Magic A | Magic B | Magic C |
+            m = re.match(r'\|\s*(\w)\s*\|([^|]*)\|([^|]*)\|([^|]*)\|', line)
+            if m:
+                trigger = m.group(1)
+                for col in (m.group(2), m.group(3), m.group(4)):
+                    val = col.strip().strip('"')
+                    if len(val) == 1 and val.isalpha():
+                        covered.add((trigger, val))
+    return covered
+
 # Single-key base layer positions: char -> (col, row)
 # Col 0-3 = left hand (pinky->index), 4-7 = right hand (index->pinky)
 # Row 0 = top, 1 = home, 2 = bottom, 3 = thumb (separate finger, excluded from SFB)
@@ -51,6 +78,8 @@ COMBO_KEYS = set('pbmgvk')
 
 MIN_FREQ_PCT = 0.020       # ignore bad bigrams below this frequency
 MAX_SACRIFICE_DOUBLE = 0.005  # for double-letter bigrams, require near-zero sacrifice
+MAX_MAGIC_SACRIFICE_PCT = 0.030  # sacrifice bigrams below this can be covered by adding a magic entry
+MAX_RECOMMEND_FEEL = 1     # only recommend adding adaptives with feel <= this
 
 
 def is_thumb(pos):
@@ -105,7 +134,7 @@ def feel_score(a_char, b_char):
       1 = alternation or outward same-hand roll
       2 = adjacent finger (col_diff=1) with row change, pinky involved
      99 = row_diff > 1 without d exception (uncomfortable reach)
-    +1 penalty if b_char is a combo key.
+    Combo key as physical target: floor of 2 (never better than "ok").
     """
     a_pos, b_pos = LAYOUT[a_char], LAYOUT[b_char]
     row_diff = abs(a_pos[1] - b_pos[1])
@@ -126,14 +155,15 @@ def feel_score(a_char, b_char):
             return 99
 
         if col_diff == 1 and row_diff > 0:
-            score = 1  # adjacent finger with row change: ok but not a clean roll
+            pinky = (a_pos[0] in (0, 7) or b_pos[0] in (0, 7))
+            score = 2 if pinky else 1  # adjacent+row_change: worse when pinky involved
         elif inward:
             score = 0
         else:
             score = 1
 
     if b_char in COMBO_KEYS:
-        score += 1
+        score = max(score, 2)
 
     return score
 
@@ -165,6 +195,7 @@ def bad_reason_chars(a_char, b_char):
 
 def main():
     existing = load_existing_adaptives()
+    magic_covered = load_magic_coverage()
 
     with open(CORPUS) as f:
         corpus = json.load(f)
@@ -221,9 +252,10 @@ def main():
             if is_bad_chars(a, c):
                 continue
             sacrifice = bigrams.get(f"{a}{c}", 0)
+            magic_free = (a, b) in magic_covered and pct(sacrifice) < MAX_MAGIC_SACRIFICE_PCT
             is_double = a == b
             max_sacrifice = total * MAX_SACRIFICE_DOUBLE / 100 if is_double else bigram_freq / 10
-            if sacrifice >= max_sacrifice:
+            if not magic_free and sacrifice >= max_sacrifice:
                 continue
             bad_following = sum(
                 1 for tg, _ in followers
@@ -289,10 +321,28 @@ def main():
     # --- Recommended changes ---
     print("\n=== Recommended Changes ===\n")
 
-    # Assign candidates greedily by bigram frequency; fall back when (a, c) already taken
+    # Assign candidates greedily by bigram frequency; fall back when (a, c) already taken.
+    # If an existing adaptive already covers (a, b) with equal or better feel, keep it.
     recommended = {}  # (trigger, physical) -> output
     for a, b, _ in bad:  # already sorted by frequency descending
-        for c, _, _, _, _ in all_candidates.get((a, b), []):
+        candidates_list = all_candidates.get((a, b), [])
+        by_key = {cand[0]: cand for cand in candidates_list}
+
+        # If existing already has a valid candidate for this output, prefer it unless
+        # a strictly better-feel new candidate exists.
+        existing_for_output = [(a, c_ex) for (a, c_ex), b_ex in existing.items() if b_ex == b and c_ex in by_key]
+        if existing_for_output:
+            best_new_feel = min((by_key[c][3] for c in by_key if (a, c) not in existing and existing.get((a, c)) is None), default=999)
+            existing_feel = min(by_key[c_ex][3] for _, c_ex in existing_for_output)
+            if best_new_feel >= existing_feel:
+                # Existing is at least as good; record it as recommended and skip new
+                for _, c_ex in existing_for_output:
+                    recommended[(a, c_ex)] = b
+                continue
+
+        for c, _, _, feel, _ in candidates_list:
+            if feel > MAX_RECOMMEND_FEEL:
+                break  # list is sorted by feel; no point continuing
             existing_output = existing.get((a, c))
             already_taken = (a, c) in recommended or (
                 existing_output is not None and existing_output != b
@@ -303,11 +353,28 @@ def main():
 
     add = [(a, c, b) for (a, c), b in recommended.items() if (a, c) not in existing]
 
-    # Remove only if (a, b) is not a bad bigram at all, or c is not a valid candidate for it
+    # Build index: for each (trigger, output), which physical key is recommended?
+    recommended_physical = {}  # (a, b) -> c
+    for (a, c), b in recommended.items():
+        recommended_physical[(a, b)] = c
+
     bad_set = {(a, b) for a, b, _ in bad}
+
+    def existing_superseded(a, c, b):
+        """True if a strictly better-feel candidate was recommended for the same (trigger, output)."""
+        c_new = recommended_physical.get((a, b))
+        if c_new is None or c_new == c:
+            return False
+        by_key = {cand[0]: cand for cand in all_candidates.get((a, b), [])}
+        feel_old = by_key[c][3] if c in by_key else 999
+        feel_new = by_key[c_new][3] if c_new in by_key else 999
+        return feel_new < feel_old
+
     remove = [
         (a, c, b) for (a, c), b in existing.items()
-        if (a, b) not in bad_set or c not in valid_candidates.get((a, b), set())
+        if (a, b) not in bad_set
+        or c not in valid_candidates.get((a, b), set())
+        or existing_superseded(a, c, b)
     ]
 
     remove_set = {(a, c) for a, c, _ in remove}
@@ -331,6 +398,40 @@ def main():
             print(f"  {a} + {c} → {b}")
     else:
         print("\nRemove: (none)")
+
+    # --- Suggested magic entries ---
+    # Covers two cases:
+    # 1. Bad bigrams with no feel<=MAX_RECOMMEND_FEEL adaptive candidate
+    # 2. Outputs lost from removed adaptives (trigger, output) not covered by add/keep
+    print("\n=== Suggested Magic Entries ===\n")
+
+    covered_outputs = set()  # (trigger, output) pairs covered by add+keep
+    for (a, c), b in recommended.items():
+        covered_outputs.add((a, b))
+    for (a, c), b in existing.items():
+        if (a, c) not in remove_set:
+            covered_outputs.add((a, b))
+
+    magic_needed = {}  # (trigger, output) -> reason
+    for a, b, bigram_freq in bad:
+        if (a, b) in covered_outputs:
+            continue
+        best_feel = min((cand[3] for cand in all_candidates.get((a, b), [])), default=999)
+        if best_feel > MAX_RECOMMEND_FEEL:
+            magic_needed[(a, b)] = f"bad bigram '{a}{b}' {pct(bigram_freq):.3f}%, best adaptive feel={best_feel}"
+
+    for a, c, b in remove:
+        if (a, b) not in covered_outputs and (a, b) not in magic_needed:
+            magic_needed[(a, b)] = f"removed adaptive '{a}+{c}→{b}'"
+
+    if magic_needed:
+        # Check which are already in magic table
+        for (trigger, output), reason in sorted(magic_needed.items()):
+            already = (trigger, output) in magic_covered
+            marker = " (already in magic table)" if already else ""
+            print(f"  {trigger} → {output}   [{reason}]{marker}")
+    else:
+        print("  (none)")
 
 
 if __name__ == '__main__':
