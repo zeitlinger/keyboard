@@ -72,7 +72,7 @@ Currently unused features:
 | Magic | Magic A  | Magic B  | Magic C |
 |:-----:|:--------:|:--------:|:-------:|
 |   a   |          |    o     |    u    |
-|   b   |    l     | "ecause" |    l    |
+|   b   |    l     | "ecause" |    "efore"    |
 |   c   |    k     |    p     |    k    |
 |   d   | "oesn't" |  "oes"   | "on't"  |
 |   e   |    o     |          |    o    |
