@@ -7,8 +7,10 @@
 See agents/suggest-adaptives.md for algorithm details.
 """
 
+import argparse
 import json
 import re
+import sys
 from pathlib import Path
 
 CORPUS = Path.home() / "source/genkey/corpora/shai-iweb.json"
@@ -183,6 +185,23 @@ def feel_score(a_char, b_char):
     return score
 
 
+def slot_feel_score(trigger, variant):
+    if trigger not in LAYOUT:
+        return 1
+    trigger_pos = LAYOUT[trigger]
+    pos = MAGIC_POSITIONS[variant]
+    row_diff = abs(trigger_pos[1] - pos[1])
+    if (trigger_pos[0] < 4) != (pos[0] < 4):
+        return 1
+    if row_diff > 1:
+        return 99
+    col_diff = abs(trigger_pos[0] - pos[0])
+    inward = pos[0] > trigger_pos[0]
+    if col_diff == 1 and row_diff > 0:
+        return 2 if (trigger_pos[0] in (0, 7) or pos[0] in (0, 7)) else 1
+    return 0 if inward else 1
+
+
 def is_bad_chars(a_char, b_char):
     return (is_bad(LAYOUT[a_char], LAYOUT[b_char])
             or is_combo_adjacent(a_char, b_char)
@@ -208,7 +227,118 @@ def bad_reason_chars(a_char, b_char):
     return ""
 
 
+def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table):
+    """Apply recommended adaptive and magic key changes to README.md."""
+    content = README.read_text()
+    lines = content.splitlines(keepends=True)
+
+    # Build new adaptive table rows (add + keep, sorted)
+    all_adaptives = sorted(set(add) | set(keep))
+
+    def fmt_adaptive_row(a, c, b):
+        return f"|{a.center(11)}|{c.center(5)}|{b.center(8)}|\n"
+
+    # Build working magic table: original → apply removes → apply adds
+    working_magic = {t: dict(variants) for t, variants in magic_table.items()}
+
+    for (trigger, variant), _output in magic_remove.items():
+        working_magic.setdefault(trigger, {'A': '', 'B': '', 'C': ''})[variant] = ''
+
+    for (trigger, output), _reason in sorted(magic_add_new.items()):
+        row = working_magic.get(trigger, {'A': '', 'B': '', 'C': ''})
+        free = [v for v in ('A', 'B', 'C') if not row.get(v)]
+        if free:
+            best = min(free, key=lambda v: slot_feel_score(trigger, v))
+            working_magic.setdefault(trigger, {'A': '', 'B': '', 'C': ''})
+            working_magic[trigger][best] = output
+        else:
+            val_to_variants = {}
+            for v in ('A', 'B', 'C'):
+                val = row.get(v, '')
+                if val:
+                    val_to_variants.setdefault(val, []).append(v)
+            replaced = False
+            for val, variants_list in val_to_variants.items():
+                if len(variants_list) >= 2:
+                    variants_by_feel = sorted(variants_list, key=lambda v: slot_feel_score(trigger, v))
+                    drop_v = variants_by_feel[-1]
+                    working_magic[trigger][drop_v] = output
+                    replaced = True
+                    break
+            if not replaced:
+                print(f"WARNING: no magic slot for {trigger} → {output}, skipping", file=sys.stderr)
+
+    def fmt_magic_val(val, width):
+        if not val:
+            return ' ' * width
+        display = f'"{val}"' if len(val) > 1 else val
+        return display.center(width)
+
+    def fmt_magic_row(trigger, variants):
+        A = variants.get('A', '')
+        B = variants.get('B', '')
+        C = variants.get('C', '')
+        return f"|{trigger.center(7)}|{fmt_magic_val(A,10)}|{fmt_magic_val(B,10)}|{fmt_magic_val(C,9)}|\n"
+
+    # Rewrite file
+    new_lines = []
+    section = None
+    adaptive_header_done = False
+
+    for line in lines:
+        stripped = line.rstrip('\n')
+
+        if stripped.startswith('## Magic Keys'):
+            section = 'magic'
+            new_lines.append(line)
+            continue
+        elif stripped.startswith('## Adaptives'):
+            section = 'adaptives'
+            adaptive_header_done = False
+            new_lines.append(line)
+            continue
+        elif stripped.startswith('## '):
+            section = None
+            new_lines.append(line)
+            continue
+
+        if section == 'magic':
+            m = re.match(r'\|\s*(\w)\s*\|([^|]*)\|([^|]*)\|([^|]*)\|', stripped)
+            if m and len(m.group(1)) == 1:
+                trigger = m.group(1)
+                if trigger in working_magic:
+                    new_lines.append(fmt_magic_row(trigger, working_magic[trigger]))
+                    continue
+            new_lines.append(line)
+            continue
+
+        if section == 'adaptives':
+            if stripped.startswith('|:-'):
+                new_lines.append(line)
+                for a, c, b in all_adaptives:
+                    new_lines.append(fmt_adaptive_row(a, c, b))
+                adaptive_header_done = True
+                continue
+            elif adaptive_header_done:
+                if stripped.startswith('|'):
+                    continue  # skip old data rows
+                new_lines.append(line)
+                continue
+            else:
+                new_lines.append(line)
+                continue
+
+        new_lines.append(line)
+
+    README.write_text(''.join(new_lines))
+    print(f"Applied changes to {README}")
+
+
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--apply', action='store_true', help='Apply recommended changes to README.md')
+    args = parser.parse_args()
+
     existing = load_existing_adaptives()
     magic_table = load_magic_table()
     magic_covered = load_magic_coverage(magic_table)
@@ -450,22 +580,6 @@ def main():
                     and (a, b) not in magic_remove_pairs):
                 magic_keep.setdefault((a, b), []).append(f"{a}+{c}→{b}")
 
-    def slot_feel_score(trigger, variant):
-        if trigger not in LAYOUT:
-            return 1
-        trigger_pos = LAYOUT[trigger]
-        pos = MAGIC_POSITIONS[variant]
-        row_diff = abs(trigger_pos[1] - pos[1])
-        if (trigger_pos[0] < 4) != (pos[0] < 4):
-            return 1
-        if row_diff > 1:
-            return 99
-        col_diff = abs(trigger_pos[0] - pos[0])
-        inward = pos[0] > trigger_pos[0]
-        if col_diff == 1 and row_diff > 0:
-            return 2 if (trigger_pos[0] in (0, 7) or pos[0] in (0, 7)) else 1
-        return 0 if inward else 1
-
     def best_magic_slot(trigger):
         """Return (variant, replace_note) for the best available slot.
 
@@ -579,6 +693,9 @@ def main():
         print("\nAlready in table (add section covered):")
         for (trigger, output), reason in sorted(magic_add_exists.items()):
             print(f"  {trigger} → {output}   [{reason}]")
+
+    if args.apply:
+        apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table)
 
 
 if __name__ == '__main__':

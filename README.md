@@ -71,31 +71,31 @@ Currently unused features:
 
 | Magic | Magic A  | Magic B  | Magic C |
 |:-----:|:--------:|:--------:|:-------:|
-|   a   |          |    o     |    u    |
-|   b   |    l     | "ecause" |    "efore"    |
-|   c   |    k     |    p     |    k    |
-|   d   | "oesn't" |  "oes"   | "on't"  |
-|   e   |    o     |          |    o    |
+|   a   |          |          |    e    |
+|   b   |    d     | "ecause" |    h    |
+|   c   |    d     |    p     |         |
+|   d   | "oesn't" |  "oes"   |  "on't" |
+|   e   |          |          |    h    |
 |   f   |    f     |   "or"   |         |
-|   g   |    n     |    k     |    b    |
+|   g   |    y     |    k     |    b    |
 |   h   |    y     |   "ey"   |         |
 |   i   |    '     |  "'ve"   |         |
 |   j   |  "ust"   |          |         |
-|   k   |    x     |  "now"   |    n    |
-|   l   |    p     |    m     |    v    |
+|   k   |    x     |  "now"   |    h    |
+|   l   |    c     |    r     |    h    |
 |   m   |    h     |  "ent"   |    l    |
-|   n   |    h     |    k     |  "ly"   |
-|   o   |    e     |          |         |
-|   p   |    m     |    v     |    l    |
+|   n   |    h     |    r     |   "ly"  |
+|   o   |    h     |          |    h    |
+|   p   |    m     |    v     |    d    |
 |   q   |          |          |         |
 |   r   |    k     |          |         |
-|   s   |    p     |  "ion"   |    p    |
-|   t   |  "ion"   |  "ing"   |  "ion"  |
-|   u   |          |    h     |         |
+|   s   |    d     |  "ion"   |    k    |
+|   t   |  "ion"   |  "ing"   |    x    |
+|   u   |          |          |    h    |
 |   v   |   "er"   |   "en"   |         |
-|   w   |    t     |    s     |         |
-|   x   |    r     |    c     |         |
-|   y   |    h     |          |         |
+|   w   |    t     |    s     |    x    |
+|   x   |    r     |    w     |         |
+|   y   |    h     |    x     |         |
 |   z   |          |          |         |
 |  spc  |  "the "  |  dotSpc  | "the "  |
 |  tab  |  "the "  |  "and "  |         |
@@ -111,19 +111,32 @@ Currently unused features:
 
 | Adaptives | Key | Output |
 |:---------:|:---:|:------:|
+|     a     |  e  |   u    |
+|     b     |  d  |   l    |
+|     b     |  h  |   s    |
+|     c     |  d  |   k    |
+|     e     |  h  |   o    |
+|     g     |  b  |   l    |
+|     g     |  y  |   n    |
+|     k     |  h  |   n    |
+|     l     |  c  |   m    |
+|     l     |  h  |   v    |
+|     l     |  r  |   p    |
+|     m     |  h  |   b    |
 |     n     |  h  |   g    |
-|     p     |  m  |   l    |
+|     n     |  r  |   k    |
+|     n     |  x  |   l    |
+|     o     |  h  |   e    |
+|     p     |  d  |   l    |
 |     p     |  v  |   s    |
-|     a     |  o  |   u    |
+|     s     |  d  |   p    |
+|     t     |  x  |   m    |
 |     u     |  h  |   a    |
 |     w     |  t  |   n    |
-|     m     |  h  |   b    |
-|     g     |  k  |   n    |
-|     g     |  b  |   l    |
-|     k     |  x  |   n    |
-|     x     |  r  |   p    |
+|     w     |  x  |   n    |
 |     x     |  d  |   c    |
-|     y     |  h  |   i    |
+|     x     |  w  |   p    |
+|     y     |  x  |   i    |
 
 ## Chord Table
 
