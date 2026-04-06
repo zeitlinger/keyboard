@@ -32,14 +32,12 @@ def load_existing_adaptives():
     return existing
 
 
-def load_magic_coverage():
-    """Parse the Magic Keys table → set of (trigger, output) pairs covered by magic.
+def load_magic_table():
+    """Parse the Magic Keys table → dict of trigger -> {'A': val, 'B': val, 'C': val}.
 
-    A magic entry covers the sacrifice: if magic already maps trigger→output,
-    typing trigger+physical_key won't lose any intended bigrams.
-    Only single-char outputs count (multi-char strings are expansions, not bigram coverage).
+    Values are the raw cell text (single char or quoted string or empty string).
     """
-    covered = set()
+    table = {}
     in_table = False
     for line in README.read_text().splitlines():
         if '## Magic Keys' in line:
@@ -48,15 +46,32 @@ def load_magic_coverage():
         if in_table:
             if line.startswith('##'):
                 break
-            # | trigger | Magic A | Magic B | Magic C |
             m = re.match(r'\|\s*(\w)\s*\|([^|]*)\|([^|]*)\|([^|]*)\|', line)
             if m:
                 trigger = m.group(1)
-                for col in (m.group(2), m.group(3), m.group(4)):
-                    val = col.strip().strip('"')
-                    if len(val) == 1 and val.isalpha():
-                        covered.add((trigger, val))
+                table[trigger] = {
+                    'A': m.group(2).strip().strip('"'),
+                    'B': m.group(3).strip().strip('"'),
+                    'C': m.group(4).strip().strip('"'),
+                }
+    return table
+
+
+def load_magic_coverage(magic_table):
+    """Return set of (trigger, output) pairs covered by magic (single-char outputs only)."""
+    covered = set()
+    for trigger, variants in magic_table.items():
+        for val in variants.values():
+            if len(val) == 1 and val.isalpha():
+                covered.add((trigger, val))
     return covered
+
+
+# Physical positions of the three magic key variants.
+# magicA: R.Ind. combo row (col 4, row 2 approx)
+# magicB: R.Mid. combo row (col 5, row 2 approx)
+# magicC: R.Ring top row   (col 6, row 0)
+MAGIC_POSITIONS = {'A': (4, 2), 'B': (5, 2), 'C': (6, 0)}
 
 # Single-key base layer positions: char -> (col, row)
 # Col 0-3 = left hand (pinky->index), 4-7 = right hand (index->pinky)
@@ -195,7 +210,8 @@ def bad_reason_chars(a_char, b_char):
 
 def main():
     existing = load_existing_adaptives()
-    magic_covered = load_magic_coverage()
+    magic_table = load_magic_table()
+    magic_covered = load_magic_coverage(magic_table)
 
     with open(CORPUS) as f:
         corpus = json.load(f)
@@ -263,7 +279,7 @@ def main():
             )
             feel = feel_score(a, c)
             same_hand = (LAYOUT[a][0] < 4) == (LAYOUT[c][0] < 4)
-            candidates.append((c, sacrifice, bad_following, feel, same_hand))
+            candidates.append((c, sacrifice, bad_following, feel, same_hand, magic_free))
 
         candidates.sort(key=lambda x: (x[3], x[4], x[2], x[1]))
 
@@ -271,12 +287,13 @@ def main():
             print("  (no candidates)")
         else:
             best_candidate[(a, b)] = candidates[0][0]
-            valid_candidates[(a, b)] = {c for c, _, _, _, _ in candidates}
+            valid_candidates[(a, b)] = {c for c, _, _, _, _, _ in candidates}
             all_candidates[(a, b)] = candidates  # full sorted list for conflict resolution
-            for c, sacrifice, bad_following, feel, _ in candidates[:50]:
+            for c, sacrifice, bad_following, feel, _, mfree in candidates[:50]:
                 marker = " *" if (a, c) in existing else ""
                 follower_str = f"{bad_following}/{len(followers)}" if followers else "n/a"
-                print(f"  {a} + {c} → {b}   feel={feel}  sacrifice '{a}{c}' {pct(sacrifice):.3f}%"
+                sac_str = f"{pct(sacrifice):.3f}%" + (" (magic)" if mfree else "")
+                print(f"  {a} + {c} → {b}   feel={feel}  sacrifice '{a}{c}' {sac_str}"
                       f"   following-bad: {follower_str}{marker}")
 
     # --- Combo-roll adaptive opportunities ---
@@ -318,9 +335,7 @@ def main():
         print(f"  {a} + {c} → {b}   [{reason} {pct(bigram_freq):.3f}%]"
               f"   sacrifice '{a}{c}' {pct(sacrifice):.3f}%   following-bad: {follower_str}{marker}")
 
-    # --- Recommended changes ---
-    print("\n=== Recommended Changes ===\n")
-
+    # --- Recommended changes (greedy assignment) ---
     # Assign candidates greedily by bigram frequency; fall back when (a, c) already taken.
     # If an existing adaptive already covers (a, b) with equal or better feel, keep it.
     recommended = {}  # (trigger, physical) -> output
@@ -340,7 +355,7 @@ def main():
                     recommended[(a, c_ex)] = b
                 continue
 
-        for c, _, _, feel, _ in candidates_list:
+        for c, _, _, feel, _, _ in candidates_list:
             if feel > MAX_RECOMMEND_FEEL:
                 break  # list is sorted by feel; no point continuing
             existing_output = existing.get((a, c))
@@ -350,8 +365,6 @@ def main():
             if not already_taken:
                 recommended[(a, c)] = b
                 break
-
-    add = [(a, c, b) for (a, c), b in recommended.items() if (a, c) not in existing]
 
     # Build index: for each (trigger, output), which physical key is recommended?
     recommended_physical = {}  # (a, b) -> c
@@ -380,6 +393,129 @@ def main():
     remove_set = {(a, c) for a, c, _ in remove}
     keep = [(a, c, b) for (a, c), b in existing.items() if (a, c) not in remove_set]
 
+    # --- Pre-compute magic slot availability before printing adaptives ---
+
+    covered_outputs = set()  # (trigger, output) pairs covered by add+keep adaptives
+    for (a, c), b in recommended.items():
+        covered_outputs.add((a, b))
+    for (a, c), b in existing.items():
+        if (a, c) not in remove_set:
+            covered_outputs.add((a, b))
+
+    # Magic entries to ADD: bad bigrams with no good adaptive, or lost from removed adaptives
+    magic_add = {}   # (trigger, output) -> reason
+    for a, b, bigram_freq in bad:
+        if (a, b) in covered_outputs:
+            continue
+        best_feel = min((cand[3] for cand in all_candidates.get((a, b), [])), default=999)
+        if best_feel > MAX_RECOMMEND_FEEL:
+            magic_add[(a, b)] = f"bad bigram '{a}{b}' {pct(bigram_freq):.3f}%, best adaptive feel={best_feel}"
+    for a, c, b in remove:
+        if (a, b) not in covered_outputs and (a, b) not in magic_add:
+            magic_add[(a, b)] = f"removed adaptive '{a}+{c}→{b}'"
+
+    # Recovery magic: new adaptives intercept trigger+physical → the original ac sequence
+    # is now lost; suggest magic trigger→physical so it can still be typed.
+    for (a, c), b in recommended.items():
+        if (a, c) in existing:
+            continue  # existing adaptive already had this interception
+        sacrifice = bigrams.get(f"{a}{c}", 0)
+        if sacrifice > 0 and (a, c) not in magic_covered:
+            magic_add.setdefault((a, c), f"recovery: '{a}{c}' intercepted by {a}+{c}→{b} adaptive ({pct(sacrifice):.3f}%)")
+
+    # Magic entries to REMOVE: single-char entries where an adaptive now covers (trigger, output).
+    # Once we commit to adding the adaptive, the magic it relied on for sacrifice justification
+    # can be freed — the adaptive is the new owner of that (trigger, output) pair.
+    magic_remove = {}  # (trigger, variant) -> output
+    for trigger, variants in magic_table.items():
+        for variant, val in variants.items():
+            if len(val) == 1 and val.isalpha() and (trigger, val) in covered_outputs:
+                magic_remove[(trigger, variant)] = val
+
+    # Effective magic table after removals — used for slot availability in Add
+    effective_magic_table = {
+        t: {v: val for v, val in variants.items() if (t, v) not in magic_remove}
+        for t, variants in magic_table.items()
+    }
+
+    magic_remove_pairs = {(t, val) for (t, v), val in magic_remove.items()}
+
+    # Magic entries to KEEP: relied on by adaptive recommendations (magic_free candidates)
+    # but not already being removed.
+    magic_keep = {}  # (trigger, output) -> [adaptive descriptions]
+    for a, b, _ in bad:
+        for cand in all_candidates.get((a, b), []):
+            c, sacrifice, _, feel, _, mfree = cand
+            if (mfree and (a, c) in recommended and recommended[(a, c)] == b
+                    and (a, b) not in magic_remove_pairs):
+                magic_keep.setdefault((a, b), []).append(f"{a}+{c}→{b}")
+
+    def slot_feel_score(trigger, variant):
+        if trigger not in LAYOUT:
+            return 1
+        trigger_pos = LAYOUT[trigger]
+        pos = MAGIC_POSITIONS[variant]
+        row_diff = abs(trigger_pos[1] - pos[1])
+        if (trigger_pos[0] < 4) != (pos[0] < 4):
+            return 1
+        if row_diff > 1:
+            return 99
+        col_diff = abs(trigger_pos[0] - pos[0])
+        inward = pos[0] > trigger_pos[0]
+        if col_diff == 1 and row_diff > 0:
+            return 2 if (trigger_pos[0] in (0, 7) or pos[0] in (0, 7)) else 1
+        return 0 if inward else 1
+
+    def best_magic_slot(trigger):
+        """Return (variant, replace_note) for the best available slot.
+
+        Considers: genuinely free slots, then duplicate-value slots (one can be dropped).
+        Returns (variant, None) for free slot, (variant, 'replace Magic X=val') for duplicate.
+        Returns None if no slot can be found.
+        """
+        row = effective_magic_table.get(trigger, {})
+        free = [v for v in ('A', 'B', 'C') if not row.get(v)]
+        if free:
+            best = min(free, key=lambda v: slot_feel_score(trigger, v))
+            return (best, None)
+        # Look for duplicate values — one can be dropped to free a slot
+        val_to_variants = {}
+        for v in ('A', 'B', 'C'):
+            val = row.get(v, '')
+            if val:
+                val_to_variants.setdefault(val, []).append(v)
+        for val, variants in val_to_variants.items():
+            if len(variants) >= 2:
+                # Keep the better-feel one, free the worse one
+                variants_by_feel = sorted(variants, key=lambda v: slot_feel_score(trigger, v))
+                keep_v, drop_v = variants_by_feel[0], variants_by_feel[-1]
+                return (drop_v, f"replace Magic {drop_v}={val} (dup of {keep_v})")
+        return None
+
+    # Adaptives that have no possible magic recovery slot — drop them
+    no_recovery = {}  # (a, c) -> b
+    for (a, c), b in list(recommended.items()):
+        if (a, c) in existing:
+            continue
+        sacrifice = bigrams.get(f"{a}{c}", 0)
+        if sacrifice > 0 and (a, c) not in magic_covered:
+            if best_magic_slot(a) is None:
+                no_recovery[(a, c)] = b
+
+    for key in no_recovery:
+        del recommended[key]
+
+    add = [(a, c, b) for (a, c), b in recommended.items() if (a, c) not in existing]
+
+    # Drop recovery magic entries for removed adaptives
+    no_recovery_pairs = {(a, c) for a, c in no_recovery}
+    magic_add_new = {k: v for k, v in magic_add.items()
+                     if k not in magic_covered and k not in no_recovery_pairs}
+    magic_add_exists = {k: v for k, v in magic_add.items() if k in magic_covered}
+
+    # --- Print adaptive recommendations ---
+    print("\n=== Recommended Changes ===\n")
+
     if add:
         print("Add:")
         for a, c, b in sorted(add):
@@ -399,39 +535,50 @@ def main():
     else:
         print("\nRemove: (none)")
 
-    # --- Suggested magic entries ---
-    # Covers two cases:
-    # 1. Bad bigrams with no feel<=MAX_RECOMMEND_FEEL adaptive candidate
-    # 2. Outputs lost from removed adaptives (trigger, output) not covered by add/keep
-    print("\n=== Suggested Magic Entries ===\n")
+    # --- Print magic recommendations ---
+    print("\n=== Magic Keys Recommended Changes ===\n")
 
-    covered_outputs = set()  # (trigger, output) pairs covered by add+keep
-    for (a, c), b in recommended.items():
-        covered_outputs.add((a, b))
-    for (a, c), b in existing.items():
-        if (a, c) not in remove_set:
-            covered_outputs.add((a, b))
+    if no_recovery:
+        print("Skipped (no magic recovery slot):")
+        for (a, c), b in sorted(no_recovery.items()):
+            row = magic_table.get(a, {})
+            taken = ', '.join(f"{v}={row[v]}" for v in ('A', 'B', 'C') if row.get(v))
+            print(f"  {a} + {c} → {b}   (magic {a}: {taken})")
+        print()
 
-    magic_needed = {}  # (trigger, output) -> reason
-    for a, b, bigram_freq in bad:
-        if (a, b) in covered_outputs:
-            continue
-        best_feel = min((cand[3] for cand in all_candidates.get((a, b), [])), default=999)
-        if best_feel > MAX_RECOMMEND_FEEL:
-            magic_needed[(a, b)] = f"bad bigram '{a}{b}' {pct(bigram_freq):.3f}%, best adaptive feel={best_feel}"
-
-    for a, c, b in remove:
-        if (a, b) not in covered_outputs and (a, b) not in magic_needed:
-            magic_needed[(a, b)] = f"removed adaptive '{a}+{c}→{b}'"
-
-    if magic_needed:
-        # Check which are already in magic table
-        for (trigger, output), reason in sorted(magic_needed.items()):
-            already = (trigger, output) in magic_covered
-            marker = " (already in magic table)" if already else ""
-            print(f"  {trigger} → {output}   [{reason}]{marker}")
+    if magic_add_new:
+        print("Add:")
+        for (trigger, output), reason in sorted(magic_add_new.items()):
+            result = best_magic_slot(trigger)
+            if result:
+                variant, note = result
+                slot_str = f" → Magic {variant}" + (f" ({note})" if note else "")
+            else:
+                row = effective_magic_table.get(trigger, {})
+                taken = ', '.join(f"{v}={row[v]}" for v in ('A', 'B', 'C') if row.get(v))
+                slot_str = f" (no free slot: {taken})"
+            print(f"  {trigger} → {output}{slot_str}   [{reason}]")
     else:
-        print("  (none)")
+        print("Add: (none)")
+
+    if magic_remove:
+        print("\nRemove (now served by adaptive):")
+        # Group by trigger for readability
+        by_trigger = {}
+        for (trigger, variant), output in sorted(magic_remove.items()):
+            by_trigger.setdefault(trigger, []).append(f"Magic {variant}={output}")
+        for trigger, entries in sorted(by_trigger.items()):
+            print(f"  {trigger}: {', '.join(entries)}")
+
+    if magic_keep:
+        print("\nKeep (relied on by adaptive recommendations):")
+        for (trigger, output), adaptives in sorted(magic_keep.items()):
+            print(f"  {trigger} → {output}   [enables {', '.join(adaptives)}]")
+
+    if magic_add_exists:
+        print("\nAlready in table (add section covered):")
+        for (trigger, output), reason in sorted(magic_add_exists.items()):
+            print(f"  {trigger} → {output}   [{reason}]")
 
 
 if __name__ == '__main__':
