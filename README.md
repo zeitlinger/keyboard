@@ -89,7 +89,7 @@ Currently unused features:
 |   p   |    m     |    v     |    d    |
 |   q   |          |          |         |
 |   r   |    k     |          |         |
-|   s   |    d     |  "ion"   |    k    |
+|   s   |    d     |  "ion"   |    r    |
 |   t   |  "ion"   |  "ing"   |    x    |
 |   u   |          |          |    h    |
 |   v   |   "er"   |   "en"   |         |
@@ -130,6 +130,7 @@ Currently unused features:
 |     p     |  d  |   l    |
 |     p     |  v  |   s    |
 |     s     |  d  |   p    |
+|     s     |  r  |   k    |
 |     t     |  x  |   m    |
 |     u     |  h  |   a    |
 |     w     |  t  |   n    |

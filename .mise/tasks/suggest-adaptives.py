@@ -398,7 +398,14 @@ def main():
             if is_bad_chars(a, c):
                 continue
             sacrifice = bigrams.get(f"{a}{c}", 0)
-            magic_free = (a, b) in magic_covered and pct(sacrifice) < MAX_MAGIC_SACRIFICE_PCT
+            # Sacrifice is acceptable if the bad bigram can be typed via magic,
+            # OR if this is an existing adaptive whose trigger+physical pair already
+            # has a recovery magic key (happens after --apply on a re-run).
+            is_existing = (a, c) in existing
+            magic_free = (
+                ((a, b) in magic_covered or (is_existing and (a, c) in magic_covered))
+                and pct(sacrifice) < MAX_MAGIC_SACRIFICE_PCT
+            )
             is_double = a == b
             max_sacrifice = total * MAX_SACRIFICE_DOUBLE / 100 if is_double else bigram_freq / 10
             if not magic_free and sacrifice >= max_sacrifice:
@@ -475,7 +482,7 @@ def main():
 
         # If existing already has a valid candidate for this output, prefer it unless
         # a strictly better-feel new candidate exists.
-        existing_for_output = [(a, c_ex) for (a, c_ex), b_ex in existing.items() if b_ex == b and c_ex in by_key]
+        existing_for_output = [(a, c_ex) for (a_ex, c_ex), b_ex in existing.items() if a_ex == a and b_ex == b and c_ex in by_key]
         if existing_for_output:
             best_new_feel = min((by_key[c][3] for c in by_key if (a, c) not in existing and existing.get((a, c)) is None), default=999)
             existing_feel = min(by_key[c_ex][3] for _, c_ex in existing_for_output)
