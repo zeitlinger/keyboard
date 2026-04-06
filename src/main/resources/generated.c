@@ -30,9 +30,12 @@ ${timeouts}
     }
 }
 
+static uint16_t pre_last_keycode = KC_NO;
+
 bool tap(uint16_t keycode) {
     tap_code16(keycode);
     set_last_keycode(keycode);
+    pre_last_keycode = keycode;
     return false;
 }
 
@@ -41,6 +44,7 @@ bool pre_process_record_user(uint16_t keycode, keyrecord_t *record) {
         switch (keycode) {
 ${adaptives}
         }
+        pre_last_keycode = keycode;
     }
     return true;
 }
