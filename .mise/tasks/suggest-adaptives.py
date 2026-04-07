@@ -182,6 +182,9 @@ def feel_score(a_char, b_char):
     if b_char in COMBO_KEYS:
         score = max(score, 2)  # combo key as physical target: unreliable, never better than "ok"
 
+    if is_combo_adjacent(a_char, b_char):
+        score = max(score, 1)  # combo still in motion: not ideal but typeable as adaptive target
+
     return score
 
 
@@ -395,8 +398,8 @@ def main():
         for c in LAYOUT:
             if c in (a, b):
                 continue
-            if is_bad_chars(a, c):
-                continue
+            if is_bad(LAYOUT[a], LAYOUT[c]) or is_combo_preceded(a, c):
+                continue  # combo-adjacent handled by feel_score, not filtered here
             sacrifice = bigrams.get(f"{a}{c}", 0)
             # Sacrifice is acceptable if the bad bigram can be typed via magic,
             # OR if this is an existing adaptive whose trigger+physical pair already
@@ -516,13 +519,18 @@ def main():
         if c_new is None or c_new == c:
             return False
         by_key = {cand[0]: cand for cand in all_candidates.get((a, b), [])}
-        feel_old = by_key[c][3] if c in by_key else 999
+        if c not in by_key:
+            return False  # existing key was a deliberate user choice outside valid candidates
+        feel_old = by_key[c][3]
         feel_new = by_key[c_new][3] if c_new in by_key else 999
         return feel_new < feel_old
 
+    # Use is_bad_chars (not bad_set) so existing adaptives are only removed if the bigram
+    # is not physically bad at all — frequency threshold applies to new suggestions, not
+    # to keeping deliberate user choices.
     remove = [
         (a, c, b) for (a, c), b in existing.items()
-        if (a, b) not in bad_set
+        if not is_bad_chars(a, b)
         or existing_superseded(a, c, b)
     ]
 
