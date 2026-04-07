@@ -96,7 +96,7 @@ COMBO_KEYS = set('pbmgvk')
 MIN_FREQ_PCT = 0.020       # ignore bad bigrams below this frequency
 MAX_SACRIFICE_DOUBLE = 0.005  # for double-letter bigrams, require near-zero sacrifice
 MAX_MAGIC_SACRIFICE_PCT = 0.030  # sacrifice bigrams below this can be covered by adding a magic entry
-MAX_RECOMMEND_FEEL = 1     # only recommend adding adaptives with feel <= this
+MAX_RECOMMEND_FEEL = 2     # only recommend adding adaptives with feel <= this
 
 
 def is_thumb(pos):
@@ -146,12 +146,12 @@ def is_bad(a, b):
 def feel_score(a_char, b_char):
     """Lower = better feel for the physical motion a_char → b_char.
 
-    Combo followed by:
       0 = good inward same-hand roll
-      1 = alternation or outward; or combo-adjacent to same/lower row (stagger makes it ok)
-      2 = adjacent finger (col_diff=1) with row change, pinky; or combo-adjacent moving up/to top row
+      1 = alternation or outward
+      2 = combo-adjacent to same/lower row (col stagger makes it ok)
+      3 = adjacent finger (col_diff=1) with row change + pinky; or combo-adjacent moving up/to top row
      99 = row_diff > 1 without d exception (uncomfortable reach)
-    Combo key as physical target: floor of 2 (never better than "ok").
+    Combo key as physical target: floor of 3 (never better than "ok").
     """
     a_pos, b_pos = LAYOUT[a_char], LAYOUT[b_char]
     row_diff = abs(a_pos[1] - b_pos[1])
@@ -173,23 +173,23 @@ def feel_score(a_char, b_char):
 
         if col_diff == 1 and row_diff > 0:
             pinky = (a_pos[0] in (0, 7) or b_pos[0] in (0, 7))
-            score = 2 if pinky else 1  # adjacent+row_change: worse when pinky involved
+            score = 3 if pinky else 1  # adjacent+row_change: worse when pinky involved
         elif inward:
             score = 0
         else:
             score = 1
 
     if b_char in COMBO_KEYS:
-        score = max(score, 2)  # combo key as physical target: unreliable, never better than "ok"
+        score = max(score, 3)  # combo key as physical target: unreliable
 
     if is_combo_adjacent(a_char, b_char):
         # Col stagger: natural to move to same or lower row after a combo.
         # Top-row targets (row 0) always awkward; home/lower natural for top combos,
         # lower-only natural for bottom combos.
         if b_pos[1] >= max(1, a_pos[1]):
-            pass  # no penalty: stagger makes this comfortable
+            score = max(score, 2)  # acceptable: stagger makes this comfortable
         else:
-            score = max(score, 2)  # moving up or to top row after combo: awkward
+            score = max(score, 3)  # moving up or to top row after combo: awkward
 
     return score
 
