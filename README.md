@@ -74,13 +74,13 @@ Currently unused features:
 |   a   |          |          |    e    |
 |   b   |    d     | "ecause" |    h    |
 |   c   |    d     |    p     |         |
-|   d   | "oesn't" |  "oes"   |  "on't" |
+|   d   |  "oes"   | "oesn't" |  "on't" |
 |   e   |          |          |    h    |
 |   f   |    f     |   "or"   |         |
 |   g   |    y     |    k     |    b    |
 |   h   |    y     |   "ey"   |         |
 |   i   |    '     |  "'ve"   |         |
-|   j   |  "ust"   |          |         |
+|   j   |          |  "ust"   |         |        
 |   k   |    x     |  "now"   |    h    |
 |   l   |    c     |    r     |    h    |
 |   m   |    h     |  "ent"   |    l    |
@@ -90,18 +90,18 @@ Currently unused features:
 |   q   |          |          |         |
 |   r   |    k     |          |         |
 |   s   |    d     |  "ion"   |    r    |
-|   t   |  "ion"   |  "ing"   |    x    |
+|   t   |          |  "ion"   |    x    |
 |   u   |          |          |    h    |
 |   v   |   "er"   |   "en"   |         |
 |   w   |    t     |    s     |    x    |
 |   x   |    r     |    w     |         |
 |   y   |    h     |    x     |         |
 |   z   |          |          |         |
-|  spc  |  "the "  |  dotSpc  | "the "  |
-|  tab  |  "the "  |  "and "  |         |
-|  ↩️️  |  "the "  |  "and "  |         |
+|  spc  |          | "the "  |  dotSpc  | 
+|  tab  |          | "the "  |  "and "  |         
+|  ↩️️  |          |  "the "  |  "and "  |
 |   ~   |    /     |          |         |
-|   ,   | " but "  | " and "  |         |
+|   ,   |          | " but "  | " and " |
 |   .   |    /     |   "./"   |         |
 |   -   |    >     |          |         |
 |   =   |    >     |          |         |
@@ -240,7 +240,7 @@ Currently unused features:
 | na    | "anyway"                        |      |
 | nd    | "instead"                       |      |
 | ne    | "number"                        |      |
-| nh    | "anything"                      |      |
+| nh    | "anything"                      | plan |
 | ni    | "into"                          |      |
 | nj    | "issues"                        |      |
 | no    | "another"                       |      |
@@ -270,7 +270,7 @@ Currently unused features:
 | ry    | "years"                         |      |
 | rz    | "realize"                       |      |
 | s     | "should"                        |      |
-| s,    | "wasn't"                        |      |
+| s,    | "wasn't"                        | plan |
 | s.    | "string"                        |      |
 | se    | "search"                        |      |
 | sh    | "share"                         |      |
@@ -279,7 +279,7 @@ Currently unused features:
 | so    | "slowly"                        |      |
 | sr    | "surprise"                      |      |
 | su    | "support"                       |      |
-| st    | "something"                     |      |
+| st    | "something"                     | plan |
 | sy    | "system"                        |      |
 | t     | "think"                         |      |
 | t,    | "tenant"                        |      |
@@ -288,7 +288,7 @@ Currently unused features:
 | th    | "other"                         |      |
 | ti    | "time"                          |      |
 | tj    | "through"                       |      |
-| to    | "thought"                       |      |
+| to    | "thought"                       | plan |
 | tr    | "there"                         |      |
 | tt    | "OpenTelemetry"                 |      |
 | tu    | "though"                        |      |
@@ -301,8 +301,8 @@ Currently unused features:
 | vo    | "over"                          |      |
 | vr    | "never"                         |      |
 | vu    | "value"                         |      |
-| vy    | "everything"                    |      |
-| w,    | "wouldn't"                      |      |
+| vy    | "everything"                    | plan |
+| w,    | "wouldn't"                      | plan |
 | w.    | "await"                         |      |
 | we    | "when"                          |      |
 | wh    | "which"                         |      |
@@ -345,7 +345,7 @@ Currently unused features:
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |         |    v    |   ing   |         |         |         |
 | Base  |         |         |         |   💎    |   💎    |         |         |         |
-| Base  |         |         |         |    k    | magicA  |         |         |         |
+| Base  |         |         |         |    k    |  chord  |         |         |         |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |    m    |         |         | magicB  |         |         |
@@ -353,7 +353,7 @@ Currently unused features:
 | Base  |         |         |    g    |         |         |    ,    |         |         |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Base  |         |    p    |         |         |         |         |  chord  |         |
+| Base  |         |    p    |         |         |         |         | magicA  |         |
 | Base  |         |   💎    |         |         |         |         |   💎    |         |
 | Base  |         |    b    |         |         |         |         |    .    |         |
 | Base  |         |         |         |         |         |         |         |         |
