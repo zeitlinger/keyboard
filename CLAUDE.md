@@ -43,6 +43,10 @@ Tools are managed by mise (Java, Maven, Python, jq, uv). Run `mise install` if n
 
 The generator runs twice: once to `qmk/` (with placeholder version) and once to `target/qmk/` (with git version). Only `target/qmk/` should be used for actual firmware builds.
 
+**Do NOT edit `qmk/generated.c` or `qmk/combos.def` directly.** These are committed for reference only. The real sources are:
+- `README.md` — layout tables, adaptives, magic keys, chords (source of truth)
+- `src/main/resources/generated.c` — C template with `${...}` placeholders filled by the generator
+
 ## Workflow
 
 1. Edit layout tables in `README.md` (layers, combos, chords, magic keys, adaptives, symbols, options)

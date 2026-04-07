@@ -185,7 +185,7 @@ private fun adaptiveBlocks(rules: List<AdaptiveRule>): List<String> =
     rules.groupBy { it.key }.map { (key, entries) ->
         val cases = entries.sortedBy { it.after.key }
             .joinToString("\n") { "        case ${it.after}: return tap(${it.output});" }
-        "case $key:\n    switch (pre_last_keycode) {\n$cases\n    }\n    break;"
+        "case $key:\n    switch (prev_keycode) {\n$cases\n    }\n    break;"
     }
 
 private fun magicSwitch(map: MutableMap<QmkKey, String>): String =

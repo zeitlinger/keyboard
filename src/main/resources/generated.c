@@ -30,30 +30,30 @@ ${timeouts}
     }
 }
 
-static uint16_t pre_last_keycode = KC_NO;
+// Two-variable tracking for adaptive keys.
+// prev_keycode = the key before the current one (what adaptives check against).
+// last_keycode = the most recent key (shifts to prev_keycode on the next keypress).
+// Updated only in remember_last_key_user (called with resolved combo keycodes,
+// so combo components like KC_C from P=KC_C+KC_X are never recorded — only KC_P is).
+static uint16_t prev_keycode = KC_NO;
+static uint16_t last_keycode = KC_NO;
 
 bool tap(uint16_t keycode) {
     tap_code16(keycode);
     set_last_keycode(keycode);
-    pre_last_keycode = keycode;
+    last_keycode = keycode;
     return false;
 }
 
-// pre_last_keycode is set here (before process_record_quantum) so fast typing
-// sees the correct previous key even if get_last_keycode() is deferred.
-// remember_last_key_user also updates it so combo results (e.g. KC_G from L+N)
-// are tracked correctly.
-bool pre_process_record_user(uint16_t keycode, keyrecord_t *record) {
+bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
+        // Adaptive keys: runs after combo resolution in process_record_user,
+        // so combo components are suppressed and prev_keycode reflects the
+        // resolved combo keycode (e.g. KC_P not KC_C).
         switch (keycode) {
 ${adaptives}
         }
-        pre_last_keycode = keycode;
     }
-    return true;
-}
-
-bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
     if (record->tap.count) {
         if (record->event.pressed) {
             switch (keycode) {
@@ -93,8 +93,7 @@ bool remember_last_key_user(uint16_t keycode, keyrecord_t* record,
             return false;
     }
 
-    // Also update pre_last_keycode here so combo results (which may not go
-    // through pre_process_record_user with their resolved keycode) are tracked.
-    pre_last_keycode = keycode;
+    prev_keycode = last_keycode;
+    last_keycode = keycode;
     return true;  // Other keys can be repeated.
 }
