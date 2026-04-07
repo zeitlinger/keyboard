@@ -39,6 +39,10 @@ bool tap(uint16_t keycode) {
     return false;
 }
 
+// pre_last_keycode is set here (before process_record_quantum) so fast typing
+// sees the correct previous key even if get_last_keycode() is deferred.
+// remember_last_key_user also updates it so combo results (e.g. KC_G from L+N)
+// are tracked correctly.
 bool pre_process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
         switch (keycode) {
@@ -89,5 +93,8 @@ bool remember_last_key_user(uint16_t keycode, keyrecord_t* record,
             return false;
     }
 
+    // Also update pre_last_keycode here so combo results (which may not go
+    // through pre_process_record_user with their resolved keycode) are tracked.
+    pre_last_keycode = keycode;
     return true;  // Other keys can be repeated.
 }
