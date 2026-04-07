@@ -53,7 +53,7 @@ The generator runs twice: once to `qmk/` (with placeholder version) and once to 
 2. Run `mise run generate` to regenerate `qmk/generated.c` and `qmk/combos.def`
 3. Run `mise run flash` to build and flash
 
-When editing files in `src/main/resources/` (C templates): commit first, then run `mise run generate` on the host (the generator can't run in the container), then amend the commit to include the regenerated `qmk/` output.
+When editing files in `src/main/resources/` (C templates): commit first, then run `mise run generate`, then amend the commit to include the regenerated `qmk/` output.
 
 ## Agent Knowledge
 

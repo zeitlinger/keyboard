@@ -77,16 +77,16 @@ Currently unused features:
 |   d   |  "oes"   | "oesn't" |  "on't" |
 |   e   |          |          |    h    |
 |   f   |    f     |   "or"   |         |
-|   g   |    y     |    k     |    b    |
+|   g   |    y     |    k     |    f    |
 |   h   |    y     |   "ey"   |         |
 |   i   |    '     |  "'ve"   |         |
-|   j   |          |  "ust"   |         |        
+|   j   |          |  "ust"   |         |
 |   k   |    x     |  "now"   |    h    |
 |   l   |    c     |    r     |    h    |
 |   m   |    h     |  "ent"   |    l    |
 |   n   |    h     |    r     |   "ly"  |
 |   o   |    h     |          |    h    |
-|   p   |    m     |          |    d    |
+|   p   |    m     |    n     |         |
 |   q   |          |          |         |
 |   r   |    k     |          |         |
 |   s   |    d     |  "ion"   |    r    |
@@ -116,7 +116,7 @@ Currently unused features:
 |     b     |  h  |   s    |
 |     c     |  d  |   k    |
 |     e     |  h  |   o    |
-|     g     |  d  |   l    |
+|     g     |  f  |   l    |
 |     g     |  y  |   n    |
 |     k     |  h  |   n    |
 |     l     |  c  |   m    |
