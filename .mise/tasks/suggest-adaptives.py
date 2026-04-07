@@ -180,7 +180,7 @@ def feel_score(a_char, b_char):
             score = 1
 
     if b_char in COMBO_KEYS:
-        score = max(score, 2)
+        score = max(score, 2)  # combo key as physical target: unreliable, never better than "ok"
 
     return score
 
@@ -523,7 +523,6 @@ def main():
     remove = [
         (a, c, b) for (a, c), b in existing.items()
         if (a, b) not in bad_set
-        or c not in valid_candidates.get((a, b), set())
         or existing_superseded(a, c, b)
     ]
 
