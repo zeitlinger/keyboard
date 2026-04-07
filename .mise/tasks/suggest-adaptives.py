@@ -147,8 +147,8 @@ def feel_score(a_char, b_char):
     """Lower = better feel for the physical motion a_char → b_char.
 
     Combo followed by:
-      0 = good inward same-hand roll
-      1 = alternation or outward same-hand roll
+      0 = good inward same-hand roll; or combo-adjacent to home row (col stagger makes it natural)
+      1 = alternation or outward same-hand roll; or combo-adjacent to non-home row
       2 = adjacent finger (col_diff=1) with row change, pinky involved
      99 = row_diff > 1 without d exception (uncomfortable reach)
     Combo key as physical target: floor of 2 (never better than "ok").
@@ -183,7 +183,10 @@ def feel_score(a_char, b_char):
         score = max(score, 2)  # combo key as physical target: unreliable, never better than "ok"
 
     if is_combo_adjacent(a_char, b_char):
-        score = max(score, 1)  # combo still in motion: not ideal but typeable as adaptive target
+        if b_pos[1] == 1:  # home row: col stagger makes this natural after a combo
+            score = 0
+        else:
+            score = max(score, 1)  # additional reach after combo
 
     return score
 
