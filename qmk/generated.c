@@ -559,20 +559,6 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case S(KC_A): return tap(KC_U);
                 }
                 break;
-            case ADPT_QU:
-                switch (prev_keycode) {
-                    case KC_A: return tap(KC_E);
-                    case KC_E: return tap(KC_H);
-                    case KC_O: return tap(KC_H);
-                    case KC_U: return tap(KC_H);
-                    case KC_Y: return tap(KC_X);
-                    case S(KC_A): return tap(KC_E);
-                    case S(KC_E): return tap(KC_H);
-                    case S(KC_O): return tap(KC_H);
-                    case S(KC_U): return tap(KC_H);
-                    case S(KC_Y): return tap(KC_X);
-                }
-                break;
             case KC_D:
                 switch (prev_keycode) {
                     case KC_B: return tap(KC_L);
@@ -665,6 +651,20 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case S(KC_X): return tap(KC_P);
                 }
                 break;
+            case ADPT_QU:
+                switch (prev_keycode) {
+                    case KC_A: return tap(KC_E);
+                    case KC_E: return tap(KC_H);
+                    case KC_O: return tap(KC_H);
+                    case KC_U: return tap(KC_H);
+                    case KC_Y: return tap(KC_X);
+                    case S(KC_A): return tap(KC_E);
+                    case S(KC_E): return tap(KC_H);
+                    case S(KC_O): return tap(KC_H);
+                    case S(KC_U): return tap(KC_H);
+                    case S(KC_Y): return tap(KC_X);
+                }
+                break;
         }
     }
     if (record->tap.count) {
@@ -681,6 +681,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
             case MAGIC_A:
                 switch (get_last_keycode()) {
                     case KC_B: tap_code16(KC_D); return false;
+                    case KC_C: tap_code16(KC_D); return false;
                     case KC_D: chord_decode_send(995); return false; // "oes"
                     case KC_DOT: tap_code16(KC_SLASH); return false;
                     case KC_EQUAL: tap_code16(KC_RABK); return false;
@@ -692,13 +693,16 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_L: tap_code16(KC_C); return false;
                     case KC_M: tap_code16(KC_L); return false;
                     case KC_MINUS: tap_code16(KC_RABK); return false;
-                    case KC_P: tap_code16(KC_M); return false;
+                    case KC_N: tap_code16(KC_X); return false;
+                    case KC_P: tap_code16(KC_D); return false;
                     case KC_S: tap_code16(KC_D); return false;
+                    case KC_T: tap_code16(KC_X); return false;
                     case KC_TILD: tap_code16(KC_SLASH); return false;
                     case KC_V: chord_decode_send(1011); return false; // "er"
                     case KC_W: tap_code16(KC_T); return false;
-                    case KC_X: tap_code16(KC_R); return false;
+                    case KC_X: tap_code16(KC_D); return false;
                     case S(KC_B): tap_code16(KC_D); return false;
+                    case S(KC_C): tap_code16(KC_D); return false;
                     case S(KC_D): chord_decode_send(995); return false; // "oes"
                     case S(KC_G): tap_code16(KC_Y); return false;
                     case S(KC_H): tap_code16(KC_Y); return false;
@@ -706,11 +710,13 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case S(KC_K): tap_code16(KC_X); return false;
                     case S(KC_L): tap_code16(KC_C); return false;
                     case S(KC_M): tap_code16(KC_L); return false;
-                    case S(KC_P): tap_code16(KC_M); return false;
+                    case S(KC_N): tap_code16(KC_X); return false;
+                    case S(KC_P): tap_code16(KC_D); return false;
                     case S(KC_S): tap_code16(KC_D); return false;
+                    case S(KC_T): tap_code16(KC_X); return false;
                     case S(KC_V): chord_decode_send(1011); return false; // "er"
                     case S(KC_W): tap_code16(KC_T); return false;
-                    case S(KC_X): tap_code16(KC_R); return false;
+                    case S(KC_X): tap_code16(KC_D); return false;
                 }
                 return false;
             case MAGIC_B:
@@ -738,7 +744,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_TAB: chord_decode_send(1018); return false; // "the "
                     case KC_V: chord_decode_send(1013); return false; // "en"
                     case KC_W: tap_code16(KC_S); return false;
-                    case KC_X: tap_code16(KC_W); return false;
+                    case KC_X: tap_code16(KC_R); return false;
                     case S(KC_B): chord_decode_send(982); return false; // "ecause"
                     case S(KC_C): tap_code16(KC_P); return false;
                     case S(KC_D): chord_decode_send(998); return false; // "oesn't"
@@ -757,7 +763,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case S(KC_T): chord_decode_send(992); return false; // "ion"
                     case S(KC_V): chord_decode_send(1013); return false; // "en"
                     case S(KC_W): tap_code16(KC_S); return false;
-                    case S(KC_X): tap_code16(KC_W); return false;
+                    case S(KC_X): tap_code16(KC_R); return false;
                 }
                 return false;
             case MAGIC_C:
@@ -771,11 +777,12 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_L: tap_code16(KC_H); return false;
                     case KC_M: tap_code16(KC_H); return false;
                     case KC_N: tap_code16(KC_H); return false;
+                    case KC_P: tap_code16(KC_M); return false;
                     case KC_S: tap_code16(KC_R); return false;
                     case KC_SPC: tap_code16(KC_BSPC); SEND_STRING(". "); add_oneshot_mods(MOD_BIT(KC_LSFT)); return false;
-                    case KC_T: tap_code16(KC_X); return false;
                     case KC_TAB: chord_decode_send(1022); return false; // "and "
                     case KC_W: tap_code16(KC_X); return false;
+                    case KC_X: tap_code16(KC_W); return false;
                     case S(KC_B): tap_code16(KC_H); return false;
                     case S(KC_F): tap_code16(KC_F); return false;
                     case S(KC_G): tap_code16(KC_F); return false;
@@ -783,9 +790,10 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case S(KC_L): tap_code16(KC_H); return false;
                     case S(KC_M): tap_code16(KC_H); return false;
                     case S(KC_N): tap_code16(KC_H); return false;
+                    case S(KC_P): tap_code16(KC_M); return false;
                     case S(KC_S): tap_code16(KC_R); return false;
-                    case S(KC_T): tap_code16(KC_X); return false;
                     case S(KC_W): tap_code16(KC_X); return false;
+                    case S(KC_X): tap_code16(KC_W); return false;
                 }
                 return false;
             

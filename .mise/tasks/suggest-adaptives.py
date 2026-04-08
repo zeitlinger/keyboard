@@ -69,6 +69,24 @@ def load_magic_table():
     return table
 
 
+def compute_lead_variants(magic_table):
+    """For each single-char output letter, determine which variant (A/B/C) it appears on most.
+
+    Returns:
+        leads: dict of output_char → preferred variant (e.g. {'h': 'C', 'd': 'A'})
+        lead_counts: dict of output_char → count on lead variant (e.g. {'h': 5, 'd': 2})
+    """
+    from collections import Counter
+    counts = {}  # output -> Counter({variant: count})
+    for trigger, variants in magic_table.items():
+        for v, val in variants.items():
+            if len(val) == 1 and val.isalpha():
+                counts.setdefault(val, Counter())[v] += 1
+    leads = {ch: counter.most_common(1)[0][0] for ch, counter in counts.items()}
+    lead_counts = {ch: counter[leads[ch]] for ch, counter in counts.items()}
+    return leads, lead_counts
+
+
 def load_magic_coverage(magic_table):
     """Return set of (trigger, output) pairs covered by magic (single-char outputs only)."""
     covered = set()
@@ -245,8 +263,9 @@ def bad_reason_chars(a_char, b_char):
     return ""
 
 
-def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table):
+def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, magic_swaps=None):
     """Apply recommended adaptive and magic key changes to README.md."""
+    lead_variants, lead_counts = compute_lead_variants(magic_table)
     content = README.read_text()
     lines = content.splitlines(keepends=True)
 
@@ -265,8 +284,24 @@ def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table):
     for (trigger, output), _reason in sorted(magic_add_new.items()):
         row = working_magic.get(trigger, {'A': '', 'B': '', 'C': ''})
         free = [v for v in ('A', 'B', 'C') if not row.get(v)]
+        lead_v = lead_variants.get(output)
         if free:
-            best = min(free, key=lambda v: slot_feel_score(trigger, v))
+            if lead_v in free:
+                best = lead_v
+            elif lead_v:
+                # Displace occupant if output has stronger claim on the lead slot
+                occupant = row.get(lead_v, '')
+                occ_clean = occupant.strip('"') if occupant else ''
+                if (len(occ_clean) == 1 and occ_clean.isalpha()
+                        and (lead_variants.get(occ_clean) != lead_v
+                             or lead_counts.get(output, 0) > lead_counts.get(occ_clean, 0))):
+                    displace_to = min(free, key=lambda v: slot_feel_score(trigger, v))
+                    row[displace_to] = occupant
+                    best = lead_v
+                else:
+                    best = min(free, key=lambda v: slot_feel_score(trigger, v))
+            else:
+                best = min(free, key=lambda v: slot_feel_score(trigger, v))
             working_magic.setdefault(trigger, {'A': '', 'B': '', 'C': ''})
             working_magic[trigger][best] = output
         else:
@@ -285,6 +320,12 @@ def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table):
                     break
             if not replaced:
                 print(f"WARNING: no magic slot for {trigger} → {output}, skipping", file=sys.stderr)
+
+    # Apply lead-variant swaps
+    for trigger, src_v, dest_v, output in (magic_swaps or []):
+        row = working_magic.get(trigger, {'A': '', 'B': '', 'C': ''})
+        row[src_v], row[dest_v] = row[dest_v], row[src_v]
+        working_magic[trigger] = row
 
     def fmt_magic_val(val, width):
         if not val:
@@ -335,11 +376,17 @@ def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table):
                 new_lines.append(line)
                 for a, c, b in all_adaptives:
                     new_lines.append(fmt_adaptive_row(a, c, b))
+                # Collect and re-emit multi-char adaptive rows (e.g. qu compensation)
+                for orig_line in lines:
+                    orig_stripped = orig_line.rstrip('\n')
+                    m = re.match(r'\|\s*(\w)\s*\|\s*(\w+)\s*\|\s*(\w)\s*\|', orig_stripped)
+                    if m and len(m.group(2)) > 1:
+                        new_lines.append(orig_line)
                 adaptive_header_done = True
                 continue
             elif adaptive_header_done:
                 if stripped.startswith('|'):
-                    continue  # skip old data rows
+                    continue  # skip old data rows (already rewritten above)
                 new_lines.append(line)
                 continue
             else:
@@ -614,16 +661,33 @@ def main():
                     and (a, b) not in magic_remove_pairs):
                 magic_keep.setdefault((a, b), []).append(f"{a}+{c}→{b}")
 
-    def best_magic_slot(trigger):
+    lead_variants, lead_counts = compute_lead_variants(magic_table)
+
+    def best_magic_slot(trigger, output=None):
         """Return (variant, replace_note) for the best available slot.
 
         Considers: genuinely free slots, then duplicate-value slots (one can be dropped).
+        Prefers the lead variant for the output letter when available.
         Returns (variant, None) for free slot, (variant, 'replace Magic X=val') for duplicate.
         Returns None if no slot can be found.
         """
+        lead_v = lead_variants.get(output) if output else None
         row = effective_magic_table.get(trigger, {})
         free = [v for v in ('A', 'B', 'C') if not row.get(v)]
         if free:
+            if lead_v in free:
+                return (lead_v, None)
+            # Lead slot occupied — displace occupant if output has a stronger claim
+            # (more entries on lead variant, or occupant doesn't lead this slot at all)
+            if lead_v and lead_v not in free:
+                occupant = row.get(lead_v, '')
+                occupant_clean = occupant.strip('"') if occupant else ''
+                if (len(occupant_clean) == 1 and occupant_clean.isalpha()
+                        and (lead_variants.get(occupant_clean) != lead_v
+                             or lead_counts.get(output, 0) > lead_counts.get(occupant_clean, 0))):
+                    # Occupant doesn't lead this slot; displace it to a free slot
+                    displace_to = min(free, key=lambda v: slot_feel_score(trigger, v))
+                    return (lead_v, f"displace {lead_v}={occupant} to {displace_to}")
             best = min(free, key=lambda v: slot_feel_score(trigger, v))
             return (best, None)
         # Look for duplicate values — one can be dropped to free a slot
@@ -647,7 +711,7 @@ def main():
             continue
         sacrifice = bigrams.get(f"{a}{c}", 0)
         if sacrifice > 0 and (a, c) not in magic_covered:
-            if best_magic_slot(a) is None:
+            if best_magic_slot(a, c) is None:
                 no_recovery[(a, c)] = b
 
     for key in no_recovery:
@@ -697,7 +761,7 @@ def main():
     if magic_add_new:
         print("Add:")
         for (trigger, output), reason in sorted(magic_add_new.items()):
-            result = best_magic_slot(trigger)
+            result = best_magic_slot(trigger, output)
             if result:
                 variant, note = result
                 slot_str = f" → Magic {variant}" + (f" ({note})" if note else "")
@@ -750,8 +814,37 @@ def main():
         if entries:
             print(f"  Magic {variant}: {', '.join(entries)}")
 
+    # --- Resort suggestions: move single-char entries to their lead variant ---
+    magic_swaps = []  # (trigger, src_variant, dest_variant, output)
+    for trigger, variants in magic_table.items():
+        for v, val in variants.items():
+            if len(val) == 1 and val.isalpha() and val in lead_variants:
+                target_v = lead_variants[val]
+                if target_v != v:
+                    target_val = variants.get(target_v, '')
+                    # Can move if target slot is empty
+                    if not target_val:
+                        magic_swaps.append((trigger, v, target_v, val))
+                    # Can swap if target has a single-char that prefers our slot
+                    elif (len(target_val) == 1 and target_val.isalpha()
+                          and target_val in lead_variants
+                          and lead_variants[target_val] == v):
+                        # Only add the swap once (from the first entry's perspective)
+                        swap_key = tuple(sorted([(trigger, v, val), (trigger, target_v, target_val)]))
+                        if not any((s[0], s[1]) == (swap_key[0][0], swap_key[0][1]) for s in magic_swaps):
+                            magic_swaps.append((trigger, v, target_v, val))
+
+    if magic_swaps:
+        print("\n  Resort (move to lead variant):")
+        for trigger, src_v, dest_v, output in sorted(magic_swaps):
+            dest_val = magic_table[trigger].get(dest_v, '')
+            if not dest_val:
+                print(f"    {trigger}: {src_v}={output} → {dest_v} (empty)")
+            else:
+                print(f"    {trigger}: {src_v}={output} ↔ {dest_v}={dest_val} (swap)")
+
     if args.apply:
-        apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table)
+        apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, magic_swaps)
 
 
 if __name__ == '__main__':

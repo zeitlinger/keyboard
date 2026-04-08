@@ -82,12 +82,12 @@ Currently unused features:
 |   f   |          |   "or"   |    f    |
 |   h   |    y     |   "ey"   |         |
 |   i   |    '     |  "'ve"   |         |
-|   n   |          |    r     |    h    |
-|   p   |    m     |    n     |         |
+|   n   |    x     |    r     |    h    |
+|   p   |    d     |    n     |    m    |
 |   v   |   "er"   |   "en"   |         |
-|   x   |    w     |    r     |         |
-|   t   |          |  "ion"   |    x    |
-|   c   |          |    p     |         |
+|   x   |    d     |    r     |    w    |
+|   t   |    x     |  "ion"   |         |
+|   c   |    d     |    p     |         |
 |   j   |          |  "ust"   |         |
 |   r   |          |    k     |         |
 |  spc  |          |  "the "  |  dotSpc |
@@ -105,12 +105,10 @@ Currently unused features:
 | Adaptives | Key | Output |
 |:---------:|:---:|:------:|
 |     a     |  e  |   u    |
-|     a     |  qu |   e    |
 |     b     |  d  |   l    |
 |     b     |  h  |   s    |
 |     c     |  d  |   k    |
 |     e     |  h  |   o    |
-|     e     |  qu |   h    |
 |     g     |  f  |   l    |
 |     g     |  y  |   n    |
 |     k     |  h  |   n    |
@@ -122,19 +120,21 @@ Currently unused features:
 |     n     |  r  |   k    |
 |     n     |  x  |   l    |
 |     o     |  h  |   e    |
-|     o     |  qu |   h    |
 |     p     |  d  |   l    |
 |     p     |  n  |   s    |
 |     s     |  d  |   p    |
 |     s     |  r  |   k    |
 |     t     |  x  |   m    |
 |     u     |  h  |   a    |
-|     u     |  qu |   h    |
 |     w     |  t  |   n    |
 |     w     |  x  |   n    |
 |     x     |  d  |   c    |
 |     x     |  w  |   p    |
 |     y     |  x  |   i    |
+|     a     |  qu |   e    |
+|     e     |  qu |   h    |
+|     o     |  qu |   h    |
+|     u     |  qu |   h    |
 |     y     |  qu |   x    |
 
 ## Chord Table
