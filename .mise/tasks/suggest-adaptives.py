@@ -374,14 +374,17 @@ def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, magic_s
         if section == 'adaptives':
             if stripped.startswith('|:-'):
                 new_lines.append(line)
-                for a, c, b in all_adaptives:
-                    new_lines.append(fmt_adaptive_row(a, c, b))
-                # Collect and re-emit multi-char adaptive rows (e.g. qu compensation)
+                # Collect multi-char adaptive rows (e.g. qu compensation) from original
+                multi_char = []
                 for orig_line in lines:
                     orig_stripped = orig_line.rstrip('\n')
                     m = re.match(r'\|\s*(\w)\s*\|\s*(\w+)\s*\|\s*(\w)\s*\|', orig_stripped)
                     if m and len(m.group(2)) > 1:
-                        new_lines.append(orig_line)
+                        multi_char.append((m.group(1), m.group(2), m.group(3)))
+                # Merge and sort all adaptive rows together
+                all_rows = sorted(set(all_adaptives) | set(multi_char))
+                for a, c, b in all_rows:
+                    new_lines.append(fmt_adaptive_row(a, c, b))
                 adaptive_header_done = True
                 continue
             elif adaptive_header_done:

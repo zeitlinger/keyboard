@@ -559,6 +559,20 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case S(KC_A): return tap(KC_U);
                 }
                 break;
+            case ADPT_QU:
+                switch (prev_keycode) {
+                    case KC_A: return tap(KC_E);
+                    case KC_E: return tap(KC_H);
+                    case KC_O: return tap(KC_H);
+                    case KC_U: return tap(KC_H);
+                    case KC_Y: return tap(KC_X);
+                    case S(KC_A): return tap(KC_E);
+                    case S(KC_E): return tap(KC_H);
+                    case S(KC_O): return tap(KC_H);
+                    case S(KC_U): return tap(KC_H);
+                    case S(KC_Y): return tap(KC_X);
+                }
+                break;
             case KC_D:
                 switch (prev_keycode) {
                     case KC_B: return tap(KC_L);
@@ -649,20 +663,6 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 switch (prev_keycode) {
                     case KC_X: return tap(KC_P);
                     case S(KC_X): return tap(KC_P);
-                }
-                break;
-            case ADPT_QU:
-                switch (prev_keycode) {
-                    case KC_A: return tap(KC_E);
-                    case KC_E: return tap(KC_H);
-                    case KC_O: return tap(KC_H);
-                    case KC_U: return tap(KC_H);
-                    case KC_Y: return tap(KC_X);
-                    case S(KC_A): return tap(KC_E);
-                    case S(KC_E): return tap(KC_H);
-                    case S(KC_O): return tap(KC_H);
-                    case S(KC_U): return tap(KC_H);
-                    case S(KC_Y): return tap(KC_X);
                 }
                 break;
         }
