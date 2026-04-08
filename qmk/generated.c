@@ -699,7 +699,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_T: tap_code16(KC_X); return false;
                     case KC_TILD: tap_code16(KC_SLASH); return false;
                     case KC_V: chord_decode_send(1011); return false; // "er"
-                    case KC_W: tap_code16(KC_T); return false;
+                    case KC_W: tap_code16(KC_X); return false;
                     case KC_X: tap_code16(KC_D); return false;
                     case S(KC_B): tap_code16(KC_D); return false;
                     case S(KC_C): tap_code16(KC_D); return false;
@@ -715,7 +715,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case S(KC_S): tap_code16(KC_D); return false;
                     case S(KC_T): tap_code16(KC_X); return false;
                     case S(KC_V): chord_decode_send(1011); return false; // "er"
-                    case S(KC_W): tap_code16(KC_T); return false;
+                    case S(KC_W): tap_code16(KC_X); return false;
                     case S(KC_X): tap_code16(KC_D); return false;
                 }
                 return false;
@@ -781,7 +781,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_S: tap_code16(KC_R); return false;
                     case KC_SPC: tap_code16(KC_BSPC); SEND_STRING(". "); add_oneshot_mods(MOD_BIT(KC_LSFT)); return false;
                     case KC_TAB: chord_decode_send(1022); return false; // "and "
-                    case KC_W: tap_code16(KC_X); return false;
+                    case KC_W: tap_code16(KC_T); return false;
                     case KC_X: tap_code16(KC_W); return false;
                     case S(KC_B): tap_code16(KC_H); return false;
                     case S(KC_F): tap_code16(KC_F); return false;
@@ -792,7 +792,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case S(KC_N): tap_code16(KC_H); return false;
                     case S(KC_P): tap_code16(KC_M); return false;
                     case S(KC_S): tap_code16(KC_R); return false;
-                    case S(KC_W): tap_code16(KC_X); return false;
+                    case S(KC_W): tap_code16(KC_T); return false;
                     case S(KC_X): tap_code16(KC_W); return false;
                 }
                 return false;

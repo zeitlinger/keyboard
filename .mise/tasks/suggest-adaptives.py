@@ -825,10 +825,12 @@ def main():
                     # Can move if target slot is empty
                     if not target_val:
                         magic_swaps.append((trigger, v, target_v, val))
-                    # Can swap if target has a single-char that prefers our slot
+                    # Can swap if target has a single-char that prefers our slot,
+                    # or if we have a stronger lead count on the target variant
                     elif (len(target_val) == 1 and target_val.isalpha()
                           and target_val in lead_variants
-                          and lead_variants[target_val] == v):
+                          and (lead_variants[target_val] == v
+                               or lead_counts.get(val, 0) > lead_counts.get(target_val, 0))):
                         # Only add the swap once (from the first entry's perspective)
                         swap_key = tuple(sorted([(trigger, v, val), (trigger, target_v, target_val)]))
                         if not any((s[0], s[1]) == (swap_key[0][0], swap_key[0][1]) for s in magic_swaps):
