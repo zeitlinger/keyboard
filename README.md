@@ -71,35 +71,28 @@ Currently unused features:
 
 | Magic | Magic A  | Magic B  | Magic C |
 |:-----:|:--------:|:--------:|:-------:|
-|   a   |          |          |    e    |
 |   b   |    d     | "ecause" |    h    |
-|   c   |    d     |    p     |         |
-|   d   |  "oes"   | "oesn't" |  "on't" |
-|   e   |          |          |    h    |
-|   f   |    f     |   "or"   |         |
 |   g   |    y     |    k     |    f    |
-|   h   |    y     |   "ey"   |         |
-|   i   |    '     |  "'ve"   |         |
-|   j   |          |  "ust"   |         |
 |   k   |    x     |  "now"   |    h    |
 |   l   |    c     |    r     |    h    |
-|   m   |    h     |  "ent"   |    l    |
-|   n   |    h     |    r     |   "ly"  |
-|   o   |    h     |          |    h    |
-|   p   |    m     |    n     |         |
-|   q   |          |          |         |
-|   r   |    k     |          |         |
+|   m   |    l     |  "ent"   |    h    |
 |   s   |    d     |  "ion"   |    r    |
-|   t   |          |  "ion"   |    x    |
-|   u   |          |          |    h    |
-|   v   |   "er"   |   "en"   |         |
 |   w   |    t     |    s     |    x    |
-|   x   |    r     |    w     |         |
-|   y   |    h     |    x     |         |
-|   z   |          |          |         |
-|  spc  |          | "the "  |  dotSpc  | 
-|  tab  |          | "the "  |  "and "  |         
-|  ↩️️  |          |  "the "  |  "and "  |
+|   d   |  "oes"   | "oesn't" |         |
+|   f   |          |   "or"   |    f    |
+|   h   |    y     |   "ey"   |         |
+|   i   |    '     |  "'ve"   |         |
+|   n   |          |    r     |    h    |
+|   p   |    m     |    n     |         |
+|   v   |   "er"   |   "en"   |         |
+|   x   |    w     |    r     |         |
+|   t   |          |  "ion"   |    x    |
+|   c   |          |    p     |         |
+|   j   |          |  "ust"   |         |
+|   r   |          |    k     |         |
+|  spc  |          |  "the "  |  dotSpc |
+|  tab  |          |  "the "  |  "and " |
+|  ↩️️  |          |  "the "  |  "and " |
 |   ~   |    /     |          |         |
 |   ,   |          | " but "  | " and " |
 |   .   |    /     |   "./"   |         |
@@ -112,10 +105,12 @@ Currently unused features:
 | Adaptives | Key | Output |
 |:---------:|:---:|:------:|
 |     a     |  e  |   u    |
+|     a     |  qu |   e    |
 |     b     |  d  |   l    |
 |     b     |  h  |   s    |
 |     c     |  d  |   k    |
 |     e     |  h  |   o    |
+|     e     |  qu |   h    |
 |     g     |  f  |   l    |
 |     g     |  y  |   n    |
 |     k     |  h  |   n    |
@@ -127,17 +122,20 @@ Currently unused features:
 |     n     |  r  |   k    |
 |     n     |  x  |   l    |
 |     o     |  h  |   e    |
+|     o     |  qu |   h    |
 |     p     |  d  |   l    |
 |     p     |  n  |   s    |
 |     s     |  d  |   p    |
 |     s     |  r  |   k    |
 |     t     |  x  |   m    |
 |     u     |  h  |   a    |
+|     u     |  qu |   h    |
 |     w     |  t  |   n    |
 |     w     |  x  |   n    |
 |     x     |  d  |   c    |
 |     x     |  w  |   p    |
 |     y     |  x  |   i    |
+|     y     |  qu |   x    |
 
 ## Chord Table
 
@@ -179,7 +177,7 @@ Currently unused features:
 | dd    | "zeitlinger@gmail.com"          |      |
 | di    | "during"                        |      |
 | dj    | "build"                         |      |
-| do    | "import"                        |      |
+| do    | "don't"                         | plan |
 | dr    | "their"                         |      |
 | du    | "products"                      |      |
 | dy    | "already"                       |      |
@@ -358,7 +356,7 @@ Currently unused features:
 | Base  |         |    b    |         |         |         |         |    .    |         |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Base  |  "qu"   |         |         |         |         |         |         |    q    |
+| Base  |   qu    |         |         |         |         |         |         |    q    |
 | Base  |   💎    |         |         |         |         |         |         |   💎    |
 | Base  |    z    |         |         |         |         |         |         |    j    |
 | Base  |         |         |         |         |         |         |         |         |
@@ -584,6 +582,7 @@ The order of the options is also the order of the layers in the layer stack.
 | tab ➡️  | custom:NEXT_TAB      NoHold     |
 | win ➡️  | custom:NEXT_WINDOW   NoHold     |
 | n't     | custom:N_T                      |
+| qu      | custom:ADPT_QU                  |
 | ing     | custom:ING                      |
 | ver     | custom:PRINT_VERSION            |
 | CapW    | custom:CAPS_WORDS               |

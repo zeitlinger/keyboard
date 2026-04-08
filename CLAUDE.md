@@ -41,7 +41,7 @@ Tools are managed by mise (Java, Maven, Python, jq, uv). Run `mise install` if n
 - `casemodes.c/h` — Hand-written X-Case implementation
 - `layout.h` — Hand-written layout helpers
 
-The generator runs twice: once to `qmk/` (with placeholder version) and once to `target/qmk/` (with git version). Only `target/qmk/` should be used for actual firmware builds.
+The generator runs twice: once to `qmk/` (with placeholder version) and once to `target/qmk/` (with git version). Only `target/qmk/` should be used for actual firmware builds. The second run requires a clean git working tree (it embeds the git hash); with uncommitted changes, `mise run generate` exits non-zero but `qmk/` is still updated by the first run.
 
 **Do NOT edit `qmk/generated.c` or `qmk/combos.def` directly.** These are committed for reference only. The real sources are:
 - `README.md` — layout tables, adaptives, magic keys, chords (source of truth)
@@ -65,6 +65,6 @@ Consult [agents/README.md](agents/README.md) before working on layout ergonomics
 - **Combos**: Two keys pressed together produce a different output (marked with 💎 in layout)
 - **Chords**: Two-letter sequences that expand to common words (Chord Table in README)
 - **Magic keys**: Context-sensitive keys that output different characters based on the previous keypress
-- **Adaptives**: Regular keys that output a different character when typed after a specific key (e.g. `h` after `n` → `g`, giving "ng" without a combo). To find new candidates: [agents/suggest-adaptives.md](agents/suggest-adaptives.md).
+- **Adaptives**: Regular keys that output a different character when typed after a specific key (e.g. `h` after `n` → `g`, giving "ng" without a combo). To find new candidates: [agents/suggest-adaptives.md](agents/suggest-adaptives.md). To make a combo key (like `"qu"`) participate in adaptives, add it to the Symbols table with `custom:` (e.g. `| "qu" | custom:ADPT_QU |`) and add its default `SEND_STRING` handler in `qmk/keymap.c` (see `N_T`/`ING` pattern).
 - **Dead keys**: Modifier keys (dead1/dead2/dead3) used for layer switching
 - **X-Case**: Automatic case conversion modes (camelCase, snake_case, etc.)

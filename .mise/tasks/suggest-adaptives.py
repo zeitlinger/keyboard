@@ -18,8 +18,14 @@ README = Path(__file__).parents[2] / "README.md"
 
 
 def load_existing_adaptives():
-    """Parse the Adaptives table from README.md → dict of (trigger, physical) → output."""
+    """Parse the Adaptives table from README.md.
+
+    Returns:
+        existing: dict of (trigger, physical) → output for single-key adaptives
+        compensation: set of (trigger, output) pairs covered by multi-key adaptives (e.g. qu)
+    """
     existing = {}
+    compensation = set()
     in_table = False
     for line in README.read_text().splitlines():
         if '## Adaptives' in line:
@@ -28,10 +34,14 @@ def load_existing_adaptives():
         if in_table:
             if line.startswith('##'):
                 break
-            m = re.match(r'\|\s*(\w)\s*\|\s*(\w)\s*\|\s*(\w)\s*\|', line)
+            m = re.match(r'\|\s*(\w)\s*\|\s*(\w+)\s*\|\s*(\w)\s*\|', line)
             if m:
-                existing[(m.group(1), m.group(2))] = m.group(3)
-    return existing
+                trigger, key, output = m.group(1), m.group(2), m.group(3)
+                if len(key) == 1:
+                    existing[(trigger, key)] = output
+                else:
+                    compensation.add((trigger, output))
+    return existing, compensation
 
 
 def load_magic_table():
@@ -94,8 +104,7 @@ LAYOUT = {
 COMBO_KEYS = set('pbmgvk')
 
 MIN_FREQ_PCT = 0.020       # ignore bad bigrams below this frequency
-MAX_SACRIFICE_DOUBLE = 0.005  # for double-letter bigrams, require near-zero sacrifice
-MAX_MAGIC_SACRIFICE_PCT = 0.030  # sacrifice bigrams below this can be covered by adding a magic entry
+MAX_MAGIC_SACRIFICE_PCT = MIN_FREQ_PCT  # sacrifice bigrams below this can be covered by adding a magic entry
 MAX_RECOMMEND_FEEL = 2     # only recommend adding adaptives with feel <= this
 
 
@@ -348,7 +357,7 @@ def main():
     parser.add_argument('--apply', action='store_true', help='Apply recommended changes to README.md')
     args = parser.parse_args()
 
-    existing = load_existing_adaptives()
+    existing, compensation = load_existing_adaptives()
     magic_table = load_magic_table()
     magic_covered = load_magic_coverage(magic_table)
 
@@ -357,7 +366,7 @@ def main():
 
     bigrams = corpus['bigrams']
     trigrams = corpus['trigrams']
-    total = sum(bigrams.values())
+    total = corpus['Total']  # total characters, matching genkey's denominator
 
     def pct(count):
         return count / total * 100
@@ -415,9 +424,7 @@ def main():
                 ((a, b) in magic_covered or (is_existing and (a, c) in magic_covered))
                 and pct(sacrifice) < MAX_MAGIC_SACRIFICE_PCT
             )
-            is_double = a == b
-            max_sacrifice = total * MAX_SACRIFICE_DOUBLE / 100 if is_double else bigram_freq / 10
-            if not magic_free and sacrifice >= max_sacrifice:
+            if not magic_free and sacrifice >= bigram_freq / 10:
                 continue
             bad_following = sum(
                 1 for tg, _ in followers
@@ -566,12 +573,19 @@ def main():
 
     # Recovery magic: new adaptives intercept trigger+physical → the original ac sequence
     # is now lost; suggest magic trigger→physical so it can still be typed.
+    # Skip if a compensation adaptive (e.g. qu) already covers this pair.
     for (a, c), b in recommended.items():
         if (a, c) in existing:
-            continue  # existing adaptive already had this interception
+            continue  # handled by the kept-adaptives loop below
         sacrifice = bigrams.get(f"{a}{c}", 0)
-        if sacrifice > 0 and (a, c) not in magic_covered:
+        if sacrifice > 0 and (a, c) not in magic_covered and (a, c) not in compensation:
             magic_add.setdefault((a, c), f"recovery: '{a}{c}' intercepted by {a}+{c}→{b} adaptive ({pct(sacrifice):.3f}%)")
+
+    # Recovery magic for existing kept adaptives that were never given a recovery key.
+    for a, c, b in keep:
+        sacrifice = bigrams.get(f"{a}{c}", 0)
+        if sacrifice > 0 and (a, c) not in magic_covered and (a, c) not in compensation:
+            magic_add.setdefault((a, c), f"recovery: '{a}{c}' intercepted by existing {a}+{c}→{b} adaptive ({pct(sacrifice):.3f}%)")
 
     # Magic entries to REMOVE: single-char entries where an adaptive now covers (trigger, output).
     # Once we commit to adding the adaptive, the magic it relied on for sacrifice justification
@@ -706,13 +720,35 @@ def main():
 
     if magic_keep:
         print("\nKeep (relied on by adaptive recommendations):")
+        # Group by variant (A/B/C) to help with learning
+        by_variant = {'A': [], 'B': [], 'C': []}
         for (trigger, output), adaptives in sorted(magic_keep.items()):
-            print(f"  {trigger} → {output}   [enables {', '.join(adaptives)}]")
+            row = magic_table.get(trigger, {})
+            variants = [v for v in ('A', 'B', 'C') if row.get(v) == output]
+            for v in variants:
+                by_variant[v].append((trigger, output, adaptives))
+        for variant in ('A', 'B', 'C'):
+            entries = by_variant[variant]
+            if entries:
+                print(f"  Magic {variant}:")
+                for trigger, output, adaptives in entries:
+                    print(f"    {trigger} → {output}   [enables {', '.join(adaptives)}]")
 
     if magic_add_exists:
         print("\nAlready in table (add section covered):")
         for (trigger, output), reason in sorted(magic_add_exists.items()):
             print(f"  {trigger} → {output}   [{reason}]")
+
+    # --- Current magic table grouped by variant ---
+    print("\n=== Current Magic Table (single-char, by variant) ===\n")
+    for variant in ('A', 'B', 'C'):
+        entries = []
+        for trigger in sorted(magic_table):
+            val = magic_table[trigger].get(variant, '')
+            if len(val) == 1 and val.isalpha():
+                entries.append(f"{trigger}→{val}")
+        if entries:
+            print(f"  Magic {variant}: {', '.join(entries)}")
 
     if args.apply:
         apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table)

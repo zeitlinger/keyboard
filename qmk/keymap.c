@@ -273,6 +273,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         return false;
     #endif
+    #ifdef _HANDLER_ADPT_QU
+    case _HANDLER_ADPT_QU:
+        if (record->event.pressed) {
+            SEND_STRING("qu");
+        }
+        return false;
+    #endif
     default:
         break;
     }

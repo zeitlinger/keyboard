@@ -30,6 +30,7 @@ enum custom_keycodes {
     NEXT_TAB,
     NEXT_WINDOW,
     N_T,
+    ADPT_QU,
     ING,
     PRINT_VERSION,
     CAPS_WORDS,
@@ -58,6 +59,7 @@ enum custom_keycodes {
 #define _HANDLER_NEXT_TAB NEXT_TAB
 #define _HANDLER_NEXT_WINDOW NEXT_WINDOW
 #define _HANDLER_N_T N_T
+#define _HANDLER_ADPT_QU ADPT_QU
 #define _HANDLER_ING ING
 #define _HANDLER_PRINT_VERSION PRINT_VERSION
 #define _HANDLER_CAPS_WORDS CAPS_WORDS

@@ -1,4 +1,5 @@
 // file is generated from https://github.com/zeitlinger/keyboard/blob/main/README.md
+COMB(C_BASE_ADPT_QU                     , ADPT_QU                            , KC_ESC, KC_S)
 COMB(C_BASE_CHORD_KEY                   , CHORD_KEY                          , KC_A, KC_U)
 COMB(C_BASE_ING                         , ING                                , DEAD2, KC_A)
 COMB(C_BASE_KC_B                        , KC_B                               , KC_C, KC_F)
@@ -98,5 +99,4 @@ COMB(S_C_BASE_KC_P                      , S(KC_P)                            , S
 COMB(S_C_BASE_KC_Q                      , S(KC_Q)                            , S(DEAD1), S(KC_H))
 COMB(S_C_BASE_KC_V                      , S(KC_V)                            , S(DEAD3), S(KC_T))
 COMB(S_C_BASE_KC_Z                      , S(KC_Z)                            , KC_COLN, S(KC_S))
-SUBS(SUB_1                              , "qu"                               , KC_ESC, KC_S)
-SUBS(SUB_2                              , "Qu"                               , S(KC_ESC), S(KC_S))
+SUBS(SUB_1                              , "Qu"                               , S(KC_ESC), S(KC_S))
