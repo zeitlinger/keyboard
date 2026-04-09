@@ -77,7 +77,7 @@ Currently unused features:
 |   l   |    c     |    r     |    h    |
 |   m   |    l     |  "ent"   |    h    |
 |   s   |    d     |  "ion"   |    r    |
-|   w   |    x     |    s     |    t    |
+|   w   |    x     |    s     |         |
 |   d   |    f     | "oesn't" |    h    |
 |   f   |          |   "or"   |    f    |
 |   h   |    y     |   "ey"   |         |
@@ -131,7 +131,6 @@ Currently unused features:
 |     t     |  x  |   m    |
 |     u     |  h  |   a    |
 |     u     |  qu |   h    |
-|     w     |  t  |   n    |
 |     w     |  x  |   n    |
 |     x     |  d  |   c    |
 |     x     |  w  |   p    |

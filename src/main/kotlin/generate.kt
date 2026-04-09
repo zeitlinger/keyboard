@@ -102,9 +102,17 @@ fun run(args: GeneratorArgs) {
             val after = translator.toQmk(row[0], pos)
             val key = translator.toQmk(row[1], pos)
             val output = translator.toQmk(row[2], pos)
+            val seen = translator.adaptives.map { it.key to it.after }.toSet()
+            check(key to after !in seen) {
+                "Duplicate adaptive at row ${index + 1}: key=$key after=$after"
+            }
             translator.adaptives.add(AdaptiveRule(key, after, output))
             if (isLetter(after)) {
-                translator.adaptives.add(AdaptiveRule(key, shifted(after), output))
+                val shiftedAfter = shifted(after)
+                check(key to shiftedAfter !in seen) {
+                    "Duplicate adaptive (shifted) at row ${index + 1}: key=$key after=$shiftedAfter"
+                }
+                translator.adaptives.add(AdaptiveRule(key, shiftedAfter, output))
             }
         }
     }
