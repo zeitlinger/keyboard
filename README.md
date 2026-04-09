@@ -78,7 +78,7 @@ Currently unused features:
 |   m   |    l     |  "ent"   |    h    |
 |   s   |    d     |  "ion"   |    r    |
 |   w   |    x     |    s     |    t    |
-|   d   |    f     | "doesn't |    h    |
+|   d   |    f     | "oesn't" |    h    |
 |   f   |          |   "or"   |    f    |
 |   h   |    y     |   "ey"   |         |
 |   i   |    '     |  "'ve"   |         |
@@ -151,7 +151,7 @@ Currently unused features:
 | b     | "about"                         |      |
 | b,    | "observability"                 |      |
 | b.    | "boolean"                       |      |
-| be    | "began"                         |      |
+| be    | "before"                        |      |
 | bh    | "behind"                        |      |
 | bi    | "being"                         |      |
 | bj    | "between"                       |      |
@@ -245,10 +245,10 @@ Currently unused features:
 | no    | "another"                       |      |
 | nu    | "enough"                        |      |
 | ny    | "company"                       |      |
-| p     | "people"                        |      |
+| p     | "people"                        | plan |
 | p,    | "please"                        |      |
 | p.    | "promise"                       |      |
-| pa    | "privacy"                       |      |
+| pa    | "update"                        | plan |
 | pe    | "place"                         |      |
 | pi    | "point"                         |      |
 | pj    | "problem"                       |      |
@@ -290,7 +290,7 @@ Currently unused features:
 | to    | "thought"                       | plan |
 | tr    | "there"                         |      |
 | tt    | "OpenTelemetry"                 |      |
-| tu    | "though"                        |      |
+| tu    | "though"                        | plan |
 | ty    | "thank you"                     |      |
 | v,    | "contrib"                       |      |
 | va    | "available"                     |      |
@@ -311,7 +311,7 @@ Currently unused features:
 | wr    | "where"                         |      |
 | wu    | "internal"                      |      |
 | wy    | "worry"                         |      |
-| x     | "context"                       |      |
+| x     | "exit"                          | plan |
 | x.    | "export"                        |      |
 | xa    | "example"                       |      |
 | xe    | "execute"                       |      |
