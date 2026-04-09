@@ -180,7 +180,7 @@ Currently unused features:
 | do    | "don't"                         | plan |
 | dr    | "their"                         |      |
 | du    | "products"                      |      |
-| dy    | "already"                       |      |
+| dy    | "already"                       | plan |
 | f,    | "fails"                         |      |
 | f.    | "false"                         |      |
 | fa    | "after"                         |      |
