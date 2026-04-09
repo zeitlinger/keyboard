@@ -71,14 +71,14 @@ Currently unused features:
 
 | Magic | Magic A  | Magic B  | Magic C |
 |:-----:|:--------:|:--------:|:-------:|
-|   b   |    d     | "ecause" |    h    |
-|   g   |    y     |    k     |    f    |
+|   b   |    d     | "ecause" |         |
+|   g   |    d     |    k     |    f    |
 |   k   |    x     |  "now"   |    h    |
 |   l   |    c     |    r     |    h    |
 |   m   |    l     |  "ent"   |    h    |
 |   s   |    d     |  "ion"   |    r    |
 |   w   |    x     |    s     |    t    |
-|   d   |  "oes"   | "oesn't" |         |
+|   d   |    f     | "doesn't |    h    |
 |   f   |          |   "or"   |    f    |
 |   h   |    y     |   "ey"   |         |
 |   i   |    '     |  "'ve"   |         |
@@ -106,13 +106,14 @@ Currently unused features:
 |:---------:|:---:|:------:|
 |     a     |  e  |   u    |
 |     a     |  qu |   e    |
-|     b     |  d  |   l    |
-|     b     |  h  |   s    |
+|     b     |  d  |   s    |
 |     c     |  d  |   k    |
+|     d     |  f  |   v    |
+|     d     |  h  |   g    |
 |     e     |  h  |   o    |
 |     e     |  qu |   h    |
+|     g     |  d  |   n    |
 |     g     |  f  |   l    |
-|     g     |  y  |   n    |
 |     k     |  h  |   n    |
 |     l     |  c  |   m    |
 |     l     |  h  |   v    |
@@ -175,7 +176,7 @@ Currently unused features:
 | d,    | "hadn't"                        |      |
 | da    | "describe"                      |      |
 | dd    | "zeitlinger@gmail.com"          |      |
-| di    | "during"                        |      |
+| di    | "does"                          | plan |
 | dj    | "build"                         |      |
 | do    | "don't"                         | plan |
 | dr    | "their"                         |      |

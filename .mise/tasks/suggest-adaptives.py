@@ -121,7 +121,7 @@ LAYOUT = {
 
 COMBO_KEYS = set('pbmgvk')
 
-MIN_FREQ_PCT = 0.020       # ignore bad bigrams below this frequency
+MIN_FREQ_PCT = 0.01      # ignore bad bigrams below this frequency
 MAX_MAGIC_SACRIFICE_PCT = MIN_FREQ_PCT  # sacrifice bigrams below this can be covered by adding a magic entry
 MAX_RECOMMEND_FEEL = 2     # only recommend adding adaptives with feel <= this
 
@@ -146,14 +146,16 @@ def is_scissors(a, b):
 
 
 def is_combo_adjacent(a_char, b_char):
-    """Combo key followed by adjacent single key is bad — combo fingers still in motion."""
+    """Combo key followed by outward-adjacent single key is bad — combo fingers still in motion.
+    Inward rolls (e.g. pn, bl) are fine; only outward moves cause timing issues."""
     a_pos, b_pos = LAYOUT[a_char], LAYOUT[b_char]
     if is_thumb(a_pos) or is_thumb(b_pos):
         return False
     same_hand = (a_pos[0] < 4) == (b_pos[0] < 4)
     adjacent = abs(a_pos[0] - b_pos[0]) == 1
+    outward = b_pos[0] < a_pos[0]  # left hand: decreasing col = toward pinky = outward
     return (a_char in COMBO_KEYS and b_char not in COMBO_KEYS
-            and same_hand and adjacent)
+            and same_hand and adjacent and outward)
 
 
 def is_combo_preceded(a_char, b_char):
@@ -175,7 +177,8 @@ def feel_score(a_char, b_char):
 
       0 = good inward same-hand roll
       1 = alternation or outward
-      2 = combo-adjacent to same/lower row (col stagger makes it ok)
+      2 = combo-adjacent to same/lower row; or row_diff > 1 with d-exception, outward (stretch)
+      0 also covers: row_diff > 1 with d-exception, inward (big roll, still comfortable)
       3 = adjacent finger (col_diff=1) with row change + pinky; or combo-adjacent moving up/to top row
      99 = row_diff > 1 without d exception (uncomfortable reach)
     Combo key as physical target: floor of 3 (never better than "ok").
@@ -198,7 +201,9 @@ def feel_score(a_char, b_char):
         if row_diff > 1 and 'd' not in (a_char, b_char):
             return 99
 
-        if col_diff == 1 and row_diff > 0:
+        if row_diff > 1:
+            score = 2 if not inward else 0  # d-exception: outward stretch=2, inward roll still ok
+        elif col_diff == 1 and row_diff > 0:
             pinky = (a_pos[0] in (0, 7) or b_pos[0] in (0, 7))
             score = 3 if pinky else 1  # adjacent+row_change: worse when pinky involved
         elif inward:
@@ -208,6 +213,14 @@ def feel_score(a_char, b_char):
 
     if b_char in COMBO_KEYS:
         score = max(score, 3)  # combo key as physical target: unreliable
+
+    # Combo key as trigger: finger rests at its row after release.
+    # Moving to a higher physical row (lower row index) fights that resting position.
+    # Applies to same-hand motions regardless of base score.
+    # Resting row after combo release is home (1) for top combos, stored row for bottom combos.
+    combo_rest_row = max(a_pos[1], 1)
+    if a_char in COMBO_KEYS and b_pos[0] < 4 and b_pos[1] < combo_rest_row:
+        score = 3 if col_diff == 1 else score + 1  # adjacent finger moving up: always bad
 
     if is_combo_adjacent(a_char, b_char):
         # Col stagger: natural to move to same or lower row after a combo.
@@ -474,7 +487,7 @@ def main():
                 ((a, b) in magic_covered or (is_existing and (a, c) in magic_covered))
                 and pct(sacrifice) < MAX_MAGIC_SACRIFICE_PCT
             )
-            if not magic_free and sacrifice >= bigram_freq / 10:
+            if not magic_free and sacrifice >= bigram_freq / 10 and pct(sacrifice) >= MIN_FREQ_PCT:
                 continue
             bad_following = sum(
                 1 for tg, _ in followers
@@ -640,10 +653,15 @@ def main():
     # Magic entries to REMOVE: single-char entries where an adaptive now covers (trigger, output).
     # Once we commit to adding the adaptive, the magic it relied on for sacrifice justification
     # can be freed — the adaptive is the new owner of that (trigger, output) pair.
+    # Also free recovery magic for removed adaptives: if adaptive a+c→b is removed, the
+    # magic entry for (a, c) that allowed typing "ac" is no longer needed.
     magic_remove = {}  # (trigger, variant) -> output
+    freed_by_removal = {(a, c) for a, c, _ in remove}  # recovery keys no longer needed
     for trigger, variants in magic_table.items():
         for variant, val in variants.items():
             if len(val) == 1 and val.isalpha() and (trigger, val) in covered_outputs:
+                magic_remove[(trigger, variant)] = val
+            elif (trigger, val) in freed_by_removal and (trigger, val) not in magic_add:
                 magic_remove[(trigger, variant)] = val
 
     # Effective magic table after removals — used for slot availability in Add
@@ -816,6 +834,17 @@ def main():
                 entries.append(f"{trigger}→{val}")
         if entries:
             print(f"  Magic {variant}: {', '.join(entries)}")
+
+    # --- Lead magic per trigger key ---
+    print("\n=== Lead Magic per Output Key ===\n")
+    output_variants: dict[str, set[str]] = {}
+    for trigger, variants in magic_table.items():
+        for v, val in variants.items():
+            if len(val) == 1 and val.isalpha() and val not in COMBO_KEYS:
+                output_variants.setdefault(val, set()).add(v)
+    for letter in sorted(output_variants):
+        used = ', '.join(v for v in ('A', 'B', 'C') if v in output_variants[letter])
+        print(f"  {letter}: {used}")
 
     # --- Resort suggestions: move single-char entries to their lead variant ---
     magic_swaps = []  # (trigger, src_variant, dest_variant, output)

@@ -577,11 +577,13 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 switch (prev_keycode) {
                     case KC_B: return tap(KC_L);
                     case KC_C: return tap(KC_K);
+                    case KC_G: return tap(KC_N);
                     case KC_P: return tap(KC_L);
                     case KC_S: return tap(KC_P);
                     case KC_X: return tap(KC_C);
                     case S(KC_B): return tap(KC_L);
                     case S(KC_C): return tap(KC_K);
+                    case S(KC_G): return tap(KC_N);
                     case S(KC_P): return tap(KC_L);
                     case S(KC_S): return tap(KC_P);
                     case S(KC_X): return tap(KC_C);
@@ -590,6 +592,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
             case KC_H:
                 switch (prev_keycode) {
                     case KC_B: return tap(KC_S);
+                    case KC_D: return tap(KC_G);
                     case KC_E: return tap(KC_O);
                     case KC_K: return tap(KC_N);
                     case KC_L: return tap(KC_V);
@@ -598,6 +601,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_O: return tap(KC_E);
                     case KC_U: return tap(KC_A);
                     case S(KC_B): return tap(KC_S);
+                    case S(KC_D): return tap(KC_G);
                     case S(KC_E): return tap(KC_O);
                     case S(KC_K): return tap(KC_N);
                     case S(KC_L): return tap(KC_V);
@@ -609,14 +613,10 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 break;
             case KC_F:
                 switch (prev_keycode) {
+                    case KC_D: return tap(KC_V);
                     case KC_G: return tap(KC_L);
+                    case S(KC_D): return tap(KC_V);
                     case S(KC_G): return tap(KC_L);
-                }
-                break;
-            case KC_Y:
-                switch (prev_keycode) {
-                    case KC_G: return tap(KC_N);
-                    case S(KC_G): return tap(KC_N);
                 }
                 break;
             case KC_C:
@@ -686,7 +686,6 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_DOT: tap_code16(KC_SLASH); return false;
                     case KC_EQUAL: tap_code16(KC_RABK); return false;
                     case KC_EXLM: tap_code16(KC_EQUAL); return false;
-                    case KC_G: tap_code16(KC_Y); return false;
                     case KC_H: tap_code16(KC_Y); return false;
                     case KC_I: tap_code16(KC_QUOTE); return false;
                     case KC_K: tap_code16(KC_X); return false;
@@ -704,7 +703,6 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case S(KC_B): tap_code16(KC_D); return false;
                     case S(KC_C): tap_code16(KC_D); return false;
                     case S(KC_D): chord_decode_send(995); return false; // "oes"
-                    case S(KC_G): tap_code16(KC_Y); return false;
                     case S(KC_H): tap_code16(KC_Y); return false;
                     case S(KC_I): tap_code16(KC_QUOTE); return false;
                     case S(KC_K): tap_code16(KC_X); return false;
