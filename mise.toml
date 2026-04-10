@@ -10,6 +10,11 @@ description = "Generate the keyboard files"
 run = "mvn compile exec:java"
 
 
+[tasks.train]
+description = "Train chord vocabulary"
+run = "uv run train.py"
+
+
 [tasks.flash]
 description = "Flash the keyboard"
 depends = "generate"

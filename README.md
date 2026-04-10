@@ -184,9 +184,7 @@ Currently unused features:
 | f,    | "fails"                         |      |
 | f.    | "false"                         |      |
 | fa    | "after"                         |      |
-| fe    | "feel"                          |      |
 | ff    | "gregor.zeitlinger@grafana.com" |      |
-| fh    | "then"                          |      |
 | fi    | "first"                         |      |
 | fj    | "finger"                        |      |
 | fl    | "have"                          |      |
@@ -205,16 +203,11 @@ Currently unused features:
 | k     | "question"                      |      |
 | k,    | "config"                        |      |
 | kh    | "check"                         |      |
-| ki    | "kind"                          |      |
-| kj    | "java"                          |      |
-| ko    | "know"                          |      |
-| kr    | "work"                          |      |
 | ku    | "caller"                        |      |
 | ky    | "quickly"                       |      |
 | l,    | "level"                         |      |
 | l.    | "class"                         |      |
 | la    | "language"                      | plan |
-| ld    | "with"                          |      |
 | le    | "leave"                         |      |
 | lh    | "health"                        |      |
 | li    | "light"                         |      |
@@ -231,7 +224,6 @@ Currently unused features:
 | mi    | "minute"                        |      |
 | mj    | "major"                         |      |
 | mo    | "feature"                       |      |
-| mu    | "music"                         |      |
 | my    | "myself"                        |      |
 | n     | "understand"                    |      |
 | n,    | "single"                        |      |
@@ -239,7 +231,6 @@ Currently unused features:
 | nd    | "instead"                       |      |
 | ne    | "number"                        |      |
 | nh    | "anything"                      | plan |
-| ni    | "into"                          |      |
 | nj    | "issues"                        |      |
 | no    | "another"                       |      |
 | nu    | "enough"                        |      |
@@ -265,10 +256,10 @@ Currently unused features:
 | rl    | "query"                         |      |
 | ro    | "around"                        |      |
 | rs    | "request"                       |      |
-| ry    | "years"                         |      |
+| ry    | "everything"                    |      |
 | rz    | "realize"                       |      |
-| s     | "should"                        |      |
-| s,    | "wasn't"                        | plan |
+| s     | "wasn't"                        |      |
+| s,    | "should"                        |      |
 | s.    | "string"                        |      |
 | se    | "search"                        |      |
 | sh    | "share"                         |      |
@@ -286,11 +277,11 @@ Currently unused features:
 | th    | "other"                         |      |
 | ti    | "time"                          |      |
 | tj    | "through"                       |      |
-| to    | "thought"                       | plan |
+| to    | "thought"                       | done |
 | tr    | "there"                         |      |
 | tt    | "OpenTelemetry"                 |      |
-| tu    | "though"                        | plan |
-| ty    | "thank you"                     |      |
+| tu    | "though"                        | done |
+| ty    | "thank you"                     |      plan|
 | v,    | "contrib"                       |      |
 | va    | "available"                     |      |
 | vh    | "version"                       |      |
@@ -299,8 +290,7 @@ Currently unused features:
 | vo    | "over"                          |      |
 | vr    | "never"                         |      |
 | vu    | "value"                         |      |
-| vy    | "everything"                    | plan |
-| w,    | "wouldn't"                      | plan |
+| w,    | "internal"                      |      |
 | w.    | "await"                         |      |
 | we    | "when"                          |      |
 | wh    | "which"                         |      |
@@ -308,7 +298,7 @@ Currently unused features:
 | wj    | "wrong"                         |      |
 | wo    | "without"                       |      |
 | wr    | "where"                         |      |
-| wu    | "internal"                      |      |
+| wu    | "wouldn't"                      |      |
 | wy    | "worry"                         |      |
 | x     | "exit"                          | plan |
 | x.    | "export"                        |      |

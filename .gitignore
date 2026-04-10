@@ -3,3 +3,4 @@ out/
 target/
 *.iml
 *.jar
+chord_stats.json
