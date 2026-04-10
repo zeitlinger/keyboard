@@ -4,3 +4,4 @@ target/
 *.iml
 *.jar
 chord_stats.json
+__pycache__/

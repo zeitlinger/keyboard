@@ -281,7 +281,7 @@ Currently unused features:
 | tr    | "there"                         |      |
 | tt    | "OpenTelemetry"                 |      |
 | tu    | "though"                        | done |
-| ty    | "thank you"                     |      plan|
+| ty    | "thank you"                     | plan |
 | v,    | "contrib"                       |      |
 | va    | "available"                     |      |
 | vh    | "version"                       |      |

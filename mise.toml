@@ -10,6 +10,10 @@ description = "Generate the keyboard files"
 run = "mvn compile exec:java"
 
 
+[tasks.suggest-combos]
+description = "Suggest chords to add, ranked by typing benefit"
+run = "uv run .mise/tasks/suggest-combos.py"
+
 [tasks.train]
 description = "Train chord vocabulary"
 run = "uv run train.py"

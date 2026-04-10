@@ -15,6 +15,34 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
 from wordfreq import word_frequency
+from feel import feel_score, LAYOUT, load_adaptives, actual_keystrokes
+
+
+def chord_feel(chord: str) -> int:
+    """Feel score for pressing the chord keys (lower = easier)."""
+    keys = [c for c in chord if c in LAYOUT]
+    if len(keys) < 2:
+        return 0
+    return feel_score(keys[0], keys[1])
+
+
+def output_difficulty(output: str, adaptives: dict) -> float:
+    """Average bigram feel of actually typing the output (after applying adaptives). Higher = harder."""
+    keys = [c for c in actual_keystrokes(output.lower(), adaptives) if c in LAYOUT]
+    if len(keys) < 2:
+        return 1.0
+    scores = [min(feel_score(a, b), 5) for a, b in zip(keys, keys[1:])]
+    return sum(scores) / len(scores)
+
+
+def chord_value(chord: str, output: str, adaptives: dict) -> float:
+    """Higher = more worth learning. Saved keystrokes × frequency × output difficulty, penalised by chord feel."""
+    freq = max(word_frequency(w, "en") for w in output.split())
+    saved = len(output) - len(chord)
+    if saved < 3:
+        return 0.0
+    return saved**2 * freq * output_difficulty(output, adaptives) / (chord_feel(chord) + 1)
+
 
 STATS_FILE = Path(__file__).parent / "chord_stats.json"
 README = Path(__file__).parent / "README.md"
@@ -85,14 +113,13 @@ def set_chord_status_in_readme(chord: str, status: str) -> None:
     README.write_text("".join(lines))
 
 
-def word_freq(output: str) -> float:
-    return max(word_frequency(w, "en") for w in output.split())
 
 
 def add_next_plan_chord(chords: dict[str, str], all_chords: list[str]) -> tuple[str, str] | None:
     """Pick the most common unplanned chord, mark it plan in README, return (chord, output)."""
     rows = parse_chord_table()
-    unplanned = [(word_freq(output), chord, output) for _, chord, output, status in rows if not status]
+    adaptives = load_adaptives(README)
+    unplanned = [(chord_value(chord, output, adaptives), chord, output) for _, chord, output, status in rows if not status]
     if not unplanned:
         return None
     unplanned.sort(reverse=True)

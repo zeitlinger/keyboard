@@ -13,6 +13,9 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).parents[2]))
+from feel import LAYOUT, COMBO_KEYS, is_thumb, is_sfb, is_scissors, is_combo_adjacent, is_combo_preceded, is_bad, feel_score  # noqa: E402
+
 CORPUS = Path.home() / "source/genkey/corpora/shai-iweb.json"
 README = Path(__file__).parents[2] / "README.md"
 
@@ -124,114 +127,6 @@ COMBO_KEYS = set('pbmgvk')
 MIN_FREQ_PCT = 0.01      # ignore bad bigrams below this frequency
 MAX_MAGIC_SACRIFICE_PCT = MIN_FREQ_PCT  # sacrifice bigrams below this can be covered by adding a magic entry
 MAX_RECOMMEND_FEEL = 2     # only recommend adding adaptives with feel <= this
-
-
-def is_thumb(pos):
-    return pos[1] == 3
-
-
-def is_sfb(a, b):
-    if is_thumb(a) or is_thumb(b):
-        return False  # thumb is a separate finger from index
-    return a[0] == b[0]
-
-
-def is_scissors(a, b):
-    if is_thumb(a) or is_thumb(b):
-        return False
-    same_hand = (a[0] < 4) == (b[0] < 4)
-    col_diff = abs(a[0] - b[0])
-    row_diff = abs(a[1] - b[1])
-    return same_hand and col_diff <= 1 and row_diff >= 2
-
-
-def is_combo_adjacent(a_char, b_char):
-    """Combo key followed by outward-adjacent single key is bad — combo fingers still in motion.
-    Inward rolls (e.g. pn, bl) are fine; only outward moves cause timing issues."""
-    a_pos, b_pos = LAYOUT[a_char], LAYOUT[b_char]
-    if is_thumb(a_pos) or is_thumb(b_pos):
-        return False
-    same_hand = (a_pos[0] < 4) == (b_pos[0] < 4)
-    adjacent = abs(a_pos[0] - b_pos[0]) == 1
-    outward = b_pos[0] < a_pos[0]  # left hand: decreasing col = toward pinky = outward
-    return (a_char in COMBO_KEYS and b_char not in COMBO_KEYS
-            and same_hand and adjacent and outward)
-
-
-def is_combo_preceded(a_char, b_char):
-    """Regular key followed by a combo key on the same hand — timing conflict for the combo."""
-    if a_char in COMBO_KEYS or b_char not in COMBO_KEYS:
-        return False
-    a_pos, b_pos = LAYOUT[a_char], LAYOUT[b_char]
-    if is_thumb(a_pos) or is_thumb(b_pos):
-        return False
-    return (a_pos[0] < 4) == (b_pos[0] < 4)
-
-
-def is_bad(a, b):
-    return is_sfb(a, b) or is_scissors(a, b)
-
-
-def feel_score(a_char, b_char):
-    """Lower = better feel for the physical motion a_char → b_char.
-
-      0 = good inward same-hand roll
-      1 = alternation or outward
-      2 = combo-adjacent to same/lower row; or row_diff > 1 with d-exception, outward (stretch)
-      0 also covers: row_diff > 1 with d-exception, inward (big roll, still comfortable)
-      3 = adjacent finger (col_diff=1) with row change + pinky; or combo-adjacent moving up/to top row
-     99 = row_diff > 1 without d exception (uncomfortable reach)
-    Combo key as physical target: floor of 3 (never better than "ok").
-    """
-    a_pos, b_pos = LAYOUT[a_char], LAYOUT[b_char]
-    row_diff = abs(a_pos[1] - b_pos[1])
-
-    # Thumb is its own finger — treat as alternation
-    if is_thumb(a_pos) or is_thumb(b_pos):
-        score = 1
-    # Different hands: alternation
-    elif (a_pos[0] < 4) != (b_pos[0] < 4):
-        score = 1
-    else:
-        # Same hand
-        col_diff = abs(a_pos[0] - b_pos[0])
-        inward = b_pos[0] > a_pos[0]  # left hand: increasing col = toward index
-
-        # row_diff > 1 is bad unless one key is 'd' (index bottom, most dexterous)
-        if row_diff > 1 and 'd' not in (a_char, b_char):
-            return 99
-
-        if row_diff > 1:
-            score = 2 if not inward else 0  # d-exception: outward stretch=2, inward roll still ok
-        elif col_diff == 1 and row_diff > 0:
-            pinky = (a_pos[0] in (0, 7) or b_pos[0] in (0, 7))
-            score = 3 if pinky else 1  # adjacent+row_change: worse when pinky involved
-        elif inward:
-            score = 0
-        else:
-            score = 1
-
-    if b_char in COMBO_KEYS:
-        score = max(score, 3)  # combo key as physical target: unreliable
-
-    # Combo key as trigger: finger rests at its row after release.
-    # Moving to a higher physical row (lower row index) fights that resting position.
-    # Applies to same-hand motions regardless of base score.
-    # Resting row after combo release is home (1) for top combos, stored row for bottom combos.
-    combo_rest_row = max(a_pos[1], 1)
-    if a_char in COMBO_KEYS and b_pos[0] < 4 and b_pos[1] < combo_rest_row:
-        score = 3 if col_diff == 1 else score + 1  # adjacent finger moving up: always bad
-
-    if is_combo_adjacent(a_char, b_char):
-        # Col stagger: natural to move to same or lower row after a combo.
-        # Top-row targets (row 0) always awkward; home/lower natural for top combos,
-        # lower-only natural for bottom combos.
-        if b_pos[1] >= max(1, a_pos[1]):
-            score = max(score, 2)  # acceptable: stagger makes this comfortable
-        else:
-            score = max(score, 3)  # moving up or to top row after combo: awkward
-
-    return score
 
 
 def slot_feel_score(trigger, variant):
