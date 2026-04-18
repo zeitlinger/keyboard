@@ -117,12 +117,14 @@ def slot_feel_score(trigger, variant):
     row_diff = abs(trigger_pos[1] - pos[1])
     if (trigger_pos[0] < 4) != (pos[0] < 4):
         return 1
-    if row_diff > 1:
-        return 99
     col_diff = abs(trigger_pos[0] - pos[0])
+    if col_diff == 0:
+        # Same column: either same physical key (99) or SFB-like — for combos
+        # the trigger is one of the combo's own keys, so no smooth roll.
+        return 99 if row_diff == 0 else 3
+    if row_diff > 3:
+        return 99
     inward = pos[0] > trigger_pos[0]
-    if col_diff == 0 and row_diff == 0:
-        return 99  # same physical key can't be both trigger and magic
     if col_diff == 1 and row_diff > 0:
         return 2 if (trigger_pos[0] in (0, 7) or pos[0] in (0, 7)) else 1
     return 0 if inward else 1

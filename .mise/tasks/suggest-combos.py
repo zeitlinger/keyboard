@@ -4,19 +4,19 @@
 # dependencies = ["wordfreq", "rich"]
 # ///
 
-# [MISE] description="Suggest chords to add, ranked by typing benefit"
+# [MISE] description="Suggest magic-key expansions to add, ranked by typing benefit"
 
-"""Rank all chord candidates (unplanned + missing words) by typing benefit.
+"""Rank magic-key (preceding-letter × magic column) candidates by typing benefit.
 
-Unplanned chords already have assignments. Missing words are paired with the
-best available free chord (better words get easier chords, greedily).
+A magic expansion costs 2 keystrokes: the preceding letter plus one of the
+nine magic keys. The cell emits a suffix (prefix-stripped against the
+preceding letter when it matches) or a single character.
 
 Without --apply: show suggestions only.
-With --apply N: mark/add top N as 'plan' in README.md.
+With --apply N: insert top N as new cells in the Magic Keys table.
 """
 
 import argparse
-import bisect
 import os
 import re
 import sys
@@ -24,31 +24,49 @@ from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parents[2]))
-from feel import feel_score, LAYOUT, COMBO_KEYS, load_adaptives, actual_keystrokes
+from feel import (
+    LAYOUT, COMBO_KEYS, MAGIC_POSITIONS, feel_score,
+    load_adaptives, actual_keystrokes,
+)
 
 from wordfreq import word_frequency
 
 README = Path(__file__).parents[2] / "README.md"
 
+VARIANTS = tuple(f'magic_{c}' for c in 'abcdefghi')
+
 SAVED_MIN   = 3
-TRIGGER_COST = 1  # chord mode activation is a combo keypress — subtract from savings
 SOURCE_MIN  = 200
 VOWEL_MIN   = 0.2
-TOP_MISSING = 200   # how many missing words to consider for assignment
+TOP_MISSING = 200
 
 
 # ── Scoring ───────────────────────────────────────────────────────────────────
 
-def chord_feel_score(chord: str) -> int:
-    keys = [c for c in chord if c in LAYOUT]
-    base = feel_score(keys[0], keys[1]) if len(keys) >= 2 else 0
-    # Combo key as chord starter (2+ char chord): harder to time precisely
-    if len(chord) >= 2 and chord[0] in COMBO_KEYS:
-        return max(base, 2)
-    # Punctuation: harder to remember
-    if any(not c.isalpha() for c in chord):
-        return max(base, 2)
-    return base
+def magic_feel_score(prev: str, magic: str) -> int:
+    """Feel of rolling from `prev` (letter) to `magic` column.
+
+    Row scheme: combos at odd rows (1, 3), non-combos at even (0, 2, 4, 5=thumb).
+    """
+    if prev not in LAYOUT:
+        return 2  # punctuation / special: arbitrary mid value
+    a_pos = LAYOUT[prev]
+    b_pos = MAGIC_POSITIONS[magic]
+    if (a_pos[0] < 4) != (b_pos[0] < 4):
+        return 1  # cross-hand: alternation
+    col_diff = abs(a_pos[0] - b_pos[0])
+    row_diff = abs(a_pos[1] - b_pos[1])
+    if col_diff == 0:
+        return 99 if row_diff == 0 else 3   # SFB — same column same-hand
+    if row_diff > 3:
+        return 99  # top ↔ bottom extreme
+    if col_diff == 1 and row_diff >= 2:
+        return 3   # scissors (skipping a row between adjacent fingers)
+    if col_diff == 1 and row_diff >= 1:
+        pinky = a_pos[0] in (0, 7) or b_pos[0] in (0, 7)
+        return 2 if pinky else 1
+    inward = b_pos[0] > a_pos[0] if a_pos[0] < 4 else b_pos[0] < a_pos[0]
+    return 0 if inward else 1
 
 
 def output_difficulty(output: str, adaptives: dict) -> float:
@@ -59,46 +77,56 @@ def output_difficulty(output: str, adaptives: dict) -> float:
     return sum(scores) / len(scores)
 
 
-def chord_value(chord: str, output: str, adaptives: dict) -> float:
+def magic_value(prev: str, magic: str, output: str, adaptives: dict) -> float:
+    """Value of using (prev + magic) to produce `output`.
+
+    Only sensible when `output` starts with `prev` (generator prefix-strips);
+    otherwise the emit prepends junk to the preceding letter.
+    """
+    if not output or not output.lower().startswith(prev.lower()):
+        return 0.0
     freq = max(word_frequency(w, "en") for w in output.split())
-    saved = len(output) - len(chord) - TRIGGER_COST
+    saved = len(output) - 2  # 2 keystrokes: prev + magic
     if saved < SAVED_MIN:
         return 0.0
-    return saved**2 * freq * output_difficulty(output, adaptives) / (chord_feel_score(chord) + 1)
+    return saved**2 * freq * output_difficulty(output, adaptives) / (magic_feel_score(prev, magic) + 1)
 
 
-# ── Chord table ───────────────────────────────────────────────────────────────
+# ── Magic table ───────────────────────────────────────────────────────────────
 
-def parse_chord_table() -> list[tuple[int, str, str, str]]:
-    rows = []
+def parse_magic_table() -> tuple[dict[tuple[str, str], tuple[int, str]], int]:
+    """Return (cells, table_end_line) where cells maps (prev, magic_col) → (line_index, raw_value)."""
+    cells = {}
     in_table = False
+    table_end = None
+    row_re = re.compile(r'^\|\s*(\w)\s*\|' + r'([^|]*)\|' * len(VARIANTS))
     for i, line in enumerate(README.read_text().splitlines()):
-        if "## Chord Table" in line:
+        if '## Magic Keys' in line:
             in_table = True
             continue
-        if in_table and line.startswith("##"):
-            break
-        if not in_table:
-            continue
-        m = re.match(r"\|\s*([a-z,./]+)\s*\|\s*\"([^\"]+)\"\s*\|\s*(yes|plan|done)?\s*\|", line)
-        if m:
-            rows.append((i, m.group(1).strip(), m.group(2).strip(), m.group(3) or ""))
-    return rows
+        if in_table:
+            if line.startswith('##'):
+                table_end = i
+                break
+            m = row_re.match(line)
+            if m and len(m.group(1)) == 1:
+                prev = m.group(1)
+                for idx, col in enumerate(VARIANTS):
+                    raw = m.group(idx + 2).strip()
+                    if raw:
+                        cells[(prev, col)] = (i, raw)
+    return cells, table_end or len(README.read_text().splitlines())
 
 
-def available_free_chords(used: set[str]) -> list[str]:
-    """All chord sequences available per find_available_chords.py, minus already used."""
-    candidates = []
-    rolls = {'s': 'cnt', 'c': 'nt', 'n': 'td', 'f': 'ld', 'l': 'd'}
-    for left in 'scntfldzbgkpmxwvr':
-        candidates.append(left)
-        candidates.append('r' + left)
-        candidates.append(left + left)
-        for right in 'aeihy,.juor':
-            candidates.append(left + right)
-        for right in rolls.get(left, ''):
-            candidates.append(left + right)
-    return [c for c in set(candidates) if c not in used]
+def parse_cell(raw: str) -> str:
+    """Return the emitted text (without surrounding quotes)."""
+    if raw.startswith('"') and raw.endswith('"'):
+        return raw[1:-1]
+    return raw
+
+
+def used_outputs(cells: dict) -> set[str]:
+    return {parse_cell(raw) for _, raw in cells.values()}
 
 
 # ── Source corpus ─────────────────────────────────────────────────────────────
@@ -130,67 +158,52 @@ def looks_real(word: str, counts: Counter) -> bool:
 
 # ── README editing ────────────────────────────────────────────────────────────
 
-def apply_changes(to_plan: list[str], to_add: list[tuple[str, str]], to_remove: list[tuple[str, str]]) -> None:
-    """Mark existing chords as plan; insert new chord→output rows alphabetically."""
-    lines = README.read_text().splitlines(keepends=True)
-    to_plan_set = set(to_plan)
+def apply_changes(to_add: list[tuple[str, str, str]]) -> None:
+    """Insert top candidates into the Magic Keys table.
 
-    # Mark existing unplanned as plan
+    `to_add` entries: (prev_letter, magic_col, output).
+    If the (prev, col) cell exists but is blank, fill it. If the `prev` row
+    doesn't exist yet, we skip with a warning — authors maintain the row set.
+    """
+    lines = README.read_text().splitlines(keepends=True)
+    row_re = re.compile(r'^(\|\s*(\w)\s*\|)(' + r'[^|]*\|' * len(VARIANTS) + r')')
+
+    # Index existing rows by prev letter
+    row_index: dict[str, int] = {}
     in_table = False
-    table_end = None
     for i, line in enumerate(lines):
-        if "## Chord Table" in line:
+        if '## Magic Keys' in line:
             in_table = True
             continue
-        if in_table and line.startswith("##"):
-            table_end = i
+        if in_table and line.startswith('##'):
             break
         if not in_table:
             continue
-        m = re.match(r"(\|\s*([a-z,./]+)\s*\|\s*\"[^\"]+\"\s*\|\s*)(yes|plan|done)?(\s*\|)", line)
-        if m and m.group(2).strip() in to_plan_set:
-            lines[i] = m.group(1) + "plan" + m.group(4) + "\n"
+        m = row_re.match(line.rstrip('\n'))
+        if m and len(m.group(2)) == 1:
+            row_index[m.group(2)] = i
 
-    # Insert new entries alphabetically within the table
-    if to_add and table_end is not None:
-        # Collect existing chord positions for insertion sort
-        chord_lines: list[tuple[str, int]] = []
-        in_table = False
-        for i, line in enumerate(lines):
-            if "## Chord Table" in line:
-                in_table = True
-                continue
-            if in_table and line.startswith("##"):
-                break
-            if not in_table:
-                continue
-            m = re.match(r"\|\s*([a-z,./]+)\s*\|", line)
-            if m:
-                chord_lines.append((m.group(1).strip(), i))
+    skipped = []
+    for prev, col, output in to_add:
+        if prev not in row_index:
+            skipped.append((prev, col, output))
+            continue
+        li = row_index[prev]
+        line = lines[li].rstrip('\n')
+        parts = line.split('|')  # ['', ' prev ', ' colA ', ..., ' colI ', '']
+        col_idx = VARIANTS.index(col) + 2  # +1 for leading empty, +1 for prev
+        if parts[col_idx].strip():
+            continue  # already filled; don't clobber
+        width = len(parts[col_idx])
+        display = f'"{output}"' if len(output) > 1 else output
+        parts[col_idx] = display.center(width)
+        lines[li] = '|'.join(parts) + '\n'
 
-        # Insert each new entry alphabetically, updating positions as we go
-        existing_chords = [chord for chord, _ in chord_lines]
-        existing_positions = [pos for _, pos in chord_lines]
-        for chord, output in sorted(set(to_add)):  # set() deduplicates
-            # Find insertion index: after last existing chord that sorts <= chord
-            insert_line = table_end
-            for i, (ec, lp) in enumerate(zip(existing_chords, existing_positions)):
-                if ec <= chord:
-                    insert_line = lp + 1
-            new_line = f'| {chord:<6} | "{output}" | plan |\n'
-            lines.insert(insert_line, new_line)
-            # Shift all positions after the insertion point
-            existing_positions = [p + 1 if p >= insert_line else p for p in existing_positions]
-            table_end += 1
-
-    # Remove lowest-value unplanned entries to make room for new ones
-    remove_chords = {chord for chord, _ in to_remove}
-    def is_unplanned_removal(line):
-        m = re.match(r"\|\s*([a-z,./]+)\s*\|\s*\"[^\"]+\"\s*\|\s*(yes|plan|done)?\s*\|", line)
-        return m and m.group(1).strip() in remove_chords and not m.group(2)
-    lines = [line for line in lines if not is_unplanned_removal(line)]
-
-    README.write_text("".join(lines))
+    README.write_text(''.join(lines))
+    if skipped:
+        print(f"\nSkipped ({len(skipped)} — no row for preceding letter):")
+        for prev, col, output in skipped:
+            print(f"  {prev} + {col} → {output}")
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
@@ -198,96 +211,84 @@ def apply_changes(to_plan: list[str], to_add: list[tuple[str, str]], to_remove: 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--apply", type=int, metavar="N",
-                        help="Mark/add top N candidates as plan in README.md")
+                        help="Insert top N candidates into the Magic Keys table")
     args = parser.parse_args()
 
     adaptives = load_adaptives(README)
-    rows = parse_chord_table()
-    used_chords  = {chord for _, chord, _, _ in rows}
-    used_outputs = {output for _, _, output, _ in rows}
+    cells, _ = parse_magic_table()
+    existing_outputs = used_outputs(cells)
+    used_slots = set(cells.keys())
 
-    # ── Unplanned (already in table, no status) ────────────────────────────
-    candidates: list[tuple[float, str, str, str]] = []  # (value, chord, output, kind)
-    for _, chord, output, status in rows:
-        if not status:
-            val = chord_value(chord, output, adaptives)
-            if val > 0:
-                candidates.append((val, chord, output, "unplanned"))
+    # ── Existing cells — rate each currently-in-table entry ───────────────
+    candidates: list[tuple[float, str, str, str, str]] = []  # (value, prev, col, output, kind)
+    for (prev, col), (_, raw) in cells.items():
+        output = parse_cell(raw)
+        if not output or output == 'dotSpc':
+            continue
+        val = magic_value(prev, col, output, adaptives)
+        if val > 0:
+            candidates.append((val, prev, col, output, "existing"))
 
-    # ── Missing words — greedy chord assignment ────────────────────────────
+    # ── Missing words — greedy slot assignment ────────────────────────────
     print("Building source corpus…", end="", flush=True)
     counts = build_source_corpus()
     print(f" {len(counts):,} unique words")
 
     total = sum(counts.values())
-    missing_words: list[tuple[float, str]] = []  # (potential_value, word)
+    missing_words: list[tuple[float, str]] = []
     for word, count in counts.items():
-        if word in used_outputs or not looks_real(word, counts):
+        if word in existing_outputs or not looks_real(word, counts):
             continue
-        saved = len(word) - 2  # best case: 1-char chord
+        saved = len(word) - 2
         if saved < SAVED_MIN:
             continue
         freq = count / total
         diff = output_difficulty(word, adaptives)
         missing_words.append((saved**2 * freq * diff, word))
-
     missing_words.sort(reverse=True)
 
-    # Greedily assign best available chord to each word
-    free = available_free_chords(used_chords)
-    # Easiest chords first; prefer letter-only over punctuation at equal feel
-    free.sort(key=lambda c: (chord_feel_score(c), any(not ch.isalpha() for ch in c), len(c)))
+    # All free (prev, col) slots, easiest feel first
+    free_slots = [
+        (prev, col) for prev in LAYOUT for col in VARIANTS
+        if (prev, col) not in used_slots and magic_feel_score(prev, col) < 3
+    ]
+    free_slots.sort(key=lambda pc: magic_feel_score(*pc))
 
-    assigned_free = list(free)
     for _, word in missing_words[:TOP_MISSING]:
-        if not assigned_free:
-            break
-        best_chord = max(assigned_free, key=lambda c: chord_value(c, word, adaptives))
-        val = chord_value(best_chord, word, adaptives)
+        prev = word[0]
+        # Candidate slots for this word must have prev == word[0]
+        slot_opts = [pc for pc in free_slots if pc[0] == prev]
+        if not slot_opts:
+            continue
+        best = max(slot_opts, key=lambda pc: magic_value(pc[0], pc[1], word, adaptives))
+        val = magic_value(best[0], best[1], word, adaptives)
         if val > 0:
-            candidates.append((val, best_chord, word, "new"))
-            assigned_free.remove(best_chord)
+            candidates.append((val, best[0], best[1], word, "new"))
+            free_slots.remove(best)
 
     # ── Display ────────────────────────────────────────────────────────────
     candidates.sort(reverse=True)
 
-    # For --apply N: new entries need room — remove lowest-value unplanned entries
     n = args.apply or 30
     top = candidates[:n]
-    to_plan = [chord for _, chord, _, kind in top if kind == "unplanned"]
-    to_add  = [(chord, output) for _, chord, output, kind in top if kind == "new"]
+    to_add = [(prev, col, output) for _, prev, col, output, kind in top if kind == "new"]
 
-    # Lowest-value unplanned entries that would be removed to make room
-    all_unplanned = sorted(
-        [(val, chord, output) for val, chord, output, kind in candidates if kind == "unplanned"],
-        key=lambda x: x[0]
-    )
-    to_remove = [(chord, output) for _, chord, output in all_unplanned[:len(to_add)]]
-
-    print(f"\n{'':2}{'chord':8} {'output':28} {'score':8} {'saved':6} {'feel':5} {'':4}")
-    print(f"  {'-'*62}")
-    for val, chord, output, kind in candidates[:30]:
-        saved = len(output) - len(chord)
-        feel  = chord_feel_score(chord)
-        tag   = " +" if kind == "new" else ""
-        print(f"  {chord:8} {output:28} {val:8.2e} {saved:6} {feel:5}{tag}")
-    print("\n  + = new entry (not yet in chord table)")
-
-    if to_remove:
-        print(f"\nWill remove to make room ({len(to_remove)}):")
-        for chord, output in to_remove:
-            print(f"  {chord:8} {output}")
+    print(f"\n  {'prev+magic':14} {'output':24} {'score':10} {'saved':6} {'feel':5}")
+    print(f"  {'-'*64}")
+    for val, prev, col, output, kind in candidates[:30]:
+        saved = len(output) - 2
+        feel = magic_feel_score(prev, col)
+        tag  = " +" if kind == "new" else ""
+        slot = f"{prev}+{col}"
+        print(f"  {slot:14} {output:24} {val:10.2e} {saved:6} {feel:5}{tag}")
+    print("\n  + = new suggestion (not yet in Magic Keys table)")
 
     # ── Apply ──────────────────────────────────────────────────────────────
     if args.apply:
-        apply_changes(to_plan, to_add, to_remove)
-        print(f"\nApplied {n} changes:")
-        if to_plan:
-            print(f"  Marked as plan: {', '.join(to_plan)}")
-        if to_add:
-            print(f"  Added new:      {', '.join(f'{c}→{o}' for c, o in to_add)}")
-        if to_remove:
-            print(f"  Removed:        {', '.join(c for c, _ in to_remove)}")
+        apply_changes(to_add)
+        print(f"\nApplied {len(to_add)} new cells:")
+        for prev, col, output in to_add:
+            print(f"  {prev} + {col} → {output}")
         print("Run 'mise run generate' to rebuild firmware.")
 
 

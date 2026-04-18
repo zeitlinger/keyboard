@@ -4,21 +4,24 @@
 import re
 from pathlib import Path
 
-# col 0-3 = left (pinky→index), 4-7 = right (index→pinky); row 0=top 1=home 2=bottom 3=thumb
+# col 0-3 = left (pinky→index), 4-7 = right (index→pinky).
+# Rows: 0=top, 1=top combo (between top+home), 2=home, 3=bottom combo (between home+bottom),
+#       4=bottom, 5=thumb. Odd rows = combo positions.
 LAYOUT = {
-    's': (0,1), 'c': (1,1), 'n': (2,1), 't': (3,1),
-    'a': (4,1), 'e': (5,1), 'i': (6,1), 'h': (7,1),
-    'f': (1,2), 'l': (2,2), 'd': (3,2),
-    'u': (4,2), 'o': (5,2), 'y': (6,2),
+    # Top row
     'x': (1,0), 'w': (2,0),
-    'r': (3,3),  # left thumb
-    # Combo keys (vertical combos) — inner columns
-    'p': (1,0), 'b': (1,2),   # ring finger top/bottom combo
-    'm': (2,0), 'g': (2,2),   # middle finger top/bottom combo
-    'v': (3,0), 'k': (3,2),   # index finger top/bottom combo
-    # Combo keys — pinky columns
-    'z': (0,2),               # left pinky bottom combo
-    'j': (7,2),               # right pinky bottom combo
+    # Top combos (row 1)
+    'p': (1,1), 'm': (2,1), 'v': (3,1),
+    # Home row
+    's': (0,2), 'c': (1,2), 'n': (2,2), 't': (3,2),
+    'a': (4,2), 'e': (5,2), 'i': (6,2), 'h': (7,2),
+    # Bottom combos (row 3)
+    'z': (0,3), 'b': (1,3), 'g': (2,3), 'k': (3,3), 'j': (7,3),
+    # Bottom row
+    'f': (1,4), 'l': (2,4), 'd': (3,4),
+    'u': (4,4), 'o': (5,4), 'y': (6,4),
+    # Thumb
+    'r': (3,5),
 }
 
 COMBO_KEYS = set('pbmgvkzj')
@@ -27,20 +30,18 @@ COMBO_KEYS = set('pbmgvkzj')
 MAGIC_POSITIONS = {
     'magic_a': (5, 0),  # R.Mid top row
     'magic_b': (6, 0),  # R.Ring top row
-    'magic_c': (0, 0),  # L.Pin top combo
-    'magic_d': (5, 0),  # R.Mid top combo
-    'magic_e': (6, 0),  # R.Ring top combo
-    'magic_f': (7, 0),  # R.Pin top combo
-    'magic_g': (4, 2),  # R.Ind bottom combo
-    'magic_h': (5, 2),  # R.Mid bottom combo
-    'magic_i': (6, 2),  # R.Ring bottom combo
+    'magic_c': (0, 1),  # L.Pin top combo
+    'magic_d': (5, 1),  # R.Mid top combo
+    'magic_e': (6, 1),  # R.Ring top combo
+    'magic_f': (7, 1),  # R.Pin top combo
+    'magic_g': (4, 3),  # R.Ind bottom combo
+    'magic_h': (5, 3),  # R.Mid bottom combo
+    'magic_i': (6, 3),  # R.Ring bottom combo
 }
-
-MAGIC_COMBO = {'magic_c', 'magic_d', 'magic_e', 'magic_f', 'magic_g', 'magic_h', 'magic_i'}
 
 
 def is_thumb(pos):
-    return pos[1] == 3
+    return pos[1] == 5
 
 
 def is_sfb(a, b):
@@ -55,7 +56,10 @@ def is_scissors(a, b):
     same_hand = (a[0] < 4) == (b[0] < 4)
     col_diff = abs(a[0] - b[0])
     row_diff = abs(a[1] - b[1])
-    return same_hand and col_diff <= 1 and row_diff >= 2
+    # row_diff >= 3: skipping at least one intermediate row (e.g. top↔bottom or
+    # top↔bottom-combo). row_diff == 2 is home↔top/bottom — uncomfortable as
+    # scissors if adjacent column, counted too.
+    return same_hand and col_diff <= 1 and row_diff >= 3
 
 
 def is_combo_adjacent(a_char, b_char):
@@ -87,13 +91,16 @@ def is_bad(a, b):
 def feel_score(a_char, b_char):
     """Lower = better feel for the physical motion a_char → b_char.
 
+    Row scheme: 0=top, 1=top combo, 2=home, 3=bottom combo, 4=bottom, 5=thumb.
+    Adjacent rows differ by 1 (home↔combo) or 2 (home↔top/bottom).
+
       0 = good inward same-hand roll
       1 = alternation or outward
-      2 = combo-adjacent to same/lower row; or row_diff > 1 with d-exception, outward (stretch)
-      0 also covers: row_diff > 1 with d-exception, inward (big roll, still comfortable)
-      3 = adjacent finger (col_diff=1) with row change + pinky; or combo-adjacent moving up/to top row
-     99 = row_diff > 1 without d exception (uncomfortable reach)
-    Combo key as physical target: floor of 3 (never better than "ok").
+      2 = big reach (row_diff >= 3) same-hand outward, with d-exception
+      0 also covers: big reach inward, with d-exception
+      3 = adjacent finger with row change + pinky; combo-adjacent going up
+     99 = row_diff > 3 (top↔bottom) without d exception
+    Combo key as physical target: floor of 3.
     """
     a_pos, b_pos = LAYOUT[a_char], LAYOUT[b_char]
     row_diff = abs(a_pos[1] - b_pos[1])
@@ -106,10 +113,10 @@ def feel_score(a_char, b_char):
         col_diff = abs(a_pos[0] - b_pos[0])
         inward = b_pos[0] > a_pos[0]
 
-        if row_diff > 1 and 'd' not in (a_char, b_char):
+        if row_diff > 3 and 'd' not in (a_char, b_char):
             return 99
 
-        if row_diff > 1:
+        if row_diff > 3:
             score = 2 if not inward else 0
         elif col_diff == 1 and row_diff > 0:
             pinky = (a_pos[0] in (0, 7) or b_pos[0] in (0, 7))
@@ -122,13 +129,14 @@ def feel_score(a_char, b_char):
     if b_char in COMBO_KEYS:
         score = max(score, 3)
 
-    combo_rest_row = max(a_pos[1], 1)
+    # Home row as rest position (row 2). Combo key followed by moving further up/out penalises.
+    combo_rest_row = max(a_pos[1], 2)
     if a_char in COMBO_KEYS and b_pos[0] < 4 and b_pos[1] < combo_rest_row:
         col_diff = abs(a_pos[0] - b_pos[0])
         score = 3 if col_diff == 1 else score + 1
 
     if is_combo_adjacent(a_char, b_char):
-        if b_pos[1] >= max(1, a_pos[1]):
+        if b_pos[1] >= max(2, a_pos[1]):
             score = max(score, 2)
         else:
             score = max(score, 3)
