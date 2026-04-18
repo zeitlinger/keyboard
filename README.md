@@ -70,9 +70,9 @@ Currently unused features:
 ## Magic Keys
 
 Rows = preceding key. Columns = the nine physical magic keys, row-wise from top-left:
-- magic_a: old `qu` position (L.Pin. top combo)
-- magic_b: old `'` position (R.Mid. top row)
-- magic_c: old magicC position (R.Ring top row) — legacy magicC content
+- magic_a: old `'` position (R.Mid. top row)
+- magic_b: old magicC position (R.Ring top row) — legacy magicC content
+- magic_c: old `qu` position (L.Pin. top combo)
 - magic_d: old magicB position (R.Mid. upper combo) — legacy magicB content
 - magic_e: old magicA position (R.Ring upper combo) — legacy magicA content
 - magic_f: old `q` position (R.Pin. top combo)
@@ -85,29 +85,29 @@ Cell = final output. Generator smart-detects: if output starts with the precedin
 | prev | magic_a | magic_b | magic_c | magic_d | magic_e | magic_f | magic_g | magic_h | magic_i |
 |:----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
 |  b   |         |         |         |"ecause" |    d    |         |         |         |         |
-|  g   |         |         |    f    |    k    |    d    |         |         |         |         |
-|  k   |         |         |    h    |  "now"  |    x    |         |         |         |         |
-|  l   |         |         |    h    |    r    |    c    |         |         |         |         |
-|  m   |         |         |    h    |  "ent"  |    l    |         |         |         |         |
-|  s   |         |         |    r    |  "ion"  |    d    |         |         |         |         |
+|  g   |         |    f    |         |    k    |    d    |         |         |         |         |
+|  k   |         |    h    |         |  "now"  |    x    |         |         |         |         |
+|  l   |         |    h    |         |    r    |    c    |         |         |         |         |
+|  m   |         |    h    |         |  "ent"  |    l    |         |         |         |         |
+|  s   |         |    r    |         |  "ion"  |    d    |         |         |         |         |
 |  w   |         |         |         |    s    |    x    |         |         |         |         |
-|  d   |         |         |    h    |"oesn't" |    f    |         |         |         |         |
-|  f   |         |         |    f    |   "or"  |         |         |         |         |         |
+|  d   |         |    h    |         |"oesn't" |    f    |         |         |         |         |
+|  f   |         |    f    |         |   "or"  |         |         |         |         |         |
 |  h   |         |         |         |   "ey"  |    y    |         |         |         |         |
 |  i   |         |         |         |  "'ve"  |    '    |         |         |         |         |
-|  n   |         |         |    h    |    r    |    x    |         |         |         |         |
-|  p   |         |         |    m    |    n    |    d    |         |         |         |         |
+|  n   |         |    h    |         |    r    |    x    |         |         |   '     |    "    |
+|  p   |         |    m    |         |    n    |    d    |         |         |         |         |
 |  v   |         |         |         |   "en"  |   "er"  |         |         |         |         |
-|  x   |         |         |    w    |    r    |    d    |         |         |         |         |
-|  t   |         |         |         |  "ion"  |    x    |         |         |         |         |
-|  c   |         |         |         |    p    |    d    |         |         |         |         |
+|  x   |         |    w    |         |    r    |    d    |         |         |         |         |
+|  t   |         |         |         |  "ion"  |    x    |         |         |   ,     |    .    |
+|  c   |         |         |         |    p    |    d    |         |         |   !     |    ?    |
 |  j   |         |         |         |  "ust"  |         |         |         |         |         |
 |  r   |         |         |         |    k    |         |         |         |         |         |
-| spc  |         |         | dotSpc  | "the "  |         |         |         |         |         |
-| tab  |         |         | "and "  | "the "  |         |         |         |         |         |
-| ↩️️  |         |         | "and "  | "the "  |         |         |         |         |         |
+| spc  |         | dotSpc  |         | "the "  |         |         |         |         |         |
+| tab  |         | "and "  |         | "the "  |         |         |         |         |         |
+| ↩️️  |         | "and "  |         | "the "  |         |         |         |         |         |
 |  ~   |         |         |         |         |    /    |         |         |         |         |
-|  ,   |         |         | " and " | " but " |         |         |         |         |         |
+|  ,   |         | " and " |         | " but " |         |         |         |         |         |
 |  .   |         |         |         |  "./"   |    /    |         |         |         |         |
 |  -   |         |         |         |         |    >    |         |         |         |         |
 |  =   |         |         |         |         |    >    |         |         |         |         |
@@ -339,27 +339,27 @@ Cell = final output. Generator smart-detects: if output starts with the precedin
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-| Base  |   esc   |    x    |    w    |  dead3  |  dead2  |    '    | magicC  |  dead1  |
+| Base  |   esc   |    x    |    w    |  dead3  |  dead2  | magic_a | magic_b |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
 | Base  |         |         |  *Nav   |    r    |   spc   | *FnSym  |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |         |    v    |   ing   |         |         |         |
 | Base  |         |         |         |   💎    |   💎    |         |         |         |
-| Base  |         |         |         |    k    |  chord  |         |         |         |
+| Base  |         |         |         |    k    | magic_g |         |         |         |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Base  |         |         |    m    |         |         | magicB  |         |         |
+| Base  |         |         |    m    |         |         | magic_d |         |         |
 | Base  |         |         |   💎    |         |         |   💎    |         |         |
-| Base  |         |         |    g    |         |         |    ,    |         |         |
+| Base  |         |         |    g    |         |         | magic_h |         |         |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Base  |         |    p    |         |         |         |         | magicA  |         |
+| Base  |         |    p    |         |         |         |         | magic_e |         |
 | Base  |         |   💎    |         |         |         |         |   💎    |         |
-| Base  |         |    b    |         |         |         |         |    .    |         |
+| Base  |         |    b    |         |         |         |         | magic_i |         |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Base  |   qu    |         |         |         |         |         |         |    q    |
+| Base  | magic_c |         |         |         |         |         |         | magic_f |
 | Base  |   💎    |         |         |         |         |         |         |   💎    |
 | Base  |    z    |         |         |         |         |         |         |    j    |
 | Base  |         |         |         |         |         |         |         |         |
