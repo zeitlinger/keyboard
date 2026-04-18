@@ -173,13 +173,14 @@ fun run(args: GeneratorArgs) {
 }
 
 private fun magicBlock(magic: MagicInfo): String {
-    val defaultEmit = magic.default?.let { "SEND_STRING(\"$it\"); " } ?: ""
+    val defaultCase = magic.default?.let { "\n            default: SEND_STRING(\"$it\"); break;" } ?: ""
     return """
     case ${magic.trigger.key}:
         switch (get_last_keycode()) {
-${magicSwitch(magic.press)}
+${magicSwitch(magic.press)}$defaultCase
         }
-        ${defaultEmit}return false;
+        set_last_keycode(${magic.trigger.key});
+        return false;
     """.trimIndent()
 }
 
@@ -192,7 +193,7 @@ private fun adaptiveBlocks(rules: List<AdaptiveRule>): List<String> =
 
 private fun magicSwitch(map: MutableMap<QmkKey, String>): String =
     map.entries.sortedBy { it.key.key }.map {
-        "case ${it.key}: ${it.value}"
+        "case ${it.key}: ${it.value} break;"
     }.indented(12)
 
 fun addSendString(layers: List<Layer>, translator: QmkTranslator): List<Layer> {
@@ -248,12 +249,12 @@ private fun addMagicEntry(
     def: String,
 ) {
     val command = when {
-        def == "dotSpc" -> "tap_code16(KC_BSPC); SEND_STRING(\". \"); add_oneshot_mods(MOD_BIT(KC_LSFT)); return false;"
-        def.length == 1 -> tap(translator.toQmk(def, pos)) + "; return false;"
+        def == "dotSpc" -> "tap_code16(KC_BSPC); SEND_STRING(\". \"); add_oneshot_mods(MOD_BIT(KC_LSFT));"
+        def.length == 1 -> tap(translator.toQmk(def, pos)) + ";"
         isWord(def) -> {
             val str = extractString(def)
             val emit = if (precedingChar.isNotEmpty() && str.startsWith(precedingChar)) str.drop(precedingChar.length) else str
-            "SEND_STRING(\"$emit\"); return false;"
+            "SEND_STRING(\"$emit\");"
         }
         else -> throw IllegalArgumentException("unknown command '${def}' in $pos")
     }

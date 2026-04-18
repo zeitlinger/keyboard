@@ -251,161 +251,171 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
             switch (keycode) {
             case MAGIC_A:
                 switch (get_last_keycode()) {
-                    case KC_N: tap_code16(KC_R); return false;
-                    case S(KC_N): tap_code16(KC_R); return false;
+                    case KC_N: tap_code16(KC_R); break;
+                    case S(KC_N): tap_code16(KC_R); break;
                 }
+                set_last_keycode(MAGIC_A);
                 return false;
             case MAGIC_B:
                 switch (get_last_keycode()) {
-                    case KC_COMMA: SEND_STRING(" and "); return false;
-                    case KC_D: tap_code16(KC_H); return false;
-                    case KC_ENT: SEND_STRING("and "); return false;
-                    case KC_F: tap_code16(KC_F); return false;
-                    case KC_G: tap_code16(KC_F); return false;
-                    case KC_K: tap_code16(KC_H); return false;
-                    case KC_L: tap_code16(KC_H); return false;
-                    case KC_M: tap_code16(KC_H); return false;
-                    case KC_N: tap_code16(KC_H); return false;
-                    case KC_P: tap_code16(KC_M); return false;
-                    case KC_S: tap_code16(KC_R); return false;
-                    case KC_SPC: tap_code16(KC_BSPC); SEND_STRING(". "); add_oneshot_mods(MOD_BIT(KC_LSFT)); return false;
-                    case KC_TAB: SEND_STRING("and "); return false;
-                    case KC_X: tap_code16(KC_W); return false;
-                    case S(KC_D): tap_code16(KC_H); return false;
-                    case S(KC_F): tap_code16(KC_F); return false;
-                    case S(KC_G): tap_code16(KC_F); return false;
-                    case S(KC_K): tap_code16(KC_H); return false;
-                    case S(KC_L): tap_code16(KC_H); return false;
-                    case S(KC_M): tap_code16(KC_H); return false;
-                    case S(KC_N): tap_code16(KC_H); return false;
-                    case S(KC_P): tap_code16(KC_M); return false;
-                    case S(KC_S): tap_code16(KC_R); return false;
-                    case S(KC_X): tap_code16(KC_W); return false;
+                    case KC_COMMA: SEND_STRING(" and "); break;
+                    case KC_D: tap_code16(KC_H); break;
+                    case KC_ENT: SEND_STRING("and "); break;
+                    case KC_F: tap_code16(KC_F); break;
+                    case KC_G: tap_code16(KC_F); break;
+                    case KC_K: tap_code16(KC_H); break;
+                    case KC_L: tap_code16(KC_H); break;
+                    case KC_M: tap_code16(KC_H); break;
+                    case KC_N: tap_code16(KC_H); break;
+                    case KC_P: tap_code16(KC_M); break;
+                    case KC_S: tap_code16(KC_R); break;
+                    case KC_SPC: tap_code16(KC_BSPC); SEND_STRING(". "); add_oneshot_mods(MOD_BIT(KC_LSFT)); break;
+                    case KC_TAB: SEND_STRING("and "); break;
+                    case KC_X: tap_code16(KC_W); break;
+                    case S(KC_D): tap_code16(KC_H); break;
+                    case S(KC_F): tap_code16(KC_F); break;
+                    case S(KC_G): tap_code16(KC_F); break;
+                    case S(KC_K): tap_code16(KC_H); break;
+                    case S(KC_L): tap_code16(KC_H); break;
+                    case S(KC_M): tap_code16(KC_H); break;
+                    case S(KC_N): tap_code16(KC_H); break;
+                    case S(KC_P): tap_code16(KC_M); break;
+                    case S(KC_S): tap_code16(KC_R); break;
+                    case S(KC_X): tap_code16(KC_W); break;
                 }
+                set_last_keycode(MAGIC_B);
                 return false;
             case MAGIC_C:
                 switch (get_last_keycode()) {
             
                 }
+                set_last_keycode(MAGIC_C);
                 return false;
             case MAGIC_D:
                 switch (get_last_keycode()) {
-                    case KC_B: SEND_STRING("ecause"); return false;
-                    case KC_C: tap_code16(KC_P); return false;
-                    case KC_COMMA: SEND_STRING(" but "); return false;
-                    case KC_D: SEND_STRING("oesn't"); return false;
-                    case KC_DOT: SEND_STRING("/"); return false;
-                    case KC_ENT: SEND_STRING("the "); return false;
-                    case KC_F: SEND_STRING("or"); return false;
-                    case KC_G: tap_code16(KC_K); return false;
-                    case KC_H: SEND_STRING("ey"); return false;
-                    case KC_I: SEND_STRING("'ve"); return false;
-                    case KC_J: SEND_STRING("ust"); return false;
-                    case KC_K: SEND_STRING("now"); return false;
-                    case KC_L: tap_code16(KC_R); return false;
-                    case KC_M: SEND_STRING("ent"); return false;
-                    case KC_N: SEND_STRING("qu"); return false;
-                    case KC_P: tap_code16(KC_N); return false;
-                    case KC_R: tap_code16(KC_K); return false;
-                    case KC_S: SEND_STRING("ion"); return false;
-                    case KC_SPC: SEND_STRING("the "); return false;
-                    case KC_T: SEND_STRING("ion"); return false;
-                    case KC_TAB: SEND_STRING("the "); return false;
-                    case KC_V: SEND_STRING("en"); return false;
-                    case KC_W: tap_code16(KC_S); return false;
-                    case KC_X: tap_code16(KC_R); return false;
-                    case S(KC_B): SEND_STRING("ecause"); return false;
-                    case S(KC_C): tap_code16(KC_P); return false;
-                    case S(KC_D): SEND_STRING("oesn't"); return false;
-                    case S(KC_F): SEND_STRING("or"); return false;
-                    case S(KC_G): tap_code16(KC_K); return false;
-                    case S(KC_H): SEND_STRING("ey"); return false;
-                    case S(KC_I): SEND_STRING("'ve"); return false;
-                    case S(KC_J): SEND_STRING("ust"); return false;
-                    case S(KC_K): SEND_STRING("now"); return false;
-                    case S(KC_L): tap_code16(KC_R); return false;
-                    case S(KC_M): SEND_STRING("ent"); return false;
-                    case S(KC_N): SEND_STRING("qu"); return false;
-                    case S(KC_P): tap_code16(KC_N); return false;
-                    case S(KC_R): tap_code16(KC_K); return false;
-                    case S(KC_S): SEND_STRING("ion"); return false;
-                    case S(KC_T): SEND_STRING("ion"); return false;
-                    case S(KC_V): SEND_STRING("en"); return false;
-                    case S(KC_W): tap_code16(KC_S); return false;
-                    case S(KC_X): tap_code16(KC_R); return false;
+                    case KC_B: SEND_STRING("ecause"); break;
+                    case KC_C: tap_code16(KC_P); break;
+                    case KC_COMMA: SEND_STRING(" but "); break;
+                    case KC_D: SEND_STRING("oesn't"); break;
+                    case KC_DOT: SEND_STRING("/"); break;
+                    case KC_ENT: SEND_STRING("the "); break;
+                    case KC_F: SEND_STRING("or"); break;
+                    case KC_G: tap_code16(KC_K); break;
+                    case KC_H: SEND_STRING("ey"); break;
+                    case KC_I: SEND_STRING("'ve"); break;
+                    case KC_J: SEND_STRING("ust"); break;
+                    case KC_K: SEND_STRING("now"); break;
+                    case KC_L: tap_code16(KC_R); break;
+                    case KC_M: SEND_STRING("ent"); break;
+                    case KC_N: SEND_STRING("qu"); break;
+                    case KC_P: tap_code16(KC_N); break;
+                    case KC_R: tap_code16(KC_K); break;
+                    case KC_S: SEND_STRING("ion"); break;
+                    case KC_SPC: SEND_STRING("the "); break;
+                    case KC_T: SEND_STRING("ion"); break;
+                    case KC_TAB: SEND_STRING("the "); break;
+                    case KC_V: SEND_STRING("en"); break;
+                    case KC_W: tap_code16(KC_S); break;
+                    case KC_X: tap_code16(KC_R); break;
+                    case S(KC_B): SEND_STRING("ecause"); break;
+                    case S(KC_C): tap_code16(KC_P); break;
+                    case S(KC_D): SEND_STRING("oesn't"); break;
+                    case S(KC_F): SEND_STRING("or"); break;
+                    case S(KC_G): tap_code16(KC_K); break;
+                    case S(KC_H): SEND_STRING("ey"); break;
+                    case S(KC_I): SEND_STRING("'ve"); break;
+                    case S(KC_J): SEND_STRING("ust"); break;
+                    case S(KC_K): SEND_STRING("now"); break;
+                    case S(KC_L): tap_code16(KC_R); break;
+                    case S(KC_M): SEND_STRING("ent"); break;
+                    case S(KC_N): SEND_STRING("qu"); break;
+                    case S(KC_P): tap_code16(KC_N); break;
+                    case S(KC_R): tap_code16(KC_K); break;
+                    case S(KC_S): SEND_STRING("ion"); break;
+                    case S(KC_T): SEND_STRING("ion"); break;
+                    case S(KC_V): SEND_STRING("en"); break;
+                    case S(KC_W): tap_code16(KC_S); break;
+                    case S(KC_X): tap_code16(KC_R); break;
+                    default: SEND_STRING("qu"); break;
                 }
-                SEND_STRING("qu"); return false;
+                set_last_keycode(MAGIC_D);
+                return false;
             case MAGIC_E:
                 switch (get_last_keycode()) {
-                    case KC_B: tap_code16(KC_D); return false;
-                    case KC_C: tap_code16(KC_D); return false;
-                    case KC_D: tap_code16(KC_F); return false;
-                    case KC_DOT: tap_code16(KC_SLASH); return false;
-                    case KC_EQUAL: tap_code16(KC_RABK); return false;
-                    case KC_EXLM: tap_code16(KC_EQUAL); return false;
-                    case KC_G: tap_code16(KC_D); return false;
-                    case KC_H: tap_code16(KC_Y); return false;
-                    case KC_I: tap_code16(KC_QUOTE); return false;
-                    case KC_K: tap_code16(KC_X); return false;
-                    case KC_L: tap_code16(KC_C); return false;
-                    case KC_M: tap_code16(KC_L); return false;
-                    case KC_MINUS: tap_code16(KC_RABK); return false;
-                    case KC_N: tap_code16(KC_X); return false;
-                    case KC_P: tap_code16(KC_D); return false;
-                    case KC_S: tap_code16(KC_D); return false;
-                    case KC_T: tap_code16(KC_X); return false;
-                    case KC_TILD: tap_code16(KC_SLASH); return false;
-                    case KC_V: SEND_STRING("er"); return false;
-                    case KC_W: tap_code16(KC_X); return false;
-                    case KC_X: tap_code16(KC_D); return false;
-                    case S(KC_B): tap_code16(KC_D); return false;
-                    case S(KC_C): tap_code16(KC_D); return false;
-                    case S(KC_D): tap_code16(KC_F); return false;
-                    case S(KC_G): tap_code16(KC_D); return false;
-                    case S(KC_H): tap_code16(KC_Y); return false;
-                    case S(KC_I): tap_code16(KC_QUOTE); return false;
-                    case S(KC_K): tap_code16(KC_X); return false;
-                    case S(KC_L): tap_code16(KC_C); return false;
-                    case S(KC_M): tap_code16(KC_L); return false;
-                    case S(KC_N): tap_code16(KC_X); return false;
-                    case S(KC_P): tap_code16(KC_D); return false;
-                    case S(KC_S): tap_code16(KC_D); return false;
-                    case S(KC_T): tap_code16(KC_X); return false;
-                    case S(KC_V): SEND_STRING("er"); return false;
-                    case S(KC_W): tap_code16(KC_X); return false;
-                    case S(KC_X): tap_code16(KC_D); return false;
+                    case KC_B: tap_code16(KC_D); break;
+                    case KC_C: tap_code16(KC_D); break;
+                    case KC_D: tap_code16(KC_F); break;
+                    case KC_DOT: tap_code16(KC_SLASH); break;
+                    case KC_EQUAL: tap_code16(KC_RABK); break;
+                    case KC_EXLM: tap_code16(KC_EQUAL); break;
+                    case KC_G: tap_code16(KC_D); break;
+                    case KC_H: tap_code16(KC_Y); break;
+                    case KC_I: tap_code16(KC_QUOTE); break;
+                    case KC_K: tap_code16(KC_X); break;
+                    case KC_L: tap_code16(KC_C); break;
+                    case KC_M: tap_code16(KC_L); break;
+                    case KC_MINUS: tap_code16(KC_RABK); break;
+                    case KC_N: tap_code16(KC_X); break;
+                    case KC_P: tap_code16(KC_D); break;
+                    case KC_S: tap_code16(KC_D); break;
+                    case KC_T: tap_code16(KC_X); break;
+                    case KC_TILD: tap_code16(KC_SLASH); break;
+                    case KC_V: SEND_STRING("er"); break;
+                    case KC_W: tap_code16(KC_X); break;
+                    case KC_X: tap_code16(KC_D); break;
+                    case S(KC_B): tap_code16(KC_D); break;
+                    case S(KC_C): tap_code16(KC_D); break;
+                    case S(KC_D): tap_code16(KC_F); break;
+                    case S(KC_G): tap_code16(KC_D); break;
+                    case S(KC_H): tap_code16(KC_Y); break;
+                    case S(KC_I): tap_code16(KC_QUOTE); break;
+                    case S(KC_K): tap_code16(KC_X); break;
+                    case S(KC_L): tap_code16(KC_C); break;
+                    case S(KC_M): tap_code16(KC_L); break;
+                    case S(KC_N): tap_code16(KC_X); break;
+                    case S(KC_P): tap_code16(KC_D); break;
+                    case S(KC_S): tap_code16(KC_D); break;
+                    case S(KC_T): tap_code16(KC_X); break;
+                    case S(KC_V): SEND_STRING("er"); break;
+                    case S(KC_W): tap_code16(KC_X); break;
+                    case S(KC_X): tap_code16(KC_D); break;
                 }
+                set_last_keycode(MAGIC_E);
                 return false;
             case MAGIC_F:
                 switch (get_last_keycode()) {
             
                 }
+                set_last_keycode(MAGIC_F);
                 return false;
             case MAGIC_G:
                 switch (get_last_keycode()) {
-                    case KC_N: tap_code16(KC_Q); return false;
-                    case S(KC_N): tap_code16(KC_Q); return false;
+                    case KC_N: tap_code16(KC_Q); break;
+                    case S(KC_N): tap_code16(KC_Q); break;
                 }
+                set_last_keycode(MAGIC_G);
                 return false;
             case MAGIC_H:
                 switch (get_last_keycode()) {
-                    case KC_C: tap_code16(KC_EXLM); return false;
-                    case KC_N: tap_code16(KC_QUOTE); return false;
-                    case KC_T: tap_code16(KC_COMMA); return false;
-                    case S(KC_C): tap_code16(KC_EXLM); return false;
-                    case S(KC_N): tap_code16(KC_QUOTE); return false;
-                    case S(KC_T): tap_code16(KC_COMMA); return false;
+                    case KC_C: tap_code16(KC_EXLM); break;
+                    case KC_N: tap_code16(KC_QUOTE); break;
+                    case KC_T: tap_code16(KC_COMMA); break;
+                    case S(KC_C): tap_code16(KC_EXLM); break;
+                    case S(KC_N): tap_code16(KC_QUOTE); break;
+                    case S(KC_T): tap_code16(KC_COMMA); break;
                 }
+                set_last_keycode(MAGIC_H);
                 return false;
             case MAGIC_I:
                 switch (get_last_keycode()) {
-                    case KC_C: tap_code16(KC_QUES); return false;
-                    case KC_N: tap_code16(KC_DQUO); return false;
-                    case KC_T: tap_code16(KC_DOT); return false;
-                    case S(KC_C): tap_code16(KC_QUES); return false;
-                    case S(KC_N): tap_code16(KC_DQUO); return false;
-                    case S(KC_T): tap_code16(KC_DOT); return false;
+                    case KC_C: tap_code16(KC_QUES); break;
+                    case KC_N: tap_code16(KC_DQUO); break;
+                    case KC_T: tap_code16(KC_DOT); break;
+                    case S(KC_C): tap_code16(KC_QUES); break;
+                    case S(KC_N): tap_code16(KC_DQUO); break;
+                    case S(KC_T): tap_code16(KC_DOT); break;
                 }
+                set_last_keycode(MAGIC_I);
                 return false;
             
             default:
