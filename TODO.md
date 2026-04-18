@@ -41,3 +41,7 @@ Train on magic-key vocabulary (preceding-letter + magic-col → word), not old c
 
 - `README.md` line 11 still references `[Chord Mode](CHORD_MODE.md)` — rewrite after (2).
 - Check `DESIGN_PHILOSOPHY.md` for stale chord mentions.
+
+### 5. (nit) Derive `MAGIC_POSITIONS` from Layout table
+
+`feel.py` hardcodes `MAGIC_POSITIONS` — the Layout table already has each magic's physical position. Parse it once instead.
