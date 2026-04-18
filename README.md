@@ -69,16 +69,16 @@ Currently unused features:
  
 ## Magic Keys
 
-Rows = preceding key. Columns = the nine physical magic keys, row-wise from top-left:
-- magic_a: old `'` position (R.Mid. top row)
-- magic_b: old magicC position (R.Ring top row) — legacy magicC content
-- magic_c: old `qu` position (L.Pin. top combo)
-- magic_d: old magicB position (R.Mid. upper combo) — legacy magicB content
-- magic_e: old magicA position (R.Ring upper combo) — legacy magicA content
-- magic_f: old `q` position (R.Pin. top combo)
-- magic_g: old chord-key position (R.Ind. thumb combo)
-- magic_h: old `,` position (R.Mid. lower combo)
-- magic_i: old `.` position (R.Ring lower combo)
+Rows = preceding key. Columns = the nine physical magic keys. Positions:
+- magic_a: R.Mid. top row
+- magic_b: R.Ring top row
+- magic_c: L.Pin. top combo
+- magic_d: R.Mid. upper combo
+- magic_e: R.Ring upper combo
+- magic_f: R.Pin. top combo
+- magic_g: R.Ind. thumb combo
+- magic_h: R.Mid. lower combo
+- magic_i: R.Ring lower combo
 
 Cell = what to emit.
 - Single-char cells append (e.g. `a` + `e` yields `ae`).
@@ -87,7 +87,7 @@ Cell = what to emit.
   - Preceding key is a letter and cell does *not* start with it → generator backspaces the preceding letter then emits the cell. `z` + `"another"` yields `another`.
   - Preceding key is not a letter (spc, punctuation) → cell appends as-is. `spc` + `"the "` yields ` the `.
 
-Special row `magic` = suffix. Cell fires when the preceding keypress was any other magic (e.g. `magic_a` + `magic_b` with `"ly"` in the `magic` row / `magic_b` column emits ` ly` after magic_a's word).
+Special row `magic` = suffix. Cell fires when the preceding keypress was any other magic (e.g. `magic_a` + `magic_b` with `"ly"` in the `magic` row / `magic_b` column emits ` ly` after magic_a's word). Currently unused — row reserved for future cross-magic chaining.
 
 | Magic | magic_a | magic_b | magic_c | magic_d | magic_e | magic_f | magic_g | magic_h | magic_i |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
