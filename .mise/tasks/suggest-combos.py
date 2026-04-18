@@ -130,7 +130,7 @@ def looks_real(word: str, counts: Counter) -> bool:
 
 # ── README editing ────────────────────────────────────────────────────────────
 
-def apply_changes(to_plan: list[str], to_add: list[tuple[str, str]]) -> None:
+def apply_changes(to_plan: list[str], to_add: list[tuple[str, str]], to_remove: list[tuple[str, str]]) -> None:
     """Mark existing chords as plan; insert new chord→output rows alphabetically."""
     lines = README.read_text().splitlines(keepends=True)
     to_plan_set = set(to_plan)
@@ -182,6 +182,13 @@ def apply_changes(to_plan: list[str], to_add: list[tuple[str, str]]) -> None:
             # Shift all positions after the insertion point
             existing_positions = [p + 1 if p >= insert_line else p for p in existing_positions]
             table_end += 1
+
+    # Remove lowest-value unplanned entries to make room for new ones
+    remove_chords = {chord for chord, _ in to_remove}
+    def is_unplanned_removal(line):
+        m = re.match(r"\|\s*([a-z,./]+)\s*\|\s*\"[^\"]+\"\s*\|\s*(yes|plan|done)?\s*\|", line)
+        return m and m.group(1).strip() in remove_chords and not m.group(2)
+    lines = [line for line in lines if not is_unplanned_removal(line)]
 
     README.write_text("".join(lines))
 
@@ -244,27 +251,43 @@ def main() -> None:
     # ── Display ────────────────────────────────────────────────────────────
     candidates.sort(reverse=True)
 
+    # For --apply N: new entries need room — remove lowest-value unplanned entries
+    n = args.apply or 30
+    top = candidates[:n]
+    to_plan = [chord for _, chord, _, kind in top if kind == "unplanned"]
+    to_add  = [(chord, output) for _, chord, output, kind in top if kind == "new"]
+
+    # Lowest-value unplanned entries that would be removed to make room
+    all_unplanned = sorted(
+        [(val, chord, output) for val, chord, output, kind in candidates if kind == "unplanned"],
+        key=lambda x: x[0]
+    )
+    to_remove = [(chord, output) for _, chord, output in all_unplanned[:len(to_add)]]
+
     print(f"\n{'':2}{'chord':8} {'output':28} {'score':8} {'saved':6} {'feel':5} {'':4}")
     print(f"  {'-'*62}")
     for val, chord, output, kind in candidates[:30]:
         saved = len(output) - len(chord)
         feel  = chord_feel_score(chord)
-        tag   = " *" if kind == "new" else ""
+        tag   = " +" if kind == "new" else ""
         print(f"  {chord:8} {output:28} {val:8.2e} {saved:6} {feel:5}{tag}")
-    print("\n  * = new entry (not yet in chord table)")
+    print("\n  + = new entry (not yet in chord table)")
+
+    if to_remove:
+        print(f"\nWill remove to make room ({len(to_remove)}):")
+        for chord, output in to_remove:
+            print(f"  {chord:8} {output}")
 
     # ── Apply ──────────────────────────────────────────────────────────────
     if args.apply:
-        n = args.apply
-        top = candidates[:n]
-        to_plan = [chord for _, chord, _, kind in top if kind == "unplanned"]
-        to_add  = [(chord, output) for _, chord, output, kind in top if kind == "new"]
-        apply_changes(to_plan, to_add)
+        apply_changes(to_plan, to_add, to_remove)
         print(f"\nApplied {n} changes:")
         if to_plan:
             print(f"  Marked as plan: {', '.join(to_plan)}")
         if to_add:
             print(f"  Added new:      {', '.join(f'{c}→{o}' for c, o in to_add)}")
+        if to_remove:
+            print(f"  Removed:        {', '.join(c for c, _ in to_remove)}")
         print("Run 'mise run generate' to rebuild firmware.")
 
 
