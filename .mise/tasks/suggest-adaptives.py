@@ -14,10 +14,13 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parents[2]))
-from feel import LAYOUT, COMBO_KEYS, is_thumb, is_sfb, is_scissors, is_combo_adjacent, is_combo_preceded, is_bad, feel_score  # noqa: E402
+from feel import LAYOUT, COMBO_KEYS, MAGIC_POSITIONS, is_thumb, is_sfb, is_scissors, is_combo_adjacent, is_combo_preceded, is_bad, feel_score  # noqa: E402
 
 CORPUS = Path.home() / "source/genkey/corpora/shai-iweb.json"
 README = Path(__file__).parents[2] / "README.md"
+
+# Variant names as they appear in the Magic Keys table header (magic_a..magic_i).
+VARIANTS = tuple(f'magic_{c}' for c in 'abcdefghi')
 
 
 def load_existing_adaptives():
@@ -48,12 +51,14 @@ def load_existing_adaptives():
 
 
 def load_magic_table():
-    """Parse the Magic Keys table → dict of trigger -> {'A': val, 'B': val, 'C': val}.
+    """Parse the Magic Keys table → dict of trigger -> {'magic_a': val, ..., 'magic_i': val}.
 
     Values are the raw cell text (single char or quoted string or empty string).
+    The reserved `magic` row (cross-magic suffixes) and the header row are skipped.
     """
     table = {}
     in_table = False
+    row_re = re.compile(r'^\|\s*(\w)\s*\|' + r'([^|]*)\|' * len(VARIANTS))
     for line in README.read_text().splitlines():
         if '## Magic Keys' in line:
             in_table = True
@@ -61,23 +66,22 @@ def load_magic_table():
         if in_table:
             if line.startswith('##'):
                 break
-            m = re.match(r'\|\s*(\w)\s*\|([^|]*)\|([^|]*)\|([^|]*)\|', line)
+            m = row_re.match(line)
             if m:
                 trigger = m.group(1)
                 table[trigger] = {
-                    'A': m.group(2).strip().strip('"'),
-                    'B': m.group(3).strip().strip('"'),
-                    'C': m.group(4).strip().strip('"'),
+                    v: m.group(i + 2).strip().strip('"')
+                    for i, v in enumerate(VARIANTS)
                 }
     return table
 
 
 def compute_lead_variants(magic_table):
-    """For each single-char output letter, determine which variant (A/B/C) it appears on most.
+    """For each single-char output letter, determine which magic column it appears on most.
 
     Returns:
-        leads: dict of output_char → preferred variant (e.g. {'h': 'C', 'd': 'A'})
-        lead_counts: dict of output_char → count on lead variant (e.g. {'h': 5, 'd': 2})
+        leads: dict of output_char → preferred variant (e.g. {'h': 'magic_b', 'd': 'magic_e'})
+        lead_counts: dict of output_char → count on lead variant
     """
     from collections import Counter
     counts = {}  # output -> Counter({variant: count})
@@ -100,30 +104,6 @@ def load_magic_coverage(magic_table):
     return covered
 
 
-# Physical positions of the three magic key variants.
-# magicA: R.Ind. combo row (col 4, row 2 approx)
-# magicB: R.Mid. combo row (col 5, row 2 approx)
-# magicC: R.Ring top row   (col 6, row 0)
-MAGIC_POSITIONS = {'A': (4, 2), 'B': (5, 2), 'C': (6, 0)}
-
-# Single-key base layer positions: char -> (col, row)
-# Col 0-3 = left hand (pinky->index), 4-7 = right hand (index->pinky)
-# Row 0 = top, 1 = home, 2 = bottom, 3 = thumb (separate finger, excluded from SFB)
-LAYOUT = {
-    's': (0,1), 'c': (1,1), 'n': (2,1), 't': (3,1),
-    'a': (4,1), 'e': (5,1), 'i': (6,1), 'h': (7,1),
-    'f': (1,2), 'l': (2,2), 'd': (3,2),
-    'u': (4,2), 'o': (5,2), 'y': (6,2),
-    'x': (1,0), 'w': (2,0),
-    'r': (3,3),  # left thumb
-    # Combo keys (vertical combos; row = approximate position in combo table)
-    'p': (1,0), 'b': (1,2),   # ring finger top/bottom combo
-    'm': (2,0), 'g': (2,2),   # middle finger top/bottom combo
-    'v': (3,0), 'k': (3,2),   # index finger top/bottom combo
-}
-
-COMBO_KEYS = set('pbmgvk')
-
 MIN_FREQ_PCT = 0.01      # ignore bad bigrams below this frequency
 MAX_MAGIC_SACRIFICE_PCT = MIN_FREQ_PCT  # sacrifice bigrams below this can be covered by adding a magic entry
 MAX_RECOMMEND_FEEL = 2     # only recommend adding adaptives with feel <= this
@@ -141,6 +121,8 @@ def slot_feel_score(trigger, variant):
         return 99
     col_diff = abs(trigger_pos[0] - pos[0])
     inward = pos[0] > trigger_pos[0]
+    if col_diff == 0 and row_diff == 0:
+        return 99  # same physical key can't be both trigger and magic
     if col_diff == 1 and row_diff > 0:
         return 2 if (trigger_pos[0] in (0, 7) or pos[0] in (0, 7)) else 1
     return 0 if inward else 1
@@ -183,15 +165,18 @@ def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, magic_s
     def fmt_adaptive_row(a, c, b):
         return f"|{a.center(11)}|{c.center(5)}|{b.center(8)}|\n"
 
+    def empty_row():
+        return {v: '' for v in VARIANTS}
+
     # Build working magic table: original → apply removes → apply adds
     working_magic = {t: dict(variants) for t, variants in magic_table.items()}
 
     for (trigger, variant), _output in magic_remove.items():
-        working_magic.setdefault(trigger, {'A': '', 'B': '', 'C': ''})[variant] = ''
+        working_magic.setdefault(trigger, empty_row())[variant] = ''
 
     for (trigger, output), _reason in sorted(magic_add_new.items()):
-        row = working_magic.get(trigger, {'A': '', 'B': '', 'C': ''})
-        free = [v for v in ('A', 'B', 'C') if not row.get(v)]
+        row = working_magic.get(trigger, empty_row())
+        free = [v for v in VARIANTS if not row.get(v)]
         lead_v = lead_variants.get(output)
         if free:
             if lead_v in free:
@@ -210,11 +195,11 @@ def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, magic_s
                     best = min(free, key=lambda v: slot_feel_score(trigger, v))
             else:
                 best = min(free, key=lambda v: slot_feel_score(trigger, v))
-            working_magic.setdefault(trigger, {'A': '', 'B': '', 'C': ''})
+            working_magic.setdefault(trigger, empty_row())
             working_magic[trigger][best] = output
         else:
             val_to_variants = {}
-            for v in ('A', 'B', 'C'):
+            for v in VARIANTS:
                 val = row.get(v, '')
                 if val:
                     val_to_variants.setdefault(val, []).append(v)
@@ -231,7 +216,7 @@ def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, magic_s
 
     # Apply lead-variant swaps
     for trigger, src_v, dest_v, output in (magic_swaps or []):
-        row = working_magic.get(trigger, {'A': '', 'B': '', 'C': ''})
+        row = working_magic.get(trigger, empty_row())
         row[src_v], row[dest_v] = row[dest_v], row[src_v]
         working_magic[trigger] = row
 
@@ -242,10 +227,8 @@ def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, magic_s
         return display.center(width)
 
     def fmt_magic_row(trigger, variants):
-        A = variants.get('A', '')
-        B = variants.get('B', '')
-        C = variants.get('C', '')
-        return f"|{trigger.center(7)}|{fmt_magic_val(A,10)}|{fmt_magic_val(B,10)}|{fmt_magic_val(C,9)}|\n"
+        cells = ''.join(fmt_magic_val(variants.get(v, ''), 9) + '|' for v in VARIANTS)
+        return f"|{trigger.center(7)}|{cells}\n"
 
     # Rewrite file
     new_lines = []
@@ -270,7 +253,8 @@ def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, magic_s
             continue
 
         if section == 'magic':
-            m = re.match(r'\|\s*(\w)\s*\|([^|]*)\|([^|]*)\|([^|]*)\|', stripped)
+            row_re = re.compile(r'^\|\s*(\w)\s*\|' + r'([^|]*)\|' * len(VARIANTS))
+            m = row_re.match(stripped)
             if m and len(m.group(1)) == 1:
                 trigger = m.group(1)
                 if trigger in working_magic:
@@ -589,7 +573,7 @@ def main():
         """
         lead_v = lead_variants.get(output) if output else None
         row = effective_magic_table.get(trigger, {})
-        free = [v for v in ('A', 'B', 'C') if not row.get(v)]
+        free = [v for v in VARIANTS if not row.get(v)]
         if free:
             if lead_v in free:
                 return (lead_v, None)
@@ -608,7 +592,7 @@ def main():
             return (best, None)
         # Look for duplicate values — one can be dropped to free a slot
         val_to_variants = {}
-        for v in ('A', 'B', 'C'):
+        for v in VARIANTS:
             val = row.get(v, '')
             if val:
                 val_to_variants.setdefault(val, []).append(v)
@@ -617,7 +601,7 @@ def main():
                 # Keep the better-feel one, free the worse one
                 variants_by_feel = sorted(variants, key=lambda v: slot_feel_score(trigger, v))
                 keep_v, drop_v = variants_by_feel[0], variants_by_feel[-1]
-                return (drop_v, f"replace Magic {drop_v}={val} (dup of {keep_v})")
+                return (drop_v, f"replace {drop_v}={val} (dup of {keep_v})")
         return None
 
     # Adaptives that have no possible magic recovery slot — drop them
@@ -670,7 +654,7 @@ def main():
         print("Skipped (no magic recovery slot):")
         for (a, c), b in sorted(no_recovery.items()):
             row = magic_table.get(a, {})
-            taken = ', '.join(f"{v}={row[v]}" for v in ('A', 'B', 'C') if row.get(v))
+            taken = ', '.join(f"{v}={row[v]}" for v in VARIANTS if row.get(v))
             print(f"  {a} + {c} → {b}   (magic {a}: {taken})")
         print()
 
@@ -680,10 +664,10 @@ def main():
             result = best_magic_slot(trigger, output)
             if result:
                 variant, note = result
-                slot_str = f" → Magic {variant}" + (f" ({note})" if note else "")
+                slot_str = f" → {variant}" + (f" ({note})" if note else "")
             else:
                 row = effective_magic_table.get(trigger, {})
-                taken = ', '.join(f"{v}={row[v]}" for v in ('A', 'B', 'C') if row.get(v))
+                taken = ', '.join(f"{v}={row[v]}" for v in VARIANTS if row.get(v))
                 slot_str = f" (no free slot: {taken})"
             print(f"  {trigger} → {output}{slot_str}   [{reason}]")
     else:
@@ -691,26 +675,24 @@ def main():
 
     if magic_remove:
         print("\nRemove (now served by adaptive):")
-        # Group by trigger for readability
         by_trigger = {}
         for (trigger, variant), output in sorted(magic_remove.items()):
-            by_trigger.setdefault(trigger, []).append(f"Magic {variant}={output}")
+            by_trigger.setdefault(trigger, []).append(f"{variant}={output}")
         for trigger, entries in sorted(by_trigger.items()):
             print(f"  {trigger}: {', '.join(entries)}")
 
     if magic_keep:
         print("\nKeep (relied on by adaptive recommendations):")
-        # Group by variant (A/B/C) to help with learning
-        by_variant = {'A': [], 'B': [], 'C': []}
+        by_variant = {v: [] for v in VARIANTS}
         for (trigger, output), adaptives in sorted(magic_keep.items()):
             row = magic_table.get(trigger, {})
-            variants = [v for v in ('A', 'B', 'C') if row.get(v) == output]
-            for v in variants:
-                by_variant[v].append((trigger, output, adaptives))
-        for variant in ('A', 'B', 'C'):
+            for v in VARIANTS:
+                if row.get(v) == output:
+                    by_variant[v].append((trigger, output, adaptives))
+        for variant in VARIANTS:
             entries = by_variant[variant]
             if entries:
-                print(f"  Magic {variant}:")
+                print(f"  {variant}:")
                 for trigger, output, adaptives in entries:
                     print(f"    {trigger} → {output}   [enables {', '.join(adaptives)}]")
 
@@ -721,14 +703,14 @@ def main():
 
     # --- Current magic table grouped by variant ---
     print("\n=== Current Magic Table (single-char, by variant) ===\n")
-    for variant in ('A', 'B', 'C'):
+    for variant in VARIANTS:
         entries = []
         for trigger in sorted(magic_table):
             val = magic_table[trigger].get(variant, '')
             if len(val) == 1 and val.isalpha():
                 entries.append(f"{trigger}→{val}")
         if entries:
-            print(f"  Magic {variant}: {', '.join(entries)}")
+            print(f"  {variant}: {', '.join(entries)}")
 
     # --- Lead magic per trigger key ---
     print("\n=== Lead Magic per Output Key ===\n")
@@ -738,7 +720,7 @@ def main():
             if len(val) == 1 and val.isalpha() and val not in COMBO_KEYS:
                 output_variants.setdefault(val, set()).add(v)
     for letter in sorted(output_variants):
-        used = ', '.join(v for v in ('A', 'B', 'C') if v in output_variants[letter])
+        used = ', '.join(v for v in VARIANTS if v in output_variants[letter])
         print(f"  {letter}: {used}")
 
     # --- Resort suggestions: move single-char entries to their lead variant ---

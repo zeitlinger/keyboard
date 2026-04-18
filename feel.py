@@ -18,10 +18,25 @@ LAYOUT = {
     'v': (3,0), 'k': (3,2),   # index finger top/bottom combo
     # Combo keys — pinky columns
     'z': (0,2),               # left pinky bottom combo
-    'q': (7,0), 'j': (7,2),   # right pinky top/bottom combo
+    'j': (7,2),               # right pinky bottom combo
 }
 
-COMBO_KEYS = set('pbmgvkzqj')
+COMBO_KEYS = set('pbmgvkzj')
+
+# Nine physical magic-key positions, keyed by README column name.
+MAGIC_POSITIONS = {
+    'magic_a': (5, 0),  # R.Mid top row
+    'magic_b': (6, 0),  # R.Ring top row
+    'magic_c': (0, 0),  # L.Pin top combo
+    'magic_d': (5, 0),  # R.Mid top combo
+    'magic_e': (6, 0),  # R.Ring top combo
+    'magic_f': (7, 0),  # R.Pin top combo
+    'magic_g': (4, 2),  # R.Ind bottom combo
+    'magic_h': (5, 2),  # R.Mid bottom combo
+    'magic_i': (6, 2),  # R.Ring bottom combo
+}
+
+MAGIC_COMBO = {'magic_c', 'magic_d', 'magic_e', 'magic_f', 'magic_g', 'magic_h', 'magic_i'}
 
 
 def is_thumb(pos):
