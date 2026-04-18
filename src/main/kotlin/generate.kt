@@ -267,8 +267,15 @@ private fun addMagicEntry(
         def.length == 1 -> tap(translator.toQmk(def, pos)) + ";"
         isWord(def) -> {
             val str = extractString(def)
-            val emit = if (precedingChar.isNotEmpty() && str.startsWith(precedingChar)) str.drop(precedingChar.length) else str
-            "SEND_STRING(\"$emit\");"
+            val prevIsLetter = precedingChar.length == 1 && precedingChar[0].isLetter()
+            when {
+                prevIsLetter && str.startsWith(precedingChar) ->
+                    "SEND_STRING(\"${str.drop(precedingChar.length)}\");"
+                prevIsLetter ->
+                    "tap_code16(KC_BSPC); SEND_STRING(\"$str\");"
+                else ->
+                    "SEND_STRING(\"$str\");"
+            }
         }
         else -> throw IllegalArgumentException("unknown command '${def}' in $pos")
     }

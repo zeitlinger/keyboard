@@ -80,7 +80,12 @@ Rows = preceding key. Columns = the nine physical magic keys, row-wise from top-
 - magic_h: old `,` position (R.Mid. lower combo)
 - magic_i: old `.` position (R.Ring lower combo)
 
-Cell = what to emit. Quoted strings append. If the string starts with the preceding letter, the generator strips it (so `b` + `"because"` and `b` + `"ecause"` both yield `because`). Single-char cells always append too.
+Cell = what to emit.
+- Single-char cells append (e.g. `a` + `e` yields `ae`).
+- Quoted strings:
+  - Preceding key is a letter and cell starts with it → generator strips the prefix. `b` + `"because"` emits `ecause`, yielding `because`.
+  - Preceding key is a letter and cell does *not* start with it → generator backspaces the preceding letter then emits the cell. `z` + `"another"` yields `another`.
+  - Preceding key is not a letter (spc, punctuation) → cell appends as-is. `spc` + `"the "` yields ` the `.
 
 Special row `magic` = suffix. Cell fires when the preceding keypress was any other magic (e.g. `magic_a` + `magic_b` with `"ly"` in the `magic` row / `magic_b` column emits ` ly` after magic_a's word).
 
@@ -92,22 +97,22 @@ Special row `magic` = suffix. Cell fires when the preceding keypress was any oth
 |  c   |         |         |         |    p    |    d    |         |         |   !     |    ?    |
 |  d   |         |    h    |         |"doesn't"|    f    |         |         |         |         |
 |  e   |         |         |    h    |         |         |         |         |         |         |
-|  f   |         |    f    |         |  "for"  |         |         |         |         |         |
+|  f   |         |    f    |         |         |         |         |         |         |         |
 |  g   |         |    f    |         |    k    |    d    |         |         |         |         |
-|  h   |         |         |         |  "hey"  |    y    |         |         |         |         |
-|  i   |         |         |         |  "'ve"  |    '    |         |         |         |         |
+|  h   |         |         |         |         |    y    |         |         |         |         |
+|  i   |         |         |         | "I've"  |    '    |         |         |         |         |
 |  j   |         |         |         | "just"  |         |         |         |         |         |
 |  k   |         |    h    |         | "know"  |    x    |         |         |         |         |
 |  l   |         |    h    |         |    r    |    c    |         |         |         |         |
-|  m   |         |    h    |         |  "ent"  |    l    |         |         |         |         |
+|  m   |         |    h    |         |  "ment" |    l    |         |         |         |         |
 |  n   |    r    |    h    |         |   "qu"  |    x    |         |   q     |   '     |    "    |
 |  o   |         |         |    h    |         |         |         |         |         |         |
 |  p   |         |    m    |         |    n    |    d    |         |         |         |         |
 |  r   |         |         |         |    k    |         |         |         |         |         |
-|  s   |         |    r    |         |  "ion"  |    d    |         |         |         |         |
-|  t   |         |         |         |  "ion"  |    x    |         |         |   ,     |    .    |
+|  s   |         |    r    |         | "sion"  |    d    |         |         |         |         |
+|  t   |         |         |         | "tion"  |    x    |         |         |   ,     |    .    |
 |  u   |         |         |    h    |         |         |         |         |         |         |
-|  v   |         |         |         |   "en"  |   "er"  |         |         |         |         |
+|  v   |         |         |         |         |         |         |         |         |         |
 |  w   |         |         |         |    s    |    x    |         |         |         |         |
 |  x   |         |    w    |         |    r    |    d    |         |         |         |         |
 |  y   |         |         |    x    |         |         |         |         |         |         |
