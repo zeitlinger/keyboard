@@ -42,10 +42,6 @@ Train on magic-key vocabulary (preceding-letter + magic-col → word), not old c
 - `README.md` line 11 still references `[Chord Mode](CHORD_MODE.md)` — rewrite after (2).
 - Check `DESIGN_PHILOSOPHY.md` for stale chord mentions.
 
-### 5. Fill `magic` row (cross-magic chaining)
-
-The reserved `magic` row in the Magic Keys table is empty. Populate with common suffixes that extend the preceding magic's output (e.g. `"ly"`, `"ed"`, `"ing"`, `"s"`, `"'s"`). Each cell triggers when any OTHER magic fired immediately before — gives 8 cheap suffix extensions per column.
-
-### 6. (nit) Derive `MAGIC_POSITIONS` from Layout table
+### 5. (nit) Derive `MAGIC_POSITIONS` from Layout table
 
 `feel.py` hardcodes `MAGIC_POSITIONS` — the Layout table already has each magic's physical position. Parse it once instead.

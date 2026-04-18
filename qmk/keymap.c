@@ -37,11 +37,70 @@ const uint32_t PROGMEM unicode_map[] = {
 
 #include "g/keymap_combo.h"
 #include "casemodes.h"
+
+// Suffix state machine: set when a word-magic fires. Next magic press is
+// interpreted as a suffix chain (ed/ly/s/n't/ing) or exit (./,).
+static bool suffix_active = false;
+static char last_magic_char = 0;
+
+static inline void set_suffix_state(char c) {
+    suffix_active = true;
+    last_magic_char = c;
+}
+
+static inline void clear_suffix_state(void) {
+    suffix_active = false;
+}
+
 #include "generated.c"
 
 bool is_window_switcher_active = false;
 bool is_tab_switcher_active = false;
 bool is_one_shot_mouse_active = false;
+
+static bool process_suffix(uint16_t keycode, keyrecord_t *record) {
+    if (!suffix_active || !record->event.pressed) return true;
+    switch (keycode) {
+    case MAGIC_I:
+        tap_code16(KC_BSPC); SEND_STRING(". ");
+        add_oneshot_mods(MOD_BIT(KC_LSFT));
+        suffix_active = false;
+        return false;
+    case MAGIC_H:
+        tap_code16(KC_BSPC); SEND_STRING(", ");
+        suffix_active = false;
+        return false;
+    case MAGIC_D:
+        tap_code16(KC_BSPC); SEND_STRING("n't ");
+        last_magic_char = 't';
+        return false;
+    case MAGIC_G:
+        tap_code16(KC_BSPC); SEND_STRING("ed ");
+        last_magic_char = 'd';
+        return false;
+    case MAGIC_E:
+        tap_code16(KC_BSPC); SEND_STRING("ly ");
+        last_magic_char = 'y';
+        return false;
+    case MAGIC_B:
+        tap_code16(KC_BSPC); SEND_STRING("s ");
+        last_magic_char = 's';
+        return false;
+    case _HANDLER_ING:
+        tap_code16(KC_BSPC);
+        if (last_magic_char == 'a' || last_magic_char == 'e' ||
+            last_magic_char == 'i' || last_magic_char == 'o' ||
+            last_magic_char == 'u') {
+            tap_code16(KC_BSPC);
+        }
+        SEND_STRING("ing ");
+        last_magic_char = 'g';
+        return false;
+    default:
+        suffix_active = false;
+        return true;
+    }
+}
 
 bool process_xcase_activation(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
@@ -109,6 +168,9 @@ bool process_switcher(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!process_suffix(keycode, record)) {
+        return false;
+    }
     if (!process_record_generated(keycode, record)) {
         return false;
     }
@@ -165,7 +227,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     #ifdef _HANDLER_ING
     case _HANDLER_ING:
         if (record->event.pressed) {
-            SEND_STRING("ing");
+            SEND_STRING("ing ");
+            set_suffix_state('g');
         }
         return false;
     #endif

@@ -72,44 +72,43 @@ Currently unused features:
 Rows = preceding key. Columns = the nine physical magic keys (see the Layout table for their positions).
 
 Cell = what to emit.
-- Single-char cells append (e.g. `a` + `e` yields `ae`).
-- Quoted strings:
-  - Preceding key is a letter and cell starts with it → generator strips the prefix. `b` + `"because"` emits `ecause`, yielding `because`.
-  - Preceding key is a letter and cell does *not* start with it → generator backspaces the preceding letter then emits the cell. `z` + `"another"` yields `another`.
-  - Preceding key is not a letter (spc, punctuation) → cell appends as-is. `spc` + `"the "` yields ` the `.
-
-Special row `magic` = suffix. Cell fires when the preceding keypress was any other magic (e.g. `magic_a` + `magic_b` with `"ly"` in the `magic` row / `magic_b` column emits ` ly` after magic_a's word). Currently unused — row reserved for future cross-magic chaining.
+- Single-char cells append or tap (e.g. `a` + `e` yields `ae`). No suffix state.
+- Bare words (unquoted multi-char, e.g. `because`): generator auto-appends a trailing space and activates the suffix state machine. From there, the next magic press chains a suffix: `MAGIC_G`=`ed`, `MAGIC_E`=`ly`, `MAGIC_B`=`s`, `MAGIC_D`=`n't`, `ing` key (with vowel-drop). `MAGIC_I`=`.`+shift (exit), `MAGIC_H`=`,` (exit). Prefix-strip and BS rules below also apply to bare words.
+- Quoted strings (literal — no auto-space, no suffix state):
+  - Preceding key is a letter and cell starts with it → strip prefix. `b` + `"because"` emits `ecause`, yielding `because`.
+  - Preceding key is a letter and cell does *not* start with it → BS + cell.
+  - Preceding key is not a letter (spc, punctuation) → append as-is. `,` + `" and "` yields `, and `.
+- `[name]` bracket tokens invoke named handlers (currently `[dotSpc]` = BS + `. ` + one-shot shift).
 
 | Magic | magic_a | magic_b | magic_c | magic_d | magic_e | magic_f | magic_g | magic_h | magic_i |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-| magic |         |         |         |         |         |         |         |         |         |
 |  a   |         |         |    e    |         |         |         |         |         |         |
-|  b   |         |         |         |"because"|    d    |         |         |         |         |
+|  b   |         |         |         | because |    d    |         |         |         |         |
 |  c   |         |         |         |    p    |    d    |         |         |   !     |    ?    |
-|  d   |         |    h    |         |"doesn't"|    f    |         |         |         |         |
+|  d   |         |    h    |         | doesn't |    f    |         |         |         |         |
 |  e   |         |         |    h    |         |         |         |         |         |         |
 |  f   |         |    f    |         |         |         |         |         |         |         |
 |  g   |         |    f    |         |    k    |    d    |         |         |         |         |
 |  h   |         |         |         |         |    y    |         |         |         |         |
-|  i   |         |         |         | "I've"  |    '    |         |         |         |         |
-|  j   |         |         |         | "just"  |         |         |         |         |         |
-|  k   |         |    h    |         | "know"  |    x    |         |         |         |         |
+|  i   |         |         |         |  I've   |    '    |         |         |         |         |
+|  j   |         |         |         |  just   |         |         |         |         |         |
+|  k   |         |    h    |         |  know   |    x    |         |         |         |         |
 |  l   |         |    h    |         |    r    |    c    |         |         |         |         |
-|  m   |         |    h    |         |  "ment" |    l    |         |         |         |         |
-|  n   |    r    |    h    |         |   "qu"  |    x    |         |   q     |   '     |    "    |
+|  m   |         |    h    |         |  ment   |    l    |         |         |         |         |
+|  n   |    r    |    h    |         |  "qu"   |    x    |         |   q     |   '     |    "    |
 |  o   |         |         |    h    |         |         |         |         |         |         |
 |  p   |         |    m    |         |    n    |    d    |         |         |         |         |
 |  r   |         |         |         |    k    |         |         |         |         |         |
-|  s   |         |    r    |         | "sion"  |    d    |         |         |         |         |
-|  t   |         |         |         | "tion"  |    x    |         |         |   ,     |    .    |
+|  s   |         |    r    |         |  sion   |    d    |         |         |         |         |
+|  t   |         |         |         |  tion   |    x    |         |         |   ,     |    .    |
 |  u   |         |         |    h    |         |         |         |         |         |         |
 |  v   |         |         |         |         |         |         |         |         |         |
 |  w   |         |         |         |    s    |    x    |         |         |         |         |
 |  x   |         |    w    |         |    r    |    d    |         |         |         |         |
 |  y   |         |         |    x    |         |         |         |         |         |         |
-| spc  |         | dotSpc  |         | "the "  |         |         |         |         |         |
-| tab  |         | "and "  |         | "the "  |         |         |         |         |         |
-| ↩️️  |         | "and "  |         | "the "  |         |         |         |         |         |
+| spc  |         |[dotSpc] |         |   the   |         |         |         |         |         |
+| tab  |         |   and   |         |   the   |         |         |         |         |         |
+| ↩️️  |         |   and   |         |   the   |         |         |         |         |         |
 |  ~   |         |         |         |         |    /    |         |         |         |         |
 |  ,   |         | " and " |         | " but " |         |         |         |         |         |
 |  .   |         |         |         |  "./"   |    /    |         |         |         |         |

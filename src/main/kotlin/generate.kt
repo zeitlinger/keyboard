@@ -231,21 +231,6 @@ private fun getComboLines(combos: List<Combo>) = combos.map { combo ->
 
 private fun addMagic(translator: QmkTranslator, row: List<String>, pos: KeyPosition) {
     val precedingChar = row[0]
-
-    if (precedingChar == "magic") {
-        row.drop(1).forEachIndexed { index, def ->
-            if (def.isNotBlank()) {
-                val thisMagic = translator.magic[index]
-                translator.magic
-                    .filter { it.trigger != thisMagic.trigger }
-                    .forEach { prev ->
-                        addMagicEntry(translator, pos, thisMagic.press, prev.trigger, prev.trigger.key, def)
-                    }
-            }
-        }
-        return
-    }
-
     val base = translator.toQmk(precedingChar, pos)
     row.drop(1).forEachIndexed { index, def ->
         if (def.isNotBlank()) {
@@ -263,19 +248,22 @@ private fun addMagicEntry(
     def: String,
 ) {
     val command = when {
-        def == "dotSpc" -> "tap_code16(KC_BSPC); SEND_STRING(\". \"); add_oneshot_mods(MOD_BIT(KC_LSFT));"
+        def.startsWith("[") && def.endsWith("]") -> bracketCommand(def.removeSurrounding("[", "]"), pos)
         def.length == 1 -> tap(translator.toQmk(def, pos)) + ";"
-        isWord(def) -> {
-            val str = extractString(def)
+        isWord(def) || isBareWord(def) -> {
+            val quoted = isWord(def)
+            val str = if (quoted) extractString(def) else def
+            val output = if (quoted) str else "$str "
             val prevIsLetter = precedingChar.length == 1 && precedingChar[0].isLetter()
-            when {
-                prevIsLetter && str.startsWith(precedingChar) ->
-                    "SEND_STRING(\"${str.drop(precedingChar.length)}\");"
+            val send = when {
+                prevIsLetter && output.startsWith(precedingChar) ->
+                    "SEND_STRING(\"${output.drop(precedingChar.length)}\");"
                 prevIsLetter ->
-                    "tap_code16(KC_BSPC); SEND_STRING(\"$str\");"
+                    "tap_code16(KC_BSPC); SEND_STRING(\"$output\");"
                 else ->
-                    "SEND_STRING(\"$str\");"
+                    "SEND_STRING(\"$output\");"
             }
+            if (quoted) send else "$send set_suffix_state('${str.last()}');"
         }
         else -> throw IllegalArgumentException("unknown command '${def}' in $pos")
     }
@@ -284,6 +272,14 @@ private fun addMagicEntry(
     if (isLetter(base)) {
         map[shifted(base)] = command
     }
+}
+
+private fun isBareWord(def: String): Boolean =
+    def.length > 1 && !def.startsWith("\"") && !def.startsWith("[") && !def.contains(' ')
+
+private fun bracketCommand(name: String, pos: KeyPosition): String = when (name) {
+    "dotSpc" -> "tap_code16(KC_BSPC); SEND_STRING(\". \"); add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state();"
+    else -> throw IllegalArgumentException("unknown bracket token '[$name]' in $pos")
 }
 
 private fun isWord(alt: String) = alt.startsWith("\"") && alt.endsWith("\"")
