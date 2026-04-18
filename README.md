@@ -88,16 +88,16 @@ Special row `magic` = suffix. Cell fires when the preceding keypress was any oth
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
 | magic |         |         |         |         |         |         |         |         |         |
 |  a   |         |         |    e    |         |         |         |         |         |         |
-|  b   |         |         |         |"ecause" |    d    |         |         |         |         |
+|  b   |         |         |         |"because"|    d    |         |         |         |         |
 |  c   |         |         |         |    p    |    d    |         |         |   !     |    ?    |
-|  d   |         |    h    |         |"oesn't" |    f    |         |         |         |         |
+|  d   |         |    h    |         |"doesn't"|    f    |         |         |         |         |
 |  e   |         |         |    h    |         |         |         |         |         |         |
-|  f   |         |    f    |         |   "or"  |         |         |         |         |         |
+|  f   |         |    f    |         |  "for"  |         |         |         |         |         |
 |  g   |         |    f    |         |    k    |    d    |         |         |         |         |
-|  h   |         |         |         |   "ey"  |    y    |         |         |         |         |
+|  h   |         |         |         |  "hey"  |    y    |         |         |         |         |
 |  i   |         |         |         |  "'ve"  |    '    |         |         |         |         |
-|  j   |         |         |         |  "ust"  |         |         |         |         |         |
-|  k   |         |    h    |         |  "now"  |    x    |         |         |         |         |
+|  j   |         |         |         | "just"  |         |         |         |         |         |
+|  k   |         |    h    |         | "know"  |    x    |         |         |         |         |
 |  l   |         |    h    |         |    r    |    c    |         |         |         |         |
 |  m   |         |    h    |         |  "ent"  |    l    |         |         |         |         |
 |  n   |    r    |    h    |         |   "qu"  |    x    |         |   q     |   '     |    "    |
