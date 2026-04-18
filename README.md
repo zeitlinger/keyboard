@@ -87,29 +87,29 @@ Special row `magic` = suffix. Cell fires when the preceding keypress was any oth
 | Magic | magic_a | magic_b | magic_c | magic_d | magic_e | magic_f | magic_g | magic_h | magic_i |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
 | magic |         |         |         |         |         |         |         |         |         |
+|  a   |         |         |    e    |         |         |         |         |         |         |
 |  b   |         |         |         |"ecause" |    d    |         |         |         |         |
+|  c   |         |         |         |    p    |    d    |         |         |   !     |    ?    |
+|  d   |         |    h    |         |"oesn't" |    f    |         |         |         |         |
+|  e   |         |         |    h    |         |         |         |         |         |         |
+|  f   |         |    f    |         |   "or"  |         |         |         |         |         |
 |  g   |         |    f    |         |    k    |    d    |         |         |         |         |
+|  h   |         |         |         |   "ey"  |    y    |         |         |         |         |
+|  i   |         |         |         |  "'ve"  |    '    |         |         |         |         |
+|  j   |         |         |         |  "ust"  |         |         |         |         |         |
 |  k   |         |    h    |         |  "now"  |    x    |         |         |         |         |
 |  l   |         |    h    |         |    r    |    c    |         |         |         |         |
 |  m   |         |    h    |         |  "ent"  |    l    |         |         |         |         |
-|  s   |         |    r    |         |  "ion"  |    d    |         |         |         |         |
-|  w   |         |         |         |    s    |    x    |         |         |         |         |
-|  d   |         |    h    |         |"oesn't" |    f    |         |         |         |         |
-|  f   |         |    f    |         |   "or"  |         |         |         |         |         |
-|  h   |         |         |         |   "ey"  |    y    |         |         |         |         |
-|  i   |         |         |         |  "'ve"  |    '    |         |         |         |         |
 |  n   |    r    |    h    |         |   "qu"  |    x    |         |   q     |   '     |    "    |
-|  p   |         |    m    |         |    n    |    d    |         |         |         |         |
-|  v   |         |         |         |   "en"  |   "er"  |         |         |         |         |
-|  x   |         |    w    |         |    r    |    d    |         |         |         |         |
-|  t   |         |         |         |  "ion"  |    x    |         |         |   ,     |    .    |
-|  c   |         |         |         |    p    |    d    |         |         |   !     |    ?    |
-|  j   |         |         |         |  "ust"  |         |         |         |         |         |
-|  r   |         |         |         |    k    |         |         |         |         |         |
-|  a   |         |         |    e    |         |         |         |         |         |         |
-|  e   |         |         |    h    |         |         |         |         |         |         |
 |  o   |         |         |    h    |         |         |         |         |         |         |
+|  p   |         |    m    |         |    n    |    d    |         |         |         |         |
+|  r   |         |         |         |    k    |         |         |         |         |         |
+|  s   |         |    r    |         |  "ion"  |    d    |         |         |         |         |
+|  t   |         |         |         |  "ion"  |    x    |         |         |   ,     |    .    |
 |  u   |         |         |    h    |         |         |         |         |         |         |
+|  v   |         |         |         |   "en"  |   "er"  |         |         |         |         |
+|  w   |         |         |         |    s    |    x    |         |         |         |         |
+|  x   |         |    w    |         |    r    |    d    |         |         |         |         |
 |  y   |         |         |    x    |         |         |         |         |         |         |
 | spc  |         | dotSpc  |         | "the "  |         |         |         |         |         |
 | tab  |         | "and "  |         | "the "  |         |         |         |         |         |
