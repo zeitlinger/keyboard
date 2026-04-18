@@ -231,8 +231,22 @@ private fun getComboLines(combos: List<Combo>) = combos.map { combo ->
 
 private fun addMagic(translator: QmkTranslator, row: List<String>, pos: KeyPosition) {
     val precedingChar = row[0]
-    val base = translator.toQmk(precedingChar, pos)
 
+    if (precedingChar == "magic") {
+        row.drop(1).forEachIndexed { index, def ->
+            if (def.isNotBlank()) {
+                val thisMagic = translator.magic[index]
+                translator.magic
+                    .filter { it.trigger != thisMagic.trigger }
+                    .forEach { prev ->
+                        addMagicEntry(translator, pos, thisMagic.press, prev.trigger, prev.trigger.key, def)
+                    }
+            }
+        }
+        return
+    }
+
+    val base = translator.toQmk(precedingChar, pos)
     row.drop(1).forEachIndexed { index, def ->
         if (def.isNotBlank()) {
             addMagicEntry(translator, pos, translator.magic[index].press, base, precedingChar, def)

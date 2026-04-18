@@ -82,8 +82,11 @@ Rows = preceding key. Columns = the nine physical magic keys, row-wise from top-
 
 Cell = what to emit. Quoted strings append. If the string starts with the preceding letter, the generator strips it (so `b` + `"because"` and `b` + `"ecause"` both yield `because`). Single-char cells always append too.
 
+Special row `magic` = suffix. Cell fires when the preceding keypress was any other magic (e.g. `magic_a` + `magic_b` with `"ly"` in the `magic` row / `magic_b` column emits ` ly` after magic_a's word).
+
 | Magic | magic_a | magic_b | magic_c | magic_d | magic_e | magic_f | magic_g | magic_h | magic_i |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
+| magic |         |         |         |         |         |         |         |         |         |
 |  b   |         |         |         |"ecause" |    d    |         |         |         |         |
 |  g   |         |    f    |         |    k    |    d    |         |         |         |         |
 |  k   |         |    h    |         |  "now"  |    x    |         |         |         |         |
