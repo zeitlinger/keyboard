@@ -69,16 +69,7 @@ Currently unused features:
  
 ## Magic Keys
 
-Rows = preceding key. Columns = the nine physical magic keys. Positions:
-- magic_a: R.Mid. top row
-- magic_b: R.Ring top row
-- magic_c: L.Pin. top combo
-- magic_d: R.Mid. upper combo
-- magic_e: R.Ring upper combo
-- magic_f: R.Pin. top combo
-- magic_g: R.Ind. thumb combo
-- magic_h: R.Mid. lower combo
-- magic_i: R.Ring lower combo
+Rows = preceding key. Columns = the nine physical magic keys (see the Layout table for their positions).
 
 Cell = what to emit.
 - Single-char cells append (e.g. `a` + `e` yields `ae`).
