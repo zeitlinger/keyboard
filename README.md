@@ -118,40 +118,40 @@ Special row `magic` = suffix. Cell fires when the preceding keypress was any oth
 
 ## Adaptives
 
-| Adaptives | Key | Output |
-|:---------:|:---:|:------:|
-|     a     |  e  |   u    |
-|     a     |  qu |   e    |
-|     b     |  d  |   s    |
-|     c     |  d  |   k    |
-|     d     |  f  |   v    |
-|     d     |  h  |   g    |
-|     e     |  h  |   o    |
-|     e     |  qu |   h    |
-|     g     |  d  |   n    |
-|     g     |  f  |   l    |
-|     k     |  h  |   n    |
-|     l     |  c  |   m    |
-|     l     |  h  |   v    |
-|     l     |  r  |   p    |
-|     m     |  h  |   b    |
-|     n     |  h  |   g    |
-|     n     |  r  |   k    |
-|     n     |  x  |   l    |
-|     o     |  h  |   e    |
-|     o     |  qu |   h    |
-|     p     |  d  |   l    |
-|     p     |  n  |   s    |
-|     s     |  d  |   p    |
-|     s     |  r  |   k    |
-|     t     |  x  |   m    |
-|     u     |  h  |   a    |
-|     u     |  qu |   h    |
-|     w     |  x  |   n    |
-|     x     |  d  |   c    |
-|     x     |  w  |   p    |
-|     y     |  qu |   x    |
-|     y     |  x  |   i    |
+| Adaptives |   Key   | Output |
+|:---------:|:-------:|:------:|
+|     a     |    e    |   u    |
+|     a     | magic_c |   e    |
+|     b     |    d    |   s    |
+|     c     |    d    |   k    |
+|     d     |    f    |   v    |
+|     d     |    h    |   g    |
+|     e     |    h    |   o    |
+|     e     | magic_c |   h    |
+|     g     |    d    |   n    |
+|     g     |    f    |   l    |
+|     k     |    h    |   n    |
+|     l     |    c    |   m    |
+|     l     |    h    |   v    |
+|     l     |    r    |   p    |
+|     m     |    h    |   b    |
+|     n     |    h    |   g    |
+|     n     |    r    |   k    |
+|     n     |    x    |   l    |
+|     o     |    h    |   e    |
+|     o     | magic_c |   h    |
+|     p     |    d    |   l    |
+|     p     |    n    |   s    |
+|     s     |    d    |   p    |
+|     s     |    r    |   k    |
+|     t     |    x    |   m    |
+|     u     |    h    |   a    |
+|     u     | magic_c |   h    |
+|     w     |    x    |   n    |
+|     x     |    d    |   c    |
+|     x     |    w    |   p    |
+|     y     | magic_c |   x    |
+|     y     |    x    |   i    |
 
 ## Layout
 

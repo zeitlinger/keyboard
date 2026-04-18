@@ -138,7 +138,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case S(KC_A): return tap(KC_U);
                 }
                 break;
-            case ADPT_QU:
+            case MAGIC_C:
                 switch (prev_keycode) {
                     case KC_A: return tap(KC_E);
                     case KC_E: return tap(KC_H);

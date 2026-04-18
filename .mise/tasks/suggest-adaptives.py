@@ -165,7 +165,7 @@ def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, magic_s
     all_adaptives = sorted(set(add) | set(keep))
 
     def fmt_adaptive_row(a, c, b):
-        return f"|{a.center(11)}|{c.center(5)}|{b.center(8)}|\n"
+        return f"|{a.center(11)}|{c.center(9)}|{b.center(8)}|\n"
 
     def empty_row():
         return {v: '' for v in VARIANTS}
