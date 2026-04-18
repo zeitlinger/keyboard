@@ -39,110 +39,9 @@ const uint32_t PROGMEM unicode_map[] = {
 #include "casemodes.h"
 #include "generated.c"
 
-extern char last_chord_char; // Track last character from chord for suffix modifications
-
 bool is_window_switcher_active = false;
 bool is_tab_switcher_active = false;
 bool is_one_shot_mouse_active = false;
-
-bool process_chord_mode(uint16_t keycode, keyrecord_t *record) {
-    // Handle CHORD_MODIFIER state (after a chord was output)
-    if (chord_state == CHORD_MODIFIER && record->event.pressed) {
-        // Check for suffix keys based on keycode
-        switch (keycode) {
-            case ING:
-                tap_code16(KC_BSPC); // Delete space
-                // Check if last character is a vowel (a, e, i, o, u)
-                if (last_chord_char == 'a' || last_chord_char == 'e' ||
-                    last_chord_char == 'i' || last_chord_char == 'o' ||
-                    last_chord_char == 'u') {
-                    tap_code16(KC_BSPC); // Delete the vowel
-                }
-                SEND_STRING("ing ");
-                // Stay in CHORD_MODIFIER to allow chaining suffixes like "ly"
-                return false;
-            case N_T:
-                tap_code16(KC_BSPC);
-                SEND_STRING("n't ");
-                // Stay in CHORD_MODIFIER to allow chaining suffixes like "ly"
-                return false;
-            case MAGIC_A:
-                tap_code16(KC_BSPC);
-                SEND_STRING("ed ");
-                // Stay in CHORD_MODIFIER to allow chaining suffixes like "ly"
-                return false;
-            case MAGIC_B:
-                tap_code16(KC_BSPC);
-                SEND_STRING("ly ");
-                // Stay in CHORD_MODIFIER to allow chaining suffixes like "ly"
-                return false;
-            case MAGIC_C:
-                tap_code16(KC_BSPC);
-                SEND_STRING("s ");
-                // Stay in CHORD_MODIFIER to allow chaining suffixes like "ly"
-                return false;
-            case KC_DOT:
-                tap_code16(KC_BSPC);
-                SEND_STRING(". ");
-                add_oneshot_mods(MOD_BIT(KC_LSFT));
-                chord_state = CHORD_INACTIVE;
-                return false;
-            case KC_COMMA:
-                tap_code16(KC_BSPC);
-                SEND_STRING(", ");
-                chord_state = CHORD_INACTIVE;
-                return false;
-        }
-
-        // If not a modifier key, exit CHORD_MODIFIER state and process normally
-        chord_state = CHORD_INACTIVE;
-        return true;
-    }
-
-    // Handle chord key press
-    if (keycode == _HANDLER_CHORD_KEY) {
-        if (record->event.pressed) {
-            chord_state = CHORD_ROOT; // Activate chord mode at root of trie (negative state)
-            chord_depth = 0; // Reset depth counter
-        }
-        return false;
-    }
-
-    if (chord_state != CHORD_INACTIVE && chord_state != CHORD_MODIFIER) {
-        if (record->event.pressed) {
-            // Special handling for space at root: enable one-shot shift and stay in chord mode
-            if (keycode == KC_SPC && chord_state == CHORD_ROOT && chord_depth == 0) {
-                add_oneshot_mods(MOD_BIT(KC_LSFT));
-                return false; // Stay in chord mode, don't process space
-            }
-
-            // Try to transition to next state with the pressed key
-            int next_state = chord_transition(chord_state, keycode);
-            if (next_state != CHORD_INACTIVE && next_state != chord_state) { // Valid transition (changed state)
-                chord_state = next_state;
-                chord_depth++;
-
-                // Emit immediately after 2nd letter
-                if (chord_depth == 2) {
-                    // If state is non-negative, it's a data offset - output directly
-                    if (chord_state >= 0) {
-                        chord_decode_send(chord_state);
-                        tap_code16(KC_SPC);
-                        chord_state = CHORD_MODIFIER; // Enter modifier state
-                        chord_depth = 0;
-                    }
-                }
-            } else {
-                // Invalid transition, reset chord mode
-                chord_state = CHORD_INACTIVE;
-                chord_depth = 0;
-            }
-            return false;
-        }
-    }
-
-    return true;
-}
 
 bool process_xcase_activation(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
@@ -210,9 +109,6 @@ bool process_switcher(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (!process_chord_mode(keycode, record)) {
-        return false;
-    }
     if (!process_record_generated(keycode, record)) {
         return false;
     }

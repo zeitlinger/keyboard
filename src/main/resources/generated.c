@@ -4,23 +4,6 @@
  */
 
 int layer = _BASE;
-#define CHORD_ROOT -1
-#define CHORD_INACTIVE -10000
-#define CHORD_MODIFIER -10001
-int chord_state = CHORD_INACTIVE; // negative = transition states, non-negative = byte offsets
-int chord_depth = 0; // Track number of letters in current chord
-
-${chordDecoder}
-
-int chord_transition(int state, uint16_t keycode) {
-    switch (state) {
-${chordTransitions}
-    default:
-        // Invalid transition, stop chord mode
-        return CHORD_INACTIVE;
-    }
-    return CHORD_INACTIVE;
-}
 
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     switch(index) {
@@ -87,9 +70,7 @@ ${holdOnOtherKeyPress}
 bool remember_last_key_user(uint16_t keycode, keyrecord_t* record,
                             uint8_t* remembered_mods) {
     switch (keycode) {
-        case MAGIC_A:
-        case MAGIC_B:
-        case MAGIC_C:
+${magicExclusions}
             return false;
     }
 

@@ -1,5 +1,5 @@
 # Layout positions and feel scoring for the Hands Down Vibranium layout.
-# Shared between suggest-adaptives.py and train.py.
+# Shared between suggest-adaptives.py and suggest-combos.py.
 
 import re
 from pathlib import Path

@@ -27,10 +27,12 @@ data class QmkKey(
 data class MagicInfo(
     val trigger: QmkKey,
     val press: MutableMap<QmkKey, String>,
+    val default: String? = null,
 ) {
-    constructor(trigger: String) : this(
+    constructor(trigger: String, default: String? = null) : this(
         QmkKey.of(trigger),
         mutableMapOf(),
+        default,
     )
 }
 

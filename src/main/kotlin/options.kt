@@ -3,7 +3,8 @@ import kotlin.streams.toList
 fun qmkTranslator(tables: Tables): QmkTranslator {
     val implicitKeys = mutableListOf<QmkKey>()
     val noHoldKeys = mutableListOf<QmkKey>()
-    val symbols = readSymbols(tables, implicitKeys, noHoldKeys)
+    val magics = mutableListOf<MagicInfo>()
+    val symbols = readSymbols(tables, implicitKeys, noHoldKeys, magics)
     val nonThumbs = getKeyTable(tables.getMulti("Layer").content)
     val columns = nonThumbs.values.first()[0][0].size
     val options = options(tables, nonThumbs, columns)
@@ -24,7 +25,7 @@ fun qmkTranslator(tables: Tables): QmkTranslator {
         mutableListOf(),
         mutableMapOf(),
         noHoldKeys,
-        listOf(MagicInfo("MAGIC_A"), MagicInfo("MAGIC_B"), MagicInfo("MAGIC_C")),
+        magics,
         mutableMapOf(),
         mutableListOf(),
     )
@@ -37,7 +38,12 @@ private fun getKeyTable(layerContent: MultiTable): Map<LayerName, MultiTable> = 
     .toMap()
 
 @OptIn(ExperimentalStdlibApi::class)
-private fun readSymbols(tables: Tables, implicitKeys: MutableList<QmkKey>, noHoldKeys: MutableList<QmkKey>): Symbols {
+private fun readSymbols(
+    tables: Tables,
+    implicitKeys: MutableList<QmkKey>,
+    noHoldKeys: MutableList<QmkKey>,
+    magics: MutableList<MagicInfo>,
+): Symbols {
     val customKeycodes = mutableMapOf<String, CustomKey>()
 
     val symTable = tables.getMappingTable("Symbol").flatMap { entry ->
@@ -49,6 +55,7 @@ private fun readSymbols(tables: Tables, implicitKeys: MutableList<QmkKey>, noHol
             }
         val custom = props["custom"]
         val unicode = props["unicode"]
+        val magic = if (value.startsWith("magic:")) value.substringAfter("magic:").split(":", limit = 2) else null
         when {
             unicode != null -> {
                 val codepoint = key.codePoints()
@@ -65,6 +72,15 @@ private fun readSymbols(tables: Tables, implicitKeys: MutableList<QmkKey>, noHol
                     ), null
                 )
                 listOf(key to name)
+            }
+
+            magic != null -> {
+                val keycode = magic[0]
+                val default = magic.getOrNull(1)
+                val qmkKey = QmkKey.of(keycode)
+                customKeycodes[keycode] = CustomKey(qmkKey, null, null, null)
+                magics += MagicInfo(keycode, default)
+                listOf(key to keycode)
             }
 
             custom != null -> {
