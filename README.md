@@ -69,36 +69,49 @@ Currently unused features:
  
 ## Magic Keys
 
-| Magic | Magic A  | Magic B  | Magic C |
-|:-----:|:--------:|:--------:|:-------:|
-|   b   |    d     | "ecause" |         |
-|   g   |    d     |    k     |    f    |
-|   k   |    x     |  "now"   |    h    |
-|   l   |    c     |    r     |    h    |
-|   m   |    l     |  "ent"   |    h    |
-|   s   |    d     |  "ion"   |    r    |
-|   w   |    x     |    s     |         |
-|   d   |    f     | "oesn't" |    h    |
-|   f   |          |   "or"   |    f    |
-|   h   |    y     |   "ey"   |         |
-|   i   |    '     |  "'ve"   |         |
-|   n   |    x     |    r     |    h    |
-|   p   |    d     |    n     |    m    |
-|   v   |   "er"   |   "en"   |         |
-|   x   |    d     |    r     |    w    |
-|   t   |    x     |  "ion"   |         |
-|   c   |    d     |    p     |         |
-|   j   |          |  "ust"   |         |
-|   r   |          |    k     |         |
-|  spc  |          |  "the "  |  dotSpc |
-|  tab  |          |  "the "  |  "and " |
-|  ↩️️  |          |  "the "  |  "and " |
-|   ~   |    /     |          |         |
-|   ,   |          | " but "  | " and " |
-|   .   |    /     |   "./"   |         |
-|   -   |    >     |          |         |
-|   =   |    >     |          |         |
-|   !   |    =     |          |         |
+Rows = preceding key. Columns = the nine physical magic keys, row-wise from top-left:
+- magic_a: old `qu` position (L.Pin. top combo)
+- magic_b: old `'` position (R.Mid. top row)
+- magic_c: old magicC position (R.Ring top row) — legacy magicC content
+- magic_d: old magicB position (R.Mid. upper combo) — legacy magicB content
+- magic_e: old magicA position (R.Ring upper combo) — legacy magicA content
+- magic_f: old `q` position (R.Pin. top combo)
+- magic_g: old chord-key position (R.Ind. thumb combo)
+- magic_h: old `,` position (R.Mid. lower combo)
+- magic_i: old `.` position (R.Ring lower combo)
+
+Cell = final output. Generator smart-detects: if output starts with the preceding letter, it appends the suffix (e.g. `b` + `"ecause"` → emit `ecause` → `because`); otherwise it backspaces and emits the full string (e.g. `a` + `"foo"` → delete `a`, emit `foo`). Single-char cells always append.
+
+| prev | magic_a | magic_b | magic_c | magic_d | magic_e | magic_f | magic_g | magic_h | magic_i |
+|:----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
+|  b   |         |         |         |"ecause" |    d    |         |         |         |         |
+|  g   |         |         |    f    |    k    |    d    |         |         |         |         |
+|  k   |         |         |    h    |  "now"  |    x    |         |         |         |         |
+|  l   |         |         |    h    |    r    |    c    |         |         |         |         |
+|  m   |         |         |    h    |  "ent"  |    l    |         |         |         |         |
+|  s   |         |         |    r    |  "ion"  |    d    |         |         |         |         |
+|  w   |         |         |         |    s    |    x    |         |         |         |         |
+|  d   |         |         |    h    |"oesn't" |    f    |         |         |         |         |
+|  f   |         |         |    f    |   "or"  |         |         |         |         |         |
+|  h   |         |         |         |   "ey"  |    y    |         |         |         |         |
+|  i   |         |         |         |  "'ve"  |    '    |         |         |         |         |
+|  n   |         |         |    h    |    r    |    x    |         |         |         |         |
+|  p   |         |         |    m    |    n    |    d    |         |         |         |         |
+|  v   |         |         |         |   "en"  |   "er"  |         |         |         |         |
+|  x   |         |         |    w    |    r    |    d    |         |         |         |         |
+|  t   |         |         |         |  "ion"  |    x    |         |         |         |         |
+|  c   |         |         |         |    p    |    d    |         |         |         |         |
+|  j   |         |         |         |  "ust"  |         |         |         |         |         |
+|  r   |         |         |         |    k    |         |         |         |         |         |
+| spc  |         |         | dotSpc  | "the "  |         |         |         |         |         |
+| tab  |         |         | "and "  | "the "  |         |         |         |         |         |
+| ↩️️  |         |         | "and "  | "the "  |         |         |         |         |         |
+|  ~   |         |         |         |         |    /    |         |         |         |         |
+|  ,   |         |         | " and " | " but " |         |         |         |         |         |
+|  .   |         |         |         |  "./"   |    /    |         |         |         |         |
+|  -   |         |         |         |         |    >    |         |         |         |         |
+|  =   |         |         |         |         |    >    |         |         |         |         |
+|  !   |         |         |         |         |    =    |         |         |         |         |
 
 ## Adaptives
 
