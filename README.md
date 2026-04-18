@@ -95,7 +95,7 @@ Cell = final output. Generator smart-detects: if output starts with the precedin
 |  f   |         |    f    |         |   "or"  |         |         |         |         |         |
 |  h   |         |         |         |   "ey"  |    y    |         |         |         |         |
 |  i   |         |         |         |  "'ve"  |    '    |         |         |         |         |
-|  n   |         |    h    |         |    r    |    x    |         |         |   '     |    "    |
+|  n   |    r    |    h    |         |   "qu"  |    x    |         |   q     |   '     |    "    |
 |  p   |         |    m    |         |    n    |    d    |         |         |         |         |
 |  v   |         |         |         |   "en"  |   "er"  |         |         |         |         |
 |  x   |         |    w    |         |    r    |    d    |         |         |         |         |
@@ -578,10 +578,15 @@ The order of the options is also the order of the layers in the layer stack.
 | ü       | UP(UMLAUT_u, UMLAUT_U)          |
 | ß       | UM(UMLAUT_s)                    |
 | 😀      | UM(SMILEY)                      |
-| magicA  | custom:MAGIC_A                  |
-| magicB  | custom:MAGIC_B                  |
-| magicC  | custom:MAGIC_C                  |
-| chord   | custom:CHORD_KEY     NoHold     |
+| magic_a | magic:MAGIC_A                   |
+| magic_b | magic:MAGIC_B                   |
+| magic_c | magic:MAGIC_C                   |
+| magic_d | magic:MAGIC_D:qu                |
+| magic_e | magic:MAGIC_E                   |
+| magic_f | magic:MAGIC_F                   |
+| magic_g | magic:MAGIC_G                   |
+| magic_h | magic:MAGIC_H                   |
+| magic_i | magic:MAGIC_I                   |
 | tab ➡️  | custom:NEXT_TAB      NoHold     |
 | win ➡️  | custom:NEXT_WINDOW   NoHold     |
 | n't     | custom:N_T                      |
