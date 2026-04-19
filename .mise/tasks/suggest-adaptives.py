@@ -14,7 +14,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parents[2]))
-from feel import LAYOUT, COMBO_KEYS, MAGIC_POSITIONS, is_thumb, is_sfb, is_scissors, is_combo_adjacent, is_combo_preceded, is_bad, feel_score  # noqa: E402
+from feel import LAYOUT, COMBO_KEYS, MAGIC_POSITIONS, is_thumb, is_sfb, is_scissors, is_combo_adjacent, is_combo_preceded, is_combo_combo, is_bad, feel_score  # noqa: E402
 
 CORPUS = Path.home() / "source/genkey/corpora/shai-iweb.json"
 README = Path(__file__).parents[2] / "README.md"
@@ -107,33 +107,32 @@ def load_magic_coverage(magic_table):
 MIN_FREQ_PCT = 0.01      # ignore bad bigrams below this frequency
 MAX_MAGIC_SACRIFICE_PCT = MIN_FREQ_PCT  # sacrifice bigrams below this can be covered by adding a magic entry
 MAX_RECOMMEND_FEEL = 2     # only recommend adding adaptives with feel <= this
+SACRIFICE_RATIO = 10       # sacrifice must be < effective_freq / SACRIFICE_RATIO
+DOUBLE_NERF = 2.0          # doubles get effective_freq = actual / DOUBLE_NERF (nerfs doubles vs other adaptives)
 
 
 def slot_feel_score(trigger, variant):
+    """Lower = better. Alt-hand always best. Same-hand scored by Manhattan
+    distance — farther reach = worse feel. Pinky involvement adds penalty."""
     if trigger not in LAYOUT:
         return 1
-    trigger_pos = LAYOUT[trigger]
-    pos = MAGIC_POSITIONS[variant]
-    row_diff = abs(trigger_pos[1] - pos[1])
-    if (trigger_pos[0] < 4) != (pos[0] < 4):
-        return 1
-    col_diff = abs(trigger_pos[0] - pos[0])
+    t_pos = LAYOUT[trigger]
+    m_pos = MAGIC_POSITIONS[variant]
+    if (t_pos[0] < 4) != (m_pos[0] < 4):
+        return 0
+    col_diff = abs(t_pos[0] - m_pos[0])
+    row_diff = abs(t_pos[1] - m_pos[1])
     if col_diff == 0:
-        # Same column: either same physical key (99) or SFB-like — for combos
-        # the trigger is one of the combo's own keys, so no smooth roll.
-        return 99 if row_diff == 0 else 3
-    if row_diff > 3:
-        return 99
-    inward = pos[0] > trigger_pos[0]
-    if col_diff == 1 and row_diff > 0:
-        return 2 if (trigger_pos[0] in (0, 7) or pos[0] in (0, 7)) else 1
-    return 0 if inward else 1
+        return 99  # same column = SFB-like
+    pinky = t_pos[0] in (0, 7) or m_pos[0] in (0, 7)
+    return col_diff + row_diff + (1 if pinky else 0)
 
 
 def is_bad_chars(a_char, b_char):
     return (is_bad(LAYOUT[a_char], LAYOUT[b_char])
             or is_combo_adjacent(a_char, b_char)
-            or is_combo_preceded(a_char, b_char))
+            or is_combo_preceded(a_char, b_char)
+            or is_combo_combo(a_char, b_char))
 
 
 def bad_reason(a, b):
@@ -145,6 +144,8 @@ def bad_reason(a, b):
 
 
 def bad_reason_chars(a_char, b_char):
+    if a_char == b_char:
+        return "double"
     r = bad_reason(LAYOUT[a_char], LAYOUT[b_char])
     if r:
         return r
@@ -152,6 +153,8 @@ def bad_reason_chars(a_char, b_char):
         return "combo-adjacent"
     if is_combo_preceded(a_char, b_char):
         return "combo-preceded"
+    if is_combo_combo(a_char, b_char):
+        return "combo-combo"
     return ""
 
 
@@ -181,20 +184,8 @@ def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, magic_s
         free = [v for v in VARIANTS if not row.get(v)]
         lead_v = lead_variants.get(output)
         if free:
-            if lead_v in free:
+            if lead_v in free and slot_feel_score(trigger, lead_v) == 0:
                 best = lead_v
-            elif lead_v:
-                # Displace occupant if output has stronger claim on the lead slot
-                occupant = row.get(lead_v, '')
-                occ_clean = occupant.strip('"') if occupant else ''
-                if (len(occ_clean) == 1 and occ_clean.isalpha()
-                        and (lead_variants.get(occ_clean) != lead_v
-                             or lead_counts.get(output, 0) > lead_counts.get(occ_clean, 0))):
-                    displace_to = min(free, key=lambda v: slot_feel_score(trigger, v))
-                    row[displace_to] = occupant
-                    best = lead_v
-                else:
-                    best = min(free, key=lambda v: slot_feel_score(trigger, v))
             else:
                 best = min(free, key=lambda v: slot_feel_score(trigger, v))
             working_magic.setdefault(trigger, empty_row())
@@ -319,15 +310,27 @@ def main():
     bad = []
     for a in LAYOUT:
         for b in LAYOUT:
-            if a == b:
-                continue  # same-letter bigrams need same-letter output — not useful
             if is_bad_chars(a, b):
                 freq = bigrams.get(f"{a}{b}", 0)
                 if freq > 0:
                     bad.append((a, b, freq))
 
     bad = [(a, b, freq) for a, b, freq in bad if pct(freq) >= MIN_FREQ_PCT]
-    bad.sort(key=lambda x: -x[2])
+
+    def effective_gain(a, b, freq):
+        return freq / DOUBLE_NERF if a == b else freq
+
+    # Include existing adaptives' target bigrams so they can compete for slots
+    # on equal footing with current bad bigrams (user-curated choices matter).
+    bad_keys = {(a, b) for a, b, _ in bad}
+    for (a, c), b in existing.items():
+        if (a, b) not in bad_keys:
+            freq = bigrams.get(f"{a}{b}", 0)
+            if freq > 0:
+                bad.append((a, b, freq))
+                bad_keys.add((a, b))
+
+    bad.sort(key=lambda x: -effective_gain(*x))
 
     print("=== Bad Bigrams (SFB / scissors / combo-adjacent) ===\n")
     for a, b, freq in bad:
@@ -368,30 +371,36 @@ def main():
                 ((a, b) in magic_covered or (is_existing and (a, c) in magic_covered))
                 and pct(sacrifice) < MAX_MAGIC_SACRIFICE_PCT
             )
-            if not magic_free and sacrifice >= bigram_freq / 10 and pct(sacrifice) >= MIN_FREQ_PCT:
+            effective = bigram_freq / DOUBLE_NERF if a == b else bigram_freq
+            if not magic_free and sacrifice >= effective / SACRIFICE_RATIO and pct(sacrifice) >= MIN_FREQ_PCT:
                 continue
             bad_following = sum(
                 1 for tg, _ in followers
                 if tg[2] in LAYOUT and is_bad_chars(c, tg[2])
             )
+            # Weighted following-feel: captures awkward-but-not-bad motions (e.g. 'h→y' in 'lly').
+            weight_total = sum(cnt for tg, cnt in followers if tg[2] in LAYOUT) or 1
+            following_feel = sum(
+                feel_score(c, tg[2]) * cnt for tg, cnt in followers if tg[2] in LAYOUT
+            ) / weight_total
             feel = feel_score(a, c)
             same_hand = (LAYOUT[a][0] < 4) == (LAYOUT[c][0] < 4)
-            candidates.append((c, sacrifice, bad_following, feel, same_hand, magic_free))
+            candidates.append((c, sacrifice, bad_following, feel, same_hand, magic_free, following_feel))
 
-        candidates.sort(key=lambda x: (x[3], x[4], x[2], x[1]))
+        candidates.sort(key=lambda x: (x[3], x[2], x[6], x[4], x[1]))
 
         if not candidates:
             print("  (no candidates)")
         else:
             best_candidate[(a, b)] = candidates[0][0]
-            valid_candidates[(a, b)] = {c for c, _, _, _, _, _ in candidates}
+            valid_candidates[(a, b)] = {cand[0] for cand in candidates}
             all_candidates[(a, b)] = candidates  # full sorted list for conflict resolution
-            for c, sacrifice, bad_following, feel, _, mfree in candidates[:50]:
+            for c, sacrifice, bad_following, feel, _, mfree, following_feel in candidates[:50]:
                 marker = " *" if (a, c) in existing else ""
                 follower_str = f"{bad_following}/{len(followers)}" if followers else "n/a"
                 sac_str = f"{pct(sacrifice):.3f}%" + (" (magic)" if mfree else "")
                 print(f"  {a} + {c} → {b}   feel={feel}  sacrifice '{a}{c}' {sac_str}"
-                      f"   following-bad: {follower_str}{marker}")
+                      f"   following-bad: {follower_str}  ff={following_feel:.2f}{marker}")
 
     # --- Combo-roll adaptive opportunities ---
     print("\n=== Combo-Roll Adaptive Opportunities ===")
@@ -415,7 +424,8 @@ def main():
             if abs(pos_a[1] - pos_c[1]) > 1:
                 continue
             sacrifice = bigrams.get(f"{a}{c}", 0)
-            if sacrifice >= bigram_freq / 10:
+            effective = bigram_freq / DOUBLE_NERF if a == b else bigram_freq
+            if sacrifice >= effective / SACRIFICE_RATIO:
                 continue
             bad_following = sum(
                 1 for tg, _ in followers
@@ -435,14 +445,17 @@ def main():
     # --- Recommended changes (greedy assignment) ---
     # Assign candidates greedily by bigram frequency; fall back when (a, c) already taken.
     # If an existing adaptive already covers (a, b) with equal or better feel, keep it.
+    bad_freq = {(a, b): freq for a, b, freq in bad}
     recommended = {}  # (trigger, physical) -> output
     for a, b, _ in bad:  # already sorted by frequency descending
         candidates_list = all_candidates.get((a, b), [])
         by_key = {cand[0]: cand for cand in candidates_list}
 
         # If existing already has a valid candidate for this output, prefer it unless
-        # a strictly better-feel new candidate exists.
-        existing_for_output = [(a, c_ex) for (a_ex, c_ex), b_ex in existing.items() if a_ex == a and b_ex == b and c_ex in by_key]
+        # a strictly better-feel new candidate exists. Skip slots claimed by higher-freq bigrams.
+        existing_for_output = [(a, c_ex) for (a_ex, c_ex), b_ex in existing.items()
+                               if a_ex == a and b_ex == b and c_ex in by_key
+                               and (a_ex, c_ex) not in recommended]
         if existing_for_output:
             best_new_feel = min((by_key[c][3] for c in by_key if (a, c) not in existing and existing.get((a, c)) is None), default=999)
             existing_feel = min(by_key[c_ex][3] for _, c_ex in existing_for_output)
@@ -452,16 +465,15 @@ def main():
                     recommended[(a, c_ex)] = b
                 continue
 
-        for c, _, _, feel, _, _ in candidates_list:
+        # Higher effective-gain bigrams claim slots first (doubles nerfed by DOUBLE_NERF);
+        # existing adaptives for lower-gain outputs naturally lose the slot via iteration order.
+        for c, _, _, feel, _, _, _ in candidates_list:
             if feel > MAX_RECOMMEND_FEEL:
-                break  # list is sorted by feel; no point continuing
-            existing_output = existing.get((a, c))
-            already_taken = (a, c) in recommended or (
-                existing_output is not None and existing_output != b
-            )
-            if not already_taken:
-                recommended[(a, c)] = b
                 break
+            if (a, c) in recommended:
+                continue  # already claimed this run
+            recommended[(a, c)] = b
+            break
 
     # Build index: for each (trigger, output), which physical key is recommended?
     recommended_physical = {}  # (a, b) -> c
@@ -482,13 +494,18 @@ def main():
         feel_new = by_key[c_new][3] if c_new in by_key else 999
         return feel_new < feel_old
 
-    # Use is_bad_chars (not bad_set) so existing adaptives are only removed if the bigram
-    # is not physically bad at all — frequency threshold applies to new suggestions, not
-    # to keeping deliberate user choices.
+    def slot_displaced(a, c, b):
+        """True if (a, c) slot was reassigned to a different output by a higher-freq bigram."""
+        new_b = recommended.get((a, c))
+        return new_b is not None and new_b != b
+
+    # Only remove existing adaptives that are superseded (better-feel alternative for same
+    # output) or displaced (slot reassigned to a higher-gain bigram). Respect user choices
+    # even for bigrams that don't match is_bad_chars — they were deliberate.
     remove = [
         (a, c, b) for (a, c), b in existing.items()
-        if not is_bad_chars(a, b)
-        or existing_superseded(a, c, b)
+        if existing_superseded(a, c, b)
+        or slot_displaced(a, c, b)
     ]
 
     remove_set = {(a, c) for a, c, _ in remove}
@@ -558,7 +575,7 @@ def main():
     magic_keep = {}  # (trigger, output) -> [adaptive descriptions]
     for a, b, _ in bad:
         for cand in all_candidates.get((a, b), []):
-            c, sacrifice, _, feel, _, mfree = cand
+            c, sacrifice, _, feel, _, mfree, _ = cand
             if (mfree and (a, c) in recommended and recommended[(a, c)] == b
                     and (a, b) not in magic_remove_pairs):
                 magic_keep.setdefault((a, b), []).append(f"{a}+{c}→{b}")
@@ -568,8 +585,8 @@ def main():
     def best_magic_slot(trigger, output=None):
         """Return (variant, replace_note) for the best available slot.
 
-        Considers: genuinely free slots, then duplicate-value slots (one can be dropped).
-        Prefers the lead variant for the output letter when available.
+        Lead variant is preferred only when it costs no feel (slot_feel_score == 0).
+        Otherwise pick the minimum-feel free slot.
         Returns (variant, None) for free slot, (variant, 'replace Magic X=val') for duplicate.
         Returns None if no slot can be found.
         """
@@ -577,19 +594,8 @@ def main():
         row = effective_magic_table.get(trigger, {})
         free = [v for v in VARIANTS if not row.get(v)]
         if free:
-            if lead_v in free:
+            if lead_v in free and slot_feel_score(trigger, lead_v) == 0:
                 return (lead_v, None)
-            # Lead slot occupied — displace occupant if output has a stronger claim
-            # (more entries on lead variant, or occupant doesn't lead this slot at all)
-            if lead_v and lead_v not in free:
-                occupant = row.get(lead_v, '')
-                occupant_clean = occupant.strip('"') if occupant else ''
-                if (len(occupant_clean) == 1 and occupant_clean.isalpha()
-                        and (lead_variants.get(occupant_clean) != lead_v
-                             or lead_counts.get(output, 0) > lead_counts.get(occupant_clean, 0))):
-                    # Occupant doesn't lead this slot; displace it to a free slot
-                    displace_to = min(free, key=lambda v: slot_feel_score(trigger, v))
-                    return (lead_v, f"displace {lead_v}={occupant} to {displace_to}")
             best = min(free, key=lambda v: slot_feel_score(trigger, v))
             return (best, None)
         # Look for duplicate values — one can be dropped to free a slot
@@ -619,7 +625,8 @@ def main():
     for key in no_recovery:
         del recommended[key]
 
-    add = [(a, c, b) for (a, c), b in recommended.items() if (a, c) not in existing]
+    # Include slots whose output differs from existing (displacement of lower-freq adaptive).
+    add = [(a, c, b) for (a, c), b in recommended.items() if existing.get((a, c)) != b]
 
     # Drop recovery magic entries for removed adaptives
     no_recovery_pairs = {(a, c) for a, c in no_recovery}
@@ -633,7 +640,9 @@ def main():
     if add:
         print("Add:")
         for a, c, b in sorted(add):
-            print(f"  {a} + {c} → {b}")
+            gained = bad_freq.get((a, b), 0)
+            paid = bigrams.get(f"{a}{c}", 0)
+            print(f"  {a} + {c} → {b}   gain {pct(gained):.3f}%  paid {pct(paid):.3f}%  net {pct(gained - paid):+.3f}%")
     else:
         print("Add: (none)")
 
@@ -642,11 +651,29 @@ def main():
         for a, c, b in sorted(keep):
             print(f"  {a} + {c} → {b}")
 
-    if remove:
-        print("\nRemove (no longer justified):")
-        for a, c, b in sorted(remove):
-            print(f"  {a} + {c} → {b}")
-    else:
+    remapped = [(a, c, b) for a, c, b in remove if (a, c) in recommended and recommended[(a, c)] != b]
+    lost = [(a, c, b) for a, c, b in remove if (a, c, b) not in remapped]
+
+    def fmt_removed(a, c, b):
+        gained = bad_freq.get((a, b), bigrams.get(f"{a}{b}", 0))
+        paid = bigrams.get(f"{a}{c}", 0)
+        return f"  {a} + {c} → {b}   gain {pct(gained):.3f}%  paid {pct(paid):.3f}%  net {pct(gained - paid):+.3f}%"
+
+    if remapped:
+        print("\nRemapped (slot reused for different output):")
+        for a, c, b in sorted(remapped):
+            new_b = recommended[(a, c)]
+            new_gain = bad_freq.get((a, new_b), 0)
+            old_gain = bad_freq.get((a, b), bigrams.get(f"{a}{b}", 0))
+            delta = new_gain - old_gain
+            print(f"{fmt_removed(a, c, b)}   → now {a}+{c}→{new_b}  Δgain {pct(delta):+.3f}%")
+
+    if lost:
+        print("\nLost (slot freed, bigram falls to magic):")
+        for a, c, b in sorted(lost):
+            print(fmt_removed(a, c, b))
+
+    if not remove:
         print("\nRemove: (none)")
 
     # --- Print magic recommendations ---

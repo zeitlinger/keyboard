@@ -84,6 +84,16 @@ def is_combo_preceded(a_char, b_char):
     return (a_pos[0] < 4) == (b_pos[0] < 4)
 
 
+def is_combo_combo(a_char, b_char):
+    """Two consecutive combo keys on the same hand — awkward to type back-to-back."""
+    if a_char not in COMBO_KEYS or b_char not in COMBO_KEYS:
+        return False
+    a_pos, b_pos = LAYOUT[a_char], LAYOUT[b_char]
+    if is_thumb(a_pos) or is_thumb(b_pos):
+        return False
+    return (a_pos[0] < 4) == (b_pos[0] < 4)
+
+
 def is_bad(a, b):
     return is_sfb(a, b) or is_scissors(a, b)
 
