@@ -371,8 +371,7 @@ def main():
                 ((a, b) in magic_covered or (is_existing and (a, c) in magic_covered))
                 and pct(sacrifice) < MAX_MAGIC_SACRIFICE_PCT
             )
-            effective = bigram_freq / DOUBLE_NERF if a == b else bigram_freq
-            if not magic_free and sacrifice >= effective / SACRIFICE_RATIO and pct(sacrifice) >= MIN_FREQ_PCT:
+            if not magic_free and sacrifice >= bigram_freq / SACRIFICE_RATIO and pct(sacrifice) >= MIN_FREQ_PCT:
                 continue
             bad_following = sum(
                 1 for tg, _ in followers
@@ -424,8 +423,7 @@ def main():
             if abs(pos_a[1] - pos_c[1]) > 1:
                 continue
             sacrifice = bigrams.get(f"{a}{c}", 0)
-            effective = bigram_freq / DOUBLE_NERF if a == b else bigram_freq
-            if sacrifice >= effective / SACRIFICE_RATIO:
+            if sacrifice >= bigram_freq / SACRIFICE_RATIO:
                 continue
             bad_following = sum(
                 1 for tg, _ in followers
@@ -510,6 +508,10 @@ def main():
 
     remove_set = {(a, c) for a, c, _ in remove}
     keep = [(a, c, b) for (a, c), b in existing.items() if (a, c) not in remove_set]
+    # Only truly lost adaptives free their recovery magic. Remapped slots still
+    # intercept physical a+c, so the recovery entry is still needed.
+    lost_pairs = {(a, c) for a, c, b in remove
+                  if not ((a, c) in recommended and recommended[(a, c)] != b)}
 
     # --- Pre-compute magic slot availability before printing adaptives ---
 
@@ -554,12 +556,11 @@ def main():
     # Also free recovery magic for removed adaptives: if adaptive a+c→b is removed, the
     # magic entry for (a, c) that allowed typing "ac" is no longer needed.
     magic_remove = {}  # (trigger, variant) -> output
-    freed_by_removal = {(a, c) for a, c, _ in remove}  # recovery keys no longer needed
     for trigger, variants in magic_table.items():
         for variant, val in variants.items():
             if len(val) == 1 and val.isalpha() and (trigger, val) in covered_outputs:
                 magic_remove[(trigger, variant)] = val
-            elif (trigger, val) in freed_by_removal and (trigger, val) not in magic_add:
+            elif (trigger, val) in lost_pairs and (trigger, val) not in magic_add:
                 magic_remove[(trigger, variant)] = val
 
     # Effective magic table after removals — used for slot availability in Add
@@ -651,8 +652,8 @@ def main():
         for a, c, b in sorted(keep):
             print(f"  {a} + {c} → {b}")
 
-    remapped = [(a, c, b) for a, c, b in remove if (a, c) in recommended and recommended[(a, c)] != b]
-    lost = [(a, c, b) for a, c, b in remove if (a, c, b) not in remapped]
+    lost = [(a, c, b) for a, c, b in remove if (a, c) in lost_pairs]
+    remapped = [(a, c, b) for a, c, b in remove if (a, c) not in lost_pairs]
 
     def fmt_removed(a, c, b):
         gained = bad_freq.get((a, b), bigrams.get(f"{a}{b}", 0))
