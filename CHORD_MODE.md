@@ -1,374 +1,138 @@
-# Chord Mode - Word Expansion System
+# Chord Mode
+
+This file keeps the old name, but the trie-based chord subsystem is gone. The current feature is a
+9-key magic expansion system driven by the `Magic Keys` table in [README.md](README.md#magic-keys).
 
 ## Overview
 
-The chord mode is a powerful word expansion system that allows you to type common words and phrases using just two-letter combinations followed by space. This dramatically reduces keystrokes for frequently used words.
+Each physical magic key checks the previously emitted key and dispatches from there.
 
-## How It Works
+- Runtime entry point: generated `case MAGIC_*` blocks in `qmk/generated.c`
+- Dispatch source: `switch (get_last_keycode())`
+- Source of truth: `README.md` `Magic Keys` table
+- Follow-up suffix logic: `process_suffix()` in [qmk/keymap.c](/home/gregor/source/keyboard/qmk/keymap.c:41)
 
-### Basic Usage
+The basic pattern is:
 
-1. **Press the chord key** (mapped to your keyboard)
-2. **Type two letters** (the chord sequence)
-3. **Word is automatically output** with a trailing space
+1. Type a normal key.
+2. Press one of the nine magic keys.
+3. Firmware looks at the previous key and emits the cell content for that `(prev, magic)` pair.
 
-**Example:**
-- Chord key + `d` + `r` → outputs "**their** "
-- Chord key + `t` + `i` → outputs "**time** "
-- Chord key + `k` + `j` → outputs "**just** "
+Examples from the current table:
 
-### Capitalization
+- `b` then `magic_d` -> `because `
+- `t` then `magic_d` -> `tion `
+- `n` then `magic_d` -> `qu`
+- `,` then `magic_b` -> ` and `
 
-To capitalize the first letter of a chord output:
+## Cell Semantics
 
-1. **Press the chord key**
-2. **Press space** (activates one-shot shift)
-3. **Type two letters**
-4. **First letter is capitalized**
+Rows are preceding keys. Columns are the nine physical magic keys.
 
-**Example:**
-- Chord key + **space** + `d` + `r` → outputs "**Their** "
-- Chord key + **space** + `t` + `i` → outputs "**Time** "
+### Single-character cell
 
-### Adding Suffixes
+Single-character cells tap that keycode directly.
 
-After a chord outputs, you can add common suffixes by pressing modifier keys:
+- `a` + `magic_c` with cell `e` -> `ae`
+- `t` + `magic_h` with cell `,` -> `t,`
 
-1. **Type a chord** (e.g., `nr` → "near ")
-2. **Press a modifier key**:
-   - **"ing" combo** → "nearing"
-   - **Magic A** → "nearly"
-   - **Magic B** → "neared"
-   - **Magic C** → "nears"
+These do not enable suffix chaining.
 
-**Examples:**
-- Chord + `kr` + "ing" combo → "**working**"
-- Chord + `ka` + Magic C → "**makes**"
-- Chord + `qu` + Magic A → "**queryly**"
+### Bare word cell
 
-See [CHORD_MODIFIER_FEATURE.md](CHORD_MODIFIER_FEATURE.md) for complete documentation.
+Bare multi-character cells are treated as word expansions.
 
-## Chord Table
+- Generator emits the text plus a trailing space.
+- Firmware enables the suffix state machine with the word's final character.
 
-The keyboard includes **220+ pre-configured chords** covering:
+Examples:
 
-### High-Frequency English Words
-Common words that appear in the top 100 most used English words:
-- `dr` → "their"
-- `tr` → "there"
-- `ti` → "time"
-- `ve` → "very"
-- `vo` → "over"
-- `we` → "were"
-- `vr` → "never"
-- `ka` → "make"
-- `ko` → "know"
-- `kr` → "work"
-- `mo` → "most"
-- `kj` → "just"
-- `gy` → "every"
-- `sa` → "same"
+- `b` + `magic_d` with cell `because` emits `ecause ` because the previous `b` is stripped
+- `j` + `magic_d` with cell `just` emits `ust `
+- `spc` + `magic_d` with cell `the` emits `the `
 
-### Programming Keywords
-Essential programming vocabulary:
-- `b.` → "boolean"
-- `c.` → "const"
-- `d.` → "data"
-- `f.` → "false"
-- `k.` → "key"
-- `l.` → "class"
-- `m.` → "method"
-- `n.` → "null"
-- `p.` → "promise"
-- `r.` → "error"
-- `s.` → "string"
-- `t.` → "type"
-- `v.` → "void"
-- `w.` → "await"
-- `z.` → "async"
+### Quoted string cell
 
-### Domain-Specific Terms
-Java, Spring, OpenTelemetry, and related ecosystem:
-- `j` → "java"
-- `ja` → "import"
-- `q` → "spring"
-- `q,` → "Spring" (capitalized)
-- `qa` → "starter"
-- `qh` → "describe"
-- `qr` → "Grafana"
-- `g.` → "github"
-- `g,` → "grafana"
-- `ph` → "http"
-- `xh` → "https"
-- `xo` → "OpenTelemetry"
-- `xy` → "telemetry"
-- `t,` → "tenant"
-- `qi` → "issues"
-- `qu` → "query"
-- `dj` → "build"
-- `f,` → "fails"
-- `qy` → "tests"
+Quoted strings are literal output. They do not get an automatic trailing space and they do not
+enable suffix state.
 
-### Multi-Word Phrases
-Complex phrases as single chords:
-- `zh` → "Spring starter"
-- `zu` → "Spring Boot"
-- `zy` → "Grafana Labs"
-- `x,` → "declarative config"
-- `zj` → "javaagent"
+Rules:
 
-### Complete List
+- Previous key is a letter and the string starts with that letter: strip the prefix
+- Previous key is a letter and the string does not start with that letter: send backspace, then the
+  full string
+- Previous key is not a letter: append the string as-is
 
-See the [README.md Chord Table](README.md#chord-table) for the complete list of 220+ available chords.
+Examples:
 
-## Design Principles
+- `n` + `magic_d` with cell `"qu"` -> backspace + `qu`
+- `,` + `magic_b` with cell `" and "` -> append ` and `
+- `.` + `magic_d` with cell `"./"` -> append `./`
 
-### Good Second Letters Rule
+### Bracket token cell
 
-All chords use **good second letters** for optimal ergonomics:
-- **`,` (comma)** - punctuation key
-- **`.` (period)** - punctuation key
-- **`a e i h u o y j r`** - vowels and easy-to-reach consonants
+Bracketed names call a named handler instead of sending raw text.
 
-These letters are either:
-- **Thumb-accessible** (like `r` which is on thumb in this layout)
-- **Easy to reach on right hand** (vowels and common consonants on home positions)
+Current handler:
 
-### First Letters
+- `[dotSpc]` -> backspace, send `. `, enable one-shot shift, clear suffix state
 
-Available first letters (not in good second letters list, left hand or thumb):
-- `b c d f g k l m n p q r s t v w x z`
+## Suffix Chaining
 
-This separation ensures:
-- ✅ Consistent ergonomics
-- ✅ Fast typing speed
-- ✅ Reduced finger travel
-- ✅ No awkward key combinations
+When a bare-word magic fires, `qmk/keymap.c` enters suffix mode. The next magic press can rewrite
+the trailing space into a suffix or punctuation.
 
-## Technical Implementation
+Supported suffix follow-ups:
 
-### State Machine
+- `magic_g` -> `ed `
+- `magic_e` -> `ly `
+- `magic_b` -> `s `
+- `magic_d` -> `n't `
+- `ing` key -> `ing `, with a second backspace when the prior letter is a vowel
+- `magic_i` -> `. ` and one-shot shift
+- `magic_h` -> `, `
 
-The chord system uses a **trie-based state machine** with direct offset mapping:
+Examples:
 
-1. **Inactive state** (`-1000`): Not in chord mode
-2. **Root state** (`-1`): Chord key pressed, waiting for first letter
-3. **Transition states** (negative numbers): First letter pressed, waiting for second
-4. **Output states** (non-negative numbers): Direct byte offsets into compressed data
+- `b` + `magic_d` -> `because `, then `magic_b` -> `becauses `
+- `j` + `magic_d` -> `just `, then `magic_g` -> `justed `
+- `spc` + `magic_d` -> `the `, then `magic_i` -> `the. ` with shift armed
 
-**Example flow for "their":**
-```
-User presses chord key → state = -1 (root)
-User presses 'd' → state = -29 (transition state for 'd')
-User presses 'r' → state = 342 (byte offset in chord_data)
-chord_decode_send(chord_data + 342) → outputs "their "
-state = -1000 (inactive)
-```
+Suffix mode exits on any non-suffix key.
 
-### Data Compression
+## Cross-Magic Chaining
 
-**Variable-length 4/8-bit encoding:**
-- Each character encoded using either 4 or 8 bits
-- **4-bit codes (0-13)**: Used for the 14 most common characters
-- **8-bit codes (0xE0-0xFF)**: Used for less common characters, punctuation, space, apostrophe, uppercase
-- Byte-aligned for efficient access and simpler implementation
-- Supports up to 46 unique characters (14 + 32)
+Magic keys also become the new remembered key. That means a magic can dispatch from a previous
+magic, not only from letters or punctuation.
 
-**Encoding scheme:**
-- The 14 most frequent characters use 4 bits each (codes 0-13)
-- Less common characters use a full byte with prefix 0xE or 0xF (codes 0xE0-0xFF)
-- Characters are packed into bytes, using nibbles for common chars
-- When an 8-bit code is encountered (high nibble ≥ 14), read the full byte
+The implementation does this after every magic press:
 
-**Example:**
-If 'e', 't', 'a' are codes 0-2, and 'Q' is code 0xE0:
-- "eta" → `0x10, 0x2` (two nibbles packed: 1=t, 0=e in first byte, 2=a in high nibble of second)
-- "eQa" → `0x0`, `0xE0`, `0x2` (e in low nibble, Q as full byte, a in high nibble)
-
-**Memory savings:**
-- Common characters: ~50% space compared to ASCII (4 bits vs 8 bits)
-- Mixed content: ~30-40% space savings on average
-- Typical: ~600-900B data + 120B decoder = 720-1020B total (was 1531B raw)
-- Better alignment with byte boundaries simplifies implementation
-
-### Automatic Space Insertion
-
-Every chord automatically adds a trailing space after the word, eliminating the need to press space manually.
-
-### One-Shot Shift for Capitalization
-
-When space is pressed after the chord key:
 ```c
-if (keycode == KC_SPC && chord_state == CHORD_ROOT && chord_depth == 0) {
-    add_oneshot_mods(MOD_BIT(KC_LSFT));
-    return false; // Stay in chord mode
-}
+set_last_keycode(MAGIC_X);
 ```
 
-This enables one-shot shift without exiting chord mode.
+That allows a dedicated `magic` row in the table for cross-magic expansions and punctuation flows.
 
-## Memory Usage
+## Generator Behavior
 
-- **Chord data**: ~1531 bytes (raw, with capitalization)
-- **Decoder function**: Included in firmware
-- **Transition table**: Generated at compile time
-- **Total overhead**: ~1.5KB
+The generator logic lives in [src/main/kotlin/generate.kt](/home/gregor/source/keyboard/src/main/kotlin/generate.kt:175).
 
-## Benefits
+Relevant rules:
 
-### Typing Efficiency
-- **Reduce keystrokes** by 50-80% for common words
-- **"their"**: 5 keystrokes → 3 keystrokes (chord + 2 letters)
-- **"OpenTelemetry"**: 13 keystrokes → 3 keystrokes
+- `addMagic()` reads the `Magic` table from `README.md`
+- `addMagicEntry()` decides whether a cell becomes tap, `SEND_STRING`, backspace+string, or a
+  named handler
+- Bare words get `set_suffix_state(...)`
+- Quoted strings stay literal
 
-### Ergonomics
-- **Less finger travel** - two letters instead of full word
-- **Good second letters** ensure comfortable key combinations
-- **Thumb-accessible** keys for maximum efficiency
+Generated output lands in `qmk/generated.c`. Do not edit that file directly.
 
-### Productivity
-- **220+ words** at your fingertips
-- **Context-specific** vocabulary (programming, Spring, OpenTelemetry)
-- **Capitalization support** for proper nouns and sentence starts
-- **Multi-word phrases** as single chords
+## Editing
 
-### Consistency
-- **Predictable patterns** - same two letters always produce same word
-- **No mode switching** - chord mode activates and deactivates automatically
-- **Works everywhere** - system-level implementation
+To change magic behavior:
 
-## Customization
+1. Edit the `Magic Keys` table in `README.md`.
+2. Regenerate with `mise run generate`.
+3. Flash with `mise run flash` if needed.
 
-### Adding New Chords
-
-Edit the chord table in `README.md`:
-
-```markdown
-| Chord | output          |
-|-------|-----------------|
-| xy    | "your word"     |
-```
-
-Then regenerate:
-```bash
-mvn exec:java -Dexec.mainClass="GenerateKt" -Dexec.args="README.md qmk"
-```
-
-### Guidelines for New Chords
-
-1. **Use good second letters**: `, . a e i h u o y j r`
-2. **Choose memorable combinations**: First letter often matches word start
-3. **Prioritize frequency**: Add words you type most often
-4. **Check for conflicts**: Each chord must be unique
-
-### Analyzing Your Writing
-
-Use the GitHub word analyzer to find words you use frequently:
-
-```bash
-./extract_github_words.sh YOUR_GITHUB_TOKEN
-```
-
-This analyzes your GitHub issues and suggests words to add.
-
-## Tips and Tricks
-
-### Sentence Writing
-1. Press chord key + space (capitalizes)
-2. Type first word chord
-3. Press chord key (no space)
-4. Type next word chord
-5. Repeat
-
-**Example:**
-```
-Chord+SPC+ti → "Time "
-Chord+to → "thought "
-Chord+di → "during "
-```
-Result: "Time thought during "
-
-### Programming Workflow
-Common patterns for code:
-- `c.` → "const"
-- `l.` → "class"
-- `m.` → "method"
-- `r.` → "error"
-- `w.` → "await"
-
-### Multi-Word Technical Terms
-- `zh` → "Spring starter"
-- `zu` → "Spring Boot"
-- `xo` → "OpenTelemetry"
-
-## Comparison with Other Systems
-
-| Feature           | Chord Mode | Autocomplete | Text Expansion |
-|-------------------|------------|--------------|----------------|
-| Speed             | ⭐⭐⭐⭐⭐      | ⭐⭐⭐          | ⭐⭐⭐⭐           |
-| Predictability    | ⭐⭐⭐⭐⭐      | ⭐⭐           | ⭐⭐⭐⭐           |
-| No UI Distraction | ⭐⭐⭐⭐⭐      | ⭐⭐           | ⭐⭐⭐⭐⭐          |
-| Works Everywhere  | ⭐⭐⭐⭐⭐      | ⭐⭐           | ⭐⭐⭐            |
-| Muscle Memory     | ⭐⭐⭐⭐⭐      | ⭐⭐           | ⭐⭐⭐⭐           |
-| Setup Required    | ⭐⭐⭐⭐       | ⭐⭐⭐⭐⭐        | ⭐⭐⭐            |
-
-## Frequently Asked Questions
-
-### Q: Can I use chords in any application?
-**A:** Yes! Chord mode works at the keyboard firmware level, so it works in any application on any OS.
-
-### Q: What happens if I make a typo?
-**A:** If you type an invalid chord sequence, chord mode automatically exits and you can start over.
-
-### Q: Can I add my own words?
-**A:** Absolutely! Edit the chord table in README.md and regenerate the firmware.
-
-### Q: How long does it take to learn?
-**A:** Most users become proficient with their most common 20-30 chords within a week. Full mastery of all 220+ chords takes longer but isn't necessary.
-
-### Q: Does it slow down normal typing?
-**A:** No. Chord mode only activates when you press the chord key. Normal typing is unaffected.
-
-### Q: Can I disable it temporarily?
-**A:** Yes, simply don't press the chord key. The feature is completely opt-in.
-
-### Q: Why use two letters instead of abbreviations?
-**A:** Two letters provide:
-- Consistent length (always 2 keystrokes)
-- Better muscle memory
-- More available combinations (26×11 = 286 possible chords)
-- Faster than thinking of/typing abbreviations
-
-## Performance Metrics
-
-### Keystrokes Saved
-
-Common word savings:
-- "their" (5→3): **40% reduction**
-- "because" (7→3): **57% reduction**
-- "OpenTelemetry" (13→3): **77% reduction**
-- "Spring Boot" (11→3): **73% reduction**
-
-### Typing Speed Impact
-
-Average improvement for heavy users:
-- **15-30% faster** for technical documentation
-- **20-40% faster** for repetitive code comments
-- **10-20% faster** for general writing
-
-## References
-
-- [QMK Firmware Documentation](https://docs.qmk.fm/)
-- [Trie Data Structure](https://en.wikipedia.org/wiki/Trie)
-- [Word Frequency Analysis](https://en.wikipedia.org/wiki/Most_common_words_in_English)
-- [Keyboard Layouts](https://en.wikipedia.org/wiki/Keyboard_layout)
-- [Sartak's Keyboard Layout](https://github.com/sartak/keyboard)
-
-## Credits
-
-This chord system is inspired by:
-- Stenography systems
-- Text expansion utilities
-- Vim abbreviations
-- Custom keyboard communities
-
+The table in `README.md` is the source of truth.

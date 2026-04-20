@@ -109,8 +109,8 @@ def is_bad(a, b):
     return is_sfb(a, b) or is_scissors(a, b)
 
 
-def feel_score(a_char, b_char, combo_target_penalty=True):
-    """Lower = better feel for the physical motion a_char → b_char.
+def feel_score_positions(a_pos, b_pos, *, target_is_combo=False):
+    """Lower = better feel for the physical motion between two positions.
 
     Row scheme: 0=top, 1=top combo, 2=home, 3=bottom combo, 4=bottom, 5=thumb.
     Adjacent rows differ by 1 (home↔combo) or 2 (home↔top/bottom).
@@ -119,11 +119,10 @@ def feel_score(a_char, b_char, combo_target_penalty=True):
       1 = alternation or outward
       2 = big reach (row_diff >= 3) same-hand outward, with d-exception
       0 also covers: big reach inward, with d-exception
-      3 = adjacent finger with row change + pinky; combo-adjacent going up
+     3 = adjacent finger with row change + pinky; combo-adjacent going up
      99 = row_diff > 3 (top↔bottom) without d exception
     Combo key as physical target: floor of 3.
     """
-    a_pos, b_pos = LAYOUT[a_char], LAYOUT[b_char]
     row_diff = abs(a_pos[1] - b_pos[1])
 
     if is_thumb(a_pos) or is_thumb(b_pos):
@@ -155,8 +154,23 @@ def feel_score(a_char, b_char, combo_target_penalty=True):
         else:
             score = 1
 
-    if b_char in COMBO_KEYS and combo_target_penalty:
+    if target_is_combo:
         score = max(score, 3)
+
+    return score
+
+
+def feel_score(a_char, b_char, combo_target_penalty=True):
+    """Lower = better feel for the physical motion a_char → b_char.
+
+    Uses the shared position-based scorer so other tooling can score motions
+    into non-character targets such as magic keys.
+    """
+    a_pos, b_pos = LAYOUT[a_char], LAYOUT[b_char]
+    score = feel_score_positions(
+        a_pos, b_pos,
+        target_is_combo=b_char in COMBO_KEYS and combo_target_penalty,
+    )
 
     # Home row as rest position (row 2). Combo key followed by moving further up/out penalises.
     combo_rest_row = max(a_pos[1], 2)
