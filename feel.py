@@ -109,7 +109,7 @@ def is_bad(a, b):
     return is_sfb(a, b) or is_scissors(a, b)
 
 
-def feel_score_positions(a_pos, b_pos, *, target_is_combo=False):
+def feel_score_positions(a_pos, b_pos, *, target_is_combo=False, source_char=None, target_char=None):
     """Lower = better feel for the physical motion between two positions.
 
     Row scheme: 0=top, 1=top combo, 2=home, 3=bottom combo, 4=bottom, 5=thumb.
@@ -133,7 +133,7 @@ def feel_score_positions(a_pos, b_pos, *, target_is_combo=False):
         col_diff = abs(a_pos[0] - b_pos[0])
         inward = b_pos[0] > a_pos[0]
 
-        if row_diff > 3 and 'd' not in (a_char, b_char):
+        if row_diff > 3 and 'd' not in (source_char, target_char):
             return 99
 
         if row_diff > 3:
@@ -168,8 +168,11 @@ def feel_score(a_char, b_char, combo_target_penalty=True):
     """
     a_pos, b_pos = LAYOUT[a_char], LAYOUT[b_char]
     score = feel_score_positions(
-        a_pos, b_pos,
+        a_pos,
+        b_pos,
         target_is_combo=b_char in COMBO_KEYS and combo_target_penalty,
+        source_char=a_char,
+        target_char=b_char,
     )
 
     # Home row as rest position (row 2). Combo key followed by moving further up/out penalises.
