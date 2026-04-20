@@ -127,7 +127,7 @@ def feel_score(a_char, b_char, combo_target_penalty=True):
     row_diff = abs(a_pos[1] - b_pos[1])
 
     if is_thumb(a_pos) or is_thumb(b_pos):
-        score = 1
+        score = 0
     elif (a_pos[0] < 4) != (b_pos[0] < 4):
         score = 1
     else:
@@ -139,6 +139,8 @@ def feel_score(a_char, b_char, combo_target_penalty=True):
 
         if row_diff > 3:
             score = 2 if not inward else 0
+        elif col_diff == 1 and row_diff == 0:
+            score = 0
         elif col_diff == 1 and row_diff > 0:
             pinky = (a_pos[0] in (0, 7) or b_pos[0] in (0, 7))
             score = 3 if pinky else 1

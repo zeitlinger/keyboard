@@ -115,7 +115,7 @@ MIN_FREQ_PCT = 0.01      # ignore bad bigrams below this frequency
 MAX_MAGIC_SACRIFICE_PCT = MIN_FREQ_PCT  # sacrifice bigrams below this can be covered by adding a magic entry
 MAX_RECOMMEND_FEEL = 2     # only recommend adding adaptives with feel <= this
 MAX_RECOMMEND_FF = 1.5     # reject candidates whose follow-through is awkward (ll → lly)
-DOUBLE_NERF = 2.0          # doubles get effective_freq = actual / DOUBLE_NERF (nerfs doubles vs other adaptives)
+DOUBLE_NERF = 1.0          # doubles get effective_freq = actual / DOUBLE_NERF (nerfs doubles vs other adaptives)
 
 
 def slot_feel_score(trigger, variant):
@@ -401,7 +401,10 @@ def main():
 
         # Rank by net gain (= low sacrifice, since gain is per-bigram constant),
         # then by feel and follow-ups as tiebreak.
-        candidates.sort(key=lambda x: (x[1], x[3], x[2], x[6], x[4]))
+        # Effective cost: sacrifice + small per-feel-level penalty so that
+        # feel breaks ties when sacrifices are similar, but big sacrifices still lose.
+        FEEL_COST = 0.005 * total / 100  # 0.005% of corpus per feel level
+        candidates.sort(key=lambda x: (x[1] + FEEL_COST * x[3], x[2], x[6], x[4]))
 
         if not candidates:
             print("  (no candidates)")
