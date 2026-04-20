@@ -11,6 +11,7 @@ import argparse
 import json
 import re
 import sys
+from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parents[2]))
@@ -21,6 +22,8 @@ README = Path(__file__).parents[2] / "README.md"
 
 # Variant names as they appear in the Magic Keys table header (magic_a..magic_i).
 VARIANTS = tuple(f'magic_{c}' for c in 'abcdefghi')
+ADAPTIVE_ROW_RE = re.compile(r'\|\s*(\w)\s*\|\s*(\w+)\s*\|\s*(\w)\s*\|')
+MAGIC_ROW_RE = re.compile(r'^\|\s*(\w)\s*\|' + r'([^|]*)\|' * len(VARIANTS))
 
 
 def load_existing_adaptives():
@@ -40,7 +43,7 @@ def load_existing_adaptives():
         if in_table:
             if line.startswith('##'):
                 break
-            m = re.match(r'\|\s*(\w)\s*\|\s*(\w+)\s*\|\s*(\w)\s*\|', line)
+            m = ADAPTIVE_ROW_RE.match(line)
             if m:
                 trigger, key, output = m.group(1), m.group(2), m.group(3)
                 if len(key) == 1:
@@ -48,6 +51,18 @@ def load_existing_adaptives():
                 else:
                     compensation.add((trigger, output))
     return existing, compensation
+
+
+def empty_magic_row():
+    return {v: '' for v in VARIANTS}
+
+
+def parse_multi_char_adaptives(lines):
+    return [
+        (m.group(1), m.group(2), m.group(3))
+        for line in lines
+        if (m := ADAPTIVE_ROW_RE.match(line.rstrip('\n'))) and len(m.group(2)) > 1
+    ]
 
 
 def load_magic_table():
@@ -63,7 +78,6 @@ def load_magic_table():
     table = {}
     quoted = set()
     in_table = False
-    row_re = re.compile(r'^\|\s*(\w)\s*\|' + r'([^|]*)\|' * len(VARIANTS))
     for line in README.read_text().splitlines():
         if '## Magic Keys' in line:
             in_table = True
@@ -71,7 +85,7 @@ def load_magic_table():
         if in_table:
             if line.startswith('##'):
                 break
-            m = row_re.match(line)
+            m = MAGIC_ROW_RE.match(line)
             if m:
                 trigger = m.group(1)
                 table[trigger] = {
@@ -97,7 +111,6 @@ def compute_lead_variants(magic_table):
         leads: dict of output_char → preferred variant (e.g. {'h': 'magic_b', 'd': 'magic_e'})
         lead_counts: dict of output_char → count on lead variant
     """
-    from collections import Counter
     counts = {}  # output -> Counter({variant: count})
     for trigger, variants in magic_table.items():
         for v, val in variants.items():
@@ -182,18 +195,16 @@ def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, quoted_
 
     # Build new adaptive table rows (add + keep, sorted)
     all_adaptives = sorted(set(add) | set(keep))
+    multi_char_adaptives = parse_multi_char_adaptives(lines)
 
     def fmt_adaptive_row(a, c, b):
         return f"|{a.center(11)}|{c.center(5)}|{b.center(8)}|\n"
-
-    def empty_row():
-        return {v: '' for v in VARIANTS}
 
     # Build working magic table: original → apply removes → apply adds
     working_magic = {t: dict(variants) for t, variants in magic_table.items()}
 
     for (trigger, variant), _output in magic_remove.items():
-        working_magic.setdefault(trigger, empty_row())[variant] = ''
+        working_magic.setdefault(trigger, empty_magic_row())[variant] = ''
 
     for (trigger, output), _reason in sorted(magic_add_new.items()):
         row = working_magic.get(trigger, empty_row())
@@ -204,7 +215,7 @@ def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, quoted_
                 best = lead_v
             else:
                 best = min(free, key=lambda v: slot_feel_score(trigger, v))
-            working_magic.setdefault(trigger, empty_row())
+            working_magic.setdefault(trigger, empty_magic_row())
             working_magic[trigger][best] = output
         else:
             val_to_variants = {}
@@ -225,7 +236,7 @@ def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, quoted_
 
     # Apply lead-variant swaps
     for trigger, src_v, dest_v, output in (magic_swaps or []):
-        row = working_magic.get(trigger, empty_row())
+        row = working_magic.get(trigger, empty_magic_row())
         row[src_v], row[dest_v] = row[dest_v], row[src_v]
         working_magic[trigger] = row
 
@@ -266,8 +277,7 @@ def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, quoted_
             continue
 
         if section == 'magic':
-            row_re = re.compile(r'^\|\s*(\w)\s*\|' + r'([^|]*)\|' * len(VARIANTS))
-            m = row_re.match(stripped)
+            m = MAGIC_ROW_RE.match(stripped)
             if m and len(m.group(1)) == 1:
                 trigger = m.group(1)
                 if trigger in working_magic:
@@ -279,15 +289,8 @@ def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, quoted_
         if section == 'adaptives':
             if stripped.startswith('|:-'):
                 new_lines.append(line)
-                # Collect multi-char adaptive rows (e.g. qu compensation) from original
-                multi_char = []
-                for orig_line in lines:
-                    orig_stripped = orig_line.rstrip('\n')
-                    m = re.match(r'\|\s*(\w)\s*\|\s*(\w+)\s*\|\s*(\w)\s*\|', orig_stripped)
-                    if m and len(m.group(2)) > 1:
-                        multi_char.append((m.group(1), m.group(2), m.group(3)))
                 # Merge and sort all adaptive rows together
-                all_rows = sorted(set(all_adaptives) | set(multi_char))
+                all_rows = sorted(set(all_adaptives) | set(multi_char_adaptives))
                 for a, c, b in all_rows:
                     new_lines.append(fmt_adaptive_row(a, c, b))
                 adaptive_header_done = True
@@ -360,15 +363,10 @@ def main():
     # --- Adaptive candidates for bad bigrams ---
     print("\n=== Adaptive Candidates for Bad Bigrams ===")
 
-    # best_candidate[(a, b)] = c  — top pick per bad bigram
-    best_candidate = {}
-    # valid_candidates[(a, b)] = {c, ...} — all passing candidates per bad bigram
-    valid_candidates = {}
     # all_candidates[(a, b)] = [(c, sacrifice, bad_following, feel), ...] sorted
     all_candidates = {}
 
     for a, b, bigram_freq in bad:
-        pos_a = LAYOUT[a]
         print(f"\nBigram '{a}{b}' ({pct(bigram_freq):.3f}%) — {bad_reason_chars(a, b)}:")
 
         followers = sorted(
@@ -422,8 +420,6 @@ def main():
         if not candidates:
             print("  (no candidates)")
         else:
-            best_candidate[(a, b)] = candidates[0][0]
-            valid_candidates[(a, b)] = {cand[0] for cand in candidates}
             all_candidates[(a, b)] = candidates  # full sorted list for conflict resolution
             for c, sacrifice, bad_following, feel, _, mfree, following_feel in candidates[:50]:
                 marker = " *" if (a, c) in existing else ""
@@ -438,7 +434,6 @@ def main():
 
     combo_hits = []
     for a, b, bigram_freq in bad:
-        pos_a = LAYOUT[a]
         followers = sorted(
             [(tg, cnt) for tg, cnt in trigrams.items()
              if len(tg) == 3 and tg[0] == a and tg[1] == b],
@@ -448,10 +443,9 @@ def main():
         for c in COMBO_KEYS:
             if c in (a, b):
                 continue
-            pos_c = LAYOUT[c]
-            if is_bad(pos_a, pos_c):
+            if is_bad(LAYOUT[a], LAYOUT[c]):
                 continue
-            if abs(pos_a[1] - pos_c[1]) > 1:
+            if abs(LAYOUT[a][1] - LAYOUT[c][1]) > 1:
                 continue
             sacrifice = bigrams.get(f"{a}{c}", 0)
             if sacrifice * 2 >= bigram_freq:
@@ -508,8 +502,6 @@ def main():
     recommended_physical = {}  # (a, b) -> c
     for (a, c), b in recommended.items():
         recommended_physical[(a, b)] = c
-
-    bad_set = {(a, b) for a, b, _ in bad}
 
     def existing_superseded(a, c, b):
         """True if a strictly better-feel candidate was recommended for the same (trigger, output)."""

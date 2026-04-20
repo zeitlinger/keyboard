@@ -5,3 +5,4 @@ target/
 *.jar
 chord_stats.json
 __pycache__/
+.codex
