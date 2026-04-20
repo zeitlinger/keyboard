@@ -76,8 +76,13 @@ def load_magic_table():
     return table
 
 
+RIGHT_HAND_VARIANTS = tuple(v for v in VARIANTS if MAGIC_POSITIONS[v][0] >= 4)
+
+
 def compute_lead_variants(magic_table):
-    """For each single-char output letter, determine which magic column it appears on most.
+    """For each single-char output letter, determine which right-hand magic column
+    it appears on most. Left-hand variants (magic_c) are excluded — resort can only
+    improve feel within the same hand, and right-hand triggers dominate.
 
     Returns:
         leads: dict of output_char → preferred variant (e.g. {'h': 'magic_b', 'd': 'magic_e'})
@@ -87,6 +92,8 @@ def compute_lead_variants(magic_table):
     counts = {}  # output -> Counter({variant: count})
     for trigger, variants in magic_table.items():
         for v, val in variants.items():
+            if v not in RIGHT_HAND_VARIANTS:
+                continue
             if len(val) == 1 and val.isalpha():
                 counts.setdefault(val, Counter())[v] += 1
     leads = {ch: counter.most_common(1)[0][0] for ch, counter in counts.items()}
@@ -107,7 +114,7 @@ def load_magic_coverage(magic_table):
 MIN_FREQ_PCT = 0.01      # ignore bad bigrams below this frequency
 MAX_MAGIC_SACRIFICE_PCT = MIN_FREQ_PCT  # sacrifice bigrams below this can be covered by adding a magic entry
 MAX_RECOMMEND_FEEL = 2     # only recommend adding adaptives with feel <= this
-SACRIFICE_RATIO = 10       # sacrifice must be < effective_freq / SACRIFICE_RATIO
+MAX_RECOMMEND_FF = 1.5     # reject candidates whose follow-through is awkward (ll → lly)
 DOUBLE_NERF = 2.0          # doubles get effective_freq = actual / DOUBLE_NERF (nerfs doubles vs other adaptives)
 
 
@@ -316,6 +323,7 @@ def main():
                     bad.append((a, b, freq))
 
     bad = [(a, b, freq) for a, b, freq in bad if pct(freq) >= MIN_FREQ_PCT]
+    truly_bad = {(a, b) for a, b, _ in bad}  # is_bad_chars-only, before existing injection
 
     def effective_gain(a, b, freq):
         return freq / DOUBLE_NERF if a == b else freq
@@ -371,7 +379,9 @@ def main():
                 ((a, b) in magic_covered or (is_existing and (a, c) in magic_covered))
                 and pct(sacrifice) < MAX_MAGIC_SACRIFICE_PCT
             )
-            if not magic_free and sacrifice >= bigram_freq / SACRIFICE_RATIO and pct(sacrifice) >= MIN_FREQ_PCT:
+            # Gain must be >= 2x sacrifice — magic recovery is harder to type
+            # than the intercepted sequence, so net-positive alone isn't enough.
+            if not magic_free and sacrifice * 2 >= bigram_freq:
                 continue
             bad_following = sum(
                 1 for tg, _ in followers
@@ -379,14 +389,19 @@ def main():
             )
             # Weighted following-feel: captures awkward-but-not-bad motions (e.g. 'h→y' in 'lly').
             weight_total = sum(cnt for tg, cnt in followers if tg[2] in LAYOUT) or 1
+            # Strip combo-target penalty: tg[2] is user's intended output — they
+            # type the combo anyway, it's not follow-through awkwardness.
             following_feel = sum(
-                feel_score(c, tg[2]) * cnt for tg, cnt in followers if tg[2] in LAYOUT
+                feel_score(c, tg[2], combo_target_penalty=False) * cnt
+                for tg, cnt in followers if tg[2] in LAYOUT
             ) / weight_total
             feel = feel_score(a, c)
             same_hand = (LAYOUT[a][0] < 4) == (LAYOUT[c][0] < 4)
             candidates.append((c, sacrifice, bad_following, feel, same_hand, magic_free, following_feel))
 
-        candidates.sort(key=lambda x: (x[3], x[2], x[6], x[4], x[1]))
+        # Rank by net gain (= low sacrifice, since gain is per-bigram constant),
+        # then by feel and follow-ups as tiebreak.
+        candidates.sort(key=lambda x: (x[1], x[3], x[2], x[6], x[4]))
 
         if not candidates:
             print("  (no candidates)")
@@ -423,7 +438,7 @@ def main():
             if abs(pos_a[1] - pos_c[1]) > 1:
                 continue
             sacrifice = bigrams.get(f"{a}{c}", 0)
-            if sacrifice >= bigram_freq / SACRIFICE_RATIO:
+            if sacrifice * 2 >= bigram_freq:
                 continue
             bad_following = sum(
                 1 for tg, _ in followers
@@ -465,9 +480,9 @@ def main():
 
         # Higher effective-gain bigrams claim slots first (doubles nerfed by DOUBLE_NERF);
         # existing adaptives for lower-gain outputs naturally lose the slot via iteration order.
-        for c, _, _, feel, _, _, _ in candidates_list:
-            if feel > MAX_RECOMMEND_FEEL:
-                break
+        for c, _, _, feel, _, _, ff in candidates_list:
+            if feel > MAX_RECOMMEND_FEEL or ff > MAX_RECOMMEND_FF:
+                continue
             if (a, c) in recommended:
                 continue  # already claimed this run
             recommended[(a, c)] = b
@@ -527,11 +542,13 @@ def main():
     for a, b, bigram_freq in bad:
         if (a, b) in covered_outputs:
             continue
-        best_feel = min((cand[3] for cand in all_candidates.get((a, b), [])), default=999)
-        if best_feel > MAX_RECOMMEND_FEEL:
+        acceptable = [cand for cand in all_candidates.get((a, b), [])
+                      if cand[3] <= MAX_RECOMMEND_FEEL and cand[6] <= MAX_RECOMMEND_FF]
+        if not acceptable:
+            best_feel = min((cand[3] for cand in all_candidates.get((a, b), [])), default=999)
             magic_add[(a, b)] = f"bad bigram '{a}{b}' {pct(bigram_freq):.3f}%, best adaptive feel={best_feel}"
     for a, c, b in remove:
-        if (a, b) not in covered_outputs and (a, b) not in magic_add:
+        if (a, b) in truly_bad and (a, b) not in covered_outputs and (a, b) not in magic_add:
             magic_add[(a, b)] = f"removed adaptive '{a}+{c}→{b}'"
 
     # Recovery magic: new adaptives intercept trigger+physical → the original ac sequence
@@ -747,6 +764,8 @@ def main():
     output_variants: dict[str, set[str]] = {}
     for trigger, variants in magic_table.items():
         for v, val in variants.items():
+            if v not in RIGHT_HAND_VARIANTS:
+                continue
             if len(val) == 1 and val.isalpha() and val not in COMBO_KEYS:
                 output_variants.setdefault(val, set()).add(v)
     for letter in sorted(output_variants):
@@ -760,6 +779,11 @@ def main():
             if len(val) == 1 and val.isalpha() and val in lead_variants:
                 target_v = lead_variants[val]
                 if target_v != v:
+                    # Don't resort away from a better-feel slot (e.g. alt-hand feel=0).
+                    src_feel = slot_feel_score(trigger, v)
+                    dest_feel = slot_feel_score(trigger, target_v)
+                    if dest_feel >= src_feel:
+                        continue
                     target_val = variants.get(target_v, '')
                     # Can move if target slot is empty
                     if not target_val:

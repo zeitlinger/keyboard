@@ -56,10 +56,18 @@ def is_scissors(a, b):
     same_hand = (a[0] < 4) == (b[0] < 4)
     col_diff = abs(a[0] - b[0])
     row_diff = abs(a[1] - b[1])
-    # row_diff >= 3: skipping at least one intermediate row (e.g. top↔bottom or
-    # top↔bottom-combo). row_diff == 2 is home↔top/bottom — uncomfortable as
-    # scissors if adjacent column, counted too.
-    return same_hand and col_diff <= 1 and row_diff >= 3
+    # row_diff >= 3 always scissors. row_diff == 2 upward is scissors when
+    # reaching into the top region (b[1] < 2, e.g. cw) OR when pinky is involved
+    # (e.g. yh: ring-bottom → pinky-home, pinky stretches past ring).
+    # Plain middle/index motions like lt (bottom → home) are natural.
+    if not (same_hand and col_diff <= 1):
+        return False
+    if row_diff >= 3:
+        return True
+    if row_diff == 2 and b[1] < a[1]:
+        pinky = a[0] in (0, 7) or b[0] in (0, 7)
+        return b[1] < 2 or pinky
+    return False
 
 
 def is_combo_adjacent(a_char, b_char):
@@ -75,13 +83,16 @@ def is_combo_adjacent(a_char, b_char):
 
 
 def is_combo_preceded(a_char, b_char):
-    """Regular key followed by a combo key on the same hand."""
+    """Regular key followed by an adjacent-column combo key on the same hand —
+    the combo's fingers conflict with the preceding keypress. Distant columns
+    (e.g. pinky s → index-combo k) don't share fingers, not awkward."""
     if a_char in COMBO_KEYS or b_char not in COMBO_KEYS:
         return False
     a_pos, b_pos = LAYOUT[a_char], LAYOUT[b_char]
     if is_thumb(a_pos) or is_thumb(b_pos):
         return False
-    return (a_pos[0] < 4) == (b_pos[0] < 4)
+    same_hand = (a_pos[0] < 4) == (b_pos[0] < 4)
+    return same_hand and abs(a_pos[0] - b_pos[0]) <= 1
 
 
 def is_combo_combo(a_char, b_char):
@@ -98,7 +109,7 @@ def is_bad(a, b):
     return is_sfb(a, b) or is_scissors(a, b)
 
 
-def feel_score(a_char, b_char):
+def feel_score(a_char, b_char, combo_target_penalty=True):
     """Lower = better feel for the physical motion a_char → b_char.
 
     Row scheme: 0=top, 1=top combo, 2=home, 3=bottom combo, 4=bottom, 5=thumb.
@@ -131,12 +142,18 @@ def feel_score(a_char, b_char):
         elif col_diff == 1 and row_diff > 0:
             pinky = (a_pos[0] in (0, 7) or b_pos[0] in (0, 7))
             score = 3 if pinky else 1
+        elif col_diff >= 2 and row_diff >= 2 and b_pos[1] < a_pos[1] and b_pos[1] != 2:
+            # Upward diagonal reach same-hand (e.g. sw: pinky-home → middle-top).
+            # Downward diagonals are natural curls (sd: pinky-home → index-bottom).
+            # Reaching TO home row is also natural (oh/uh → pinky-home).
+            pinky = (a_pos[0] in (0, 7) or b_pos[0] in (0, 7))
+            score = 3 if pinky else 2
         elif inward:
             score = 0
         else:
             score = 1
 
-    if b_char in COMBO_KEYS:
+    if b_char in COMBO_KEYS and combo_target_penalty:
         score = max(score, 3)
 
     # Home row as rest position (row 2). Combo key followed by moving further up/out penalises.
