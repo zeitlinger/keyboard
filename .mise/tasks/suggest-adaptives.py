@@ -51,12 +51,17 @@ def load_existing_adaptives():
 
 
 def load_magic_table():
-    """Parse the Magic Keys table → dict of trigger -> {'magic_a': val, ..., 'magic_i': val}.
+    """Parse the Magic Keys table.
 
-    Values are the raw cell text (single char or quoted string or empty string).
-    The reserved `magic` row (cross-magic suffixes) and the header row are skipped.
+    Returns:
+        table: dict of trigger -> {'magic_a': val, ..., 'magic_i': val}
+        quoted: set of (trigger, variant) pairs that were explicitly quoted in README
+
+    Values are unquoted plain strings. The reserved `magic` row (cross-magic suffixes)
+    and the header row are skipped.
     """
     table = {}
+    quoted = set()
     in_table = False
     row_re = re.compile(r'^\|\s*(\w)\s*\|' + r'([^|]*)\|' * len(VARIANTS))
     for line in README.read_text().splitlines():
@@ -73,7 +78,11 @@ def load_magic_table():
                     v: m.group(i + 2).strip().strip('"')
                     for i, v in enumerate(VARIANTS)
                 }
-    return table
+                for i, v in enumerate(VARIANTS):
+                    raw = m.group(i + 2).strip()
+                    if raw.startswith('"') and raw.endswith('"'):
+                        quoted.add((trigger, v))
+    return table, quoted
 
 
 RIGHT_HAND_VARIANTS = tuple(v for v in VARIANTS if MAGIC_POSITIONS[v][0] >= 4)
@@ -165,7 +174,7 @@ def bad_reason_chars(a_char, b_char):
     return ""
 
 
-def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, magic_swaps=None):
+def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, quoted_magic, magic_swaps=None):
     """Apply recommended adaptive and magic key changes to README.md."""
     lead_variants, lead_counts = compute_lead_variants(magic_table)
     content = README.read_text()
@@ -220,14 +229,18 @@ def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, magic_s
         row[src_v], row[dest_v] = row[dest_v], row[src_v]
         working_magic[trigger] = row
 
-    def fmt_magic_val(val, width):
+    def fmt_magic_val(trigger, variant, val, width):
         if not val:
             return ' ' * width
-        display = f'"{val}"' if len(val) > 1 else val
+        if (trigger, variant) in quoted_magic:
+            display = f'"{val}"'
+            return display.center(width)
+        bare_word = len(val) > 1 and ' ' not in val and not val.startswith('[')
+        display = val if bare_word else (f'"{val}"' if len(val) > 1 else val)
         return display.center(width)
 
     def fmt_magic_row(trigger, variants):
-        cells = ''.join(fmt_magic_val(variants.get(v, ''), 9) + '|' for v in VARIANTS)
+        cells = ''.join(fmt_magic_val(trigger, v, variants.get(v, ''), 9) + '|' for v in VARIANTS)
         return f"|{trigger.center(7)}|{cells}\n"
 
     # Rewrite file
@@ -300,7 +313,7 @@ def main():
     args = parser.parse_args()
 
     existing, compensation = load_existing_adaptives()
-    magic_table = load_magic_table()
+    magic_table, quoted_magic = load_magic_table()
     magic_covered = load_magic_coverage(magic_table)
 
     with open(CORPUS) as f:
@@ -812,7 +825,7 @@ def main():
                 print(f"    {trigger}: {src_v}={output} ↔ {dest_v}={dest_val} (swap)")
 
     if args.apply:
-        apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, magic_swaps)
+        apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, quoted_magic, magic_swaps)
 
 
 if __name__ == '__main__':

@@ -82,30 +82,30 @@ Cell = what to emit.
 
 | Magic | magic_a | magic_b | magic_c | magic_d | magic_e | magic_f | magic_g | magic_h | magic_i |
 |:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-|  a   |         |         |    e    |         |         |         |         |         |         |
-|  b   |         |         |         | because |    d    |         |         |         |         |
-|  c   |         |         |         |    p    |    d    |         |         |   !     |    ?    |
-|  d   |         |    h    |         | doesn't |    f    |         |         |         |         |
-|  e   |         |         |    h    |         |         |         |         |         |         |
-|  f   |         |    f    |         |         |         |         |         |         |         |
-|  g   |         |    f    |         |    k    |    d    |         |         |         |         |
-|  h   |         |         |         |         |    y    |         |         |         |         |
-|  i   |         |         |         |  I've   |    '    |         |         |         |         |
-|  j   |         |         |         |  just   |         |         |         |         |         |
-|  k   |         |    h    |         |  know   |    x    |         |         |         |         |
-|  l   |         |    h    |         |    r    |    c    |         |         |         |         |
-|  m   |         |    h    |         |  ment   |    l    |         |         |         |         |
-|  n   |    r    |    h    |         |  "qu"   |    x    |         |         |   '     |    "    |
-|  o   |         |         |    h    |         |         |         |         |         |         |
-|  p   |         |    m    |         |    n    |    d    |         |         |         |         |
-|  r   |         |         |         |    k    |         |         |         |         |         |
-|  s   |         |    r    |         |  sion   |    d    |         |         |         |         |
-|  t   |         |         |         |  tion   |    x    |         |         |   ,     |    .    |
-|  u   |         |         |    h    |         |         |         |         |         |         |
-|  v   |         |         |         |         |         |         |         |         |         |
-|  w   |         |         |         |    s    |    x    |         |         |         |         |
-|  x   |         |    w    |         |    r    |    d    |         |         |         |         |
-|  y   |         |         |    x    |         |         |         |         |         |         |
+|   a   |         |         |    e    |         |         |         |         |         |         |
+|   b   |         |         |         | because |    d    |         |         |         |         |
+|   c   |    n    |         |         |    p    |    d    |         |         |    !    |    ?    |
+|   d   |    c    |    h    |         | doesn't |    f    |         |         |         |         |
+|   e   |         |         |    h    |         |    u    |         |         |         |         |
+|   f   |         |         |         |         |    d    |         |         |         |         |
+|   g   |         |    f    |         |    k    |    d    |         |         |         |         |
+|   h   |         |         |         |         |    y    |         |         |         |         |
+|   i   |         |         |         |   I've  |    '    |         |         |         |         |
+|   j   |         |         |         |   just  |         |         |         |         |         |
+|   k   |    r    |         |         |   know  |    x    |         |         |         |         |
+|   l   |    m    |    h    |         |    r    |    c    |         |         |         |         |
+|   m   |    r    |    h    |         |   ment  |    l    |    t    |         |         |         |
+|   n   |    r    |    h    |         |   "qu"  |    x    |    k    |         |    '    |         |
+|   o   |         |         |    h    |         |         |         |    e    |         |         |
+|   p   |    y    |    m    |         |    n    |    d    |         |         |         |         |
+|   r   |         |         |         |    k    |         |         |         |         |         |
+|   s   |         |    r    |         |   sion  |    d    |         |         |         |         |
+|   t   |    n    |    f    |         |   tion  |    x    |         |         |    ,    |    .    |
+|   u   |         |         |    h    |         |         |         |         |         |         |
+|   v   |         |         |         |         |         |         |         |         |         |
+|   w   |         |         |         |    s    |    x    |         |         |         |         |
+|   x   |         |    w    |         |    r    |    d    |         |         |         |         |
+|   y   |         |         |    r    |         |         |         |         |         |         |
 | spc  |         |[dotSpc] |         |   the   |         |         |         |         |         |
 | tab  |         |   and   |         |   the   |         |         |         |         |         |
 | ↩️️  |         |   and   |         |   the   |         |         |         |         |         |
@@ -123,30 +123,39 @@ Cell = what to emit.
 |     a     |  e  |   u    |
 |     b     |  d  |   s    |
 |     c     |  d  |   k    |
-|     d     |  f  |   v    |
-|     d     |  h  |   g    |
-|     e     |  h  |   o    |
+|     c     |  n  |   c    |
+|     d     |  c  |   v    |
+|     d     |  f  |   g    |
+|     d     |  h  |   d    |
+|     e     |  h  |   e    |
+|     e     |  u  |   o    |
+|     f     |  d  |   f    |
 |     g     |  d  |   n    |
 |     g     |  f  |   l    |
-|     k     |  h  |   n    |
-|     l     |  c  |   m    |
-|     l     |  h  |   v    |
-|     l     |  r  |   p    |
-|     m     |  h  |   b    |
-|     n     |  h  |   g    |
-|     n     |  r  |   k    |
+|     k     |  r  |   n    |
+|     l     |  c  |   v    |
+|     l     |  h  |   p    |
+|     l     |  r  |   l    |
+|     m     |  h  |   m    |
+|     m     |  r  |   p    |
+|     m     |  t  |   b    |
+|     n     |  h  |   n    |
+|     n     |  r  |   g    |
 |     n     |  x  |   l    |
-|     o     |  h  |   e    |
+|     o     |  h  |   o    |
 |     p     |  d  |   l    |
-|     p     |  n  |   s    |
+|     p     |  n  |   p    |
+|     p     |  y  |   s    |
 |     s     |  d  |   p    |
-|     s     |  r  |   k    |
-|     t     |  x  |   m    |
+|     s     |  r  |   s    |
+|     t     |  f  |   m    |
+|     t     |  n  |   t    |
+|     t     |  x  |   w    |
 |     u     |  h  |   a    |
 |     w     |  x  |   n    |
 |     x     |  d  |   c    |
 |     x     |  w  |   p    |
-|     y     |  x  |   i    |
+|     y     |  r  |   i    |
 
 ## Layout
 
