@@ -22,6 +22,10 @@
 - tested with [Ferris Sweep](https://keebmaker.com/products/ferris-sweep) keyboard
 - To extract local source-word candidates for magic migration:
   `mise run extract-source-words -- ~/source --output source_words.tsv --limit 500 --min-count 3`
+- To extract authored GitHub/chat-style words for magic migration:
+  `mise run extract-github-words -- --output github_words.tsv --limit 500 --min-count 3`
+- To extract local Codex/chat-export words for magic migration:
+  `mise run extract-local-chat-words -- --output local_chat_words.tsv --limit 500 --min-count 3`
 - To rank those candidates into free magic slots:
   `mise run find-available-chords -- --candidates-file source_words.tsv --limit 50`
 
@@ -110,11 +114,11 @@ Cell = what to emit.
 |   w   |         |         |         |    s    |    x    |         |         |         |         |
 |   x   |         |    w    |         |    r    |    d    |         |         |         |         |
 |   y   |         |         |    r    |         |         |         |         |         |         |
-| spc  |         |[dotSpc] |         |   the   |         |         |         |         |         |
-| tab  |         |   and   |         |   the   |         |         |         |         |         |
-| ↩️️  |         |   and   |         |   the   |         |         |         |         |         |
+| spc  |         |          |         |         |         |         | and     |  the    | [dotSpc]|
+| tab  |         |          |         |         |         |         | and     |  the    |         |
+| ↩️️  |         |           |         |         |         |         |  and    |  the    |         |
 |  ~   |         |         |         |         |    /    |         |         |         |         |
-|  ,   |         | " and " |         | " but " |         |         |         |         |         |
+|  ,   |         |         |         |         |         |         | " and " | " but " |         |
 |  .   |         |         |         |  "./"   |    /    |         |         |         |         |
 |  -   |         |         |         |         |    >    |         |         |         |         |
 |  =   |         |         |         |         |    >    |         |         |         |         |
