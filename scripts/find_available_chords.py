@@ -30,7 +30,8 @@ from feel import (
 DEFAULT_OLD_CHORD_REF = "21f2800^"
 LETTER_ROWS = [chr(code) for code in range(ord("a"), ord("z") + 1)]
 NON_LETTER_ROWS = ["spc", "tab", "↩️️", "~", ",", ".", "-", "=", "!"]
-README = Path(__file__).parent / "README.md"
+ROOT = Path(__file__).parent.parent
+README = ROOT / "README.md"
 
 # Approximate physical positions for keys that can precede a magic press.
 PRECEDING_POSITIONS = {

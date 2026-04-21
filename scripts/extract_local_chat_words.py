@@ -14,11 +14,12 @@ import re
 from collections import Counter
 from pathlib import Path
 
-from extract_source_words import current_magic_words
+from scripts.extract_source_words import current_magic_words
 
 
-README = Path(__file__).parent / "README.md"
-DEFAULT_OUTPUT = Path(__file__).parent / "local_chat_words.tsv"
+ROOT = Path(__file__).parent.parent
+README = ROOT / "README.md"
+DEFAULT_OUTPUT = ROOT / "local_chat_words.tsv"
 DEFAULT_ROOT_CANDIDATES = [Path.home() / ".codex" / "history.jsonl"]
 WORD_RE = re.compile(r"[a-z]+(?:'[a-z]+)*")
 CODE_FENCE_RE = re.compile(r"```.*?```", re.DOTALL)

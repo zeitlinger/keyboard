@@ -77,16 +77,16 @@ mise run find-available-chords -- --candidates-file merged_words.tsv --source-we
 
 ## Notes
 
-- Prefer `mise run ...` for these helper workflows. The root `.py` files are the implementation; the `mise` tasks are the intended entrypoints.
+- Prefer `mise run ...` for these helper workflows. The implementations live under `scripts/`; the `mise` tasks are the intended entrypoints.
 
-- `extract_source_words.py` now writes TSV as:
+- `scripts/extract_source_words.py` now writes TSV as:
 
 ```text
 # count  freq        source   word
 123      0.00123456  source   opentelemetry
 ```
 
-- `find_available_chords.py` still accepts the older three-column format, but the
+- `scripts/find_available_chords.py` still accepts the older three-column format, but the
   four-column format is preferred for consolidation.
 
 ## Current Recommendation

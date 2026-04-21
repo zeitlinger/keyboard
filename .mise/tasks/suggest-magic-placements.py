@@ -7,7 +7,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parents[2]))
 
-from suggest_magic_placements import main  # noqa: E402
+from scripts.suggest_magic_placements import main  # noqa: E402
 
 
 if __name__ == "__main__":

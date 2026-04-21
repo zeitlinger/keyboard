@@ -7,7 +7,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parents[2]))
 
-from extract_local_chat_words import main  # noqa: E402
+from scripts.extract_local_chat_words import main  # noqa: E402
 
 
 if __name__ == "__main__":

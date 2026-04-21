@@ -3,7 +3,10 @@
 # requires-python = ">=3.11"
 # ///
 
-"""Implementation for `mise run merge-word-lists`."""
+"""Implementation for `mise run merge-word-lists`.
+
+This module lives under `scripts/`; use the `mise` task as the public entrypoint.
+"""
 
 from __future__ import annotations
 

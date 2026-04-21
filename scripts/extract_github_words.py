@@ -19,11 +19,12 @@ from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 
-from extract_source_words import current_magic_words
+from scripts.extract_source_words import current_magic_words
 
 
-README = Path(__file__).parent / "README.md"
-DEFAULT_OUTPUT = Path(__file__).parent / "github_words.tsv"
+ROOT = Path(__file__).parent.parent
+README = ROOT / "README.md"
+DEFAULT_OUTPUT = ROOT / "github_words.tsv"
 WORD_RE = re.compile(r"[a-z]+(?:'[a-z]+)*")
 STOP_WORDS = {
     "a", "an", "and", "as", "at", "be", "by", "for", "from", "in", "into", "is", "it", "of",

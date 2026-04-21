@@ -32,7 +32,7 @@
   `mise run find-available-chords -- --candidates-file source_words.tsv --limit 50`
 - To review explicit placement ideas against current table occupancy:
   `mise run suggest-magic-placements -- --prefer-row 'thank you=t' --prefer-row 'gregor=z' 'thank you' gregor`
-- Prefer `mise run ...` for these helper workflows; the root `.py` files are the implementation, not the primary interface.
+- Prefer `mise run ...` for these helper workflows; the implementations live under `scripts/`, not at repo root.
 
 ### Home Row Mods
 

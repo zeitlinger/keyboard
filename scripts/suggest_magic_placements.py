@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from feel import load_adaptives
-from find_available_chords import (
+from scripts.find_available_chords import (
     LETTER_ROWS,
     NON_LETTER_ROWS,
     README,

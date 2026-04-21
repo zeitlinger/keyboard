@@ -14,9 +14,10 @@ from collections import Counter
 from pathlib import Path
 
 
-README = Path(__file__).parent / "README.md"
+ROOT = Path(__file__).parent.parent
+README = ROOT / "README.md"
 DEFAULT_ROOT = Path.home() / "source"
-DEFAULT_OUTPUT = Path(__file__).parent / "source_words.tsv"
+DEFAULT_OUTPUT = ROOT / "source_words.tsv"
 DEFAULT_EXTENSIONS = {
     "bash", "c", "cc", "conf", "cpp", "cs", "go", "gradle", "groovy",
     "h", "hh", "hpp", "java", "js", "json", "jsx", "kts", "kt",

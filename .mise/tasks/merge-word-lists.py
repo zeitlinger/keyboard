@@ -7,7 +7,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parents[2]))
 
-from merge_word_lists import main  # noqa: E402
+from scripts.merge_word_lists import main  # noqa: E402
 
 
 if __name__ == "__main__":
