@@ -26,8 +26,13 @@
   `mise run extract-github-words -- --output github_words.tsv --limit 500 --min-count 3`
 - To extract local Codex/chat-export words for magic migration:
   `mise run extract-local-chat-words -- --output local_chat_words.tsv --limit 500 --min-count 3`
+- To merge candidate lists before ranking:
+  `mise run merge-word-lists -- general_words.tsv source_words.tsv --output merged_words.tsv`
 - To rank those candidates into free magic slots:
   `mise run find-available-chords -- --candidates-file source_words.tsv --limit 50`
+- To review explicit placement ideas against current table occupancy:
+  `mise run suggest-magic-placements -- --prefer-row 'thank you=t' --prefer-row 'gregor=z' 'thank you' gregor`
+- Prefer `mise run ...` for these helper workflows; the root `.py` files are the implementation, not the primary interface.
 
 ### Home Row Mods
 
