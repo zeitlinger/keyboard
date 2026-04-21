@@ -120,7 +120,7 @@ def output_frequency(output: str) -> float:
     words = re.findall(r"[a-z']+", output.lower())
     if not words:
         return 1e-9
-    return max(word_frequency(word, "en") for word in words)
+    return max(max(word_frequency(word, "en"), 1e-9) for word in words)
 
 
 def assignment_value(
@@ -204,8 +204,17 @@ def parse_magic_table(readme: Path) -> tuple[list[str], dict[str, tuple[int, lis
 
 
 def format_magic_row(row_name: str, cells: list[str]) -> str:
-    padded = [f"{row_name:^5}"] + [f"{cell:^9}" if cell else " " * 9 for cell in cells]
-    return "| " + " | ".join(padded) + " |"
+    def fmt_row_label(label: str) -> str:
+        return f" {label:^5} "
+
+    def fmt_cell(cell: str) -> str:
+        if not cell:
+            return " " * 9
+        if len(cell) <= 7:
+            return f" {cell:^7} "
+        return f" {cell} "
+
+    return "|" + "|".join([fmt_row_label(row_name)] + [fmt_cell(cell) for cell in cells]) + "|"
 
 
 def literal_cell(output: str) -> str:
