@@ -20,6 +20,10 @@
   from this file. => link to [Generator](#generator)
 - The generated keyboard can be found in the qmk directory.
 - tested with [Ferris Sweep](https://keebmaker.com/products/ferris-sweep) keyboard
+- To extract local source-word candidates for magic migration:
+  `mise run extract-source-words -- ~/source --output source_words.tsv --limit 500 --min-count 3`
+- To rank those candidates into free magic slots:
+  `mise run find-available-chords -- --candidates-file source_words.tsv --limit 50`
 
 ### Home Row Mods
 

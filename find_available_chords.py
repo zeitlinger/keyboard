@@ -50,6 +50,7 @@ class ChordEntry:
     chord: str
     output: str
     status: str
+    frequency_override: float | None = None
 
 
 @dataclass(frozen=True)
@@ -82,6 +83,11 @@ def parse_args() -> argparse.Namespace:
         "--old-chords-file",
         type=Path,
         help="Optional file containing the old chord table or raw README excerpt.",
+    )
+    parser.add_argument(
+        "--candidates-file",
+        type=Path,
+        help="Optional TSV/text file of corpus candidates (count/freq/word) to rank instead of old chords.",
     )
     parser.add_argument(
         "--old-chord-ref",
@@ -123,21 +129,27 @@ def output_frequency(output: str) -> float:
     return max(max(word_frequency(word, "en"), 1e-9) for word in words)
 
 
+def candidate_frequency(entry: ChordEntry) -> float:
+    return entry.frequency_override if entry.frequency_override is not None else output_frequency(entry.output)
+
+
 def assignment_value(
-    output: str,
+    entry: ChordEntry,
     slot: MagicSlot,
     adaptives: dict[tuple[str, str], str],
 ) -> tuple[float, float, float, int]:
-    saved = len(output) - 2
+    saved = len(entry.output) - 2
     if saved < 1:
         return 0.0, 0.0, 0.0, saved
-    freq = output_frequency(output)
-    difficulty = output_difficulty(output, adaptives)
+    freq = candidate_frequency(entry)
+    difficulty = output_difficulty(entry.output, adaptives)
     value = saved ** 2 * freq * difficulty / (slot.feel + 1)
     return value, freq, difficulty, saved
 
 
 def load_old_chords(args: argparse.Namespace) -> list[ChordEntry]:
+    if args.candidates_file:
+        return parse_candidates_file(args.candidates_file)
     if args.old_chords_file:
         text = args.old_chords_file.read_text()
     else:
@@ -172,6 +184,38 @@ def parse_chord_table(text: str) -> list[ChordEntry]:
                     status=match.group(3) or "",
                 )
             )
+    return rows
+
+
+def parse_candidates_file(path: Path) -> list[ChordEntry]:
+    rows: list[ChordEntry] = []
+    for raw_line in path.read_text().splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+
+        parts = line.split("\t")
+        if len(parts) >= 3:
+            count_text, freq_text, output = parts[0], parts[1], "\t".join(parts[2:])
+            try:
+                frequency = float(freq_text)
+            except ValueError:
+                continue
+        else:
+            match = re.match(r"(\d+)\s+([0-9.]+)\s+(.+)", line)
+            if not match:
+                continue
+            count_text, freq_text, output = match.group(1), match.group(2), match.group(3)
+            frequency = float(freq_text)
+
+        rows.append(
+            ChordEntry(
+                chord=f"src:{count_text}",
+                output=output.strip(),
+                status="",
+                frequency_override=frequency,
+            )
+        )
     return rows
 
 
@@ -276,7 +320,7 @@ def greedy_assign(
     candidates: list[Assignment] = []
     for entry in old_chords:
         for slot in candidate_slots(entry.output, header, rows, letters_only=letters_only):
-            value, freq, difficulty, saved = assignment_value(entry.output, slot, adaptives)
+            value, freq, difficulty, saved = assignment_value(entry, slot, adaptives)
             if value <= 0:
                 continue
             candidates.append(
