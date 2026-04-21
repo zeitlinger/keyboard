@@ -4,48 +4,41 @@
 # dependencies = ["rich", "wordfreq"]
 # ///
 
+from __future__ import annotations
+
 import json
 import random
 import re
 import sys
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
 from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
-from wordfreq import word_frequency
-from feel import feel_score, LAYOUT, load_adaptives, actual_keystrokes
+
+from feel import load_adaptives
+from scripts.find_available_chords import (
+    README,
+    load_adaptive_blocks,
+    magic_feel_score,
+    magic_rows_map,
+    output_difficulty,
+    output_frequency,
+    parse_magic_table,
+)
 
 
-def chord_feel(chord: str) -> int:
-    """Feel score for pressing the chord keys (lower = easier)."""
-    keys = [c for c in chord if c in LAYOUT]
-    if len(keys) < 2:
-        return 0
-    return feel_score(keys[0], keys[1])
+@dataclass(frozen=True)
+class MagicEntry:
+    output: str
+    triggers: tuple[str, ...]
+    best_trigger: str
+    value: float
 
 
-def output_difficulty(output: str, adaptives: dict) -> float:
-    """Average bigram feel of actually typing the output (after applying adaptives). Higher = harder."""
-    keys = [c for c in actual_keystrokes(output.lower(), adaptives) if c in LAYOUT]
-    if len(keys) < 2:
-        return 1.0
-    scores = [min(feel_score(a, b), 5) for a, b in zip(keys, keys[1:])]
-    return sum(scores) / len(scores)
-
-
-def chord_value(chord: str, output: str, adaptives: dict) -> float:
-    """Higher = more worth learning. Saved keystrokes × frequency × output difficulty, penalised by chord feel."""
-    freq = max(word_frequency(w, "en") for w in output.split())
-    saved = len(output) - len(chord)
-    if saved < 3:
-        return 0.0
-    return saved**2 * freq * output_difficulty(output, adaptives) / (chord_feel(chord) + 1)
-
-
-STATS_FILE = Path(__file__).parent / "chord_stats.json"
-README = Path(__file__).parent / "README.md"
+STATS_FILE = Path(__file__).parent / "magic_stats.json"
 
 ACTIVE_SET_SIZE = 5
 GRADUATION_STREAK = 3
@@ -53,7 +46,7 @@ REVIEW_PROBABILITY = 0.1
 STALE_DAYS = 7
 
 console = Console()
-tty = open("/dev/tty")
+_tty = None
 
 
 def clear_screen() -> None:
@@ -61,7 +54,10 @@ def clear_screen() -> None:
 
 
 def tty_input() -> str:
-    line = tty.readline()
+    global _tty
+    if _tty is None:
+        _tty = open("/dev/tty")
+    line = _tty.readline()
     if not line:
         raise EOFError
     return line.rstrip("\n")
@@ -75,75 +71,96 @@ def days_since(iso: str) -> float:
     return (datetime.now(timezone.utc) - datetime.fromisoformat(iso)).total_seconds() / 86400
 
 
-# ── README I/O ────────────────────────────────────────────────────────────────
-
-def parse_chord_table() -> list[tuple[int, str, str, str]]:
-    """Return list of (line_idx, chord, output, status) for all chord rows."""
-    rows = []
-    in_table = False
-    for i, line in enumerate(README.read_text().splitlines()):
-        if "## Chord Table" in line:
-            in_table = True
-            continue
-        if in_table and line.startswith("##"):
-            break
-        if not in_table:
-            continue
-        m = re.match(r"\|\s*([a-z,./]+)\s*\|\s*\"([^\"]+)\"\s*\|\s*(yes|plan|done)?\s*\|", line)
-        if m:
-            rows.append((i, m.group(1).strip(), m.group(2).strip(), m.group(3) or ""))
-    return rows
+def canonical_trigger(row: str, column: str) -> str:
+    return f"{row}+{column.removeprefix('magic_')}"
 
 
-def set_chord_status_in_readme(chord: str, status: str) -> None:
-    lines = README.read_text().splitlines(keepends=True)
-    in_table = False
-    for i, line in enumerate(lines):
-        if "## Chord Table" in line:
-            in_table = True
-            continue
-        if in_table and line.startswith("##"):
-            break
-        if not in_table:
-            continue
-        m = re.match(r"(\|\s*" + re.escape(chord) + r"\s*\|\s*\"[^\"]+\"\s*\|\s*)(yes|plan|done)?(\s*\|)", line)
-        if m:
-            lines[i] = m.group(1) + status + m.group(3) + "\n"
-            break
-    README.write_text("".join(lines))
-
-
-
-
-def add_next_plan_chord(chords: dict[str, str], all_chords: list[str]) -> tuple[str, str] | None:
-    """Pick the most common unplanned chord, mark it plan in README, return (chord, output)."""
-    rows = parse_chord_table()
-    adaptives = load_adaptives(README)
-    unplanned = [(chord_value(chord, output, adaptives), chord, output) for _, chord, output, status in rows if not status]
-    if not unplanned:
+def normalize_output(cell: str) -> str | None:
+    text = cell.strip()
+    if not text or text.startswith("["):
         return None
-    unplanned.sort(reverse=True)
-    _, chord, output = unplanned[0]
-    set_chord_status_in_readme(chord, "plan")
-    chords[chord] = output
-    all_chords.append(chord)
-    return chord, output
+    if text.startswith('"') and text.endswith('"'):
+        text = text[1:-1]
+    text = text.strip()
+    if len(text) <= 1:
+        return None
+    if not re.search(r"[A-Za-z]", text):
+        return None
+    return text
 
 
-def promote_chord(chord: str, chords: dict[str, str], all_chords: list[str], active: list[str]) -> None:
-    """Promote a mastered chord to done in README, then add the next plan chord."""
-    set_chord_status_in_readme(chord, "done")
-    result = add_next_plan_chord(chords, all_chords)
-    if result:
-        new_chord, new_output = result
-        console.print(f"  [dim]→ Added: {new_output} ({new_chord})[/]")
+def trigger_aliases(trigger: str) -> set[str]:
+    row, column = trigger.split("+", 1)
+    letter = column.strip()
+    aliases = {
+        trigger.lower(),
+        f"{row}{letter}".lower(),
+        f"{row} {letter}".lower(),
+        f"{row}+{letter}".lower(),
+        f"{row} + {letter}".lower(),
+        f"{row}+magic_{letter}".lower(),
+        f"{row} magic_{letter}".lower(),
+    }
+    return aliases
 
 
-# ── Stats ─────────────────────────────────────────────────────────────────────
+def normalize_answer(answer: str) -> str:
+    text = answer.strip().lower()
+    if not text:
+        return text
+    text = text.replace("magic_", "")
+    text = re.sub(r"\s+", "", text)
+    if "+" not in text:
+        if text.startswith("spc") and len(text) > 3:
+            text = f"spc+{text[3:]}"
+        elif text.startswith("tab") and len(text) > 3:
+            text = f"tab+{text[3:]}"
+        elif text.startswith("↩️️") and len(text) > 1:
+            text = f"↩️️+{text[1:]}"
+        elif len(text) >= 2:
+            text = f"{text[:-1]}+{text[-1]}"
+    return text
 
-def load_chords() -> dict[str, str]:
-    rows = parse_chord_table()
-    return {chord: output for _, chord, output, status in rows if status in ("yes", "plan", "done")}
+
+def parse_magic_entries() -> list[MagicEntry]:
+    header, rows, _ = parse_magic_table(README)
+    adaptives = load_adaptives(README)
+    blocked_pairs = load_adaptive_blocks(README)
+    magic_rows = magic_rows_map(header, rows)
+
+    grouped: dict[str, list[tuple[str, float]]] = {}
+    for row_name, (_, cells) in rows.items():
+        for index, raw_cell in enumerate(cells):
+            output = normalize_output(raw_cell)
+            if output is None:
+                continue
+            column = header[index]
+            trigger = canonical_trigger(row_name, column)
+            starts_with_row = len(row_name) == 1 and output.lower().startswith(row_name)
+            difficulty = output_difficulty(output, adaptives, blocked_pairs, magic_rows)
+            saved = max(1, len(output) - 2)
+            frequency = output_frequency(output)
+            feel = magic_feel_score(row_name, column, starts_with_row)
+            value = saved ** 2 * frequency * difficulty / (feel + 1)
+            grouped.setdefault(output, []).append((trigger, value))
+
+    entries: list[MagicEntry] = []
+    for output, trigger_rows in grouped.items():
+        ranked = sorted(trigger_rows, key=lambda item: item[1], reverse=True)
+        entries.append(
+            MagicEntry(
+                output=output,
+                triggers=tuple(trigger for trigger, _ in ranked),
+                best_trigger=ranked[0][0],
+                value=ranked[0][1],
+            )
+        )
+    entries.sort(key=lambda entry: entry.value, reverse=True)
+    return entries
+
+
+def load_entries() -> dict[str, MagicEntry]:
+    return {entry.output: entry for entry in parse_magic_entries()}
 
 
 def load_stats() -> dict:
@@ -165,8 +182,8 @@ def is_stale(entry: dict) -> bool:
     return last is None or days_since(last) >= STALE_DAYS
 
 
-def record_answer(stats: dict, chord: str, correct: bool) -> dict:
-    entry = stats.setdefault(chord, {"correct": 0, "total": 0, "streak": 0})
+def record_answer(stats: dict, output: str, correct: bool) -> dict:
+    entry = stats.setdefault(output, {"correct": 0, "total": 0, "streak": 0})
     entry["total"] += 1
     entry["last_seen"] = now_iso()
     if correct:
@@ -177,134 +194,139 @@ def record_answer(stats: dict, chord: str, correct: bool) -> dict:
     return entry
 
 
-# ── Active set ────────────────────────────────────────────────────────────────
-
-def update_active_set(active: list[str], stats: dict, all_chords: list[str]) -> None:
-    for chord in [c for c in active if is_mastered(stats.get(c, {}))]:
-        active.remove(chord)
-    unseen = [c for c in all_chords if c not in active and not is_mastered(stats.get(c, {}))]
+def update_active_set(active: list[str], stats: dict, all_outputs: list[str]) -> None:
+    for output in [item for item in active if is_mastered(stats.get(item, {}))]:
+        active.remove(output)
+    unseen = [item for item in all_outputs if item not in active and not is_mastered(stats.get(item, {}))]
     while len(active) < ACTIVE_SET_SIZE and unseen:
         active.append(unseen.pop(0))
 
 
-def pick_chord(active: list[str], stats: dict, all_chords: list[str], last: str | None) -> str:
-    mastered = [c for c in all_chords if is_mastered(stats.get(c, {}))]
-    stale = [c for c in mastered if is_stale(stats.get(c, {}))]
+def pick_output(active: list[str], stats: dict, all_outputs: list[str], last: str | None) -> str:
+    mastered = [item for item in all_outputs if is_mastered(stats.get(item, {}))]
+    stale = [item for item in mastered if is_stale(stats.get(item, {}))]
 
     pool = list(dict.fromkeys(active + stale))
     if not stale and mastered and random.random() < REVIEW_PROBABILITY:
         pool = mastered
     if not pool:
-        pool = mastered or all_chords
+        pool = mastered or all_outputs
 
-    candidates = [c for c in pool if c != last] or pool
+    candidates = [item for item in pool if item != last] or pool
 
     weights = []
-    for k in candidates:
-        s = stats.get(k, {})
-        if is_mastered(s) and is_stale(s):
-            last_seen = s.get("last_seen")
+    for item in candidates:
+        stat = stats.get(item, {})
+        if is_mastered(stat) and is_stale(stat):
+            last_seen = stat.get("last_seen")
             age = days_since(last_seen) if last_seen else STALE_DAYS * 10
-            w = min(age / STALE_DAYS, 3.0)
+            weight = min(age / STALE_DAYS, 3.0)
         else:
-            total = s.get("total", 0)
-            correct = s.get("correct", 0)
+            total = stat.get("total", 0)
+            correct = stat.get("correct", 0)
             accuracy = correct / total if total else 0.0
-            w = max(0.1, 1.0 - accuracy)
-        weights.append(w)
+            weight = max(0.1, 1.0 - accuracy)
+        weights.append(weight)
 
     return random.choices(candidates, weights=weights, k=1)[0]
 
 
-# ── Display ───────────────────────────────────────────────────────────────────
-
-def header_panel(active: list[str], stats: dict, all_chords: list[str]) -> Panel:
-    chord_stats = [v for v in stats.values() if isinstance(v, dict)]
-    mastered = [c for c in all_chords if is_mastered(stats.get(c, {}))]
-    stale_count = sum(1 for c in mastered if is_stale(stats.get(c, {})))
-    total_attempts = sum(v.get("total", 0) for v in chord_stats)
-    total_correct = sum(v.get("correct", 0) for v in chord_stats)
-    acc = f"{total_correct/total_attempts:.0%}" if total_attempts else "—"
+def header_panel(active: list[str], stats: dict, all_outputs: list[str]) -> Panel:
+    all_stats = [value for value in stats.values() if isinstance(value, dict)]
+    mastered = [item for item in all_outputs if is_mastered(stats.get(item, {}))]
+    stale_count = sum(1 for item in mastered if is_stale(stats.get(item, {})))
+    total_attempts = sum(value.get("total", 0) for value in all_stats)
+    total_correct = sum(value.get("correct", 0) for value in all_stats)
+    accuracy = f"{total_correct / total_attempts:.0%}" if total_attempts else "—"
 
     text = Text()
-    text.append(f"Mastered: {len(mastered)}/{len(all_chords)}", style="bold cyan")
+    text.append(f"Mastered: {len(mastered)}/{len(all_outputs)}", style="bold cyan")
     text.append(f"   Active: {len(active)}", style="dim")
     if stale_count:
         text.append(f"   Refresh: {stale_count}", style="bold yellow")
-    text.append(f"   Acc: {acc}", style="dim")
-    return Panel(text, title="[bold blue]Chord Trainer[/]", expand=False)
+    text.append(f"   Acc: {accuracy}", style="dim")
+    return Panel(text, title="[bold blue]Magic Trainer[/]", expand=False)
 
 
-def show_chord_prompt(chords: dict, chord: str, stats: dict, panel) -> None:
-    s = stats.get(chord, {})
-    total = s.get("total", 0)
-    correct = s.get("correct", 0)
-    chord_streak = s.get("streak", 0)
+def show_prompt(entries: dict[str, MagicEntry], output: str, stats: dict, panel: Panel) -> None:
+    stat = stats.get(output, {})
+    total = stat.get("total", 0)
+    correct = stat.get("correct", 0)
+    streak = stat.get("streak", 0)
+    entry = entries[output]
 
     clear_screen()
     console.print(panel)
 
-    if is_mastered(s):
-        if is_stale(s):
-            last = s.get("last_seen")
+    if is_mastered(stat):
+        if is_stale(stat):
+            last = stat.get("last_seen")
             age = f"{days_since(last):.0f}d ago" if last else "never"
-            chord_info = f"  [bold yellow]refresh ({age})[/]"
+            info = f"  [bold yellow]refresh ({age})[/]"
         else:
-            chord_info = f"  [dim]review ({correct}/{total})[/]"
+            info = f"  [dim]review ({correct}/{total})[/]"
     elif total:
-        pips = "●" * chord_streak + "○" * (GRADUATION_STREAK - chord_streak)
-        chord_info = f"  [dim]{pips} {correct}/{total}[/]"
+        pips = "●" * streak + "○" * (GRADUATION_STREAK - streak)
+        info = f"  [dim]{pips} {correct}/{total}[/]"
     else:
-        chord_info = "  [dim]new[/]"
+        info = "  [dim]new[/]"
 
-    console.print(f"  Type:  [bold white]{chords[chord]}[/]{chord_info}")
+    console.print(f"  Type trigger for: [bold white]{output}[/]{info}")
+    if len(entry.triggers) > 1:
+        console.print(f"  [dim]Accepts any of: {', '.join(entry.triggers)}[/]")
     console.print()
     console.print("  [blue]>[/] ", end="")
 
 
-# ── Main loop ─────────────────────────────────────────────────────────────────
-
 def run() -> None:
-    chords = load_chords()
-    if not chords:
-        console.print("[bold yellow]No chords found in README.md[/]")
+    entries = load_entries()
+    if not entries:
+        console.print("[bold yellow]No multi-character magic entries found in README.md[/]")
         sys.exit(1)
 
     stats = load_stats()
-    all_chords = list(chords)
+    all_outputs = list(entries)
 
     active: list[str] = stats.get("_active", [])
-    active = [c for c in active if c in chords]
-    unmastered_new = [c for c in all_chords if c not in active and not is_mastered(stats.get(c, {}))]
+    active = [item for item in active if item in entries]
+    unmastered_new = [item for item in all_outputs if item not in active and not is_mastered(stats.get(item, {}))]
     while len(active) < ACTIVE_SET_SIZE and unmastered_new:
         active.append(unmastered_new.pop(0))
 
-    last_chord: str | None = None
+    last_output: str | None = None
     try:
         while True:
-            update_active_set(active, stats, all_chords)
-            mastered_chords = [c for c in all_chords if is_mastered(stats.get(c, {}))]
-            if not active and not mastered_chords:
-                console.print("\n[bold cyan]All chords mastered![/]")
+            update_active_set(active, stats, all_outputs)
+            mastered = [item for item in all_outputs if is_mastered(stats.get(item, {}))]
+            if not active and not mastered:
+                console.print("\n[bold cyan]All magic entries mastered![/]")
                 break
 
-            chord = pick_chord(active, stats, all_chords, last_chord)
-            last_chord = chord
-
-            show_chord_prompt(chords, chord, stats, header_panel(active, stats, all_chords))
+            output = pick_output(active, stats, all_outputs, last_output)
+            last_output = output
+            show_prompt(entries, output, stats, header_panel(active, stats, all_outputs))
             answer = tty_input().strip()
             if answer == "q":
                 break
 
-            entry = record_answer(stats, chord, answer == chords[chord])
-            if answer == chords[chord]:
+            normalized = normalize_answer(answer)
+            accepted = {
+                alias
+                for trigger in entries[output].triggers
+                for alias in trigger_aliases(trigger)
+            }
+            correct = normalized in accepted
+            entry = record_answer(stats, output, correct)
+            if correct:
                 if entry["streak"] == GRADUATION_STREAK:
-                    console.print(f"  [bold cyan]✓ Mastered! ({chord} → {chords[chord]})[/]")
-                    promote_chord(chord, chords, all_chords, active)
+                    console.print(f"  [bold cyan]✓ Mastered! ({output} → {entries[output].best_trigger})[/]")
                 else:
                     console.print("  [bold white]✓ Correct![/]")
             else:
-                console.print(f"  [bold yellow]✗  '{chords[chord]}' needs chord: {chord}  (you typed: {answer or '?'})[/]")
+                console.print(
+                    f"  [bold yellow]✗  expected one of: {', '.join(entries[output].triggers)}  "
+                    f"(you typed: {answer or '?'})[/]"
+                )
                 console.print()
                 console.print("  [dim]press enter to continue[/] ", end="")
                 tty_input()

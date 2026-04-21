@@ -334,7 +334,11 @@ def parse_candidates_file(path: Path) -> list[ChordEntry]:
 
 
 def magic_table_bounds(lines: list[str]) -> tuple[int, int]:
-    start = next(i for i, line in enumerate(lines) if line.startswith("| Magic |"))
+    start = next(
+        i
+        for i, line in enumerate(lines)
+        if line.startswith("|") and split_table_line(line) and split_table_line(line)[0] == "Magic"
+    )
     end = start + 2
     while end < len(lines) and lines[end].startswith("|"):
         end += 1
