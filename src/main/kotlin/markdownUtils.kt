@@ -46,10 +46,12 @@ data class CustomKey(var key: QmkKey, val targetLayerName: LayerName?, val comma
 data class Symbols(
     val mapping: Map<String, String>,
     val customKeycodes: MutableMap<String, CustomKey>,
+    val usedKeys: MutableSet<String>,
 ) {
     fun replace(key: String, pos: KeyPosition, translator: QmkTranslator): String {
         val value = mapping[key]
         if (value != null) {
+            usedKeys += key
             customKeycodes[value]?.targetLayerName?.let { translator.reachLayer(it, pos, LayerActivation.Toggle) }
             return value
         }

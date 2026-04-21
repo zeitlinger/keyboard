@@ -200,7 +200,7 @@ Cell = what to emit.
 | Base  |    z    |         |         |         |         |         |         |    j    |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right |         |         |         |         |  dead3  |    q    |  A-➡️   |         |
+| Right |         |         |         |         |  dead3  |    q    |    '    |         |
 | Right |         |         |   C-f   |   C-r   |         |         |         |         |
 | Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |    _    |
 | Right |         |         |  A-f7   |   C-n   |    [    |    ]    |         |         |
@@ -218,6 +218,11 @@ Cell = what to emit.
 | Right |         |         |         |         |         |         |    \    |         |
 | Right |         |         |         |         |         |         |   💎    |         |
 | Right |         |         |         |         |         |         |    ?    |         |
+| Right |         |         |         |         |         |         |         |         |
+|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| Right |         |         |         |         |         |         |         |    "    |
+| Right |         |         |         |         |         |         |         |   💎    |
+| Right |         |         |         |         |         |         |         |         |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | RMods |         |         |         |         |         |         |         |         |
@@ -426,7 +431,6 @@ The order of the options is also the order of the layers in the layer stack.
 | tab ➡️  | custom:NEXT_TAB      NoHold     |
 | win ➡️  | custom:NEXT_WINDOW   NoHold     |
 | n't     | custom:N_T                      |
-| qu      | custom:ADPT_QU                  |
 | ing     | custom:ING                      |
 | ver     | custom:PRINT_VERSION            |
 | CapW    | custom:CAPS_WORDS               |

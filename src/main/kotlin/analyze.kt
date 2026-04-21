@@ -27,6 +27,16 @@ val ignoreDuplicates = setOf(
     "\uD83D\uDC8E", //diamond
 )
 
+val expectedNonPrintable = setOf(
+    // Nav / edit keys
+    "KC_LEFT", "KC_RIGHT", "KC_UP", "KC_DOWN", "KC_HOME", "KC_END", "KC_PGUP", "KC_PGDN",
+    "KC_INS", "KC_DEL", "KC_TAB", "KC_ENT", "KC_ESC", "KC_BSPC", "KC_SPC",
+    // Media / brightness keys
+    "KC_MPLY", "KC_MNXT", "KC_MPRV", "KC_MUTE", "KC_VOLU", "KC_VOLD", "KC_BRIU", "KC_BRID",
+    // Mod / keypad specials used intentionally
+    "KC_LGUI", "KC_KP_PLUS", "KC_KP_MINUS", "KC_PSCR",
+)
+
 private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<Layer>) {
     val gotKeys = layers
         .map {
@@ -43,10 +53,10 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
 
 
     val want =
-        translator.symbols.mapping.values +
-                (CharRange('!', '~')
-                    .map { it }
-                    .map { translator.toQmk(it.toString(), invalidPos).key }) +
+        (CharRange('!', '~')
+            .map { it }
+            .map { translator.toQmk(it.toString(), invalidPos).key }) +
+                expectedNonPrintable +
                 (1..12).map { "KC_F$it" }
                     .toSet()
 
@@ -56,6 +66,7 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
         .filter {
             when {
                 it in translator.ignoreUnexpected -> false
+                it in translator.symbols.customKeycodes.keys -> false
                 it.startsWith("\"") -> false
                 it.contains("(") -> false
                 it.startsWith("DT_") -> false
@@ -86,10 +97,17 @@ private fun printMissingAndUnexpected(translator: QmkTranslator, layers: List<La
         .keys
         .sorted() - ignoreDuplicates
 
+    val unusedSymbols = translator.symbols.mapping.keys
+        .filterNot { it in translator.symbols.usedKeys }
+        .sorted()
+
     println("expected: ${want.size}")
     println("missing: ${missing.sorted().distinct().joinToString(", ")}")
+    println("unused symbols: ${unusedSymbols.joinToString(", ")}")
     println("unexpected: $unexpected")
     println("duplicates: $duplicates")
+
+    if (unusedSymbols.isNotEmpty()) {
+        throw IllegalStateException("unused symbols: ${unusedSymbols.joinToString(", ")}")
+    }
 }
-
-

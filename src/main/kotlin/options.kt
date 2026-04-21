@@ -105,6 +105,7 @@ private fun readSymbols(
     return Symbols(
         symTable,
         customKeycodes,
+        mutableSetOf(),
     )
 }
 

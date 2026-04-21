@@ -83,6 +83,7 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_NUM_RCSKC_V: return 200;
     case C_RIGHT_KC_AT: return 200;
     case C_RIGHT_KC_BACKSLASH: return 200;
+    case C_RIGHT_KC_DQUO: return 200;
     case C_RIGHT_KC_EXLM: return 200;
     case C_RIGHT_KC_GRAVE: return 200;
     case C_RIGHT_KC_QUES: return 200;
