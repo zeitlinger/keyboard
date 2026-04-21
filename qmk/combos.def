@@ -78,7 +78,7 @@ COMB(C_RIGHT_KC_BACKSLASH               , KC_BACKSLASH                       , A
 COMB(C_RIGHT_KC_EXLM                    , KC_EXLM                            , S(KC_E), S(KC_O))
 COMB(C_RIGHT_KC_GRAVE                   , KC_GRAVE                           , DEAD3, S(KC_A))
 COMB(C_RIGHT_KC_QUES                    , KC_QUES                            , S(KC_I), S(KC_Y))
-COMB(C_RIGHT_N_T                        , N_T                                , KC_DQUO, S(KC_E))
+COMB(C_RIGHT_N_T                        , N_T                                , KC_Q, S(KC_E))
 COMB(C_RIGHT_RCSKC_F                    , RCS(KC_F)                          , C(KC_F), LM(_RMODS, MOD_LCTL))
 COMB(C_RIGHT_RCSKC_R                    , RCS(KC_R)                          , C(KC_R), LM(_RMODS, MOD_LSFT))
 COMB(DS_C_BASE_KC_B                     , S(KC_B)                            , KC_C, KC_F, MO(_LEFT))

@@ -275,7 +275,9 @@ private fun addMagicEntry(
 }
 
 private fun isBareWord(def: String): Boolean =
-    def.length > 1 && !def.startsWith("\"") && !def.startsWith("[") && !def.contains(' ')
+    def.length > 1 &&
+        !def.startsWith("\"") &&
+        !def.startsWith("[")
 
 private fun bracketCommand(name: String, pos: KeyPosition): String = when (name) {
     "dotSpc" -> "tap_code16(KC_BSPC); SEND_STRING(\". \"); add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state();"

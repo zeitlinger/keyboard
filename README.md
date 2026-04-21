@@ -86,7 +86,7 @@ Rows = preceding key. Columns = the nine physical magic keys (see the Layout tab
 
 Cell = what to emit.
 - Single-char cells append or tap (e.g. `a` + `e` yields `ae`). No suffix state.
-- Bare words (unquoted multi-char, e.g. `because`): generator auto-appends a trailing space and activates the suffix state machine. From there, the next magic press chains a suffix: `MAGIC_G`=`ed`, `MAGIC_E`=`ly`, `MAGIC_B`=`s`, `MAGIC_D`=`n't`, `ing` key (with vowel-drop). `MAGIC_I`=`.`+shift (exit), `MAGIC_H`=`,` (exit). Prefix-strip and BS rules below also apply to bare words.
+- Bare words/phrases (unquoted multi-char, e.g. `because`, `thank you`): generator auto-appends a trailing space and activates the suffix state machine. From there, the next magic press chains a suffix: `MAGIC_G`=`ed`, `MAGIC_E`=`ly`, `MAGIC_B`=`s`, `MAGIC_D`=`n't`, `ing` key (with vowel-drop). `MAGIC_I`=`.`+shift (exit), `MAGIC_H`=`,` (exit). Prefix-strip and BS rules below also apply to bare words.
 - Quoted strings (literal — no auto-space, no suffix state):
   - Preceding key is a letter and cell starts with it → strip prefix. `b` + `"because"` emits `ecause`, yielding `because`.
   - Preceding key is a letter and cell does *not* start with it → BS + cell.
