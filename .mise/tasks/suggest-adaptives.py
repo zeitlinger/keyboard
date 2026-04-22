@@ -161,6 +161,7 @@ MIN_FREQ_PCT = 0.01      # ignore bad bigrams below this frequency
 MAX_MAGIC_SACRIFICE_PCT = MIN_FREQ_PCT  # sacrifice bigrams below this can be covered by adding a magic entry
 MAX_RECOMMEND_FEEL = 2     # only recommend adding adaptives with feel <= this
 MAX_RECOMMEND_FF = 1.5     # reject candidates whose follow-through is awkward (ll → lly)
+MAX_RECOMMEND_FF_COMBO = 2.0  # curated combo-second-key shapes can tolerate a bit more follow-through cost
 DOUBLE_NERF = 1.0          # doubles get effective_freq = actual / DOUBLE_NERF (nerfs doubles vs other adaptives)
 
 
@@ -179,6 +180,40 @@ def slot_feel_score(trigger, variant):
         return 99  # same column = SFB-like
     pinky = t_pos[0] in (0, 7) or m_pos[0] in (0, 7)
     return col_diff + row_diff + (1 if pinky else 0)
+
+
+def combo_roll_feel(trigger, target):
+    """Feel for using a combo key as adaptive physical target.
+
+    Combo-row adaptives are only valid as same-hand rolls. They should still be
+    scored separately from ordinary keys so we can distinguish acceptable rolls
+    like n→p from worse outward/downward reaches like n→b.
+    """
+    base = feel_score(trigger, target, combo_target_penalty=False)
+    t_pos = LAYOUT[trigger]
+    c_pos = LAYOUT[target]
+    same_hand = (t_pos[0] < 4) == (c_pos[0] < 4)
+    if not same_hand:
+        return 99
+    # Home/top into an outward lower combo is noticeably worse than the
+    # corresponding top-combo motion, e.g. n→b is bad while n→p is acceptable.
+    if c_pos[1] > t_pos[1] and c_pos[0] < t_pos[0] and abs(c_pos[0] - t_pos[0]) == 1:
+        base += 1
+    return base
+
+
+def is_allowed_combo_adaptive_target(trigger, target):
+    """Curated combo-second-key shapes that are acceptable for new adaptives."""
+    if target not in COMBO_KEYS:
+        return False
+    t_pos = LAYOUT[trigger]
+    c_pos = LAYOUT[target]
+    if (t_pos[0] < 4) != (c_pos[0] < 4):
+        return False
+    if abs(t_pos[0] - c_pos[0]) != 1:
+        return False
+    return ((t_pos[1], c_pos[1]) == (2, 1)
+            or (t_pos[1], c_pos[1]) == (4, 3))
 
 
 def is_bad_chars(a_char, b_char):
@@ -486,7 +521,11 @@ def main():
         for c in LAYOUT:
             if c in (a, b):
                 continue
-            if is_bad(LAYOUT[a], LAYOUT[c]) or is_combo_preceded(a, c):
+            combo_roll = c in COMBO_KEYS
+            if combo_roll:
+                if not is_allowed_combo_adaptive_target(a, c):
+                    continue
+            elif is_bad(LAYOUT[a], LAYOUT[c]) or is_combo_preceded(a, c):
                 continue  # combo-adjacent handled by feel_score, not filtered here
             sacrifice = bigrams.get(f"{a}{c}", 0)
             # Sacrifice is acceptable if the bad bigram can be typed via magic,
@@ -521,7 +560,7 @@ def main():
                 feel_score(c, follower_key, combo_target_penalty=False) * cnt
                 for follower_key, cnt in physical_followers
             ) / weight_total
-            feel = feel_score(a, c)
+            feel = combo_roll_feel(a, c) if combo_roll else feel_score(a, c)
             same_hand = (LAYOUT[a][0] < 4) == (LAYOUT[c][0] < 4)
             candidates.append((c, sacrifice, bad_following, feel, same_hand, magic_free, following_feel))
 
@@ -572,9 +611,7 @@ def main():
         for c in COMBO_KEYS:
             if c in (a, b):
                 continue
-            if is_bad(LAYOUT[a], LAYOUT[c]):
-                continue
-            if abs(LAYOUT[a][1] - LAYOUT[c][1]) > 1:
+            if not is_allowed_combo_adaptive_target(a, c):
                 continue
             sacrifice = bigrams.get(f"{a}{c}", 0)
             if sacrifice * 2 >= bigram_freq:
@@ -609,7 +646,10 @@ def main():
         # Higher effective-gain bigrams claim slots first (doubles nerfed by DOUBLE_NERF);
         # existing adaptives for lower-gain outputs naturally lose the slot via iteration order.
         for c, _, _, feel, _, _, ff in candidates_list:
-            if feel > MAX_RECOMMEND_FEEL or ff > MAX_RECOMMEND_FF:
+            ff_limit = MAX_RECOMMEND_FF_COMBO if c in COMBO_KEYS else MAX_RECOMMEND_FF
+            if feel > MAX_RECOMMEND_FEEL or ff > ff_limit:
+                continue
+            if c in COMBO_KEYS and feel > 1:
                 continue
             if (a, c) in recommended:
                 continue  # already claimed this run
@@ -630,7 +670,15 @@ def main():
         by_key = {cand[0]: cand for cand in all_candidates.get((a, b), [])}
         if c not in by_key:
             return False  # existing key was a deliberate user choice outside valid candidates
-        return True
+        if c in COMBO_KEYS:
+            return False  # preserve existing combo-roll choices unless their slot is reused
+        old_cand = by_key[c]
+        new_cand = by_key.get(c_new)
+        if new_cand is None:
+            return False
+        old_feel = old_cand[3]
+        new_feel = new_cand[3]
+        return new_feel < old_feel
 
     def slot_displaced(a, c, b):
         """True if (a, c) slot was reassigned to a different output by a higher-freq bigram."""
@@ -668,7 +716,8 @@ def main():
         if (a, b) in covered_outputs:
             continue
         acceptable = [cand for cand in all_candidates.get((a, b), [])
-                      if cand[3] <= MAX_RECOMMEND_FEEL and cand[6] <= MAX_RECOMMEND_FF]
+                      if cand[3] <= MAX_RECOMMEND_FEEL
+                      and cand[6] <= (MAX_RECOMMEND_FF_COMBO if cand[0] in COMBO_KEYS else MAX_RECOMMEND_FF)]
         if not acceptable:
             best_feel = min((cand[3] for cand in all_candidates.get((a, b), [])), default=999)
             magic_add[(a, b)] = f"bad bigram '{a}{b}' {pct(bigram_freq):.3f}%, best adaptive feel={best_feel}"
@@ -769,6 +818,29 @@ def main():
 
     for key in no_recovery:
         del recommended[key]
+
+    # Existing occupied slots are deliberate choices. Do not steal one for a
+    # lower-value output just because the greedy pass found a cheaper physical
+    # path for the existing output elsewhere (e.g. keep o+h→o over o+h→e).
+    for (a, c), old_b in existing.items():
+        new_b = recommended.get((a, c))
+        if new_b is None or new_b == old_b:
+            continue
+        old_gain = bad_freq.get((a, old_b), bigrams.get(f"{a}{old_b}", 0))
+        new_gain = bad_freq.get((a, new_b), bigrams.get(f"{a}{new_b}", 0))
+        if old_gain >= new_gain:
+            del recommended[(a, c)]
+            recommended_outputs.discard((a, new_b))
+
+    remove = [
+        (a, c, b) for (a, c), b in existing.items()
+        if existing_superseded(a, c, b)
+        or slot_displaced(a, c, b)
+    ]
+    remove_set = {(a, c) for a, c, _ in remove}
+    keep = [(a, c, b) for (a, c), b in existing.items() if (a, c) not in remove_set]
+    lost_pairs = {(a, c) for a, c, b in remove
+                  if not ((a, c) in recommended and recommended[(a, c)] != b)}
 
     # Include slots whose output differs from existing (displacement of lower-freq adaptive).
     add = [(a, c, b) for (a, c), b in recommended.items() if existing.get((a, c)) != b]
