@@ -297,14 +297,16 @@ private fun magicCommand(
             val str = if (quoted) extractString(def) else def
             val output = if (quoted) str else "$str "
             val prevIsLetter = precedingChar.length == 1 && precedingChar[0].isLetter()
-            val emitted = if (prevIsLetter && output.startsWith(precedingChar)) output.drop(precedingChar.length) else output
-            val adjusted = if (capitalizeFirst && prevIsLetter && emitted.isNotEmpty()) {
-                emitted.replaceFirstChar { it.titlecase() }
+            val shiftedPrecedingLetter = capitalizeFirst && prevIsLetter
+            val emitted = if (!shiftedPrecedingLetter && prevIsLetter && output.startsWith(precedingChar)) {
+                output.drop(precedingChar.length)
             } else {
-                emitted
+                output
             }
-            val sendEncoded = stringOffsets[adjusted]?.let { "magic_decode_send($it);" } ?: "SEND_STRING(\"$adjusted\");"
+            val sendEncoded = stringOffsets[emitted]?.let { "magic_decode_send($it);" } ?: "SEND_STRING(\"$emitted\");"
             val send = when {
+                shiftedPrecedingLetter ->
+                    "tap_code16(KC_BSPC); add_oneshot_mods(MOD_BIT(KC_LSFT)); $sendEncoded"
                 prevIsLetter && output.startsWith(precedingChar) ->
                     sendEncoded
                 prevIsLetter ->
@@ -339,6 +341,7 @@ private fun collectMagicOutputs(tables: Tables, translator: QmkTranslator): List
         val precedingChar = row[0]
         row.drop(1).forEach { def ->
             magicEmittedString(precedingChar, def)?.let(outputs::add)
+            magicFullOutputString(precedingChar, def)?.let(outputs::add)
         }
     }
     translator.magic.mapNotNullTo(outputs) { magic ->
@@ -356,6 +359,18 @@ private fun magicEmittedString(precedingChar: String, def: String): String? {
     val output = if (quoted) str else "$str "
     val prevIsLetter = precedingChar.length == 1 && precedingChar[0].isLetter()
     return if (prevIsLetter && output.startsWith(precedingChar)) output.drop(precedingChar.length) else output
+}
+
+private fun magicFullOutputString(precedingChar: String, def: String): String? {
+    if (!(isWord(def) || isBareWord(def))) {
+        return null
+    }
+    if (!(precedingChar.length == 1 && precedingChar[0].isLetter())) {
+        return null
+    }
+    val quoted = isWord(def)
+    val str = if (quoted) extractString(def) else def
+    return if (quoted) str else "$str "
 }
 
 fun customKeycodes(translator: QmkTranslator, type: CustomCommandType): String =
