@@ -5,6 +5,8 @@
 
 int layer = _BASE;
 
+${magicStringDecoder}
+
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     switch(index) {
 ${timeouts}

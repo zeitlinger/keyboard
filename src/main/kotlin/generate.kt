@@ -83,10 +83,17 @@ fun run(args: GeneratorArgs) {
         "case ${it.name}: return ${it.timeout};"
     }.sorted()
 
+    val encodedMagicStrings = encodeStrings(collectMagicOutputs(tables, translator))
+    translator.magic.forEach { magic ->
+        magic.defaultCommand = magic.default?.let { encodedMagicStrings.stringOffsets[it]?.let { offset ->
+            "magic_decode_send($offset);"
+        } ?: "SEND_STRING(\"$it\");" }
+    }
+
     tables.getOptional("Magic")?.let {
         it.forEachIndexed { index, row ->
             val pos = KeyPosition(0, index, 0, "magic", 0)
-            addMagic(translator, row, pos)
+            addMagic(translator, row, pos, encodedMagicStrings.stringOffsets)
         }
     }
 
@@ -159,6 +166,7 @@ fun run(args: GeneratorArgs) {
             "customKeycodesOnTapPress" to customKeycodes(translator, CustomCommandType.OnTap),
             "customKeycodesOnPress" to customKeycodes(translator, CustomCommandType.OnPress),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
+            "magicStringDecoder" to (encodedMagicStrings.decoder ?: ""),
             "magic" to translator.magic.map { magicBlock(it) }.indented(12),
             "magicExclusions" to translator.magic.map { "case ${it.trigger.key}:" }.indented(8),
             "adaptives" to adaptiveBlocks(translator.adaptives).indented(12),
@@ -173,7 +181,7 @@ fun run(args: GeneratorArgs) {
 }
 
 private fun magicBlock(magic: MagicInfo): String {
-    val defaultCase = magic.default?.let { "\n            default: SEND_STRING(\"$it\"); break;" } ?: ""
+    val defaultCase = magic.defaultCommand?.let { "\n            default: $it break;" } ?: ""
     return """
     case ${magic.trigger.key}:
         switch (get_last_keycode()) {
@@ -229,12 +237,12 @@ private fun getComboLines(combos: List<Combo>) = combos.map { combo ->
     )
 }.sorted()
 
-private fun addMagic(translator: QmkTranslator, row: List<String>, pos: KeyPosition) {
+private fun addMagic(translator: QmkTranslator, row: List<String>, pos: KeyPosition, stringOffsets: Map<String, Int>) {
     val precedingChar = row[0]
     val base = translator.toQmk(precedingChar, pos)
     row.drop(1).forEachIndexed { index, def ->
         if (def.isNotBlank()) {
-            addMagicEntry(translator, pos, translator.magic[index].press, base, precedingChar, def)
+            addMagicEntry(translator, pos, translator.magic[index].press, base, precedingChar, def, stringOffsets)
         }
     }
 }
@@ -246,6 +254,7 @@ private fun addMagicEntry(
     base: QmkKey,
     precedingChar: String,
     def: String,
+    stringOffsets: Map<String, Int>,
 ) {
     val command = when {
         def.startsWith("[") && def.endsWith("]") -> bracketCommand(def.removeSurrounding("[", "]"), pos)
@@ -255,13 +264,15 @@ private fun addMagicEntry(
             val str = if (quoted) extractString(def) else def
             val output = if (quoted) str else "$str "
             val prevIsLetter = precedingChar.length == 1 && precedingChar[0].isLetter()
+            val emitted = if (prevIsLetter && output.startsWith(precedingChar)) output.drop(precedingChar.length) else output
+            val sendEncoded = stringOffsets[emitted]?.let { "magic_decode_send($it);" } ?: "SEND_STRING(\"$emitted\");"
             val send = when {
                 prevIsLetter && output.startsWith(precedingChar) ->
-                    "SEND_STRING(\"${output.drop(precedingChar.length)}\");"
+                    sendEncoded
                 prevIsLetter ->
-                    "tap_code16(KC_BSPC); SEND_STRING(\"$output\");"
+                    "tap_code16(KC_BSPC); $sendEncoded"
                 else ->
-                    "SEND_STRING(\"$output\");"
+                    sendEncoded
             }
             if (quoted) send else "$send set_suffix_state('${str.last()}');"
         }
@@ -289,6 +300,31 @@ private fun isWord(alt: String) = alt.startsWith("\"") && alt.endsWith("\"")
 private fun extractString(alt: String) = alt.removeSurrounding("\"")
 
 private fun sendString(alt: String) = "SEND_STRING(${alt})"
+
+private fun collectMagicOutputs(tables: Tables, translator: QmkTranslator): List<String> {
+    val outputs = mutableSetOf<String>()
+    tables.getOptional("Magic")?.forEach { row ->
+        val precedingChar = row[0]
+        row.drop(1).forEach { def ->
+            magicEmittedString(precedingChar, def)?.let(outputs::add)
+        }
+    }
+    translator.magic.mapNotNullTo(outputs) { magic ->
+        magic.default?.let { "$it" }
+    }
+    return outputs.toList()
+}
+
+private fun magicEmittedString(precedingChar: String, def: String): String? {
+    if (!(isWord(def) || isBareWord(def))) {
+        return null
+    }
+    val quoted = isWord(def)
+    val str = if (quoted) extractString(def) else def
+    val output = if (quoted) str else "$str "
+    val prevIsLetter = precedingChar.length == 1 && precedingChar[0].isLetter()
+    return if (prevIsLetter && output.startsWith(precedingChar)) output.drop(precedingChar.length) else output
+}
 
 fun customKeycodes(translator: QmkTranslator, type: CustomCommandType): String =
     translator.symbols.customKeycodes.entries
