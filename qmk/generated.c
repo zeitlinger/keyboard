@@ -513,7 +513,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_F: tap_code16(KC_D); break;
                     case KC_G: tap_code16(KC_D); break;
                     case KC_H: tap_code16(KC_Y); break;
-                    case KC_I: tap_code16(KC_QUOTE); break;
+                    case KC_I: tap_code16(KC_BSPC); tap_code16(KC_QUOTE); break;
                     case KC_K: tap_code16(KC_X); break;
                     case KC_L: tap_code16(KC_C); break;
                     case KC_M: tap_code16(KC_L); break;
@@ -535,7 +535,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case S(KC_F): tap_code16(KC_D); break;
                     case S(KC_G): tap_code16(KC_D); break;
                     case S(KC_H): tap_code16(KC_Y); break;
-                    case S(KC_I): tap_code16(KC_QUOTE); break;
+                    case S(KC_I): tap_code16(KC_BSPC); tap_code16(KC_QUOTE); break;
                     case S(KC_K): tap_code16(KC_X); break;
                     case S(KC_L): tap_code16(KC_C); break;
                     case S(KC_M): tap_code16(KC_L); break;
@@ -599,29 +599,29 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
             case MAGIC_H:
                 switch (get_last_keycode()) {
                     case KC_B: tap_code16(KC_BSPC); magic_decode_send(382); set_suffix_state('h'); break;
-                    case KC_C: tap_code16(KC_EXLM); break;
+                    case KC_C: tap_code16(KC_BSPC); tap_code16(KC_EXLM); break;
                     case KC_COMMA: magic_decode_send(4); break;
                     case KC_D: magic_decode_send(320); set_suffix_state('t'); break;
                     case KC_ENT: magic_decode_send(369); set_suffix_state('e'); break;
                     case KC_L: magic_decode_send(124); set_suffix_state('e'); break;
-                    case KC_N: tap_code16(KC_QUOTE); break;
+                    case KC_N: tap_code16(KC_BSPC); tap_code16(KC_QUOTE); break;
                     case KC_O: tap_code16(KC_BSPC); magic_decode_send(396); set_suffix_state('t'); break;
                     case KC_P: tap_code16(KC_BSPC); magic_decode_send(111); set_suffix_state('g'); break;
                     case KC_R: tap_code16(KC_BSPC); magic_decode_send(339); set_suffix_state('e'); break;
                     case KC_SPC: magic_decode_send(369); set_suffix_state('e'); break;
-                    case KC_T: tap_code16(KC_COMMA); break;
+                    case KC_T: tap_code16(KC_BSPC); tap_code16(KC_COMMA); break;
                     case KC_TAB: magic_decode_send(369); set_suffix_state('e'); break;
                     case KC_W: magic_decode_send(236); set_suffix_state('h'); break;
                     case KC_Z: tap_code16(KC_BSPC); magic_decode_send(53); set_suffix_state('t'); break;
                     case S(KC_B): tap_code16(KC_BSPC); magic_decode_send(382); set_suffix_state('h'); break;
-                    case S(KC_C): tap_code16(KC_EXLM); break;
+                    case S(KC_C): tap_code16(KC_BSPC); tap_code16(KC_EXLM); break;
                     case S(KC_D): magic_decode_send(320); set_suffix_state('t'); break;
                     case S(KC_L): magic_decode_send(124); set_suffix_state('e'); break;
-                    case S(KC_N): tap_code16(KC_QUOTE); break;
+                    case S(KC_N): tap_code16(KC_BSPC); tap_code16(KC_QUOTE); break;
                     case S(KC_O): tap_code16(KC_BSPC); magic_decode_send(396); set_suffix_state('t'); break;
                     case S(KC_P): tap_code16(KC_BSPC); magic_decode_send(111); set_suffix_state('g'); break;
                     case S(KC_R): tap_code16(KC_BSPC); magic_decode_send(339); set_suffix_state('e'); break;
-                    case S(KC_T): tap_code16(KC_COMMA); break;
+                    case S(KC_T): tap_code16(KC_BSPC); tap_code16(KC_COMMA); break;
                     case S(KC_W): magic_decode_send(236); set_suffix_state('h'); break;
                     case S(KC_Z): tap_code16(KC_BSPC); magic_decode_send(53); set_suffix_state('t'); break;
                 }
@@ -631,7 +631,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 switch (get_last_keycode()) {
                     case KC_A: magic_decode_send(270); set_suffix_state('r'); break;
                     case KC_B: tap_code16(KC_BSPC); magic_decode_send(372); set_suffix_state('h'); break;
-                    case KC_C: tap_code16(KC_QUES); break;
+                    case KC_C: tap_code16(KC_BSPC); tap_code16(KC_QUES); break;
                     case KC_D: magic_decode_send(299); set_suffix_state('s'); break;
                     case KC_G: tap_code16(KC_BSPC); magic_decode_send(348); set_suffix_state('e'); break;
                     case KC_N: magic_decode_send(387); set_suffix_state('r'); break;
@@ -639,21 +639,21 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_P: magic_decode_send(354); set_suffix_state('y'); break;
                     case KC_R: tap_code16(KC_BSPC); magic_decode_send(149); set_suffix_state('e'); break;
                     case KC_SPC: tap_code16(KC_BSPC); SEND_STRING(". "); add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state(); break;
-                    case KC_T: tap_code16(KC_DOT); break;
+                    case KC_T: tap_code16(KC_BSPC); tap_code16(KC_DOT); break;
                     case KC_U: magic_decode_send(334); set_suffix_state('e'); break;
                     case KC_W: magic_decode_send(229); set_suffix_state('n'); break;
                     case KC_Y: tap_code16(KC_BSPC); magic_decode_send(402); set_suffix_state('y'); break;
                     case KC_Z: tap_code16(KC_BSPC); magic_decode_send(45); set_suffix_state('s'); break;
                     case S(KC_A): magic_decode_send(270); set_suffix_state('r'); break;
                     case S(KC_B): tap_code16(KC_BSPC); magic_decode_send(372); set_suffix_state('h'); break;
-                    case S(KC_C): tap_code16(KC_QUES); break;
+                    case S(KC_C): tap_code16(KC_BSPC); tap_code16(KC_QUES); break;
                     case S(KC_D): magic_decode_send(299); set_suffix_state('s'); break;
                     case S(KC_G): tap_code16(KC_BSPC); magic_decode_send(348); set_suffix_state('e'); break;
                     case S(KC_N): magic_decode_send(387); set_suffix_state('r'); break;
                     case S(KC_O): magic_decode_send(266); set_suffix_state('y'); break;
                     case S(KC_P): magic_decode_send(354); set_suffix_state('y'); break;
                     case S(KC_R): tap_code16(KC_BSPC); magic_decode_send(149); set_suffix_state('e'); break;
-                    case S(KC_T): tap_code16(KC_DOT); break;
+                    case S(KC_T): tap_code16(KC_BSPC); tap_code16(KC_DOT); break;
                     case S(KC_U): magic_decode_send(334); set_suffix_state('e'); break;
                     case S(KC_W): magic_decode_send(229); set_suffix_state('n'); break;
                     case S(KC_Y): tap_code16(KC_BSPC); magic_decode_send(402); set_suffix_state('y'); break;

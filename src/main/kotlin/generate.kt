@@ -258,7 +258,16 @@ private fun addMagicEntry(
 ) {
     val command = when {
         def.startsWith("[") && def.endsWith("]") -> bracketCommand(def.removeSurrounding("[", "]"), pos)
-        def.length == 1 -> tap(translator.toQmk(def, pos)) + ";"
+        def.length == 1 -> {
+            val qmk = translator.toQmk(def, pos)
+            val isLetterOutput = def[0].isLetter()
+            val prevIsLetter = precedingChar.length == 1 && precedingChar[0].isLetter()
+            if (isLetterOutput || !prevIsLetter) {
+                tap(qmk) + ";"
+            } else {
+                "tap_code16(KC_BSPC); tap_code16(${qmk.key});"
+            }
+        }
         isWord(def) || isBareWord(def) -> {
             val quoted = isWord(def)
             val str = if (quoted) extractString(def) else def
