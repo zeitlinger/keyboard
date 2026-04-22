@@ -26,7 +26,7 @@ data class QmkKey(
 
 data class MagicInfo(
     val trigger: QmkKey,
-    val press: MutableMap<QmkKey, String>,
+    val press: MutableMap<QmkKey, MagicCommand>,
     val default: String? = null,
     var defaultCommand: String? = null,
 ) {
@@ -37,6 +37,12 @@ data class MagicInfo(
         null,
     )
 }
+
+data class MagicCommand(
+    val statements: String,
+    val rememberedKeycode: String? = null,
+    val repeatKeycode: String? = null,
+)
 
 data class AdaptiveRule(
     val key: QmkKey,    // the key that adapts (e.g. KC_H)

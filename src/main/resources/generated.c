@@ -22,6 +22,17 @@ ${timeouts}
 // so combo components like KC_C from P=KC_C+KC_X are never recorded — only KC_P is).
 static uint16_t prev_keycode = KC_NO;
 static uint16_t last_keycode = KC_NO;
+static uint16_t last_magic_trigger = KC_NO;
+static uint16_t last_magic_repeat_keycode = KC_NO;
+
+static bool repeat_last_magic_key(uint16_t trigger) {
+    if (last_magic_trigger != trigger || last_magic_repeat_keycode == KC_NO) {
+        return false;
+    }
+    tap_code16(last_magic_repeat_keycode);
+    set_last_keycode(last_magic_repeat_keycode);
+    return true;
+}
 
 bool tap(uint16_t keycode) {
     tap_code16(keycode);
@@ -78,5 +89,7 @@ ${magicExclusions}
 
     prev_keycode = last_keycode;
     last_keycode = keycode;
+    last_magic_trigger = KC_NO;
+    last_magic_repeat_keycode = KC_NO;
     return true;  // Other keys can be repeated.
 }

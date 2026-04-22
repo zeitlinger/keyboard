@@ -183,12 +183,20 @@ fun run(args: GeneratorArgs) {
 private fun magicBlock(magic: MagicInfo): String {
     val defaultCase = magic.defaultCommand?.let { "\n            default: $it break;" } ?: ""
     return """
-    case ${magic.trigger.key}:
+    case ${magic.trigger.key}: {
+        if (repeat_last_magic_key(${magic.trigger.key})) {
+            return false;
+        }
+        uint16_t remembered_keycode = ${magic.trigger.key};
+        uint16_t repeat_keycode = KC_NO;
         switch (get_last_keycode()) {
 ${magicSwitch(magic.press)}$defaultCase
         }
-        set_last_keycode(${magic.trigger.key});
+        last_magic_trigger = ${magic.trigger.key};
+        last_magic_repeat_keycode = repeat_keycode;
+        set_last_keycode(remembered_keycode);
         return false;
+    }
     """.trimIndent()
 }
 
@@ -199,9 +207,11 @@ private fun adaptiveBlocks(rules: List<AdaptiveRule>): List<String> =
         "case $key:\n    switch (prev_keycode) {\n$cases\n    }\n    break;"
     }
 
-private fun magicSwitch(map: MutableMap<QmkKey, String>): String =
+private fun magicSwitch(map: MutableMap<QmkKey, MagicCommand>): String =
     map.entries.sortedBy { it.key.key }.map {
-        "case ${it.key}: ${it.value} break;"
+        val remember = it.value.rememberedKeycode?.let { keycode -> " remembered_keycode = $keycode;" } ?: ""
+        val repeat = it.value.repeatKeycode?.let { keycode -> " repeat_keycode = $keycode;" } ?: ""
+        "case ${it.key}: ${it.value.statements}$remember$repeat break;"
     }.indented(12)
 
 fun addSendString(layers: List<Layer>, translator: QmkTranslator): List<Layer> {
@@ -250,7 +260,7 @@ private fun addMagic(translator: QmkTranslator, row: List<String>, pos: KeyPosit
 private fun addMagicEntry(
     translator: QmkTranslator,
     pos: KeyPosition,
-    map: MutableMap<QmkKey, String>,
+    map: MutableMap<QmkKey, MagicCommand>,
     base: QmkKey,
     precedingChar: String,
     def: String,
@@ -280,16 +290,16 @@ private fun magicCommand(
     def: String,
     stringOffsets: Map<String, Int>,
     capitalizeFirst: Boolean,
-): String = when {
-        def.startsWith("[") && def.endsWith("]") -> bracketCommand(def.removeSurrounding("[", "]"), pos)
+): MagicCommand = when {
+        def.startsWith("[") && def.endsWith("]") -> MagicCommand(bracketCommand(def.removeSurrounding("[", "]"), pos))
         def.length == 1 -> {
             val qmk = translator.toQmk(def, pos)
             val isLetterOutput = def[0].isLetter()
             val prevIsLetter = precedingChar.length == 1 && precedingChar[0].isLetter()
             if (isLetterOutput || !prevIsLetter) {
-                tap(qmk) + ";"
+                MagicCommand(tap(qmk) + ";", qmk.key, qmk.key)
             } else {
-                "tap_code16(KC_BSPC); tap_code16(${qmk.key});"
+                MagicCommand("tap_code16(KC_BSPC); tap_code16(${qmk.key});", qmk.key, qmk.key)
             }
         }
         isWord(def) || isBareWord(def) -> {
@@ -314,7 +324,7 @@ private fun magicCommand(
                 else ->
                     sendEncoded
             }
-            if (quoted) send else "$send set_suffix_state('${str.last()}');"
+            MagicCommand(if (quoted) send else "$send set_suffix_state('${str.last()}');")
         }
         else -> throw IllegalArgumentException("unknown command '${def}' in $pos")
     }

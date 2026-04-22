@@ -85,7 +85,7 @@ Currently unused features:
 Rows = preceding key. Columns = the nine physical magic keys (see the Layout table for their positions).
 
 Cell = what to emit.
-- Single-char letter cells append or tap (e.g. `a` + `e` yields `ae`). Single-char punctuation/symbol cells backspace the preceding letter first (e.g. `t` + `.` yields `.`). No suffix state.
+- Single-char letter cells append or tap (e.g. `a` + `e` yields `ae`). Single-char punctuation/symbol cells backspace the preceding letter first (e.g. `t` + `.` yields `.`). A repeated press of the same magic key then replays just the emitted letter or symbol, with no extra backspace. No suffix state.
 - Bare words/phrases (unquoted multi-char, e.g. `because`, `thank you`): generator auto-appends a trailing space and activates the suffix state machine. From there, the next magic press chains a suffix: `MAGIC_G`=`ed`, `MAGIC_E`=`ly`, `MAGIC_B`=`s`, `MAGIC_D`=`n't`, `ing` key (with vowel-drop). `MAGIC_I`=`.`+shift (exit), `MAGIC_H`=`,` (exit). Prefix-strip and BS rules below also apply to bare words.
 - Quoted strings (literal — no auto-space, no suffix state):
   - Preceding key is a letter and cell starts with it → strip prefix. `b` + `"because"` emits `ecause`, yielding `because`.
@@ -107,13 +107,13 @@ Cell = what to emit.
 |    j    |                      |                               |           |         just         |               |           |               |                    |            |
 |    k    |          r           |                               |           |         know         |       x       |           |               |                    |            |
 |    l    |          m           |               h               |           |          r           |       c       |           |    language   |       leave        |            |
-|    m    |          r           |               h               |           |         ment         |       l       |     t     |               |                    |            |
+|    m    |          r           |               h               |           |        "ment"        |       l       |     t     |               |                    |            |
 |    n    |          r           |               h               |           |         "qu"         |       x       |     k     |     number    |         '          |     "      |
 |    o    |                      |                               |     h     |                      | observability |           |       e       |      without       |    only    |
 |    p    |          y           |               m               |           |          n           |       d       |           |   production  | declarative config |  probably  |
 |    r    |       already        |           everything          |           |          k           |     almost    |     x     |    thought    |       people       | elaborate  |
-|    s    |       someone        |               r               |           |         sion         |       d       |           |   something   |                    |            |
-|    t    |          n           |               f               |           |         tion         |               |           |   thank you   |         ,          |     .      |
+|    s    |       someone        |               r               |           |        "sion"        |       d       |           |   something   |                    |            |
+|    t    |          n           |               f               |           |        "tion"        |               |           |   thank you   |         ,          |     .      |
 |    u    |       business       |                               |     h     |                      |               |           |   understand  |                    |   update   |
 |    v    | zeitlinger@gmail.com | gregor.zeitlinger@grafana.com |           | gregor@zeitlinger.de |               |           |               |                    |            |
 |    w    |         will         |             wasn't            |           |          s           |       x       |           |     where     |       which        |    when    |

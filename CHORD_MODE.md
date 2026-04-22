@@ -36,7 +36,8 @@ Single-character cells tap that keycode directly.
 - `a` + `magic_c` with cell `e` -> `ae`
 - `t` + `magic_h` with cell `,` -> `t,`
 
-These do not enable suffix chaining.
+These do not enable suffix chaining. Pressing the same magic again replays just the emitted letter
+or symbol, without repeating any setup backspace from the original expansion.
 
 ### Bare word cell
 
@@ -84,7 +85,7 @@ the trailing space into a suffix or punctuation.
 
 Supported suffix follow-ups:
 
-- `magic_g` -> `ed `
+- `magic_g` -> `ed `, except after a word ending in `e` where it becomes `d `
 - `magic_e` -> `ly `
 - `magic_b` -> `s `
 - `magic_d` -> `n't `
@@ -97,6 +98,7 @@ Examples:
 - `b` + `magic_d` -> `because `, then `magic_b` -> `becauses `
 - `j` + `magic_d` -> `just `, then `magic_g` -> `justed `
 - `spc` + `magic_d` -> `the `, then `magic_i` -> `the. ` with shift armed
+- `u` + `magic_i` -> `update `, then `magic_g` -> `updated `
 
 Suffix mode exits on any non-suffix key.
 
@@ -105,7 +107,7 @@ Suffix mode exits on any non-suffix key.
 Magic keys also become the new remembered key. That means a magic can dispatch from a previous
 magic, not only from letters or punctuation.
 
-The implementation does this after every magic press:
+Bare-word and literal-string magics still set the remembered key to the magic trigger:
 
 ```c
 set_last_keycode(MAGIC_X);

@@ -75,7 +75,12 @@ static bool process_suffix(uint16_t keycode, keyrecord_t *record) {
         last_magic_char = 't';
         return false;
     case MAGIC_G:
-        tap_code16(KC_BSPC); SEND_STRING("ed ");
+        tap_code16(KC_BSPC);
+        if (last_magic_char == 'e') {
+            SEND_STRING("d ");
+        } else {
+            SEND_STRING("ed ");
+        }
         last_magic_char = 'd';
         return false;
     case MAGIC_E:
@@ -227,8 +232,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     #ifdef _HANDLER_ING
     case _HANDLER_ING:
         if (record->event.pressed) {
-            SEND_STRING("ing ");
-            set_suffix_state('g');
+            SEND_STRING("ing");
         }
         return false;
     #endif
