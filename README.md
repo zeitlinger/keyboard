@@ -111,9 +111,9 @@ Cell = what to emit.
 |    n    |          r           |               h               |           |         "qu"         |       x       |     k     |               |         '          |   number   |
 |    o    |                      |                               |     h     |                      | observability |           |       e       |      without       |    only    |
 |    p    |          y           |               m               |           |          n           |       d       |           |   production  | declarative config |  probably  |
-|    r    |       already        |           everything          |           |          k           |     almost    |           |    thought    |       people       | elaborate  |
+|    r    |       already        |           everything          |           |          k           |     almost    |     x     |    thought    |       people       | elaborate  |
 |    s    |       someone        |               r               |           |         sion         |       d       |           |   something   |                    |            |
-|    t    |          n           |               f               |           |         tion         |       x       |           |   thank you   |         ,          |     .      |
+|    t    |          n           |               f               |           |         tion         |               |           |   thank you   |         ,          |     .      |
 |    u    |       business       |                               |     h     |                      |               |           |   understand  |                    |   update   |
 |    v    | zeitlinger@gmail.com | gregor.zeitlinger@grafana.com |           | gregor@zeitlinger.de |               |           |               |                    |            |
 |    w    |         will         |             wasn't            |           |          s           |       x       |           |     where     |       which        |    when    |
@@ -136,11 +136,11 @@ Cell = what to emit.
 |:---------:|:---:|:------:|
 |     a     |  e  |   u    |
 |     b     |  d  |   s    |
-|     c     |  d  |   k    |
-|     c     |  n  |   c    |
+|     c     |  d  |   c    |
+|     c     |  n  |   k    |
 |     d     |  c  |   v    |
-|     d     |  f  |   g    |
-|     d     |  h  |   d    |
+|     d     |  f  |   d    |
+|     d     |  h  |   g    |
 |     e     |  h  |   e    |
 |     e     |  u  |   o    |
 |     f     |  d  |   f    |
@@ -160,11 +160,11 @@ Cell = what to emit.
 |     p     |  d  |   l    |
 |     p     |  n  |   p    |
 |     p     |  y  |   s    |
+|     r     |  x  |   r    |
 |     s     |  d  |   p    |
 |     s     |  r  |   s    |
-|     t     |  f  |   m    |
+|     t     |  f  |   w    |
 |     t     |  n  |   t    |
-|     t     |  x  |   w    |
 |     u     |  h  |   a    |
 |     w     |  x  |   n    |
 |     x     |  d  |   c    |

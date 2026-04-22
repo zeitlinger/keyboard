@@ -58,11 +58,35 @@ def empty_magic_row():
 
 
 def parse_multi_char_adaptives(lines):
-    return [
-        (m.group(1), m.group(2), m.group(3))
-        for line in lines
-        if (m := ADAPTIVE_ROW_RE.match(line.rstrip('\n'))) and len(m.group(2)) > 1
-    ]
+    in_adaptives = False
+    rows = []
+    for line in lines:
+        stripped = line.rstrip('\n')
+        if stripped.startswith('## Adaptives'):
+            in_adaptives = True
+            continue
+        if in_adaptives and stripped.startswith('## '):
+            break
+        if not in_adaptives:
+            continue
+        if m := ADAPTIVE_ROW_RE.match(stripped):
+            if len(m.group(2)) > 1:
+                rows.append((m.group(1), m.group(2), m.group(3)))
+    return rows
+
+
+def split_table_cells(line):
+    stripped = line.strip()
+    if not stripped.startswith('|') or not stripped.endswith('|'):
+        return None
+    return [cell.strip() for cell in stripped.strip('|').split('|')]
+
+
+def split_table_segments(line):
+    stripped = line.strip()
+    if not stripped.startswith('|') or not stripped.endswith('|'):
+        return None
+    return stripped.split('|')[1:-1]
 
 
 def load_magic_table():
@@ -193,12 +217,78 @@ def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, quoted_
     content = README.read_text()
     lines = content.splitlines(keepends=True)
 
+    adaptive_header_cells = None
+    adaptive_rule_cells = None
+    magic_header_cells = None
+    magic_rule_cells = None
+    in_magic = False
+    in_adaptives = False
+    for line in lines:
+        stripped = line.rstrip('\n')
+        if stripped.startswith('## Magic Keys'):
+            in_magic = True
+            in_adaptives = False
+            continue
+        if stripped.startswith('## Adaptives'):
+            in_adaptives = True
+            in_magic = False
+            continue
+        if stripped.startswith('## '):
+            in_magic = False
+            in_adaptives = False
+            continue
+        cells = split_table_cells(stripped)
+        if cells is None:
+            continue
+        if in_adaptives:
+            if adaptive_header_cells is None:
+                adaptive_header_cells = cells
+            elif adaptive_rule_cells is None and all(set(cell) <= {':', '-'} for cell in cells):
+                adaptive_rule_cells = cells
+        elif in_magic:
+            if magic_header_cells is None:
+                magic_header_cells = cells
+            elif magic_rule_cells is None and all(set(cell) <= {':', '-'} for cell in cells):
+                magic_rule_cells = cells
+
     # Build new adaptive table rows (add + keep, sorted)
     all_adaptives = sorted(set(add) | set(keep))
     multi_char_adaptives = parse_multi_char_adaptives(lines)
 
+    adaptive_header_segments = None
+    magic_header_segments = None
+    for line in lines:
+        stripped = line.rstrip('\n')
+        if stripped.startswith('## Adaptives'):
+            continue
+        if adaptive_header_cells is not None and adaptive_header_segments is None:
+            if split_table_cells(stripped) == adaptive_header_cells:
+                adaptive_header_segments = split_table_segments(stripped)
+        if magic_header_cells is not None and magic_header_segments is None:
+            if split_table_cells(stripped) == magic_header_cells:
+                magic_header_segments = split_table_segments(stripped)
+        if adaptive_header_segments is not None and magic_header_segments is not None:
+            break
+
+    adaptive_widths = [len(cell) for cell in (adaptive_header_segments or [' Adaptives ', ' Key ', ' Output '])]
+    for a, c, b in list(all_adaptives) + list(multi_char_adaptives):
+        adaptive_widths[0] = max(adaptive_widths[0], len(a))
+        adaptive_widths[1] = max(adaptive_widths[1], len(c))
+        adaptive_widths[2] = max(adaptive_widths[2], len(b))
+
+    def fmt_rule_cell(template, width):
+        left = ':' if template.startswith(':') else ''
+        right = ':' if template.endswith(':') else ''
+        dash_count = max(width - len(left) - len(right), 1)
+        return left + ('-' * dash_count) + right
+
     def fmt_adaptive_row(a, c, b):
-        return f"|{a.center(11)}|{c.center(5)}|{b.center(8)}|\n"
+        cells = [a, c, b]
+        return '|' + '|'.join(cell.center(width) for cell, width in zip(cells, adaptive_widths)) + '|\n'
+
+    def fmt_adaptive_rule():
+        templates = adaptive_rule_cells or [':-:', ':-:', ':-:']
+        return '|' + '|'.join(fmt_rule_cell(template, width) for template, width in zip(templates, adaptive_widths)) + '|\n'
 
     # Build working magic table: original → apply removes → apply adds
     working_magic = {t: dict(variants) for t, variants in magic_table.items()}
@@ -207,7 +297,7 @@ def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, quoted_
         working_magic.setdefault(trigger, empty_magic_row())[variant] = ''
 
     for (trigger, output), _reason in sorted(magic_add_new.items()):
-        row = working_magic.get(trigger, empty_row())
+        row = working_magic.get(trigger, empty_magic_row())
         free = [v for v in VARIANTS if not row.get(v)]
         lead_v = lead_variants.get(output)
         if free:
@@ -240,19 +330,35 @@ def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, quoted_
         row[src_v], row[dest_v] = row[dest_v], row[src_v]
         working_magic[trigger] = row
 
+    magic_widths = [len(cell) for cell in (magic_header_segments or [' Magic Keys '] + [f' {v.replace("_", " ")} ' for v in VARIANTS])]
+    for trigger, variants in working_magic.items():
+        magic_widths[0] = max(magic_widths[0], len(trigger))
+        for i, v in enumerate(VARIANTS, start=1):
+            val = variants.get(v, '')
+            if (trigger, v) in quoted_magic and val:
+                display = f'"{val}"'
+            elif not val:
+                display = ''
+            else:
+                bare_word = len(val) > 1 and ' ' not in val and not val.startswith('[')
+                display = val if bare_word else (f'"{val}"' if len(val) > 1 else val)
+            magic_widths[i] = max(magic_widths[i], len(display))
+
     def fmt_magic_val(trigger, variant, val, width):
         if not val:
             return ' ' * width
         if (trigger, variant) in quoted_magic:
             display = f'"{val}"'
             return display.center(width)
-        bare_word = len(val) > 1 and ' ' not in val and not val.startswith('[')
-        display = val if bare_word else (f'"{val}"' if len(val) > 1 else val)
+        display = val
         return display.center(width)
 
     def fmt_magic_row(trigger, variants):
-        cells = ''.join(fmt_magic_val(trigger, v, variants.get(v, ''), 9) + '|' for v in VARIANTS)
-        return f"|{trigger.center(7)}|{cells}\n"
+        cells = ''.join(
+            fmt_magic_val(trigger, v, variants.get(v, ''), magic_widths[i]) + '|'
+            for i, v in enumerate(VARIANTS, start=1)
+        )
+        return f"|{trigger.center(magic_widths[0])}|{cells}\n"
 
     # Rewrite file
     new_lines = []
@@ -288,7 +394,7 @@ def apply_to_readme(add, keep, magic_remove, magic_add_new, magic_table, quoted_
 
         if section == 'adaptives':
             if stripped.startswith('|:-'):
-                new_lines.append(line)
+                new_lines.append(fmt_adaptive_rule())
                 # Merge and sort all adaptive rows together
                 all_rows = sorted(set(all_adaptives) | set(multi_char_adaptives))
                 for a, c, b in all_rows:
@@ -316,6 +422,7 @@ def main():
     args = parser.parse_args()
 
     existing, compensation = load_existing_adaptives()
+    existing_physical = {(trigger, output): key for (trigger, key), output in existing.items()}
     magic_table, quoted_magic = load_magic_table()
     magic_covered = load_magic_coverage(magic_table)
 
@@ -394,28 +501,50 @@ def main():
             # than the intercepted sequence, so net-positive alone isn't enough.
             if not magic_free and sacrifice * 2 >= bigram_freq:
                 continue
+            def follower_physical_key(follower_output):
+                return existing_physical.get((b, follower_output), follower_output)
+
+            physical_followers = [
+                (follower_physical_key(tg[2]), cnt)
+                for tg, cnt in followers
+                if tg[2] in LAYOUT and follower_physical_key(tg[2]) in LAYOUT
+            ]
             bad_following = sum(
-                1 for tg, _ in followers
-                if tg[2] in LAYOUT and is_bad_chars(c, tg[2])
+                1 for follower_key, _ in physical_followers
+                if is_bad_chars(c, follower_key)
             )
             # Weighted following-feel: captures awkward-but-not-bad motions (e.g. 'h→y' in 'lly').
-            weight_total = sum(cnt for tg, cnt in followers if tg[2] in LAYOUT) or 1
-            # Strip combo-target penalty: tg[2] is user's intended output — they
-            # type the combo anyway, it's not follow-through awkwardness.
+            weight_total = sum(cnt for _, cnt in physical_followers) or 1
+            # Strip combo-target penalty: the follower key here is the physical key
+            # actually pressed after b, after resolving any existing b+output adaptive.
             following_feel = sum(
-                feel_score(c, tg[2], combo_target_penalty=False) * cnt
-                for tg, cnt in followers if tg[2] in LAYOUT
+                feel_score(c, follower_key, combo_target_penalty=False) * cnt
+                for follower_key, cnt in physical_followers
             ) / weight_total
             feel = feel_score(a, c)
             same_hand = (LAYOUT[a][0] < 4) == (LAYOUT[c][0] < 4)
             candidates.append((c, sacrifice, bad_following, feel, same_hand, magic_free, following_feel))
 
-        # Rank by net gain (= low sacrifice, since gain is per-bigram constant),
-        # then by feel and follow-ups as tiebreak.
-        # Effective cost: sacrifice + small per-feel-level penalty so that
-        # feel breaks ties when sacrifices are similar, but big sacrifices still lose.
+        # Rank primarily by motion quality. If sacrifice can be recovered by magic,
+        # tiny corpus deltas are mostly moot, so prefer cleaner physical motion and
+        # follow-through over a slightly smaller intercepted bigram.
+        # Otherwise include sacrifice as the primary cost.
         FEEL_COST = 0.005 * total / 100  # 0.005% of corpus per feel level
-        candidates.sort(key=lambda x: (x[1] + FEEL_COST * x[3], x[2], x[6], x[4]))
+        def candidate_sort_key(candidate):
+            c, sacrifice, bad_following, feel, _same_hand, magic_free, following_feel = candidate
+            a_pos, c_pos = LAYOUT[a], LAYOUT[c]
+            row_diff = abs(a_pos[1] - c_pos[1])
+            col_diff = abs(a_pos[0] - c_pos[0])
+            motion_tier = 2
+            if row_diff == 0:
+                motion_tier = 0
+            elif is_thumb(c_pos):
+                motion_tier = 1
+            if magic_free:
+                return (feel, motion_tier, row_diff, bad_following, following_feel, col_diff, sacrifice)
+            return (sacrifice + FEEL_COST * feel, motion_tier, row_diff, bad_following, following_feel, col_diff)
+
+        candidates.sort(key=candidate_sort_key)
 
         if not candidates:
             print("  (no candidates)")
@@ -466,27 +595,16 @@ def main():
               f"   sacrifice '{a}{c}' {pct(sacrifice):.3f}%   following-bad: {follower_str}{marker}")
 
     # --- Recommended changes (greedy assignment) ---
-    # Assign candidates greedily by bigram frequency; fall back when (a, c) already taken.
-    # If an existing adaptive already covers (a, b) with equal or better feel, keep it.
+    # Assign candidates greedily by effective-gain order; fall back when (a, c)
+    # is already claimed. Existing adaptives compete normally and can be displaced
+    # if a higher-value output wants the same slot.
     bad_freq = {(a, b): freq for a, b, freq in bad}
     recommended = {}  # (trigger, physical) -> output
+    recommended_outputs = set()  # (trigger, output)
     for a, b, _ in bad:  # already sorted by frequency descending
+        if (a, b) in recommended_outputs:
+            continue
         candidates_list = all_candidates.get((a, b), [])
-        by_key = {cand[0]: cand for cand in candidates_list}
-
-        # If existing already has a valid candidate for this output, prefer it unless
-        # a strictly better-feel new candidate exists. Skip slots claimed by higher-freq bigrams.
-        existing_for_output = [(a, c_ex) for (a_ex, c_ex), b_ex in existing.items()
-                               if a_ex == a and b_ex == b and c_ex in by_key
-                               and (a_ex, c_ex) not in recommended]
-        if existing_for_output:
-            best_new_feel = min((by_key[c][3] for c in by_key if (a, c) not in existing and existing.get((a, c)) is None), default=999)
-            existing_feel = min(by_key[c_ex][3] for _, c_ex in existing_for_output)
-            if best_new_feel >= existing_feel:
-                # Existing is at least as good; record it as recommended and skip new
-                for _, c_ex in existing_for_output:
-                    recommended[(a, c_ex)] = b
-                continue
 
         # Higher effective-gain bigrams claim slots first (doubles nerfed by DOUBLE_NERF);
         # existing adaptives for lower-gain outputs naturally lose the slot via iteration order.
@@ -496,6 +614,7 @@ def main():
             if (a, c) in recommended:
                 continue  # already claimed this run
             recommended[(a, c)] = b
+            recommended_outputs.add((a, b))
             break
 
     # Build index: for each (trigger, output), which physical key is recommended?
@@ -504,16 +623,14 @@ def main():
         recommended_physical[(a, b)] = c
 
     def existing_superseded(a, c, b):
-        """True if a strictly better-feel candidate was recommended for the same (trigger, output)."""
+        """True if a different candidate was recommended for the same (trigger, output)."""
         c_new = recommended_physical.get((a, b))
         if c_new is None or c_new == c:
             return False
         by_key = {cand[0]: cand for cand in all_candidates.get((a, b), [])}
         if c not in by_key:
             return False  # existing key was a deliberate user choice outside valid candidates
-        feel_old = by_key[c][3]
-        feel_new = by_key[c_new][3] if c_new in by_key else 999
-        return feel_new < feel_old
+        return True
 
     def slot_displaced(a, c, b):
         """True if (a, c) slot was reassigned to a different output by a higher-freq bigram."""
@@ -555,10 +672,6 @@ def main():
         if not acceptable:
             best_feel = min((cand[3] for cand in all_candidates.get((a, b), [])), default=999)
             magic_add[(a, b)] = f"bad bigram '{a}{b}' {pct(bigram_freq):.3f}%, best adaptive feel={best_feel}"
-    for a, c, b in remove:
-        if (a, b) in truly_bad and (a, b) not in covered_outputs and (a, b) not in magic_add:
-            magic_add[(a, b)] = f"removed adaptive '{a}+{c}→{b}'"
-
     # Recovery magic: new adaptives intercept trigger+physical → the original ac sequence
     # is now lost; suggest magic trigger→physical so it can still be typed.
     # Skip if a compensation adaptive (e.g. qu) already covers this pair.
@@ -581,9 +694,15 @@ def main():
     # Also free recovery magic for removed adaptives: if adaptive a+c→b is removed, the
     # magic entry for (a, c) that allowed typing "ac" is no longer needed.
     magic_remove = {}  # (trigger, variant) -> output
+    orphaned_removed_outputs = {
+        (a, b) for a, _c, b in remove
+        if (a, b) not in covered_outputs and (a, b) not in magic_add
+    }
     for trigger, variants in magic_table.items():
         for variant, val in variants.items():
             if len(val) == 1 and val.isalpha() and (trigger, val) in covered_outputs:
+                magic_remove[(trigger, variant)] = val
+            elif len(val) == 1 and val.isalpha() and (trigger, val) in orphaned_removed_outputs:
                 magic_remove[(trigger, variant)] = val
             elif (trigger, val) in lost_pairs and (trigger, val) not in magic_add:
                 magic_remove[(trigger, variant)] = val

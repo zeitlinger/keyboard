@@ -45,6 +45,8 @@ def is_thumb(pos):
 
 
 def is_sfb(a, b):
+    if a == b:
+        return True
     if is_thumb(a) or is_thumb(b):
         return False
     return a[0] == b[0]
@@ -134,7 +136,9 @@ def feel_score_positions(a_pos, b_pos, *, target_is_combo=False, source_char=Non
         inward = b_pos[0] > a_pos[0]
 
         if row_diff > 3 and 'd' not in (source_char, target_char):
-            return 99
+            # Very long same-hand reaches are bad, but using a sentinel here
+            # overwhelms weighted follow-through scoring in the adaptive suggester.
+            return 4 if col_diff == 0 else 99
 
         if row_diff > 3:
             score = 2 if not inward else 0
@@ -142,7 +146,14 @@ def feel_score_positions(a_pos, b_pos, *, target_is_combo=False, source_char=Non
             score = 0
         elif col_diff == 1 and row_diff > 0:
             pinky = (a_pos[0] in (0, 7) or b_pos[0] in (0, 7))
-            score = 3 if pinky else 1
+            if pinky:
+                score = 3
+            elif row_diff >= 2 and b_pos[1] < a_pos[1]:
+                # Same-hand adjacent-finger upward jumps from the lower rows are
+                # noticeably worse than plain alternation, even if not full scissors.
+                score = 2
+            else:
+                score = 1
         elif col_diff >= 2 and row_diff >= 2 and b_pos[1] < a_pos[1] and b_pos[1] != 2:
             # Upward diagonal reach same-hand (e.g. sw: pinky-home → middle-top).
             # Downward diagonals are natural curls (sd: pinky-home → index-bottom).
