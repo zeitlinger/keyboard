@@ -12,10 +12,15 @@ import argparse
 import math
 import re
 import subprocess
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
 from wordfreq import word_frequency
+
+ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from feel import (
     LAYOUT,
@@ -30,7 +35,6 @@ from feel import (
 DEFAULT_OLD_CHORD_REF = "21f2800^"
 LETTER_ROWS = [chr(code) for code in range(ord("a"), ord("z") + 1)]
 NON_LETTER_ROWS = ["spc", "tab", "↩️️", "~", ",", ".", "-", "=", "!"]
-ROOT = Path(__file__).parent.parent
 README = ROOT / "README.md"
 
 # Approximate physical positions for keys that can precede a magic press.
@@ -56,6 +60,7 @@ class ChordEntry:
     status: str
     frequency_override: float | None = None
     source_label: str = "general"
+    representation: str | None = None
 
 
 @dataclass(frozen=True)
@@ -64,6 +69,7 @@ class MagicSlot:
     column: str
     row_kind: str
     feel: float
+    opposite_hand: bool
     starts_with_row: bool
     representation: str
 
@@ -89,9 +95,15 @@ class PhysicalAction:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Greedy assignment of old chord outputs into free magic-table slots."
+        description="Find free magic-table placements for candidate outputs."
     )
     parser.add_argument("--readme", type=Path, default=README, help="Path to README.md")
+    parser.add_argument("words", nargs="*", help="Explicit words or phrases to rank into free magic slots")
+    parser.add_argument(
+        "--words-file",
+        type=Path,
+        help="Optional newline-delimited word list; blank lines and # comments are ignored.",
+    )
     parser.add_argument(
         "--old-chords-file",
         type=Path,
@@ -138,7 +150,31 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Print occupied slots in the summary",
     )
+    parser.add_argument(
+        "--rearrange-current",
+        action="store_true",
+        help="Rank current multi-character magic entries as move candidates, not just free-slot placements.",
+    )
     return parser.parse_args()
+
+
+def load_explicit_words(args: argparse.Namespace) -> list[str]:
+    words = list(args.words)
+    if args.words_file:
+        for raw_line in args.words_file.read_text().splitlines():
+            line = raw_line.strip()
+            if not line or line.startswith("#"):
+                continue
+            words.append(line)
+    seen: set[str] = set()
+    ordered: list[str] = []
+    for word in words:
+        normalized = word.strip().lower()
+        if not normalized or normalized in seen:
+            continue
+        seen.add(normalized)
+        ordered.append(normalized)
+    return ordered
 
 
 def load_adaptive_blocks(readme: Path) -> set[tuple[str, str]]:
@@ -220,6 +256,11 @@ def weighted_frequency(entry: ChordEntry, source_weights: dict[str, float]) -> f
     return math.log1p(weighted * 1_000_000)
 
 
+def is_word_output(output: str) -> bool:
+    words = re.findall(r"[a-z']+", output.lower())
+    return bool(words)
+
+
 def parse_source_caps(raw: str | None) -> dict[str, int]:
     if not raw:
         return {}
@@ -247,11 +288,25 @@ def assignment_value(
         return 0.0, 0.0, 0.0, saved
     freq = weighted_frequency(entry, source_weights)
     difficulty = output_difficulty(entry.output, adaptives, blocked_pairs, magic_rows)
-    value = saved ** 2 * freq * difficulty / (slot.feel + 1)
+    hand_bonus = 1.35 if is_word_output(entry.output) and slot.opposite_hand else 0.75 if is_word_output(entry.output) else 1.0
+    value = saved ** 2 * freq * difficulty * hand_bonus / (slot.feel + 1)
     return value, freq, difficulty, saved
 
 
 def load_old_chords(args: argparse.Namespace) -> list[ChordEntry]:
+    explicit_words = load_explicit_words(args)
+    if explicit_words:
+        return [
+            ChordEntry(
+                chord="input",
+                output=word,
+                status="",
+                source_label="input",
+            )
+            for word in explicit_words
+        ]
+    if args.rearrange_current:
+        return load_current_magic_words(args.readme)
     if args.candidates_file:
         return parse_candidates_file(args.candidates_file)
     if args.old_chords_file:
@@ -333,6 +388,28 @@ def parse_candidates_file(path: Path) -> list[ChordEntry]:
     return rows
 
 
+def load_current_magic_words(readme: Path) -> list[ChordEntry]:
+    header, rows, _ = parse_magic_table(readme)
+    entries: list[ChordEntry] = []
+    for row_name, (_, cells) in rows.items():
+        for index, cell in enumerate(cells):
+            if not cell or cell.startswith("["):
+                continue
+            raw = cell[1:-1] if cell.startswith('"') and cell.endswith('"') else cell
+            if len(raw) <= 2:
+                continue
+            entries.append(
+                ChordEntry(
+                    chord=f"{row_name}:{header[index]}",
+                    output=raw.lower(),
+                    status="current",
+                    source_label="current",
+                    representation=cell,
+                )
+            )
+    return entries
+
+
 def magic_table_bounds(lines: list[str]) -> tuple[int, int]:
     start = next(
         i
@@ -396,15 +473,17 @@ def literal_cell(output: str) -> str:
     return f'"{output} "'
 
 
-def magic_feel_score(prev: str, column: str, starts_with_prev: bool) -> float:
+def magic_feel_score(prev: str, column: str, starts_with_prev: bool) -> tuple[float, bool]:
     prev_pos = PRECEDING_POSITIONS.get(prev)
     magic_pos = MAGIC_POSITIONS[column]
+    opposite_hand = False
     if prev_pos is None:
         score = 1.5
     else:
         score = float(feel_score_positions(prev_pos, magic_pos))
         prev_left = prev_pos[0] < 4
         magic_left = magic_pos[0] < 4
+        opposite_hand = prev_left != magic_left
         if prev_left == magic_left:
             score += 0.8
         else:
@@ -413,15 +492,18 @@ def magic_feel_score(prev: str, column: str, starts_with_prev: bool) -> float:
         score += 1.2
     if not starts_with_prev:
         score += 0.5
-    return max(0.0, score)
+    return max(0.0, score), opposite_hand
 
 
 def candidate_slots(
     output: str,
+    representation: str,
     header: list[str],
     rows: dict[str, tuple[int, list[str]]],
     *,
     letters_only: bool,
+    allow_occupied: bool = False,
+    movable_slots: set[tuple[str, str]] | None = None,
 ) -> list[MagicSlot]:
     allowed_rows = LETTER_ROWS if letters_only else LETTER_ROWS + NON_LETTER_ROWS
     slots: list[MagicSlot] = []
@@ -429,17 +511,22 @@ def candidate_slots(
         current = rows.get(row)
         current_cells = current[1] if current else [""] * len(header)
         for index, column in enumerate(header):
-            if current_cells[index]:
+            slot_key = (row, column)
+            if current_cells[index] and not allow_occupied:
+                continue
+            if current_cells[index] and allow_occupied and movable_slots is not None and slot_key not in movable_slots:
                 continue
             starts_with_row = len(row) == 1 and output.lower().startswith(row)
+            feel, opposite_hand = magic_feel_score(row, column, starts_with_row)
             slots.append(
                 MagicSlot(
                     row=row,
                     column=column,
                     row_kind="letter" if len(row) == 1 and row.isalpha() else "non-letter",
-                    feel=magic_feel_score(row, column, starts_with_row),
+                    feel=feel,
+                    opposite_hand=opposite_hand,
                     starts_with_row=starts_with_row,
-                    representation=literal_cell(output),
+                    representation=representation,
                 )
             )
     return slots
@@ -561,10 +648,30 @@ def greedy_assign(
     *,
     letters_only: bool,
     budget: int,
+    allow_occupied: bool = False,
+    distinct_by_output: bool = True,
 ) -> list[Assignment]:
+    movable_slots = None
+    if allow_occupied:
+        movable_slots = set()
+        for entry in old_chords:
+            if ":" not in entry.chord:
+                continue
+            row_name, column = entry.chord.split(":", 1)
+            movable_slots.add((row_name, column))
+
     candidates: list[Assignment] = []
     for entry in old_chords:
-        for slot in candidate_slots(entry.output, header, rows, letters_only=letters_only):
+        representation = entry.representation or literal_cell(entry.output)
+        for slot in candidate_slots(
+            entry.output,
+            representation,
+            header,
+            rows,
+            letters_only=letters_only,
+            allow_occupied=allow_occupied,
+            movable_slots=movable_slots,
+        ):
             value, freq, difficulty, saved = assignment_value(
                 entry, slot, adaptives, blocked_pairs, magic_rows, source_weights
             )
@@ -593,13 +700,14 @@ def greedy_assign(
         )
     )
 
-    used_words: set[str] = set()
+    used_entries: set[str] = set()
     used_slots: set[tuple[str, str]] = set()
     used_source_counts: dict[str, int] = {}
     assignments: list[Assignment] = []
     for candidate in candidates:
         slot_key = (candidate.slot.row, candidate.slot.column)
-        if candidate.output in used_words or slot_key in used_slots:
+        entry_key = candidate.output if distinct_by_output else candidate.source_chord
+        if entry_key in used_entries or slot_key in used_slots:
             continue
         candidate_sources = candidate.source_label.split("+")
         if any(
@@ -608,7 +716,7 @@ def greedy_assign(
             if source in source_caps
         ):
             continue
-        used_words.add(candidate.output)
+        used_entries.add(entry_key)
         used_slots.add(slot_key)
         for source in candidate_sources:
             used_source_counts[source] = used_source_counts.get(source, 0) + 1
@@ -618,9 +726,34 @@ def greedy_assign(
     return assignments
 
 
-def apply_assignments(readme: Path, header: list[str], count: int, assignments: list[Assignment]) -> None:
+def apply_assignments(
+    readme: Path,
+    header: list[str],
+    count: int,
+    assignments: list[Assignment],
+    *,
+    rearrange_current: bool = False,
+    current_entries: list[ChordEntry] | None = None,
+) -> None:
     _, rows, lines = parse_magic_table(readme)
     top = assignments[:count]
+
+    if rearrange_current:
+        assigned_sources = {assignment.source_chord for assignment in top}
+        unassigned_entries: list[ChordEntry] = []
+        for entry in current_entries or []:
+            if ":" not in entry.chord:
+                continue
+            if entry.chord not in assigned_sources:
+                unassigned_entries.append(entry)
+            row_name, column = entry.chord.split(":", 1)
+            row_index, cells = rows[row_name]
+            column_index = header.index(column)
+            cells[column_index] = ""
+            lines[row_index] = format_magic_row(row_name, cells)
+            _, rows, lines = parse_magic_table_from_lines(lines)
+    else:
+        unassigned_entries = []
 
     for assignment in top:
         if assignment.slot.row not in rows:
@@ -645,11 +778,23 @@ def apply_assignments(readme: Path, header: list[str], count: int, assignments: 
         lines[row_index] = format_magic_row(assignment.slot.row, cells)
         _, rows, lines = parse_magic_table_from_lines(lines)
 
+    for entry in unassigned_entries:
+        if ":" not in entry.chord or entry.representation is None:
+            continue
+        row_name, column = entry.chord.split(":", 1)
+        row_index, cells = rows[row_name]
+        column_index = header.index(column)
+        if cells[column_index]:
+            raise ValueError(f"Unassigned slot already occupied during restore: {row_name}/{column}")
+        cells[column_index] = entry.representation
+        lines[row_index] = format_magic_row(row_name, cells)
+        _, rows, lines = parse_magic_table_from_lines(lines)
+
     readme.write_text("\n".join(lines) + "\n")
 
 
 def print_summary(
-    old_chords: list[ChordEntry],
+    candidates: list[ChordEntry],
     assignments: list[Assignment],
     header: list[str],
     rows: dict[str, tuple[int, list[str]]],
@@ -665,7 +810,7 @@ def print_summary(
     )
     occupied_slots = sum(1 for _, cells in rows.values() for cell in cells if cell)
     print(
-        f"old chords: {len(old_chords)}  assigned: {len(assignments)}  "
+        f"candidates: {len(candidates)}  assigned: {len(assignments)}  "
         f"free slots considered: {free_slots}  occupied: {occupied_slots}"
     )
     if include_filled:
@@ -680,12 +825,92 @@ def print_summary(
     print("top assignments:")
     for assignment in assignments[:limit]:
         starts = "strip" if assignment.slot.starts_with_row else "bs"
+        hand = "opp" if assignment.slot.opposite_hand else "same"
         print(
             f"  {assignment.output:<24} <- {assignment.source_chord:<3}  "
             f"{assignment.slot.row:>4} {assignment.slot.column:<7} "
-            f"feel={assignment.slot.feel:>4.1f} {starts:<5} "
+            f"feel={assignment.slot.feel:>4.1f} {hand:<4} {starts:<5} "
             f"saved={assignment.saved:<2} diff={assignment.difficulty:>4.2f} "
             f"freq={assignment.frequency:.6f} value={assignment.value:.6f}"
+        )
+
+
+def current_slot_from_source(
+    source: str,
+    header: list[str],
+    rows: dict[str, tuple[int, list[str]]],
+    output: str,
+) -> MagicSlot | None:
+    if ":" not in source:
+        return None
+    row, column = source.split(":", 1)
+    current = rows.get(row)
+    if current is None or column not in header:
+        return None
+    starts_with_row = len(row) == 1 and output.lower().startswith(row)
+    feel, opposite_hand = magic_feel_score(row, column, starts_with_row)
+    return MagicSlot(
+        row=row,
+        column=column,
+        row_kind="letter" if len(row) == 1 and row.isalpha() else "non-letter",
+        feel=feel,
+        opposite_hand=opposite_hand,
+        starts_with_row=starts_with_row,
+        representation=literal_cell(output),
+    )
+
+
+def print_rearrangements(
+    assignments: list[Assignment],
+    header: list[str],
+    rows: dict[str, tuple[int, list[str]]],
+    adaptives: dict[tuple[str, str], str],
+    blocked_pairs: set[tuple[str, str]],
+    magic_rows: dict[str, dict[str, str]],
+    source_weights: dict[str, float],
+    *,
+    limit: int,
+) -> None:
+    moves = []
+    for assignment in assignments:
+        source = assignment.source_chord
+        current_slot = current_slot_from_source(source, header, rows, assignment.output)
+        if current_slot is None:
+            continue
+        current_row, current_column = current_slot.row, current_slot.column
+        if (current_row, current_column) == (assignment.slot.row, assignment.slot.column):
+            continue
+        current_value, _, _, _ = assignment_value(
+            ChordEntry(
+                chord=assignment.source_chord,
+                output=assignment.output,
+                status="current",
+                source_label=assignment.source_label,
+            ),
+            current_slot,
+            adaptives,
+            blocked_pairs,
+            magic_rows,
+            source_weights,
+        )
+        if current_slot.opposite_hand:
+            continue
+        if not assignment.slot.opposite_hand:
+            continue
+        if assignment.value <= current_value * 1.05:
+            continue
+        moves.append((current_row, current_column, assignment))
+    print()
+    print("suggested rearrangements:")
+    if not moves:
+        print("  <none>")
+        return
+    for current_row, current_column, assignment in moves[:limit]:
+        hand = "opp" if assignment.slot.opposite_hand else "same"
+        print(
+            f"  {assignment.output:<24} {current_row:>4} {current_column:<7} -> "
+            f"{assignment.slot.row:>4} {assignment.slot.column:<7} "
+            f"feel={assignment.slot.feel:>4.1f} {hand:<4} value={assignment.value:.6f}"
         )
 
 
@@ -709,6 +934,8 @@ def main() -> None:
         source_caps,
         letters_only=args.letters_only,
         budget=args.budget,
+        allow_occupied=args.rearrange_current,
+        distinct_by_output=not args.rearrange_current,
     )
 
     print_summary(
@@ -719,9 +946,27 @@ def main() -> None:
         limit=args.limit,
         include_filled=args.include_filled,
     )
+    if args.rearrange_current:
+        print_rearrangements(
+            assignments,
+            header,
+            rows,
+            adaptives,
+            blocked_pairs,
+            magic_rows,
+            source_weights,
+            limit=args.limit,
+        )
 
     if args.apply:
-        apply_assignments(args.readme, header, args.apply, assignments)
+        apply_assignments(
+            args.readme,
+            header,
+            args.apply,
+            assignments,
+            rearrange_current=args.rearrange_current,
+            current_entries=old_chords if args.rearrange_current else None,
+        )
         print()
         print(f"applied top {args.apply} assignments to {args.readme}")
 

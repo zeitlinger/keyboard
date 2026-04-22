@@ -115,8 +115,8 @@ Cell = what to emit.
 |    s    |       someone        |               r               |           |        "sion"        |       d       |           |   something   |                    |            |
 |    t    |          n           |               f               |           |        "tion"        |               |           |   thank you   |         ,          |     .      |
 |    u    |       business       |                               |     h     |                      |               |           |   understand  |                    |   update   |
-|    v    | zeitlinger@gmail.com | gregor.zeitlinger@grafana.com |           | gregor@zeitlinger.de |               |           |               |                    |            |
-|    w    |         will         |             wasn't            |           |          s           |       x       |           |     where     |       which        |    when    |
+|    v    | zeitlinger@gmail.com | gregor.zeitlinger@grafana.com |           | gregor@zeitlinger.de |               |           |     never     |                    |            |
+|    w    |         will         |             wasn't            |           |          s           |       x       |  always   |     where     |       which        |    when    |
 |    x    |                      |               w               |           |          r           |       d       |           |               |                    |            |
 |    y    |                      |                               |     r     |                      |               |           |               |                    |   worry    |
 |    z    |      zeitlinger      |             gregor            |           |       Grafana        |  Grafana Labs |           | OpenTelemetry |    Spring Boot     | Prometheus |
