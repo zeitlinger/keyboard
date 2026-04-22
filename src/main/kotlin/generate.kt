@@ -256,7 +256,31 @@ private fun addMagicEntry(
     def: String,
     stringOffsets: Map<String, Int>,
 ) {
-    val command = when {
+    val command = magicCommand(translator, pos, base, precedingChar, def, stringOffsets, capitalizeFirst = false)
+
+    map[base] = command
+    if (isLetter(base)) {
+        map[shifted(base)] = magicCommand(
+            translator,
+            pos,
+            shifted(base),
+            precedingChar,
+            def,
+            stringOffsets,
+            capitalizeFirst = true,
+        )
+    }
+}
+
+private fun magicCommand(
+    translator: QmkTranslator,
+    pos: KeyPosition,
+    base: QmkKey,
+    precedingChar: String,
+    def: String,
+    stringOffsets: Map<String, Int>,
+    capitalizeFirst: Boolean,
+): String = when {
         def.startsWith("[") && def.endsWith("]") -> bracketCommand(def.removeSurrounding("[", "]"), pos)
         def.length == 1 -> {
             val qmk = translator.toQmk(def, pos)
@@ -274,7 +298,12 @@ private fun addMagicEntry(
             val output = if (quoted) str else "$str "
             val prevIsLetter = precedingChar.length == 1 && precedingChar[0].isLetter()
             val emitted = if (prevIsLetter && output.startsWith(precedingChar)) output.drop(precedingChar.length) else output
-            val sendEncoded = stringOffsets[emitted]?.let { "magic_decode_send($it);" } ?: "SEND_STRING(\"$emitted\");"
+            val adjusted = if (capitalizeFirst && prevIsLetter && emitted.isNotEmpty()) {
+                emitted.replaceFirstChar { it.titlecase() }
+            } else {
+                emitted
+            }
+            val sendEncoded = stringOffsets[adjusted]?.let { "magic_decode_send($it);" } ?: "SEND_STRING(\"$adjusted\");"
             val send = when {
                 prevIsLetter && output.startsWith(precedingChar) ->
                     sendEncoded
@@ -287,12 +316,6 @@ private fun addMagicEntry(
         }
         else -> throw IllegalArgumentException("unknown command '${def}' in $pos")
     }
-
-    map[base] = command
-    if (isLetter(base)) {
-        map[shifted(base)] = command
-    }
-}
 
 private fun isBareWord(def: String): Boolean =
     def.length > 1 &&
