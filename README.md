@@ -95,30 +95,30 @@ Cell = what to emit.
 
 |  Magic  |       magic_a        |            magic_b            |  magic_c  |       magic_d        |    magic_e    |  magic_f  |    magic_g    |      magic_h       |  magic_i   |
 | :-----: | :------------------: | :---------------------------: | :-------: | :------------------: | :-----------: | :-------: | :-----------: | :----------------: | :--------: |
-|    a    |        about         |                               |     e     |        after         |    anything   |           |     again     |                    |  another   |
+|    a    |                      |                               |     e     |                      |               |           |               |                    |            |
 |    b    |        behind        |            between            |           |       because        |       d       |           |     before    |      through       |   though   |
-|    c    |          n           |                               |           |          p           |       d       |           |               |         !          |     ?      |
+|    c    |          n           |            update             |           |          p           |       d       |           |  understand   |         !          |     ?      |
 |    d    |          c           |               h               |           |       doesn't        |       f       |           |     didn't    |       don't        |    does    |
-|    e    |      exception       |             enough            |     h     |         exit         |       u       |           |               |                    |            |
-|    f    |        found         |             first             |           |                      |       d       |           |               |                    |            |
-|    g    |        global        |               f               |           |          k           |       d       |           |    organize   |                    |  realize   |
-|    h    |                      |                               |           |         have         |       y       |           |               |                    |            |
-|    i    |   instrumentation    |                               |           |         I've         |       '       |           |               |                    |            |
-|    j    |                      |                               |           |         just         |               |           |               |                    |            |
-|    k    |          r           |                               |           |         know         |       x       |           |               |                    |            |
-|    l    |          m           |               h               |           |          r           |       c       |           |    language   |       leave        |            |
-|    m    |          r           |               h               |           |        "ment"        |       l       |     t     |               |                    |            |
+|    e    |                      |                               |     h     |                      |       u       |           |               |                    |            |
+|    f    |        found         |             first             |           |       business       |       d       |           |   exception   |     anything       |   enough   |
+|    g    |        global        |               f               |           |          k           |       d       |           |    organize   |      another       |  realize   |
+|    h    |                      |                               |           |                      |       y       |           |               |                    |            |
+|    i    |                      |                               |     '     |                      |               |           |               |                    |            |
+|    j    |                      |                               |           |                      |               |           |               |                    |            |
+|    k    |          r           |             about             |           |         know         |       x       |           |     again     |        have        |    just    |
+|    l    |          m           |               h               |           |          r           |       c       |           |    language   |       leave        |   after    |
+|    m    |          r           |               h               |           |        "ment"        |       l       |     t     | instrumentation |       I've        |  without   |
 |    n    |          r           |               h               |           |         "qu"         |       x       |     k     |     number    |         '          |     "      |
-|    o    |                      |                               |     h     |                      | observability |           |       e       |      without       |    only    |
-|    p    |          y           |               m               |           |          n           |       d       |           |   production  | declarative config |  probably  |
+|    o    |                      |                               |     h     |                      |               |           |       e       |                    |            |
+|    p    |          y           |               m               |           |          n           |       d   | observability |   production  | declarative config |  probably  |
 |    r    |       already        |           everything          |           |          k           |     almost    |     x     |    thought    |       people       | elaborate  |
-|    s    |       someone        |               r               |           |        "sion"        |       d       |           |   something   |                    |            |
+|    s    |       someone        |               r               |           |        "sion"        |       d       |           |   something   |        only        |   worry    |
 |    t    |          n           |               f               |           |        "tion"        |               |           |   thank you   |         ,          |     .      |
-|    u    |       business       |                               |     h     |                      |               |           |   understand  |                    |   update   |
+|    u    |                      |                               |     h     |                      |               |           |               |                    |            |
 |    v    | zeitlinger@gmail.com | gregor.zeitlinger@grafana.com |           | gregor@zeitlinger.de |               |           |     never     |                    |            |
 |    w    |         will         |             wasn't            |           |          s           |       x       |  always   |     where     |       which        |    when    |
 |    x    |                      |               w               |           |          r           |       d       |           |               |                    |            |
-|    y    |                      |                               |     r     |                      |               |           |               |                    |   worry    |
+|    y    |                      |                               |     r     |                      |               |           |               |                    |            |
 |    z    |      zeitlinger      |             gregor            |           |       Grafana        |  Grafana Labs |           | OpenTelemetry |    Spring Boot     | Prometheus |
 |   spc   |                      |                               |           |                      |               |           |      and      |        the         |  [dotSpc]  |
 |   tab   |                      |                               |           |                      |               |           |      and      |        the         |            |
