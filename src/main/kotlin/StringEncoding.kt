@@ -42,7 +42,9 @@ private fun tryEncodeStrings(outputs: Map<Int, String>): StringEncoding {
     val sortedChars = charFreq.entries.sortedByDescending { it.value }.map { it.key }
     val maxChars = 14 + 32
     if (sortedChars.size > maxChars) {
-        throw IllegalArgumentException("Magic string encoding supports max $maxChars characters, got ${sortedChars.size} unique characters")
+        throw IllegalArgumentException(
+            "Magic string encoding supports max $maxChars characters, got ${sortedChars.size} unique characters",
+        )
     }
 
     val charToCode = mutableMapOf<Char, Int>()
@@ -111,23 +113,11 @@ private fun generateStringDecoder(encoding: StringEncoding): String {
         }
     }
 
-    val fourBitLookup = fourBitChars.map { char ->
-        val escapedChar = when (char) {
-            '\u0000' -> "\\0"
-            '\'' -> "\\'"
-            '\\' -> "\\\\"
-            '\n' -> "\\n"
-            '\r' -> "\\r"
-            '\t' -> "\\t"
-            else -> char.toString()
-        }
-        "'$escapedChar'"
-    }
-
-    val eightBitLookup = if (eightBitChars.isNotEmpty()) {
-        "static const char magic_char_extended[] = {\n" +
-            "    " + eightBitChars.map { (_, char) ->
-                val escapedChar = when (char) {
+    val fourBitLookup =
+        fourBitChars.map { char ->
+            val escapedChar =
+                when (char) {
+                    '\u0000' -> "\\0"
                     '\'' -> "\\'"
                     '\\' -> "\\\\"
                     '\n' -> "\\n"
@@ -135,20 +125,39 @@ private fun generateStringDecoder(encoding: StringEncoding): String {
                     '\t' -> "\\t"
                     else -> char.toString()
                 }
-                "'$escapedChar'"
-            }.joinToString(", ") + "\n" +
-            "};\n\n"
-    } else {
-        ""
-    }
+            "'$escapedChar'"
+        }
+
+    val eightBitLookup =
+        if (eightBitChars.isNotEmpty()) {
+            "static const char magic_char_extended[] = {\n" +
+                "    " +
+                eightBitChars
+                    .map { (_, char) ->
+                        val escapedChar =
+                            when (char) {
+                                '\'' -> "\\'"
+                                '\\' -> "\\\\"
+                                '\n' -> "\\n"
+                                '\r' -> "\\r"
+                                '\t' -> "\\t"
+                                else -> char.toString()
+                            }
+                        "'$escapedChar'"
+                    }.joinToString(", ") + "\n" +
+                "};\n\n"
+        } else {
+            ""
+        }
 
     val allEncodedBytes = mutableListOf<Byte>()
     encoding.encodedData.entries.sortedBy { it.key }.forEach { (_, bytes) ->
         allEncodedBytes.addAll(bytes.toList())
     }
-    val hexLines = allEncodedBytes.chunked(16).map { chunk ->
-        "    " + chunk.joinToString(", ") { "0x%02x".format(it.toInt() and 0xFF) }
-    }
+    val hexLines =
+        allEncodedBytes.chunked(16).map { chunk ->
+            "    " + chunk.joinToString(", ") { "0x%02x".format(it.toInt() and 0xFF) }
+        }
 
     return """
 // Magic string decoder lookup tables
@@ -218,5 +227,5 @@ static void magic_decode_send_cap(uint16_t offset, char suffix) {
     }
     magic_capitalize_next = false;
 }
-""".trimIndent()
+        """.trimIndent()
 }
