@@ -13,43 +13,44 @@ static const char magic_char_4bit[] = {
 };
 
 static const char magic_char_extended[] = {
-    'b', 'm', 'w', '\'', 'p', 'y', 'c', 'v', 'f', 'z', 'x', '.', '@', 'k', 'G', '"', 'L', 'I', 'O', 'T', 'P', 'S', 'B', 'j', 'q'
+    'b', '\'', 'm', 'w', 'p', 'y', 'c', 'v', 'f', 'z', '.', 'x', '@', 'k', 'G', '"', 'L', 'I', 'O', 'T', 'P', 'S', 'B', 'j', 'q'
 };
 
 static const uint8_t magic_string_data[] = {
-    0x01, 0xef, 0x02, 0xe3, 0xd0, 0x03, 0xe3, 0x88, 0x03, 0xe3, 0x61, 0x02, 0xe3, 0xa0, 0x03, 0xe3,
-    0xe7, 0x10, 0x08, 0xee, 0x63, 0xe8, 0x32, 0x30, 0x0d, 0xee, 0x63, 0xe8, 0x32, 0x30, 0xf0, 0x3f,
-    0xe0, 0xa0, 0x05, 0xf1, 0xe3, 0xe7, 0x10, 0x0e, 0xf2, 0xe4, 0x12, 0xf3, 0x18, 0x1f, 0xe1, 0x14,
-    0x6f, 0xe5, 0x00, 0x0b, 0xf4, 0x65, 0xe1, 0x14, 0xb1, 0xca, 0x00, 0x0c, 0xf5, 0xe4, 0x67, 0x29,
-    0x0f, 0xf6, 0x55, 0x40, 0x06, 0x3f, 0xe0, 0x5c, 0x40, 0x06, 0x3f, 0xe8, 0x41, 0x60, 0x06, 0x39,
-    0x37, 0x20, 0x07, 0x38, 0xe1, 0x5a, 0x40, 0x08, 0x38, 0x61, 0x3d, 0xe5, 0x00, 0x07, 0x38, 0xe2,
-    0x3f, 0xe5, 0xa0, 0x04, 0x32, 0xd0, 0x08, 0x32, 0x54, 0xb1, 0x60, 0x09, 0x32, 0xe5, 0x4b, 0x72,
-    0x90, 0x08, 0xe0, 0x1f, 0xe6, 0x3c, 0xa1, 0x00, 0x07, 0xe0, 0x1f, 0xe8, 0x56, 0x10, 0x07, 0xe0,
-    0x1b, 0x72, 0xd0, 0x08, 0xe0, 0x14, 0xe2, 0x11, 0x20, 0x09, 0xe0, 0xca, 0x72, 0x1a, 0xa0, 0x13,
-    0xd1, 0xe6, 0x83, 0x63, 0x47, 0xe7, 0x10, 0xe6, 0x52, 0xe8, 0x79, 0x00, 0x07, 0xd7, 0xd2, 0xe3,
-    0x40, 0x05, 0xd5, 0x1a, 0x00, 0x08, 0xd5, 0x1a, 0x2f, 0xe3, 0x40, 0x06, 0xd5, 0x2f, 0xe3, 0x40,
-    0x0a, 0x18, 0x3f, 0xe0, 0x56, 0x34, 0x10, 0x0b, 0x1f, 0xe7, 0x16, 0xe5, 0x4b, 0x72, 0x90, 0x0a,
-    0x1f, 0xea, 0xe6, 0x1f, 0xe4, 0x47, 0x52, 0x00, 0x08, 0x1f, 0xea, 0xe6, 0x8c, 0xd1, 0x00, 0x08,
-    0x1f, 0xea, 0xe4, 0x83, 0x72, 0x00, 0x09, 0x1f, 0xea, 0xe4, 0x87, 0xe6, 0x74, 0x00, 0x06, 0xe8,
-    0x76, 0xa4, 0x00, 0x06, 0xe8, 0x5c, 0x2d, 0x00, 0x07, 0x98, 0x5f, 0xe0, 0x38, 0x00, 0x07, 0x96,
-    0x19, 0x56, 0x00, 0x1e, 0x96, 0x19, 0x56, 0xeb, 0xe9, 0x17, 0x48, 0x72, 0x91, 0x6f, 0xec, 0x96,
-    0x3f, 0xe8, 0x32, 0x3f, 0xeb, 0xe6, 0x5f, 0xe1, 0x00, 0x15, 0x96, 0x19, 0x56, 0xec, 0xe9, 0x17,
-    0x48, 0x72, 0x91, 0x6f, 0xeb, 0xd1, 0x00, 0x05, 0xb3, 0xe7, 0x10, 0x08, 0x7f, 0xe1, 0xe4, 0x65,
-    0xe7, 0x10, 0x10, 0x72, 0xa4, 0x6c, 0xe1, 0x12, 0x43, 0x47, 0x52, 0x00, 0x05, 0xf7, 0xca, 0x40,
-    0x05, 0xed, 0x21, 0xe2, 0x00, 0x05, 0xed, 0x25, 0xe2, 0x00, 0x09, 0x83, 0x29, 0xc3, 0x91, 0x00,
-    0x06, 0x81, 0x3f, 0xe7, 0x10, 0x04, 0xe1, 0x12, 0x40, 0x03, 0x2f, 0xe3, 0x40, 0x06, 0x21, 0xe7,
-    0x16, 0x00, 0x07, 0x2c, 0xe1, 0xe0, 0x16, 0x00, 0x0e, 0x5f, 0xe0, 0xa1, 0x6f, 0xe7, 0x3f, 0xe0,
-    0x78, 0x74, 0xe5, 0x00, 0x05, 0x52, 0x8f, 0xe5, 0x00, 0x09, 0x56, 0x93, 0x27, 0xe9, 0x10, 0x07,
-    0xe4, 0x15, 0xe4, 0x81, 0x00, 0x09, 0xe4, 0x65, 0xe0, 0x3f, 0xe0, 0x8f, 0xe5, 0x00, 0x0b, 0xe4,
-    0x65, 0xdc, 0xe6, 0x47, 0x52, 0x00, 0x02, 0xf8, 0xc0, 0x08, 0x61, 0x38, 0x7f, 0xe9, 0x10, 0x04,
-    0xa7, 0x52, 0x08, 0xa5, 0xe1, 0x15, 0x21, 0x00, 0x0a, 0xa5, 0xe1, 0x14, 0xb7, 0x29, 0x00, 0x0a,
-    0x4b, 0x32, 0xed, 0x0f, 0xe5, 0x5c, 0x00, 0x04, 0x4b, 0x10, 0x07, 0x4b, 0x5c, 0x9b, 0x00, 0x08,
-    0x4b, 0x5c, 0x9b, 0x40, 0x08, 0x4b, 0x65, 0xc9, 0xb0, 0x04, 0x47, 0x52, 0x0b, 0xc2, 0xd1, 0x6a,
-    0x43, 0x2d, 0x00, 0x07, 0xcf, 0xe4, 0xd3, 0x41, 0x00, 0x07, 0xe2, 0x3a, 0x2f, 0xe3, 0x40, 0x05,
-    0xe2, 0xb1, 0x20, 0x06, 0xe2, 0xb1, 0x61, 0x00, 0x06, 0xe2, 0xb7, 0xe6, 0xb0, 0x05, 0xe2, 0x78,
-    0x80, 0x08, 0xe2, 0x74, 0xb5, 0xc4, 0x00, 0x06, 0xe2, 0x56, 0x6f, 0xe5, 0x00, 0x06, 0xe2, 0x56,
-    0xa1, 0x00, 0x0b, 0xe9, 0x17, 0x48, 0x72, 0x91, 0x60, 0x15, 0xe9, 0x17, 0x48, 0x72, 0x91, 0x6f,
-    0xec, 0x9f, 0xe1, 0x37, 0x8f, 0xeb, 0xe6, 0x5f, 0xe1, 0x00
+    0x01, 0xef, 0x02, 0xe1, 0xd0, 0x03, 0xe1, 0x88, 0x04, 0xe1, 0x88, 0x00, 0x03, 0xe1, 0x61, 0x02,
+    0xe1, 0xa0, 0x03, 0xe1, 0xe7, 0x10, 0x02, 0xea, 0x00, 0x08, 0xee, 0x63, 0xe8, 0x32, 0x30, 0x0d,
+    0xee, 0x63, 0xe8, 0x32, 0x30, 0xf0, 0x3f, 0xe0, 0xa0, 0x05, 0xf1, 0xe1, 0xe7, 0x10, 0x0e, 0xf2,
+    0xe4, 0x12, 0xf3, 0x18, 0x1f, 0xe2, 0x14, 0x6f, 0xe5, 0x00, 0x0b, 0xf4, 0x65, 0xe2, 0x14, 0xb1,
+    0xca, 0x00, 0x0c, 0xf5, 0xe4, 0x67, 0x29, 0x0f, 0xf6, 0x55, 0x40, 0x06, 0x3f, 0xe0, 0x5c, 0x40,
+    0x06, 0x3f, 0xe8, 0x41, 0x60, 0x06, 0x39, 0x37, 0x20, 0x07, 0x38, 0xe2, 0x5a, 0x40, 0x08, 0x38,
+    0x61, 0x3d, 0xe5, 0x00, 0x07, 0x38, 0xe3, 0x3f, 0xe5, 0xa0, 0x04, 0x32, 0xd0, 0x08, 0x32, 0x54,
+    0xb1, 0x60, 0x09, 0x32, 0xe5, 0x4b, 0x72, 0x90, 0x08, 0xe0, 0x1f, 0xe6, 0x3c, 0xa1, 0x00, 0x07,
+    0xe0, 0x1f, 0xe8, 0x56, 0x10, 0x07, 0xe0, 0x1b, 0x72, 0xd0, 0x08, 0xe0, 0x14, 0xe3, 0x11, 0x20,
+    0x09, 0xe0, 0xca, 0x72, 0x1a, 0xa0, 0x13, 0xd1, 0xe6, 0x83, 0x63, 0x47, 0xe7, 0x10, 0xe6, 0x52,
+    0xe8, 0x79, 0x00, 0x07, 0xd7, 0xd2, 0xe1, 0x40, 0x05, 0xd5, 0x1a, 0x00, 0x08, 0xd5, 0x1a, 0x2f,
+    0xe1, 0x40, 0x06, 0xd5, 0x2f, 0xe1, 0x40, 0x0a, 0x18, 0x3f, 0xe0, 0x56, 0x34, 0x10, 0x0b, 0x1f,
+    0xe7, 0x16, 0xe5, 0x4b, 0x72, 0x90, 0x0a, 0x1f, 0xeb, 0xe6, 0x1f, 0xe4, 0x47, 0x52, 0x00, 0x08,
+    0x1f, 0xeb, 0xe6, 0x8c, 0xd1, 0x00, 0x08, 0x1f, 0xeb, 0xe4, 0x83, 0x72, 0x00, 0x09, 0x1f, 0xeb,
+    0xe4, 0x87, 0xe6, 0x74, 0x00, 0x06, 0xe8, 0x76, 0xa4, 0x00, 0x06, 0xe8, 0x5c, 0x2d, 0x00, 0x07,
+    0x98, 0x5f, 0xe0, 0x38, 0x00, 0x07, 0x96, 0x19, 0x56, 0x00, 0x1e, 0x96, 0x19, 0x56, 0xea, 0xe9,
+    0x17, 0x48, 0x72, 0x91, 0x6f, 0xec, 0x96, 0x3f, 0xe8, 0x32, 0x3f, 0xea, 0xe6, 0x5f, 0xe2, 0x00,
+    0x15, 0x96, 0x19, 0x56, 0xec, 0xe9, 0x17, 0x48, 0x72, 0x91, 0x6f, 0xea, 0xd1, 0x00, 0x05, 0xb3,
+    0xe7, 0x10, 0x08, 0x7f, 0xe2, 0xe4, 0x65, 0xe7, 0x10, 0x10, 0x72, 0xa4, 0x6c, 0xe2, 0x12, 0x43,
+    0x47, 0x52, 0x00, 0x05, 0xf7, 0xca, 0x40, 0x05, 0xed, 0x21, 0xe3, 0x00, 0x05, 0xed, 0x25, 0xe3,
+    0x00, 0x09, 0x83, 0x29, 0xc3, 0x91, 0x00, 0x06, 0x81, 0x3f, 0xe7, 0x10, 0x04, 0xe2, 0x12, 0x40,
+    0x03, 0x2f, 0xe1, 0x40, 0x06, 0x21, 0xe7, 0x16, 0x00, 0x07, 0x2c, 0xe2, 0xe0, 0x16, 0x00, 0x0e,
+    0x5f, 0xe0, 0xa1, 0x6f, 0xe7, 0x3f, 0xe0, 0x78, 0x74, 0xe5, 0x00, 0x05, 0x52, 0x8f, 0xe5, 0x00,
+    0x09, 0x56, 0x93, 0x27, 0xe9, 0x10, 0x07, 0xe4, 0x15, 0xe4, 0x81, 0x00, 0x09, 0xe4, 0x65, 0xe0,
+    0x3f, 0xe0, 0x8f, 0xe5, 0x00, 0x0b, 0xe4, 0x65, 0xdc, 0xe6, 0x47, 0x52, 0x00, 0x02, 0xf8, 0xc0,
+    0x08, 0x61, 0x38, 0x7f, 0xe9, 0x10, 0x04, 0xa7, 0x52, 0x08, 0xa5, 0xe2, 0x15, 0x21, 0x00, 0x0a,
+    0xa5, 0xe2, 0x14, 0xb7, 0x29, 0x00, 0x0a, 0x4b, 0x32, 0xed, 0x0f, 0xe5, 0x5c, 0x00, 0x04, 0x4b,
+    0x10, 0x07, 0x4b, 0x5c, 0x9b, 0x00, 0x08, 0x4b, 0x5c, 0x9b, 0x40, 0x08, 0x4b, 0x65, 0xc9, 0xb0,
+    0x04, 0x47, 0x52, 0x0b, 0xc2, 0xd1, 0x6a, 0x43, 0x2d, 0x00, 0x07, 0xcf, 0xe4, 0xd3, 0x41, 0x00,
+    0x07, 0xe3, 0x3a, 0x2f, 0xe1, 0x40, 0x05, 0xe3, 0xb1, 0x20, 0x06, 0xe3, 0xb1, 0x61, 0x00, 0x06,
+    0xe3, 0xb7, 0xe6, 0xb0, 0x05, 0xe3, 0x78, 0x80, 0x08, 0xe3, 0x74, 0xb5, 0xc4, 0x00, 0x06, 0xe3,
+    0x56, 0x6f, 0xe5, 0x00, 0x06, 0xe3, 0x56, 0xa1, 0x00, 0x0b, 0xe9, 0x17, 0x48, 0x72, 0x91, 0x60,
+    0x15, 0xe9, 0x17, 0x48, 0x72, 0x91, 0x6f, 0xec, 0x9f, 0xe2, 0x37, 0x8f, 0xea, 0xe6, 0x5f, 0xe2,
+    0x00
 };
 
 static void magic_decode_send(uint16_t offset) {
@@ -227,6 +228,8 @@ static uint16_t prev_keycode = KC_NO;
 static uint16_t last_keycode = KC_NO;
 static uint16_t last_magic_trigger = KC_NO;
 static uint16_t last_magic_repeat_keycode = KC_NO;
+static uint16_t magic_remembered_keycode = KC_NO;
+static uint16_t magic_repeat_keycode = KC_NO;
 
 static inline uint16_t unshift_letter_keycode(uint16_t keycode) {
     if (keycode >= S(KC_A) && keycode <= S(KC_Z)) {
@@ -255,6 +258,22 @@ bool tap(uint16_t keycode) {
     set_last_keycode(keycode);
     last_keycode = keycode;
     return false;
+}
+
+static void magic_replace_decode_send_cap(uint16_t offset, char suffix) {
+    tap_code16(KC_BSPC);
+    magic_decode_send_cap(offset, suffix);
+}
+
+static void magic_tap_repeatable(uint16_t keycode) {
+    tap_code16(keycode);
+    magic_remembered_keycode = keycode;
+    magic_repeat_keycode = keycode;
+}
+
+static void magic_replace_tap_repeatable(uint16_t keycode) {
+    tap_code16(KC_BSPC);
+    magic_tap_repeatable(keycode);
 }
 
 bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
@@ -375,269 +394,269 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 if (repeat_last_magic_key(MAGIC_A)) {
                     return false;
                 }
-                uint16_t remembered_keycode = MAGIC_A;
-                uint16_t repeat_keycode = KC_NO;
+                magic_remembered_keycode = MAGIC_A;
+                magic_repeat_keycode = KC_NO;
                 switch (magic_prepare_last_keycode(get_last_keycode())) {
-                    case KC_B: tap_code16(KC_BSPC); magic_decode_send_cap(126, 'd'); break;
-                    case KC_C: tap_code16(KC_N); remembered_keycode = KC_N; repeat_keycode = KC_N; break;
-                    case KC_D: tap_code16(KC_C); remembered_keycode = KC_C; repeat_keycode = KC_C; break;
-                    case KC_F: tap_code16(KC_BSPC); magic_decode_send_cap(227, 'd'); break;
-                    case KC_G: tap_code16(KC_BSPC); magic_decode_send_cap(232, 'l'); break;
-                    case KC_K: tap_code16(KC_R); remembered_keycode = KC_R; repeat_keycode = KC_R; break;
-                    case KC_L: tap_code16(KC_M); remembered_keycode = KC_M; repeat_keycode = KC_M; break;
-                    case KC_M: tap_code16(KC_R); remembered_keycode = KC_R; repeat_keycode = KC_R; break;
-                    case KC_N: tap_code16(KC_R); remembered_keycode = KC_R; repeat_keycode = KC_R; break;
-                    case KC_P: tap_code16(KC_Y); remembered_keycode = KC_Y; repeat_keycode = KC_Y; break;
-                    case KC_R: tap_code16(KC_BSPC); tap_code16(KC_QUOTE); remembered_keycode = KC_QUOTE; repeat_keycode = KC_QUOTE; break;
-                    case KC_S: tap_code16(KC_BSPC); magic_decode_send_cap(402, 'e'); break;
-                    case KC_SPC: tap_code16(KC_BSPC); SEND_STRING("'ll "); clear_suffix_state(); break;
-                    case KC_T: tap_code16(KC_N); remembered_keycode = KC_N; repeat_keycode = KC_N; break;
-                    case KC_V: tap_code16(KC_BSPC); magic_decode_send_cap(505, 'm'); break;
-                    case KC_W: tap_code16(KC_BSPC); magic_decode_send_cap(477, 'l'); break;
-                    case KC_X: tap_code16(KC_BSPC); magic_decode_send_cap(191, 'n'); break;
-                    case KC_Z: tap_code16(KC_BSPC); magic_decode_send_cap(498, 'r'); break;
+                    case KC_B: magic_replace_decode_send_cap(133, 'd'); break;
+                    case KC_C: magic_tap_repeatable(KC_N); break;
+                    case KC_D: magic_tap_repeatable(KC_C); break;
+                    case KC_F: magic_replace_decode_send_cap(234, 'd'); break;
+                    case KC_G: magic_replace_decode_send_cap(239, 'l'); break;
+                    case KC_K: magic_tap_repeatable(KC_R); break;
+                    case KC_L: magic_tap_repeatable(KC_M); break;
+                    case KC_M: magic_tap_repeatable(KC_R); break;
+                    case KC_N: magic_tap_repeatable(KC_R); break;
+                    case KC_P: magic_tap_repeatable(KC_Y); break;
+                    case KC_R: magic_replace_tap_repeatable(KC_QUOTE); break;
+                    case KC_S: magic_replace_decode_send_cap(409, 'e'); break;
+                    case KC_SPC: magic_replace_decode_send_cap(8, '\0'); clear_suffix_state(); break;
+                    case KC_T: magic_tap_repeatable(KC_N); break;
+                    case KC_V: magic_replace_decode_send_cap(512, 'm'); break;
+                    case KC_W: magic_replace_decode_send_cap(484, 'l'); break;
+                    case KC_X: magic_replace_decode_send_cap(198, 'n'); break;
+                    case KC_Z: magic_replace_decode_send_cap(505, 'r'); break;
                 }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_A;
-                last_magic_repeat_keycode = repeat_keycode;
-                set_last_keycode(remembered_keycode);
+                last_magic_repeat_keycode = magic_repeat_keycode;
+                set_last_keycode(magic_remembered_keycode);
                 return false;
             }
             case MAGIC_B: {
                 if (repeat_last_magic_key(MAGIC_B)) {
                     return false;
                 }
-                uint16_t remembered_keycode = MAGIC_B;
-                uint16_t repeat_keycode = KC_NO;
+                magic_remembered_keycode = MAGIC_B;
+                magic_repeat_keycode = KC_NO;
                 switch (magic_prepare_last_keycode(get_last_keycode())) {
-                    case KC_B: tap_code16(KC_BSPC); magic_decode_send_cap(131, 'n'); break;
-                    case KC_C: tap_code16(KC_BSPC); magic_decode_send_cap(5, '\0'); break;
-                    case KC_D: tap_code16(KC_H); remembered_keycode = KC_H; repeat_keycode = KC_H; break;
-                    case KC_F: tap_code16(KC_BSPC); magic_decode_send_cap(222, 't'); break;
-                    case KC_G: tap_code16(KC_F); remembered_keycode = KC_F; repeat_keycode = KC_F; break;
-                    case KC_L: tap_code16(KC_H); remembered_keycode = KC_H; repeat_keycode = KC_H; break;
-                    case KC_M: tap_code16(KC_H); remembered_keycode = KC_H; repeat_keycode = KC_H; break;
-                    case KC_N: tap_code16(KC_H); remembered_keycode = KC_H; repeat_keycode = KC_H; break;
-                    case KC_P: tap_code16(KC_M); remembered_keycode = KC_M; repeat_keycode = KC_M; break;
-                    case KC_R: tap_code16(KC_BSPC); tap_code16(KC_DQUO); remembered_keycode = KC_DQUO; repeat_keycode = KC_DQUO; break;
-                    case KC_S: tap_code16(KC_R); remembered_keycode = KC_R; repeat_keycode = KC_R; break;
-                    case KC_T: tap_code16(KC_F); remembered_keycode = KC_F; repeat_keycode = KC_F; break;
-                    case KC_V: tap_code16(KC_BSPC); magic_decode_send_cap(243, 'm'); break;
-                    case KC_W: tap_code16(KC_BSPC); magic_decode_send_cap(457, 't'); break;
-                    case KC_X: tap_code16(KC_W); remembered_keycode = KC_W; repeat_keycode = KC_W; break;
-                    case KC_Z: tap_code16(KC_BSPC); magic_decode_send_cap(238, 'r'); break;
+                    case KC_B: magic_replace_decode_send_cap(138, 'n'); break;
+                    case KC_C: magic_replace_decode_send_cap(5, '\0'); break;
+                    case KC_D: magic_tap_repeatable(KC_H); break;
+                    case KC_F: magic_replace_decode_send_cap(229, 't'); break;
+                    case KC_G: magic_tap_repeatable(KC_F); break;
+                    case KC_L: magic_tap_repeatable(KC_H); break;
+                    case KC_M: magic_tap_repeatable(KC_H); break;
+                    case KC_N: magic_tap_repeatable(KC_H); break;
+                    case KC_P: magic_tap_repeatable(KC_M); break;
+                    case KC_R: magic_replace_tap_repeatable(KC_DQUO); break;
+                    case KC_S: magic_tap_repeatable(KC_R); break;
+                    case KC_T: magic_tap_repeatable(KC_F); break;
+                    case KC_V: magic_replace_decode_send_cap(250, 'm'); break;
+                    case KC_W: magic_replace_decode_send_cap(464, 't'); break;
+                    case KC_X: magic_tap_repeatable(KC_W); break;
+                    case KC_Z: magic_replace_decode_send_cap(245, 'r'); break;
                 }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_B;
-                last_magic_repeat_keycode = repeat_keycode;
-                set_last_keycode(remembered_keycode);
+                last_magic_repeat_keycode = magic_repeat_keycode;
+                set_last_keycode(magic_remembered_keycode);
                 return false;
             }
             case MAGIC_C: {
                 if (repeat_last_magic_key(MAGIC_C)) {
                     return false;
                 }
-                uint16_t remembered_keycode = MAGIC_C;
-                uint16_t repeat_keycode = KC_NO;
+                magic_remembered_keycode = MAGIC_C;
+                magic_repeat_keycode = KC_NO;
                 switch (magic_prepare_last_keycode(get_last_keycode())) {
-                    case KC_A: tap_code16(KC_E); remembered_keycode = KC_E; repeat_keycode = KC_E; break;
-                    case KC_E: tap_code16(KC_H); remembered_keycode = KC_H; repeat_keycode = KC_H; break;
-                    case KC_I: tap_code16(KC_BSPC); tap_code16(KC_QUOTE); remembered_keycode = KC_QUOTE; repeat_keycode = KC_QUOTE; break;
-                    case KC_O: tap_code16(KC_H); remembered_keycode = KC_H; repeat_keycode = KC_H; break;
-                    case KC_U: tap_code16(KC_H); remembered_keycode = KC_H; repeat_keycode = KC_H; break;
-                    case KC_V: tap_code16(KC_BSPC); magic_decode_send_cap(143, 'g'); break;
-                    case KC_W: tap_code16(KC_BSPC); magic_decode_send_cap(493, 'e'); break;
-                    case KC_Y: tap_code16(KC_R); remembered_keycode = KC_R; repeat_keycode = KC_R; break;
+                    case KC_A: magic_tap_repeatable(KC_E); break;
+                    case KC_E: magic_tap_repeatable(KC_H); break;
+                    case KC_I: magic_replace_tap_repeatable(KC_QUOTE); break;
+                    case KC_O: magic_tap_repeatable(KC_H); break;
+                    case KC_U: magic_tap_repeatable(KC_H); break;
+                    case KC_V: magic_replace_decode_send_cap(150, 'g'); break;
+                    case KC_W: magic_replace_decode_send_cap(500, 'e'); break;
+                    case KC_Y: magic_tap_repeatable(KC_R); break;
                 }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_C;
-                last_magic_repeat_keycode = repeat_keycode;
-                set_last_keycode(remembered_keycode);
+                last_magic_repeat_keycode = magic_repeat_keycode;
+                set_last_keycode(magic_remembered_keycode);
                 return false;
             }
             case MAGIC_D: {
                 if (repeat_last_magic_key(MAGIC_D)) {
                     return false;
                 }
-                uint16_t remembered_keycode = MAGIC_D;
-                uint16_t repeat_keycode = KC_NO;
+                magic_remembered_keycode = MAGIC_D;
+                magic_repeat_keycode = KC_NO;
                 switch (magic_prepare_last_keycode(get_last_keycode())) {
-                    case KC_B: tap_code16(KC_BSPC); magic_decode_send_cap(113, 'e'); break;
-                    case KC_C: tap_code16(KC_P); remembered_keycode = KC_P; repeat_keycode = KC_P; break;
-                    case KC_D: tap_code16(KC_BSPC); magic_decode_send_cap(165, 't'); break;
-                    case KC_G: tap_code16(KC_K); remembered_keycode = KC_K; repeat_keycode = KC_K; break;
-                    case KC_K: tap_code16(KC_BSPC); magic_decode_send_cap(309, 'w'); break;
-                    case KC_L: tap_code16(KC_R); remembered_keycode = KC_R; repeat_keycode = KC_R; break;
-                    case KC_M: tap_code16(KC_BSPC); magic_decode_send_cap(325, '\0'); break;
-                    case KC_N: tap_code16(KC_BSPC); magic_decode_send_cap(390, '\0'); break;
-                    case KC_P: tap_code16(KC_N); remembered_keycode = KC_N; repeat_keycode = KC_N; break;
-                    case KC_R: tap_code16(KC_BSPC); tap_code16(KC_EXLM); remembered_keycode = KC_EXLM; repeat_keycode = KC_EXLM; break;
-                    case KC_S: tap_code16(KC_BSPC); magic_decode_send_cap(399, '\0'); break;
-                    case KC_T: tap_code16(KC_BSPC); magic_decode_send_cap(441, '\0'); break;
-                    case KC_V: tap_code16(KC_BSPC); magic_decode_send_cap(265, 'e'); break;
-                    case KC_W: tap_code16(KC_S); remembered_keycode = KC_S; repeat_keycode = KC_S; break;
-                    case KC_X: tap_code16(KC_R); remembered_keycode = KC_R; repeat_keycode = KC_R; break;
-                    case KC_Z: tap_code16(KC_BSPC); magic_decode_send_cap(18, 'a'); break;
-                    default: magic_decode_send(390); break;
+                    case KC_B: magic_replace_decode_send_cap(120, 'e'); break;
+                    case KC_C: magic_tap_repeatable(KC_P); break;
+                    case KC_D: magic_replace_decode_send_cap(172, 't'); break;
+                    case KC_G: magic_tap_repeatable(KC_K); break;
+                    case KC_K: magic_replace_decode_send_cap(316, 'w'); break;
+                    case KC_L: magic_tap_repeatable(KC_R); break;
+                    case KC_M: magic_replace_decode_send_cap(332, '\0'); break;
+                    case KC_N: magic_replace_decode_send_cap(397, '\0'); break;
+                    case KC_P: magic_tap_repeatable(KC_N); break;
+                    case KC_R: magic_replace_tap_repeatable(KC_EXLM); break;
+                    case KC_S: magic_replace_decode_send_cap(406, '\0'); break;
+                    case KC_T: magic_replace_decode_send_cap(448, '\0'); break;
+                    case KC_V: magic_replace_decode_send_cap(272, 'e'); break;
+                    case KC_W: magic_tap_repeatable(KC_S); break;
+                    case KC_X: magic_tap_repeatable(KC_R); break;
+                    case KC_Z: magic_replace_decode_send_cap(25, 'a'); break;
+                    default: magic_decode_send(397); break;
                 }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_D;
-                last_magic_repeat_keycode = repeat_keycode;
-                set_last_keycode(remembered_keycode);
+                last_magic_repeat_keycode = magic_repeat_keycode;
+                set_last_keycode(magic_remembered_keycode);
                 return false;
             }
             case MAGIC_E: {
                 if (repeat_last_magic_key(MAGIC_E)) {
                     return false;
                 }
-                uint16_t remembered_keycode = MAGIC_E;
-                uint16_t repeat_keycode = KC_NO;
+                magic_remembered_keycode = MAGIC_E;
+                magic_repeat_keycode = KC_NO;
                 switch (magic_prepare_last_keycode(get_last_keycode())) {
-                    case KC_B: tap_code16(KC_D); remembered_keycode = KC_D; repeat_keycode = KC_D; break;
-                    case KC_C: tap_code16(KC_BSPC); magic_decode_send_cap(2, '\0'); break;
-                    case KC_D: tap_code16(KC_F); remembered_keycode = KC_F; repeat_keycode = KC_F; break;
-                    case KC_E: tap_code16(KC_U); remembered_keycode = KC_U; repeat_keycode = KC_U; break;
-                    case KC_F: tap_code16(KC_D); remembered_keycode = KC_D; repeat_keycode = KC_D; break;
-                    case KC_G: tap_code16(KC_D); remembered_keycode = KC_D; repeat_keycode = KC_D; break;
-                    case KC_H: tap_code16(KC_Y); remembered_keycode = KC_Y; repeat_keycode = KC_Y; break;
-                    case KC_K: tap_code16(KC_X); remembered_keycode = KC_X; repeat_keycode = KC_X; break;
-                    case KC_L: tap_code16(KC_C); remembered_keycode = KC_C; repeat_keycode = KC_C; break;
-                    case KC_M: tap_code16(KC_L); remembered_keycode = KC_L; repeat_keycode = KC_L; break;
-                    case KC_N: tap_code16(KC_X); remembered_keycode = KC_X; repeat_keycode = KC_X; break;
-                    case KC_P: tap_code16(KC_D); remembered_keycode = KC_D; repeat_keycode = KC_D; break;
-                    case KC_R: tap_code16(KC_BSPC); tap_code16(KC_QUES); remembered_keycode = KC_QUES; repeat_keycode = KC_QUES; break;
-                    case KC_S: tap_code16(KC_D); remembered_keycode = KC_D; repeat_keycode = KC_D; break;
-                    case KC_T: tap_code16(KC_BSPC); magic_decode_send_cap(481, 't'); break;
-                    case KC_V: tap_code16(KC_BSPC); magic_decode_send_cap(34, 'e'); break;
-                    case KC_W: tap_code16(KC_X); remembered_keycode = KC_X; repeat_keycode = KC_X; break;
-                    case KC_X: tap_code16(KC_D); remembered_keycode = KC_D; repeat_keycode = KC_D; break;
-                    case KC_Z: tap_code16(KC_BSPC); magic_decode_send_cap(24, 's'); break;
+                    case KC_B: magic_tap_repeatable(KC_D); break;
+                    case KC_C: magic_replace_decode_send_cap(2, '\0'); break;
+                    case KC_D: magic_tap_repeatable(KC_F); break;
+                    case KC_E: magic_tap_repeatable(KC_U); break;
+                    case KC_F: magic_tap_repeatable(KC_D); break;
+                    case KC_G: magic_tap_repeatable(KC_D); break;
+                    case KC_H: magic_tap_repeatable(KC_Y); break;
+                    case KC_K: magic_tap_repeatable(KC_X); break;
+                    case KC_L: magic_tap_repeatable(KC_C); break;
+                    case KC_M: magic_tap_repeatable(KC_L); break;
+                    case KC_N: magic_tap_repeatable(KC_X); break;
+                    case KC_P: magic_tap_repeatable(KC_D); break;
+                    case KC_R: magic_replace_tap_repeatable(KC_QUES); break;
+                    case KC_S: magic_tap_repeatable(KC_D); break;
+                    case KC_T: magic_replace_decode_send_cap(488, 't'); break;
+                    case KC_V: magic_replace_decode_send_cap(41, 'e'); break;
+                    case KC_W: magic_tap_repeatable(KC_X); break;
+                    case KC_X: magic_tap_repeatable(KC_D); break;
+                    case KC_Z: magic_replace_decode_send_cap(31, 's'); break;
                 }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_E;
-                last_magic_repeat_keycode = repeat_keycode;
-                set_last_keycode(remembered_keycode);
+                last_magic_repeat_keycode = magic_repeat_keycode;
+                set_last_keycode(magic_remembered_keycode);
                 return false;
             }
             case MAGIC_F: {
                 if (repeat_last_magic_key(MAGIC_F)) {
                     return false;
                 }
-                uint16_t remembered_keycode = MAGIC_F;
-                uint16_t repeat_keycode = KC_NO;
+                magic_remembered_keycode = MAGIC_F;
+                magic_repeat_keycode = KC_NO;
                 switch (magic_prepare_last_keycode(get_last_keycode())) {
-                    case KC_B: tap_code16(KC_BSPC); magic_decode_send_cap(137, 's'); break;
-                    case KC_D: tap_code16(KC_BSPC); magic_decode_send_cap(451, 'e'); break;
-                    case KC_G: tap_code16(KC_BSPC); magic_decode_send_cap(78, 'n'); break;
-                    case KC_L: tap_code16(KC_B); remembered_keycode = KC_B; repeat_keycode = KC_B; break;
-                    case KC_M: tap_code16(KC_T); remembered_keycode = KC_T; repeat_keycode = KC_T; break;
-                    case KC_N: tap_code16(KC_P); remembered_keycode = KC_P; repeat_keycode = KC_P; break;
-                    case KC_P: tap_code16(KC_BSPC); magic_decode_send_cap(283, 'e'); break;
-                    case KC_R: tap_code16(KC_BSPC); magic_decode_send_cap(102, 'r'); break;
-                    case KC_S: tap_code16(KC_BSPC); magic_decode_send_cap(300, 't'); break;
-                    case KC_T: tap_code16(KC_BSPC); magic_decode_send_cap(426, 'h'); break;
-                    case KC_V: tap_code16(KC_BSPC); magic_decode_send_cap(279, 'e'); break;
-                    case KC_W: tap_code16(KC_BSPC); magic_decode_send_cap(487, 'y'); break;
+                    case KC_B: magic_replace_decode_send_cap(144, 's'); break;
+                    case KC_D: magic_replace_decode_send_cap(458, 'e'); break;
+                    case KC_G: magic_replace_decode_send_cap(85, 'n'); break;
+                    case KC_L: magic_tap_repeatable(KC_B); break;
+                    case KC_M: magic_tap_repeatable(KC_T); break;
+                    case KC_N: magic_tap_repeatable(KC_P); break;
+                    case KC_P: magic_replace_decode_send_cap(290, 'e'); break;
+                    case KC_R: magic_replace_decode_send_cap(109, 'r'); break;
+                    case KC_S: magic_replace_decode_send_cap(307, 't'); break;
+                    case KC_T: magic_replace_decode_send_cap(433, 'h'); break;
+                    case KC_V: magic_replace_decode_send_cap(286, 'e'); break;
+                    case KC_W: magic_replace_decode_send_cap(494, 'y'); break;
                 }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_F;
-                last_magic_repeat_keycode = repeat_keycode;
-                set_last_keycode(remembered_keycode);
+                last_magic_repeat_keycode = magic_repeat_keycode;
+                set_last_keycode(magic_remembered_keycode);
                 return false;
             }
             case MAGIC_G: {
                 if (repeat_last_magic_key(MAGIC_G)) {
                     return false;
                 }
-                uint16_t remembered_keycode = MAGIC_G;
-                uint16_t repeat_keycode = KC_NO;
+                magic_remembered_keycode = MAGIC_G;
+                magic_repeat_keycode = KC_NO;
                 switch (magic_prepare_last_keycode(get_last_keycode())) {
-                    case KC_B: tap_code16(KC_BSPC); magic_decode_send_cap(120, 'e'); break;
-                    case KC_C: tap_code16(KC_BSPC); magic_decode_send_cap(11, '\0'); break;
-                    case KC_D: tap_code16(KC_BSPC); magic_decode_send_cap(156, 't'); break;
-                    case KC_ENT: magic_decode_send_cap(99, 'd'); break;
-                    case KC_G: tap_code16(KC_BSPC); magic_decode_send_cap(361, 'e'); break;
-                    case KC_K: tap_code16(KC_BSPC); magic_decode_send_cap(304, 'w'); break;
-                    case KC_L: tap_code16(KC_BSPC); magic_decode_send_cap(314, 'e'); break;
-                    case KC_M: tap_code16(KC_BSPC); magic_decode_send_cap(290, 'n'); break;
-                    case KC_N: tap_code16(KC_BSPC); magic_decode_send_cap(338, 'r'); break;
-                    case KC_O: tap_code16(KC_E); remembered_keycode = KC_E; repeat_keycode = KC_E; break;
-                    case KC_P: tap_code16(KC_BSPC); magic_decode_send_cap(382, 'n'); break;
-                    case KC_R: tap_code16(KC_BSPC); magic_decode_send_cap(393, 'e'); break;
-                    case KC_S: tap_code16(KC_BSPC); magic_decode_send_cap(408, 'g'); break;
-                    case KC_SPC: magic_decode_send_cap(99, 'd'); break;
-                    case KC_T: tap_code16(KC_BSPC); magic_decode_send_cap(415, 'u'); break;
-                    case KC_TAB: magic_decode_send_cap(99, 'd'); break;
-                    case KC_V: tap_code16(KC_BSPC); magic_decode_send_cap(333, 'r'); break;
-                    case KC_W: tap_code16(KC_BSPC); magic_decode_send_cap(467, 'e'); break;
-                    case KC_X: tap_code16(KC_BSPC); magic_decode_send_cap(200, 'e'); break;
-                    case KC_Z: tap_code16(KC_BSPC); magic_decode_send_cap(39, 'y'); break;
+                    case KC_B: magic_replace_decode_send_cap(127, 'e'); break;
+                    case KC_C: magic_replace_decode_send_cap(15, '\0'); break;
+                    case KC_D: magic_replace_decode_send_cap(163, 't'); break;
+                    case KC_ENT: magic_decode_send_cap(106, 'd'); break;
+                    case KC_G: magic_replace_decode_send_cap(368, 'e'); break;
+                    case KC_K: magic_replace_decode_send_cap(311, 'w'); break;
+                    case KC_L: magic_replace_decode_send_cap(321, 'e'); break;
+                    case KC_M: magic_replace_decode_send_cap(297, 'n'); break;
+                    case KC_N: magic_replace_decode_send_cap(345, 'r'); break;
+                    case KC_O: magic_tap_repeatable(KC_E); break;
+                    case KC_P: magic_replace_decode_send_cap(389, 'n'); break;
+                    case KC_R: magic_replace_decode_send_cap(400, 'e'); break;
+                    case KC_S: magic_replace_decode_send_cap(415, 'g'); break;
+                    case KC_SPC: magic_decode_send_cap(106, 'd'); break;
+                    case KC_T: magic_replace_decode_send_cap(422, 'u'); break;
+                    case KC_TAB: magic_decode_send_cap(106, 'd'); break;
+                    case KC_V: magic_replace_decode_send_cap(340, 'r'); break;
+                    case KC_W: magic_replace_decode_send_cap(474, 'e'); break;
+                    case KC_X: magic_replace_decode_send_cap(207, 'e'); break;
+                    case KC_Z: magic_replace_decode_send_cap(46, 'y'); break;
                 }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_G;
-                last_magic_repeat_keycode = repeat_keycode;
-                set_last_keycode(remembered_keycode);
+                last_magic_repeat_keycode = magic_repeat_keycode;
+                set_last_keycode(magic_remembered_keycode);
                 return false;
             }
             case MAGIC_H: {
                 if (repeat_last_magic_key(MAGIC_H)) {
                     return false;
                 }
-                uint16_t remembered_keycode = MAGIC_H;
-                uint16_t repeat_keycode = KC_NO;
+                magic_remembered_keycode = MAGIC_H;
+                magic_repeat_keycode = KC_NO;
                 switch (magic_prepare_last_keycode(get_last_keycode())) {
-                    case KC_B: tap_code16(KC_BSPC); magic_decode_send_cap(176, 'e'); break;
-                    case KC_C: tap_code16(KC_BSPC); magic_decode_send_cap(8, '\0'); break;
-                    case KC_D: tap_code16(KC_BSPC); magic_decode_send_cap(171, 't'); break;
-                    case KC_ENT: magic_decode_send_cap(423, 'e'); break;
-                    case KC_G: tap_code16(KC_BSPC); magic_decode_send_cap(107, 'g'); break;
-                    case KC_L: tap_code16(KC_BSPC); magic_decode_send_cap(320, 'e'); break;
-                    case KC_M: tap_code16(KC_BSPC); magic_decode_send_cap(82, 't'); break;
-                    case KC_N: tap_code16(KC_BSPC); magic_decode_send_cap(444, 'd'); break;
-                    case KC_P: tap_code16(KC_BSPC); magic_decode_send_cap(367, 'e'); break;
-                    case KC_R: tap_code16(KC_BSPC); tap_code16(KC_COMMA); remembered_keycode = KC_COMMA; repeat_keycode = KC_COMMA; break;
-                    case KC_S: tap_code16(KC_BSPC); magic_decode_send_cap(93, 's'); break;
-                    case KC_SPC: magic_decode_send_cap(423, 'e'); break;
-                    case KC_T: tap_code16(KC_BSPC); magic_decode_send_cap(183, 'g'); break;
-                    case KC_TAB: magic_decode_send_cap(423, 'e'); break;
-                    case KC_V: tap_code16(KC_BSPC); magic_decode_send_cap(14, '\0'); break;
-                    case KC_W: tap_code16(KC_BSPC); magic_decode_send_cap(472, 'h'); break;
-                    case KC_X: tap_code16(KC_BSPC); magic_decode_send_cap(207, 'n'); break;
-                    case KC_Z: tap_code16(KC_BSPC); magic_decode_send_cap(59, 't'); break;
+                    case KC_B: magic_replace_decode_send_cap(183, 'e'); break;
+                    case KC_C: magic_replace_decode_send_cap(12, '\0'); break;
+                    case KC_D: magic_replace_decode_send_cap(178, 't'); break;
+                    case KC_ENT: magic_decode_send_cap(430, 'e'); break;
+                    case KC_G: magic_replace_decode_send_cap(114, 'g'); break;
+                    case KC_L: magic_replace_decode_send_cap(327, 'e'); break;
+                    case KC_M: magic_replace_decode_send_cap(89, 't'); break;
+                    case KC_N: magic_replace_decode_send_cap(451, 'd'); break;
+                    case KC_P: magic_replace_decode_send_cap(374, 'e'); break;
+                    case KC_R: magic_replace_tap_repeatable(KC_COMMA); break;
+                    case KC_S: magic_replace_decode_send_cap(100, 's'); break;
+                    case KC_SPC: magic_decode_send_cap(430, 'e'); break;
+                    case KC_T: magic_replace_decode_send_cap(190, 'g'); break;
+                    case KC_TAB: magic_decode_send_cap(430, 'e'); break;
+                    case KC_V: magic_replace_decode_send_cap(18, '\0'); break;
+                    case KC_W: magic_replace_decode_send_cap(479, 'h'); break;
+                    case KC_X: magic_replace_decode_send_cap(214, 'n'); break;
+                    case KC_Z: magic_replace_decode_send_cap(66, 't'); break;
                 }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_H;
-                last_magic_repeat_keycode = repeat_keycode;
-                set_last_keycode(remembered_keycode);
+                last_magic_repeat_keycode = magic_repeat_keycode;
+                set_last_keycode(magic_remembered_keycode);
                 return false;
             }
             case MAGIC_I: {
                 if (repeat_last_magic_key(MAGIC_I)) {
                     return false;
                 }
-                uint16_t remembered_keycode = MAGIC_I;
-                uint16_t repeat_keycode = KC_NO;
+                magic_remembered_keycode = MAGIC_I;
+                magic_repeat_keycode = KC_NO;
                 switch (magic_prepare_last_keycode(get_last_keycode())) {
-                    case KC_B: tap_code16(KC_BSPC); magic_decode_send_cap(68, 't'); break;
-                    case KC_C: tap_code16(KC_BSPC); magic_decode_send_cap(329, '\0'); break;
-                    case KC_D: tap_code16(KC_BSPC); magic_decode_send_cap(161, 's'); break;
-                    case KC_F: tap_code16(KC_BSPC); magic_decode_send_cap(73, 'r'); break;
-                    case KC_G: tap_code16(KC_BSPC); magic_decode_send_cap(431, 't'); break;
-                    case KC_L: tap_code16(KC_BSPC); magic_decode_send_cap(87, 'y'); break;
-                    case KC_N: tap_code16(KC_BSPC); magic_decode_send_cap(356, 'y'); break;
-                    case KC_P: tap_code16(KC_BSPC); magic_decode_send_cap(373, 'y'); break;
-                    case KC_R: tap_code16(KC_BSPC); tap_code16(KC_DOT); remembered_keycode = KC_DOT; repeat_keycode = KC_DOT; break;
-                    case KC_SPC: tap_code16(KC_BSPC); SEND_STRING(". "); add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state(); break;
-                    case KC_T: tap_code16(KC_BSPC); magic_decode_send_cap(436, 'h'); break;
-                    case KC_V: tap_code16(KC_BSPC); magic_decode_send_cap(344, 'y'); break;
-                    case KC_W: tap_code16(KC_BSPC); magic_decode_send_cap(463, 'n'); break;
-                    case KC_X: tap_code16(KC_BSPC); magic_decode_send_cap(214, 't'); break;
-                    case KC_Z: tap_code16(KC_BSPC); magic_decode_send_cap(51, 's'); break;
+                    case KC_B: magic_replace_decode_send_cap(75, 't'); break;
+                    case KC_C: magic_replace_decode_send_cap(336, '\0'); break;
+                    case KC_D: magic_replace_decode_send_cap(168, 's'); break;
+                    case KC_F: magic_replace_decode_send_cap(80, 'r'); break;
+                    case KC_G: magic_replace_decode_send_cap(438, 't'); break;
+                    case KC_L: magic_replace_decode_send_cap(94, 'y'); break;
+                    case KC_N: magic_replace_decode_send_cap(363, 'y'); break;
+                    case KC_P: magic_replace_decode_send_cap(380, 'y'); break;
+                    case KC_R: magic_replace_tap_repeatable(KC_DOT); break;
+                    case KC_SPC: magic_replace_decode_send_cap(22, '\0'); add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state(); break;
+                    case KC_T: magic_replace_decode_send_cap(443, 'h'); break;
+                    case KC_V: magic_replace_decode_send_cap(351, 'y'); break;
+                    case KC_W: magic_replace_decode_send_cap(470, 'n'); break;
+                    case KC_X: magic_replace_decode_send_cap(221, 't'); break;
+                    case KC_Z: magic_replace_decode_send_cap(58, 's'); break;
                 }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_I;
-                last_magic_repeat_keycode = repeat_keycode;
-                set_last_keycode(remembered_keycode);
+                last_magic_repeat_keycode = magic_repeat_keycode;
+                set_last_keycode(magic_remembered_keycode);
                 return false;
             }
             

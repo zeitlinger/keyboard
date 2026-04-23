@@ -107,9 +107,7 @@ fun run(args: GeneratorArgs) {
     translator.magic.forEach { magic ->
         magic.defaultCommand =
             magic.default?.let {
-                encodedMagicStrings.stringOffsets[it]?.let { offset ->
-                    "magic_decode_send($offset);"
-                } ?: "SEND_STRING(\"$it\");"
+                "magic_decode_send(${encodedMagicStrings.stringOffsets.getValue(it)});"
             }
     }
 
@@ -210,15 +208,15 @@ private fun magicBlock(magic: MagicInfo): String {
         if (repeat_last_magic_key(${magic.trigger.key})) {
             return false;
         }
-        uint16_t remembered_keycode = ${magic.trigger.key};
-        uint16_t repeat_keycode = KC_NO;
+        magic_remembered_keycode = ${magic.trigger.key};
+        magic_repeat_keycode = KC_NO;
         switch (magic_prepare_last_keycode(get_last_keycode())) {
 ${magicSwitch(magic.press)}$defaultCase
         }
         magic_capitalize_next = false;
         last_magic_trigger = ${magic.trigger.key};
-        last_magic_repeat_keycode = repeat_keycode;
-        set_last_keycode(remembered_keycode);
+        last_magic_repeat_keycode = magic_repeat_keycode;
+        set_last_keycode(magic_remembered_keycode);
         return false;
     }
         """.trimIndent()
@@ -237,9 +235,13 @@ private fun magicSwitch(map: MutableMap<QmkKey, MagicCommand>): String =
     map.entries
         .sortedBy { it.key.key }
         .map {
-            val remember = it.value.rememberedKeycode?.let { keycode -> " remembered_keycode = $keycode;" } ?: ""
-            val repeat = it.value.repeatKeycode?.let { keycode -> " repeat_keycode = $keycode;" } ?: ""
-            "case ${it.key}: ${it.value.statements}$remember$repeat break;"
+            val remember = it.value.rememberedKeycode?.let { keycode -> " magic_remembered_keycode = $keycode;" } ?: ""
+            val repeat = it.value.repeatKeycode?.let { keycode -> " magic_repeat_keycode = $keycode;" } ?: ""
+            if (it.value.rememberedKeycode != null && it.value.rememberedKeycode == it.value.repeatKeycode) {
+                "case ${it.key}: ${it.value.statements} break;"
+            } else {
+                "case ${it.key}: ${it.value.statements}$remember$repeat break;"
+            }
         }.indented(12)
 
 fun addSendString(
@@ -320,7 +322,7 @@ private fun magicCommand(
 ): MagicCommand =
     when {
         def.startsWith("[") && def.endsWith("]") -> {
-            MagicCommand(bracketCommand(def.removeSurrounding("[", "]"), pos))
+            MagicCommand(bracketCommand(def.removeSurrounding("[", "]"), pos, stringOffsets))
         }
 
         def.length == 1 -> {
@@ -328,9 +330,9 @@ private fun magicCommand(
             val isLetterOutput = def[0].isLetter()
             val prevIsLetter = precedingChar.length == 1 && precedingChar[0].isLetter()
             if (isLetterOutput || !prevIsLetter) {
-                MagicCommand(tap(qmk) + ";", qmk.key, qmk.key)
+                MagicCommand(repeatableTap(qmk), qmk.key, qmk.key)
             } else {
-                MagicCommand("tap_code16(KC_BSPC); tap_code16(${qmk.key});", qmk.key, qmk.key)
+                MagicCommand("magic_replace_tap_repeatable(${qmk.key});", qmk.key, qmk.key)
             }
         }
 
@@ -340,23 +342,12 @@ private fun magicCommand(
             val output = if (quoted) str else "$str "
             val prevIsLetter = precedingChar.length == 1 && precedingChar[0].isLetter()
             val suffix = if (quoted) "'\\0'" else "'${str.last()}'"
-            val sendEncoded =
-                stringOffsets[output]?.let {
-                    "magic_decode_send_cap($it, $suffix);"
-                } ?: if (quoted) {
-                    "SEND_STRING(\"$output\");"
-                } else {
-                    "SEND_STRING(\"$output\"); set_suffix_state('${str.last()}');"
-                }
+            val offset = stringOffsets.getValue(output)
             val send =
-                when {
-                    prevIsLetter -> {
-                        "tap_code16(KC_BSPC); $sendEncoded"
-                    }
-
-                    else -> {
-                        sendEncoded
-                    }
+                if (prevIsLetter) {
+                    "magic_replace_decode_send_cap($offset, $suffix);"
+                } else {
+                    "magic_decode_send_cap($offset, $suffix);"
                 }
             MagicCommand(send)
         }
@@ -374,14 +365,16 @@ private fun isBareWord(def: String): Boolean =
 private fun bracketCommand(
     name: String,
     pos: KeyPosition,
+    stringOffsets: Map<String, Int>,
 ): String =
     when (name) {
         "dotSpc" -> {
-            "tap_code16(KC_BSPC); SEND_STRING(\". \"); add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state();"
+            val offset = stringOffsets.getValue(". ")
+            "magic_replace_decode_send_cap($offset, '\\0'); add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state();"
         }
 
         "llSpc" -> {
-            "tap_code16(KC_BSPC); SEND_STRING(\"'ll \"); clear_suffix_state();"
+            "magic_replace_decode_send_cap(${stringOffsets.getValue("'ll ")}, '\\0'); clear_suffix_state();"
         }
 
         else -> {
@@ -395,6 +388,8 @@ private fun extractString(alt: String) = alt.removeSurrounding("\"")
 
 private fun sendString(alt: String) = "SEND_STRING($alt)"
 
+private fun repeatableTap(qmk: QmkKey) = "magic_tap_repeatable(${qmk.key});"
+
 private fun collectMagicOutputs(
     tables: Tables,
     translator: QmkTranslator,
@@ -404,6 +399,7 @@ private fun collectMagicOutputs(
         val precedingChar = row[0]
         row.drop(1).forEach { def ->
             magicFullOutputString(precedingChar, def)?.let(outputs::add)
+            bracketOutputString(def)?.let(outputs::add)
         }
     }
     translator.magic.mapNotNullTo(outputs) { magic ->
@@ -423,6 +419,13 @@ private fun magicFullOutputString(
     val str = if (quoted) extractString(def) else def
     return if (quoted) str else "$str "
 }
+
+private fun bracketOutputString(def: String): String? =
+    when (def) {
+        "[dotSpc]" -> ". "
+        "[llSpc]" -> "'ll "
+        else -> null
+    }
 
 fun customKeycodes(
     translator: QmkTranslator,

@@ -1,7 +1,11 @@
 /* Copyright 2023 ChuseCubr */
 /* https://github.com/ChuseCubr/mini-ryoku */
 
-/* This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>. */
+/* This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 2 of the License, or (at your option) any later
+ * version.
+ */
 
 #include QMK_KEYBOARD_H
 
@@ -52,6 +56,28 @@ static inline void clear_suffix_state(void) {
     suffix_active = false;
 }
 
+static inline void tap_dot_space(void) {
+    tap_code16(KC_DOT);
+    tap_code16(KC_SPC);
+}
+
+static inline void tap_comma_space(void) {
+    tap_code16(KC_COMMA);
+    tap_code16(KC_SPC);
+}
+
+static inline void tap_n_t(void) {
+    tap_code16(KC_N);
+    tap_code16(KC_QUOTE);
+    tap_code16(KC_T);
+}
+
+static inline void tap_ing(void) {
+    tap_code16(KC_I);
+    tap_code16(KC_N);
+    tap_code16(KC_G);
+}
+
 #include "generated.c"
 
 bool is_window_switcher_active = false;
@@ -62,33 +88,33 @@ static bool process_suffix(uint16_t keycode, keyrecord_t *record) {
     if (!suffix_active || !record->event.pressed) return true;
     switch (keycode) {
     case MAGIC_I:
-        tap_code16(KC_BSPC); SEND_STRING(". ");
+        tap_code16(KC_BSPC); tap_dot_space();
         add_oneshot_mods(MOD_BIT(KC_LSFT));
         suffix_active = false;
         return false;
     case MAGIC_H:
-        tap_code16(KC_BSPC); SEND_STRING(", ");
+        tap_code16(KC_BSPC); tap_comma_space();
         suffix_active = false;
         return false;
     case MAGIC_D:
-        tap_code16(KC_BSPC); SEND_STRING("n't ");
+        tap_code16(KC_BSPC); tap_n_t(); tap_code16(KC_SPC);
         last_magic_char = 't';
         return false;
     case MAGIC_G:
         tap_code16(KC_BSPC);
         if (last_magic_char == 'e') {
-            SEND_STRING("d ");
+            tap_code16(KC_D); tap_code16(KC_SPC);
         } else {
-            SEND_STRING("ed ");
+            tap_code16(KC_E); tap_code16(KC_D); tap_code16(KC_SPC);
         }
         last_magic_char = 'd';
         return false;
     case MAGIC_E:
-        tap_code16(KC_BSPC); SEND_STRING("ly ");
+        tap_code16(KC_BSPC); tap_code16(KC_L); tap_code16(KC_Y); tap_code16(KC_SPC);
         last_magic_char = 'y';
         return false;
     case MAGIC_B:
-        tap_code16(KC_BSPC); SEND_STRING("s ");
+        tap_code16(KC_BSPC); tap_code16(KC_S); tap_code16(KC_SPC);
         last_magic_char = 's';
         return false;
     case _HANDLER_ING:
@@ -98,7 +124,7 @@ static bool process_suffix(uint16_t keycode, keyrecord_t *record) {
             last_magic_char == 'u') {
             tap_code16(KC_BSPC);
         }
-        SEND_STRING("ing ");
+        tap_ing(); tap_code16(KC_SPC);
         last_magic_char = 'g';
         return false;
     default:
@@ -217,7 +243,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     #ifdef _HANDLER_DOT_SPC
     case _HANDLER_DOT_SPC:
         if (record->event.pressed) {
-            SEND_STRING(". ");
+            tap_dot_space();
             add_oneshot_mods(MOD_BIT(KC_LSFT));
         }
         return false;
@@ -225,21 +251,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     #ifdef _HANDLER_N_T
     case _HANDLER_N_T:
         if (record->event.pressed) {
-            SEND_STRING("n't");
+            tap_n_t();
         }
         return false;
     #endif
     #ifdef _HANDLER_ING
     case _HANDLER_ING:
         if (record->event.pressed) {
-            SEND_STRING("ing");
+            tap_ing();
         }
         return false;
     #endif
     #ifdef _HANDLER_ADPT_QU
     case _HANDLER_ADPT_QU:
         if (record->event.pressed) {
-            SEND_STRING("qu");
+            tap_code16(KC_Q); tap_code16(KC_U);
         }
         return false;
     #endif

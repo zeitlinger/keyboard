@@ -26,6 +26,8 @@ static uint16_t prev_keycode = KC_NO;
 static uint16_t last_keycode = KC_NO;
 static uint16_t last_magic_trigger = KC_NO;
 static uint16_t last_magic_repeat_keycode = KC_NO;
+static uint16_t magic_remembered_keycode = KC_NO;
+static uint16_t magic_repeat_keycode = KC_NO;
 
 static inline uint16_t unshift_letter_keycode(uint16_t keycode) {
     if (keycode >= S(KC_A) && keycode <= S(KC_Z)) {
@@ -54,6 +56,22 @@ bool tap(uint16_t keycode) {
     set_last_keycode(keycode);
     last_keycode = keycode;
     return false;
+}
+
+static void magic_replace_decode_send_cap(uint16_t offset, char suffix) {
+    tap_code16(KC_BSPC);
+    magic_decode_send_cap(offset, suffix);
+}
+
+static void magic_tap_repeatable(uint16_t keycode) {
+    tap_code16(keycode);
+    magic_remembered_keycode = keycode;
+    magic_repeat_keycode = keycode;
+}
+
+static void magic_replace_tap_repeatable(uint16_t keycode) {
+    tap_code16(KC_BSPC);
+    magic_tap_repeatable(keycode);
 }
 
 bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
