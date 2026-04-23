@@ -5,7 +5,7 @@
 editorconfig-checker = "3.6.1"
 "github:grafana/flint" = "0.20.3"
 "github:pinterest/ktlint" = "1.8.0"
-java = "latest"
+java = "21"
 jq = "latest"
 lychee = "0.23.0"
 maven = "latest"
