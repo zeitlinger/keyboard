@@ -108,7 +108,7 @@ Cell = what to emit.
 |    k    |          r           |             about             |           |         know         |       x       |             |     again     |        have        |    just    |
 |    l    |          m           |               h               |           |          r           |       c       |      b      |    language   |       leave        |   after    |
 |    m    |          r           |               h               |           |        "ment"        |       l       |      t      |instrumentation|        I've        |  without   |
-|    n    |          r           |               h               |           |         "qu"         |       x       |      p      |     number    |         '          |            |
+|    n    |          r           |               h               |           |         "qu"         |       x       |      p      |     number    |         '          |     "      |
 |    o    |                      |                               |     h     |                      |               |             |       e       |                    |            |
 |    p    |          y           |               m               |           |          n           |       d       |observability|   production  | declarative config |  probably  |
 |    r    |       already        |           everything          |           |          k           |     almost    |      x      |    thought    |       people       | elaborate  |
