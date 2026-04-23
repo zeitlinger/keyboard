@@ -1,12 +1,12 @@
 # Hands Down Vibranium Keyboard
 
-### Credits
+## Credits
 
 - [Hands Down Keyboard Layout](https://sites.google.com/alanreiser.com/handsdown)
 - [The T-34 keyboard layout](https://www.jonashietala.se/blog/2021/06/03/the-t-34-keyboard-layout/)
 - [X-Case](https://github.com/andrewjrae/kyria-keymap#x-case)
 
-### Features
+## Features
 
 - **[Chord Mode](CHORD_MODE.md)** - Type 220+ common words with just two letters! See the [complete documentation](CHORD_MODE.md) for details.
 - **[Design Philosophy](DESIGN_PHILOSOPHY.md)** - Learn about the hardware, ergonomics, and design principles behind this layout
@@ -14,7 +14,7 @@
 - **Window/Tab Switching** - Fast application and tab switching
 - **X-Case** - Multiple case conversion modes (camelCase, snake_case, etc.)
 
-### Notes
+## Notes
 
 - The keyboard layout is generated using [generateKeyboard](src/main/kotlin/generateKeyboard.kt)
   from this file. => link to [Generator](#generator)
@@ -34,17 +34,17 @@
   `mise run suggest-magic-placements -- --prefer-row 'thank you=t' --prefer-row 'gregor=z' 'thank you' gregor`
 - Prefer `mise run ...` for these helper workflows; the implementations live under `scripts/`, not at repo root.
 
-### Home Row Mods
+## Home Row Mods
 
 On all other layers, the modifiers are as shown in the table below.
 
 | Home Row Modifiers | Finger |
-|--------------------|--------|
+| ------------------ | ------ |
 | Alt                | Ring   |
 | Ctrl               | Middle |
 | Shift              | Index  |
 
-### Window and Tab switching
+## Window and Tab switching
 
 - win ➡️ and tab ➡️ are used to Short windows and tabs.
 - Once you press any of those keys, you're in switcher mode, where all other keys are replaced by
@@ -61,7 +61,7 @@ How to read this layout:
 - empty = use key from base layer
 - FnSym = capitalized words are layer names - if they are a key, the layer is activated as toggled
   or one shot layer (if the "OneShot" flag is set in the layer flags)
-- *Mouse = layer is active while key is held
+- \*Mouse = layer is active while key is held
 - C-w = Ctrl-w (same for Alt and Shift)
 - f12+Num = tab-mod - f12 on tap and Num on hold
 - "that" = combo that produces "that"
@@ -79,61 +79,62 @@ Currently unused features:
   the Sym layer is used
 
 > **Note**: The layout is generated from this file directly.
- 
+
 ## Magic Keys
 
 Rows = preceding key. Columns = the nine physical magic keys (see the Layout table for their positions).
 
 Cell = what to emit.
+
 - Single-char letter cells append or tap (e.g. `a` + `e` yields `ae`). Single-char punctuation/symbol cells backspace the preceding letter first (e.g. `t` + `.` yields `.`). A repeated press of the same magic key then replays just the emitted letter or symbol, with no extra backspace. No suffix state.
 - Bare words/phrases (unquoted multi-char, e.g. `because`, `thank you`): generator auto-appends a trailing space and activates the suffix state machine. From there, the next magic press chains a suffix: `MAGIC_G`=`ed`, `MAGIC_E`=`ly`, `MAGIC_B`=`s`, `MAGIC_D`=`n't`, `ing` key (with vowel-drop). `MAGIC_I`=`.`+shift (exit), `MAGIC_H`=`,` (exit). Prefix-strip and BS rules below also apply to bare words.
 - Quoted strings (literal — no auto-space, no suffix state):
   - Preceding key is a letter and cell starts with it → strip prefix. `b` + `"because"` emits `ecause`, yielding `because`.
-  - Preceding key is a letter and cell does *not* start with it → BS + cell.
-  - Preceding key is not a letter (spc, punctuation) → append as-is. `,` + `" and "` yields `, and `.
-- `[name]` bracket tokens invoke named handlers (currently `[dotSpc]` = BS + `. ` + one-shot shift).
+  - Preceding key is a letter and cell does _not_ start with it → BS + cell.
+  - Preceding key is not a letter (spc, punctuation) → append as-is. `,` + `" and "` yields `, and` plus a trailing space.
+- `[name]` bracket tokens invoke named handlers (currently `[dotSpc]` = BS + `.` then one-shot shift).
 
-|  Magic  |       magic_a        |            magic_b            |  magic_c  |       magic_d        |    magic_e    |  magic_f  |    magic_g    |      magic_h       |  magic_i   |
-| :-----: | :------------------: | :---------------------------: | :-------: | :------------------: | :-----------: | :-------: | :-----------: | :----------------: | :--------: |
-|    a    |                      |                               |     e     |                      |               |             |               |                    |            |
-|    b    |        behind        |            between            |           |       because        |       d       |             |     before    |      through       |   though   |
-|    c    |          n           |             update            |           |          p           |       d       |             |   understand  |         !          |     ?      |
-|    d    |          c           |               h               |           |       doesn't        |       f       |             |     didn't    |       don't        |    does    |
-|    e    |                      |                               |     h     |                      |       u       |             |               |                    |            |
-|    f    |        found         |             first             |           |       business       |       d       |             |   exception   |      anything      |   enough   |
-|    g    |        global        |               f               |           |          k           |       d       |             |    organize   |      another       |  realize   |
-|    h    |                      |                               |           |                      |       y       |             |               |                    |            |
-|    i    |                      |                               |     '     |                      |               |             |               |                    |            |
-|    j    |                      |                               |           |                      |               |             |               |                    |            |
-|    k    |          r           |             about             |           |         know         |       x       |             |     again     |        have        |    just    |
-|    l    |          m           |               h               |           |          r           |       c       |      b      |    language   |       leave        |   after    |
-|    m    |          r           |               h               |           |        "ment"        |       l       |      t      |instrumentation|        I've        |  without   |
-|    n    |          r           |               h               |           |         "qu"         |       x       |      p      |     number    |         '          |     "      |
-|    o    |                      |                               |     h     |                      |               |             |       e       |                    |            |
-|    p    |          y           |               m               |           |          n           |       d       |observability|   production  | declarative config |  probably  |
-|    r    |       already        |           everything          |           |          k           |     almost    |      x      |    thought    |       people       | elaborate  |
-|    s    |       someone        |               r               |           |        "sion"        |       d       |             |   something   |        only        |   worry    |
-|    t    |          n           |               f               |           |        "tion"        |               |             |   thank you   |         ,          |     .      |
-|    u    |                      |                               |     h     |                      |               |             |               |                    |            |
-|    v    | zeitlinger@gmail.com | gregor.zeitlinger@grafana.com |           | gregor@zeitlinger.de |               |             |     never     |                    |            |
-|    w    |         will         |             wasn't            |           |          s           |       x       |    always   |     where     |       which        |    when    |
-|    x    |                      |               w               |           |          r           |       d       |             |               |                    |            |
-|    y    |                      |                               |     r     |                      |               |             |               |                    |            |
-|    z    |      zeitlinger      |             gregor            |           |       Grafana        |  Grafana Labs |             | OpenTelemetry |    Spring Boot     | Prometheus |
-|   spc   |                      |                               |           |                      |               |           |      and      |        the         |  [dotSpc]  |
-|   tab   |                      |                               |           |                      |               |           |      and      |        the         |            |
-|   ↩️️   |                      |                               |           |                      |               |           |      and      |        the         |            |
-|    ~    |                      |                               |           |                      |       /       |           |               |                    |            |
-|    ,    |                      |                               |           |                      |               |           |    " and "    |      " but "       |            |
-|    .    |                      |                               |           |         "./"         |       /       |           |               |                    |            |
-|    -    |                      |                               |           |                      |       >       |           |               |                    |            |
-|    =    |                      |                               |           |                      |       >       |           |               |                    |            |
-|    !    |                      |                               |           |                      |       =       |           |               |                    |            |
+| Magic |       magic_a        |            magic_b            | magic_c |       magic_d        |   magic_e    |    magic_f    |     magic_g     |      magic_h       |  magic_i   |
+| :---: | :------------------: | :---------------------------: | :-----: | :------------------: | :----------: | :-----------: | :-------------: | :----------------: | :--------: |
+|   a   |                      |                               |    e    |                      |              |               |                 |                    |            |
+|   b   |        behind        |            between            |         |       because        |      d       |               |     before      |      through       |   though   |
+|   c   |          n           |            update             |         |          p           |      d       |               |   understand    |         !          |     ?      |
+|   d   |          c           |               h               |         |       doesn't        |      f       |               |     didn't      |       don't        |    does    |
+|   e   |                      |                               |    h    |                      |      u       |               |                 |                    |            |
+|   f   |        found         |             first             |         |       business       |      d       |               |    exception    |      anything      |   enough   |
+|   g   |        global        |               f               |         |          k           |      d       |               |    organize     |      another       |  realize   |
+|   h   |                      |                               |         |                      |      y       |               |                 |                    |            |
+|   i   |                      |                               |    '    |                      |              |               |                 |                    |            |
+|   j   |                      |                               |         |                      |              |               |                 |                    |            |
+|   k   |          r           |             about             |         |         know         |      x       |               |      again      |        have        |    just    |
+|   l   |          m           |               h               |         |          r           |      c       |       b       |    language     |       leave        |   after    |
+|   m   |          r           |               h               |         |        "ment"        |      l       |       t       | instrumentation |        I've        |  without   |
+|   n   |          r           |               h               |         |         "qu"         |      x       |       p       |     number      |         '          |     "      |
+|   o   |                      |                               |    h    |                      |              |               |        e        |                    |            |
+|   p   |          y           |               m               |         |          n           |      d       | observability |   production    | declarative config |  probably  |
+|   r   |       already        |          everything           |         |          k           |    almost    |       x       |     thought     |       people       | elaborate  |
+|   s   |       someone        |               r               |         |        "sion"        |      d       |               |    something    |        only        |   worry    |
+|   t   |          n           |               f               |         |        "tion"        |              |               |    thank you    |         ,          |     .      |
+|   u   |                      |                               |    h    |                      |              |               |                 |                    |            |
+|   v   | zeitlinger@gmail.com | gregor.zeitlinger@grafana.com |         | gregor@zeitlinger.de |              |               |      never      |                    |            |
+|   w   |         will         |            wasn't             |         |          s           |      x       |    always     |      where      |       which        |    when    |
+|   x   |                      |               w               |         |          r           |      d       |               |                 |                    |            |
+|   y   |                      |                               |    r    |                      |              |               |                 |                    |            |
+|   z   |      zeitlinger      |            gregor             |         |       Grafana        | Grafana Labs |               |  OpenTelemetry  |    Spring Boot     | Prometheus |
+|  spc  |                      |                               |         |                      |              |               |       and       |        the         |  [dotSpc]  |
+|  tab  |                      |                               |         |                      |              |               |       and       |        the         |            |
+|  ↩️️   |                      |                               |         |                      |              |               |       and       |        the         |            |
+|   ~   |                      |                               |         |                      |      /       |               |                 |                    |            |
+|   ,   |                      |                               |         |                      |              |               |     " and "     |      " but "       |            |
+|   .   |                      |                               |         |         "./"         |      /       |               |                 |                    |            |
+|   -   |                      |                               |         |                      |      >       |               |                 |                    |            |
+|   =   |                      |                               |         |                      |      >       |               |                 |                    |            |
+|   !   |                      |                               |         |                      |      =       |               |                 |                    |            |
 
 ## Adaptives
 
 | Adaptives | Key | Output |
-|:---------:|:---:|:------:|
+| :-------: | :-: | :----: |
 |     a     |  e  |   u    |
 |     b     |  d  |   s    |
 |     c     |  d  |   c    |
@@ -176,11 +177,11 @@ Cell = what to emit.
 ## Layout
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
-|:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
+| :---: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
 | Base  |   esc   |    x    |    w    |  dead3  |  dead2  | magic_a | magic_b |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
-| Base  | *Right  |    f    |    l    |    d    |    u    |    o    |    y    |  *Left  |
-| Base  |         |         |  *Nav   |    r    |   spc   | *FnSym  |         |         |
+| Base  | \*Right |    f    |    l    |    d    |    u    |    o    |    y    | \*Left  |
+| Base  |         |         |  \*Nav  |    r    |   spc   | \*FnSym |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |         |    v    |   ing   |         |         |         |
 | Base  |         |         |         |   💎    |   💎    |         |         |         |
@@ -204,7 +205,7 @@ Cell = what to emit.
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |  dead3  |    q    |    '    |         |
 | Right |         |         |   C-f   |   C-r   |         |         |         |         |
-| Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |    _    |
+| Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |   \_    |
 | Right |         |         |  A-f7   |   C-n   |    [    |    ]    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |    `    |         |         |         |
@@ -217,7 +218,7 @@ Cell = what to emit.
 | Right |         |         |  CS-f   |         |         |    !    |         |         |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right |         |         |         |         |         |         |    \    |         |
+| Right |         |         |         |         |         |         |   \     |         |
 | Right |         |         |         |         |         |         |   💎    |         |
 | Right |         |         |         |         |         |         |    ?    |         |
 | Right |         |         |         |         |         |         |         |         |
@@ -233,9 +234,9 @@ Cell = what to emit.
 | RMods |         |         |         |         |    [    |    ]    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |         |         |         |         |  dead1  |         |         |         |
-| Left  |         |         |         |         |  *CNum  |  *Case  |   *Mm   |         |
+| Left  |         |         |         |         | \*CNum  | \*Case  |  \*Mm   |         |
 | Left  |    :    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
-| Left  |         |         |    ;    |         |  *ANum  |  *Num   |         |         |
+| Left  |         |         |    ;    |         | \*ANum  |  \*Num  |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |  "Qu"   |         |         |         |         |         |         |         |
 | Left  |   💎    |         |         |         |         |         |         |         |
@@ -249,15 +250,15 @@ Cell = what to emit.
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |  dead2  |   f10   |   f9    |  dead2  |  dead3  |    (    |    )    |  dead1  |
 | FnSym |   f4    |   f3    |   f2    |   f1    |   🛑    |   🛑    |   🛑    | =+Num2  |
-| FnSym |   f8    |   f7    |   f6    |   f5    |    -    |    {    |    }    |  *Num   |
+| FnSym |   f8    |   f7    |   f6    |   f5    |    -    |    {    |    }    |  \*Num  |
 | FnSym |         |         |         |   f12   |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| FnSym |         |         |         |    ➖    |   win   |         |         |         |
+| FnSym |         |         |         |   ➖    |   win   |         |         |         |
 | FnSym |         |         |         |   💎    |   💎    |         |         |         |
-| FnSym |         |         |         |    ➕    |    ~    |         |         |         |
+| FnSym |         |         |         |   ➕    |    ~    |         |         |         |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| FnSym |         |         |    *    |         |         |    <    |         |         |
+| FnSym |         |         |   \*    |         |         |    <    |         |         |
 | FnSym |         |         |   💎    |         |         |   💎    |         |         |
 | FnSym |         |         |   f11   |         |         |    /    |         |         |
 | FnSym |         |         |         |         |         |         |         |         |
@@ -274,7 +275,7 @@ Cell = what to emit.
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |  dead3  |   C-x   |   C-v   |  CS-z   |  dead1  |   esc   |   ins   |  dead2  |
 |  Nav  |  copy   |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬇️    |   ⬆️    |   ➡️    |
-|  Nav  |   C-z   |   C-w   | tab ➡️  | win ➡️  |   ↩️️   |  bspc   |   del   |   tab   |
+|  Nav  |   C-z   |   C-w   | tab ➡️  | win ➡️  |   ↩️️    |  bspc   |   del   |   tab   |
 |  Nav  |         |         |   🛑    |   🛑    |   spc   |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |         |         |         |  CS-v   |    ü    |         |         |         |
@@ -368,7 +369,7 @@ Cell = what to emit.
 The order of the options is also the order of the layers in the layer stack.
 
 | LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags            | Combo Timeout |
-|:------------:|:---------------:|:---------------:|:-------------:|:--------------:|------------------|:-------------:|
+| :----------: | :-------------: | :-------------: | :-----------: | :------------: | ---------------- | :-----------: |
 |     Base     |                 |                 |               |                |                  |      200      |
 |     Left     |                 | BottomRow+LMods |     Base      |                | Shifted          |      200      |
 |    Right     | BottomRow+RMods |                 |               |      Base      | Shifted          |      200      |
@@ -385,73 +386,73 @@ The order of the options is also the order of the layers in the layer stack.
 
 ## Symbols
 
-| Symbol  | Command                         |
-|---------|---------------------------------|
-| ⬅️      | KC_LEFT                         |
-| ⬅️⬅️    | KC_HOME                         |
-| ⬇️      | KC_DOWN                         |
-| ⬇️⬇️    | KC_PGDN                         |
-| ⬆️      | KC_UP                           |
-| ⬆️⬆️    | KC_PGUP                         |
-| ➡️      | KC_RIGHT                        |
-| ➡️➡️    | KC_END                          |
-| ➖       | KC_KP_MINUS                     |
-| ➕       | KC_KP_PLUS                      |
-| ins     | KC_INS                          |
-| del     | KC_DEL                          |
-| spc     | KC_SPC                          |
-| esc     | KC_ESC                          |
-| ↩️️     | KC_ENT                          |
-| bspc    | KC_BSPC                         |
-| win     | KC_LGUI                         |
-| tab     | KC_TAB                          |
-| prt     | KC_PSCR                         |
-| pipe    | KC_PIPE                         |
-| 🔇      | KC_MUTE                         |
-| ⏯️      | KC_MPLY                         |
-| ⏮️      | KC_MPRV                         |
-| ⏭️      | KC_MNXT                         |
-| 🔊      | KC_VOLU                         |
-| 🔈      | KC_VOLD                         |
-| 🔆      | KC_BRIU                         |
-| 🔅      | KC_BRID                         |
-| copy    | C(KC_C)                         |
-| ä       | UP(UMLAUT_a, UMLAUT_A)          |
-| ö       | UP(UMLAUT_o, UMLAUT_O)          |
-| ü       | UP(UMLAUT_u, UMLAUT_U)          |
-| ß       | UM(UMLAUT_s)                    |
-| 😀      | UM(SMILEY)                      |
-| magic_a | magic:MAGIC_A                   |
-| magic_b | magic:MAGIC_B                   |
-| magic_c | magic:MAGIC_C                   |
-| magic_d | magic:MAGIC_D:qu                |
-| magic_e | magic:MAGIC_E                   |
-| magic_f | magic:MAGIC_F                   |
-| magic_g | magic:MAGIC_G                   |
-| magic_h | magic:MAGIC_H                   |
-| magic_i | magic:MAGIC_I                   |
-| tab ➡️  | custom:NEXT_TAB      NoHold     |
-| win ➡️  | custom:NEXT_WINDOW   NoHold     |
-| n't     | custom:N_T                      |
-| ing     | custom:ING                      |
-| ver     | custom:PRINT_VERSION            |
-| CapW    | custom:CAPS_WORDS               |
-| sn_case | custom:SNAKE_CASE               |
-| SN_CASE | custom:SCREAMING_SNAKE_CASE     |
-| camCase | custom:CAMEL_CASE               |
-| PasCase | custom:PASCAL_CASE              |
-| sl/case | custom:SLASH_CASE               |
-| do.case | custom:DOT_CASE                 |
-| kb-case | custom:KEBAP_CASE               |
-| dead1   | custom:DEAD1                    |
-| dead2   | custom:DEAD2                    |
-| dead3   | custom:DEAD3                    |
+| Symbol  | Command                     |
+| ------- | --------------------------- |
+| ⬅️      | KC_LEFT                     |
+| ⬅️⬅️    | KC_HOME                     |
+| ⬇️      | KC_DOWN                     |
+| ⬇️⬇️    | KC_PGDN                     |
+| ⬆️      | KC_UP                       |
+| ⬆️⬆️    | KC_PGUP                     |
+| ➡️      | KC_RIGHT                    |
+| ➡️➡️    | KC_END                      |
+| ➖      | KC_KP_MINUS                 |
+| ➕      | KC_KP_PLUS                  |
+| ins     | KC_INS                      |
+| del     | KC_DEL                      |
+| spc     | KC_SPC                      |
+| esc     | KC_ESC                      |
+| ↩️️      | KC_ENT                      |
+| bspc    | KC_BSPC                     |
+| win     | KC_LGUI                     |
+| tab     | KC_TAB                      |
+| prt     | KC_PSCR                     |
+| pipe    | KC_PIPE                     |
+| 🔇      | KC_MUTE                     |
+| ⏯️      | KC_MPLY                     |
+| ⏮️      | KC_MPRV                     |
+| ⏭️      | KC_MNXT                     |
+| 🔊      | KC_VOLU                     |
+| 🔈      | KC_VOLD                     |
+| 🔆      | KC_BRIU                     |
+| 🔅      | KC_BRID                     |
+| copy    | C(KC_C)                     |
+| ä       | UP(UMLAUT_a, UMLAUT_A)      |
+| ö       | UP(UMLAUT_o, UMLAUT_O)      |
+| ü       | UP(UMLAUT_u, UMLAUT_U)      |
+| ß       | UM(UMLAUT_s)                |
+| 😀      | UM(SMILEY)                  |
+| magic_a | magic:MAGIC_A               |
+| magic_b | magic:MAGIC_B               |
+| magic_c | magic:MAGIC_C               |
+| magic_d | magic:MAGIC_D:qu            |
+| magic_e | magic:MAGIC_E               |
+| magic_f | magic:MAGIC_F               |
+| magic_g | magic:MAGIC_G               |
+| magic_h | magic:MAGIC_H               |
+| magic_i | magic:MAGIC_I               |
+| tab ➡️  | custom:NEXT_TAB NoHold      |
+| win ➡️  | custom:NEXT_WINDOW NoHold   |
+| n't     | custom:N_T                  |
+| ing     | custom:ING                  |
+| ver     | custom:PRINT_VERSION        |
+| CapW    | custom:CAPS_WORDS           |
+| sn_case | custom:SNAKE_CASE           |
+| SN_CASE | custom:SCREAMING_SNAKE_CASE |
+| camCase | custom:CAMEL_CASE           |
+| PasCase | custom:PASCAL_CASE          |
+| sl/case | custom:SLASH_CASE           |
+| do.case | custom:DOT_CASE             |
+| kb-case | custom:KEBAP_CASE           |
+| dead1   | custom:DEAD1                |
+| dead2   | custom:DEAD2                |
+| dead3   | custom:DEAD3                |
 
 ## Generator
 
 - should be usable with any keyboard layout
 
-QMK: https://github.com/zeitlinger/qmk_firmware/tree/ferris
+QMK: <https://github.com/zeitlinger/qmk_firmware/tree/ferris>
 
 - run `mise run install` to install the dependencies in QMK directory
 - run `mise run flash` to flash the keyboard in this directory

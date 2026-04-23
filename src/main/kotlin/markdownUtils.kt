@@ -26,10 +26,36 @@ private fun validLine(line: String) = when {
     else -> true
 }
 
-private fun tableLine(tableLine: String) = tableLine.split("|")
-    .drop(1) // initial |
-    .dropLast(1) // last |
-    .map { it.trim() }
+private fun tableLine(tableLine: String) = splitMarkdownTableRow(tableLine)
+    .map { unescapeMarkdownTableCell(it.trim()) }
+
+private fun splitMarkdownTableRow(tableLine: String): List<String> {
+    val cells = mutableListOf<String>()
+    val current = StringBuilder()
+    var escaped = false
+    var seenLeadingPipe = false
+
+    for (char in tableLine) {
+        when {
+            !seenLeadingPipe && char == '|' -> seenLeadingPipe = true
+            escaped -> {
+                current.append('\\')
+                current.append(char)
+                escaped = false
+            }
+            char == '\\' -> escaped = true
+            char == '|' -> {
+                cells += current.toString()
+                current.clear()
+            }
+            else -> current.append(char)
+        }
+    }
+    return cells
+}
+
+private fun unescapeMarkdownTableCell(cell: String): String =
+    cell.replace("""\\([\\`*_{}\[\]()#+\-.!|])""".toRegex(), "$1")
 
 enum class CustomCommandType {
     OnPress,

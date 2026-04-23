@@ -1,7 +1,19 @@
 [tools]
+
+# Linters
+"cargo:xmloxide" = "0.4.2"
+editorconfig-checker = "3.6.1"
+"github:grafana/flint" = "0.20.3"
+"github:pinterest/ktlint" = "1.8.0"
 java = "latest"
 jq = "latest"
+lychee = "0.23.0"
 maven = "latest"
+node = "24.15.0"
+"npm:markdownlint-cli2" = "0.22.1"
+"npm:prettier" = "3.8.3"
+"pipx:codespell" = "2.4.2"
+"pipx:ruff" = "0.15.11"
 python = "3"
 uv = "latest"
 
@@ -23,3 +35,14 @@ run = "uv run train.py"
 description = "Flash the keyboard"
 depends = "generate"
 run = "uv run qmk flash -kb ferris/sweep -km zeitlinger -bl avrdude-split-left"
+
+[tasks.lint]
+description = "Run all lints"
+run = "flint run"
+
+[tasks."lint:fix"]
+description = "Auto-fix lint issues"
+run = "flint run --fix"
+
+[env]
+FLINT_CONFIG_DIR = ".github/config"
