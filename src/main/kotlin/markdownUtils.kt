@@ -1,33 +1,37 @@
 import java.io.File
 
+fun readTables(config: File): Tables =
+    config
+        .readText()
+        .split("\n\\s*\n".toRegex())
+        .filter { it.startsWith("|") }
+        .associate { tableLines ->
+            val lines =
+                tableLines
+                    .split("\n")
+                    .filter { validLine(it) }
+            val header = tableLine(lines[0])
+            val map =
+                lines
+                    .drop(1)
+                    .split { it.contains("| --") }
+                    .filter { it.isNotEmpty() }
+                    .map { it.map(::tableLine) }
+            header[0] to MultiTableWithHeader(header, map)
+        }.let { Tables(it) }
 
-fun readTables(config: File): Tables = config
-    .readText()
-    .split("\n\\s*\n".toRegex())
-    .filter { it.startsWith("|") }
-    .associate { tableLines ->
-        val lines = tableLines
-            .split("\n")
-            .filter { validLine(it) }
-        val header = tableLine(lines[0])
-        val map = lines
-            .drop(1)
-            .split { it.contains("| --") }
-            .filter { it.isNotEmpty() }
-            .map { it.map(::tableLine) }
-        header[0] to MultiTableWithHeader(header, map)
-    }.let { Tables(it) }
+private fun validLine(line: String) =
+    when {
+        line.isBlank() -> false
+        line.contains("| --") -> true
+        line.contains("---") -> false
+        line.contains("|--") -> false
+        else -> true
+    }
 
-private fun validLine(line: String) = when {
-    line.isBlank() -> false
-    line.contains("| --") -> true
-    line.contains("---") -> false
-    line.contains("|--") -> false
-    else -> true
-}
-
-private fun tableLine(tableLine: String) = splitMarkdownTableRow(tableLine)
-    .map { unescapeMarkdownTableCell(it.trim()) }
+private fun tableLine(tableLine: String) =
+    splitMarkdownTableRow(tableLine)
+        .map { unescapeMarkdownTableCell(it.trim()) }
 
 private fun splitMarkdownTableRow(tableLine: String): List<String> {
     val cells = mutableListOf<String>()
@@ -37,29 +41,38 @@ private fun splitMarkdownTableRow(tableLine: String): List<String> {
 
     for (char in tableLine) {
         when {
-            !seenLeadingPipe && char == '|' -> seenLeadingPipe = true
+            !seenLeadingPipe && char == '|' -> {
+                seenLeadingPipe = true
+            }
+
             escaped -> {
                 current.append('\\')
                 current.append(char)
                 escaped = false
             }
-            char == '\\' -> escaped = true
+
+            char == '\\' -> {
+                escaped = true
+            }
+
             char == '|' -> {
                 cells += current.toString()
                 current.clear()
             }
-            else -> current.append(char)
+
+            else -> {
+                current.append(char)
+            }
         }
     }
     return cells
 }
 
-private fun unescapeMarkdownTableCell(cell: String): String =
-    cell.replace("""\\([\\`*_{}\[\]()#+\-.!|])""".toRegex(), "$1")
+private fun unescapeMarkdownTableCell(cell: String): String = cell.replace("""\\([\\`*_{}\[\]()#+\-.!|])""".toRegex(), "$1")
 
 enum class CustomCommandType {
     OnPress,
-    OnTap
+    OnTap,
 }
 
 data class CustomCommand(
@@ -67,14 +80,23 @@ data class CustomCommand(
     val cStatements: List<String>,
 )
 
-data class CustomKey(var key: QmkKey, val targetLayerName: LayerName?, val command: CustomCommand?, val originalKey: QmkKey?)
+data class CustomKey(
+    var key: QmkKey,
+    val targetLayerName: LayerName?,
+    val command: CustomCommand?,
+    val originalKey: QmkKey?,
+)
 
 data class Symbols(
     val mapping: Map<String, String>,
     val customKeycodes: MutableMap<String, CustomKey>,
     val usedKeys: MutableSet<String>,
 ) {
-    fun replace(key: String, pos: KeyPosition, translator: QmkTranslator): String {
+    fun replace(
+        key: String,
+        pos: KeyPosition,
+        translator: QmkTranslator,
+    ): String {
         val value = mapping[key]
         if (value != null) {
             usedKeys += key
@@ -89,19 +111,23 @@ typealias Table = List<List<String>>
 
 typealias MultiTable = List<Table>
 
-data class MultiTableWithHeader(val header: List<String>, val content: MultiTable)
+data class MultiTableWithHeader(
+    val header: List<String>,
+    val content: MultiTable,
+)
 
-data class Tables(val content: Map<String, MultiTableWithHeader>) {
-
+data class Tables(
+    val content: Map<String, MultiTableWithHeader>,
+) {
     fun get(name: LayerName): MultiTableWithHeader = content.getValue(name)
 
     fun getSingle(name: String): Table = get(name).content.single()
+
     fun getOptional(name: String): Table? = content[name]?.content?.singleOrNull()
+
     fun getMulti(name: String): MultiTableWithHeader = get(name)
 
-    fun getMappingTable(
-        name: String,
-    ): Map<String, String> = getSingle(name).associate { it[0] to it[1] }
+    fun getMappingTable(name: String): Map<String, String> = getSingle(name).associate { it[0] to it[1] }
 }
 
 fun <T> List<T>.split(predicate: (T) -> Boolean): List<List<T>> {
