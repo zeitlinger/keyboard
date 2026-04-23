@@ -341,10 +341,20 @@ private fun magicCommand(
             val str = if (quoted) extractString(def) else def
             val output = if (quoted) str else "$str "
             val prevIsLetter = precedingChar.length == 1 && precedingChar[0].isLetter()
+            val outputStartsWithPreceding = prevIsLetter && output.startsWith(precedingChar)
+            val emitted =
+                if (outputStartsWithPreceding) {
+                    output.drop(precedingChar.length)
+                } else {
+                    output
+                }
             val suffix = if (quoted) "'\\0'" else "'${str.last()}'"
-            val offset = stringOffsets.getValue(output)
+            val offset = stringOffsets.getValue(emitted)
+            val capOffset = stringOffsets.getValue(output)
             val send =
-                if (prevIsLetter) {
+                if (outputStartsWithPreceding) {
+                    "magic_decode_send_cap_full($offset, $capOffset, $suffix);"
+                } else if (prevIsLetter) {
                     "magic_replace_decode_send_cap($offset, $suffix);"
                 } else {
                     "magic_decode_send_cap($offset, $suffix);"
@@ -398,6 +408,7 @@ private fun collectMagicOutputs(
     tables.getOptional("Magic")?.forEach { row ->
         val precedingChar = row[0]
         row.drop(1).forEach { def ->
+            magicEmittedString(precedingChar, def)?.let(outputs::add)
             magicFullOutputString(precedingChar, def)?.let(outputs::add)
             bracketOutputString(def)?.let(outputs::add)
         }
@@ -406,6 +417,24 @@ private fun collectMagicOutputs(
         magic.default?.let { "$it" }
     }
     return outputs.toList()
+}
+
+private fun magicEmittedString(
+    precedingChar: String,
+    def: String,
+): String? {
+    if (!(isWord(def) || isBareWord(def))) {
+        return null
+    }
+    val quoted = isWord(def)
+    val str = if (quoted) extractString(def) else def
+    val output = if (quoted) str else "$str "
+    val prevIsLetter = precedingChar.length == 1 && precedingChar[0].isLetter()
+    return if (prevIsLetter && output.startsWith(precedingChar)) {
+        output.drop(precedingChar.length)
+    } else {
+        output
+    }
 }
 
 private fun magicFullOutputString(

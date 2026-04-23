@@ -227,5 +227,14 @@ static void magic_decode_send_cap(uint16_t offset, char suffix) {
     }
     magic_capitalize_next = false;
 }
+
+static void magic_decode_send_cap_full(uint16_t offset, uint16_t capital_offset, char suffix) {
+    if (magic_capitalize_next) {
+        tap_code16(KC_BSPC);
+        magic_decode_send_cap(capital_offset, suffix);
+    } else {
+        magic_decode_send_cap(offset, suffix);
+    }
+}
         """.trimIndent()
 }
