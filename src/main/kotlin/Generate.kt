@@ -355,7 +355,7 @@ private fun magicCommand(
                     if (quoted) {
                         "magic_decode_send($offset);"
                     } else {
-                        "magic_decode_send($offset); set_suffix_state($suffix);"
+                        "magic_decode_send_suffix($offset, $suffix);"
                     }
                 } else if (prevIsLetter) {
                     "magic_replace_decode_send_cap($offset, $suffix);"
