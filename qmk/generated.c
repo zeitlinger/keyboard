@@ -554,7 +554,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_P: magic_replace_decode_send_cap(290, 'e'); break;
                     case KC_R: magic_replace_decode_send_cap(109, 'r'); break;
                     case KC_S: magic_replace_decode_send_cap(307, 't'); break;
-                    case KC_T: magic_replace_decode_send_cap(433, 'h'); break;
+                    case KC_T: magic_replace_decode_send_cap(422, 'u'); break;
                     case KC_V: magic_replace_decode_send_cap(286, 'e'); break;
                     case KC_W: magic_replace_decode_send_cap(494, 'y'); break;
                 }
@@ -585,7 +585,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_R: magic_replace_decode_send_cap(400, 'e'); break;
                     case KC_S: magic_replace_decode_send_cap(415, 'g'); break;
                     case KC_SPC: magic_decode_send_cap(106, 'd'); break;
-                    case KC_T: magic_replace_decode_send_cap(422, 'u'); break;
+                    case KC_T: magic_replace_decode_send_cap(433, 'h'); break;
                     case KC_TAB: magic_decode_send_cap(106, 'd'); break;
                     case KC_V: magic_replace_decode_send_cap(340, 'r'); break;
                     case KC_W: magic_replace_decode_send_cap(474, 'e'); break;
