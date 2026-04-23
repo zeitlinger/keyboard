@@ -98,7 +98,7 @@ Cell = what to emit.
 | :---: | :------------------: | :---------------------------: | :----------------: | :------------------: | :----------: | :------: | :-------------: | :---------: | :-----------: |
 |   a   |                      |                               |         e          |                      |              |          |                 |             |               |
 |   b   |        behind        |            between            |                    |       because        |      d       | business |     before      |  elaborate  |     about     |
-|   c   |          n           |             "'ll"             |                    |          p           |     "'d"     |          |     "'s"        |    "'re"    |     "n't"     |
+|   c   |          n           |             "'ll"             |                    |          p           |     "'d"     |          |      "'s"       |    "'re"    |     "n't"     |
 |   d   |          c           |               h               |                    |       doesn't        |      f       |  update  |     didn't      |    don't    |     does      |
 |   e   |                      |                               |         h          |                      |      u       |          |                 |             |               |
 |   f   |        found         |             first             |                    |                      |      d       |          |                 |             |     after     |
@@ -111,14 +111,14 @@ Cell = what to emit.
 |   m   |          r           |               h               |                    |        "ment"        |      l       |    t     | instrumentation |   almost    |               |
 |   n   |          r           |               h               |                    |         "qu"         |      x       |    p     |     number      | understand  |     only      |
 |   o   |                      |                               |         h          |                      |              |          |        e        |             |               |
-|   p   |          y           |               m               |                    |          n           |      d       |          |   production    |   people    |   probably    |
+|   p   |          y           |               m               |                    |          n           |      d       | improve  |   production    |   people    |   probably    |
 |   r   |          '           |               "               |                    |          !           |      ?       | another  |     realize     |      ,      |       .       |
 |   s   |       someone        |               r               |                    |        "sion"        |      d       |   just   |    something    |   always    |               |
 |   t   |          n           |               f               |                    |        "tion"        |   without    |  though  |    thank you    | everything  |    through    |
 |   u   |                      |                               |         h          |                      |              |          |                 |             |               |
 |   v   | zeitlinger@gmail.com | gregor.zeitlinger@grafana.com | declarative config | gregor@zeitlinger.de |     I've     |   have   |      never      |    "'ve"    | observability |
-|   w   |         will         |            wasn't             |                    |          s           |      x       |  worry   |      where      |    which    |     when      |
-|   x   |      exception       |               w               |                    |          r           |      d       |          |                 |             |               |
+|   w   |         will         |            wasn't             |       worse        |          s           |      x       |  worry   |      where      |    which    |     when      |
+|   x   |      exception       |               w               |                    |          r           |      d       |          |     exclude     |   explain   |   explicit    |
 |   y   |                      |                               |         r          |                      |              |          |                 |             |               |
 |   z   |      zeitlinger      |            gregor             |                    |       Grafana        | Grafana Labs |          |  OpenTelemetry  | Spring Boot |  Prometheus   |
 |  spc  |       [llSpc]        |                               |                    |                      |              |          |       and       |     the     |   [dotSpc]    |
