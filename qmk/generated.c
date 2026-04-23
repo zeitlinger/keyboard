@@ -228,13 +228,17 @@ static uint16_t last_keycode = KC_NO;
 static uint16_t last_magic_trigger = KC_NO;
 static uint16_t last_magic_repeat_keycode = KC_NO;
 
-static uint16_t magic_prepare_last_keycode(uint16_t keycode) {
-    magic_capitalize_next = false;
+static inline uint16_t unshift_letter_keycode(uint16_t keycode) {
     if (keycode >= S(KC_A) && keycode <= S(KC_Z)) {
-        magic_capitalize_next = true;
         return keycode - S(KC_A) + KC_A;
     }
     return keycode;
+}
+
+static uint16_t magic_prepare_last_keycode(uint16_t keycode) {
+    uint16_t unshifted = unshift_letter_keycode(keycode);
+    magic_capitalize_next = unshifted != keycode;
+    return unshifted;
 }
 
 static bool repeat_last_magic_key(uint16_t trigger) {
@@ -258,15 +262,15 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
         // Adaptive keys: runs after combo resolution in process_record_user,
         // so combo components are suppressed and prev_keycode reflects the
         // resolved combo keycode (e.g. KC_P not KC_C).
+        uint16_t adaptive_prev_keycode = unshift_letter_keycode(prev_keycode);
         switch (keycode) {
             case KC_E:
-                switch (prev_keycode) {
+                switch (adaptive_prev_keycode) {
                     case KC_A: return tap(KC_U);
-                    case S(KC_A): return tap(KC_U);
                 }
                 break;
             case KC_D:
-                switch (prev_keycode) {
+                switch (adaptive_prev_keycode) {
                     case KC_B: return tap(KC_S);
                     case KC_C: return tap(KC_C);
                     case KC_F: return tap(KC_F);
@@ -274,45 +278,30 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_P: return tap(KC_L);
                     case KC_S: return tap(KC_P);
                     case KC_X: return tap(KC_C);
-                    case S(KC_B): return tap(KC_S);
-                    case S(KC_C): return tap(KC_C);
-                    case S(KC_F): return tap(KC_F);
-                    case S(KC_G): return tap(KC_N);
-                    case S(KC_P): return tap(KC_L);
-                    case S(KC_S): return tap(KC_P);
-                    case S(KC_X): return tap(KC_C);
                 }
                 break;
             case KC_N:
-                switch (prev_keycode) {
+                switch (adaptive_prev_keycode) {
                     case KC_C: return tap(KC_K);
                     case KC_P: return tap(KC_P);
                     case KC_T: return tap(KC_T);
-                    case S(KC_C): return tap(KC_K);
-                    case S(KC_P): return tap(KC_P);
-                    case S(KC_T): return tap(KC_T);
                 }
                 break;
             case KC_C:
-                switch (prev_keycode) {
+                switch (adaptive_prev_keycode) {
                     case KC_D: return tap(KC_V);
                     case KC_L: return tap(KC_V);
-                    case S(KC_D): return tap(KC_V);
-                    case S(KC_L): return tap(KC_V);
                 }
                 break;
             case KC_F:
-                switch (prev_keycode) {
+                switch (adaptive_prev_keycode) {
                     case KC_D: return tap(KC_D);
                     case KC_G: return tap(KC_L);
                     case KC_T: return tap(KC_W);
-                    case S(KC_D): return tap(KC_D);
-                    case S(KC_G): return tap(KC_L);
-                    case S(KC_T): return tap(KC_W);
                 }
                 break;
             case KC_H:
-                switch (prev_keycode) {
+                switch (adaptive_prev_keycode) {
                     case KC_D: return tap(KC_G);
                     case KC_E: return tap(KC_E);
                     case KC_L: return tap(KC_P);
@@ -320,75 +309,53 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_N: return tap(KC_N);
                     case KC_O: return tap(KC_O);
                     case KC_U: return tap(KC_A);
-                    case S(KC_D): return tap(KC_G);
-                    case S(KC_E): return tap(KC_E);
-                    case S(KC_L): return tap(KC_P);
-                    case S(KC_M): return tap(KC_M);
-                    case S(KC_N): return tap(KC_N);
-                    case S(KC_O): return tap(KC_O);
-                    case S(KC_U): return tap(KC_A);
                 }
                 break;
             case KC_U:
-                switch (prev_keycode) {
+                switch (adaptive_prev_keycode) {
                     case KC_E: return tap(KC_O);
-                    case S(KC_E): return tap(KC_O);
                 }
                 break;
             case KC_R:
-                switch (prev_keycode) {
+                switch (adaptive_prev_keycode) {
                     case KC_K: return tap(KC_N);
                     case KC_L: return tap(KC_L);
                     case KC_M: return tap(KC_P);
                     case KC_N: return tap(KC_G);
                     case KC_S: return tap(KC_S);
                     case KC_Y: return tap(KC_I);
-                    case S(KC_K): return tap(KC_N);
-                    case S(KC_L): return tap(KC_L);
-                    case S(KC_M): return tap(KC_P);
-                    case S(KC_N): return tap(KC_G);
-                    case S(KC_S): return tap(KC_S);
-                    case S(KC_Y): return tap(KC_I);
                 }
                 break;
             case KC_B:
-                switch (prev_keycode) {
+                switch (adaptive_prev_keycode) {
                     case KC_L: return tap(KC_K);
-                    case S(KC_L): return tap(KC_K);
                 }
                 break;
             case KC_T:
-                switch (prev_keycode) {
+                switch (adaptive_prev_keycode) {
                     case KC_M: return tap(KC_B);
-                    case S(KC_M): return tap(KC_B);
                 }
                 break;
             case KC_P:
-                switch (prev_keycode) {
+                switch (adaptive_prev_keycode) {
                     case KC_N: return tap(KC_K);
-                    case S(KC_N): return tap(KC_K);
                 }
                 break;
             case KC_X:
-                switch (prev_keycode) {
+                switch (adaptive_prev_keycode) {
                     case KC_N: return tap(KC_L);
                     case KC_R: return tap(KC_R);
                     case KC_W: return tap(KC_N);
-                    case S(KC_N): return tap(KC_L);
-                    case S(KC_R): return tap(KC_R);
-                    case S(KC_W): return tap(KC_N);
                 }
                 break;
             case KC_Y:
-                switch (prev_keycode) {
+                switch (adaptive_prev_keycode) {
                     case KC_P: return tap(KC_S);
-                    case S(KC_P): return tap(KC_S);
                 }
                 break;
             case KC_W:
-                switch (prev_keycode) {
+                switch (adaptive_prev_keycode) {
                     case KC_X: return tap(KC_P);
-                    case S(KC_X): return tap(KC_P);
                 }
                 break;
         }

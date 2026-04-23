@@ -27,13 +27,17 @@ static uint16_t last_keycode = KC_NO;
 static uint16_t last_magic_trigger = KC_NO;
 static uint16_t last_magic_repeat_keycode = KC_NO;
 
-static uint16_t magic_prepare_last_keycode(uint16_t keycode) {
-    magic_capitalize_next = false;
+static inline uint16_t unshift_letter_keycode(uint16_t keycode) {
     if (keycode >= S(KC_A) && keycode <= S(KC_Z)) {
-        magic_capitalize_next = true;
         return keycode - S(KC_A) + KC_A;
     }
     return keycode;
+}
+
+static uint16_t magic_prepare_last_keycode(uint16_t keycode) {
+    uint16_t unshifted = unshift_letter_keycode(keycode);
+    magic_capitalize_next = unshifted != keycode;
+    return unshifted;
 }
 
 static bool repeat_last_magic_key(uint16_t trigger) {
@@ -57,6 +61,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
         // Adaptive keys: runs after combo resolution in process_record_user,
         // so combo components are suppressed and prev_keycode reflects the
         // resolved combo keycode (e.g. KC_P not KC_C).
+        uint16_t adaptive_prev_keycode = unshift_letter_keycode(prev_keycode);
         switch (keycode) {
 ${adaptives}
         }

@@ -131,13 +131,6 @@ fun run(args: GeneratorArgs) {
                 "Duplicate adaptive at row ${index + 1}: key=$key after=$after"
             }
             translator.adaptives.add(AdaptiveRule(key, after, output))
-            if (isLetter(after)) {
-                val shiftedAfter = shifted(after)
-                check(key to shiftedAfter !in seen) {
-                    "Duplicate adaptive (shifted) at row ${index + 1}: key=$key after=$shiftedAfter"
-                }
-                translator.adaptives.add(AdaptiveRule(key, shiftedAfter, output))
-            }
         }
     }
 
@@ -237,7 +230,7 @@ private fun adaptiveBlocks(rules: List<AdaptiveRule>): List<String> =
             entries
                 .sortedBy { it.after.key }
                 .joinToString("\n") { "        case ${it.after}: return tap(${it.output});" }
-        "case $key:\n    switch (prev_keycode) {\n$cases\n    }\n    break;"
+        "case $key:\n    switch (adaptive_prev_keycode) {\n$cases\n    }\n    break;"
     }
 
 private fun magicSwitch(map: MutableMap<QmkKey, MagicCommand>): String =
