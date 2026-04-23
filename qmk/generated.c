@@ -335,10 +335,22 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case S(KC_Y): return tap(KC_I);
                 }
                 break;
+            case KC_B:
+                switch (prev_keycode) {
+                    case KC_L: return tap(KC_K);
+                    case S(KC_L): return tap(KC_K);
+                }
+                break;
             case KC_T:
                 switch (prev_keycode) {
                     case KC_M: return tap(KC_B);
                     case S(KC_M): return tap(KC_B);
+                }
+                break;
+            case KC_P:
+                switch (prev_keycode) {
+                    case KC_N: return tap(KC_K);
+                    case S(KC_N): return tap(KC_K);
                 }
                 break;
             case KC_X:
@@ -477,11 +489,13 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 switch (get_last_keycode()) {
                     case KC_A: tap_code16(KC_E); remembered_keycode = KC_E; repeat_keycode = KC_E; break;
                     case KC_E: tap_code16(KC_H); remembered_keycode = KC_H; repeat_keycode = KC_H; break;
+                    case KC_I: tap_code16(KC_BSPC); tap_code16(KC_QUOTE); remembered_keycode = KC_QUOTE; repeat_keycode = KC_QUOTE; break;
                     case KC_O: tap_code16(KC_H); remembered_keycode = KC_H; repeat_keycode = KC_H; break;
                     case KC_U: tap_code16(KC_H); remembered_keycode = KC_H; repeat_keycode = KC_H; break;
                     case KC_Y: tap_code16(KC_R); remembered_keycode = KC_R; repeat_keycode = KC_R; break;
                     case S(KC_A): tap_code16(KC_E); remembered_keycode = KC_E; repeat_keycode = KC_E; break;
                     case S(KC_E): tap_code16(KC_H); remembered_keycode = KC_H; repeat_keycode = KC_H; break;
+                    case S(KC_I): tap_code16(KC_BSPC); tap_code16(KC_QUOTE); remembered_keycode = KC_QUOTE; repeat_keycode = KC_QUOTE; break;
                     case S(KC_O): tap_code16(KC_H); remembered_keycode = KC_H; repeat_keycode = KC_H; break;
                     case S(KC_U): tap_code16(KC_H); remembered_keycode = KC_H; repeat_keycode = KC_H; break;
                     case S(KC_Y): tap_code16(KC_R); remembered_keycode = KC_R; repeat_keycode = KC_R; break;
@@ -557,7 +571,6 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_F: tap_code16(KC_D); remembered_keycode = KC_D; repeat_keycode = KC_D; break;
                     case KC_G: tap_code16(KC_D); remembered_keycode = KC_D; repeat_keycode = KC_D; break;
                     case KC_H: tap_code16(KC_Y); remembered_keycode = KC_Y; repeat_keycode = KC_Y; break;
-                    case KC_I: tap_code16(KC_BSPC); tap_code16(KC_QUOTE); remembered_keycode = KC_QUOTE; repeat_keycode = KC_QUOTE; break;
                     case KC_K: tap_code16(KC_X); remembered_keycode = KC_X; repeat_keycode = KC_X; break;
                     case KC_L: tap_code16(KC_C); remembered_keycode = KC_C; repeat_keycode = KC_C; break;
                     case KC_M: tap_code16(KC_L); remembered_keycode = KC_L; repeat_keycode = KC_L; break;
@@ -577,7 +590,6 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case S(KC_F): tap_code16(KC_D); remembered_keycode = KC_D; repeat_keycode = KC_D; break;
                     case S(KC_G): tap_code16(KC_D); remembered_keycode = KC_D; repeat_keycode = KC_D; break;
                     case S(KC_H): tap_code16(KC_Y); remembered_keycode = KC_Y; repeat_keycode = KC_Y; break;
-                    case S(KC_I): tap_code16(KC_BSPC); tap_code16(KC_QUOTE); remembered_keycode = KC_QUOTE; repeat_keycode = KC_QUOTE; break;
                     case S(KC_K): tap_code16(KC_X); remembered_keycode = KC_X; repeat_keycode = KC_X; break;
                     case S(KC_L): tap_code16(KC_C); remembered_keycode = KC_C; repeat_keycode = KC_C; break;
                     case S(KC_M): tap_code16(KC_L); remembered_keycode = KC_L; repeat_keycode = KC_L; break;
@@ -601,13 +613,15 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 uint16_t remembered_keycode = MAGIC_F;
                 uint16_t repeat_keycode = KC_NO;
                 switch (get_last_keycode()) {
+                    case KC_L: tap_code16(KC_B); remembered_keycode = KC_B; repeat_keycode = KC_B; break;
                     case KC_M: tap_code16(KC_T); remembered_keycode = KC_T; repeat_keycode = KC_T; break;
-                    case KC_N: tap_code16(KC_K); remembered_keycode = KC_K; repeat_keycode = KC_K; break;
+                    case KC_N: tap_code16(KC_P); remembered_keycode = KC_P; repeat_keycode = KC_P; break;
                     case KC_P: tap_code16(KC_BSPC); magic_decode_send(393); set_suffix_state('y'); break;
                     case KC_R: tap_code16(KC_X); remembered_keycode = KC_X; repeat_keycode = KC_X; break;
                     case KC_W: tap_code16(KC_BSPC); magic_decode_send(89); set_suffix_state('s'); break;
+                    case S(KC_L): tap_code16(KC_B); remembered_keycode = KC_B; repeat_keycode = KC_B; break;
                     case S(KC_M): tap_code16(KC_T); remembered_keycode = KC_T; repeat_keycode = KC_T; break;
-                    case S(KC_N): tap_code16(KC_K); remembered_keycode = KC_K; repeat_keycode = KC_K; break;
+                    case S(KC_N): tap_code16(KC_P); remembered_keycode = KC_P; repeat_keycode = KC_P; break;
                     case S(KC_P): tap_code16(KC_BSPC); add_oneshot_mods(MOD_BIT(KC_LSFT)); magic_decode_send(393); set_suffix_state('y'); break;
                     case S(KC_R): tap_code16(KC_X); remembered_keycode = KC_X; repeat_keycode = KC_X; break;
                     case S(KC_W): tap_code16(KC_BSPC); add_oneshot_mods(MOD_BIT(KC_LSFT)); magic_decode_send(89); set_suffix_state('s'); break;
