@@ -5,6 +5,8 @@
 
 int layer = _BASE;
 
+static bool magic_capitalize_next = false;
+
 ${magicStringDecoder}
 
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
@@ -24,6 +26,15 @@ static uint16_t prev_keycode = KC_NO;
 static uint16_t last_keycode = KC_NO;
 static uint16_t last_magic_trigger = KC_NO;
 static uint16_t last_magic_repeat_keycode = KC_NO;
+
+static uint16_t magic_prepare_last_keycode(uint16_t keycode) {
+    magic_capitalize_next = false;
+    if (keycode >= S(KC_A) && keycode <= S(KC_Z)) {
+        magic_capitalize_next = true;
+        return keycode - S(KC_A) + KC_A;
+    }
+    return keycode;
+}
 
 static bool repeat_last_magic_key(uint16_t trigger) {
     if (last_magic_trigger != trigger || last_magic_repeat_keycode == KC_NO) {

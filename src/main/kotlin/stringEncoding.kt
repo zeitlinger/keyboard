@@ -207,5 +207,16 @@ static void magic_decode_send(uint16_t offset) {
         }
     }
 }
+
+static void magic_decode_send_cap(uint16_t offset, char suffix) {
+    if (magic_capitalize_next) {
+        add_oneshot_mods(MOD_BIT(KC_LSFT));
+    }
+    magic_decode_send(offset);
+    if (suffix != '\0') {
+        set_suffix_state(suffix);
+    }
+    magic_capitalize_next = false;
+}
 """.trimIndent()
 }

@@ -219,9 +219,10 @@ private fun magicBlock(magic: MagicInfo): String {
         }
         uint16_t remembered_keycode = ${magic.trigger.key};
         uint16_t repeat_keycode = KC_NO;
-        switch (get_last_keycode()) {
+        switch (magic_prepare_last_keycode(get_last_keycode())) {
 ${magicSwitch(magic.press)}$defaultCase
         }
+        magic_capitalize_next = false;
         last_magic_trigger = ${magic.trigger.key};
         last_magic_repeat_keycode = repeat_keycode;
         set_last_keycode(remembered_keycode);
@@ -313,21 +314,7 @@ private fun addMagicEntry(
     def: String,
     stringOffsets: Map<String, Int>,
 ) {
-    val command = magicCommand(translator, pos, base, precedingChar, def, stringOffsets, capitalizeFirst = false)
-
-    map[base] = command
-    if (isLetter(base)) {
-        map[shifted(base)] =
-            magicCommand(
-                translator,
-                pos,
-                shifted(base),
-                precedingChar,
-                def,
-                stringOffsets,
-                capitalizeFirst = true,
-            )
-    }
+    map[base] = magicCommand(translator, pos, base, precedingChar, def, stringOffsets)
 }
 
 private fun magicCommand(
@@ -337,7 +324,6 @@ private fun magicCommand(
     precedingChar: String,
     def: String,
     stringOffsets: Map<String, Int>,
-    capitalizeFirst: Boolean,
 ): MagicCommand =
     when {
         def.startsWith("[") && def.endsWith("]") -> {
@@ -360,24 +346,17 @@ private fun magicCommand(
             val str = if (quoted) extractString(def) else def
             val output = if (quoted) str else "$str "
             val prevIsLetter = precedingChar.length == 1 && precedingChar[0].isLetter()
-            val shiftedPrecedingLetter = capitalizeFirst && prevIsLetter
-            val emitted =
-                if (!shiftedPrecedingLetter && prevIsLetter && output.startsWith(precedingChar)) {
-                    output.drop(precedingChar.length)
+            val suffix = if (quoted) "'\\0'" else "'${str.last()}'"
+            val sendEncoded =
+                stringOffsets[output]?.let {
+                    "magic_decode_send_cap($it, $suffix);"
+                } ?: if (quoted) {
+                    "SEND_STRING(\"$output\");"
                 } else {
-                    output
+                    "SEND_STRING(\"$output\"); set_suffix_state('${str.last()}');"
                 }
-            val sendEncoded = stringOffsets[emitted]?.let { "magic_decode_send($it);" } ?: "SEND_STRING(\"$emitted\");"
             val send =
                 when {
-                    shiftedPrecedingLetter -> {
-                        "tap_code16(KC_BSPC); add_oneshot_mods(MOD_BIT(KC_LSFT)); $sendEncoded"
-                    }
-
-                    prevIsLetter && output.startsWith(precedingChar) -> {
-                        sendEncoded
-                    }
-
                     prevIsLetter -> {
                         "tap_code16(KC_BSPC); $sendEncoded"
                     }
@@ -386,7 +365,7 @@ private fun magicCommand(
                         sendEncoded
                     }
                 }
-            MagicCommand(if (quoted) send else "$send set_suffix_state('${str.last()}');")
+            MagicCommand(send)
         }
 
         else -> {
@@ -431,7 +410,6 @@ private fun collectMagicOutputs(
     tables.getOptional("Magic")?.forEach { row ->
         val precedingChar = row[0]
         row.drop(1).forEach { def ->
-            magicEmittedString(precedingChar, def)?.let(outputs::add)
             magicFullOutputString(precedingChar, def)?.let(outputs::add)
         }
     }
@@ -441,28 +419,11 @@ private fun collectMagicOutputs(
     return outputs.toList()
 }
 
-private fun magicEmittedString(
-    precedingChar: String,
-    def: String,
-): String? {
-    if (!(isWord(def) || isBareWord(def))) {
-        return null
-    }
-    val quoted = isWord(def)
-    val str = if (quoted) extractString(def) else def
-    val output = if (quoted) str else "$str "
-    val prevIsLetter = precedingChar.length == 1 && precedingChar[0].isLetter()
-    return if (prevIsLetter && output.startsWith(precedingChar)) output.drop(precedingChar.length) else output
-}
-
 private fun magicFullOutputString(
     precedingChar: String,
     def: String,
 ): String? {
     if (!(isWord(def) || isBareWord(def))) {
-        return null
-    }
-    if (!(precedingChar.length == 1 && precedingChar[0].isLetter())) {
         return null
     }
     val quoted = isWord(def)
