@@ -350,10 +350,13 @@ private fun magicCommand(
                 }
             val suffix = if (quoted) "'\\0'" else "'${str.last()}'"
             val offset = stringOffsets.getValue(emitted)
-            val capOffset = stringOffsets.getValue(output)
             val send =
                 if (outputStartsWithPreceding) {
-                    "magic_decode_send_cap_full($offset, $capOffset, $suffix);"
+                    if (quoted) {
+                        "magic_decode_send($offset);"
+                    } else {
+                        "magic_decode_send($offset); set_suffix_state($suffix);"
+                    }
                 } else if (prevIsLetter) {
                     "magic_replace_decode_send_cap($offset, $suffix);"
                 } else {
