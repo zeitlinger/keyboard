@@ -68,7 +68,8 @@ private fun splitMarkdownTableRow(tableLine: String): List<String> {
     return cells
 }
 
-private fun unescapeMarkdownTableCell(cell: String): String = cell.replace("""\\([\\`*_{}\[\]()#+\-.!|])""".toRegex(), "$1")
+private fun unescapeMarkdownTableCell(cell: String): String =
+    cell.replace("""\\([\\`*_{}\[\]()#+\-.!|])""".toRegex(), "$1")
 
 enum class CustomCommandType {
     OnPress,

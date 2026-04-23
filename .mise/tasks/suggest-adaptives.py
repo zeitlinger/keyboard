@@ -414,9 +414,6 @@ def main():
                     bad.append((a, b, freq))
 
     bad = [(a, b, freq) for a, b, freq in bad if pct(freq) >= MIN_FREQ_PCT]
-    truly_bad = {
-        (a, b) for a, b, _ in bad
-    }  # is_bad_chars-only, before existing injection
 
     def effective_gain(a, b, freq):
         return freq / DOUBLE_NERF if a == b else freq

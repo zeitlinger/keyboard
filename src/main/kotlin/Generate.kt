@@ -1,57 +1,69 @@
 import java.io.File
 
-const val mainLayerTemplate4Columns =
+const val MAIN_LAYER_TEMPLATE_4_COLUMNS =
     "\t[%s] = LAYOUT_split_3x5_2(\n" +
-            "            %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s,\n" +
-            "            %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s,\n" +
-            "            %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s,\n" +
-            "                            %s, %s, %s, %s),"
+        "            %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s,\n" +
+        "            %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s,\n" +
+        "            %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s,\n" +
+        "                            %s, %s, %s, %s),"
 
-const val mainLayerTemplate5Columns =
+const val MAIN_LAYER_TEMPLATE_5_COLUMNS =
     "\t[%s] = LAYOUT_split_3x5_2(\n" +
-            "            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\n" +
-            "            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\n" +
-            "            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\n" +
-            "                            %s, %s, %s, %s),"
+        "            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\n" +
+        "            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\n" +
+        "            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\n" +
+        "                            %s, %s, %s, %s),"
 
 fun template(layers: List<Layer>): String =
     layers[0].rows[0].size.let { columns ->
         when (columns) {
-            10 -> mainLayerTemplate5Columns
-            8 -> mainLayerTemplate4Columns
+            10 -> MAIN_LAYER_TEMPLATE_5_COLUMNS
+            8 -> MAIN_LAYER_TEMPLATE_4_COLUMNS
             else -> throw IllegalStateException("unsupported number of columns $columns")
         }
     }
 
-private const val thumbColumns = 4
+private const val THUMB_COLUMNS = 4
 
 fun generateBase(layers: List<Layer>): String {
     val template = template(layers)
     return layers
         .sortedBy { it.number }
         .joinToString("\n") { layer ->
-            template.format(*listOf(layer.name.const()).plus(layer.rows.mapIndexed { index, row ->
-                if (index == layer.rows.size - 1) {
-                    row.drop(2).take(thumbColumns - 2) + row.drop(row.size - 2 - (thumbColumns / 2))
-                        .take(thumbColumns - 2)
-                } else {
-                    row
-                }.map {
-                    val key = it.keyWithModifier
-                    if (key.substitution != null) {
-                        throw IllegalStateException("substitutionCombo not supported in base layer: $key")
-                    } else {
-                        key.key.padStart(
-                            20
-                        )
-                    }
-                }
-            }
-                .flatten()).toTypedArray())
+            template.format(
+                *listOf(layer.name.const())
+                    .plus(
+                        layer.rows
+                            .mapIndexed { index, row ->
+                                if (index == layer.rows.size - 1) {
+                                    row.drop(2).take(THUMB_COLUMNS - 2) +
+                                        row
+                                            .drop(row.size - 2 - (THUMB_COLUMNS / 2))
+                                            .take(THUMB_COLUMNS - 2)
+                                } else {
+                                    row
+                                }.map {
+                                    val key = it.keyWithModifier
+                                    if (key.substitution != null) {
+                                        throw IllegalStateException(
+                                            "substitutionCombo not supported in base layer: $key",
+                                        )
+                                    } else {
+                                        key.key.padStart(
+                                            20,
+                                        )
+                                    }
+                                }
+                            }.flatten(),
+                    ).toTypedArray(),
+            )
         }
 }
 
-fun triLayer(layer: Layer, translator: QmkTranslator): String {
+fun triLayer(
+    layer: Layer,
+    translator: QmkTranslator,
+): String {
     val reachable = layer.option.reachable
     if (reachable.size != 2) {
         throw IllegalStateException("triLayer must have exactly 2 reachable layers: $reachable")
@@ -70,24 +82,35 @@ fun run(args: GeneratorArgs) {
     val tables = readTables(args.configFile.file)
     val translator = qmkTranslator(tables)
 
-    val layers = addSendString(translator.layerOptions.entries.map { (layerName, _) ->
-        val table = translator.keys[layerName]
-            ?: listOf(List(translator.options.rows) { List(translator.options.nonThumbColumns) { "" } })
-        readLayer(table, translator, layerName, translator.layerNumbers.getOrDefault(layerName, -1))
-    }, translator)
+    val layers =
+        addSendString(
+            translator.layerOptions.entries.map { (layerName, _) ->
+                val table =
+                    translator.keys[layerName]
+                        ?: listOf(List(translator.options.rows) { List(translator.options.nonThumbColumns) { "" } })
+                readLayer(table, translator, layerName, translator.layerNumbers.getOrDefault(layerName, -1))
+            },
+            translator,
+        )
 
     val combos = translator.combos + generateAllCombos(layers, translator)
     val comboLines = getComboLines(combos)
 
-    val timeouts = combos.filter { it.timeout != null }.map {
-        "case ${it.name}: return ${it.timeout};"
-    }.sorted()
+    val timeouts =
+        combos
+            .filter { it.timeout != null }
+            .map {
+                "case ${it.name}: return ${it.timeout};"
+            }.sorted()
 
     val encodedMagicStrings = encodeStrings(collectMagicOutputs(tables, translator))
     translator.magic.forEach { magic ->
-        magic.defaultCommand = magic.default?.let { encodedMagicStrings.stringOffsets[it]?.let { offset ->
-            "magic_decode_send($offset);"
-        } ?: "SEND_STRING(\"$it\");" }
+        magic.defaultCommand =
+            magic.default?.let {
+                encodedMagicStrings.stringOffsets[it]?.let { offset ->
+                    "magic_decode_send($offset);"
+                } ?: "SEND_STRING(\"$it\");"
+            }
     }
 
     tables.getOptional("Magic")?.let {
@@ -123,7 +146,9 @@ fun run(args: GeneratorArgs) {
     val generationNote =
         "file is generated from ${gitTemplate.format(args.configFile.file.name)}"
 
-    val userKeycodes = translator.symbols.customKeycodes.keys.toList()
+    val userKeycodes =
+        translator.symbols.customKeycodes.keys
+            .toList()
     val visible =
         layers.filter {
             val reachable = translator.layerOptions.getValue(it.name).reachable
@@ -133,9 +158,12 @@ fun run(args: GeneratorArgs) {
         File(srcDir, "config.h"),
         File(dstDir, "config.h"),
         mapOf(
-            "triLayer" to (layers.singleOrNull { LayerFlag.TriLayer in it.option.flags }
-                ?.let { triLayer(it, translator) } ?: ""),
-        )
+            "triLayer" to (
+                layers
+                    .singleOrNull { LayerFlag.TriLayer in it.option.flags }
+                    ?.let { triLayer(it, translator) } ?: ""
+            ),
+        ),
     )
     replaceTemplate(
         File(srcDir, "layout.h"),
@@ -144,17 +172,19 @@ fun run(args: GeneratorArgs) {
             "generationNote" to generationNote,
             "versionString" to args.versionString,
             "layers" to generateBase(visible),
-            "layerNumbers" to translator.layerNumbers.entries
-                .joinToString("\n") {
-                    "#define ${it.key.const()} ${it.value}"
-                },
+            "layerNumbers" to
+                translator.layerNumbers.entries
+                    .joinToString("\n") {
+                        "#define ${it.key.const()} ${it.value}"
+                    },
             "custom0" to userKeycodes[0],
             "customRest" to userKeycodes.drop(1).joinToString(",\n    "),
-            "customHandlers" to translator.symbols.customKeycodes.entries
-                .joinToString("\n") {
-                    "#define _HANDLER_${it.key} ${it.value.key}"
-                },
-        )
+            "customHandlers" to
+                translator.symbols.customKeycodes.entries
+                    .joinToString("\n") {
+                        "#define _HANDLER_${it.key} ${it.value.key}"
+                    },
+        ),
     )
 
     replaceTemplate(
@@ -170,7 +200,7 @@ fun run(args: GeneratorArgs) {
             "magic" to translator.magic.map { magicBlock(it) }.indented(12),
             "magicExclusions" to translator.magic.map { "case ${it.trigger.key}:" }.indented(8),
             "adaptives" to adaptiveBlocks(translator.adaptives).indented(12),
-        )
+        ),
     )
 
     if (args.printStats) {
@@ -197,57 +227,74 @@ ${magicSwitch(magic.press)}$defaultCase
         set_last_keycode(remembered_keycode);
         return false;
     }
-    """.trimIndent()
+        """.trimIndent()
 }
 
 private fun adaptiveBlocks(rules: List<AdaptiveRule>): List<String> =
     rules.groupBy { it.key }.map { (key, entries) ->
-        val cases = entries.sortedBy { it.after.key }
-            .joinToString("\n") { "        case ${it.after}: return tap(${it.output});" }
+        val cases =
+            entries
+                .sortedBy { it.after.key }
+                .joinToString("\n") { "        case ${it.after}: return tap(${it.output});" }
         "case $key:\n    switch (prev_keycode) {\n$cases\n    }\n    break;"
     }
 
 private fun magicSwitch(map: MutableMap<QmkKey, MagicCommand>): String =
-    map.entries.sortedBy { it.key.key }.map {
-        val remember = it.value.rememberedKeycode?.let { keycode -> " remembered_keycode = $keycode;" } ?: ""
-        val repeat = it.value.repeatKeycode?.let { keycode -> " repeat_keycode = $keycode;" } ?: ""
-        "case ${it.key}: ${it.value.statements}$remember$repeat break;"
-    }.indented(12)
+    map.entries
+        .sortedBy { it.key.key }
+        .map {
+            val remember = it.value.rememberedKeycode?.let { keycode -> " remembered_keycode = $keycode;" } ?: ""
+            val repeat = it.value.repeatKeycode?.let { keycode -> " repeat_keycode = $keycode;" } ?: ""
+            "case ${it.key}: ${it.value.statements}$remember$repeat break;"
+        }.indented(12)
 
-fun addSendString(layers: List<Layer>, translator: QmkTranslator): List<Layer> {
-    return layers.map {
-        it.copy(rows = it.rows.map { row ->
-            row.map { key ->
-                val substitution = key.key.substitution
-                if (substitution != null) {
-                    val name = "ST_${key.pos.layerName}_${key.pos.row}_${key.pos.column}".uppercase()
-                    val command = customCommand(
-                        translator,
-                        QmkKey.of(name),
-                        CustomCommandType.OnPress,
-                        listOf(sendString(substitution)),
-                        key.key
-                    )
-                    translator.ignoreMissing.add(key.key)
+fun addSendString(
+    layers: List<Layer>,
+    translator: QmkTranslator,
+): List<Layer> =
+    layers.map {
+        it.copy(
+            rows =
+                it.rows.map { row ->
+                    row.map { key ->
+                        val substitution = key.key.substitution
+                        if (substitution != null) {
+                            val name = "ST_${key.pos.layerName}_${key.pos.row}_${key.pos.column}".uppercase()
+                            val command =
+                                customCommand(
+                                    translator,
+                                    QmkKey.of(name),
+                                    CustomCommandType.OnPress,
+                                    listOf(sendString(substitution)),
+                                    key.key,
+                                )
+                            translator.ignoreMissing.add(key.key)
 
-                    key.copy(key = command, keyWithModifier = command)
-                } else {
-                    key
-                }
-            }
-        })
+                            key.copy(key = command, keyWithModifier = command)
+                        } else {
+                            key
+                        }
+                    }
+                },
+        )
     }
-}
 
-private fun getComboLines(combos: List<Combo>) = combos.map { combo ->
-    combo.type.template.format(
-        combo.name.padEnd(35),
-        combo.result.let { it.substitution ?: it.key }.padEnd(35),
-        combo.triggers.joinToString(", ") { it.keyWithModifier.key }
-    )
-}.sorted()
+private fun getComboLines(combos: List<Combo>) =
+    combos
+        .map { combo ->
+            combo.type.template.format(
+                combo.name.padEnd(35),
+                combo.result.let { it.substitution ?: it.key }.padEnd(35),
+                combo.triggers.joinToString(", ") { it.keyWithModifier.key },
+            )
+        }.sorted()
 
-private fun addMagic(translator: QmkTranslator, row: List<String>, pos: KeyPosition, stringOffsets: Map<String, Int>) {
+private fun addMagic(
+    translator: QmkTranslator,
+    row: List<String>,
+    pos: KeyPosition,
+    stringOffsets: Map<String, Int>,
+) {
     val precedingChar = row[0]
     val base = translator.toQmk(precedingChar, pos)
     row.drop(1).forEachIndexed { index, def ->
@@ -270,15 +317,16 @@ private fun addMagicEntry(
 
     map[base] = command
     if (isLetter(base)) {
-        map[shifted(base)] = magicCommand(
-            translator,
-            pos,
-            shifted(base),
-            precedingChar,
-            def,
-            stringOffsets,
-            capitalizeFirst = true,
-        )
+        map[shifted(base)] =
+            magicCommand(
+                translator,
+                pos,
+                shifted(base),
+                precedingChar,
+                def,
+                stringOffsets,
+                capitalizeFirst = true,
+            )
     }
 }
 
@@ -290,8 +338,12 @@ private fun magicCommand(
     def: String,
     stringOffsets: Map<String, Int>,
     capitalizeFirst: Boolean,
-): MagicCommand = when {
-        def.startsWith("[") && def.endsWith("]") -> MagicCommand(bracketCommand(def.removeSurrounding("[", "]"), pos))
+): MagicCommand =
+    when {
+        def.startsWith("[") && def.endsWith("]") -> {
+            MagicCommand(bracketCommand(def.removeSurrounding("[", "]"), pos))
+        }
+
         def.length == 1 -> {
             val qmk = translator.toQmk(def, pos)
             val isLetterOutput = def[0].isLetter()
@@ -302,31 +354,44 @@ private fun magicCommand(
                 MagicCommand("tap_code16(KC_BSPC); tap_code16(${qmk.key});", qmk.key, qmk.key)
             }
         }
+
         isWord(def) || isBareWord(def) -> {
             val quoted = isWord(def)
             val str = if (quoted) extractString(def) else def
             val output = if (quoted) str else "$str "
             val prevIsLetter = precedingChar.length == 1 && precedingChar[0].isLetter()
             val shiftedPrecedingLetter = capitalizeFirst && prevIsLetter
-            val emitted = if (!shiftedPrecedingLetter && prevIsLetter && output.startsWith(precedingChar)) {
-                output.drop(precedingChar.length)
-            } else {
-                output
-            }
+            val emitted =
+                if (!shiftedPrecedingLetter && prevIsLetter && output.startsWith(precedingChar)) {
+                    output.drop(precedingChar.length)
+                } else {
+                    output
+                }
             val sendEncoded = stringOffsets[emitted]?.let { "magic_decode_send($it);" } ?: "SEND_STRING(\"$emitted\");"
-            val send = when {
-                shiftedPrecedingLetter ->
-                    "tap_code16(KC_BSPC); add_oneshot_mods(MOD_BIT(KC_LSFT)); $sendEncoded"
-                prevIsLetter && output.startsWith(precedingChar) ->
-                    sendEncoded
-                prevIsLetter ->
-                    "tap_code16(KC_BSPC); $sendEncoded"
-                else ->
-                    sendEncoded
-            }
+            val send =
+                when {
+                    shiftedPrecedingLetter -> {
+                        "tap_code16(KC_BSPC); add_oneshot_mods(MOD_BIT(KC_LSFT)); $sendEncoded"
+                    }
+
+                    prevIsLetter && output.startsWith(precedingChar) -> {
+                        sendEncoded
+                    }
+
+                    prevIsLetter -> {
+                        "tap_code16(KC_BSPC); $sendEncoded"
+                    }
+
+                    else -> {
+                        sendEncoded
+                    }
+                }
             MagicCommand(if (quoted) send else "$send set_suffix_state('${str.last()}');")
         }
-        else -> throw IllegalArgumentException("unknown command '${def}' in $pos")
+
+        else -> {
+            throw IllegalArgumentException("unknown command '$def' in $pos")
+        }
     }
 
 private fun isBareWord(def: String): Boolean =
@@ -334,18 +399,34 @@ private fun isBareWord(def: String): Boolean =
         !def.startsWith("\"") &&
         !def.startsWith("[")
 
-private fun bracketCommand(name: String, pos: KeyPosition): String = when (name) {
-    "dotSpc" -> "tap_code16(KC_BSPC); SEND_STRING(\". \"); add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state();"
-    else -> throw IllegalArgumentException("unknown bracket token '[$name]' in $pos")
-}
+private fun bracketCommand(
+    name: String,
+    pos: KeyPosition,
+): String =
+    when (name) {
+        "dotSpc" -> {
+            "tap_code16(KC_BSPC); SEND_STRING(\". \"); add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state();"
+        }
+
+        "llSpc" -> {
+            "tap_code16(KC_BSPC); SEND_STRING(\"'ll \"); clear_suffix_state();"
+        }
+
+        else -> {
+            throw IllegalArgumentException("unknown bracket token '[$name]' in $pos")
+        }
+    }
 
 private fun isWord(alt: String) = alt.startsWith("\"") && alt.endsWith("\"")
 
 private fun extractString(alt: String) = alt.removeSurrounding("\"")
 
-private fun sendString(alt: String) = "SEND_STRING(${alt})"
+private fun sendString(alt: String) = "SEND_STRING($alt)"
 
-private fun collectMagicOutputs(tables: Tables, translator: QmkTranslator): List<String> {
+private fun collectMagicOutputs(
+    tables: Tables,
+    translator: QmkTranslator,
+): List<String> {
     val outputs = mutableSetOf<String>()
     tables.getOptional("Magic")?.forEach { row ->
         val precedingChar = row[0]
@@ -360,7 +441,10 @@ private fun collectMagicOutputs(tables: Tables, translator: QmkTranslator): List
     return outputs.toList()
 }
 
-private fun magicEmittedString(precedingChar: String, def: String): String? {
+private fun magicEmittedString(
+    precedingChar: String,
+    def: String,
+): String? {
     if (!(isWord(def) || isBareWord(def))) {
         return null
     }
@@ -371,7 +455,10 @@ private fun magicEmittedString(precedingChar: String, def: String): String? {
     return if (prevIsLetter && output.startsWith(precedingChar)) output.drop(precedingChar.length) else output
 }
 
-private fun magicFullOutputString(precedingChar: String, def: String): String? {
+private fun magicFullOutputString(
+    precedingChar: String,
+    def: String,
+): String? {
     if (!(isWord(def) || isBareWord(def))) {
         return null
     }
@@ -383,7 +470,10 @@ private fun magicFullOutputString(precedingChar: String, def: String): String? {
     return if (quoted) str else "$str "
 }
 
-fun customKeycodes(translator: QmkTranslator, type: CustomCommandType): String =
+fun customKeycodes(
+    translator: QmkTranslator,
+    type: CustomCommandType,
+): String =
     translator.symbols.customKeycodes.entries
         .filter { it.value.command?.type == type }
         .map {
@@ -392,15 +482,23 @@ fun customKeycodes(translator: QmkTranslator, type: CustomCommandType): String =
         }.indented(12)
 
 fun holdOnOtherKeyPress(layerTapToggle: Set<QmkKey>): String =
-    layerTapToggle.map { "case ${it}: return true;" }.indented(4)
+    layerTapToggle
+        .map {
+            "case $it: return true;"
+        }.indented(4)
 
-private fun List<String>.indented(indent: Int): String =
-    this.joinToString("\n").prependIndent(" ".repeat(indent))
+private fun List<String>.indented(indent: Int): String = this.joinToString("\n").prependIndent(" ".repeat(indent))
 
 fun LayerName.const() = "_${this.uppercase()}"
 
-private fun replaceTemplate(src: File, dst: File, vars: Map<String, String>) {
-    dst.writeText(vars.entries.fold(src.readText()) { acc, entry ->
-        acc.replace("\${${entry.key}}", entry.value)
-    })
+private fun replaceTemplate(
+    src: File,
+    dst: File,
+    vars: Map<String, String>,
+) {
+    dst.writeText(
+        vars.entries.fold(src.readText()) { acc, entry ->
+            acc.replace("\${${entry.key}}", entry.value)
+        },
+    )
 }
