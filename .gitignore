@@ -6,3 +6,4 @@ target/
 chord_stats.json
 __pycache__/
 .codex
+magic_stats.json

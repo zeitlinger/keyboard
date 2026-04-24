@@ -7,7 +7,6 @@
 from __future__ import annotations
 
 import json
-import random
 import re
 import sys
 from dataclasses import dataclass
@@ -18,8 +17,9 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
 
-from feel import load_adaptives
+from feel import COMBO_KEYS, MAGIC_POSITIONS, load_adaptives
 from scripts.find_available_chords import (
+    PRECEDING_POSITIONS,
     README,
     load_adaptive_blocks,
     magic_feel_score,
@@ -42,7 +42,6 @@ STATS_FILE = Path(__file__).parent / "magic_stats.json"
 
 ACTIVE_SET_SIZE = 5
 GRADUATION_STREAK = 3
-REVIEW_PROBABILITY = 0.1
 STALE_DAYS = 7
 
 console = Console()
@@ -68,7 +67,9 @@ def now_iso() -> str:
 
 
 def days_since(iso: str) -> float:
-    return (datetime.now(timezone.utc) - datetime.fromisoformat(iso)).total_seconds() / 86400
+    return (
+        datetime.now(timezone.utc) - datetime.fromisoformat(iso)
+    ).total_seconds() / 86400
 
 
 def canonical_trigger(row: str, column: str) -> str:
@@ -87,6 +88,10 @@ def normalize_output(cell: str) -> str | None:
     if not re.search(r"[A-Za-z]", text):
         return None
     return text
+
+
+def include_in_training(output: str) -> bool:
+    return "@" not in output
 
 
 def trigger_aliases(trigger: str) -> set[str]:
@@ -122,6 +127,148 @@ def normalize_answer(answer: str) -> str:
     return text
 
 
+def normalize_output_answer(output: str) -> set[str]:
+    text = output.strip().lower()
+    if not text:
+        return set()
+    variants = {text}
+    collapsed = re.sub(r"\s+", " ", text)
+    variants.add(collapsed)
+    variants.add(collapsed.replace(" ", ""))
+    return variants
+
+
+def render_trigger_hint(trigger: str) -> str:
+    row, column_letter = trigger.split("+", 1)
+    marks: dict[tuple[int, int], str] = {}
+    combo_sources = {
+        (0, 1): [(0, 0), (0, 2)],
+        (1, 1): [(1, 0), (1, 2)],
+        (2, 1): [(2, 0), (2, 2)],
+        (3, 1): [(3, 0), (3, 2)],
+        (0, 3): [(0, 2), (0, 4)],
+        (1, 3): [(1, 2), (1, 4)],
+        (2, 3): [(2, 2), (2, 4)],
+        (3, 3): [(3, 2), (3, 4)],
+        (4, 1): [(4, 2), (4, 4)],
+        (5, 1): [(5, 0), (5, 2)],
+        (6, 1): [(6, 0), (6, 2)],
+        (7, 1): [(7, 0), (7, 2)],
+        (4, 3): [(4, 2), (4, 4)],
+        (5, 3): [(5, 2), (5, 4)],
+        (6, 3): [(6, 2), (6, 4)],
+        (7, 3): [(7, 2), (7, 4)],
+    }
+
+    row_pos = PRECEDING_POSITIONS.get(row)
+    if row_pos is not None:
+        if row in COMBO_KEYS:
+            for source_pos in combo_sources.get(row_pos, []):
+                marks[source_pos] = "x"
+        else:
+            marks[row_pos] = "x"
+
+    magic_pos = MAGIC_POSITIONS.get(f"magic_{column_letter}")
+    if magic_pos is not None:
+        if magic_pos in combo_sources:
+            for source_pos in combo_sources[magic_pos]:
+                marks[source_pos] = "x"
+        else:
+            marks[magic_pos] = "x"
+
+    col_offsets = [4, 2, 0, 2, 4]
+    left_x = [0, 6, 12, 18, 24]
+    right_x = [42, 48, 54, 60, 66]
+    row_y = [0, 4, 8]
+    thumb_y = 16
+
+    position_to_slot = {
+        (0, 0): (left_x[0], row_y[0] + col_offsets[0]),
+        (1, 0): (left_x[1], row_y[0] + col_offsets[1]),
+        (2, 0): (left_x[2], row_y[0] + col_offsets[2]),
+        (3, 0): (left_x[3], row_y[0] + col_offsets[3]),
+        (0, 2): (left_x[0], row_y[1] + col_offsets[0]),
+        (1, 2): (left_x[1], row_y[1] + col_offsets[1]),
+        (2, 2): (left_x[2], row_y[1] + col_offsets[2]),
+        (3, 2): (left_x[3], row_y[1] + col_offsets[3]),
+        (0, 4): (left_x[0], row_y[2] + col_offsets[0]),
+        (1, 4): (left_x[1], row_y[2] + col_offsets[1]),
+        (2, 4): (left_x[2], row_y[2] + col_offsets[2]),
+        (3, 4): (left_x[3], row_y[2] + col_offsets[3]),
+        (4, 0): (right_x[1], row_y[0] + col_offsets[0]),
+        (5, 0): (right_x[2], row_y[0] + col_offsets[1]),
+        (6, 0): (right_x[3], row_y[0] + col_offsets[2]),
+        (7, 0): (right_x[4], row_y[0] + col_offsets[3]),
+        (4, 2): (right_x[1], row_y[1] + col_offsets[0]),
+        (5, 2): (right_x[2], row_y[1] + col_offsets[1]),
+        (6, 2): (right_x[3], row_y[1] + col_offsets[2]),
+        (7, 2): (right_x[4], row_y[1] + col_offsets[3]),
+        (4, 4): (right_x[1], row_y[2] + col_offsets[0]),
+        (5, 4): (right_x[2], row_y[2] + col_offsets[1]),
+        (6, 4): (right_x[3], row_y[2] + col_offsets[2]),
+        (7, 4): (right_x[4], row_y[2] + col_offsets[3]),
+        (3, 5): (left_x[4], thumb_y),
+        (4, 5): (right_x[0], thumb_y),
+    }
+
+    empty_slots = [
+        (left_x[4], row_y[0] + col_offsets[4]),
+        (left_x[4], row_y[1] + col_offsets[4]),
+        (left_x[4], row_y[2] + col_offsets[4]),
+        (right_x[0], row_y[0] + col_offsets[4]),
+        (right_x[0], row_y[1] + col_offsets[4]),
+        (right_x[0], row_y[2] + col_offsets[4]),
+        (left_x[3], thumb_y),
+        (right_x[1], thumb_y),
+    ]
+
+    x_margin = 2
+    stamped_slots = [(x + x_margin, y, " ") for x, y in empty_slots]
+    for pos, (x, y) in position_to_slot.items():
+        stamped_slots.append((x + x_margin, y, marks.get(pos, " ")))
+
+    max_x = max(x for x, _, _ in stamped_slots) + 5
+    max_y = max(y for _, y, _ in stamped_slots) + 3
+    canvas = [[" " for _ in range(max_x)] for _ in range(max_y)]
+
+    def stamp_box(x: int, y: int, value: str) -> None:
+        glyphs = ("┌───┐", f"│ {value} │", "└───┘")
+        for dy, glyph in enumerate(glyphs):
+            for dx, char in enumerate(glyph):
+                canvas[y + dy][x + dx] = char
+
+    for x, y, value in stamped_slots:
+        stamp_box(x, y, value)
+
+    return "\n".join("".join(line).rstrip() for line in canvas if "".join(line).strip())
+
+
+def trainer_value_multiplier(output: str) -> float:
+    text = output.strip().lower()
+    if not text:
+        return 0.1
+
+    chars = [char for char in text if not char.isspace()]
+    if not chars:
+        return 0.1
+
+    alnum_count = sum(char.isalnum() for char in chars)
+    alpha_count = sum(char.isalpha() for char in chars)
+    symbol_count = len(chars) - alnum_count
+    digit_count = sum(char.isdigit() for char in chars)
+
+    multiplier = 1.0
+    if "@" in text:
+        multiplier *= 0.15
+    if symbol_count:
+        multiplier *= max(0.2, 1.0 - (symbol_count / len(chars)))
+    if digit_count:
+        multiplier *= 0.6
+    if alpha_count / len(chars) < 0.8:
+        multiplier *= 0.5
+    return multiplier
+
+
 def parse_magic_entries() -> list[MagicEntry]:
     header, rows, _ = parse_magic_table(README)
     adaptives = load_adaptives(README)
@@ -134,14 +281,22 @@ def parse_magic_entries() -> list[MagicEntry]:
             output = normalize_output(raw_cell)
             if output is None:
                 continue
+            if not include_in_training(output):
+                continue
             column = header[index]
             trigger = canonical_trigger(row_name, column)
             starts_with_row = len(row_name) == 1 and output.lower().startswith(row_name)
             difficulty = output_difficulty(output, adaptives, blocked_pairs, magic_rows)
             saved = max(1, len(output) - 2)
             frequency = output_frequency(output)
-            feel = magic_feel_score(row_name, column, starts_with_row)
-            value = saved ** 2 * frequency * difficulty / (feel + 1)
+            feel, _ = magic_feel_score(row_name, column, starts_with_row)
+            value = (
+                saved**2
+                * frequency
+                * difficulty
+                * trainer_value_multiplier(output)
+                / (feel + 1)
+            )
             grouped.setdefault(output, []).append((trigger, value))
 
     entries: list[MagicEntry] = []
@@ -197,38 +352,67 @@ def record_answer(stats: dict, output: str, correct: bool) -> dict:
 def update_active_set(active: list[str], stats: dict, all_outputs: list[str]) -> None:
     for output in [item for item in active if is_mastered(stats.get(item, {}))]:
         active.remove(output)
-    unseen = [item for item in all_outputs if item not in active and not is_mastered(stats.get(item, {}))]
+    unseen = [
+        item
+        for item in all_outputs
+        if item not in active and not is_mastered(stats.get(item, {}))
+    ]
     while len(active) < ACTIVE_SET_SIZE and unseen:
         active.append(unseen.pop(0))
 
 
-def pick_output(active: list[str], stats: dict, all_outputs: list[str], last: str | None) -> str:
+def output_priority(
+    output: str, entry: MagicEntry, stat: dict, *, review: bool, last: str | None
+) -> tuple:
+    total = stat.get("total", 0)
+    correct = stat.get("correct", 0)
+    streak = stat.get("streak", 0)
+    accuracy = correct / total if total else -1.0
+    last_seen = stat.get("last_seen")
+    age = days_since(last_seen) if last_seen else float("inf")
+    repeated = output == last
+
+    if review:
+        return (
+            repeated,
+            age < STALE_DAYS,
+            -age,
+            accuracy,
+            streak,
+            -entry.value,
+            output,
+        )
+
+    return (
+        repeated,
+        streak,
+        accuracy,
+        -entry.value,
+        -total,
+        output,
+    )
+
+
+def pick_output(
+    active: list[str],
+    stats: dict,
+    entries: dict[str, MagicEntry],
+    all_outputs: list[str],
+    last: str | None,
+) -> str:
     mastered = [item for item in all_outputs if is_mastered(stats.get(item, {}))]
     stale = [item for item in mastered if is_stale(stats.get(item, {}))]
 
     pool = list(dict.fromkeys(active + stale))
-    if not stale and mastered and random.random() < REVIEW_PROBABILITY:
-        pool = mastered
     if not pool:
         pool = mastered or all_outputs
 
-    candidates = [item for item in pool if item != last] or pool
-
-    weights = []
-    for item in candidates:
+    def sort_key(item: str) -> tuple:
         stat = stats.get(item, {})
-        if is_mastered(stat) and is_stale(stat):
-            last_seen = stat.get("last_seen")
-            age = days_since(last_seen) if last_seen else STALE_DAYS * 10
-            weight = min(age / STALE_DAYS, 3.0)
-        else:
-            total = stat.get("total", 0)
-            correct = stat.get("correct", 0)
-            accuracy = correct / total if total else 0.0
-            weight = max(0.1, 1.0 - accuracy)
-        weights.append(weight)
+        review = is_mastered(stat)
+        return output_priority(item, entries[item], stat, review=review, last=last)
 
-    return random.choices(candidates, weights=weights, k=1)[0]
+    return min(pool, key=sort_key)
 
 
 def header_panel(active: list[str], stats: dict, all_outputs: list[str]) -> Panel:
@@ -248,7 +432,9 @@ def header_panel(active: list[str], stats: dict, all_outputs: list[str]) -> Pane
     return Panel(text, title="[bold blue]Magic Trainer[/]", expand=False)
 
 
-def show_prompt(entries: dict[str, MagicEntry], output: str, stats: dict, panel: Panel) -> None:
+def show_prompt(
+    entries: dict[str, MagicEntry], output: str, stats: dict, panel: Panel
+) -> None:
     stat = stats.get(output, {})
     total = stat.get("total", 0)
     correct = stat.get("correct", 0)
@@ -281,7 +467,9 @@ def show_prompt(entries: dict[str, MagicEntry], output: str, stats: dict, panel:
 def run() -> None:
     entries = load_entries()
     if not entries:
-        console.print("[bold yellow]No multi-character magic entries found in README.md[/]")
+        console.print(
+            "[bold yellow]No multi-character magic entries found in README.md[/]"
+        )
         sys.exit(1)
 
     stats = load_stats()
@@ -289,7 +477,11 @@ def run() -> None:
 
     active: list[str] = stats.get("_active", [])
     active = [item for item in active if item in entries]
-    unmastered_new = [item for item in all_outputs if item not in active and not is_mastered(stats.get(item, {}))]
+    unmastered_new = [
+        item
+        for item in all_outputs
+        if item not in active and not is_mastered(stats.get(item, {}))
+    ]
     while len(active) < ACTIVE_SET_SIZE and unmastered_new:
         active.append(unmastered_new.pop(0))
 
@@ -297,14 +489,18 @@ def run() -> None:
     try:
         while True:
             update_active_set(active, stats, all_outputs)
-            mastered = [item for item in all_outputs if is_mastered(stats.get(item, {}))]
+            mastered = [
+                item for item in all_outputs if is_mastered(stats.get(item, {}))
+            ]
             if not active and not mastered:
                 console.print("\n[bold cyan]All magic entries mastered![/]")
                 break
 
-            output = pick_output(active, stats, all_outputs, last_output)
+            output = pick_output(active, stats, entries, all_outputs, last_output)
             last_output = output
-            show_prompt(entries, output, stats, header_panel(active, stats, all_outputs))
+            show_prompt(
+                entries, output, stats, header_panel(active, stats, all_outputs)
+            )
             answer = tty_input().strip()
             if answer == "q":
                 break
@@ -315,11 +511,16 @@ def run() -> None:
                 for trigger in entries[output].triggers
                 for alias in trigger_aliases(trigger)
             }
-            correct = normalized in accepted
+            correct = (
+                normalized in accepted
+                or answer.strip().lower() in normalize_output_answer(output)
+            )
             entry = record_answer(stats, output, correct)
             if correct:
                 if entry["streak"] == GRADUATION_STREAK:
-                    console.print(f"  [bold cyan]✓ Mastered! ({output} → {entries[output].best_trigger})[/]")
+                    console.print(
+                        f"  [bold cyan]✓ Mastered! ({output} → {entries[output].best_trigger})[/]"
+                    )
                 else:
                     console.print("  [bold white]✓ Correct![/]")
             else:
@@ -327,6 +528,10 @@ def run() -> None:
                     f"  [bold yellow]✗  expected one of: {', '.join(entries[output].triggers)}  "
                     f"(you typed: {answer or '?'})[/]"
                 )
+                for line in render_trigger_hint(
+                    entries[output].best_trigger
+                ).splitlines():
+                    console.print(f"  [dim]{line}[/]")
                 console.print()
                 console.print("  [dim]press enter to continue[/] ", end="")
                 tty_input()
