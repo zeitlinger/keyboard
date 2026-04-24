@@ -111,7 +111,8 @@ fun run(args: GeneratorArgs) {
             }
     }
 
-    tables.getOptional("Magic")?.let {
+    val magicTable = tables.getOptional("Magic").orEmpty()
+    magicRows(magicTable).let {
         it.forEachIndexed { index, row ->
             val pos = KeyPosition(0, index, 0, "magic", 0)
             addMagic(translator, row, pos, encodedMagicStrings.stringOffsets)
@@ -189,6 +190,7 @@ fun run(args: GeneratorArgs) {
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
             "magicStringDecoder" to (encodedMagicStrings.decoder ?: ""),
             "magic" to translator.magic.map { magicBlock(it) }.indented(12),
+            "magicSuffixes" to magicSuffixCases(translator, magicTable).prependIndent("    "),
             "magicExclusions" to translator.magic.map { "case ${it.trigger.key}:" }.indented(8),
             "adaptives" to adaptiveBlocks(translator.adaptives).indented(12),
         ),
@@ -200,6 +202,86 @@ fun run(args: GeneratorArgs) {
 
     File(dstDir, "combos.def").writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
 }
+
+private fun magicRows(table: Table): Table =
+    table.filterNot(::isMagicSuffixRow)
+
+private fun isMagicSuffixRow(row: List<String>): Boolean =
+    row.firstOrNull()?.equals("suffix", ignoreCase = true) == true
+
+private fun magicSuffixCases(
+    translator: QmkTranslator,
+    magicTable: Table,
+): String {
+    val suffixRow = magicTable.singleOrNull(::isMagicSuffixRow) ?: return ""
+    return suffixRow
+        .drop(1)
+        .mapIndexedNotNull { index, suffix ->
+            if (suffix.isBlank()) {
+                null
+            } else {
+                val magic = translator.magic.getOrNull(index)
+                    ?: throw IllegalArgumentException("suffix cell has no matching magic key at column ${index + 2}")
+                "case ${magic.trigger.key}:\n" +
+                    magicSuffixStatements(suffix.trim()).prependIndent("    ") +
+                    "\n    return true;"
+            }
+        }
+        .joinToString("\n")
+}
+
+private fun magicSuffixStatements(suffix: String): String =
+    when (suffix) {
+        "." -> {
+            """
+            tap_code16(KC_BSPC); tap_dot_space();
+            add_oneshot_mods(MOD_BIT(KC_LSFT));
+            suffix_active = false;
+            """.trimIndent()
+        }
+
+        "," -> {
+            """
+            tap_code16(KC_BSPC); tap_comma_space();
+            suffix_active = false;
+            """.trimIndent()
+        }
+
+        "n't" -> {
+            """
+            tap_code16(KC_BSPC); tap_n_t(); tap_code16(KC_SPC);
+            last_magic_char = 't';
+            """.trimIndent()
+        }
+
+        "ed" -> {
+            """
+            tap_code16(KC_BSPC);
+            if (last_magic_char == 'e') {
+                tap_code16(KC_D); tap_code16(KC_SPC);
+            } else {
+                tap_code16(KC_E); tap_code16(KC_D); tap_code16(KC_SPC);
+            }
+            last_magic_char = 'd';
+            """.trimIndent()
+        }
+
+        else -> {
+            val taps = suffix.map(::suffixTapStatement).joinToString(" ")
+            """
+            tap_code16(KC_BSPC); $taps tap_code16(KC_SPC);
+            last_magic_char = '${suffix.last()}';
+            """.trimIndent()
+        }
+    }
+
+private fun suffixTapStatement(char: Char): String =
+    when (char) {
+        '\'' -> "tap_code16(KC_QUOTE);"
+        in 'a'..'z' -> "tap_code16(KC_${char.uppercaseChar()});"
+        in 'A'..'Z' -> "tap_code16(S(KC_$char));"
+        else -> throw IllegalArgumentException("unsupported suffix character '$char'")
+    }
 
 private fun magicBlock(magic: MagicInfo): String {
     val defaultCase = magic.defaultCommand?.let { "\n            default: $it break;" } ?: ""
@@ -408,7 +490,7 @@ private fun collectMagicOutputs(
     translator: QmkTranslator,
 ): List<String> {
     val outputs = mutableSetOf<String>()
-    tables.getOptional("Magic")?.forEach { row ->
+    magicRows(tables.getOptional("Magic").orEmpty()).forEach { row ->
         val precedingChar = row[0]
         row.drop(1).forEach { def ->
             magicEmittedString(precedingChar, def)?.let(outputs::add)

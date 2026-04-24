@@ -292,6 +292,43 @@ static void magic_replace_tap_repeatable(uint16_t keycode) {
     magic_tap_repeatable(keycode);
 }
 
+static bool process_magic_suffix(uint16_t keycode) {
+    switch (keycode) {
+    case MAGIC_B:
+        tap_code16(KC_BSPC); tap_code16(KC_S); tap_code16(KC_SPC);
+        last_magic_char = 's';
+        return true;
+    case MAGIC_D:
+        tap_code16(KC_BSPC); tap_n_t(); tap_code16(KC_SPC);
+        last_magic_char = 't';
+        return true;
+    case MAGIC_E:
+        tap_code16(KC_BSPC); tap_code16(KC_L); tap_code16(KC_Y); tap_code16(KC_SPC);
+        last_magic_char = 'y';
+        return true;
+    case MAGIC_G:
+        tap_code16(KC_BSPC);
+        if (last_magic_char == 'e') {
+            tap_code16(KC_D); tap_code16(KC_SPC);
+        } else {
+            tap_code16(KC_E); tap_code16(KC_D); tap_code16(KC_SPC);
+        }
+        last_magic_char = 'd';
+        return true;
+    case MAGIC_H:
+        tap_code16(KC_BSPC); tap_comma_space();
+        suffix_active = false;
+        return true;
+    case MAGIC_I:
+        tap_code16(KC_BSPC); tap_dot_space();
+        add_oneshot_mods(MOD_BIT(KC_LSFT));
+        suffix_active = false;
+        return true;
+    default:
+        return false;
+    }
+}
+
 bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
         // Adaptive keys: runs after combo resolution in process_record_user,

@@ -74,6 +74,14 @@ static void magic_replace_tap_repeatable(uint16_t keycode) {
     magic_tap_repeatable(keycode);
 }
 
+static bool process_magic_suffix(uint16_t keycode) {
+    switch (keycode) {
+${magicSuffixes}
+    default:
+        return false;
+    }
+}
+
 bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
         // Adaptive keys: runs after combo resolution in process_record_user,

@@ -86,37 +86,10 @@ bool is_one_shot_mouse_active = false;
 
 static bool process_suffix(uint16_t keycode, keyrecord_t *record) {
     if (!suffix_active || !record->event.pressed) return true;
+    if (process_magic_suffix(keycode)) {
+        return false;
+    }
     switch (keycode) {
-    case MAGIC_I:
-        tap_code16(KC_BSPC); tap_dot_space();
-        add_oneshot_mods(MOD_BIT(KC_LSFT));
-        suffix_active = false;
-        return false;
-    case MAGIC_H:
-        tap_code16(KC_BSPC); tap_comma_space();
-        suffix_active = false;
-        return false;
-    case MAGIC_D:
-        tap_code16(KC_BSPC); tap_n_t(); tap_code16(KC_SPC);
-        last_magic_char = 't';
-        return false;
-    case MAGIC_G:
-        tap_code16(KC_BSPC);
-        if (last_magic_char == 'e') {
-            tap_code16(KC_D); tap_code16(KC_SPC);
-        } else {
-            tap_code16(KC_E); tap_code16(KC_D); tap_code16(KC_SPC);
-        }
-        last_magic_char = 'd';
-        return false;
-    case MAGIC_E:
-        tap_code16(KC_BSPC); tap_code16(KC_L); tap_code16(KC_Y); tap_code16(KC_SPC);
-        last_magic_char = 'y';
-        return false;
-    case MAGIC_B:
-        tap_code16(KC_BSPC); tap_code16(KC_S); tap_code16(KC_SPC);
-        last_magic_char = 's';
-        return false;
     case _HANDLER_ING:
         tap_code16(KC_BSPC);
         if (last_magic_char == 'a' || last_magic_char == 'e' ||

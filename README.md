@@ -87,7 +87,7 @@ Rows = preceding key. Columns = the nine physical magic keys (see the Layout tab
 Cell = what to emit.
 
 - Single-char letter cells append or tap (e.g. `a` + `e` yields `ae`). Single-char punctuation/symbol cells backspace the preceding letter first (e.g. `t` + `.` yields `.`). A repeated press of the same magic key then replays just the emitted letter or symbol, with no extra backspace. No suffix state.
-- Bare words/phrases (unquoted multi-char, e.g. `because`, `thank you`): generator auto-appends a trailing space and activates the suffix state machine. From there, the next magic press chains a suffix: `MAGIC_G`=`ed`, `MAGIC_E`=`ly`, `MAGIC_B`=`s`, `MAGIC_D`=`n't`, `ing` key (with vowel-drop). `MAGIC_I`=`.`+shift (exit), `MAGIC_H`=`,` (exit). Prefix-strip and BS rules below also apply to bare words.
+- Bare words/phrases (unquoted multi-char, e.g. `because`, `thank you`): generator auto-appends a trailing space and activates the suffix state machine. From there, the next magic press chains the suffix shown in the `suffix` row; the `ing` key also works with vowel-drop. `.` exits with one-shot shift, `,` exits without shift. Prefix-strip and BS rules below also apply to bare words.
 - Quoted strings (literal — no auto-space, no suffix state):
   - Preceding key is a letter and cell starts with it → strip prefix. `b` + `"because"` emits `ecause`, yielding `because`.
   - Preceding key is a letter and cell does _not_ start with it → BS + cell.
@@ -96,6 +96,7 @@ Cell = what to emit.
 
 | Magic |       magic_a        |            magic_b            |      magic_c       |       magic_d        |   magic_e    |  magic_f  |     magic_g     |   magic_h   |    magic_i    |
 | :---: | :------------------: | :---------------------------: | :----------------: | :------------------: | :----------: | :-------: | :-------------: | :---------: | :-----------: |
+| suffix |                      |               s               |                    |         n't          |      ly      |           |       ed        |      ,      |       .       |
 |   a   |                      |                               |         e          |                      |              |           |                 |             |               |
 |   b   |        behind        |            between            |                    |       because        |      d       | business  |     before      |  elaborate  |     about     |
 |   c   |          n           |             "'ll"             |                    |          p           |     "'d"     |           |      "'s"       |    "'re"    |     "n't"     |
