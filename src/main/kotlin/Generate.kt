@@ -203,8 +203,7 @@ fun run(args: GeneratorArgs) {
     File(dstDir, "combos.def").writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
 }
 
-private fun magicRows(table: Table): Table =
-    table.filterNot(::isMagicSuffixRow)
+private fun magicRows(table: Table): Table = table.filterNot(::isMagicSuffixRow)
 
 private fun isMagicSuffixRow(row: List<String>): Boolean =
     row.firstOrNull()?.equals("suffix", ignoreCase = true) == true
@@ -220,14 +219,16 @@ private fun magicSuffixCases(
             if (suffix.isBlank()) {
                 null
             } else {
-                val magic = translator.magic.getOrNull(index)
-                    ?: throw IllegalArgumentException("suffix cell has no matching magic key at column ${index + 2}")
+                val magic =
+                    translator.magic.getOrNull(index)
+                        ?: throw IllegalArgumentException(
+                            "suffix cell has no matching magic key at column ${index + 2}",
+                        )
                 "case ${magic.trigger.key}:\n" +
                     magicSuffixStatements(suffix.trim()).prependIndent("    ") +
                     "\n    return true;"
             }
-        }
-        .joinToString("\n")
+        }.joinToString("\n")
 }
 
 private fun magicSuffixStatements(suffix: String): String =

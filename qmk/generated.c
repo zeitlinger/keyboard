@@ -295,18 +295,14 @@ static void magic_replace_tap_repeatable(uint16_t keycode) {
 static bool process_magic_suffix(uint16_t keycode) {
     switch (keycode) {
     case MAGIC_B:
-        tap_code16(KC_BSPC); tap_code16(KC_S); tap_code16(KC_SPC);
-        last_magic_char = 's';
+        tap_code16(KC_BSPC); tap_code16(KC_L); tap_code16(KC_Y); tap_code16(KC_SPC);
+        last_magic_char = 'y';
         return true;
     case MAGIC_D:
         tap_code16(KC_BSPC); tap_n_t(); tap_code16(KC_SPC);
         last_magic_char = 't';
         return true;
     case MAGIC_E:
-        tap_code16(KC_BSPC); tap_code16(KC_L); tap_code16(KC_Y); tap_code16(KC_SPC);
-        last_magic_char = 'y';
-        return true;
-    case MAGIC_G:
         tap_code16(KC_BSPC);
         if (last_magic_char == 'e') {
             tap_code16(KC_D); tap_code16(KC_SPC);
@@ -314,6 +310,10 @@ static bool process_magic_suffix(uint16_t keycode) {
             tap_code16(KC_E); tap_code16(KC_D); tap_code16(KC_SPC);
         }
         last_magic_char = 'd';
+        return true;
+    case MAGIC_G:
+        tap_code16(KC_BSPC); tap_code16(KC_S); tap_code16(KC_SPC);
+        last_magic_char = 's';
         return true;
     case MAGIC_H:
         tap_code16(KC_BSPC); tap_comma_space();
