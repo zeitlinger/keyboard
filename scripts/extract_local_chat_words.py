@@ -27,6 +27,11 @@ INLINE_CODE_RE = re.compile(r"`[^`\n]+`")
 HTML_TAG_RE = re.compile(r"<[^>]+>")
 URL_RE = re.compile(r"https?://\S+")
 PATH_RE = re.compile(r"(?:/[A-Za-z0-9._-]+){2,}")
+BRACKET_TAG_RE = re.compile(r"\[[^\]\n]{1,40}\]")
+SHELL_TRANSCRIPT_RE = re.compile(r"(?m)^\s*\[[^\]\n]{1,40}\]\s+\$.*$")
+STRUCTURED_LOG_JSON_RE = re.compile(
+    r'\{[^{}\n]*"(?:hostname|pid|logContext|renovateVersion|time|level|msg)"\s*:[^{}\n]*\}'
+)
 STOP_WORDS = {
     "a", "an", "and", "as", "at", "be", "by", "for", "from", "in", "into", "is", "it", "of",
     "on", "or", "the", "to", "was", "were", "with",
@@ -175,12 +180,15 @@ def clean_message(text: str) -> str:
         return ""
     if text.startswith("## Skills\nA skill is "):
         return ""
-    cleaned = CODE_FENCE_RE.sub(" ", text)
+    cleaned = SHELL_TRANSCRIPT_RE.sub(" ", text)
+    cleaned = STRUCTURED_LOG_JSON_RE.sub(" ", cleaned)
+    cleaned = CODE_FENCE_RE.sub(" ", cleaned)
     cleaned = INLINE_CODE_RE.sub(" ", cleaned)
     cleaned = URL_RE.sub(" ", cleaned)
     cleaned = PATH_RE.sub(" ", cleaned)
     cleaned = html.unescape(cleaned)
     cleaned = HTML_TAG_RE.sub(" ", cleaned)
+    cleaned = BRACKET_TAG_RE.sub(" ", cleaned)
     cleaned = re.sub(r"AGENTS\.md instructions for \S+", " ", cleaned)
     cleaned = re.sub(r"(?m)^\s*>.*$", " ", cleaned)
     cleaned = re.sub(r"(?m)^\s*[-+*]\s+\S.*$", " ", cleaned)

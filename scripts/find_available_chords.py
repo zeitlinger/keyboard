@@ -187,6 +187,12 @@ def parse_args() -> argparse.Namespace:
         help="Comma-separated source caps after ranking, e.g. source=5,chat_local=20",
     )
     parser.add_argument(
+        "--difficulty-power",
+        type=float,
+        default=1.35,
+        help="Exponent applied to typing difficulty in the final score (default: 1.35)",
+    )
+    parser.add_argument(
         "--old-chord-ref",
         default=DEFAULT_OLD_CHORD_REF,
         help=f"Git ref used when --old-chords-file is omitted (default: {DEFAULT_OLD_CHORD_REF})",
@@ -218,6 +224,11 @@ def parse_args() -> argparse.Namespace:
         "--rearrange-current",
         action="store_true",
         help="Rank current multi-character magic entries as move candidates, not just free-slot placements.",
+    )
+    parser.add_argument(
+        "--new-only",
+        action="store_true",
+        help="Exclude candidates whose output already exists in the current Magic Keys table.",
     )
     return parser.parse_args()
 
@@ -346,12 +357,14 @@ def assignment_value(
     blocked_pairs: set[tuple[str, str]],
     magic_rows: dict[str, dict[str, str]],
     source_weights: dict[str, float],
+    difficulty_power: float,
 ) -> tuple[float, float, float, int]:
     saved = len(entry.output) - 2
     if saved < 1:
         return 0.0, 0.0, 0.0, saved
     freq = weighted_frequency(entry, source_weights)
     difficulty = output_difficulty(entry.output, adaptives, blocked_pairs, magic_rows)
+    difficulty_weight = difficulty ** difficulty_power
     hand_bonus = 1.35 if is_word_output(entry.output) and slot.opposite_hand else 0.75 if is_word_output(entry.output) else 1.0
     row_bonus = 1.0
     if is_word_output(entry.output) and len(slot.row) == 1 and slot.row.isalpha():
@@ -362,14 +375,14 @@ def assignment_value(
             row_bonus *= 1.14
         elif any(hint in compact for hint in hints):
             row_bonus *= 1.05
-    value = saved ** 2 * freq * difficulty * hand_bonus * row_bonus / (slot.feel + 1)
+    value = saved ** 2 * freq * difficulty_weight * hand_bonus * row_bonus / (slot.feel + 1)
     return value, freq, difficulty, saved
 
 
 def load_old_chords(args: argparse.Namespace) -> list[ChordEntry]:
     explicit_words = load_explicit_words(args)
     if explicit_words:
-        return [
+        entries = [
             ChordEntry(
                 chord="input",
                 output=word,
@@ -378,19 +391,25 @@ def load_old_chords(args: argparse.Namespace) -> list[ChordEntry]:
             )
             for word in explicit_words
         ]
-    if args.rearrange_current:
-        return load_current_magic_words(args.readme)
-    if args.candidates_file:
-        return parse_candidates_file(args.candidates_file)
-    if args.old_chords_file:
-        text = args.old_chords_file.read_text()
     else:
-        text = subprocess.check_output(
-            ["git", "show", f"{args.old_chord_ref}:README.md"],
-            text=True,
-            cwd=Path(__file__).parent,
-        )
-    return parse_chord_table(text)
+        if args.rearrange_current:
+            entries = load_current_magic_words(args.readme)
+        elif args.candidates_file:
+            entries = parse_candidates_file(args.candidates_file)
+        else:
+            if args.old_chords_file:
+                text = args.old_chords_file.read_text()
+            else:
+                text = subprocess.check_output(
+                    ["git", "show", f"{args.old_chord_ref}:README.md"],
+                    text=True,
+                    cwd=Path(__file__).parent,
+                )
+            entries = parse_chord_table(text)
+    if args.new_only:
+        existing_outputs = current_magic_outputs(args.readme) | current_symbol_outputs(args.readme)
+        entries = [entry for entry in entries if entry.output.lower() not in existing_outputs]
+    return entries
 
 
 def parse_chord_table(text: str) -> list[ChordEntry]:
@@ -481,6 +500,33 @@ def load_current_magic_words(readme: Path) -> list[ChordEntry]:
                 )
             )
     return entries
+
+
+def current_magic_outputs(readme: Path) -> set[str]:
+    return {entry.output for entry in load_current_magic_words(readme)}
+
+
+def current_symbol_outputs(readme: Path) -> set[str]:
+    outputs: set[str] = set()
+    in_table = False
+    for line in readme.read_text().splitlines():
+        if line.startswith("| Symbol"):
+            in_table = True
+            continue
+        if in_table and line.startswith("##"):
+            break
+        if not in_table or not line.startswith("|"):
+            continue
+        cells = split_table_line(line)
+        if len(cells) < 2 or cells[0] in {"Symbol", "-------"}:
+            continue
+        command = cells[1].strip()
+        if not command or command.startswith("KC_") or command.startswith("custom:") or command.startswith("magic:"):
+            continue
+        if command.startswith("UP(") or command.startswith("UM("):
+            continue
+        outputs.add(command.lower())
+    return outputs
 
 
 def magic_table_bounds(lines: list[str]) -> tuple[int, int]:
@@ -721,6 +767,7 @@ def greedy_assign(
     *,
     letters_only: bool,
     budget: int,
+    difficulty_power: float,
     allow_occupied: bool = False,
     distinct_by_output: bool = True,
 ) -> list[Assignment]:
@@ -746,7 +793,7 @@ def greedy_assign(
             movable_slots=movable_slots,
         ):
             value, freq, difficulty, saved = assignment_value(
-                entry, slot, adaptives, blocked_pairs, magic_rows, source_weights
+                entry, slot, adaptives, blocked_pairs, magic_rows, source_weights, difficulty_power
             )
             if value <= 0:
                 continue
@@ -941,6 +988,7 @@ def print_rearrangements(
     blocked_pairs: set[tuple[str, str]],
     magic_rows: dict[str, dict[str, str]],
     source_weights: dict[str, float],
+    difficulty_power: float,
     *,
     limit: int,
 ) -> None:
@@ -965,6 +1013,7 @@ def print_rearrangements(
             blocked_pairs,
             magic_rows,
             source_weights,
+            difficulty_power,
         )
         if current_slot.opposite_hand:
             continue
@@ -1007,6 +1056,7 @@ def main() -> None:
         source_caps,
         letters_only=args.letters_only,
         budget=args.budget,
+        difficulty_power=args.difficulty_power,
         allow_occupied=args.rearrange_current,
         distinct_by_output=not args.rearrange_current,
     )
@@ -1028,6 +1078,7 @@ def main() -> None:
             blocked_pairs,
             magic_rows,
             source_weights,
+            args.difficulty_power,
             limit=args.limit,
         )
 
