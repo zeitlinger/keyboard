@@ -374,12 +374,15 @@ def apply_to_readme(
                 trigger = m.group(1)
                 if trigger in working_magic:
                     current_variants = {
-                        v: m.group(i + 2).strip().strip('"') for i, v in enumerate(VARIANTS)
+                        v: m.group(i + 2).strip().strip('"')
+                        for i, v in enumerate(VARIANTS)
                     }
                     if current_variants == working_magic[trigger]:
                         new_lines.append(line)
                     else:
-                        new_lines.append(fmt_magic_row(line, trigger, working_magic[trigger]))
+                        new_lines.append(
+                            fmt_magic_row(line, trigger, working_magic[trigger])
+                        )
                     continue
             new_lines.append(line)
             continue
@@ -662,7 +665,9 @@ def main():
     recommended = {}  # (trigger, physical) -> output
     # Existing adaptives already cover these outputs; don't propose duplicates
     # on a different physical key unless we are explicitly remapping/replacing.
-    recommended_outputs = {(a, b) for (a, _c), b in existing.items()}  # (trigger, output)
+    recommended_outputs = {
+        (a, b) for (a, _c), b in existing.items()
+    }  # (trigger, output)
     for a, b, _ in bad:  # already sorted by frequency descending
         if (a, b) in recommended_outputs:
             continue
@@ -729,7 +734,9 @@ def main():
         if not ((a, c) in recommended and recommended[(a, c)] != b)
     }
 
-    def build_magic_plan(current_recommended, current_keep, current_remove, current_lost_pairs):
+    def build_magic_plan(
+        current_recommended, current_keep, current_remove, current_lost_pairs
+    ):
         """Build magic add/remove/keep decisions from the finalized adaptive state."""
         covered_outputs = set()  # (trigger, output) pairs covered by add+keep adaptives
         for (a, _c), b in current_recommended.items():
@@ -746,7 +753,11 @@ def main():
                 for cand in all_candidates.get((a, b), [])
                 if cand[3] <= MAX_RECOMMEND_FEEL
                 and cand[6]
-                <= (MAX_RECOMMEND_FF_COMBO if cand[0] in COMBO_KEYS else MAX_RECOMMEND_FF)
+                <= (
+                    MAX_RECOMMEND_FF_COMBO
+                    if cand[0] in COMBO_KEYS
+                    else MAX_RECOMMEND_FF
+                )
             ]
             if not acceptable:
                 best_feel = min(
@@ -760,7 +771,11 @@ def main():
             if (a, c) in existing:
                 continue
             sacrifice = bigrams.get(f"{a}{c}", 0)
-            if sacrifice > 0 and (a, c) not in magic_covered and (a, c) not in compensation:
+            if (
+                sacrifice > 0
+                and (a, c) not in magic_covered
+                and (a, c) not in compensation
+            ):
                 magic_add.setdefault(
                     (a, c),
                     f"recovery: '{a}{c}' intercepted by {a}+{c}→{b} adaptive ({pct(sacrifice):.3f}%)",
@@ -768,7 +783,11 @@ def main():
 
         for a, c, b in current_keep:
             sacrifice = bigrams.get(f"{a}{c}", 0)
-            if sacrifice > 0 and (a, c) not in magic_covered and (a, c) not in compensation:
+            if (
+                sacrifice > 0
+                and (a, c) not in magic_covered
+                and (a, c) not in compensation
+            ):
                 magic_add.setdefault(
                     (a, c),
                     f"recovery: '{a}{c}' intercepted by existing {a}+{c}→{b} adaptive ({pct(sacrifice):.3f}%)",
@@ -776,11 +795,17 @@ def main():
 
         magic_remove = {}  # (trigger, variant) -> output
         orphaned_removed_outputs = {
-            (a, b) for a, _c, b in current_remove if (a, b) not in covered_outputs and (a, b) not in magic_add
+            (a, b)
+            for a, _c, b in current_remove
+            if (a, b) not in covered_outputs and (a, b) not in magic_add
         }
         for trigger, variants in magic_table.items():
             for variant, val in variants.items():
-                if len(val) == 1 and val.isalpha() and (trigger, val) in covered_outputs:
+                if (
+                    len(val) == 1
+                    and val.isalpha()
+                    and (trigger, val) in covered_outputs
+                ):
                     magic_remove[(trigger, variant)] = val
                 elif (
                     len(val) == 1
@@ -788,7 +813,10 @@ def main():
                     and (trigger, val) in orphaned_removed_outputs
                 ):
                     magic_remove[(trigger, variant)] = val
-                elif (trigger, val) in current_lost_pairs and (trigger, val) not in magic_add:
+                elif (trigger, val) in current_lost_pairs and (
+                    trigger,
+                    val,
+                ) not in magic_add:
                     magic_remove[(trigger, variant)] = val
 
         effective_magic_table = {

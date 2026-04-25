@@ -36,9 +36,12 @@ fun translateKey(
     recordUsage: Boolean = true,
 ): Key = getFallbackIfNeeded(command, translator, pos, null, recordUsage)
     .let { def ->
-        findLayerActivationKey(def, translator, pos) ?: when {
-            //comes first, so that we can override the meaning of + and -
+        when {
+            // Symbol-table entries must win over prefix syntax so tokens like
+            // #gz can be resolved from the Symbols table instead of being
+            // misread as layer toggles.
             def == qmkNo || translator.symbols.mapping.containsKey(def) -> translateSimpleKey(translator, def, pos)
+            else -> findLayerActivationKey(def, translator, pos) ?: when {
             def.contains(" ") && !def.startsWith("\"") -> spaceSeparatedHint(def, translator, pos)
             def.contains("+") && !def.startsWith("+") -> layerTapHoldKey(def, translator, pos)
 
@@ -48,6 +51,7 @@ fun translateKey(
             }
 
             else -> translateSimpleKey(translator, def, pos)
+        }
         }
     }
 

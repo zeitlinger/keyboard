@@ -9,58 +9,54 @@ static bool magic_capitalize_next = false;
 
 // Magic string decoder lookup tables
 static const char magic_char_4bit[] = {
-    ' ', 'e', 'n', 'o', 't', 'a', 'r', 'i', 'l', 'h', 'g', 's', 'u', 'd'
+    ' ', 'e', 'n', 'o', 'a', 't', 'r', 'i', 'h', 's', 'l', 'u', 'd', 'b'
 };
 
 static const char magic_char_extended[] = {
-    'b', '\'', 'm', 'w', 'y', 'c', 'p', 'v', 'f', 'z', '.', 'x', 'k', '@', 'G', '"', 'L', 'I', 'O', 'T', 'P', 'S', 'B', 'j', 'q'
+    'g', '\'', 'w', 'p', 'm', 'y', 'v', 'c', 'f', 'x', 'k', 'z', 'G', '"', '.', 'L', 'I', 'O', 'T', 'P', 'S', 'B', 'j', 'q'
 };
 
 static const uint8_t magic_string_data[] = {
-    0x01, 0xef, 0x02, 0xe1, 0xd0, 0x03, 0xe1, 0x88, 0x03, 0xe1, 0x61, 0x02, 0xe1, 0xb0, 0x03, 0xe1,
-    0xe7, 0x10, 0x02, 0xea, 0x00, 0x08, 0xee, 0x65, 0xe8, 0x52, 0x50, 0x0d, 0xee, 0x65, 0xe8, 0x52,
-    0x50, 0xf0, 0x5f, 0xe0, 0xb0, 0x05, 0xf1, 0xe1, 0xe7, 0x10, 0x0e, 0xf2, 0xe6, 0x12, 0xf3, 0x18,
-    0x1f, 0xe2, 0x14, 0x6f, 0xe4, 0x00, 0x0b, 0xf4, 0x63, 0xe2, 0x14, 0x91, 0xcb, 0x00, 0x0c, 0xf5,
-    0xe6, 0x67, 0x2a, 0x0f, 0xf6, 0x33, 0x40, 0x06, 0x5f, 0xe0, 0x3c, 0x40, 0x06, 0x5f, 0xe8, 0x41,
-    0x60, 0x06, 0x5a, 0x57, 0x20, 0x07, 0x58, 0xe2, 0x3b, 0x40, 0x08, 0x58, 0x61, 0x5d, 0xe4, 0x00,
-    0x07, 0x58, 0xe3, 0x5f, 0xe4, 0xb0, 0x04, 0x52, 0xd0, 0x08, 0x52, 0xac, 0x5a, 0x10, 0x08, 0x52,
-    0x34, 0x91, 0x60, 0x09, 0x52, 0xe4, 0x49, 0x72, 0xa0, 0x06, 0x5b, 0x2f, 0xe1, 0x40, 0x08, 0xe0,
-    0x1f, 0xe5, 0x5c, 0xb1, 0x00, 0x07, 0xe0, 0x1f, 0xe8, 0x36, 0x10, 0x07, 0xe0, 0x19, 0x72, 0xd0,
-    0x08, 0xe0, 0x14, 0xe3, 0x11, 0x20, 0x09, 0xe0, 0xcb, 0x72, 0x1b, 0xb0, 0x13, 0xd1, 0xe5, 0x85,
-    0x65, 0x47, 0xe7, 0x10, 0xe5, 0x32, 0xe8, 0x7a, 0x00, 0x07, 0xd7, 0xd2, 0xe1, 0x40, 0x05, 0xd3,
-    0x1b, 0x00, 0x08, 0xd3, 0x1b, 0x2f, 0xe1, 0x40, 0x06, 0xd3, 0x2f, 0xe1, 0x40, 0x07, 0x15, 0x87,
-    0xe9, 0x10, 0x05, 0x15, 0xe7, 0x10, 0x07, 0x1f, 0xe5, 0x5c, 0xb1, 0x00, 0x06, 0x1f, 0xe8, 0x36,
-    0x10, 0x06, 0x19, 0x72, 0xd0, 0x0a, 0x17, 0x48, 0x72, 0xa1, 0x60, 0x0a, 0x18, 0x5f, 0xe0, 0x36,
-    0x54, 0x10, 0x03, 0x12, 0x40, 0x06, 0x13, 0xe6, 0x81, 0x00, 0x07, 0x14, 0xe3, 0x11, 0x20, 0x0b,
-    0x1f, 0xe7, 0x16, 0xe4, 0x49, 0x72, 0xa0, 0x0a, 0x1f, 0xeb, 0xe5, 0x1f, 0xe6, 0x47, 0x32, 0x00,
-    0x08, 0x1f, 0xeb, 0xe5, 0x8c, 0xd1, 0x00, 0x08, 0x1f, 0xeb, 0xe6, 0x85, 0x72, 0x00, 0x09, 0x1f,
-    0xeb, 0xe6, 0x87, 0xe5, 0x74, 0x00, 0x06, 0xe8, 0x76, 0xb4, 0x00, 0x06, 0xe8, 0x3c, 0x2d, 0x00,
-    0x07, 0xa8, 0x3f, 0xe0, 0x58, 0x00, 0x07, 0xa6, 0x1a, 0x36, 0x00, 0x1e, 0xa6, 0x1a, 0x36, 0xea,
-    0xe9, 0x17, 0x48, 0x72, 0xa1, 0x6f, 0xed, 0xa6, 0x5f, 0xe8, 0x52, 0x5f, 0xea, 0xe5, 0x3f, 0xe2,
-    0x00, 0x15, 0xa6, 0x1a, 0x36, 0xed, 0xe9, 0x17, 0x48, 0x72, 0xa1, 0x6f, 0xea, 0xd1, 0x00, 0x09,
-    0x95, 0x2f, 0xec, 0x0f, 0xe4, 0x3c, 0x00, 0x05, 0x95, 0xe7, 0x10, 0x04, 0x91, 0x20, 0x05, 0x91,
-    0x61, 0x00, 0x05, 0x97, 0xe5, 0x90, 0x06, 0x93, 0xca, 0x90, 0x07, 0x96, 0x3c, 0xa9, 0x00, 0x06,
-    0x7d, 0x2f, 0xe1, 0x40, 0x04, 0x78, 0x80, 0x08, 0x7f, 0xe2, 0xe6, 0x63, 0xe7, 0x10, 0x10, 0x72,
-    0xb4, 0x6c, 0xe2, 0x12, 0x45, 0x47, 0x32, 0x00, 0x03, 0x73, 0x20, 0x05, 0x76, 0xb4, 0x00, 0x05,
-    0xf7, 0xcb, 0x40, 0x05, 0xec, 0x21, 0xe3, 0x00, 0x05, 0xec, 0x23, 0xe3, 0x00, 0x09, 0x85, 0x2a,
-    0xc5, 0xa1, 0x00, 0x06, 0x81, 0x5f, 0xe7, 0x10, 0x06, 0x83, 0xe0, 0x58, 0x00, 0x04, 0xe2, 0x12,
-    0x40, 0x03, 0x2f, 0xe1, 0x40, 0x06, 0x21, 0xe7, 0x16, 0x00, 0x04, 0x21, 0xe3, 0x00, 0x04, 0x23,
-    0xe3, 0x00, 0x07, 0x2c, 0xe2, 0xe0, 0x16, 0x00, 0x0e, 0x3f, 0xe0, 0xb1, 0x6f, 0xe7, 0x5f, 0xe0,
-    0x78, 0x74, 0xe4, 0x00, 0x04, 0x31, 0xb0, 0x07, 0x31, 0xb2, 0xe1, 0x40, 0x07, 0x3f, 0xe2, 0x13,
-    0x21, 0x00, 0x09, 0x3f, 0xe2, 0x14, 0x97, 0x2a, 0x00, 0x05, 0x32, 0xe1, 0x40, 0x05, 0x32, 0x8f,
-    0xe4, 0x00, 0x09, 0x36, 0xa5, 0x27, 0xe9, 0x10, 0x05, 0x36, 0x6f, 0xe4, 0x00, 0x05, 0x36, 0xb1,
-    0x00, 0x05, 0x3c, 0x2d, 0x00, 0x07, 0xe6, 0x13, 0xe6, 0x81, 0x00, 0x09, 0xe6, 0x63, 0xe0, 0x5f,
-    0xe0, 0x8f, 0xe4, 0x00, 0x0b, 0xe6, 0x63, 0xdc, 0xe5, 0x47, 0x32, 0x00, 0x02, 0xf8, 0xc0, 0x08,
-    0x61, 0x58, 0x7f, 0xe9, 0x10, 0x08, 0x63, 0xe0, 0x5f, 0xe0, 0x8f, 0xe4, 0x00, 0x0a, 0x63, 0xdc,
-    0xe5, 0x47, 0x32, 0x00, 0x04, 0xb7, 0x32, 0x08, 0xb3, 0xe2, 0x13, 0x21, 0x00, 0x0a, 0xb3, 0xe2,
-    0x14, 0x97, 0x2a, 0x00, 0x0a, 0x49, 0x52, 0xec, 0x0f, 0xe4, 0x3c, 0x00, 0x04, 0x49, 0x10, 0x07,
-    0x49, 0x3c, 0xa9, 0x00, 0x08, 0x49, 0x3c, 0xa9, 0x40, 0x08, 0x49, 0x63, 0xca, 0x90, 0x04, 0x47,
-    0x32, 0x06, 0xcf, 0xe2, 0xe0, 0x16, 0x00, 0x0b, 0xc2, 0xd1, 0x6b, 0x45, 0x2d, 0x00, 0x07, 0xcf,
-    0xe6, 0xd5, 0x41, 0x00, 0x08, 0xcb, 0x72, 0x1b, 0xb0, 0x07, 0xe3, 0x5b, 0x2f, 0xe1, 0x40, 0x05,
-    0xe3, 0x91, 0x20, 0x06, 0xe3, 0x91, 0x61, 0x00, 0x06, 0xe3, 0x97, 0xe5, 0x90, 0x05, 0xe3, 0x78,
-    0x80, 0x08, 0xe3, 0x74, 0x93, 0xc4, 0x00, 0x06, 0xe3, 0x36, 0x6f, 0xe4, 0x00, 0x06, 0xe3, 0x36,
-    0xb1, 0x00, 0x0b, 0xe9, 0x17, 0x48, 0x72, 0xa1, 0x60, 0x15, 0xe9, 0x17, 0x48, 0x72, 0xa1, 0x6f,
-    0xed, 0xaf, 0xe2, 0x57, 0x8f, 0xea, 0xe5, 0x3f, 0xe2, 0x00
+    0x01, 0xed, 0x02, 0xe1, 0xc0, 0x03, 0xe1, 0xaa, 0x03, 0xe1, 0x61, 0x02, 0xe1, 0x90, 0x03, 0xe1,
+    0xe6, 0x10, 0x02, 0xee, 0x00, 0x08, 0xec, 0x64, 0xe8, 0x42, 0x40, 0x0d, 0xec, 0x64, 0xe8, 0x42,
+    0x40, 0xef, 0x4d, 0x90, 0x05, 0xf0, 0xe1, 0xe6, 0x10, 0x0e, 0xf1, 0xe3, 0x12, 0xf2, 0x1a, 0x1f,
+    0xe4, 0x15, 0x6f, 0xe5, 0x00, 0x0b, 0xf3, 0x63, 0xe4, 0x15, 0x81, 0xb9, 0x00, 0x0c, 0xf4, 0xe3,
+    0x67, 0x2f, 0xe0, 0x0f, 0xf5, 0x33, 0x50, 0x06, 0x4d, 0x3b, 0x50, 0x06, 0x4f, 0xe8, 0x51, 0x60,
+    0x06, 0x4f, 0xe0, 0x47, 0x20, 0x07, 0x4a, 0xe4, 0x39, 0x50, 0x08, 0x4a, 0x61, 0x4c, 0xe5, 0x00,
+    0x07, 0x4a, 0xe2, 0x4f, 0xe5, 0x90, 0x04, 0x42, 0xc0, 0x08, 0x42, 0xe0, 0xb4, 0xe0, 0x10, 0x08,
+    0x42, 0x35, 0x81, 0x60, 0x09, 0x42, 0xe5, 0x58, 0x72, 0xe0, 0x00, 0x06, 0x49, 0x2f, 0xe1, 0x50,
+    0x08, 0xd1, 0xe7, 0x4b, 0x91, 0x00, 0x07, 0xd1, 0xe8, 0x36, 0x10, 0x07, 0xd1, 0x87, 0x2c, 0x00,
+    0x08, 0xd1, 0x5f, 0xe2, 0x11, 0x20, 0x09, 0xdb, 0x97, 0x21, 0x99, 0x00, 0x13, 0xc1, 0xe7, 0xa4,
+    0x64, 0x57, 0xe6, 0x10, 0xe7, 0x32, 0xe8, 0x7f, 0xe0, 0x00, 0x07, 0xc7, 0xc2, 0xe1, 0x50, 0x05,
+    0xc3, 0x19, 0x00, 0x08, 0xc3, 0x19, 0x2f, 0xe1, 0x50, 0x06, 0xc3, 0x2f, 0xe1, 0x50, 0x07, 0x14,
+    0xa7, 0xeb, 0x10, 0x05, 0x14, 0xe6, 0x10, 0x07, 0x1f, 0xe7, 0x4b, 0x91, 0x00, 0x06, 0x1f, 0xe8,
+    0x36, 0x10, 0x06, 0x18, 0x72, 0xc0, 0x0a, 0x1a, 0x4d, 0x36, 0x45, 0x10, 0x03, 0x12, 0x50, 0x06,
+    0x13, 0xe3, 0xa1, 0x00, 0x07, 0x15, 0xe2, 0x11, 0x20, 0x0b, 0x1f, 0xe6, 0x16, 0xe5, 0x58, 0x72,
+    0xe0, 0x00, 0x0a, 0x1f, 0xe9, 0xe7, 0x1f, 0xe3, 0x57, 0x32, 0x00, 0x08, 0x1f, 0xe9, 0xe7, 0xab,
+    0xc1, 0x00, 0x08, 0x1f, 0xe9, 0xe3, 0xa4, 0x72, 0x00, 0x09, 0x1f, 0xe9, 0xe3, 0xa7, 0xe7, 0x75,
+    0x00, 0x06, 0xe8, 0x76, 0x95, 0x00, 0x06, 0xe8, 0x3b, 0x2c, 0x00, 0x07, 0xe0, 0xa3, 0xd4, 0xa0,
+    0x09, 0x84, 0x2f, 0xea, 0x0f, 0xe5, 0x3b, 0x00, 0x05, 0x84, 0xe6, 0x10, 0x04, 0x81, 0x20, 0x05,
+    0x81, 0x61, 0x00, 0x05, 0x87, 0xe7, 0x80, 0x06, 0x83, 0xbf, 0xe0, 0x80, 0x07, 0x86, 0x3b, 0xe0,
+    0x80, 0x06, 0x7c, 0x2f, 0xe1, 0x50, 0x04, 0x7a, 0xa0, 0x08, 0x7f, 0xe4, 0xe3, 0x63, 0xe6, 0x10,
+    0x10, 0x72, 0x95, 0x6b, 0xe4, 0x12, 0x54, 0x57, 0x32, 0x00, 0x03, 0x73, 0x20, 0x05, 0x76, 0x95,
+    0x00, 0x05, 0xf6, 0xb9, 0x50, 0x05, 0xea, 0x21, 0xe2, 0x00, 0x05, 0xea, 0x23, 0xe2, 0x00, 0x09,
+    0xa4, 0x2f, 0xe0, 0xb4, 0xe0, 0x10, 0x06, 0xa1, 0x4f, 0xe6, 0x10, 0x06, 0xa3, 0xd4, 0xa0, 0x04,
+    0xe4, 0x12, 0x50, 0x07, 0xe4, 0xe3, 0x63, 0xe6, 0x10, 0x03, 0x2f, 0xe1, 0x50, 0x06, 0x21, 0xe6,
+    0x16, 0x00, 0x04, 0x21, 0xe2, 0x00, 0x04, 0x23, 0xe2, 0x00, 0x07, 0x2b, 0xe4, 0xd1, 0x60, 0x0e,
+    0x3d, 0x91, 0x6f, 0xe6, 0x4d, 0x7a, 0x75, 0xe5, 0x00, 0x04, 0x31, 0x90, 0x07, 0x31, 0x92, 0xe1,
+    0x50, 0x07, 0x3f, 0xe4, 0x13, 0x21, 0x00, 0x09, 0x3f, 0xe4, 0x15, 0x87, 0x2f, 0xe0, 0x00, 0x05,
+    0x32, 0xe1, 0x50, 0x05, 0x32, 0xaf, 0xe5, 0x00, 0x09, 0x36, 0xe0, 0x42, 0x7f, 0xeb, 0x10, 0x05,
+    0x36, 0x6f, 0xe5, 0x00, 0x05, 0x36, 0x91, 0x00, 0x05, 0x3b, 0x2c, 0x00, 0x07, 0xe3, 0x13, 0xe3,
+    0xa1, 0x00, 0x09, 0xe3, 0x63, 0xd4, 0xda, 0xe5, 0x00, 0x0b, 0xe3, 0x63, 0xcb, 0xe7, 0x57, 0x32,
+    0x00, 0x02, 0xf7, 0xb0, 0x08, 0x61, 0x4a, 0x7f, 0xeb, 0x10, 0x08, 0x63, 0xd4, 0xda, 0xe5, 0x00,
+    0x0a, 0x63, 0xcb, 0xe7, 0x57, 0x32, 0x00, 0x04, 0x97, 0x32, 0x08, 0x93, 0xe4, 0x13, 0x21, 0x00,
+    0x0a, 0x93, 0xe4, 0x15, 0x87, 0x2f, 0xe0, 0x00, 0x0a, 0x58, 0x42, 0xea, 0x0f, 0xe5, 0x3b, 0x00,
+    0x04, 0x58, 0x10, 0x07, 0x58, 0x3b, 0xe0, 0x80, 0x08, 0x58, 0x3b, 0xe0, 0x85, 0x00, 0x08, 0x58,
+    0x63, 0xbf, 0xe0, 0x80, 0x04, 0x57, 0x32, 0x06, 0xbf, 0xe4, 0xd1, 0x60, 0x0b, 0xb2, 0xc1, 0x69,
+    0x54, 0x2c, 0x00, 0x07, 0xbf, 0xe3, 0xc4, 0x51, 0x00, 0x08, 0xb9, 0x72, 0x19, 0x90, 0x07, 0xe2,
+    0x49, 0x2f, 0xe1, 0x50, 0x05, 0xe2, 0x81, 0x20, 0x06, 0xe2, 0x81, 0x61, 0x00, 0x06, 0xe2, 0x87,
+    0xe7, 0x80, 0x05, 0xe2, 0x7a, 0xa0, 0x08, 0xe2, 0x75, 0x83, 0xb5, 0x00, 0x06, 0xe2, 0x36, 0x6f,
+    0xe5, 0x00, 0x06, 0xe2, 0x36, 0x91, 0x00
 };
 
 static void magic_decode_send(uint16_t offset) {
@@ -222,6 +218,12 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case DS_C_BASE_KC_P: return 200;
     case DS_C_BASE_KC_V: return 200;
     case SUB_1: return 200;
+    case SUB_2: return 200;
+    case SUB_3: return 200;
+    case SUB_4: return 200;
+    case SUB_5: return 200;
+    case SUB_6: return 200;
+    case SUB_7: return 200;
     case S_C_BASE_KC_B: return 200;
     case S_C_BASE_KC_G: return 200;
     case S_C_BASE_KC_K: return 200;
@@ -448,23 +450,21 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 magic_remembered_keycode = MAGIC_A;
                 magic_repeat_keycode = KC_NO;
                 switch (magic_prepare_last_keycode(get_last_keycode())) {
-                    case KC_B: magic_decode_send_suffix(209, 'd'); break;
+                    case KC_B: magic_decode_send_suffix(210, 'd'); break;
                     case KC_C: magic_tap_repeatable(KC_N); break;
                     case KC_D: magic_tap_repeatable(KC_C); break;
-                    case KC_F: magic_decode_send_suffix(513, 'd'); break;
-                    case KC_G: magic_decode_send_suffix(424, 'l'); break;
+                    case KC_F: magic_decode_send_suffix(472, 'd'); break;
+                    case KC_G: magic_decode_send_suffix(379, 'l'); break;
                     case KC_K: magic_tap_repeatable(KC_R); break;
                     case KC_L: magic_tap_repeatable(KC_M); break;
                     case KC_M: magic_tap_repeatable(KC_R); break;
                     case KC_N: magic_tap_repeatable(KC_R); break;
                     case KC_P: magic_tap_repeatable(KC_Y); break;
-                    case KC_S: magic_decode_send_suffix(476, 'e'); break;
+                    case KC_S: magic_decode_send_suffix(433, 'e'); break;
                     case KC_SPC: magic_tap_repeatable(KC_QUOTE); break;
                     case KC_T: magic_tap_repeatable(KC_N); break;
-                    case KC_V: magic_replace_decode_send_cap(681, 'm'); break;
-                    case KC_W: magic_decode_send_suffix(372, 'l'); break;
-                    case KC_X: magic_replace_decode_send_cap(247, 'n'); break;
-                    case KC_Z: magic_decode_send_suffix(213, 'r'); break;
+                    case KC_W: magic_decode_send_suffix(326, 'l'); break;
+                    case KC_X: magic_replace_decode_send_cap(242, 'n'); break;
                 }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_A;
@@ -479,10 +479,10 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 magic_remembered_keycode = MAGIC_B;
                 magic_repeat_keycode = KC_NO;
                 switch (magic_prepare_last_keycode(get_last_keycode())) {
-                    case KC_B: magic_decode_send_suffix(234, 'n'); break;
+                    case KC_B: magic_decode_send_suffix(228, 'n'); break;
                     case KC_C: magic_replace_decode_send_cap(5, '\0'); break;
                     case KC_D: magic_tap_repeatable(KC_H); break;
-                    case KC_F: magic_decode_send_suffix(395, 't'); break;
+                    case KC_F: magic_decode_send_suffix(349, 't'); break;
                     case KC_G: magic_tap_repeatable(KC_F); break;
                     case KC_L: magic_tap_repeatable(KC_H); break;
                     case KC_M: magic_tap_repeatable(KC_H); break;
@@ -491,10 +491,8 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_S: magic_tap_repeatable(KC_R); break;
                     case KC_SPC: magic_tap_repeatable(KC_DQUO); break;
                     case KC_T: magic_tap_repeatable(KC_F); break;
-                    case KC_V: magic_replace_decode_send_cap(299, 'm'); break;
-                    case KC_W: magic_decode_send_suffix(121, 't'); break;
+                    case KC_W: magic_decode_send_suffix(123, 't'); break;
                     case KC_X: magic_tap_repeatable(KC_W); break;
-                    case KC_Z: magic_replace_decode_send_cap(294, 'r'); break;
                 }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_B;
@@ -509,15 +507,11 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 magic_remembered_keycode = MAGIC_C;
                 magic_repeat_keycode = KC_NO;
                 switch (magic_prepare_last_keycode(get_last_keycode())) {
-                    case KC_A: magic_tap_repeatable(KC_E); break;
-                    case KC_E: magic_tap_repeatable(KC_H); break;
-                    case KC_I: magic_replace_tap_repeatable(KC_QUOTE); break;
-                    case KC_O: magic_tap_repeatable(KC_H); break;
+                    case KC_E: magic_tap_repeatable(KC_U); break;
+                    case KC_O: magic_tap_repeatable(KC_E); break;
                     case KC_SPC: magic_replace_decode_send_cap(18, '\0'); add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state(); break;
-                    case KC_U: magic_tap_repeatable(KC_H); break;
                     case KC_V: magic_replace_decode_send_cap(156, 'g'); break;
-                    case KC_W: magic_decode_send_suffix(509, 'e'); break;
-                    case KC_Y: magic_tap_repeatable(KC_R); break;
+                    case KC_W: magic_decode_send_suffix(468, 'e'); break;
                 }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_C;
@@ -532,23 +526,22 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 magic_remembered_keycode = MAGIC_D;
                 magic_repeat_keycode = KC_NO;
                 switch (magic_prepare_last_keycode(get_last_keycode())) {
-                    case KC_B: magic_decode_send_suffix(198, 'e'); break;
-                    case KC_C: magic_replace_decode_send_cap(433, '\0'); break;
-                    case KC_D: magic_decode_send_suffix(471, 't'); break;
+                    case KC_B: magic_decode_send_suffix(199, 'e'); break;
+                    case KC_C: magic_replace_decode_send_cap(393, '\0'); break;
+                    case KC_D: magic_decode_send_suffix(428, 't'); break;
                     case KC_G: magic_tap_repeatable(KC_K); break;
-                    case KC_K: magic_decode_send_suffix(446, 'w'); break;
+                    case KC_K: magic_decode_send_suffix(406, 'w'); break;
                     case KC_L: magic_tap_repeatable(KC_R); break;
-                    case KC_M: magic_decode_send(226); break;
-                    case KC_N: magic_replace_decode_send_cap(540, '\0'); break;
+                    case KC_M: magic_decode_send(220); break;
+                    case KC_N: magic_replace_decode_send_cap(497, '\0'); break;
                     case KC_P: magic_tap_repeatable(KC_N); break;
-                    case KC_S: magic_decode_send(392); break;
+                    case KC_S: magic_decode_send(346); break;
                     case KC_SPC: magic_tap_repeatable(KC_EXLM); break;
-                    case KC_T: magic_decode_send(392); break;
-                    case KC_V: magic_replace_decode_send_cap(321, 'e'); break;
+                    case KC_T: magic_decode_send(346); break;
                     case KC_W: magic_tap_repeatable(KC_S); break;
                     case KC_X: magic_tap_repeatable(KC_R); break;
                     case KC_Z: magic_replace_decode_send_cap(21, 'a'); break;
-                    default: magic_decode_send(540); break;
+                    default: magic_decode_send(497); break;
                 }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_D;
@@ -566,7 +559,6 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_B: magic_tap_repeatable(KC_D); break;
                     case KC_C: magic_replace_decode_send_cap(2, '\0'); break;
                     case KC_D: magic_tap_repeatable(KC_F); break;
-                    case KC_E: magic_tap_repeatable(KC_U); break;
                     case KC_F: magic_tap_repeatable(KC_D); break;
                     case KC_G: magic_tap_repeatable(KC_D); break;
                     case KC_H: magic_tap_repeatable(KC_Y); break;
@@ -578,8 +570,8 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                     case KC_R: magic_tap_repeatable(KC_X); break;
                     case KC_S: magic_tap_repeatable(KC_D); break;
                     case KC_SPC: magic_tap_repeatable(KC_QUES); break;
-                    case KC_T: magic_replace_decode_send_cap(657, 't'); break;
-                    case KC_V: magic_replace_decode_send_cap(37, 'e'); break;
+                    case KC_T: magic_replace_decode_send_cap(614, 't'); break;
+                    case KC_V: magic_replace_decode_send_cap(36, 'e'); break;
                     case KC_W: magic_tap_repeatable(KC_X); break;
                     case KC_X: magic_tap_repeatable(KC_D); break;
                     case KC_Z: magic_replace_decode_send_cap(27, 's'); break;
@@ -597,20 +589,19 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 magic_remembered_keycode = MAGIC_F;
                 magic_repeat_keycode = KC_NO;
                 switch (magic_prepare_last_keycode(get_last_keycode())) {
-                    case KC_B: magic_decode_send_suffix(628, 's'); break;
+                    case KC_B: magic_decode_send_suffix(585, 's'); break;
                     case KC_ENT: magic_decode_send_cap(102, 'd'); break;
-                    case KC_G: magic_replace_decode_send_cap(81, 'n'); break;
+                    case KC_G: magic_replace_decode_send_cap(80, 'n'); break;
                     case KC_L: magic_tap_repeatable(KC_B); break;
                     case KC_M: magic_tap_repeatable(KC_T); break;
                     case KC_N: magic_tap_repeatable(KC_P); break;
-                    case KC_P: magic_replace_decode_send_cap(375, 'e'); break;
-                    case KC_R: magic_replace_decode_send_cap(110, 'r'); break;
-                    case KC_S: magic_replace_decode_send_cap(399, 't'); break;
+                    case KC_R: magic_replace_decode_send_cap(111, 'r'); break;
+                    case KC_S: magic_replace_decode_send_cap(353, 't'); break;
                     case KC_SPC: magic_decode_send_cap(102, 'd'); break;
-                    case KC_T: magic_decode_send_suffix(335, 'u'); break;
+                    case KC_T: magic_decode_send_suffix(288, 'u'); break;
                     case KC_TAB: magic_decode_send_cap(102, 'd'); break;
-                    case KC_V: magic_replace_decode_send_cap(343, 'e'); break;
-                    case KC_W: magic_decode_send_suffix(504, 'y'); break;
+                    case KC_V: magic_replace_decode_send_cap(296, 'e'); break;
+                    case KC_W: magic_decode_send_suffix(463, 'y'); break;
                 }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_F;
@@ -625,7 +616,13 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 magic_remembered_keycode = MAGIC_G;
                 magic_repeat_keycode = KC_NO;
                 switch (magic_prepare_last_keycode(get_last_keycode())) {
+                    case KC_A: magic_tap_repeatable(KC_E); break;
+                    case KC_E: magic_tap_repeatable(KC_H); break;
+                    case KC_I: magic_decode_send_suffix(387, 'e'); break;
+                    case KC_O: magic_tap_repeatable(KC_H); break;
                     case KC_SPC: magic_tap_repeatable(KC_Z); break;
+                    case KC_U: magic_tap_repeatable(KC_H); break;
+                    case KC_Y: magic_tap_repeatable(KC_R); break;
                 }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_G;
@@ -640,24 +637,23 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 magic_remembered_keycode = MAGIC_H;
                 magic_repeat_keycode = KC_NO;
                 switch (magic_prepare_last_keycode(get_last_keycode())) {
-                    case KC_B: magic_decode_send_suffix(204, 'e'); break;
+                    case KC_B: magic_decode_send_suffix(205, 'e'); break;
                     case KC_C: magic_replace_decode_send_cap(11, '\0'); break;
-                    case KC_D: magic_decode_send_suffix(367, 't'); break;
-                    case KC_G: magic_replace_decode_send_cap(498, 'e'); break;
-                    case KC_K: magic_replace_decode_send_cap(622, 'e'); break;
+                    case KC_D: magic_decode_send_suffix(321, 't'); break;
+                    case KC_G: magic_replace_decode_send_cap(456, 'e'); break;
+                    case KC_K: magic_replace_decode_send_cap(579, 'e'); break;
                     case KC_L: magic_decode_send_suffix(105, 'e'); break;
-                    case KC_M: magic_replace_decode_send_cap(382, 'n'); break;
-                    case KC_N: magic_decode_send_suffix(609, 'r'); break;
-                    case KC_O: magic_tap_repeatable(KC_E); break;
-                    case KC_P: magic_decode_send_suffix(557, 'n'); break;
-                    case KC_R: magic_decode_send_suffix(189, 'e'); break;
-                    case KC_S: magic_decode_send_suffix(482, 'g'); break;
+                    case KC_M: magic_replace_decode_send_cap(336, 'n'); break;
+                    case KC_N: magic_decode_send_suffix(567, 'r'); break;
+                    case KC_P: magic_decode_send_suffix(512, 'n'); break;
+                    case KC_R: magic_decode_send_suffix(190, 'e'); break;
+                    case KC_S: magic_decode_send_suffix(439, 'g'); break;
                     case KC_SPC: magic_tap_repeatable(KC_COMMA); break;
-                    case KC_T: magic_decode_send_suffix(358, 'h'); break;
-                    case KC_V: magic_replace_decode_send_cap(437, 'r'); break;
-                    case KC_W: magic_decode_send_suffix(350, 'e'); break;
-                    case KC_X: magic_replace_decode_send_cap(256, 'e'); break;
-                    case KC_Z: magic_replace_decode_send_cap(42, 'y'); break;
+                    case KC_T: magic_decode_send_suffix(311, 'h'); break;
+                    case KC_V: magic_replace_decode_send_cap(397, 'r'); break;
+                    case KC_W: magic_decode_send_suffix(303, 'e'); break;
+                    case KC_X: magic_replace_decode_send_cap(251, 'e'); break;
+                    case KC_Z: magic_replace_decode_send_cap(41, 'y'); break;
                 }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_H;
@@ -672,24 +668,24 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 magic_remembered_keycode = MAGIC_I;
                 magic_repeat_keycode = KC_NO;
                 switch (magic_prepare_last_keycode(get_last_keycode())) {
-                    case KC_B: magic_replace_decode_send_cap(219, 'e'); break;
+                    case KC_B: magic_replace_decode_send_cap(214, 'e'); break;
                     case KC_C: magic_replace_decode_send_cap(8, '\0'); break;
-                    case KC_D: magic_decode_send_suffix(489, 't'); break;
-                    case KC_ENT: magic_decode_send_cap(588, 'e'); break;
-                    case KC_G: magic_replace_decode_send_cap(115, 'g'); break;
-                    case KC_K: magic_decode_send_suffix(442, 'w'); break;
-                    case KC_L: magic_decode_send_suffix(194, 'e'); break;
+                    case KC_D: magic_decode_send_suffix(447, 't'); break;
+                    case KC_ENT: magic_decode_send_cap(544, 'e'); break;
+                    case KC_G: magic_replace_decode_send_cap(116, 'g'); break;
+                    case KC_K: magic_decode_send_suffix(402, 'w'); break;
+                    case KC_L: magic_decode_send_suffix(195, 'e'); break;
                     case KC_M: magic_replace_decode_send_cap(85, 't'); break;
-                    case KC_N: magic_replace_decode_send_cap(615, 'd'); break;
-                    case KC_P: magic_decode_send_suffix(229, 'e'); break;
+                    case KC_N: magic_replace_decode_send_cap(572, 'd'); break;
+                    case KC_P: magic_decode_send_suffix(223, 'e'); break;
                     case KC_S: magic_replace_decode_send_cap(96, 's'); break;
-                    case KC_SPC: magic_decode_send_cap(588, 'e'); break;
-                    case KC_T: magic_replace_decode_send_cap(239, 'g'); break;
-                    case KC_TAB: magic_decode_send_cap(588, 'e'); break;
+                    case KC_SPC: magic_decode_send_cap(544, 'e'); break;
+                    case KC_T: magic_replace_decode_send_cap(233, 'g'); break;
+                    case KC_TAB: magic_decode_send_cap(544, 'e'); break;
                     case KC_V: magic_replace_decode_send_cap(14, '\0'); break;
-                    case KC_W: magic_decode_send_suffix(354, 'h'); break;
-                    case KC_X: magic_replace_decode_send_cap(263, 'n'); break;
-                    case KC_Z: magic_replace_decode_send_cap(62, 't'); break;
+                    case KC_W: magic_decode_send_suffix(307, 'h'); break;
+                    case KC_X: magic_replace_decode_send_cap(258, 'n'); break;
+                    case KC_Z: magic_replace_decode_send_cap(61, 't'); break;
                 }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_I;
@@ -706,18 +702,18 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 switch (magic_prepare_last_keycode(get_last_keycode())) {
                     case KC_B: magic_replace_decode_send_cap(71, 't'); break;
                     case KC_C: magic_tap_repeatable(KC_D); break;
-                    case KC_D: magic_decode_send_suffix(468, 's'); break;
-                    case KC_F: magic_replace_decode_send_cap(76, 'r'); break;
-                    case KC_G: magic_replace_decode_send_cap(596, 't'); break;
+                    case KC_D: magic_decode_send_suffix(425, 's'); break;
+                    case KC_F: magic_replace_decode_send_cap(75, 'r'); break;
+                    case KC_G: magic_replace_decode_send_cap(552, 't'); break;
                     case KC_L: magic_replace_decode_send_cap(90, 'y'); break;
-                    case KC_N: magic_replace_decode_send_cap(493, 'y'); break;
-                    case KC_P: magic_decode_send_suffix(549, 'y'); break;
+                    case KC_N: magic_replace_decode_send_cap(451, 'y'); break;
+                    case KC_P: magic_decode_send_suffix(506, 'y'); break;
                     case KC_SPC: magic_tap_repeatable(KC_DOT); break;
-                    case KC_T: magic_decode_send_suffix(362, 'h'); break;
-                    case KC_V: magic_replace_decode_send_cap(456, 'y'); break;
-                    case KC_W: magic_decode_send_suffix(347, 'n'); break;
-                    case KC_X: magic_replace_decode_send_cap(270, 't'); break;
-                    case KC_Z: magic_replace_decode_send_cap(54, 's'); break;
+                    case KC_T: magic_decode_send_suffix(316, 'h'); break;
+                    case KC_V: magic_replace_decode_send_cap(415, 'y'); break;
+                    case KC_W: magic_decode_send_suffix(300, 'n'); break;
+                    case KC_X: magic_replace_decode_send_cap(265, 't'); break;
+                    case KC_Z: magic_replace_decode_send_cap(53, 's'); break;
                 }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_J;

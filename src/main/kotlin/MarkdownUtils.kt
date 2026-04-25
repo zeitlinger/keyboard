@@ -102,7 +102,13 @@ data class Symbols(
         if (value != null) {
             usedKeys += key
             customKeycodes[value]?.targetLayerName?.let { translator.reachLayer(it, pos, LayerActivation.Toggle) }
-            return value
+            return when {
+                value.startsWith("\"") && value.endsWith("\"") -> value
+                customKeycodes.contains(value) -> value
+                qmkPrefixes.any { value.startsWith(it) } -> value
+                translator.toQmkIgnoringPosition(value) != value -> value
+                else -> "\"$value\""
+            }
         }
         return key
     }
