@@ -26,7 +26,7 @@ LAYOUT = {
 
 COMBO_KEYS = set('pbmgvkzj')
 
-# Nine physical magic-key positions, keyed by README column name.
+# Eleven physical magic-key positions, keyed by README column name.
 MAGIC_POSITIONS = {
     'magic_a': (5, 0),  # R.Mid top row
     'magic_b': (6, 0),  # R.Ring top row
@@ -34,9 +34,11 @@ MAGIC_POSITIONS = {
     'magic_d': (5, 1),  # R.Mid top combo
     'magic_e': (6, 1),  # R.Ring top combo
     'magic_f': (7, 1),  # R.Pin top combo
-    'magic_g': (4, 3),  # R.Ind bottom combo
-    'magic_h': (5, 3),  # R.Mid bottom combo
-    'magic_i': (6, 3),  # R.Ring bottom combo
+    'magic_g': (0, 3),  # L.Pin bottom combo
+    'magic_h': (4, 3),  # R.Ind bottom combo
+    'magic_i': (5, 3),  # R.Mid bottom combo
+    'magic_j': (6, 3),  # R.Ring bottom combo
+    'magic_k': (7, 3),  # R.Pin bottom combo
 }
 
 

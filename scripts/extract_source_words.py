@@ -57,7 +57,7 @@ STOP_WORDS = {
 WORD_RE = re.compile(r"[a-z][a-z']{2,}")
 CAMEL_RE_1 = re.compile(r"([a-z0-9])([A-Z])")
 CAMEL_RE_2 = re.compile(r"([A-Z]+)([A-Z][a-z])")
-MAGIC_ROW_RE = re.compile(r"^\|\s*([^|]+?)\s*\|" + r"([^|]*)\|" * 9)
+MAGIC_ROW_RE = re.compile(r"^\|\s*([^|]+?)\s*\|(.*)\|$")
 
 
 def parse_args() -> argparse.Namespace:
@@ -171,8 +171,8 @@ def current_magic_words(readme: Path) -> set[str]:
         row_name = match.group(1).strip()
         if row_name in {"Magic", ":-----:"}:
             continue
-        for index in range(2, 11):
-            cell = match.group(index).strip()
+        cells = [cell.strip() for cell in match.group(2).split("|")]
+        for cell in cells:
             if not cell:
                 continue
             value = cell.strip('"')

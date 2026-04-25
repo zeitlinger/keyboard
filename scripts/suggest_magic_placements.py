@@ -32,9 +32,11 @@ MAGIC_HINT_LETTERS = {
     "magic_d": ("e", "o"),
     "magic_e": ("i", "y"),
     "magic_f": ("h",),
-    "magic_g": ("a", "u"),
-    "magic_h": ("e", "o"),
-    "magic_i": ("i", "y"),
+    "magic_g": ("x", "s"),
+    "magic_h": ("a", "u"),
+    "magic_i": ("e", "o"),
+    "magic_j": ("i", "y"),
+    "magic_k": ("h",),
 }
 
 

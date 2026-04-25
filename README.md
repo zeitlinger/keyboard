@@ -82,7 +82,7 @@ Currently unused features:
 
 ## Magic Keys
 
-Rows = preceding key. Columns = the nine physical magic keys (see the Layout table for their positions).
+Rows = preceding key. Columns = the eleven physical magic keys (see the Layout table for their positions).
 
 Cell = what to emit.
 
@@ -94,37 +94,37 @@ Cell = what to emit.
   - Preceding key is not a letter (spc, punctuation) → append as-is. `,` + `" and "` yields `, and` plus a trailing space.
 - `[name]` bracket tokens invoke named handlers (currently `[dotSpc]` = BS + `.` then one-shot shift).
 
-| Magic  |       magic_a        |            magic_b            |      magic_c       |       magic_d        |   magic_e    |  magic_f  |     magic_g     |   magic_h   |    magic_i    |
-| :----: | :------------------: | :---------------------------: | :----------------: | :------------------: | :----------: | :-------: | :-------------: | :---------: | :-----------: |
-| suffix |                      |              ly               |                    |         n't          |      ed      |           |        s        |      ,      |       .       |
-|   a    |                      |                               |         e          |                      |              |           |                 |             |               |
-|   b    |        behind        |            between            |                    |       because        |      d       | business  |     before      |  elaborate  |     about     |
-|   c    |          n           |             "'ll"             |                    |        "n't"         |     "'d"     |           |      "'s"       |    "'re"    |       d       |
-|   d    |          c           |               h               |                    |       doesn't        |      f       |           |     didn't      |    don't    |     does      |
-|   e    |                      |                               |         h          |                      |      u       |           |                 |             |               |
-|   f    |        found         |             first             |                    |                      |      d       |           |                 |             |     after     |
-|   g    |        global        |               f               |                    |          k           |      d       |   again   |    organize     |  anything   |    thought    |
-|   h    |                      |                               |                    |                      |      y       |           |                 |             |               |
-|   i    |                      |                               |         '          |                      |              |           |                 |             |               |
-|   j    |                      |                               |                    |                      |              |           |                 |             |               |
-|   k    |          r           |                               |                    |         know         |      x       |           |     update      |    knew     |               |
-|   l    |          m           |               h               |                    |          r           |      c       |     b     |    language     |    leave    |    already    |
-|   m    |          r           |               h               |                    |        "ment"        |      l       |     t     | instrumentation |   almost    |               |
-|   n    |          r           |               h               |                    |         "qu"         |      x       |     p     |     number      | understand  |     only      |
-|   o    |                      |                               |         h          |                      |              |           |        e        |             |               |
-|   p    |          y           |               m               |                    |          n           |      d       |  improve  |   production    |   people    |   probably    |
-|   r    |                      |                               |                    |                      |      x       |  another  |     realize     |             |               |
-|   s    |       someone        |               r               |                    |        "sion"        |      d       |   just    |    something    |   always    |               |
-|   t    |          n           |               f               |                    |        "tion"        |   without    | thank you |     though      | everything  |    through    |
-|   u    |                      |                               |         h          |                      |              |           |                 |             |               |
-|   v    | zeitlinger@gmail.com | gregor.zeitlinger@grafana.com | declarative config | gregor@zeitlinger.de |     I've     |   have    |      never      |    "'ve"    | observability |
-|   w    |         will         |            wasn't             |       worse        |          s           |      x       |   worry   |      where      |    which    |     when      |
-|   x    |      exception       |               w               |                    |          r           |      d       |           |     exclude     |   explain   |   explicit    |
-|   y    |                      |                               |         r          |                      |              |           |                 |             |               |
-|   z    |      zeitlinger      |            gregor             |                    |       Grafana        | Grafana Labs |           |  OpenTelemetry  | Spring Boot |  Prometheus   |
-|  spc   |          '           |               "               |      [dotSpc]      |          !           |      ?       |    and    |        ,        |     the     |       .       |
-|  tab   |                      |                               |                    |                      |              |    and    |                 |     the     |               |
-| enter  |                      |                               |                    |                      |              |    and    |                 |     the     |               |
+| Magic  |       magic_a        |            magic_b            |      magic_c       |       magic_d        |   magic_e    |  magic_f  | magic_g |     magic_h     |   magic_i   |    magic_j    | magic_k |
+| :----: | :------------------: | :---------------------------: | :----------------: | :------------------: | :----------: | :-------: | :-----: | :-------------: | :---------: | :-----------: | :-----: |
+| suffix |                      |              ly               |                    |         n't          |      ed      |           |         |        s        |      ,      |       .       |         |
+|   a    |                      |                               |         e          |                      |              |           |         |                 |             |               |         |
+|   b    |        behind        |            between            |                    |       because        |      d       | business  |         |     before      |  elaborate  |     about     |         |
+|   c    |          n           |             "'ll"             |                    |        "n't"         |     "'d"     |           |         |      "'s"       |    "'re"    |       d       |         |
+|   d    |          c           |               h               |                    |       doesn't        |      f       |           |         |     didn't      |    don't    |     does      |         |
+|   e    |                      |                               |         h          |                      |      u       |           |         |                 |             |               |         |
+|   f    |        found         |             first             |                    |                      |      d       |           |         |                 |             |     after     |         |
+|   g    |        global        |               f               |                    |          k           |      d       |   again   |         |    organize     |  anything   |    thought    |         |
+|   h    |                      |                               |                    |                      |      y       |           |         |                 |             |               |         |
+|   i    |                      |                               |         '          |                      |              |           |         |                 |             |               |         |
+|   j    |                      |                               |                    |                      |              |           |         |                 |             |               |         |
+|   k    |          r           |                               |                    |         know         |      x       |           |         |     update      |    knew     |               |         |
+|   l    |          m           |               h               |                    |          r           |      c       |     b     |         |    language     |    leave    |    already    |         |
+|   m    |          r           |               h               |                    |        "ment"        |      l       |     t     |         | instrumentation |   almost    |               |         |
+|   n    |          r           |               h               |                    |         "qu"         |      x       |     p     |         |     number      | understand  |     only      |         |
+|   o    |                      |                               |         h          |                      |              |           |         |        e        |             |               |         |
+|   p    |          y           |               m               |                    |          n           |      d       |  improve  |         |   production    |   people    |   probably    |         |
+|   r    |                      |                               |                    |                      |      x       |  another  |         |     realize     |             |               |         |
+|   s    |       someone        |               r               |                    |        "sion"        |      d       |   just    |         |    something    |   always    |               |         |
+|   t    |          n           |               f               |                    |        "tion"        |   without    | thank you |         |     though      | everything  |    through    |         |
+|   u    |                      |                               |         h          |                      |              |           |         |                 |             |               |         |
+|   v    | zeitlinger@gmail.com | gregor.zeitlinger@grafana.com | declarative config | gregor@zeitlinger.de |     I've     |   have    |         |      never      |    "'ve"    | observability |         |
+|   w    |         will         |            wasn't             |       worse        |          s           |      x       |   worry   |         |      where      |    which    |     when      |         |
+|   x    |      exception       |               w               |                    |          r           |      d       |           |         |     exclude     |   explain   |   explicit    |         |
+|   y    |                      |                               |         r          |                      |              |           |         |                 |             |               |         |
+|   z    |      zeitlinger      |            gregor             |                    |       Grafana        | Grafana Labs |           |         |  OpenTelemetry  | Spring Boot |  Prometheus   |         |
+|  spc   |          '           |               "               |      [dotSpc]      |          !           |      ?       |    and    |         |        ,        |     the     |       .       |         |
+|  tab   |                      |                               |                    |                      |              |    and    |         |                 |     the     |               |         |
+| enter  |                      |                               |                    |                      |              |    and    |         |                 |     the     |               |         |
 
 ## Adaptives
 
@@ -180,22 +180,22 @@ Cell = what to emit.
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |         |    v    |   ing   |         |         |         |
 | Base  |         |         |         |   💎    |   💎    |         |         |         |
-| Base  |         |         |         |    k    | magic_g |         |         |         |
+| Base  |         |         |         |    k    | magic_h |         |         |         |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |    m    |         |         | magic_d |         |         |
 | Base  |         |         |   💎    |         |         |   💎    |         |         |
-| Base  |         |         |    g    |         |         | magic_h |         |         |
+| Base  |         |         |    g    |         |         | magic_i |         |         |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |    p    |         |         |         |         | magic_e |         |
 | Base  |         |   💎    |         |         |         |         |   💎    |         |
-| Base  |         |    b    |         |         |         |         | magic_i |         |
+| Base  |         |    b    |         |         |         |         | magic_j |         |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  | magic_c |         |         |         |         |         |         | magic_f |
 | Base  |   💎    |         |         |         |         |         |         |   💎    |
-| Base  |    z    |         |         |         |         |         |         |    j    |
+| Base  | magic_g |         |         |         |         |         |         | magic_k |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |  dead3  |    q    |    '    |         |
@@ -427,6 +427,8 @@ The order of the options is also the order of the layers in the layer stack.
 | magic_g | magic:MAGIC_G               |
 | magic_h | magic:MAGIC_H               |
 | magic_i | magic:MAGIC_I               |
+| magic_j | magic:MAGIC_J               |
+| magic_k | magic:MAGIC_K               |
 | tab ➡️  | custom:NEXT_TAB NoHold      |
 | win ➡️  | custom:NEXT_WINDOW NoHold   |
 | n't     | custom:N_T                  |

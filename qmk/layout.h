@@ -32,6 +32,8 @@ enum custom_keycodes {
     MAGIC_G,
     MAGIC_H,
     MAGIC_I,
+    MAGIC_J,
+    MAGIC_K,
     NEXT_TAB,
     NEXT_WINDOW,
     N_T,
@@ -65,6 +67,8 @@ enum custom_keycodes {
 #define _HANDLER_MAGIC_G MAGIC_G
 #define _HANDLER_MAGIC_H MAGIC_H
 #define _HANDLER_MAGIC_I MAGIC_I
+#define _HANDLER_MAGIC_J MAGIC_J
+#define _HANDLER_MAGIC_K MAGIC_K
 #define _HANDLER_NEXT_TAB NEXT_TAB
 #define _HANDLER_NEXT_WINDOW NEXT_WINDOW
 #define _HANDLER_N_T N_T
