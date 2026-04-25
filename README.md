@@ -92,14 +92,14 @@ Cell = what to emit.
   - Preceding key is a letter and cell starts with it → strip prefix. `b` + `"because"` emits `ecause`, yielding `because`.
   - Preceding key is a letter and cell does _not_ start with it → BS + cell.
   - Preceding key is not a letter (spc, punctuation) → append as-is. `,` + `" and "` yields `, and` plus a trailing space.
-- `[name]` bracket tokens invoke named handlers (currently `[dotSpc]` = BS + `.` then one-shot shift; `[llSpc]` = BS + `'ll`).
+- `[name]` bracket tokens invoke named handlers (currently `[dotSpc]` = BS + `.` then one-shot shift).
 
 | Magic  |       magic_a        |            magic_b            |      magic_c       |       magic_d        |   magic_e    |  magic_f  |     magic_g     |   magic_h   |    magic_i    |
 | :----: | :------------------: | :---------------------------: | :----------------: | :------------------: | :----------: | :-------: | :-------------: | :---------: | :-----------: |
 | suffix |                      |              ly               |                    |         n't          |      ed      |           |        s        |      ,      |       .       |
 |   a    |                      |                               |         e          |                      |              |           |                 |             |               |
 |   b    |        behind        |            between            |                    |       because        |      d       | business  |     before      |  elaborate  |     about     |
-|   c    |          n           |             "'ll"             |                    |        "n't"         |     "'d"     |           |      "'s"       |    "'re"    |       p       |
+|   c    |          n           |             "'ll"             |                    |        "n't"         |     "'d"     |           |      "'s"       |    "'re"    |       d       |
 |   d    |          c           |               h               |                    |       doesn't        |      f       |  update   |     didn't      |    don't    |     does      |
 |   e    |                      |                               |         h          |                      |      u       |           |                 |             |               |
 |   f    |        found         |             first             |                    |                      |      d       |           |                 |             |     after     |
@@ -113,7 +113,7 @@ Cell = what to emit.
 |   n    |          r           |               h               |                    |         "qu"         |      x       |     p     |     number      | understand  |     only      |
 |   o    |                      |                               |         h          |                      |              |           |        e        |             |               |
 |   p    |          y           |               m               |                    |          n           |      d       |  improve  |   production    |   people    |   probably    |
-|   r    |          '           |               "               |                    |          !           |      ?       |  another  |     realize     |      ,      |       .       |
+|   r    |                      |                               |                    |                      |              |  another  |     realize     |             |               |
 |   s    |       someone        |               r               |                    |        "sion"        |      d       |   just    |    something    |   always    |               |
 |   t    |          n           |               f               |                    |        "tion"        |   without    | thank you |     though      | everything  |    through    |
 |   u    |                      |                               |         h          |                      |              |           |                 |             |               |
@@ -122,9 +122,9 @@ Cell = what to emit.
 |   x    |      exception       |               w               |                    |          r           |      d       |           |     exclude     |   explain   |   explicit    |
 |   y    |                      |                               |         r          |                      |              |           |                 |             |               |
 |   z    |      zeitlinger      |            gregor             |                    |       Grafana        | Grafana Labs |           |  OpenTelemetry  | Spring Boot |  Prometheus   |
-|  spc   |       [llSpc]        |                               |                    |                      |              |           |       and       |     the     |   [dotSpc]    |
-|  tab   |                      |                               |                    |                      |              |           |       and       |     the     |               |
-|   ↩️️   |                      |                               |                    |                      |              |           |       and       |     the     |               |
+|  spc   |          '           |               "               |      [dotSpc]      |          !           |      ?       |   and     |        ,        |     the     |       .       |
+|  tab   |                      |                               |                    |                      |              |   and     |                 |     the     |               |
+|   ↩️️   |                      |                               |                    |                      |              |   and     |                 |     the     |               |
 
 ## Adaptives
 

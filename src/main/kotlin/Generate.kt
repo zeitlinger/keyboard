@@ -469,10 +469,6 @@ private fun bracketCommand(
             "magic_replace_decode_send_cap($offset, '\\0'); add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state();"
         }
 
-        "llSpc" -> {
-            "magic_replace_decode_send_cap(${stringOffsets.getValue("'ll ")}, '\\0'); clear_suffix_state();"
-        }
-
         else -> {
             throw IllegalArgumentException("unknown bracket token '[$name]' in $pos")
         }
@@ -538,7 +534,6 @@ private fun magicFullOutputString(
 private fun bracketOutputString(def: String): String? =
     when (def) {
         "[dotSpc]" -> ". "
-        "[llSpc]" -> "'ll "
         else -> null
     }
 
