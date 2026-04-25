@@ -96,10 +96,10 @@ Cell = what to emit.
 
 | Magic  |  magic_a  | magic_b |      magic_c       | magic_d | magic_e |  magic_f  | magic_g |     magic_h     |   magic_i   |    magic_j    | magic_k |
 | :----: | :-------: | :-----: | :----------------: | :-----: | :-----: | :-------: | :-----: | :-------------: | :---------: | :-----------: | :-----: |
-| suffix |           |   ly    |                    |   n't   |   ed    |           |         |        s        |      ,      |       .       |         |
+| suffix |           |   ly    |                    |   n't   |   ed    |    and    |    ?    |        ,        |     the     |       .       |    s    |
 |   a    |           |         |                    |         |         |           |    e    |                 |             |               |         |
 |   b    |  behind   | between |                    | because |    d    | business  |         |     before      |  elaborate  |     about     |         |
-|   c    |     n     |  "'ll"  |                    |  "n't"  |  "'d"   |           |         |      "'s"       |    "'re"    |       d       |         |
+|   c    |     n     |  "'ll"  |                    |  "n't"  |  "'d"   |           |         |                 |    "'re"    |       d       |  "'s"   |
 |   d    |     c     |    h    |                    | doesn't |    f    |           |         |     didn't      |    don't    |     does      |         |
 |   e    |           |         |         u          |         |         |           |    h    |                 |             |               |         |
 |   f    |   found   |  first  |                    |         |    d    |           |         |                 |             |     after     |         |
