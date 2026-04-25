@@ -1,4 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["wordfreq"]
+# ///
 
 # [MISE] description="Rank free magic-table slots for old chords or local source-word candidates. Example: mise run find-available-chords -- --candidates-file source_words.tsv --limit 50"
 

@@ -37,6 +37,70 @@ LETTER_ROWS = [chr(code) for code in range(ord("a"), ord("z") + 1)]
 NON_LETTER_ROWS = ["spc", "tab", "↩️️", "~", ",", ".", "-", "=", "!"]
 README = ROOT / "README.md"
 
+MAGIC_HINT_LETTERS = {
+    "magic_a": ("a", "u"),
+    "magic_b": ("i",),
+    "magic_c": ("x", "s"),
+    "magic_d": ("e", "o"),
+    "magic_e": ("i", "y"),
+    "magic_f": ("h",),
+    "magic_g": ("x", "s"),
+    "magic_h": ("a", "u"),
+    "magic_i": ("e", "o"),
+    "magic_j": ("i", "y"),
+    "magic_k": ("h",),
+}
+
+LETTER_DISTINCTIVENESS = {
+    "a": 0.15,
+    "b": 0.85,
+    "c": 0.55,
+    "d": 0.35,
+    "e": 0.05,
+    "f": 0.65,
+    "g": 0.95,
+    "h": 0.30,
+    "i": 0.10,
+    "j": 1.25,
+    "k": 1.10,
+    "l": 0.20,
+    "m": 0.60,
+    "n": 0.15,
+    "o": 0.10,
+    "p": 0.75,
+    "q": 1.30,
+    "r": 0.20,
+    "s": 0.15,
+    "t": 0.10,
+    "u": 0.15,
+    "v": 1.00,
+    "w": 0.60,
+    "x": 1.35,
+    "y": 0.55,
+    "z": 1.20,
+}
+
+
+def mnemonic_row_bonus(output: str, row: str) -> float:
+    if len(row) != 1 or not row.isalpha():
+        return 1.0
+    compact = "".join(char for char in output.lower() if char.isalpha())
+    if not compact:
+        return 1.0
+    if row not in compact:
+        return 0.68
+    first_index = compact.index(row)
+    distinctiveness = LETTER_DISTINCTIVENESS.get(row, 0.5)
+    position_bonus = max(0.0, 0.36 - 0.06 * min(first_index, 4))
+    repeat_bonus = min(0.12, 0.04 * (compact.count(row) - 1))
+    row_score = distinctiveness - 0.08 * first_index + repeat_bonus
+    best_score = max(
+        LETTER_DISTINCTIVENESS.get(letter, 0.5) - 0.08 * compact.index(letter) + min(0.12, 0.04 * (compact.count(letter) - 1))
+        for letter in set(compact)
+    )
+    anchor_bonus = 0.45 if row_score >= best_score - 0.05 else 0.0
+    return 1.0 + distinctiveness * 0.42 + position_bonus + repeat_bonus + anchor_bonus
+
 # Approximate physical positions for keys that can precede a magic press.
 PRECEDING_POSITIONS = {
     **LAYOUT,
@@ -289,7 +353,16 @@ def assignment_value(
     freq = weighted_frequency(entry, source_weights)
     difficulty = output_difficulty(entry.output, adaptives, blocked_pairs, magic_rows)
     hand_bonus = 1.35 if is_word_output(entry.output) and slot.opposite_hand else 0.75 if is_word_output(entry.output) else 1.0
-    value = saved ** 2 * freq * difficulty * hand_bonus / (slot.feel + 1)
+    row_bonus = 1.0
+    if is_word_output(entry.output) and len(slot.row) == 1 and slot.row.isalpha():
+        compact = "".join(char for char in entry.output.lower() if char.isalpha())
+        row_bonus *= mnemonic_row_bonus(entry.output, slot.row)
+        hints = MAGIC_HINT_LETTERS.get(slot.column, ())
+        if any(compact.endswith(hint) for hint in hints):
+            row_bonus *= 1.14
+        elif any(hint in compact for hint in hints):
+            row_bonus *= 1.05
+    value = saved ** 2 * freq * difficulty * hand_bonus * row_bonus / (slot.feel + 1)
     return value, freq, difficulty, saved
 
 

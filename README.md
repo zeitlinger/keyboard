@@ -103,7 +103,7 @@ Cell = what to emit.
 |   d    |     c     |    h    |                    | doesn't |    f    |           |         |     didn't      |    don't    |     does      |         |
 |   e    |           |         |         u          |         |         |           |    h    |                 |             |               |         |
 |   f    |   found   |  first  |                    |         |    d    |           |         |                 |             |     after     |         |
-|   g    |  global   |    f    |                    |    k    |    d    |   again   |         |    organize     |  anything   |    thought    |         |
+|   g    |  global   |    f    |                    |    k    |    d    |   again   |         |    organize     |  anything   |    thought    | suggest |
 |   h    |           |         |                    |         |    y    |           |         |                 |             |               |         |
 |   i    |           |         |                    |         |         |           | improve |                 |             |               |         |
 |   j    |           |         |                    |         |         |           |         |                 |             |               |         |
@@ -119,7 +119,7 @@ Cell = what to emit.
 |   u    |           |         |                    |         |         |           |    h    |                 |             |               |         |
 |   v    |           |         | declarative config |         |  I've   |   have    |         |      never      |    "'ve"    | observability |         |
 |   w    |   will    | wasn't  |       worse        |    s    |    x    |   worry   |         |      where      |    which    |     when      |         |
-|   x    | exception |    w    |                    |    r    |    d    |           |         |     exclude     |   explain   |   explicit    |         |
+|   x    | exception |    w    |                    |    r    |    d    |  except   |         |     exclude     |   explain   |   explicit    | example |
 |   y    |           |         |                    |         |         |           |    r    |                 |             |               |         |
 |   z    |           |         |                    |   #g    |   #z    |    #gz    |         |  OpenTelemetry  | Spring Boot |  Prometheus   |         |
 |  spc   |     '     |    "    |      [dotSpc]      |    !    |    ?    |    and    |    z    |        ,        |     the     |       .       |    j    |
