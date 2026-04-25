@@ -100,20 +100,20 @@ Cell = what to emit.
 |   a    |                      |                               |         e          |                      |              |           |                 |             |               |
 |   b    |        behind        |            between            |                    |       because        |      d       | business  |     before      |  elaborate  |     about     |
 |   c    |          n           |             "'ll"             |                    |        "n't"         |     "'d"     |           |      "'s"       |    "'re"    |       d       |
-|   d    |          c           |               h               |                    |       doesn't        |      f       |  update   |     didn't      |    don't    |     does      |
+|   d    |          c           |               h               |                    |       doesn't        |      f       |           |     didn't      |    don't    |     does      |
 |   e    |                      |                               |         h          |                      |      u       |           |                 |             |               |
 |   f    |        found         |             first             |                    |                      |      d       |           |                 |             |     after     |
 |   g    |        global        |               f               |                    |          k           |      d       |   again   |    organize     |  anything   |    thought    |
 |   h    |                      |                               |                    |                      |      y       |           |                 |             |               |
 |   i    |                      |                               |         '          |                      |              |           |                 |             |               |
 |   j    |                      |                               |                    |                      |              |           |                 |             |               |
-|   k    |          r           |                               |                    |         know         |      x       |           |      knew       |             |               |
+|   k    |          r           |                               |                    |         know         |      x       |           |     update      |    knew     |               |
 |   l    |          m           |               h               |                    |          r           |      c       |     b     |    language     |    leave    |    already    |
 |   m    |          r           |               h               |                    |        "ment"        |      l       |     t     | instrumentation |   almost    |               |
 |   n    |          r           |               h               |                    |         "qu"         |      x       |     p     |     number      | understand  |     only      |
 |   o    |                      |                               |         h          |                      |              |           |        e        |             |               |
 |   p    |          y           |               m               |                    |          n           |      d       |  improve  |   production    |   people    |   probably    |
-|   r    |                      |                               |                    |                      |              |  another  |     realize     |             |               |
+|   r    |                      |                               |                    |                      |      x       |  another  |     realize     |             |               |
 |   s    |       someone        |               r               |                    |        "sion"        |      d       |   just    |    something    |   always    |               |
 |   t    |          n           |               f               |                    |        "tion"        |   without    | thank you |     though      | everything  |    through    |
 |   u    |                      |                               |         h          |                      |              |           |                 |             |               |
@@ -122,9 +122,9 @@ Cell = what to emit.
 |   x    |      exception       |               w               |                    |          r           |      d       |           |     exclude     |   explain   |   explicit    |
 |   y    |                      |                               |         r          |                      |              |           |                 |             |               |
 |   z    |      zeitlinger      |            gregor             |                    |       Grafana        | Grafana Labs |           |  OpenTelemetry  | Spring Boot |  Prometheus   |
-|  spc   |          '           |               "               |      [dotSpc]      |          !           |      ?       |   and     |        ,        |     the     |       .       |
-|  tab   |                      |                               |                    |                      |              |   and     |                 |     the     |               |
-|   ↩️️   |                      |                               |                    |                      |              |   and     |                 |     the     |               |
+|  spc   |          '           |               "               |      [dotSpc]      |          !           |      ?       |    and    |        ,        |     the     |       .       |
+|  tab   |                      |                               |                    |                      |              |    and    |                 |     the     |               |
+| enter  |                      |                               |                    |                      |              |    and    |                 |     the     |               |
 
 ## Adaptives
 
@@ -398,6 +398,7 @@ The order of the options is also the order of the layers in the layer stack.
 | spc     | KC_SPC                      |
 | esc     | KC_ESC                      |
 | ↩️️      | KC_ENT                      |
+| enter   | KC_ENT                      |
 | bspc    | KC_BSPC                     |
 | win     | KC_LGUI                     |
 | tab     | KC_TAB                      |
