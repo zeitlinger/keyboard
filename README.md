@@ -122,7 +122,7 @@ Cell = what to emit.
 |   x    |      exception       |               w               |                    |          r           |      d       |           |         |     exclude     |   explain   |   explicit    |         |
 |   y    |                      |                               |         r          |                      |              |           |         |                 |             |               |         |
 |   z    |      zeitlinger      |            gregor             |                    |       Grafana        | Grafana Labs |           |         |  OpenTelemetry  | Spring Boot |  Prometheus   |         |
-|  spc   |          '           |               "               |      [dotSpc]      |          !           |      ?       |    and    |         |        ,        |     the     |       .       |         |
+|  spc   |          '           |               "               |      [dotSpc]      |          !           |      ?       |    and    |    z    |        ,        |     the     |       .       |    j    |
 |  tab   |                      |                               |                    |                      |              |    and    |         |                 |     the     |               |         |
 | enter  |                      |                               |                    |                      |              |    and    |         |                 |     the     |               |         |
 
@@ -220,7 +220,7 @@ Cell = what to emit.
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |         |         |         |    "    |
 | Right |         |         |         |         |         |         |         |   💎    |
-| Right |         |         |         |         |         |         |         |         |
+| Right |         |         |         |         |         |         |         |    j    |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | RMods |         |         |         |         |         |         |         |         |
@@ -235,7 +235,7 @@ Cell = what to emit.
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |  "Qu"   |         |         |         |         |         |         |         |
 | Left  |   💎    |         |         |         |         |         |         |         |
-| Left  |         |         |         |         |         |         |         |         |
+| Left  |   z     |         |         |         |         |         |         |         |
 | Left  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | LMods |         |         |         |         |         |         |         |         |

@@ -169,6 +169,7 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_FNSYM_LT_NUM2KC_EQUAL: return 200;
     case C_FNSYM_MO_NUM: return 200;
     case C_FNSYM_UMSMILEY: return 200;
+    case C_LEFT_KC_Z: return 200;
     case C_NAV_AKC_F12: return 200;
     case C_NAV_CKC_A: return 200;
     case C_NAV_CKC_B: return 200;
@@ -209,6 +210,7 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_RIGHT_KC_DQUO: return 200;
     case C_RIGHT_KC_EXLM: return 200;
     case C_RIGHT_KC_GRAVE: return 200;
+    case C_RIGHT_KC_J: return 200;
     case C_RIGHT_KC_QUES: return 200;
     case C_RIGHT_N_T: return 200;
     case C_RIGHT_RCSKC_F: return 200;
@@ -623,7 +625,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 magic_remembered_keycode = MAGIC_G;
                 magic_repeat_keycode = KC_NO;
                 switch (magic_prepare_last_keycode(get_last_keycode())) {
-
+                    case KC_SPC: magic_tap_repeatable(KC_Z); break;
                 }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_G;
@@ -730,7 +732,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 magic_remembered_keycode = MAGIC_K;
                 magic_repeat_keycode = KC_NO;
                 switch (magic_prepare_last_keycode(get_last_keycode())) {
-
+                    case KC_SPC: magic_tap_repeatable(KC_J); break;
                 }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_K;
