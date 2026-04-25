@@ -9,36 +9,53 @@ from pathlib import Path
 #       4=bottom, 5=thumb. Odd rows = combo positions.
 LAYOUT = {
     # Top row
-    'x': (1,0), 'w': (2,0),
+    "x": (1, 0),
+    "w": (2, 0),
     # Top combos (row 1)
-    'p': (1,1), 'm': (2,1), 'v': (3,1),
+    "p": (1, 1),
+    "m": (2, 1),
+    "v": (3, 1),
     # Home row
-    's': (0,2), 'c': (1,2), 'n': (2,2), 't': (3,2),
-    'a': (4,2), 'e': (5,2), 'i': (6,2), 'h': (7,2),
+    "s": (0, 2),
+    "c": (1, 2),
+    "n": (2, 2),
+    "t": (3, 2),
+    "a": (4, 2),
+    "e": (5, 2),
+    "i": (6, 2),
+    "h": (7, 2),
     # Bottom combos (row 3)
-    'z': (0,3), 'b': (1,3), 'g': (2,3), 'k': (3,3), 'j': (7,3),
+    "z": (0, 3),
+    "b": (1, 3),
+    "g": (2, 3),
+    "k": (3, 3),
+    "j": (7, 3),
     # Bottom row
-    'f': (1,4), 'l': (2,4), 'd': (3,4),
-    'u': (4,4), 'o': (5,4), 'y': (6,4),
+    "f": (1, 4),
+    "l": (2, 4),
+    "d": (3, 4),
+    "u": (4, 4),
+    "o": (5, 4),
+    "y": (6, 4),
     # Thumb
-    'r': (3,5),
+    "r": (3, 5),
 }
 
-COMBO_KEYS = set('pbmgvkzj')
+COMBO_KEYS = set("pbmgvkzj")
 
 # Eleven physical magic-key positions, keyed by README column name.
 MAGIC_POSITIONS = {
-    'magic_a': (5, 0),  # R.Mid top row
-    'magic_b': (6, 0),  # R.Ring top row
-    'magic_c': (0, 1),  # L.Pin top combo
-    'magic_d': (5, 1),  # R.Mid top combo
-    'magic_e': (6, 1),  # R.Ring top combo
-    'magic_f': (7, 1),  # R.Pin top combo
-    'magic_g': (0, 3),  # L.Pin bottom combo
-    'magic_h': (4, 3),  # R.Ind bottom combo
-    'magic_i': (5, 3),  # R.Mid bottom combo
-    'magic_j': (6, 3),  # R.Ring bottom combo
-    'magic_k': (7, 3),  # R.Pin bottom combo
+    "magic_a": (5, 0),  # R.Mid top row
+    "magic_b": (6, 0),  # R.Ring top row
+    "magic_c": (0, 1),  # L.Pin top combo
+    "magic_d": (5, 1),  # R.Mid top combo
+    "magic_e": (6, 1),  # R.Ring top combo
+    "magic_f": (7, 1),  # R.Pin top combo
+    "magic_g": (0, 3),  # L.Pin bottom combo
+    "magic_h": (4, 3),  # R.Ind bottom combo
+    "magic_i": (5, 3),  # R.Mid bottom combo
+    "magic_j": (6, 3),  # R.Ring bottom combo
+    "magic_k": (7, 3),  # R.Pin bottom combo
 }
 
 
@@ -82,8 +99,13 @@ def is_combo_adjacent(a_char, b_char):
     same_hand = (a_pos[0] < 4) == (b_pos[0] < 4)
     adjacent = abs(a_pos[0] - b_pos[0]) == 1
     outward = b_pos[0] < a_pos[0]
-    return (a_char in COMBO_KEYS and b_char not in COMBO_KEYS
-            and same_hand and adjacent and outward)
+    return (
+        a_char in COMBO_KEYS
+        and b_char not in COMBO_KEYS
+        and same_hand
+        and adjacent
+        and outward
+    )
 
 
 def is_combo_preceded(a_char, b_char):
@@ -113,7 +135,9 @@ def is_bad(a, b):
     return is_sfb(a, b) or is_scissors(a, b)
 
 
-def feel_score_positions(a_pos, b_pos, *, target_is_combo=False, source_char=None, target_char=None):
+def feel_score_positions(
+    a_pos, b_pos, *, target_is_combo=False, source_char=None, target_char=None
+):
     """Lower = better feel for the physical motion between two positions.
 
     Row scheme: 0=top, 1=top combo, 2=home, 3=bottom combo, 4=bottom, 5=thumb.
@@ -137,7 +161,7 @@ def feel_score_positions(a_pos, b_pos, *, target_is_combo=False, source_char=Non
         col_diff = abs(a_pos[0] - b_pos[0])
         inward = b_pos[0] > a_pos[0]
 
-        if row_diff > 3 and 'd' not in (source_char, target_char):
+        if row_diff > 3 and "d" not in (source_char, target_char):
             # Very long same-hand reaches are bad, but using a sentinel here
             # overwhelms weighted follow-through scoring in the adaptive suggester.
             return 4 if col_diff == 0 else 99
@@ -147,7 +171,7 @@ def feel_score_positions(a_pos, b_pos, *, target_is_combo=False, source_char=Non
         elif col_diff == 1 and row_diff == 0:
             score = 0
         elif col_diff == 1 and row_diff > 0:
-            pinky = (a_pos[0] in (0, 7) or b_pos[0] in (0, 7))
+            pinky = a_pos[0] in (0, 7) or b_pos[0] in (0, 7)
             if pinky:
                 score = 3
             elif row_diff >= 2 and b_pos[1] < a_pos[1]:
@@ -160,7 +184,7 @@ def feel_score_positions(a_pos, b_pos, *, target_is_combo=False, source_char=Non
             # Upward diagonal reach same-hand (e.g. sw: pinky-home → middle-top).
             # Downward diagonals are natural curls (sd: pinky-home → index-bottom).
             # Reaching TO home row is also natural (oh/uh → pinky-home).
-            pinky = (a_pos[0] in (0, 7) or b_pos[0] in (0, 7))
+            pinky = a_pos[0] in (0, 7) or b_pos[0] in (0, 7)
             score = 3 if pinky else 2
         elif inward:
             score = 0
@@ -212,13 +236,13 @@ def load_adaptives(readme: Path) -> dict[tuple[str, str], str]:
     result = {}
     in_table = False
     for line in readme.read_text().splitlines():
-        if '## Adaptives' in line:
+        if "## Adaptives" in line:
             in_table = True
             continue
         if in_table:
-            if line.startswith('##'):
+            if line.startswith("##"):
                 break
-            m = re.match(r'\|\s*(\w)\s*\|\s*(\w)\s*\|\s*(\w)\s*\|', line)
+            m = re.match(r"\|\s*(\w)\s*\|\s*(\w)\s*\|\s*(\w)\s*\|", line)
             if m:
                 trigger, key, output = m.group(1), m.group(2), m.group(3)
                 result[(trigger, output)] = key

@@ -2,3 +2,6 @@ root = true
 
 [*]
 max_line_length = 120
+
+[layout.h]
+max_line_length = 300

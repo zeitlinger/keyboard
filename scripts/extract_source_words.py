@@ -19,10 +19,38 @@ README = ROOT / "README.md"
 DEFAULT_ROOT = Path.home() / "source"
 DEFAULT_OUTPUT = ROOT / "source_words.tsv"
 DEFAULT_EXTENSIONS = {
-    "bash", "c", "cc", "conf", "cpp", "cs", "go", "gradle", "groovy",
-    "h", "hh", "hpp", "java", "js", "json", "jsx", "kts", "kt",
-    "properties", "proto", "py", "rb", "rs", "scala", "sh", "sql",
-    "swift", "toml", "ts", "tsx", "yaml", "yml",
+    "bash",
+    "c",
+    "cc",
+    "conf",
+    "cpp",
+    "cs",
+    "go",
+    "gradle",
+    "groovy",
+    "h",
+    "hh",
+    "hpp",
+    "java",
+    "js",
+    "json",
+    "jsx",
+    "kts",
+    "kt",
+    "properties",
+    "proto",
+    "py",
+    "rb",
+    "rs",
+    "scala",
+    "sh",
+    "sql",
+    "swift",
+    "toml",
+    "ts",
+    "tsx",
+    "yaml",
+    "yml",
 }
 
 IGNORE_DIRS = {
@@ -42,16 +70,107 @@ IGNORE_DIRS = {
 }
 
 STOP_WORDS = {
-    "about", "after", "again", "against", "all", "also", "another", "any", "are", "around",
-    "been", "before", "being", "between", "both", "but", "can", "come", "could", "did",
-    "does", "down", "during", "each", "even", "every", "first", "for", "from", "get", "good",
-    "got", "had", "has", "have", "here", "him", "his", "how", "however", "into", "its",
-    "just", "last", "long", "made", "many", "may", "might", "more", "most", "much", "not",
-    "now", "off", "old", "only", "other", "our", "out", "over", "put", "said", "see",
-    "should", "some", "still", "such", "than", "that", "their", "them", "then", "there",
-    "these", "they", "this", "those", "through", "time", "too", "under", "upon", "very",
-    "was", "way", "well", "were", "what", "when", "where", "which", "while", "who", "why",
-    "will", "with", "without", "would", "you", "your",
+    "about",
+    "after",
+    "again",
+    "against",
+    "all",
+    "also",
+    "another",
+    "any",
+    "are",
+    "around",
+    "been",
+    "before",
+    "being",
+    "between",
+    "both",
+    "but",
+    "can",
+    "come",
+    "could",
+    "did",
+    "does",
+    "down",
+    "during",
+    "each",
+    "even",
+    "every",
+    "first",
+    "for",
+    "from",
+    "get",
+    "good",
+    "got",
+    "had",
+    "has",
+    "have",
+    "here",
+    "him",
+    "his",
+    "how",
+    "however",
+    "into",
+    "its",
+    "just",
+    "last",
+    "long",
+    "made",
+    "many",
+    "may",
+    "might",
+    "more",
+    "most",
+    "much",
+    "not",
+    "now",
+    "off",
+    "old",
+    "only",
+    "other",
+    "our",
+    "out",
+    "over",
+    "put",
+    "said",
+    "see",
+    "should",
+    "some",
+    "still",
+    "such",
+    "than",
+    "that",
+    "their",
+    "them",
+    "then",
+    "there",
+    "these",
+    "they",
+    "this",
+    "those",
+    "through",
+    "time",
+    "too",
+    "under",
+    "upon",
+    "very",
+    "was",
+    "way",
+    "well",
+    "were",
+    "what",
+    "when",
+    "where",
+    "which",
+    "while",
+    "who",
+    "why",
+    "will",
+    "with",
+    "without",
+    "would",
+    "you",
+    "your",
 }
 
 WORD_RE = re.compile(r"[a-z][a-z']{2,}")
@@ -71,13 +190,28 @@ def parse_args() -> argparse.Namespace:
         default=[DEFAULT_ROOT],
         help=f"Directories to scan (default: {DEFAULT_ROOT})",
     )
-    parser.add_argument("--readme", type=Path, default=README, help="README used for current magic coverage")
-    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT, help="TSV output path")
-    parser.add_argument("--source-label", default="source", help="Source label written into the TSV")
-    parser.add_argument("--limit", type=int, default=500, help="Maximum number of rows to write")
-    parser.add_argument("--min-count", type=int, default=2, help="Minimum token count to include")
+    parser.add_argument(
+        "--readme",
+        type=Path,
+        default=README,
+        help="README used for current magic coverage",
+    )
+    parser.add_argument(
+        "--output", type=Path, default=DEFAULT_OUTPUT, help="TSV output path"
+    )
+    parser.add_argument(
+        "--source-label", default="source", help="Source label written into the TSV"
+    )
+    parser.add_argument(
+        "--limit", type=int, default=500, help="Maximum number of rows to write"
+    )
+    parser.add_argument(
+        "--min-count", type=int, default=2, help="Minimum token count to include"
+    )
     parser.add_argument("--min-length", type=int, default=4, help="Minimum word length")
-    parser.add_argument("--max-length", type=int, default=24, help="Maximum word length")
+    parser.add_argument(
+        "--max-length", type=int, default=24, help="Maximum word length"
+    )
     parser.add_argument(
         "--extensions",
         help="Comma-separated file extensions to include, e.g. py,kt,java,ts,tsx,js,go,rs,c,h,md",
@@ -112,7 +246,11 @@ def parse_extensions(args: argparse.Namespace) -> set[str] | None:
         return {"md", "markdown"}
     if not args.extensions:
         return DEFAULT_EXTENSIONS
-    return {ext.strip().lower().lstrip(".") for ext in args.extensions.split(",") if ext.strip()}
+    return {
+        ext.strip().lower().lstrip(".")
+        for ext in args.extensions.split(",")
+        if ext.strip()
+    }
 
 
 def matches_excludes(path: Path, root: Path, exclude_globs: list[str]) -> bool:
@@ -120,7 +258,9 @@ def matches_excludes(path: Path, root: Path, exclude_globs: list[str]) -> bool:
     return any(fnmatch.fnmatch(rel, pattern) for pattern in exclude_globs)
 
 
-def iter_files(roots: list[Path], *, extensions: set[str] | None, exclude_globs: list[str]):
+def iter_files(
+    roots: list[Path], *, extensions: set[str] | None, exclude_globs: list[str]
+):
     for root in roots:
         root = root.expanduser()
         if root.is_file():
@@ -217,9 +357,13 @@ def is_candidate_word(word: str) -> bool:
     return True
 
 
-def write_output(output: Path, rows: list[tuple[int, float, str]], *, source_label: str) -> None:
+def write_output(
+    output: Path, rows: list[tuple[int, float, str]], *, source_label: str
+) -> None:
     lines = ["# count\tfreq\tsource\tword"]
-    lines.extend(f"{count}\t{freq:.12f}\t{source_label}\t{word}" for count, freq, word in rows)
+    lines.extend(
+        f"{count}\t{freq:.12f}\t{source_label}\t{word}" for count, freq, word in rows
+    )
     output.write_text("\n".join(lines) + "\n")
 
 

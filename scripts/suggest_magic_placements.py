@@ -15,7 +15,6 @@ from pathlib import Path
 from feel import load_adaptives
 from scripts.find_available_chords import (
     LETTER_ROWS,
-    NON_LETTER_ROWS,
     README,
     MagicSlot,
     candidate_slots,
@@ -73,7 +72,9 @@ def parse_args() -> argparse.Namespace:
         default=[],
         help="Prefer a specific row for one word, e.g. 'thank you=t' or 'gregor=z'",
     )
-    parser.add_argument("--top", type=int, default=3, help="Alternatives to print per word")
+    parser.add_argument(
+        "--top", type=int, default=3, help="Alternatives to print per word"
+    )
     parser.add_argument(
         "--letters-only",
         action="store_true",
@@ -159,7 +160,7 @@ def placement_score(
 ) -> float:
     saved = max(1, len(word) - 2)
     return (
-        (saved ** 2)
+        (saved**2)
         * difficulty
         * row_bonus(word, slot, preferred_row, discouraged_rows, existing_rows)
         * magic_hint_bonus(word, slot)
@@ -180,7 +181,11 @@ def occupied_cells(
             lines.append(f"{row_name}: <row not present; will be added on apply>")
             continue
         cells = current[1]
-        used = [f"{column}={cells[index]}" for index, column in enumerate(header) if cells[index]]
+        used = [
+            f"{column}={cells[index]}"
+            for index, column in enumerate(header)
+            if cells[index]
+        ]
         lines.append(f"{row_name}: " + (", ".join(used) if used else "<all free>"))
     return lines
 
@@ -198,8 +203,12 @@ def build_candidates(
 ) -> list[PlacementCandidate]:
     candidates: list[PlacementCandidate] = []
     for request in requests:
-        difficulty = output_difficulty(request.word, adaptives, blocked_pairs, magic_rows)
-        for slot in candidate_slots(request.word, header, rows, letters_only=letters_only):
+        difficulty = output_difficulty(
+            request.word, adaptives, blocked_pairs, magic_rows
+        )
+        for slot in candidate_slots(
+            request.word, header, rows, letters_only=letters_only
+        ):
             candidates.append(
                 PlacementCandidate(
                     word=request.word,
@@ -253,8 +262,14 @@ def print_report(
     rows: dict[str, tuple[int, list[str]]],
 ) -> None:
     picked_by_word = {candidate.word: candidate for candidate in picked}
-    preferred_rows = [request.preferred_row for request in requests if request.preferred_row]
-    prefix_rows = [request.word[0] for request in requests if request.word and request.word[0] in LETTER_ROWS]
+    preferred_rows = [
+        request.preferred_row for request in requests if request.preferred_row
+    ]
+    prefix_rows = [
+        request.word[0]
+        for request in requests
+        if request.word and request.word[0] in LETTER_ROWS
+    ]
     row_names = []
     for row_name in preferred_rows + prefix_rows:
         if row_name and row_name not in row_names:
@@ -272,7 +287,9 @@ def print_report(
         if not chosen:
             print(f"  {request.word}: <no free slot>")
             continue
-        preferred = f" preferred={request.preferred_row}" if request.preferred_row else ""
+        preferred = (
+            f" preferred={request.preferred_row}" if request.preferred_row else ""
+        )
         print(
             f"  {request.word:24} -> {chosen.slot.row} {chosen.slot.column}"
             f" feel={chosen.slot.feel:.1f} diff={chosen.difficulty:.2f}{preferred}"
@@ -281,15 +298,24 @@ def print_report(
             candidate
             for candidate in sorted(
                 (item for item in all_candidates if item.word == request.word),
-                key=lambda item: (-item.score, item.slot.feel, item.slot.row, item.slot.column),
+                key=lambda item: (
+                    -item.score,
+                    item.slot.feel,
+                    item.slot.row,
+                    item.slot.column,
+                ),
             )
             if (candidate.slot.row, candidate.slot.column)
             != (chosen.slot.row, chosen.slot.column)
         ][:top]
         if alternatives:
-            print("    alternatives: " + ", ".join(
-                f"{alt.slot.row} {alt.slot.column} (feel={alt.slot.feel:.1f})" for alt in alternatives
-            ))
+            print(
+                "    alternatives: "
+                + ", ".join(
+                    f"{alt.slot.row} {alt.slot.column} (feel={alt.slot.feel:.1f})"
+                    for alt in alternatives
+                )
+            )
 
 
 def main() -> None:
@@ -298,7 +324,11 @@ def main() -> None:
     preferred_rows = parse_preferred_rows(args.prefer_row)
     discouraged = default_discouraged_rows()
     requests = [
-        PlacementRequest(word=word, preferred_row=preferred_rows.get(word), discouraged_rows=discouraged)
+        PlacementRequest(
+            word=word,
+            preferred_row=preferred_rows.get(word),
+            discouraged_rows=discouraged,
+        )
         for word in words
     ]
 

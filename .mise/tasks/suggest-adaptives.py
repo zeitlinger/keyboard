@@ -32,10 +32,12 @@ from feel import (
 CORPUS = Path.home() / "source/genkey/corpora/shai-iweb.json"
 README = Path(__file__).parents[2] / "README.md"
 
-# Variant names as they appear in the Magic Keys table header (magic_a..magic_i).
-VARIANTS = tuple(f"magic_{c}" for c in "abcdefghi")
+# Variant names as they appear in the Magic Keys table header.
+# Keep this in sync with the physical slot map instead of hardcoding a width.
+VARIANTS = tuple(sorted(MAGIC_POSITIONS))
 ADAPTIVE_ROW_RE = re.compile(r"\|\s*(\w)\s*\|\s*(\w+)\s*\|\s*(\w)\s*\|")
 MAGIC_ROW_RE = re.compile(r"^\|\s*(\w)\s*\|" + r"([^|]*)\|" * len(VARIANTS))
+ALIGNMENT_CELL_RE = re.compile(r":?-+:?")
 
 
 def load_existing_adaptives():
@@ -69,6 +71,26 @@ def empty_magic_row():
     return {v: "" for v in VARIANTS}
 
 
+def split_markdown_row(line):
+    return [cell.strip() for cell in line.strip().strip("|").split("|")]
+
+
+def is_alignment_row(line):
+    cells = split_markdown_row(line)
+    return bool(cells) and all(ALIGNMENT_CELL_RE.fullmatch(cell) for cell in cells)
+
+
+def rewrite_markdown_row(template_line, cells):
+    raw = template_line.rstrip("\n").strip()
+    raw_cells = raw.strip("|").split("|")
+    widths = [len(cell) for cell in raw_cells]
+    padded = [
+        f" {cell} ".center(width) if width > 0 else cell
+        for cell, width in zip(cells, widths)
+    ]
+    return "|" + "|".join(padded) + "|\n"
+
+
 def parse_multi_char_adaptives(lines):
     in_adaptives = False
     rows = []
@@ -91,7 +113,7 @@ def load_magic_table():
     """Parse the Magic Keys table.
 
     Returns:
-        table: dict of trigger -> {'magic_a': val, ..., 'magic_i': val}
+        table: dict of trigger -> {'magic_a': val, ...}
         quoted: set of (trigger, variant) pairs that were explicitly quoted in README
 
     Values are unquoted plain strings. The reserved `magic` row (cross-magic suffixes)
@@ -261,10 +283,10 @@ def apply_to_readme(
     multi_char_adaptives = parse_multi_char_adaptives(lines)
 
     def fmt_adaptive_row(a, c, b):
-        return f"| {a} | {c} | {b} |\n"
+        return f"|     {a}     |  {c}  |   {b}    |\n"
 
     def fmt_adaptive_rule():
-        return "| :-: | :-: | :-: |\n"
+        return "| :-------: | :-: | :----: |\n"
 
     # Build working magic table: original → apply removes → apply adds
     working_magic = {t: dict(variants) for t, variants in magic_table.items()}
@@ -318,11 +340,11 @@ def apply_to_readme(
             return f'"{val}"'
         return val
 
-    def fmt_magic_row(trigger, variants):
+    def fmt_magic_row(template_line, trigger, variants):
         cells = [trigger] + [
             fmt_magic_val(trigger, v, variants.get(v, "")) for v in VARIANTS
         ]
-        return "| " + " | ".join(cells) + " |\n"
+        return rewrite_markdown_row(template_line, cells)
 
     # Rewrite file
     new_lines = []
@@ -351,13 +373,19 @@ def apply_to_readme(
             if m and len(m.group(1)) == 1:
                 trigger = m.group(1)
                 if trigger in working_magic:
-                    new_lines.append(fmt_magic_row(trigger, working_magic[trigger]))
+                    current_variants = {
+                        v: m.group(i + 2).strip().strip('"') for i, v in enumerate(VARIANTS)
+                    }
+                    if current_variants == working_magic[trigger]:
+                        new_lines.append(line)
+                    else:
+                        new_lines.append(fmt_magic_row(line, trigger, working_magic[trigger]))
                     continue
             new_lines.append(line)
             continue
 
         if section == "adaptives":
-            if stripped.startswith("|:-"):
+            if is_alignment_row(stripped):
                 new_lines.append(fmt_adaptive_rule())
                 # Merge and sort all adaptive rows together
                 all_rows = sorted(set(all_adaptives) | set(multi_char_adaptives))
@@ -632,7 +660,9 @@ def main():
     # if a higher-value output wants the same slot.
     bad_freq = {(a, b): freq for a, b, freq in bad}
     recommended = {}  # (trigger, physical) -> output
-    recommended_outputs = set()  # (trigger, output)
+    # Existing adaptives already cover these outputs; don't propose duplicates
+    # on a different physical key unless we are explicitly remapping/replacing.
+    recommended_outputs = {(a, b) for (a, _c), b in existing.items()}  # (trigger, output)
     for a, b, _ in bad:  # already sorted by frequency descending
         if (a, b) in recommended_outputs:
             continue
@@ -699,101 +729,92 @@ def main():
         if not ((a, c) in recommended and recommended[(a, c)] != b)
     }
 
-    # --- Pre-compute magic slot availability before printing adaptives ---
-
-    covered_outputs = set()  # (trigger, output) pairs covered by add+keep adaptives
-    for (a, c), b in recommended.items():
-        covered_outputs.add((a, b))
-    for (a, c), b in existing.items():
-        if (a, c) not in remove_set:
+    def build_magic_plan(current_recommended, current_keep, current_remove, current_lost_pairs):
+        """Build magic add/remove/keep decisions from the finalized adaptive state."""
+        covered_outputs = set()  # (trigger, output) pairs covered by add+keep adaptives
+        for (a, _c), b in current_recommended.items():
+            covered_outputs.add((a, b))
+        for a, _c, b in current_keep:
             covered_outputs.add((a, b))
 
-    # Magic entries to ADD: bad bigrams with no good adaptive, or lost from removed adaptives
-    magic_add = {}  # (trigger, output) -> reason
-    for a, b, bigram_freq in bad:
-        if (a, b) in covered_outputs:
-            continue
-        acceptable = [
-            cand
-            for cand in all_candidates.get((a, b), [])
-            if cand[3] <= MAX_RECOMMEND_FEEL
-            and cand[6]
-            <= (MAX_RECOMMEND_FF_COMBO if cand[0] in COMBO_KEYS else MAX_RECOMMEND_FF)
-        ]
-        if not acceptable:
-            best_feel = min(
-                (cand[3] for cand in all_candidates.get((a, b), [])), default=999
-            )
-            magic_add[(a, b)] = (
-                f"bad bigram '{a}{b}' {pct(bigram_freq):.3f}%, best adaptive feel={best_feel}"
-            )
-    # Recovery magic: new adaptives intercept trigger+physical → the original ac sequence
-    # is now lost; suggest magic trigger→physical so it can still be typed.
-    # Skip if a compensation adaptive (e.g. qu) already covers this pair.
-    for (a, c), b in recommended.items():
-        if (a, c) in existing:
-            continue  # handled by the kept-adaptives loop below
-        sacrifice = bigrams.get(f"{a}{c}", 0)
-        if sacrifice > 0 and (a, c) not in magic_covered and (a, c) not in compensation:
-            magic_add.setdefault(
-                (a, c),
-                f"recovery: '{a}{c}' intercepted by {a}+{c}→{b} adaptive ({pct(sacrifice):.3f}%)",
-            )
+        magic_add = {}  # (trigger, output) -> reason
+        for a, b, bigram_freq in bad:
+            if (a, b) in covered_outputs:
+                continue
+            acceptable = [
+                cand
+                for cand in all_candidates.get((a, b), [])
+                if cand[3] <= MAX_RECOMMEND_FEEL
+                and cand[6]
+                <= (MAX_RECOMMEND_FF_COMBO if cand[0] in COMBO_KEYS else MAX_RECOMMEND_FF)
+            ]
+            if not acceptable:
+                best_feel = min(
+                    (cand[3] for cand in all_candidates.get((a, b), [])), default=999
+                )
+                magic_add[(a, b)] = (
+                    f"bad bigram '{a}{b}' {pct(bigram_freq):.3f}%, best adaptive feel={best_feel}"
+                )
 
-    # Recovery magic for existing kept adaptives that were never given a recovery key.
-    for a, c, b in keep:
-        sacrifice = bigrams.get(f"{a}{c}", 0)
-        if sacrifice > 0 and (a, c) not in magic_covered and (a, c) not in compensation:
-            magic_add.setdefault(
-                (a, c),
-                f"recovery: '{a}{c}' intercepted by existing {a}+{c}→{b} adaptive ({pct(sacrifice):.3f}%)",
-            )
+        for (a, c), b in current_recommended.items():
+            if (a, c) in existing:
+                continue
+            sacrifice = bigrams.get(f"{a}{c}", 0)
+            if sacrifice > 0 and (a, c) not in magic_covered and (a, c) not in compensation:
+                magic_add.setdefault(
+                    (a, c),
+                    f"recovery: '{a}{c}' intercepted by {a}+{c}→{b} adaptive ({pct(sacrifice):.3f}%)",
+                )
 
-    # Magic entries to REMOVE: single-char entries where an adaptive now covers (trigger, output).
-    # Once we commit to adding the adaptive, the magic it relied on for sacrifice justification
-    # can be freed — the adaptive is the new owner of that (trigger, output) pair.
-    # Also free recovery magic for removed adaptives: if adaptive a+c→b is removed, the
-    # magic entry for (a, c) that allowed typing "ac" is no longer needed.
-    magic_remove = {}  # (trigger, variant) -> output
-    orphaned_removed_outputs = {
-        (a, b)
-        for a, _c, b in remove
-        if (a, b) not in covered_outputs and (a, b) not in magic_add
-    }
-    for trigger, variants in magic_table.items():
-        for variant, val in variants.items():
-            if len(val) == 1 and val.isalpha() and (trigger, val) in covered_outputs:
-                magic_remove[(trigger, variant)] = val
-            elif (
-                len(val) == 1
-                and val.isalpha()
-                and (trigger, val) in orphaned_removed_outputs
-            ):
-                magic_remove[(trigger, variant)] = val
-            elif (trigger, val) in lost_pairs and (trigger, val) not in magic_add:
-                magic_remove[(trigger, variant)] = val
+        for a, c, b in current_keep:
+            sacrifice = bigrams.get(f"{a}{c}", 0)
+            if sacrifice > 0 and (a, c) not in magic_covered and (a, c) not in compensation:
+                magic_add.setdefault(
+                    (a, c),
+                    f"recovery: '{a}{c}' intercepted by existing {a}+{c}→{b} adaptive ({pct(sacrifice):.3f}%)",
+                )
 
-    # Effective magic table after removals — used for slot availability in Add
-    effective_magic_table = {
-        t: {v: val for v, val in variants.items() if (t, v) not in magic_remove}
-        for t, variants in magic_table.items()
-    }
+        magic_remove = {}  # (trigger, variant) -> output
+        orphaned_removed_outputs = {
+            (a, b) for a, _c, b in current_remove if (a, b) not in covered_outputs and (a, b) not in magic_add
+        }
+        for trigger, variants in magic_table.items():
+            for variant, val in variants.items():
+                if len(val) == 1 and val.isalpha() and (trigger, val) in covered_outputs:
+                    magic_remove[(trigger, variant)] = val
+                elif (
+                    len(val) == 1
+                    and val.isalpha()
+                    and (trigger, val) in orphaned_removed_outputs
+                ):
+                    magic_remove[(trigger, variant)] = val
+                elif (trigger, val) in current_lost_pairs and (trigger, val) not in magic_add:
+                    magic_remove[(trigger, variant)] = val
 
-    magic_remove_pairs = {(t, val) for (t, v), val in magic_remove.items()}
+        effective_magic_table = {
+            t: {v: val for v, val in variants.items() if (t, v) not in magic_remove}
+            for t, variants in magic_table.items()
+        }
+        magic_remove_pairs = {(t, val) for (t, v), val in magic_remove.items()}
 
-    # Magic entries to KEEP: relied on by adaptive recommendations (magic_free candidates)
-    # but not already being removed.
-    magic_keep = {}  # (trigger, output) -> [adaptive descriptions]
-    for a, b, _ in bad:
-        for cand in all_candidates.get((a, b), []):
-            c, sacrifice, _, feel, _, mfree, _ = cand
-            if (
-                mfree
-                and (a, c) in recommended
-                and recommended[(a, c)] == b
-                and (a, b) not in magic_remove_pairs
-            ):
-                magic_keep.setdefault((a, b), []).append(f"{a}+{c}→{b}")
+        magic_keep = {}
+        for a, b, _ in bad:
+            for cand in all_candidates.get((a, b), []):
+                c, _sacrifice, _bad_following, _feel, _same_hand, mfree, _ff = cand
+                if (
+                    mfree
+                    and (a, c) in current_recommended
+                    and current_recommended[(a, c)] == b
+                    and (a, b) not in magic_remove_pairs
+                ):
+                    magic_keep.setdefault((a, b), []).append(f"{a}+{c}→{b}")
+
+        return magic_add, magic_remove, effective_magic_table, magic_keep
+
+    # --- Pre-compute magic slot availability before printing adaptives ---
+    magic_add, magic_remove, effective_magic_table, magic_keep = build_magic_plan(
+        recommended, keep, remove, lost_pairs
+    )
 
     lead_variants, lead_counts = compute_lead_variants(magic_table)
 
@@ -870,6 +891,12 @@ def main():
 
     # Include slots whose output differs from existing (displacement of lower-freq adaptive).
     add = [(a, c, b) for (a, c), b in recommended.items() if existing.get((a, c)) != b]
+
+    # Rebuild magic decisions from the finalized adaptive state. The earlier pass
+    # is only for slot-availability checks during pruning.
+    magic_add, magic_remove, effective_magic_table, magic_keep = build_magic_plan(
+        recommended, keep, remove, lost_pairs
+    )
 
     # Drop recovery magic entries for removed adaptives
     no_recovery_pairs = {(a, c) for a, c in no_recovery}
