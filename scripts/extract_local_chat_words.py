@@ -1,6 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.11"
+# dependencies = ["wordfreq"]
 # ///
 
 """Implementation for `mise run extract-local-chat-words`."""
@@ -13,6 +14,8 @@ import json
 import re
 from collections import Counter
 from pathlib import Path
+
+from wordfreq import word_frequency
 
 from scripts.extract_source_words import current_magic_words
 
@@ -79,6 +82,7 @@ CONTRACTION_NORMALIZATIONS = {
     "wont": "won't",
     "wouldnt": "wouldn't",
 }
+DEFAULT_MIN_ENGLISH_FREQ = 1e-6
 
 
 def is_identifier_like_token(raw_word: str) -> bool:
@@ -186,6 +190,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--min-count", type=int, default=2, help="Minimum token count to include")
     parser.add_argument("--min-length", type=int, default=3, help="Minimum word length")
     parser.add_argument("--max-length", type=int, default=24, help="Maximum word length")
+    parser.add_argument(
+        "--min-english-freq",
+        type=float,
+        help=(
+            "Optional minimum wordfreq English frequency for keeping a word. "
+            f"Example baseline: {DEFAULT_MIN_ENGLISH_FREQ:g}"
+        ),
+    )
     parser.add_argument(
         "--include-covered",
         action="store_true",
@@ -331,11 +343,18 @@ def extract_messages(path: Path, text: str) -> list[str]:
     return [text]
 
 
+def passes_english_filter(word: str, *, min_english_freq: float | None) -> bool:
+    if min_english_freq is None:
+        return True
+    return word_frequency(word, "en") >= min_english_freq
+
+
 def count_words(
     roots: list[Path],
     *,
     min_length: int,
     max_length: int,
+    min_english_freq: float | None,
 ) -> tuple[Counter[str], int, int]:
     counts: Counter[str] = Counter()
     files_seen = 0
@@ -358,6 +377,8 @@ def count_words(
                     continue
                 if not (min_length <= len(word) <= max_length):
                     continue
+                if not passes_english_filter(word, min_english_freq=min_english_freq):
+                    continue
                 counts[word] += 1
     return counts, files_seen, messages_seen
 
@@ -375,6 +396,7 @@ def main() -> None:
         roots,
         min_length=args.min_length,
         max_length=args.max_length,
+        min_english_freq=args.min_english_freq,
     )
     covered = set() if args.include_covered else current_magic_words(args.readme)
     total = sum(counts.values()) or 1

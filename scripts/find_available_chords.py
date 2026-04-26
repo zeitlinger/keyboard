@@ -204,6 +204,12 @@ def parse_args() -> argparse.Namespace:
         help="Exclude candidates whose raw difficulty is below this threshold.",
     )
     parser.add_argument(
+        "--min-saved",
+        type=int,
+        default=2,
+        help="Exclude candidates that save fewer than this many keystrokes (default: 2).",
+    )
+    parser.add_argument(
         "--old-chord-ref",
         default=DEFAULT_OLD_CHORD_REF,
         help=f"Git ref used when --old-chords-file is omitted (default: {DEFAULT_OLD_CHORD_REF})",
@@ -378,9 +384,10 @@ def assignment_value(
     source_weights: dict[str, float],
     difficulty_power: float,
     difficulty_cutoff: float,
+    min_saved: int,
 ) -> tuple[float, float, float, int]:
     saved = len(entry.output) - 2
-    if saved < 1:
+    if saved < min_saved:
         return 0.0, 0.0, 0.0, saved
     freq = weighted_frequency(entry, source_weights)
     difficulty = output_difficulty(entry.output, adaptives, blocked_pairs, magic_rows)
@@ -428,7 +435,11 @@ def load_old_chords(args: argparse.Namespace) -> list[ChordEntry]:
                 )
             entries = parse_chord_table(text)
     if args.new_only:
-        existing_outputs = current_magic_outputs(args.readme) | current_symbol_outputs(args.readme)
+        existing_outputs = (
+            current_magic_outputs(args.readme)
+            | current_suffix_constructible_outputs(args.readme)
+            | current_symbol_outputs(args.readme)
+        )
         entries = [entry for entry in entries if entry.output.lower() not in existing_outputs]
     return entries
 
@@ -525,6 +536,67 @@ def load_current_magic_words(readme: Path) -> list[ChordEntry]:
 
 def current_magic_outputs(readme: Path) -> set[str]:
     return {entry.output for entry in load_current_magic_words(readme)}
+
+
+def construct_magic_suffix_output(base: str, suffix: str) -> str | None:
+    base = base.strip().lower()
+    suffix = suffix.strip().lower()
+    if not base or not suffix:
+        return None
+    if suffix == "ed":
+        if base.endswith("e"):
+            return f"{base[:-1]}ed"
+        return f"{base}ed"
+    if suffix in {".", ",", "?"}:
+        return f"{base}{suffix}"
+    return f"{base}{suffix}"
+
+
+def construct_magic_ing_output(base: str) -> str | None:
+    base = base.strip().lower()
+    if not base:
+        return None
+    if base[-1] in "aeiou":
+        return f"{base[:-1]}ing"
+    return f"{base}ing"
+
+
+def current_suffix_constructible_outputs(readme: Path) -> set[str]:
+    _, rows, _ = parse_magic_table(readme)
+    suffix_row = rows.get("suffix")
+    if suffix_row is None:
+        return set()
+
+    suffixes: list[str] = []
+    for cell in suffix_row[1]:
+        if not cell or cell.startswith("["):
+            continue
+        raw = cell[1:-1] if cell.startswith('"') and cell.endswith('"') else cell
+        raw = raw.strip().lower()
+        if raw:
+            suffixes.append(raw)
+
+    outputs: set[str] = set()
+    for row_name, (_, cells) in rows.items():
+        if row_name == "suffix":
+            continue
+        for cell in cells:
+            if not cell or cell.startswith("["):
+                continue
+            # Only bare multi-character cells activate the suffix state machine.
+            if cell.startswith('"') and cell.endswith('"'):
+                continue
+            raw = cell.strip().lower()
+            if len(raw) <= 1:
+                continue
+            ing_output = construct_magic_ing_output(raw)
+            if ing_output:
+                outputs.add(ing_output)
+            for suffix in suffixes:
+                constructed = construct_magic_suffix_output(raw, suffix)
+                if constructed:
+                    outputs.add(constructed)
+    return outputs
 
 
 def current_symbol_outputs(readme: Path) -> set[str]:
@@ -791,6 +863,7 @@ def greedy_assign(
     difficulty_power: float,
     difficulty_cutoff: float,
     min_difficulty: float | None,
+    min_saved: int,
     allow_occupied: bool = False,
     distinct_by_output: bool = True,
 ) -> list[Assignment]:
@@ -816,7 +889,15 @@ def greedy_assign(
             movable_slots=movable_slots,
         ):
             value, freq, difficulty, saved = assignment_value(
-                entry, slot, adaptives, blocked_pairs, magic_rows, source_weights, difficulty_power, difficulty_cutoff
+                entry,
+                slot,
+                adaptives,
+                blocked_pairs,
+                magic_rows,
+                source_weights,
+                difficulty_power,
+                difficulty_cutoff,
+                min_saved,
             )
             if min_difficulty is not None and difficulty < min_difficulty:
                 continue
@@ -1017,6 +1098,7 @@ def print_rearrangements(
     source_weights: dict[str, float],
     difficulty_power: float,
     difficulty_cutoff: float,
+    min_saved: int,
     *,
     limit: int,
 ) -> None:
@@ -1043,6 +1125,7 @@ def print_rearrangements(
             source_weights,
             difficulty_power,
             difficulty_cutoff,
+            min_saved,
         )
         if current_slot.opposite_hand:
             continue
@@ -1088,6 +1171,7 @@ def main() -> None:
         difficulty_power=args.difficulty_power,
         difficulty_cutoff=args.difficulty_cutoff,
         min_difficulty=args.min_difficulty,
+        min_saved=args.min_saved,
         allow_occupied=args.rearrange_current,
         distinct_by_output=not args.rearrange_current,
     )
@@ -1112,6 +1196,7 @@ def main() -> None:
             source_weights,
             args.difficulty_power,
             args.difficulty_cutoff,
+            args.min_saved,
             limit=args.limit,
         )
 

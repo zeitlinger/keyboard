@@ -77,11 +77,23 @@ def is_scissors(a, b):
     same_hand = (a[0] < 4) == (b[0] < 4)
     col_diff = abs(a[0] - b[0])
     row_diff = abs(a[1] - b[1])
-    # row_diff >= 3 always scissors. row_diff == 2 upward is scissors when
-    # reaching into the top region (b[1] < 2, e.g. cw) OR when pinky is involved
-    # (e.g. yh: ring-bottom → pinky-home, pinky stretches past ring).
-    # Plain middle/index motions like lt (bottom → home) are natural.
     if not (same_hand and col_diff <= 1):
+        return False
+    # row_diff >= 3 always scissors. row_diff == 2 upward is scissors when
+    # reaching into the top region OR when pinky is involved, except for a few
+    # reviewed pairs that are acceptable on this layout.
+    exceptions = {
+        ((1, 2), (2, 0)),  # cw
+        ((3, 4), (2, 1)),  # dm
+        ((3, 4), (2, 0)),  # dw
+        ((1, 4), (2, 1)),  # fm
+        ((1, 4), (2, 0)),  # fw
+        ((2, 1), (3, 4)),  # md
+        ((2, 2), (1, 0)),  # nx
+        ((3, 2), (2, 0)),  # tw
+        ((2, 0), (3, 4)),  # wd
+    }
+    if (a, b) in exceptions:
         return False
     if row_diff >= 3:
         return True
