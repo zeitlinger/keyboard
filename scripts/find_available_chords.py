@@ -193,6 +193,17 @@ def parse_args() -> argparse.Namespace:
         help="Exponent applied to typing difficulty in the final score (default: 1.35)",
     )
     parser.add_argument(
+        "--difficulty-cutoff",
+        type=float,
+        default=1.0,
+        help="Only difficulty above this baseline is rewarded strongly (default: 1.0)",
+    )
+    parser.add_argument(
+        "--min-difficulty",
+        type=float,
+        help="Exclude candidates whose raw difficulty is below this threshold.",
+    )
+    parser.add_argument(
         "--old-chord-ref",
         default=DEFAULT_OLD_CHORD_REF,
         help=f"Git ref used when --old-chords-file is omitted (default: {DEFAULT_OLD_CHORD_REF})",
@@ -212,8 +223,16 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--letters-only",
+        dest="letters_only",
         action="store_true",
-        help="Restrict candidate slots to letter rows only",
+        default=True,
+        help="Restrict candidate slots to letter rows only (default)",
+    )
+    parser.add_argument(
+        "--include-non-letters",
+        dest="letters_only",
+        action="store_false",
+        help="Also consider non-letter trigger rows such as spc/tab/,/.",
     )
     parser.add_argument(
         "--include-filled",
@@ -358,13 +377,15 @@ def assignment_value(
     magic_rows: dict[str, dict[str, str]],
     source_weights: dict[str, float],
     difficulty_power: float,
+    difficulty_cutoff: float,
 ) -> tuple[float, float, float, int]:
     saved = len(entry.output) - 2
     if saved < 1:
         return 0.0, 0.0, 0.0, saved
     freq = weighted_frequency(entry, source_weights)
     difficulty = output_difficulty(entry.output, adaptives, blocked_pairs, magic_rows)
-    difficulty_weight = difficulty ** difficulty_power
+    # Reward words that are hard enough to justify a chord, not just moderately common/easy ones.
+    difficulty_weight = max(0.35, difficulty - difficulty_cutoff) ** difficulty_power
     hand_bonus = 1.35 if is_word_output(entry.output) and slot.opposite_hand else 0.75 if is_word_output(entry.output) else 1.0
     row_bonus = 1.0
     if is_word_output(entry.output) and len(slot.row) == 1 and slot.row.isalpha():
@@ -768,6 +789,8 @@ def greedy_assign(
     letters_only: bool,
     budget: int,
     difficulty_power: float,
+    difficulty_cutoff: float,
+    min_difficulty: float | None,
     allow_occupied: bool = False,
     distinct_by_output: bool = True,
 ) -> list[Assignment]:
@@ -793,8 +816,10 @@ def greedy_assign(
             movable_slots=movable_slots,
         ):
             value, freq, difficulty, saved = assignment_value(
-                entry, slot, adaptives, blocked_pairs, magic_rows, source_weights, difficulty_power
+                entry, slot, adaptives, blocked_pairs, magic_rows, source_weights, difficulty_power, difficulty_cutoff
             )
+            if min_difficulty is not None and difficulty < min_difficulty:
+                continue
             if value <= 0:
                 continue
             candidates.append(
@@ -919,12 +944,14 @@ def print_summary(
     header: list[str],
     rows: dict[str, tuple[int, list[str]]],
     *,
+    letters_only: bool,
     limit: int,
     include_filled: bool,
 ) -> None:
+    allowed_rows = LETTER_ROWS if letters_only else LETTER_ROWS + NON_LETTER_ROWS
     free_slots = sum(
         1
-        for row in LETTER_ROWS + NON_LETTER_ROWS
+        for row in allowed_rows
         for index in range(len(header))
         if not (rows.get(row, (-1, [""] * len(header)))[1][index] if row in rows else "")
     )
@@ -989,6 +1016,7 @@ def print_rearrangements(
     magic_rows: dict[str, dict[str, str]],
     source_weights: dict[str, float],
     difficulty_power: float,
+    difficulty_cutoff: float,
     *,
     limit: int,
 ) -> None:
@@ -1014,6 +1042,7 @@ def print_rearrangements(
             magic_rows,
             source_weights,
             difficulty_power,
+            difficulty_cutoff,
         )
         if current_slot.opposite_hand:
             continue
@@ -1057,6 +1086,8 @@ def main() -> None:
         letters_only=args.letters_only,
         budget=args.budget,
         difficulty_power=args.difficulty_power,
+        difficulty_cutoff=args.difficulty_cutoff,
+        min_difficulty=args.min_difficulty,
         allow_occupied=args.rearrange_current,
         distinct_by_output=not args.rearrange_current,
     )
@@ -1066,6 +1097,7 @@ def main() -> None:
         assignments,
         header,
         rows,
+        letters_only=args.letters_only,
         limit=args.limit,
         include_filled=args.include_filled,
     )
@@ -1079,6 +1111,7 @@ def main() -> None:
             magic_rows,
             source_weights,
             args.difficulty_power,
+            args.difficulty_cutoff,
             limit=args.limit,
         )
 

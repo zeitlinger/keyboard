@@ -21,17 +21,49 @@ ROOT = Path(__file__).parent.parent
 README = ROOT / "README.md"
 DEFAULT_OUTPUT = ROOT / "local_chat_words.tsv"
 DEFAULT_ROOT_CANDIDATES = [Path.home() / ".codex" / "history.jsonl"]
-WORD_RE = re.compile(r"[a-z]+(?:'[a-z]+)*")
+WORD_RE = re.compile(r"[A-Za-z]+(?:'[A-Za-z]+)*")
 CODE_FENCE_RE = re.compile(r"```.*?```", re.DOTALL)
 INLINE_CODE_RE = re.compile(r"`[^`\n]+`")
 HTML_TAG_RE = re.compile(r"<[^>]+>")
 URL_RE = re.compile(r"https?://\S+")
 PATH_RE = re.compile(r"(?:/[A-Za-z0-9._-]+){2,}")
+CLI_FLAG_RE = re.compile(r"(?<!\w)-[A-Za-z][A-Za-z0-9._:-]*")
 BRACKET_TAG_RE = re.compile(r"\[[^\]\n]{1,40}\]")
 SHELL_TRANSCRIPT_RE = re.compile(r"(?m)^\s*\[[^\]\n]{1,40}\]\s+\$.*$")
 STRUCTURED_LOG_JSON_RE = re.compile(
     r'\{[^{}\n]*"(?:hostname|pid|logContext|renovateVersion|time|level|msg)"\s*:[^{}\n]*\}'
 )
+CAMEL_CASE_RE = re.compile(r"\b[a-z]+(?:[A-Z][a-z]+)+\b")
+PERMISSION_LINE_RE = re.compile(r"^[bcdlps-][rwx-]{9}\b")
+MACHINE_OUTPUT_HINTS = (
+    '"$schema"',
+    "managerFilePatterns",
+    "matchStrings",
+    "datasourceTemplate",
+    "depNameTemplate",
+    "packageNameTemplate",
+    "logContext",
+    "renovateVersion",
+    "NODE_MODULE_VERSION",
+    "aggregated_output",
+    "exit_code",
+    "call_id",
+    "[lint] $",
+)
+INSTRUCTION_HINTS = (
+    "# AGENTS.md instructions for",
+    "<INSTRUCTIONS>",
+    "</INSTRUCTIONS>",
+    "<environment_context>",
+    "</environment_context>",
+    "<permissions instructions>",
+    "</permissions instructions>",
+    "## Agent Knowledge",
+    "layout ergonomics",
+    "This file provides agent guidance for working in this repository.",
+)
+PACKAGE_TOKEN_RE = re.compile(r"\b[a-z0-9][a-z0-9.+-]{2,}\b")
+PROSE_WORD_RE = re.compile(r"\b[a-z]+(?:'[a-z]+)?\b", re.I)
 STOP_WORDS = {
     "a", "an", "and", "as", "at", "be", "by", "for", "from", "in", "into", "is", "it", "of",
     "on", "or", "the", "to", "was", "were", "with",
@@ -47,6 +79,94 @@ CONTRACTION_NORMALIZATIONS = {
     "wont": "won't",
     "wouldnt": "wouldn't",
 }
+
+
+def is_identifier_like_token(raw_word: str) -> bool:
+    letters = raw_word.replace("'", "")
+    if not letters:
+        return True
+    if len(letters) >= 8 and not any(ch in "aeiouy" for ch in letters.lower()):
+        return True
+    # Reject machine-ish tokens before lowercasing so camelCase/schema keys do not leak in.
+    if letters.isupper() and len(letters) > 1:
+        return True
+    if any(char.isupper() for char in letters[1:]):
+        return True
+    return False
+
+
+def looks_like_machine_output(text: str) -> bool:
+    if any(hint in text for hint in MACHINE_OUTPUT_HINTS):
+        return True
+    package_like_tokens = PACKAGE_TOKEN_RE.findall(text.lower())
+    if (
+        ("apt install" in text.lower() or "--only-upgrade" in text.lower() or "package names" in text.lower())
+        and len(package_like_tokens) >= 12
+    ):
+        return True
+    if len(package_like_tokens) >= 18:
+        punctuated = sum(1 for token in package_like_tokens if any(ch.isdigit() or ch in ".+-" for ch in token))
+        if punctuated >= max(8, len(package_like_tokens) // 3):
+            return True
+    if CAMEL_CASE_RE.search(text) and ("{" in text or '"' in text or "[" in text):
+        return True
+    if text.count("{") + text.count("}") >= 6 and text.count('"') >= 10:
+        return True
+    if text.count("\n") >= 4 and ("$ " in text or "Traceback" in text or "Error:" in text):
+        return True
+    if text.count("\n") >= 8 and ("## " in text or "```" in text) and "AGENTS.md" in text:
+        return True
+    return False
+
+
+def looks_like_instruction_payload(text: str) -> bool:
+    if any(hint in text for hint in INSTRUCTION_HINTS):
+        return True
+    if text.count("\n") >= 8 and ("## " in text or "```" in text) and "AGENTS.md" in text:
+        return True
+    return False
+
+
+def line_has_prose_signal(line: str) -> bool:
+    words = PROSE_WORD_RE.findall(line)
+    if len(words) < 3:
+        return False
+    lowered = line.lower()
+    if PERMISSION_LINE_RE.match(lowered):
+        return False
+    if any(token in lowered for token in ("error:", "warning:", "traceback", "could not compile", "exited with status")):
+        return False
+    if "$ " in line or line.startswith(("[", "{", ">", "|")):
+        return False
+    if re.match(r"^[a-z0-9_.-]+:\s", lowered):
+        return False
+    if lowered.startswith(("sudo ", "apt ", "git ", "cargo ", "uv ", "python ", "mise ")):
+        return False
+    package_like_tokens = PACKAGE_TOKEN_RE.findall(lowered)
+    punctuated = sum(1 for token in package_like_tokens if any(ch.isdigit() or ch in ".+-/" for ch in token))
+    return punctuated < max(4, len(package_like_tokens) // 3)
+
+
+def extract_prose_blocks(text: str) -> list[str]:
+    if looks_like_instruction_payload(text):
+        return []
+    if looks_like_machine_output(text):
+        kept_lines = [line.strip() for line in text.splitlines() if line.strip() and line_has_prose_signal(line) and not looks_like_machine_output(line)]
+        return kept_lines
+
+    kept_lines: list[str] = []
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        if looks_like_machine_output(line):
+            continue
+        if line_has_prose_signal(line):
+            kept_lines.append(line)
+
+    if kept_lines:
+        return kept_lines
+    return [text]
 
 
 def parse_args() -> argparse.Namespace:
@@ -133,7 +253,8 @@ def extract_codex_session_text(path: Path, text: str) -> list[str]:
         if row.get("type") == "response_item":
             payload = row.get("payload", {})
             if payload.get("type") == "message" and payload.get("role") == "user":
-                messages.extend(flatten_content(payload.get("content")))
+                for message in flatten_content(payload.get("content")):
+                    messages.extend(extract_prose_blocks(message))
     return messages
 
 
@@ -148,7 +269,7 @@ def extract_history_text(path: Path, text: str) -> list[str]:
         except json.JSONDecodeError:
             continue
         if isinstance(row.get("text"), str):
-            messages.append(row["text"])
+            messages.extend(extract_prose_blocks(row["text"]))
     return messages
 
 
@@ -184,6 +305,7 @@ def clean_message(text: str) -> str:
     cleaned = STRUCTURED_LOG_JSON_RE.sub(" ", cleaned)
     cleaned = CODE_FENCE_RE.sub(" ", cleaned)
     cleaned = INLINE_CODE_RE.sub(" ", cleaned)
+    cleaned = CLI_FLAG_RE.sub(" ", cleaned)
     cleaned = URL_RE.sub(" ", cleaned)
     cleaned = PATH_RE.sub(" ", cleaned)
     cleaned = html.unescape(cleaned)
@@ -228,8 +350,10 @@ def count_words(
             if not cleaned:
                 continue
             messages_seen += 1
-            for word in WORD_RE.findall(cleaned.lower()):
-                word = CONTRACTION_NORMALIZATIONS.get(word, word)
+            for raw_word in WORD_RE.findall(cleaned):
+                if is_identifier_like_token(raw_word):
+                    continue
+                word = CONTRACTION_NORMALIZATIONS.get(raw_word.lower(), raw_word.lower())
                 if word in STOP_WORDS:
                     continue
                 if not (min_length <= len(word) <= max_length):
