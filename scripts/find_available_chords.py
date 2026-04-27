@@ -795,6 +795,8 @@ def magic_feel_score(prev: str, column: str, starts_with_prev: bool) -> tuple[fl
             score -= 0.3
     if column in {"magic_c", "magic_f"}:
         score += 1.2
+    if prev == "a" and column in {"magic_i", "magic_j"}:
+        score += 1.0
     if not starts_with_prev:
         score += 0.5
     return max(0.0, score), opposite_hand
