@@ -28,7 +28,9 @@ from feel import (
     actual_keystrokes,
     feel_score,
     feel_score_positions,
+    key_press_cost,
     load_adaptives,
+    plain_typing_effort,
 )
 
 
@@ -36,6 +38,8 @@ DEFAULT_OLD_CHORD_REF = "21f2800^"
 LETTER_ROWS = [chr(code) for code in range(ord("a"), ord("z") + 1)]
 NON_LETTER_ROWS = ["spc", "tab", "↩️️", "~", ",", ".", "-", "=", "!"]
 README = ROOT / "README.md"
+CHORD_SYNCHRONIZATION_COST = 3.0
+CHORD_MEMORY_TAX = 3.0
 
 MAGIC_HINT_LETTERS = {
     "magic_a": ("a", "u"),
@@ -144,7 +148,9 @@ class Assignment:
     slot: MagicSlot
     value: float
     frequency: float
-    difficulty: float
+    plain_effort: float
+    chord_effort: float
+    effort_saved: float
     saved: int
     source_chord: str
     source_label: str
@@ -222,6 +228,15 @@ def parse_args() -> argparse.Namespace:
         help="Maximum number of assignments to keep after ranking (default: 174, matching old chord budget)",
     )
     parser.add_argument(
+        "--add",
+        type=int,
+        metavar="N",
+        help=(
+            "With --include-current and without replacement, pin current entries and add up to N new ones. "
+            "This is shorthand for current_count + N without doing budget math manually."
+        ),
+    )
+    parser.add_argument(
         "--apply",
         type=int,
         metavar="N",
@@ -251,9 +266,29 @@ def parse_args() -> argparse.Namespace:
         help="Rank current multi-character magic entries as move candidates, not just free-slot placements.",
     )
     parser.add_argument(
+        "--move-current-only",
+        action="store_true",
+        help="Reshuffle current multi-character magic entries among occupied slots without removals; may be combined with --add.",
+    )
+    parser.add_argument(
+        "--include-current",
+        action="store_true",
+        help="Include current multi-character magic entries alongside the loaded candidates.",
+    )
+    parser.add_argument(
+        "--allow-replacement",
+        action="store_true",
+        help="Allow candidates to use currently occupied magic slots, competing with current entries.",
+    )
+    parser.add_argument(
         "--new-only",
         action="store_true",
         help="Exclude candidates whose output already exists in the current Magic Keys table.",
+    )
+    parser.add_argument(
+        "--show-delta",
+        action="store_true",
+        help="Show keep/move/add/remove summary relative to the current Magic Keys table.",
     )
     return parser.parse_args()
 
@@ -352,8 +387,7 @@ def parse_source_weights(raw: str | None) -> dict[str, float]:
 
 def weighted_frequency(entry: ChordEntry, source_weights: dict[str, float]) -> float:
     base = candidate_frequency(entry)
-    weighted = base * source_weights.get(entry.source_label, 1.0)
-    return math.log1p(weighted * 1_000_000)
+    return base * source_weights.get(entry.source_label, 1.0)
 
 
 def is_word_output(output: str) -> bool:
@@ -385,26 +419,30 @@ def assignment_value(
     difficulty_power: float,
     difficulty_cutoff: float,
     min_saved: int,
-) -> tuple[float, float, float, int]:
+) -> tuple[float, float, float, float, float, int]:
     saved = len(entry.output) - 2
     if saved < min_saved:
-        return 0.0, 0.0, 0.0, saved
+        return 0.0, 0.0, 0.0, 0.0, 0.0, saved
     freq = weighted_frequency(entry, source_weights)
-    difficulty = output_difficulty(entry.output, adaptives, blocked_pairs, magic_rows)
-    # Reward words that are hard enough to justify a chord, not just moderately common/easy ones.
-    difficulty_weight = max(0.35, difficulty - difficulty_cutoff) ** difficulty_power
-    hand_bonus = 1.35 if is_word_output(entry.output) and slot.opposite_hand else 0.75 if is_word_output(entry.output) else 1.0
-    row_bonus = 1.0
+    plain_effort = plain_typing_effort(entry.output, adaptives, blocked_pairs=blocked_pairs)
+    chord_effort = chord_typing_effort(slot)
+    effort_saved = plain_effort - chord_effort
+    net_gain = effort_saved - CHORD_MEMORY_TAX
+    if net_gain <= 0:
+        return 0.0, freq, plain_effort, chord_effort, net_gain, saved
+    mnemonic_bonus = 1.0
     if is_word_output(entry.output) and len(slot.row) == 1 and slot.row.isalpha():
         compact = "".join(char for char in entry.output.lower() if char.isalpha())
-        row_bonus *= mnemonic_row_bonus(entry.output, slot.row)
+        mnemonic_bonus *= mnemonic_row_bonus(entry.output, slot.row)
         hints = MAGIC_HINT_LETTERS.get(slot.column, ())
         if any(compact.endswith(hint) for hint in hints):
-            row_bonus *= 1.14
+            mnemonic_bonus *= 1.10
         elif any(hint in compact for hint in hints):
-            row_bonus *= 1.05
-    value = saved ** 2 * freq * difficulty_weight * hand_bonus * row_bonus / (slot.feel + 1)
-    return value, freq, difficulty, saved
+            mnemonic_bonus *= 1.04
+        if slot.column in {"magic_c", "magic_f"}:
+            mnemonic_bonus = min(mnemonic_bonus, 1.12)
+    value = freq * net_gain * mnemonic_bonus
+    return value, freq, plain_effort, chord_effort, net_gain, saved
 
 
 def load_old_chords(args: argparse.Namespace) -> list[ChordEntry]:
@@ -510,6 +548,17 @@ def parse_candidates_file(path: Path) -> list[ChordEntry]:
             )
         )
     return rows
+
+
+def corpus_frequency_overrides(entries: list[ChordEntry]) -> dict[str, tuple[float, str]]:
+    overrides: dict[str, tuple[float, str]] = {}
+    for entry in entries:
+        if entry.frequency_override is None:
+            continue
+        current = overrides.get(entry.output)
+        if current is None or entry.frequency_override > current[0]:
+            overrides[entry.output] = (entry.frequency_override, entry.source_label)
+    return overrides
 
 
 def load_current_magic_words(readme: Path) -> list[ChordEntry]:
@@ -761,6 +810,21 @@ def action_transition_cost(previous: PhysicalAction, current: PhysicalAction) ->
     return cost
 
 
+def chord_typing_effort(slot: MagicSlot) -> float:
+    previous_pos = PRECEDING_POSITIONS.get(slot.row)
+    if previous_pos is None:
+        return 0.0
+    previous_action = PhysicalAction("key", slot.row, previous_pos)
+    magic_action = PhysicalAction("magic", slot.column, MAGIC_POSITIONS[slot.column])
+    return (
+        key_press_cost(previous_action.pos)
+        + key_press_cost(magic_action.pos)
+        + 1.6
+        + action_transition_cost(previous_action, magic_action)
+        + CHORD_SYNCHRONIZATION_COST
+    )
+
+
 def magic_emitted_suffix(prev_output: str, cell: str) -> str | None:
     if not cell or cell.startswith("["):
         return None
@@ -866,6 +930,7 @@ def greedy_assign(
     min_saved: int,
     allow_occupied: bool = False,
     distinct_by_output: bool = True,
+    allow_zero_value: bool = False,
 ) -> list[Assignment]:
     movable_slots = None
     if allow_occupied:
@@ -888,7 +953,7 @@ def greedy_assign(
             allow_occupied=allow_occupied,
             movable_slots=movable_slots,
         ):
-            value, freq, difficulty, saved = assignment_value(
+            value, freq, plain_effort, chord_effort, effort_saved, saved = assignment_value(
                 entry,
                 slot,
                 adaptives,
@@ -899,9 +964,9 @@ def greedy_assign(
                 difficulty_cutoff,
                 min_saved,
             )
-            if min_difficulty is not None and difficulty < min_difficulty:
+            if min_difficulty is not None and plain_effort < min_difficulty:
                 continue
-            if value <= 0:
+            if value < 0 or (value == 0 and not allow_zero_value):
                 continue
             candidates.append(
                 Assignment(
@@ -909,7 +974,9 @@ def greedy_assign(
                     slot=slot,
                     value=value,
                     frequency=freq,
-                    difficulty=difficulty,
+                    plain_effort=plain_effort,
+                    chord_effort=chord_effort,
+                    effort_saved=effort_saved,
                     saved=saved,
                     source_chord=entry.chord,
                     source_label=entry.source_label,
@@ -1058,7 +1125,8 @@ def print_summary(
             f"  {assignment.output:<24} <- {assignment.source_chord:<3}  "
             f"{assignment.slot.row:>4} {assignment.slot.column:<7} "
             f"feel={assignment.slot.feel:>4.1f} {hand:<4} {starts:<5} "
-            f"saved={assignment.saved:<2} diff={assignment.difficulty:>4.2f} "
+            f"saved={assignment.saved:<2} plain={assignment.plain_effort:>4.2f} "
+            f"chord={assignment.chord_effort:>4.2f} gain={assignment.effort_saved:>4.2f} "
             f"freq={assignment.frequency:.6f} value={assignment.value:.6f}"
         )
 
@@ -1088,6 +1156,70 @@ def current_slot_from_source(
     )
 
 
+def pinned_current_assignments(
+    current_entries: list[ChordEntry],
+    header: list[str],
+    rows: dict[str, tuple[int, list[str]]],
+    adaptives: dict[tuple[str, str], str],
+    blocked_pairs: set[tuple[str, str]],
+    magic_rows: dict[str, dict[str, str]],
+    source_weights: dict[str, float],
+    difficulty_power: float,
+    difficulty_cutoff: float,
+    min_saved: int,
+) -> list[Assignment]:
+    assignments: list[Assignment] = []
+    for entry in current_entries:
+        current_slot = current_slot_from_source(entry.chord, header, rows, entry.output)
+        if current_slot is None:
+            continue
+        value, freq, plain_effort, chord_effort, effort_saved, saved = assignment_value(
+            entry,
+            current_slot,
+            adaptives,
+            blocked_pairs,
+            magic_rows,
+            source_weights,
+            difficulty_power,
+            difficulty_cutoff,
+            min_saved,
+        )
+        assignments.append(
+            Assignment(
+                output=entry.output,
+                slot=current_slot,
+                value=value,
+                frequency=freq,
+                plain_effort=plain_effort,
+                chord_effort=chord_effort,
+                effort_saved=effort_saved,
+                saved=saved,
+                source_chord=entry.chord,
+                source_label=entry.source_label,
+            )
+        )
+    return assignments
+
+
+def rows_with_assignments(
+    header: list[str],
+    rows: dict[str, tuple[int, list[str]]],
+    assignments: list[Assignment],
+) -> dict[str, tuple[int, list[str]]]:
+    updated_rows = {row_name: (row_index, list(cells)) for row_name, (row_index, cells) in rows.items()}
+    for row_name, (_, cells) in updated_rows.items():
+        for index in range(len(cells)):
+            cells[index] = ""
+    for assignment in assignments:
+        if assignment.slot.row not in updated_rows:
+            updated_rows[assignment.slot.row] = (-1, [""] * len(header))
+        row_index, cells = updated_rows[assignment.slot.row]
+        column_index = header.index(assignment.slot.column)
+        cells[column_index] = assignment.slot.representation
+        updated_rows[assignment.slot.row] = (row_index, cells)
+    return updated_rows
+
+
 def print_rearrangements(
     assignments: list[Assignment],
     header: list[str],
@@ -1111,7 +1243,7 @@ def print_rearrangements(
         current_row, current_column = current_slot.row, current_slot.column
         if (current_row, current_column) == (assignment.slot.row, assignment.slot.column):
             continue
-        current_value, _, _, _ = assignment_value(
+        current_value, _, _, _, _, _ = assignment_value(
             ChordEntry(
                 chord=assignment.source_chord,
                 output=assignment.output,
@@ -1148,33 +1280,217 @@ def print_rearrangements(
         )
 
 
+def print_delta_summary(
+    current_entries: list[ChordEntry],
+    assignments: list[Assignment],
+) -> None:
+    current_by_output = {entry.output: entry for entry in current_entries}
+    selected_by_output = {assignment.output: assignment for assignment in assignments}
+
+    kept_same: list[tuple[ChordEntry, Assignment]] = []
+    moved: list[tuple[ChordEntry, Assignment]] = []
+    added: list[Assignment] = []
+    removed: list[ChordEntry] = []
+
+    for output, assignment in selected_by_output.items():
+        current = current_by_output.get(output)
+        if current is None:
+            added.append(assignment)
+            continue
+        if current.chord == f"{assignment.slot.row}:{assignment.slot.column}":
+            kept_same.append((current, assignment))
+        else:
+            moved.append((current, assignment))
+
+    for output, current in current_by_output.items():
+        if output not in selected_by_output:
+            removed.append(current)
+
+    print()
+    print(
+        f"budget delta: keep={len(kept_same)} move={len(moved)} "
+        f"add={len(added)} remove={len(removed)}"
+    )
+
+    print("kept:")
+    if not kept_same:
+        print("  <none>")
+    else:
+        for current, assignment in kept_same[:20]:
+            print(
+                f"  {assignment.output:<24} {assignment.slot.row:>4} {assignment.slot.column:<7} "
+                f"value={assignment.value:.6f}"
+            )
+
+    print("moved:")
+    if not moved:
+        print("  <none>")
+    else:
+        for current, assignment in sorted(moved, key=lambda item: -item[1].value)[:20]:
+            current_row, current_column = current.chord.split(":", 1)
+            print(
+                f"  {assignment.output:<24} {current_row:>4} {current_column:<7} -> "
+                f"{assignment.slot.row:>4} {assignment.slot.column:<7} "
+                f"value={assignment.value:.6f}"
+            )
+
+    print("add:")
+    if not added:
+        print("  <none>")
+    else:
+        for assignment in sorted(added, key=lambda item: -item.value):
+            print(
+                f"  {assignment.output:<24} {assignment.slot.row:>4} {assignment.slot.column:<7} "
+                f"from={assignment.source_label:<16} value={assignment.value:.6f}"
+            )
+
+    print("remove:")
+    if not removed:
+        print("  <none>")
+    else:
+        for current in sorted(removed, key=lambda entry: entry.output):
+            print(f"  {current.output:<24} {current.chord}")
+
+
 def main() -> None:
     args = parse_args()
     header, rows, _ = parse_magic_table(args.readme)
     magic_rows = magic_rows_map(header, rows)
     adaptives = load_adaptives(args.readme)
     blocked_pairs = load_adaptive_blocks(args.readme)
+    current_entries = load_current_magic_words(args.readme)
+    if args.move_current_only:
+        if args.allow_replacement or args.rearrange_current:
+            raise SystemExit("--move-current-only cannot be combined with --allow-replacement/--rearrange-current")
+        args.include_current = True
+    if args.add is not None:
+        if not args.include_current:
+            raise SystemExit("--add requires --include-current")
+        if args.allow_replacement or args.rearrange_current:
+            raise SystemExit("--add is only supported without --allow-replacement/--rearrange-current")
+        if args.add < 0:
+            raise SystemExit("--add must be non-negative")
     old_chords = load_old_chords(args)
+    if args.include_current:
+        overrides = corpus_frequency_overrides(old_chords)
+        enriched_current_entries: list[ChordEntry] = []
+        for entry in current_entries:
+            override = overrides.get(entry.output)
+            if override is None:
+                enriched_current_entries.append(entry)
+                continue
+            frequency_override, source_label = override
+            enriched_current_entries.append(
+                ChordEntry(
+                    chord=entry.chord,
+                    output=entry.output,
+                    status=entry.status,
+                    frequency_override=frequency_override,
+                    source_label=source_label,
+                    representation=entry.representation,
+                )
+            )
+        old_chords.extend(enriched_current_entries)
     source_weights = parse_source_weights(args.source_weights)
     source_caps = parse_source_caps(args.source_cap)
-    assignments = greedy_assign(
-        old_chords,
-        header,
-        rows,
-        adaptives,
-        blocked_pairs,
-        magic_rows,
-        source_weights,
-        source_caps,
-        letters_only=args.letters_only,
-        budget=args.budget,
-        difficulty_power=args.difficulty_power,
-        difficulty_cutoff=args.difficulty_cutoff,
-        min_difficulty=args.min_difficulty,
-        min_saved=args.min_saved,
-        allow_occupied=args.rearrange_current,
-        distinct_by_output=not args.rearrange_current,
-    )
+    allow_occupied = args.rearrange_current or args.allow_replacement or args.move_current_only
+    if args.move_current_only:
+        current_assignments = greedy_assign(
+            enriched_current_entries,
+            header,
+            rows,
+            adaptives,
+            blocked_pairs,
+            magic_rows,
+            source_weights,
+            {},
+            letters_only=args.letters_only,
+            budget=len(enriched_current_entries),
+            difficulty_power=args.difficulty_power,
+            difficulty_cutoff=args.difficulty_cutoff,
+            min_difficulty=args.min_difficulty,
+            min_saved=args.min_saved,
+            allow_occupied=True,
+            distinct_by_output=False,
+            allow_zero_value=True,
+        )
+        if args.add is not None:
+            addition_candidates = [entry for entry in old_chords if entry.status != "current"]
+            reshuffled_rows = rows_with_assignments(header, rows, current_assignments)
+            add_assignments = greedy_assign(
+                addition_candidates,
+                header,
+                reshuffled_rows,
+                adaptives,
+                blocked_pairs,
+                magic_rows,
+                source_weights,
+                source_caps,
+                letters_only=args.letters_only,
+                budget=args.add,
+                difficulty_power=args.difficulty_power,
+                difficulty_cutoff=args.difficulty_cutoff,
+                min_difficulty=args.min_difficulty,
+                min_saved=args.min_saved,
+                allow_occupied=False,
+                distinct_by_output=True,
+            )
+            assignments = current_assignments + add_assignments
+        else:
+            assignments = current_assignments
+    elif args.include_current and not allow_occupied:
+        pinned_assignments = pinned_current_assignments(
+            enriched_current_entries,
+            header,
+            rows,
+            adaptives,
+            blocked_pairs,
+            magic_rows,
+            source_weights,
+            args.difficulty_power,
+            args.difficulty_cutoff,
+            args.min_saved,
+        )
+        addition_candidates = [entry for entry in old_chords if entry.status != "current"]
+        target_total = len(pinned_assignments) + args.add if args.add is not None else args.budget
+        addition_budget = max(0, target_total - len(pinned_assignments))
+        assignments = pinned_assignments + greedy_assign(
+            addition_candidates,
+            header,
+            rows,
+            adaptives,
+            blocked_pairs,
+            magic_rows,
+            source_weights,
+            source_caps,
+            letters_only=args.letters_only,
+            budget=addition_budget,
+            difficulty_power=args.difficulty_power,
+            difficulty_cutoff=args.difficulty_cutoff,
+            min_difficulty=args.min_difficulty,
+            min_saved=args.min_saved,
+            allow_occupied=False,
+            distinct_by_output=not args.rearrange_current,
+        )
+    else:
+        assignments = greedy_assign(
+            old_chords,
+            header,
+            rows,
+            adaptives,
+            blocked_pairs,
+            magic_rows,
+            source_weights,
+            source_caps,
+            letters_only=args.letters_only,
+            budget=args.budget,
+            difficulty_power=args.difficulty_power,
+            difficulty_cutoff=args.difficulty_cutoff,
+            min_difficulty=args.min_difficulty,
+            min_saved=args.min_saved,
+            allow_occupied=allow_occupied,
+            distinct_by_output=not args.rearrange_current,
+        )
 
     print_summary(
         old_chords,
@@ -1185,7 +1501,7 @@ def main() -> None:
         limit=args.limit,
         include_filled=args.include_filled,
     )
-    if args.rearrange_current:
+    if args.rearrange_current or args.move_current_only:
         print_rearrangements(
             assignments,
             header,
@@ -1199,6 +1515,8 @@ def main() -> None:
             args.min_saved,
             limit=args.limit,
         )
+    if args.show_delta:
+        print_delta_summary(current_entries, assignments)
 
     if args.apply:
         apply_assignments(
@@ -1206,8 +1524,8 @@ def main() -> None:
             header,
             args.apply,
             assignments,
-            rearrange_current=args.rearrange_current,
-            current_entries=old_chords if args.rearrange_current else None,
+            rearrange_current=allow_occupied,
+            current_entries=current_entries if allow_occupied else None,
         )
         print()
         print(f"applied top {args.apply} assignments to {args.readme}")

@@ -1,4 +1,7 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.11"
+# ///
 
 # [MISE] description="Extract authored GitHub words for magic-word ranking. Example: mise run extract-github-words -- --output github_words.tsv --limit 500 --min-count 3"
 

@@ -239,6 +239,26 @@ def feel_score(a_char, b_char, combo_target_penalty=True):
     return score
 
 
+def key_press_cost(pos):
+    row = pos[1]
+    if row == 2:
+        return 1.0
+    if row == 5:
+        return 1.35
+    if row in {1, 3}:
+        return 1.75
+    return 1.6
+
+
+def roll_press_discount(previous_pos, current_pos):
+    same_hand = (previous_pos[0] < 4) == (current_pos[0] < 4)
+    same_row = previous_pos[1] == current_pos[1]
+    adjacent = abs(previous_pos[0] - current_pos[0]) == 1
+    if same_hand and same_row and adjacent:
+        return 0.55
+    return 1.0
+
+
 def load_adaptives(readme: Path) -> dict[tuple[str, str], str]:
     """Parse Adaptives table → {(prev_output, desired_output): physical_key}.
 
@@ -270,3 +290,29 @@ def actual_keystrokes(output: str, adaptives: dict[tuple[str, str], str]) -> lis
         else:
             keys.append(char)
     return keys
+
+
+def plain_typing_effort(
+    output: str,
+    adaptives: dict[tuple[str, str], str],
+    *,
+    blocked_pairs: set[tuple[str, str]] | None = None,
+) -> float:
+    output_chars = [char for char in output.lower() if char in LAYOUT]
+    if not output_chars:
+        return 0.0
+    keys = actual_keystrokes("".join(output_chars), adaptives)
+    if any(key not in LAYOUT for key in keys):
+        return 0.0
+
+    effort = key_press_cost(LAYOUT[keys[0]])
+    for index in range(1, len(keys)):
+        previous_key = keys[index - 1]
+        current_key = keys[index]
+        transition = float(min(feel_score(previous_key, current_key, combo_target_penalty=False), 5))
+        if blocked_pairs and (output_chars[index - 1], output_chars[index]) in blocked_pairs:
+            transition = max(transition, 5.0)
+        effort += key_press_cost(LAYOUT[current_key]) * roll_press_discount(
+            LAYOUT[previous_key], LAYOUT[current_key]
+        ) + transition
+    return effort

@@ -7,4 +7,4 @@ chord_stats.json
 __pycache__/
 .codex
 magic_stats.json
-local_chat_words.tsv
+*_words.tsv

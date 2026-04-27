@@ -47,7 +47,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--readme", type=Path, default=README, help="README used for current magic coverage")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT, help="TSV output path")
-    parser.add_argument("--source-label", default="chat", help="Source label written into the TSV")
+    parser.add_argument("--source-label", default="github", help="Source label written into the TSV")
     parser.add_argument("--username", help="GitHub username to extract for (defaults to authenticated user)")
     parser.add_argument(
         "--repo",
