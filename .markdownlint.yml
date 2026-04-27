@@ -1,4 +1,0 @@
-# Line length is enforced by editorconfig-checker via .editorconfig
-MD013: false
-MD034: false
-MD060: false

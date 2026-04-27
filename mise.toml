@@ -1,21 +1,23 @@
 [tools]
-
-# Linters
-"cargo:xmloxide" = "0.4.2"
-editorconfig-checker = "3.6.1"
-"github:grafana/flint" = "0.20.3"
-"github:pinterest/ktlint" = "1.8.0"
 java = "21"
 jq = "latest"
-lychee = "0.23.0"
 maven = "latest"
 node = "24.15.0"
-"npm:markdownlint-cli2" = "0.22.1"
-"npm:prettier" = "3.8.3"
-"pipx:codespell" = "2.4.2"
-"pipx:ruff" = "0.15.11"
 python = "3"
 uv = "latest"
+
+# Linters
+actionlint = "1.7.12"
+"aqua:owenlamont/ryl" = "0.7.0"
+editorconfig-checker = "3.6.1"
+"github:grafana/flint" = "0.21.0"
+"github:jonwiggins/xmloxide" = "0.4.2"
+ktlint = "1.8.0"
+lychee = "0.23.0"
+"pipx:codespell" = "2.4.2"
+ruff = "0.15.12"
+rumdl = "0.1.83"
+taplo = "0.10.0"
 
 [tasks.generate]
 description = "Generate the keyboard files"
