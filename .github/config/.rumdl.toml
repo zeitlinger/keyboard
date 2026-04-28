@@ -1,2 +1,10 @@
 [global]
-disable = ["MD034"]  # bare URLs
+disable = [
+  "MD034", # bare URLs
+]
+
+[MD013]
+enabled = true
+line-length = 120
+code-blocks = false
+tables = false

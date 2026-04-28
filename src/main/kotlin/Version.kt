@@ -24,7 +24,7 @@ fun readGitVersion(
         throw IllegalStateException("uncommitted changes $uncommittedChanges")
     }
     val version = "git rev-parse HEAD".runCommand().trim()
-    return gitVersionTemplate.format(version, name)
+    return GIT_VERSION_TEMPLATE.format(version, name)
 }
 
 fun String.runCommand(): String {

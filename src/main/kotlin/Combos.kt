@@ -59,9 +59,9 @@ data class Combo(
     }
 }
 
-const val comboTrigger = "\uD83D\uDC8E" // 💎
+const val COMBO_TRIGGER = "\uD83D\uDC8E" // 💎
 
-val goodComboLayers: Map<String, (Int, String) -> Boolean> =
+val GOOD_COMBO_LAYERS: Map<String, (Int, String) -> Boolean> =
     mapOf(
         "Nav" to { _, _ -> true },
         "FnSym" to { _, _ -> true },
@@ -83,7 +83,7 @@ fun generateAllCombos(
     for (layer in layers.zip(lists).subList(1, lists.size)) {
         val layerName = layer.first.name
 
-        val pred = goodComboLayers[layerName] ?: continue
+        val pred = GOOD_COMBO_LAYERS[layerName] ?: continue
 
         val positions = combo2Positions(layer.second)
         val missing =
@@ -223,7 +223,7 @@ private fun firstNonToggleActivation(
         ?.let { entry ->
             val keyPosition = entry.key
             val layerName = keyPosition.layerName
-            if (layerName == baseLayerName) {
+            if (layerName == BASE_LAYER_NAME) {
                 listOf(keyPosition)
             } else {
                 listOf(keyPosition) +
@@ -244,7 +244,7 @@ private fun customLayerCombos(
     layers: List<Layer>,
 ): List<Combo> {
     val definition = getLayerPart(def, hand, translator.options)
-    val comboIndexes = definition.mapIndexedNotNull { index, s -> if (s.key.key == comboTrigger) index else null }
+    val comboIndexes = definition.mapIndexedNotNull { index, s -> if (s.key.key == COMBO_TRIGGER) index else null }
 
     return definition
         .flatMapIndexed { comboIndex, key ->
@@ -253,7 +253,7 @@ private fun customLayerCombos(
                     layerBase
                         .filterIndexed { index, _ -> index == comboIndex || index in comboIndexes }
 
-                val source = if (layer.name == baseLayerName) ComboSource.Base else ComboSource.Layer
+                val source = if (layer.name == BASE_LAYER_NAME) ComboSource.Base else ComboSource.Layer
                 keyCombos(key, source, keys, translator, layer, layers)
             } else {
                 emptyList()

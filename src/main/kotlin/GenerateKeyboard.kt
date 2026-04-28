@@ -12,8 +12,8 @@ data class GeneratorArgs(
     val printStats: Boolean,
 )
 
-val gitTemplate = "https://github.com/zeitlinger/keyboard/blob/main/%s"
-val gitVersionTemplate = "https://github.com/zeitlinger/keyboard/blob/%s/%s"
+const val GIT_TEMPLATE = "https://github.com/zeitlinger/keyboard/blob/main/%s"
+const val GIT_VERSION_TEMPLATE = "https://github.com/zeitlinger/keyboard/blob/%s/%s"
 
 fun main() {
     System.err.println("=== Generator Starting ===")
@@ -40,8 +40,8 @@ fun main() {
     )
 }
 
-const val layerBlocked = "🛑"
-const val baseLayerName = "Base"
+const val LAYER_BLOCKED = "🛑"
+const val BASE_LAYER_NAME = "Base"
 
 data class Options(
     val rows: Int,
@@ -98,7 +98,7 @@ data class Key(
 ) {
     fun isBlocked(): Boolean = keyWithModifier.isNo
 
-    fun isReal(): Boolean = !(isBlocked() || key.key == comboTrigger || key.key == "KC_TRNS" || key.isNo)
+    fun isReal(): Boolean = !(isBlocked() || key.key == COMBO_TRIGGER || key.key == "KC_TRNS" || key.isNo)
 }
 
 typealias Rows = List<List<Key>>

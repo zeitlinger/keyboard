@@ -10,7 +10,7 @@ Each physical magic key checks the previously emitted key and dispatches from th
 - Runtime entry point: generated `case MAGIC_*` blocks in `qmk/generated.c`
 - Dispatch source: `switch (get_last_keycode())`
 - Source of truth: `README.md` `Magic Keys` table
-- Follow-up suffix logic: `process_suffix()` in [qmk/keymap.c](/home/gregor/source/keyboard/qmk/keymap.c:41)
+- Follow-up suffix logic: `process_suffix()` in `qmk/keymap.c`
 
 The basic pattern is:
 
@@ -117,7 +117,7 @@ That allows a dedicated `magic` row in the table for cross-magic expansions and 
 
 ## Generator Behavior
 
-The generator logic lives in [src/main/kotlin/generate.kt](/home/gregor/source/keyboard/src/main/kotlin/generate.kt:175).
+The generator logic lives in `src/main/kotlin/Generate.kt`.
 
 Relevant rules:
 

@@ -16,7 +16,7 @@
 
 ## Notes
 
-- The keyboard layout is generated using [generateKeyboard](src/main/kotlin/generateKeyboard.kt)
+- The keyboard layout is generated using [generateKeyboard](src/main/kotlin/GenerateKeyboard.kt)
   from this file. => link to [Generator](#generator)
 - The generated keyboard can be found in the qmk directory.
 - tested with [Ferris Sweep](https://keebmaker.com/products/ferris-sweep) keyboard

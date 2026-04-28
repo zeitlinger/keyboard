@@ -89,7 +89,7 @@ fun setCustomKeyCommand(
     command: QmkKey,
     pos: KeyPosition,
 ): Key {
-    if (!key.isNo && key.key != comboTrigger) {
+    if (!key.isNo && key.key != COMBO_TRIGGER) {
         translator.symbols.customKeycodes.entries
             .find { it.key == key.key || it.value.originalKey == key }
             ?.let { it.value.key = command }

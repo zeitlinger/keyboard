@@ -23,7 +23,7 @@ data class Hand(
         val isFull =
             halves
                 .any { row ->
-                    val comboTriggers = row.filter { it.key.key == comboTrigger }.size
+                    val comboTriggers = row.filter { it.key.key == COMBO_TRIGGER }.size
                     val used = row.filter { !it.isBlocked() }.size
                     used > 0 && comboTriggers == 0
                 }

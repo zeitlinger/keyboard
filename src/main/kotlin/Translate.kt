@@ -1,7 +1,7 @@
 import org.hjson.JsonValue
 import java.io.FileReader
 
-const val qmkNo = "KC_NO"
+const val QMK_NO = "KC_NO"
 
 data class QmkKey(
     val key: String,
@@ -9,7 +9,7 @@ data class QmkKey(
 ) {
     override fun toString(): String = key
 
-    val isNo = key == qmkNo
+    val isNo = key == QMK_NO
 
     companion object {
         fun substitution(
@@ -166,7 +166,7 @@ fun assertQmk(
     pos: KeyPosition,
 ): QmkKey =
     when {
-        key == comboTrigger || qmkPrefixes.any { key.startsWith(it) } -> QmkKey.of(key)
+        key == COMBO_TRIGGER || qmkPrefixes.any { key.startsWith(it) } -> QmkKey.of(key)
         else -> throw IllegalStateException("key not translated '$key' in $pos")
     }
 

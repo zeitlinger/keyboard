@@ -136,7 +136,7 @@ fun run(args: GeneratorArgs) {
     val srcDir = args.generatorDir.file
     val dstDir = args.dstDir
     val generationNote =
-        "file is generated from ${gitTemplate.format(args.configFile.file.name)}"
+        "file is generated from ${GIT_TEMPLATE.format(args.configFile.file.name)}"
 
     val userKeycodes =
         translator.symbols.customKeycodes.keys

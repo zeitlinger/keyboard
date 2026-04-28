@@ -152,7 +152,6 @@ def main() -> None:
         names = ", ".join(path.name for _, path in SOURCE_FILES)
         raise SystemExit(f"no source TSVs found; expected any of: {names}")
 
-    present_labels = [label for label, _ in selected_sources]
     print("using sources:")
     for label, path in selected_sources:
         print(f"  {label:<10} {path.name}")

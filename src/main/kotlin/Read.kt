@@ -41,7 +41,7 @@ fun translateKey(
                 // Symbol-table entries must win over prefix syntax so tokens like
                 // #gz can be resolved from the Symbols table instead of being
                 // misread as layer toggles.
-                def == qmkNo || translator.symbols.mapping.containsKey(def) -> {
+                def == QMK_NO || translator.symbols.mapping.containsKey(def) -> {
                     translateSimpleKey(translator, def, pos)
                 }
 
@@ -164,7 +164,7 @@ fun layerOffKey(
     layer: String,
 ): Key {
     translator.layerOptions.getValue(layer).toggleOff = true
-    return toggleKey(translator, baseLayerName, pos)
+    return toggleKey(translator, BASE_LAYER_NAME, pos)
 }
 
 fun toggleKey(
@@ -245,11 +245,11 @@ fun getFallbackIfNeeded(
     srcLayerOption: LayerOption?,
     recordUsage: Boolean,
 ): String {
-    if (key == qmkNo || key == layerBlocked) {
-        return qmkNo
+    if (key == QMK_NO || key == LAYER_BLOCKED) {
+        return QMK_NO
     }
     if (srcLayerOption != null && (key.contains("*") || key.contains("@"))) {
-        return qmkNo
+        return QMK_NO
     }
     if (key.isNotBlank()) {
         val k = key.substringBeforeLast("+").substringBefore(" ")
@@ -268,8 +268,8 @@ fun getFallbackIfNeeded(
     val fallbackLayer = fallbackLayer(pos, option)
 
     return when {
-        fallbackLayer == null || pos.layerName == baseLayerName || pos.tableIndex > 0 -> {
-            qmkNo
+        fallbackLayer == null || pos.layerName == BASE_LAYER_NAME || pos.tableIndex > 0 -> {
+            QMK_NO
         }
 
         else -> {

@@ -9,6 +9,9 @@ max_line_length = off
 [*.py]
 max_line_length = 200
 
+[*.hjson]
+max_line_length = off
+
 [*.md]
 # Markdown line length is handled by rumdl
 max_line_length = off

@@ -68,7 +68,7 @@ The light actuation force is critical for this layout, as it relies heavily on:
 - ✅ Natural hand positioning
 - ✅ Reduced risk of RSI
 
-![](keyboard.jpg)
+![Ferris Sweep keyboard](keyboard.jpg)
 
 ## Layout Design Principles
 

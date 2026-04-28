@@ -119,11 +119,11 @@ private fun printMissingAndUnexpected(
                     it.startsWith("KC_ACL") -> false
 
                     // mouse keys
-                    it == qmkNo -> false
+                    it == QMK_NO -> false
 
-                    it == layerBlocked -> false
+                    it == LAYER_BLOCKED -> false
 
-                    it == comboTrigger -> false
+                    it == COMBO_TRIGGER -> false
 
                     it.matches("KC_F\\d{2}".toRegex()) -> false
 
