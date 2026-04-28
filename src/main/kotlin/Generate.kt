@@ -427,7 +427,16 @@ private fun addMagic(
     val base = translator.toQmk(precedingChar, pos)
     row.drop(1).forEachIndexed { index, def ->
         if (def.isNotBlank()) {
-            addMagicEntry(translator, pos, translator.magic[index].press, base, precedingChar, def, stringOffsets, cycleData)
+            addMagicEntry(
+                translator,
+                pos,
+                translator.magic[index].press,
+                base,
+                precedingChar,
+                def,
+                stringOffsets,
+                cycleData,
+            )
         }
     }
 }
@@ -497,10 +506,18 @@ private fun magicCommand(
                     if (quoted) {
                         annotateMagicSend("magic_decode_send($offset);", emitted, output)
                     } else {
-                        annotateMagicSend("magic_decode_send_suffix_cycle($offset, $suffix, $cycleOffset);", emitted, output)
+                        annotateMagicSend(
+                            "magic_decode_send_suffix_cycle($offset, $suffix, $cycleOffset);",
+                            emitted,
+                            output,
+                        )
                     }
                 } else if (prevIsLetter) {
-                    annotateMagicSend("magic_replace_decode_send_cap_cycle($offset, $suffix, $cycleOffset);", emitted, output)
+                    annotateMagicSend(
+                        "magic_replace_decode_send_cap_cycle($offset, $suffix, $cycleOffset);",
+                        emitted,
+                        output,
+                    )
                 } else {
                     annotateMagicSend("magic_decode_send_cap_cycle($offset, $suffix, $cycleOffset);", emitted, output)
                 }
@@ -835,7 +852,7 @@ static bool process_magic_cycle_next(void) {
     set_suffix_word_state(next_last_char, next_offset, suffix_cycle_capitalize);
     return true;
 }
-    """.trimIndent()
+        """.trimIndent()
 }
 
 private fun cycleItem(value: String): String =
@@ -859,7 +876,10 @@ private fun cCharLiteral(value: Char): String =
         else -> "'$value'"
     }
 
-private fun commonPrefixLength(left: String, right: String): Int {
+private fun commonPrefixLength(
+    left: String,
+    right: String,
+): Int {
     val max = minOf(left.length, right.length)
     for (index in 0 until max) {
         if (left[index] != right[index]) {
