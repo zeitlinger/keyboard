@@ -406,7 +406,7 @@ private fun magicCommand(
     precedingChar: String,
     def: String,
     stringOffsets: Map<String, Int>,
-) : MagicCommand {
+): MagicCommand {
     val resolvedDef = resolveMagicDefinition(def, translator, pos)
     return when {
         resolvedDef.startsWith("[") && resolvedDef.endsWith("]") -> {
