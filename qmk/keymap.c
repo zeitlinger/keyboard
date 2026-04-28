@@ -46,14 +46,24 @@ const uint32_t PROGMEM unicode_map[] = {
 // interpreted as a suffix chain (ed/ly/s/n't/ing) or exit (./,).
 static bool suffix_active = false;
 static char last_magic_char = 0;
+static uint16_t suffix_cycle_offset = UINT16_MAX;
+static bool suffix_cycle_capitalize = false;
 
 static inline void set_suffix_state(char c) {
     suffix_active = true;
     last_magic_char = c;
+    suffix_cycle_offset = UINT16_MAX;
+    suffix_cycle_capitalize = false;
+}
+
+static inline void clear_suffix_cycle_state(void) {
+    suffix_cycle_offset = UINT16_MAX;
+    suffix_cycle_capitalize = false;
 }
 
 static inline void clear_suffix_state(void) {
     suffix_active = false;
+    clear_suffix_cycle_state();
 }
 
 static inline void tap_dot_space(void) {
@@ -99,9 +109,10 @@ static bool process_suffix(uint16_t keycode, keyrecord_t *record) {
         }
         tap_ing(); tap_code16(KC_SPC);
         last_magic_char = 'g';
+        clear_suffix_cycle_state();
         return false;
     default:
-        suffix_active = false;
+        clear_suffix_state();
         return true;
     }
 }

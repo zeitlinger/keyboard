@@ -101,13 +101,15 @@ Cell = what to emit.
   - Preceding key is a letter and cell starts with it → strip prefix. `b` + `"because"` emits `ecause`, yielding `because`.
   - Preceding key is a letter and cell does _not_ start with it → BS + cell.
   - Preceding key is not a letter (spc, punctuation) → append as-is. `,` + `" and "` yields `, and` plus a trailing space.
-- `[name]` bracket tokens invoke named handlers (currently `[dotSpc]` = BS + `.` then one-shot shift).
+- `[name]` bracket tokens invoke named handlers. `[dotSpc]` = BS + `.` then one-shot shift.
+  In the `suffix` row, `[next]` replaces the current word with the next item
+  from the `Cycle` table while keeping suffix mode active.
 
 | Magic  |  magic_a   |  magic_b   |      magic_c       |   magic_d   |    magic_e    |  magic_f  |    magic_g    |     magic_h     |   magic_i   | magic_j |  magic_k   |
 | :----: | :--------: | :--------: | :----------------: | :---------: | :-----------: | :-------: | :-----------: | :-------------: | :---------: | :-----: | :--------: |
-| suffix |     ed     |     ly     |                    |     n't     |       ?       |           |     ", "      |                 |   " the "   |  ". "   |     s      |
+| suffix |     ed     |     ly     |                    |     n't     |       ?       |           |     ", "      |     [next]      |   " the "   |  ". "   |     s      |
 |   a    |            |            |                    |             |               |           |       e       |                 |             |         |            |
-|   b    | background |   behind   |                    |  baseline   | observability |  disable  |   basically   |    obsolete     |   because   |    d    |   before   |
+|   b    | background |   behind   |                    |   become    | observability |  disable  |   basically   |    obsolete     |   because   |    d    |   before   |
 |   c    |     n      |   "'ll"    |                    |    "n't"    |       d       | container |               |     comment     |    "'re"    |  "'d"   |    "'s"    |
 |   d    |     c      |     h      |                    |    don't    |    default    | different |  difficulty   |     didn't      |   doesn't   |    f    |    does    |
 |   e    |            |            |         u          |             |    another    |           |       h       |                 |             |         |  explain   |
@@ -134,6 +136,16 @@ Cell = what to emit.
 |  spc   |     "      |     !      |      [dotSpc]      |      '      |       ?       |    and    |       z       |        ,        |     the     |    .    |     j      |
 |  tab   |            |            |                    |             |               |    and    |               |                 |     the     |         |            |
 | enter  |            |            |                    |             |               |    and    |               |                 |     the     |         |            |
+
+## Cycle
+
+Rows are grouped sequences. Each item cycles to the next item in the row, and
+the last item wraps back to the first. Cycle entries are authored without the
+trailing auto-space.
+
+|   Cycle   |      next      |
+| :-------: | :------------: |
+| implement | implementation |
 
 ## Adaptives
 

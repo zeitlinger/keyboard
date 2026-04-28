@@ -24,6 +24,20 @@ fun template(layers: List<Layer>): String =
     }
 
 private const val THUMB_COLUMNS = 4
+private const val NO_CYCLE_OFFSET = "UINT16_MAX"
+
+private data class CycleEntry(
+    val current: String,
+    val next: String,
+    val currentOffset: Int,
+    val nextOffset: Int,
+    val nextLastChar: Char,
+)
+
+private data class CycleData(
+    val entries: List<CycleEntry>,
+    val outputs: Set<String>,
+)
 
 fun generateBase(layers: List<Layer>): String {
     val template = template(layers)
@@ -103,7 +117,9 @@ fun run(args: GeneratorArgs) {
                 "case ${it.name}: return ${it.timeout};"
             }.sorted()
 
-    val encodedMagicStrings = encodeStrings(collectMagicOutputs(tables, translator))
+    val cycleData = readCycleData(tables)
+    val encodedMagicStrings = encodeStrings(collectMagicOutputs(tables, translator) + cycleData.outputs)
+    val encodedCycles = encodeCycleEntries(cycleData, encodedMagicStrings.stringOffsets)
     translator.magic.forEach { magic ->
         magic.defaultCommand =
             magic.default?.let {
@@ -116,7 +132,7 @@ fun run(args: GeneratorArgs) {
     magicRows(magicTable).let {
         it.forEachIndexed { index, row ->
             val pos = KeyPosition(0, index, 0, "magic", 0)
-            addMagic(translator, row, pos, encodedMagicStrings.stringOffsets)
+            addMagic(translator, row, pos, encodedMagicStrings.stringOffsets, encodedCycles)
         }
     }
 
@@ -190,6 +206,7 @@ fun run(args: GeneratorArgs) {
             "customKeycodesOnPress" to customKeycodes(translator, CustomCommandType.OnPress),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
             "magicStringDecoder" to (encodedMagicStrings.decoder ?: ""),
+            "magicCycleData" to magicCycleData(encodedCycles),
             "magic" to translator.magic.map { magicBlock(it) }.indented(12),
             "magicSuffixes" to magicSuffixCases(translator, magicTable).prependIndent("    "),
             "magicExclusions" to translator.magic.map { "case ${it.trigger.key}:" }.indented(8),
@@ -225,20 +242,25 @@ private fun magicSuffixCases(
                         ?: throw IllegalArgumentException(
                             "suffix cell has no matching magic key at column ${index + 2}",
                         )
+                val statements = magicSuffixStatements(suffix.trim())
+                val handled = if (isBracketToken(suffix.trim())) "" else "\n    return true;"
                 "case ${magic.trigger.key}:\n" +
-                    magicSuffixStatements(suffix.trim()).prependIndent("    ") +
-                    "\n    return true;"
+                    statements.prependIndent("    ") +
+                    handled
             }
         }.joinToString("\n")
 }
 
 private fun magicSuffixStatements(suffix: String): String {
+    if (isBracketToken(suffix)) {
+        return suffixBracketCommand(suffix.removeSurrounding("[", "]"))
+    }
     if (isWord(suffix)) {
         val literal = extractString(suffix)
         val taps = literal.map(::suffixTapStatement).joinToString(" ")
         return """
             tap_code16(KC_BSPC); $taps
-            suffix_active = false;
+            clear_suffix_state();
             """.trimIndent()
     }
     return when (suffix) {
@@ -246,14 +268,14 @@ private fun magicSuffixStatements(suffix: String): String {
             """
             tap_code16(KC_BSPC); tap_dot_space();
             add_oneshot_mods(MOD_BIT(KC_LSFT));
-            suffix_active = false;
+            clear_suffix_state();
             """.trimIndent()
         }
 
         "," -> {
             """
             tap_code16(KC_BSPC); tap_comma_space();
-            suffix_active = false;
+            clear_suffix_state();
             """.trimIndent()
         }
 
@@ -261,6 +283,7 @@ private fun magicSuffixStatements(suffix: String): String {
             """
             tap_code16(KC_BSPC); tap_n_t(); tap_code16(KC_SPC);
             last_magic_char = 't';
+            clear_suffix_cycle_state();
             """.trimIndent()
         }
 
@@ -273,6 +296,7 @@ private fun magicSuffixStatements(suffix: String): String {
                 tap_code16(KC_E); tap_code16(KC_D); tap_code16(KC_SPC);
             }
             last_magic_char = 'd';
+            clear_suffix_cycle_state();
             """.trimIndent()
         }
 
@@ -281,10 +305,17 @@ private fun magicSuffixStatements(suffix: String): String {
             """
             tap_code16(KC_BSPC); $taps tap_code16(KC_SPC);
             last_magic_char = '${suffix.last()}';
+            clear_suffix_cycle_state();
             """.trimIndent()
         }
     }
 }
+
+private fun suffixBracketCommand(name: String): String =
+    when (name) {
+        "next" -> "return process_magic_cycle_next();"
+        else -> throw IllegalArgumentException("unknown suffix bracket token '[$name]'")
+    }
 
 private fun suffixTapStatement(char: Char): String =
     when (char) {
@@ -389,12 +420,13 @@ private fun addMagic(
     row: List<String>,
     pos: KeyPosition,
     stringOffsets: Map<String, Int>,
+    cycleData: List<CycleEntry>,
 ) {
     val precedingChar = row[0]
     val base = translator.toQmk(precedingChar, pos)
     row.drop(1).forEachIndexed { index, def ->
         if (def.isNotBlank()) {
-            addMagicEntry(translator, pos, translator.magic[index].press, base, precedingChar, def, stringOffsets)
+            addMagicEntry(translator, pos, translator.magic[index].press, base, precedingChar, def, stringOffsets, cycleData)
         }
     }
 }
@@ -407,8 +439,9 @@ private fun addMagicEntry(
     precedingChar: String,
     def: String,
     stringOffsets: Map<String, Int>,
+    cycleData: List<CycleEntry>,
 ) {
-    map[base] = magicCommand(translator, pos, base, precedingChar, def, stringOffsets)
+    map[base] = magicCommand(translator, pos, base, precedingChar, def, stringOffsets, cycleData)
 }
 
 private fun magicCommand(
@@ -418,10 +451,11 @@ private fun magicCommand(
     precedingChar: String,
     def: String,
     stringOffsets: Map<String, Int>,
+    cycleData: List<CycleEntry>,
 ): MagicCommand {
     val resolvedDef = resolveMagicDefinition(def, translator, pos)
     return when {
-        resolvedDef.startsWith("[") && resolvedDef.endsWith("]") -> {
+        isBracketToken(resolvedDef) -> {
             MagicCommand(bracketCommand(resolvedDef.removeSurrounding("[", "]"), pos, stringOffsets))
         }
 
@@ -451,17 +485,23 @@ private fun magicCommand(
                 }
             val suffix = if (quoted) "'\\0'" else "'${str.last()}'"
             val offset = stringOffsets.getValue(emitted)
+            val cycleOffset =
+                if (quoted) {
+                    NO_CYCLE_OFFSET
+                } else {
+                    cycleLiteral(output, cycleData)
+                }
             val send =
                 if (outputStartsWithPreceding) {
                     if (quoted) {
                         annotateMagicSend("magic_decode_send($offset);", emitted, output)
                     } else {
-                        annotateMagicSend("magic_decode_send_suffix($offset, $suffix);", emitted, output)
+                        annotateMagicSend("magic_decode_send_suffix_cycle($offset, $suffix, $cycleOffset);", emitted, output)
                     }
                 } else if (prevIsLetter) {
-                    annotateMagicSend("magic_replace_decode_send_cap($offset, $suffix);", emitted, output)
+                    annotateMagicSend("magic_replace_decode_send_cap_cycle($offset, $suffix, $cycleOffset);", emitted, output)
                 } else {
-                    annotateMagicSend("magic_decode_send_cap($offset, $suffix);", emitted, output)
+                    annotateMagicSend("magic_decode_send_cap_cycle($offset, $suffix, $cycleOffset);", emitted, output)
                 }
             MagicCommand(send)
         }
@@ -476,6 +516,8 @@ private fun isBareWord(def: String): Boolean =
     def.length > 1 &&
         !isQuotedString(def) &&
         !def.startsWith("[")
+
+private fun isBracketToken(def: String): Boolean = def.startsWith("[") && def.endsWith("]")
 
 private fun isMagicReplaceablePreceding(precedingChar: String): Boolean =
     precedingChar == "spc" ||
@@ -517,6 +559,15 @@ private fun isQuotedString(value: String): Boolean =
 private fun sendString(alt: String) = "SEND_STRING($alt)"
 
 private fun repeatableTap(qmk: QmkKey) = "magic_tap_repeatable(${qmk.key});"
+
+private fun cycleLiteral(
+    output: String,
+    cycleData: List<CycleEntry>,
+): String =
+    cycleData
+        .firstOrNull { it.current == output }
+        ?.currentOffset
+        ?.toString() ?: NO_CYCLE_OFFSET
 
 private fun annotateMagicSend(
     statement: String,
@@ -562,7 +613,7 @@ private fun resolveMagicDefinition(
 private fun collectMagicOutputs(
     tables: Tables,
     translator: QmkTranslator,
-): List<String> {
+): Set<String> {
     val outputs = mutableSetOf<String>()
     magicRows(tables.getOptional("Magic").orEmpty()).forEach { row ->
         val precedingChar = row[0]
@@ -576,7 +627,7 @@ private fun collectMagicOutputs(
     translator.magic.mapNotNullTo(outputs) { magic ->
         magic.default?.let { "$it" }
     }
-    return outputs.toList()
+    return outputs
 }
 
 private fun magicEmittedString(
@@ -613,6 +664,190 @@ private fun bracketOutputString(def: String): String? =
     when (def) {
         "[dotSpc]" -> ". "
         else -> null
+    }
+
+private fun readCycleData(tables: Tables): CycleData {
+    val cycleTable = tables.getOptional("Cycle").orEmpty()
+    if (cycleTable.isEmpty()) {
+        return CycleData(emptyList(), emptySet())
+    }
+
+    val entries = mutableListOf<Pair<String, String>>()
+    val outputs = mutableSetOf<String>()
+    val seen = mutableMapOf<String, String>()
+
+    cycleTable.forEachIndexed { rowIndex, row ->
+        val items =
+            row
+                .map(::cycleItem)
+                .filter { it.isNotBlank() }
+        require(items.size >= 2) {
+            "Cycle row ${rowIndex + 1} must contain at least two items: $row"
+        }
+        items.forEach { item ->
+            val canonical = canonicalCycleItem(item)
+            val previous = seen.putIfAbsent(canonical, item)
+            require(previous == null) {
+                "duplicate Cycle item '$item' (already defined as '$previous')"
+            }
+            outputs += cycleOutput(item)
+        }
+        items.zip(items.drop(1) + items.first()).forEach { (current, next) ->
+            entries += cycleOutput(current) to cycleOutput(next)
+        }
+    }
+
+    return CycleData(
+        entries =
+            entries.map { (current, next) ->
+                CycleEntry(current, next, -1, -1, next.dropLast(1).last())
+            },
+        outputs = outputs,
+    )
+}
+
+private fun encodeCycleEntries(
+    cycleData: CycleData,
+    stringOffsets: Map<String, Int>,
+): List<CycleEntry> =
+    cycleData.entries
+        .map { entry ->
+            entry.copy(
+                currentOffset = stringOffsets.getValue(entry.current),
+                nextOffset = stringOffsets.getValue(entry.next),
+            )
+        }.sortedBy { it.currentOffset }
+
+private fun magicCycleData(entries: List<CycleEntry>): String {
+    val declarations =
+        if (entries.isEmpty()) {
+            ""
+        } else {
+            val rows =
+                entries.joinToString(",\n") {
+                    val lastChar = cCharLiteral(it.nextLastChar)
+                    "    { ${it.currentOffset}, ${it.nextOffset}, $lastChar }"
+                }
+            """
+typedef struct {
+    uint16_t current_offset;
+    uint16_t next_offset;
+    char next_last_char;
+} magic_cycle_entry_t;
+
+static const magic_cycle_entry_t magic_cycle_entries[] = {
+$rows
+};
+            """.trimIndent()
+        }
+
+    val lookup =
+        if (entries.isEmpty()) {
+            """
+static bool magic_cycle_lookup(uint16_t current_offset, uint16_t* next_offset, char* next_last_char) {
+    (void)current_offset;
+    (void)next_offset;
+    (void)next_last_char;
+    return false;
+}
+            """.trimIndent()
+        } else {
+            """
+
+static bool magic_cycle_lookup(uint16_t current_offset, uint16_t* next_offset, char* next_last_char) {
+    int low = 0;
+    int high = (int)(sizeof(magic_cycle_entries) / sizeof(magic_cycle_entries[0])) - 1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        uint16_t mid_offset = magic_cycle_entries[mid].current_offset;
+        if (mid_offset == current_offset) {
+            *next_offset = magic_cycle_entries[mid].next_offset;
+            *next_last_char = magic_cycle_entries[mid].next_last_char;
+            return true;
+        }
+        if (mid_offset < current_offset) {
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+    }
+    return false;
+}
+            """.trimIndent()
+        }
+
+    return """
+$declarations
+$lookup
+
+static inline void set_suffix_word_state(char c, uint16_t cycle_offset, bool capitalize) {
+    suffix_active = true;
+    last_magic_char = c;
+    suffix_cycle_offset = cycle_offset;
+    suffix_cycle_capitalize = capitalize;
+}
+
+static void magic_decode_send_cap_cycle(uint16_t offset, char suffix, uint16_t cycle_offset) {
+    bool capitalize = magic_capitalize_next;
+    if (capitalize) {
+        add_oneshot_mods(MOD_BIT(KC_LSFT));
+    }
+    magic_decode_send(offset);
+    if (suffix != '\0') {
+        set_suffix_word_state(suffix, cycle_offset, capitalize);
+    }
+    magic_capitalize_next = false;
+}
+
+static void magic_decode_send_suffix_cycle(uint16_t offset, char suffix, uint16_t cycle_offset) {
+    bool capitalize = magic_capitalize_next;
+    magic_decode_send(offset);
+    set_suffix_word_state(suffix, cycle_offset, capitalize);
+    magic_capitalize_next = false;
+}
+
+static void magic_replace_decode_send_cap_cycle(uint16_t offset, char suffix, uint16_t cycle_offset) {
+    tap_code16(KC_BSPC);
+    magic_decode_send_cap_cycle(offset, suffix, cycle_offset);
+}
+
+static bool process_magic_cycle_next(void) {
+    uint16_t next_offset = 0;
+    char next_last_char = '\0';
+    if (suffix_cycle_offset == UINT16_MAX || !magic_cycle_lookup(suffix_cycle_offset, &next_offset, &next_last_char)) {
+        clear_suffix_state();
+        return false;
+    }
+    tap_code16(KC_BSPC);
+    if (suffix_cycle_capitalize) {
+        add_oneshot_mods(MOD_BIT(KC_LSFT));
+    }
+    magic_decode_send(next_offset);
+    set_suffix_word_state(next_last_char, next_offset, suffix_cycle_capitalize);
+    return true;
+}
+    """.trimIndent()
+}
+
+private fun cycleItem(value: String): String =
+    if (isQuotedString(value)) {
+        extractString(value)
+    } else {
+        value.trim()
+    }
+
+private fun cycleOutput(value: String): String = "${cycleItem(value)} "
+
+private fun canonicalCycleItem(value: String): String = cycleItem(value).lowercase()
+
+private fun cCharLiteral(value: Char): String =
+    when (value) {
+        '\\' -> "'\\\\'"
+        '\'' -> "'\\''"
+        '\n' -> "'\\n'"
+        '\r' -> "'\\r'"
+        '\t' -> "'\\t'"
+        else -> "'$value'"
     }
 
 fun customKeycodes(
