@@ -237,7 +237,6 @@ def parse_args() -> argparse.Namespace:
         default=DEFAULT_OLD_CHORD_REF,
         help=f"Git ref used when --old-chords-file is omitted (default: {DEFAULT_OLD_CHORD_REF})",
     )
-    parser.add_argument("--limit", type=int, default=50, help="Rows to print")
     parser.add_argument(
         "--budget",
         type=int,
@@ -249,7 +248,7 @@ def parse_args() -> argparse.Namespace:
         type=int,
         metavar="N",
         help=(
-            "With --include-current and without replacement, pin current entries and add up to N new ones. "
+            "With --include-current and without replacement, pin current entries and add exactly N new ones. "
             "This is shorthand for current_count + N without doing budget math manually."
         ),
     )
@@ -461,7 +460,7 @@ def assignment_value(
             mnemonic_bonus *= 1.10
         elif any(hint in compact for hint in hints):
             mnemonic_bonus *= 1.04
-        if slot.column in {"magic_c", "magic_f"}:
+        if slot.column == "magic_c":
             mnemonic_bonus = min(mnemonic_bonus, 1.12)
         if slot.row in COMBO_KEYS:
             mnemonic_bonus *= 0.78
@@ -600,6 +599,19 @@ def corpus_frequency_overrides(
     return overrides
 
 
+PINNED_CURRENT_OUTPUTS = {
+    "and",
+    "ment",
+    "sion",
+    "the",
+    "tion",
+    "qu",
+    "#g",
+    "#z",
+    "#gz",
+}
+
+
 def load_current_magic_words(readme: Path) -> list[ChordEntry]:
     header, rows, _ = parse_magic_table(readme)
     entries: list[ChordEntry] = []
@@ -608,18 +620,30 @@ def load_current_magic_words(readme: Path) -> list[ChordEntry]:
             if not cell or cell.startswith("["):
                 continue
             raw = cell[1:-1] if cell.startswith('"') and cell.endswith('"') else cell
-            if len(raw) <= 2:
+            output = raw.lower()
+            if len(raw) <= 2 and output not in PINNED_CURRENT_OUTPUTS:
                 continue
             entries.append(
                 ChordEntry(
                     chord=f"{row_name}:{header[index]}",
-                    output=raw.lower(),
+                    output=output,
                     status="current",
                     source_label="current",
                     representation=cell,
                 )
             )
     return entries
+
+
+def is_pinned_current_entry(entry: ChordEntry) -> bool:
+    if entry.status != "current":
+        return False
+    if ":" in entry.chord and entry.chord.split(":", 1)[0] == "c":
+        return True
+    output = entry.output.strip()
+    if output.lower() in PINNED_CURRENT_OUTPUTS:
+        return True
+    return re.fullmatch(r"[a-z]+", output) is None
 
 
 def current_magic_outputs(readme: Path) -> set[str]:
@@ -1087,6 +1111,9 @@ def greedy_assign(
     row_usage_alpha: float = 0.0,
 ) -> list[Assignment]:
     movable_slots = None
+    current_source_chords = {
+        entry.chord for entry in old_chords if entry.status == "current"
+    }
     if allow_occupied:
         movable_slots = set()
         for entry in old_chords:
@@ -1098,15 +1125,22 @@ def greedy_assign(
     candidates: list[Assignment] = []
     for entry in old_chords:
         representation = entry.representation or literal_cell(entry.output)
-        for slot in candidate_slots(
-            entry.output,
-            representation,
-            header,
-            rows,
-            letters_only=letters_only,
-            allow_occupied=allow_occupied,
-            movable_slots=movable_slots,
-        ):
+        if is_pinned_current_entry(entry):
+            current_slot = current_slot_from_source(
+                entry.chord, header, rows, entry.output
+            )
+            slots = [current_slot] if current_slot is not None else []
+        else:
+            slots = candidate_slots(
+                entry.output,
+                representation,
+                header,
+                rows,
+                letters_only=letters_only,
+                allow_occupied=allow_occupied,
+                movable_slots=movable_slots,
+            )
+        for slot in slots:
             value, freq, plain_effort, chord_effort, effort_saved, saved = (
                 assignment_value(
                     entry,
@@ -1171,7 +1205,9 @@ def greedy_assign(
         candidate_family_key = suffix_family_key(candidate.output)
         if entry_key in used_entries or slot_key in used_slots:
             return False
-        if candidate_family_key in used_family_keys:
+        if candidate_family_key in used_family_keys and not (
+            not distinct_by_output and candidate.source_chord in current_source_chords
+        ):
             return False
         candidate_sources = candidate.source_label.split("+")
         if any(
@@ -1360,15 +1396,22 @@ def candidate_assignments_for_entries(
     candidates: list[tuple[ChordEntry, Assignment]] = []
     for entry in entries:
         representation = entry.representation or literal_cell(entry.output)
-        for slot in candidate_slots(
-            entry.output,
-            representation,
-            header,
-            rows,
-            letters_only=letters_only,
-            allow_occupied=allow_occupied,
-            movable_slots=movable_slots,
-        ):
+        if is_pinned_current_entry(entry):
+            current_slot = current_slot_from_source(
+                entry.chord, header, rows, entry.output
+            )
+            slots = [current_slot] if current_slot is not None else []
+        else:
+            slots = candidate_slots(
+                entry.output,
+                representation,
+                header,
+                rows,
+                letters_only=letters_only,
+                allow_occupied=allow_occupied,
+                movable_slots=movable_slots,
+            )
+        for slot in slots:
             value, freq, plain_effort, chord_effort, effort_saved, saved = (
                 assignment_value(
                     entry,
@@ -1625,31 +1668,21 @@ def joint_assign_current_and_additions(
     chosen_slots = {
         (assignment.slot.row, assignment.slot.column) for assignment in chosen
     }
-    chosen_sources = {
-        assignment.source_chord
-        if assignment.source_chord.startswith("src:")
-        else assignment.output
-        for assignment in chosen
-    }
+    chosen_outputs = {assignment.output for assignment in chosen}
 
     deduped_optional: list[Assignment] = []
     for assignment in sorted(optional_selected, key=lambda item: -item.value):
         candidate_family_key = suffix_family_key(assignment.output)
-        candidate_key = (
-            assignment.source_chord
-            if assignment.source_chord.startswith("src:")
-            else assignment.output
-        )
         if (assignment.slot.row, assignment.slot.column) in chosen_slots:
             continue
         if candidate_family_key in chosen_family_keys:
             continue
-        if candidate_key in chosen_sources:
+        if assignment.output in chosen_outputs:
             continue
         deduped_optional.append(assignment)
         chosen_family_keys.add(candidate_family_key)
         chosen_slots.add((assignment.slot.row, assignment.slot.column))
-        chosen_sources.add(candidate_key)
+        chosen_outputs.add(assignment.output)
 
     if len(deduped_optional) < add_budget:
         fallback_optional = sorted(
@@ -1664,21 +1697,16 @@ def joint_assign_current_and_additions(
             if len(deduped_optional) >= add_budget:
                 break
             candidate_family_key = suffix_family_key(assignment.output)
-            candidate_key = (
-                assignment.source_chord
-                if assignment.source_chord.startswith("src:")
-                else assignment.output
-            )
             if (assignment.slot.row, assignment.slot.column) in chosen_slots:
                 continue
             if candidate_family_key in chosen_family_keys:
                 continue
-            if candidate_key in chosen_sources:
+            if assignment.output in chosen_outputs:
                 continue
             deduped_optional.append(assignment)
             chosen_family_keys.add(candidate_family_key)
             chosen_slots.add((assignment.slot.row, assignment.slot.column))
-            chosen_sources.add(candidate_key)
+            chosen_outputs.add(assignment.output)
 
     chosen.extend(deduped_optional[:add_budget])
     chosen.sort(
@@ -1696,7 +1724,13 @@ def apply_assignments(
     current_entries: list[ChordEntry] | None = None,
 ) -> None:
     _, rows, lines = parse_magic_table(readme)
-    top = assignments
+    top = finalized_assignments_for_apply(
+        header,
+        rows,
+        assignments,
+        rearrange_current=rearrange_current,
+        current_entries=current_entries,
+    )
 
     if rearrange_current:
         assigned_sources = {assignment.source_chord for assignment in top}
@@ -1758,6 +1792,46 @@ def apply_assignments(
     readme.write_text("\n".join(lines) + "\n")
 
 
+def finalized_assignments_for_apply(
+    header: list[str],
+    rows: dict[str, tuple[int, list[str]]],
+    assignments: list[Assignment],
+    *,
+    rearrange_current: bool,
+    current_entries: list[ChordEntry] | None,
+) -> list[Assignment]:
+    top = normalize_unique_slots(assignments, current_entries or [])
+    working_rows = {
+        row_name: (row_index, list(cells))
+        for row_name, (row_index, cells) in rows.items()
+    }
+    if rearrange_current:
+        for entry in current_entries or []:
+            if ":" not in entry.chord:
+                continue
+            row_name, column = entry.chord.split(":", 1)
+            if row_name not in working_rows:
+                continue
+            row_index, cells = working_rows[row_name]
+            column_index = header.index(column)
+            cells[column_index] = ""
+            working_rows[row_name] = (row_index, cells)
+
+    finalized: list[Assignment] = []
+    for assignment in top:
+        row_name = assignment.slot.row
+        if row_name not in working_rows:
+            working_rows[row_name] = (-1, [""] * len(header))
+        row_index, cells = working_rows[row_name]
+        column_index = header.index(assignment.slot.column)
+        if cells[column_index]:
+            continue
+        cells[column_index] = assignment.slot.representation
+        working_rows[row_name] = (row_index, cells)
+        finalized.append(assignment)
+    return finalized
+
+
 def print_summary(
     candidates: list[ChordEntry],
     assignments: list[Assignment],
@@ -1765,7 +1839,6 @@ def print_summary(
     rows: dict[str, tuple[int, list[str]]],
     *,
     letters_only: bool,
-    limit: int,
     include_filled: bool,
 ) -> None:
     allowed_rows = [row for row in LETTER_ROWS if row not in RESERVED_LETTER_ROWS]
@@ -1794,7 +1867,7 @@ def print_summary(
         print()
 
     print("top assignments:")
-    for assignment in assignments[:limit]:
+    for assignment in assignments:
         starts = "strip" if assignment.slot.starts_with_row else "bs"
         hand = "opp" if assignment.slot.opposite_hand else "same"
         print(
@@ -1877,23 +1950,332 @@ def pinned_current_assignments(
     return assignments
 
 
+def enforce_pinned_current_entries(
+    assignments: list[Assignment],
+    current_entries: list[ChordEntry],
+    header: list[str],
+    rows: dict[str, tuple[int, list[str]]],
+    adaptives: dict[tuple[str, str], str],
+    blocked_pairs: set[tuple[str, str]],
+    magic_rows: dict[str, dict[str, str]],
+    source_weights: dict[str, float],
+    difficulty_power: float,
+    difficulty_cutoff: float,
+    min_saved: int,
+) -> list[Assignment]:
+    pinned: list[Assignment] = []
+    pinned_slots: set[tuple[str, str]] = set()
+    pinned_sources: set[str] = set()
+    for entry in current_entries:
+        if not is_pinned_current_entry(entry):
+            continue
+        current_slot = current_slot_from_source(entry.chord, header, rows, entry.output)
+        if current_slot is None:
+            continue
+        value, freq, plain_effort, chord_effort, effort_saved, saved = assignment_value(
+            entry,
+            current_slot,
+            adaptives,
+            blocked_pairs,
+            magic_rows,
+            source_weights,
+            difficulty_power,
+            difficulty_cutoff,
+            min_saved,
+        )
+        pinned.append(
+            Assignment(
+                output=entry.output,
+                slot=current_slot,
+                value=value,
+                frequency=freq,
+                plain_effort=plain_effort,
+                chord_effort=chord_effort,
+                effort_saved=effort_saved,
+                saved=saved,
+                source_chord=entry.chord,
+                source_label=entry.source_label,
+            )
+        )
+        pinned_slots.add((current_slot.row, current_slot.column))
+        pinned_sources.add(entry.chord)
+
+    filtered = [
+        assignment
+        for assignment in assignments
+        if assignment.source_chord not in pinned_sources
+        and (assignment.slot.row, assignment.slot.column) not in pinned_slots
+    ]
+    filtered.extend(pinned)
+    filtered.sort(
+        key=lambda item: (-item.value, item.slot.feel, item.slot.row, item.slot.column)
+    )
+    return filtered
+
+
+def enforce_all_current_entries(
+    assignments: list[Assignment],
+    current_entries: list[ChordEntry],
+    header: list[str],
+    rows: dict[str, tuple[int, list[str]]],
+    adaptives: dict[tuple[str, str], str],
+    blocked_pairs: set[tuple[str, str]],
+    magic_rows: dict[str, dict[str, str]],
+    source_weights: dict[str, float],
+    difficulty_power: float,
+    difficulty_cutoff: float,
+    min_saved: int,
+) -> list[Assignment]:
+    assignment_map = {assignment.source_chord: assignment for assignment in assignments}
+
+    while True:
+        missing_entries = [
+            entry for entry in current_entries if entry.chord not in assignment_map
+        ]
+        if not missing_entries:
+            break
+
+        for entry in missing_entries:
+            current_slot = current_slot_from_source(
+                entry.chord, header, rows, entry.output
+            )
+            if current_slot is None:
+                continue
+
+            conflict = next(
+                (
+                    assignment
+                    for assignment in assignment_map.values()
+                    if (assignment.slot.row, assignment.slot.column)
+                    == (current_slot.row, current_slot.column)
+                ),
+                None,
+            )
+            if conflict is not None:
+                assignment_map.pop(conflict.source_chord, None)
+
+            value, freq, plain_effort, chord_effort, effort_saved, saved = (
+                assignment_value(
+                    entry,
+                    current_slot,
+                    adaptives,
+                    blocked_pairs,
+                    magic_rows,
+                    source_weights,
+                    difficulty_power,
+                    difficulty_cutoff,
+                    min_saved,
+                )
+            )
+            assignment_map[entry.chord] = Assignment(
+                output=entry.output,
+                slot=current_slot,
+                value=value,
+                frequency=freq,
+                plain_effort=plain_effort,
+                chord_effort=chord_effort,
+                effort_saved=effort_saved,
+                saved=saved,
+                source_chord=entry.chord,
+                source_label=entry.source_label,
+            )
+
+    restored = list(assignment_map.values())
+    restored.sort(
+        key=lambda item: (-item.value, item.slot.feel, item.slot.row, item.slot.column)
+    )
+    return restored
+
+
+def normalize_unique_slots(
+    assignments: list[Assignment],
+    current_entries: list[ChordEntry],
+) -> list[Assignment]:
+    current_by_chord = {entry.chord: entry for entry in current_entries}
+
+    def assignment_priority(assignment: Assignment) -> tuple[int, float]:
+        current_entry = current_by_chord.get(assignment.source_chord)
+        if current_entry is not None and is_pinned_current_entry(current_entry):
+            return (0, -assignment.value)
+        if current_entry is not None:
+            return (1, -assignment.value)
+        return (2, -assignment.value)
+
+    chosen_by_slot: dict[tuple[str, str], Assignment] = {}
+    for assignment in sorted(assignments, key=assignment_priority):
+        slot_key = (assignment.slot.row, assignment.slot.column)
+        if slot_key not in chosen_by_slot:
+            chosen_by_slot[slot_key] = assignment
+
+    normalized = list(chosen_by_slot.values())
+    normalized.sort(
+        key=lambda item: (-item.value, item.slot.feel, item.slot.row, item.slot.column)
+    )
+    return normalized
+
+
+def occupied_slots(
+    header: list[str],
+    rows: dict[str, tuple[int, list[str]]],
+) -> set[tuple[str, str]]:
+    return {
+        (row_name, column)
+        for row_name, (_, cells) in rows.items()
+        for column, cell in zip(header, cells, strict=True)
+        if cell
+    }
+
+
+def top_up_added_assignments(
+    assignments: list[Assignment],
+    current_entries: list[ChordEntry],
+    addition_candidates: list[ChordEntry],
+    header: list[str],
+    rows: dict[str, tuple[int, list[str]]],
+    adaptives: dict[tuple[str, str], str],
+    blocked_pairs: set[tuple[str, str]],
+    magic_rows: dict[str, dict[str, str]],
+    source_weights: dict[str, float],
+    source_caps: dict[str, int],
+    *,
+    letters_only: bool,
+    target_add_count: int,
+    difficulty_power: float,
+    difficulty_cutoff: float,
+    min_difficulty: float | None,
+    min_saved: int,
+) -> list[Assignment]:
+    current_source_chords = {entry.chord for entry in current_entries}
+    current_assignments = [
+        assignment
+        for assignment in assignments
+        if assignment.source_chord in current_source_chords
+    ]
+    added_assignments = [
+        assignment
+        for assignment in assignments
+        if assignment.source_chord not in current_source_chords
+    ]
+
+    used_output_keys = {
+        suffix_family_key(assignment.output) for assignment in current_assignments
+    }
+    used_addition_keys = {assignment.output for assignment in added_assignments}
+    remaining_candidates = []
+    for entry in addition_candidates:
+        if entry.output in used_addition_keys:
+            continue
+        if suffix_family_key(entry.output) in used_output_keys:
+            continue
+        remaining_candidates.append(entry)
+
+    current_slots = {
+        (assignment.slot.row, assignment.slot.column)
+        for assignment in current_assignments
+    }
+    occupied_after_current = occupied_slots(
+        header,
+        rows_with_assignments(
+            header,
+            rows,
+            current_assignments,
+            current_entries=current_entries,
+        ),
+    )
+    candidate_pool = added_assignments + greedy_assign(
+        remaining_candidates,
+        header,
+        rows_with_assignments(
+            header,
+            rows,
+            current_assignments,
+            current_entries=current_entries,
+        ),
+        adaptives,
+        blocked_pairs,
+        magic_rows,
+        source_weights,
+        source_caps,
+        letters_only=letters_only,
+        budget=len(remaining_candidates),
+        difficulty_power=difficulty_power,
+        difficulty_cutoff=difficulty_cutoff,
+        min_difficulty=min_difficulty,
+        min_saved=min_saved,
+        allow_occupied=False,
+        distinct_by_output=True,
+    )
+    candidate_pool.sort(
+        key=lambda item: (-item.value, item.slot.feel, item.slot.row, item.slot.column)
+    )
+
+    selected_added: list[Assignment] = []
+    used_slots: set[tuple[str, str]] = set()
+    used_family_keys: set[str] = {
+        suffix_family_key(assignment.output) for assignment in current_assignments
+    }
+    used_candidate_keys: set[str] = set()
+    for assignment in candidate_pool:
+        slot_key = (assignment.slot.row, assignment.slot.column)
+        family_key = suffix_family_key(assignment.output)
+        if slot_key in current_slots or slot_key in occupied_after_current:
+            continue
+        if slot_key in used_slots:
+            continue
+        if family_key in used_family_keys:
+            continue
+        if assignment.output in used_candidate_keys:
+            continue
+        selected_added.append(assignment)
+        used_slots.add(slot_key)
+        used_family_keys.add(family_key)
+        used_candidate_keys.add(assignment.output)
+        if len(selected_added) >= target_add_count:
+            break
+
+    combined = current_assignments + selected_added
+    final_add_count = len(combined) - len(current_assignments)
+    if final_add_count != target_add_count:
+        raise ValueError(
+            f"--add requested {target_add_count} additions but only {final_add_count} fit after pinning/enforcement"
+        )
+    combined.sort(
+        key=lambda item: (-item.value, item.slot.feel, item.slot.row, item.slot.column)
+    )
+    return combined
+
+
 def rows_with_assignments(
     header: list[str],
     rows: dict[str, tuple[int, list[str]]],
     assignments: list[Assignment],
+    *,
+    current_entries: list[ChordEntry] | None = None,
 ) -> dict[str, tuple[int, list[str]]]:
     updated_rows = {
         row_name: (row_index, list(cells))
         for row_name, (row_index, cells) in rows.items()
     }
-    for row_name, (_, cells) in updated_rows.items():
-        for index in range(len(cells)):
-            cells[index] = ""
+    if current_entries is None:
+        for _, (_, cells) in updated_rows.items():
+            for index in range(len(cells)):
+                cells[index] = ""
+    else:
+        for entry in current_entries:
+            if ":" not in entry.chord:
+                continue
+            row_name, column = entry.chord.split(":", 1)
+            if row_name not in updated_rows or column not in header:
+                continue
+            _, cells = updated_rows[row_name]
+            cells[header.index(column)] = ""
     for assignment in assignments:
         if assignment.slot.row not in updated_rows:
             updated_rows[assignment.slot.row] = (-1, [""] * len(header))
         row_index, cells = updated_rows[assignment.slot.row]
         column_index = header.index(assignment.slot.column)
+        if cells[column_index]:
+            continue
         cells[column_index] = assignment.slot.representation
         updated_rows[assignment.slot.row] = (row_index, cells)
     return updated_rows
@@ -1910,8 +2292,6 @@ def print_rearrangements(
     difficulty_power: float,
     difficulty_cutoff: float,
     min_saved: int,
-    *,
-    limit: int,
 ) -> None:
     moves = []
     for assignment in assignments:
@@ -1953,7 +2333,7 @@ def print_rearrangements(
     if not moves:
         print("  <none>")
         return
-    for current_row, current_column, assignment in moves[:limit]:
+    for current_row, current_column, assignment in moves:
         hand = "opp" if assignment.slot.opposite_hand else "same"
         print(
             f"  {assignment.output:<24} {current_row:>4} {current_column:<7} -> "
@@ -1966,26 +2346,30 @@ def print_delta_summary(
     current_entries: list[ChordEntry],
     assignments: list[Assignment],
 ) -> None:
-    current_by_output = {entry.output: entry for entry in current_entries}
-    selected_by_output = {assignment.output: assignment for assignment in assignments}
+    current_by_chord = {entry.chord: entry for entry in current_entries}
+    pinned_current = [
+        entry for entry in current_entries if is_pinned_current_entry(entry)
+    ]
 
     kept_same: list[tuple[ChordEntry, Assignment]] = []
     moved: list[tuple[ChordEntry, Assignment]] = []
     added: list[Assignment] = []
     removed: list[ChordEntry] = []
 
-    for output, assignment in selected_by_output.items():
-        current = current_by_output.get(output)
+    selected_current_chords: set[str] = set()
+    for assignment in assignments:
+        current = current_by_chord.get(assignment.source_chord)
         if current is None:
             added.append(assignment)
             continue
+        selected_current_chords.add(current.chord)
         if current.chord == f"{assignment.slot.row}:{assignment.slot.column}":
             kept_same.append((current, assignment))
         else:
             moved.append((current, assignment))
 
-    for output, current in current_by_output.items():
-        if output not in selected_by_output:
+    for current in current_entries:
+        if current.chord not in selected_current_chords:
             removed.append(current)
 
     print()
@@ -1994,11 +2378,32 @@ def print_delta_summary(
         f"add={len(added)} remove={len(removed)}"
     )
 
+    print("pinned:")
+    if not pinned_current:
+        print("  <none>")
+    else:
+        for entry in pinned_current:
+            assignment = next(
+                (
+                    assignment
+                    for assignment in assignments
+                    if assignment.source_chord == entry.chord
+                ),
+                None,
+            )
+            if assignment is None:
+                print(f"  {entry.output:<24} {entry.chord} <missing>")
+                continue
+            print(
+                f"  {assignment.output:<24} {assignment.slot.row:>4} {assignment.slot.column:<7} "
+                f"value={assignment.value:.6f}"
+            )
+
     print("kept:")
     if not kept_same:
         print("  <none>")
     else:
-        for current, assignment in kept_same[:20]:
+        for current, assignment in kept_same:
             print(
                 f"  {assignment.output:<24} {assignment.slot.row:>4} {assignment.slot.column:<7} "
                 f"value={assignment.value:.6f}"
@@ -2008,7 +2413,7 @@ def print_delta_summary(
     if not moved:
         print("  <none>")
     else:
-        for current, assignment in sorted(moved, key=lambda item: -item[1].value)[:20]:
+        for current, assignment in sorted(moved, key=lambda item: -item[1].value):
             current_row, current_column = current.chord.split(":", 1)
             print(
                 f"  {assignment.output:<24} {current_row:>4} {current_column:<7} -> "
@@ -2087,23 +2492,70 @@ def main() -> None:
             addition_candidates = [
                 entry for entry in old_chords if entry.status != "current"
             ]
-            assignments = joint_assign_current_and_additions(
-                enriched_current_entries,
-                addition_candidates,
-                header,
-                rows,
-                adaptives,
-                blocked_pairs,
-                magic_rows,
-                source_weights,
-                source_caps,
-                letters_only=args.letters_only,
-                add_budget=args.add,
-                difficulty_power=args.difficulty_power,
-                difficulty_cutoff=args.difficulty_cutoff,
-                min_difficulty=args.min_difficulty,
-                min_saved=args.min_saved,
-            )
+            try:
+                assignments = joint_assign_current_and_additions(
+                    enriched_current_entries,
+                    addition_candidates,
+                    header,
+                    rows,
+                    adaptives,
+                    blocked_pairs,
+                    magic_rows,
+                    source_weights,
+                    source_caps,
+                    letters_only=args.letters_only,
+                    add_budget=args.add,
+                    difficulty_power=args.difficulty_power,
+                    difficulty_cutoff=args.difficulty_cutoff,
+                    min_difficulty=args.min_difficulty,
+                    min_saved=args.min_saved,
+                )
+            except ValueError:
+                current_assignments = greedy_assign(
+                    enriched_current_entries,
+                    header,
+                    rows,
+                    adaptives,
+                    blocked_pairs,
+                    magic_rows,
+                    source_weights,
+                    {},
+                    letters_only=args.letters_only,
+                    difficulty_power=args.difficulty_power,
+                    difficulty_cutoff=args.difficulty_cutoff,
+                    min_difficulty=args.min_difficulty,
+                    min_saved=args.min_saved,
+                    allow_occupied=True,
+                    budget=len(enriched_current_entries),
+                    distinct_by_output=False,
+                    allow_zero_value=True,
+                    row_usage_alpha=0.35,
+                )
+                reshuffled_rows = rows_with_assignments(
+                    header,
+                    rows,
+                    current_assignments,
+                    current_entries=enriched_current_entries,
+                )
+                add_assignments = greedy_assign(
+                    addition_candidates,
+                    header,
+                    reshuffled_rows,
+                    adaptives,
+                    blocked_pairs,
+                    magic_rows,
+                    source_weights,
+                    source_caps,
+                    letters_only=args.letters_only,
+                    budget=args.add,
+                    difficulty_power=args.difficulty_power,
+                    difficulty_cutoff=args.difficulty_cutoff,
+                    min_difficulty=args.min_difficulty,
+                    min_saved=args.min_saved,
+                    allow_occupied=False,
+                    distinct_by_output=True,
+                )
+                assignments = current_assignments + add_assignments
         else:
             assignments = greedy_assign(
                 enriched_current_entries,
@@ -2183,13 +2635,71 @@ def main() -> None:
             distinct_by_output=not args.rearrange_current,
         )
 
+    assignments = enforce_pinned_current_entries(
+        assignments,
+        current_entries,
+        header,
+        rows,
+        adaptives,
+        blocked_pairs,
+        magic_rows,
+        source_weights,
+        args.difficulty_power,
+        args.difficulty_cutoff,
+        args.min_saved,
+    )
+    assignments = enforce_all_current_entries(
+        assignments,
+        current_entries,
+        header,
+        rows,
+        adaptives,
+        blocked_pairs,
+        magic_rows,
+        source_weights,
+        args.difficulty_power,
+        args.difficulty_cutoff,
+        args.min_saved,
+    )
+    assignments = normalize_unique_slots(assignments, current_entries)
+    if args.move_current_only and args.add is not None:
+        addition_candidates = [
+            entry for entry in old_chords if entry.status != "current"
+        ]
+        assignments = top_up_added_assignments(
+            assignments,
+            current_entries,
+            addition_candidates,
+            header,
+            rows,
+            adaptives,
+            blocked_pairs,
+            magic_rows,
+            source_weights,
+            source_caps,
+            letters_only=args.letters_only,
+            target_add_count=args.add,
+            difficulty_power=args.difficulty_power,
+            difficulty_cutoff=args.difficulty_cutoff,
+            min_difficulty=args.min_difficulty,
+            min_saved=args.min_saved,
+        )
+        assignments = normalize_unique_slots(assignments, current_entries)
+
+    assignments = finalized_assignments_for_apply(
+        header,
+        rows,
+        assignments,
+        rearrange_current=allow_occupied,
+        current_entries=current_entries if allow_occupied else None,
+    )
+
     print_summary(
         old_chords,
         assignments,
         header,
         rows,
         letters_only=args.letters_only,
-        limit=args.limit,
         include_filled=args.include_filled,
     )
     if args.rearrange_current or args.move_current_only:
@@ -2204,7 +2714,6 @@ def main() -> None:
             args.difficulty_power,
             args.difficulty_cutoff,
             args.min_saved,
-            limit=args.limit,
         )
     if args.show_delta:
         print_delta_summary(current_entries, assignments)

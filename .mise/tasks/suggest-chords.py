@@ -196,10 +196,6 @@ def main() -> None:
                 actual_labels, flag_value(rank_args, "--source-weights")
             ),
         )
-        if flag_value(rank_args, "--limit") is None:
-            ensure_flag(
-                rank_args, "--limit", flag_value(rank_args, "--budget") or "174"
-            )
 
         run(["uv", "run", str(RANK), *rank_args], env=env)
 

@@ -103,37 +103,37 @@ Cell = what to emit.
   - Preceding key is not a letter (spc, punctuation) → append as-is. `,` + `" and "` yields `, and` plus a trailing space.
 - `[name]` bracket tokens invoke named handlers (currently `[dotSpc]` = BS + `.` then one-shot shift).
 
-| Magic  |  magic_a  | magic_b |      magic_c       |  magic_d   |    magic_e    | magic_f | magic_g |     magic_h     |   magic_i   |  magic_j   | magic_k  |
-| :----: | :-------: | :-----: | :----------------: | :--------: | :-----------: | :-----: | :-----: | :-------------: | :---------: | :--------: | :------: |
-| suffix |           |   ly    |                    |    n't     |       .       |   and   |    ?    |        ,        |     the     |     ed     |    s     |
-|   a    |           |         |                    |            |               |         |    e    |                 |             |            |          |
-|   b    |  behind   |         |                    | elaborate  |               |         |         |     before      |   because   |     d      |          |
-|   c    |     n     |  "'ll"  |                    |   "n't"    |       d       |         |         |                 |    "'re"    |    "'d"    |   "'s"   |
-|   d    |     c     |    h    |                    |   don't    |     does      |         |         |     didn't      |   doesn't   |     f      |          |
-|   e    |           |         |         u          |            |    another    |         |    h    |                 |             |            |          |
-|   f    |           |         |                    |            |               |         |         |                 |             |     d      |          |
-|   g    |  global   |    f    |                    |  anything  |    thought    |         |         |    organize     |      k      |     d      | suggest  |
-|   h    |           |         |                    |            |               |         |         |                 |             |     y      |          |
-|   i    |           |         |                    |            |               |         | improve |                 |             |            |          |
-|   j    |           |         |                    |            |               |         |         |                 |             |            |          |
-|   k    |     r     |         |                    |    knew    |    merged     |         |         |     update      |    know     |     x      |          |
-|   l    |     m     |    h    |                    |            |    already    |         |         |    language     |      r      |     c      |    b     |
-|   m    |     r     |    h    |                    |            |               |         |         | instrumentation |   "ment"    |     l      |    t     |
-|   n    |     r     |    h    |                    | understand |     only      |         |         |                 |    "qu"     |     x      |    p     |
-|   o    |           |         |         e          |            |               |         |    h    |                 |             |            |          |
-|   p    |     y     |    m    |                    |   people   |   probably    |         |         |   production    |      n      |     d      | possible |
-|   r    |           |         |                    |            |               |         |         |                 |             |     x      |          |
-|   s    |  someone  |    r    |                    |   always   |               |  just   |         |    something    |   "sion"    |     d      |          |
-|   t    |     n     |    f    |                    | everything |    through    |  think  |         |     though      |   "tion"    |  without   |          |
-|   u    |           |         |                    |            |               |         |    h    |                 |             |            |          |
-|   v    |           |         | declarative config |   "'ve"    | observability |  have   |         |      never      |             |    I've    |          |
-|   w    |           | wasn't  |       worse        |   which    |               |         |         |                 |      s      |     x      |          |
-|   x    | exception |    w    |                    |  explain   |   explicit    | except  |         |     exclude     |      r      |     d      | example  |
-|   y    |           |         |                    |            |               |         |    r    |                 |             |            |          |
-|   z    |           |         |                    |     #g     |      #z       |   #gz   | realize |  OpenTelemetry  | Spring Boot | Prometheus |          |
-|  spc   |     '     |    "    |      [dotSpc]      |     !      |       ?       |   and   |    z    |        ,        |     the     |     .      |    j     |
-|  tab   |           |         |                    |            |               |   and   |         |                 |     the     |            |          |
-| enter  |           |         |                    |            |               |   and   |         |                 |     the     |            |          |
+| Magic  |  magic_a   |  magic_b   |      magic_c       |   magic_d   |    magic_e    |  magic_f  |    magic_g    |     magic_h     |   magic_i   | magic_j |  magic_k   |
+| :----: | :--------: | :--------: | :----------------: | :---------: | :-----------: | :-------: | :-----------: | :-------------: | :---------: | :-----: | :--------: |
+| suffix |            |     ly     |                    |     n't     |       .       |    and    |       ?       |        ,        |     the     |   ed    |     s      |
+|   a    |            |            |                    |             |               |           |       e       |                 |             |         |            |
+|   b    | background |   behind   |                    |  baseline   | observability |  disable  |   basically   |    obsolete     |   because   |    d    |   before   |
+|   c    |     n      |   "'ll"    |                    |    "n't"    |       d       | container |               |     comment     |    "'re"    |  "'d"   |    "'s"    |
+|   d    |     c      |     h      |                    |    don't    |    default    | different |  difficulty   |     didn't      |   doesn't   |    f    |    does    |
+|   e    |            |            |         u          |             |    another    |           |       h       |                 |             |         |  explain   |
+|   f    | confusing  |  conflict  |                    | performance |   frequency   |           |               |     focused     |  following  |    d    |            |
+|   g    |   global   |     f      |                    |  organize   |    github     |  general  |               |    generate     |      k      |    d    |  suggest   |
+|   h    |            |            |                    |             |               |           |               |                 |             |    y    |            |
+|   i    |            |            |                    |             |               |           |               |                 |             |         |            |
+|   j    |            |            |                    |             |               |           |     just      |                 |             |         |            |
+|   k    |     r      |            |                    |             |    merged     |           |               |     update      |    know     |    x    |    knew    |
+|   l    |     m      |     h      |                    |  language   |    already    | available |   unrelated   |    elaborate    |      r      |    c    |     b      |
+|   m    |     r      |     h      |                    |  migration  |   multiple    | mismatch  |               | instrumentation |    ment     |    l    |     t      |
+|   n    |     r      |     h      |                    |    never    |   anything    | renovate  | notifications |   understand    |    "qu"     |    x    |     p      |
+|   o    |            |            |         e          |             |               |           |       h       |                 |             |         |            |
+|   p    |     y      |     m      |                    |   people    |   probably    |  python   |    improve    |   production    |      n      |    d    | Prometheus |
+|   r    |            |            |                    |             |               |           |               |                 |             |    x    |            |
+|   s    |  someone   |     r      |                    |  possible   |    support    |  similar  |   consumer    |    separate     |    sion     |    d    | something  |
+|   t    |     n      |     f      |                    |  adaptive   |    through    |   think   |   continue    |     though      |    tion     | without |  thought   |
+|   u    |            |            |                    |             |               |           |       h       |                 |             |         |            |
+|   v    | validation | everything | declarative config |    "'ve"    |    version    |           |               |    approval     |   resolve   |  I've   |            |
+|   w    |   always   |   wasn't   |                    |  workflow   |   otherwise   |  switch   |               |      which      |      s      |    x    |   worse    |
+|   x    | exception  |     w      |                    |   except    |   explicit    |           |               |     exclude     |      r      |    d    |  example   |
+|   y    |            |            |                    |             |               |           |     only      |        r        |             |         |            |
+|   z    |            |  realize   |                    |     #g      |      #z       |    #gz    |               |  OpenTelemetry  | Spring Boot |         |            |
+|  spc   |     '      |     "      |      [dotSpc]      |      !      |       ?       |    and    |       z       |        ,        |     the     |    .    |     j      |
+|  tab   |            |            |                    |             |               |    and    |               |                 |     the     |         |            |
+| enter  |            |            |                    |             |               |    and    |               |                 |     the     |         |            |
 
 ## Adaptives
 
