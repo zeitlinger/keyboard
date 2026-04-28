@@ -50,16 +50,30 @@ Letters only via combo (not single-key): j, b, g, k, p, m, v, q, z
 | v    | 3   | 0   | L. Index top    |
 | k    | 3   | 2   | L. Index bottom |
 
-The "combo row" (p, m, v across cols 1-2-3 at row 0, or b, g, k at row 2) forms natural inward rolls on the left hand. These are valid adaptive physical keys and can be used as adaptive triggers.
+The "combo row" (p, m, v across cols 1-2-3 at row 0, or b, g, k at row 2)
+forms natural inward rolls on the left hand. These are valid adaptive physical
+keys and can be used as adaptive triggers.
 
 ## Physical Keyboard Geometry (Ferris Sweep)
 
-The Ferris Sweep has **aggressive columnar stagger** — each column sits at a different height matching natural finger lengths. This means grid distance understates actual physical movement for cross-column+cross-row transitions:
+The Ferris Sweep has **aggressive columnar stagger** — each column sits at a
+different height matching natural finger lengths. This means grid distance
+understates actual physical movement for cross-column+cross-row transitions:
 
 - **Pinky column (col 0) sits lowest**, ring (col 1) higher, middle (col 2) highest on the left hand.
-- A move like `s` (pinky home) → `x` (ring top) feels much longer than one grid step because the stagger already raises the ring column — you're fighting the geometry rather than using it.
-- General rule: **same-hand transitions that cross both column and row boundaries on the pinky/ring side are worse than they appear on paper.** Flag `sx`, `xs`, and similar pinky↔ring cross-row bigrams as bad even if the raw row/col diff looks small.
-- **Combo → outward-adjacent single key is bad**: after pressing a combo (e.g. `p` = ring top+home), moving to the adjacent key toward the pinky is uncomfortable — combo fingers still in motion, and the stagger works against you. Example: `p` (ring combo, col 1) → `s` (pinky, col 0) is bad. But inward rolls (`bl`, `pn`, `nv`) are fine — the col stagger actually helps those. Thumb keys are a separate category and unaffected by this rule.
+- A move like `s` (pinky home) → `x` (ring top) feels much longer than one
+  grid step because the stagger already raises the ring column — you're
+  fighting the geometry rather than using it.
+- General rule: **same-hand transitions that cross both column and row
+  boundaries on the pinky/ring side are worse than they appear on paper.**
+  Flag `sx`, `xs`, and similar pinky↔ring cross-row bigrams as bad even if the
+  raw row/col diff looks small.
+- **Combo → outward-adjacent single key is bad**: after pressing a combo
+  (e.g. `p` = ring top+home), moving to the adjacent key toward the pinky is
+  uncomfortable — combo fingers still in motion, and the stagger works against
+  you. Example: `p` (ring combo, col 1) → `s` (pinky, col 0) is bad. But
+  inward rolls (`bl`, `pn`, `nv`) are fine — the col stagger actually helps
+  those. Thumb keys are a separate category and unaffected by this rule.
 
 ## Motion Quality
 
@@ -71,7 +85,9 @@ The Ferris Sweep has **aggressive columnar stagger** — each column sits at a d
 
 **Bad:**
 
-- **SFB** (same-finger bigram): same column, any row. Pairs in this layout: c↔f↔x (col 1), n↔l↔w (col 2), t↔d (col 3), a↔u (col 4), e↔o (col 5), i↔y (col 6)
+- **SFB** (same-finger bigram): same column, any row. Pairs in this layout:
+  c↔f↔x (col 1), n↔l↔w (col 2), t↔d (col 3), a↔u (col 4), e↔o (col 5), i↔y
+  (col 6)
 - **Scissors**: |row diff| ≥ 2 AND |col diff| ≤ 1 AND same hand. Example: d(3,2)→w(2,0), u(4,2)→'(5,0)
 - **Redirect**: same hand, direction reverses (not a roll)
 
@@ -86,5 +102,7 @@ The Ferris Sweep has **aggressive columnar stagger** — each column sits at a d
 
 ## Corpus
 
-`/home/gregor/source/genkey/corpora/shai-iweb.json` — keys: `letters`, `bigrams`, `trigrams`, `skipgrams` (raw counts). Total: ~341M bigrams, ~255M trigrams.
+`/home/gregor/source/genkey/corpora/shai-iweb.json` — keys: `letters`,
+`bigrams`, `trigrams`, `skipgrams` (raw counts). Total: ~341M bigrams, ~255M
+trigrams.
 Genkey binary: `/home/gregor/source/genkey/genkey`

@@ -86,8 +86,17 @@ Rows = preceding key. Columns = the eleven physical magic keys (see the Layout t
 
 Cell = what to emit.
 
-- Single-char letter cells append or tap (e.g. `a` + `e` yields `ae`). Single-char punctuation/symbol cells backspace the preceding letter first (e.g. `t` + `.` yields `.`). A repeated press of the same magic key then replays just the emitted letter or symbol, with no extra backspace. No suffix state.
-- Bare words/phrases (unquoted multi-char, e.g. `because`, `thank you`): generator auto-appends a trailing space and activates the suffix state machine. From there, the next magic press chains the suffix shown in the `suffix` row; the `ing` key also works with vowel-drop. `.` exits with one-shot shift, `,` exits without shift. Prefix-strip and BS rules below also apply to bare words.
+- Single-char letter cells append or tap (e.g. `a` + `e` yields `ae`).
+  Single-char punctuation/symbol cells backspace the preceding letter first
+  (e.g. `t` + `.` yields `.`). A repeated press of the same magic key then
+  replays just the emitted letter or symbol, with no extra backspace. No
+  suffix state.
+- Bare words/phrases (unquoted multi-char, e.g. `because`, `thank you`):
+  generator auto-appends a trailing space and activates the suffix state
+  machine. From there, the next magic press chains the suffix shown in the
+  `suffix` row; the `ing` key also works with vowel-drop. `.` exits with
+  one-shot shift, `,` exits without shift. Prefix-strip and BS rules below also
+  apply to bare words.
 - Quoted strings (literal — no auto-space, no suffix state):
   - Preceding key is a letter and cell starts with it → strip prefix. `b` + `"because"` emits `ecause`, yielding `because`.
   - Preceding key is a letter and cell does _not_ start with it → BS + cell.

@@ -20,7 +20,9 @@ Check the remaining docs for stale chord wording:
 
 ### 3. Derive `MAGIC_POSITIONS` from layout data
 
-`feel.py` still hardcodes `MAGIC_POSITIONS`. The layout table already knows where the magic keys live, so this should eventually be derived once and shared.
+`feel.py` still hardcodes `MAGIC_POSITIONS`. The layout table already knows
+where the magic keys live, so this should eventually be derived once and
+shared.
 
 ## Recently Finished
 

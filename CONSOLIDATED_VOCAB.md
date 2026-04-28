@@ -77,7 +77,8 @@ mise run find-available-chords -- --candidates-file merged_words.tsv --source-we
 
 ## Notes
 
-- Prefer `mise run ...` for these helper workflows. The implementations live under `scripts/`; the `mise` tasks are the intended entrypoints.
+- Prefer `mise run ...` for these helper workflows. The implementations live
+  under `scripts/`; the `mise` tasks are the intended entrypoints.
 
 - `scripts/extract_source_words.py` now writes TSV as:
 
@@ -97,7 +98,8 @@ Reason:
 
 - the local `source` corpus is currently too skewed toward repo/docs vocabulary
 - the local `chat_local` corpus is currently too small and too biased by recent project work
-- mixing them in right now over-promotes technical/project-specific terms relative to the words that are broadly useful day to day
+- mixing them in right now over-promotes technical/project-specific terms
+  relative to the words that are broadly useful day to day
 
 Practical baseline:
 

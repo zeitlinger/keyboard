@@ -10,13 +10,16 @@ Find new adaptive key candidates that:
 2. Don't sacrifice a common physical bigram (the trigger+adaptive_key pair)
 3. Don't introduce new SFBs on the following keypress
 
-Same-key double case: bigram `(a, a)` like "ll". Adaptive `a + c → a` means typing "ac" produces "aa" (first `a` already in buffer, physical `c` replaced with `a`). Avoids same-finger double-tap.
+Same-key double case: bigram `(a, a)` like "ll". Adaptive `a + c → a` means
+typing "ac" produces "aa" (first `a` already in buffer, physical `c` replaced
+with `a`). Avoids same-finger double-tap.
 
 ## How Adaptives Work
 
 `trigger` + `physical_key` → `output` (instead of physical_key's normal character)
 
-Existing: `n` + `h` → `g` (typing "nh" outputs "ng", avoiding the n↔l SFB for "ng" ... actually n and g are both col 2, so this resolves that SFB).
+Existing: `n` + `h` → `g` (typing "nh" outputs "ng", avoiding the n↔l SFB for
+"ng" ... actually n and g are both col 2, so this resolves that SFB).
 
 ## Algorithm
 
