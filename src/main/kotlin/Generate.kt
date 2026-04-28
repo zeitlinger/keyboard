@@ -107,7 +107,8 @@ fun run(args: GeneratorArgs) {
     translator.magic.forEach { magic ->
         magic.defaultCommand =
             magic.default?.let {
-                "magic_decode_send(${encodedMagicStrings.stringOffsets.getValue(it)});"
+                val offset = encodedMagicStrings.stringOffsets.getValue(it)
+                annotateMagicSend("magic_decode_send($offset);", it)
             }
     }
 
@@ -453,14 +454,14 @@ private fun magicCommand(
             val send =
                 if (outputStartsWithPreceding) {
                     if (quoted) {
-                        "magic_decode_send($offset);"
+                        annotateMagicSend("magic_decode_send($offset);", emitted, output)
                     } else {
-                        "magic_decode_send_suffix($offset, $suffix);"
+                        annotateMagicSend("magic_decode_send_suffix($offset, $suffix);", emitted, output)
                     }
                 } else if (prevIsLetter) {
-                    "magic_replace_decode_send_cap($offset, $suffix);"
+                    annotateMagicSend("magic_replace_decode_send_cap($offset, $suffix);", emitted, output)
                 } else {
-                    "magic_decode_send_cap($offset, $suffix);"
+                    annotateMagicSend("magic_decode_send_cap($offset, $suffix);", emitted, output)
                 }
             MagicCommand(send)
         }
@@ -488,7 +489,8 @@ private fun bracketCommand(
     when (name) {
         "dotSpc" -> {
             val offset = stringOffsets.getValue(". ")
-            "magic_replace_decode_send_cap($offset, '\\0'); add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state();"
+            "${annotateMagicSend("magic_replace_decode_send_cap($offset, '\\0');", ". ")} " +
+                "add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state();"
         }
 
         else -> {
@@ -515,6 +517,36 @@ private fun isQuotedString(value: String): Boolean =
 private fun sendString(alt: String) = "SEND_STRING($alt)"
 
 private fun repeatableTap(qmk: QmkKey) = "magic_tap_repeatable(${qmk.key});"
+
+private fun annotateMagicSend(
+    statement: String,
+    emitted: String,
+    fullOutput: String = emitted,
+): String {
+    val detail =
+        if (emitted == fullOutput) {
+            "emits ${cStringLiteral(emitted)}"
+        } else {
+            "emits ${cStringLiteral(emitted)} -> ${cStringLiteral(fullOutput)}"
+        }
+    return "$statement /* $detail */"
+}
+
+private fun cStringLiteral(value: String): String =
+    buildString {
+        append('"')
+        value.forEach { char ->
+            when (char) {
+                '\\' -> append("\\\\")
+                '"' -> append("\\\"")
+                '\n' -> append("\\n")
+                '\r' -> append("\\r")
+                '\t' -> append("\\t")
+                else -> append(char)
+            }
+        }
+        append('"')
+    }
 
 private fun resolveMagicDefinition(
     def: String,
