@@ -105,7 +105,7 @@ Cell = what to emit.
 
 | Magic  |  magic_a   |  magic_b   |      magic_c       |   magic_d   |    magic_e    |  magic_f  |    magic_g    |     magic_h     |   magic_i   | magic_j |  magic_k   |
 | :----: | :--------: | :--------: | :----------------: | :---------: | :-----------: | :-------: | :-----------: | :-------------: | :---------: | :-----: | :--------: |
-| suffix |            |     ly     |                    |     n't     |       ?       |           |     ", "      |       ed        |   " the "   |  ". "   |     s      |
+| suffix |     ed     |     ly     |                    |     n't     |       ?       |           |     ", "      |                 |   " the "   |  ". "   |     s      |
 |   a    |            |            |                    |             |               |           |       e       |                 |             |         |            |
 |   b    | background |   behind   |                    |  baseline   | observability |  disable  |   basically   |    obsolete     |   because   |    d    |   before   |
 |   c    |     n      |   "'ll"    |                    |    "n't"    |       d       | container |               |     comment     |    "'re"    |  "'d"   |    "'s"    |
@@ -114,7 +114,7 @@ Cell = what to emit.
 |   f    | confusing  |  conflict  |                    | performance |   frequency   |           |               |     focused     |  following  |    d    |            |
 |   g    |   global   |     f      |                    |  organize   |    github     |  general  |               |    generate     |      k      |    d    |  suggest   |
 |   h    |            |            |                    |             |               |           |               |                 |             |    y    |            |
-|   i    |            |            |                    |             |               |           |               |                 |             |         |            |
+|   i    |            |            |                    |             |               |           |   implement   |                 |             |         |            |
 |   j    |            |            |                    |             |               |           |     just      |                 |             |         |            |
 |   k    |     r      |            |                    |             |    merged     |           |               |     update      |    know     |    x    |    knew    |
 |   l    |     m      |     h      |                    |  language   |    already    | available |   unrelated   |    elaborate    |      r      |    c    |     b      |
