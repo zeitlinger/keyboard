@@ -3,8 +3,11 @@ root = true
 [*]
 max_line_length = 120
 
-[layout.h]
-max_line_length = 300
+[*.h]
+max_line_length = off
+
+[*.py]
+max_line_length = 200
 
 [*.md]
 # Markdown line length is handled by rumdl

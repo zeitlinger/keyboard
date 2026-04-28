@@ -1,2 +1,2 @@
 [global]
-disable = ["line-length"]
+disable = ["MD034"]  # bare URLs
