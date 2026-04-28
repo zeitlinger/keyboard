@@ -7,20 +7,17 @@ data class QmkKey(
     val key: String,
     val substitution: String?,
 ) {
-    override fun toString(): String {
-        return key
-    }
+    override fun toString(): String = key
 
     val isNo = key == qmkNo
 
     companion object {
-        fun substitution(kay: String, substitutionCombo: String): QmkKey {
-            return QmkKey(kay, substitutionCombo)
-        }
+        fun substitution(
+            kay: String,
+            substitutionCombo: String,
+        ): QmkKey = QmkKey(kay, substitutionCombo)
 
-        fun of(key: String): QmkKey {
-            return QmkKey(key, null)
-        }
+        fun of(key: String): QmkKey = QmkKey(key, null)
     }
 }
 
@@ -45,8 +42,8 @@ data class MagicCommand(
 )
 
 data class AdaptiveRule(
-    val key: QmkKey,    // the key that adapts (e.g. KC_H)
-    val after: QmkKey,  // previous key that triggers adaptation (e.g. KC_N)
+    val key: QmkKey, // the key that adapts (e.g. KC_H)
+    val after: QmkKey, // previous key that triggers adaptation (e.g. KC_N)
     val output: QmkKey, // what to output instead (e.g. KC_G)
 )
 
@@ -66,38 +63,49 @@ class QmkTranslator(
     val originalKeys: MutableMap<KeyPosition, QmkKey>,
     val adaptives: MutableList<AdaptiveRule>,
 ) {
-
     private val map: Map<String, String>
     val nonSimpleKeys = mutableMapOf<String, String>()
 
     init {
-        val files = mapOf(
-            "src/main/resources/keycodes_0.0.1_basic.hjson" to "keycodes",
-            "src/main/resources/keycodes_us_0.0.1.hjson" to "aliases",
-        )
-        map = files.flatMap { file ->
-            val aliases = JsonValue.readHjson(FileReader(file.key))
-                .asObject().get(file.value).asObject()
-            aliases.mapNotNull {
-                val o = it.value.asObject()
-                val key = o.get("key").asString()
-                if (file.value == "aliases" && it.name.contains("(")) {
-                    nonSimpleKeys[key] = it.name
+        val files =
+            mapOf(
+                "src/main/resources/keycodes_0.0.1_basic.hjson" to "keycodes",
+                "src/main/resources/keycodes_us_0.0.1.hjson" to "aliases",
+            )
+        map = files
+            .flatMap { file ->
+                val aliases =
+                    JsonValue
+                        .readHjson(FileReader(file.key))
+                        .asObject()
+                        .get(file.value)
+                        .asObject()
+                aliases.mapNotNull {
+                    val o = it.value.asObject()
+                    val key = o.get("key").asString()
+                    if (file.value == "aliases" && it.name.contains("(")) {
+                        nonSimpleKeys[key] = it.name
+                    }
+                    key.takeUnless { it.contains("KP_") || it.contains("NONUS_") }?.let {
+                        o.get("label").asString() to
+                            it
+                    }
                 }
-                key.takeUnless { it.contains("KP_") || it.contains("NONUS_") }?.let { o.get("label").asString() to it }
-            }
-        }.toMap() + mapOf(
-            " " to "KC_SPC",
-        )
+            }.toMap() +
+            mapOf(
+                " " to "KC_SPC",
+            )
     }
 
-    fun toQmk(key: String, pos: KeyPosition): QmkKey {
-        return key
+    fun toQmk(
+        key: String,
+        pos: KeyPosition,
+    ): QmkKey =
+        key
             .let { symbols.replace(it, pos, this) }
             .let { translatedKey ->
                 toQmkIgnoringPosition(translatedKey)
-            }
-            .let {
+            }.let {
                 val substitutionCombo = if (it.startsWith("\"") && it.endsWith("\"")) it else null
                 when {
                     substitutionCombo != null -> QmkKey.substitution(it, substitutionCombo)
@@ -105,14 +113,18 @@ class QmkTranslator(
                     else -> assertQmk(it, pos)
                 }
             }
-    }
 
-    fun toQmkIgnoringPosition(translatedKey: String): String = map.getOrDefault(
-        translatedKey.replaceFirstChar { it.titlecase() },
-        translatedKey
-    )
+    fun toQmkIgnoringPosition(translatedKey: String): String =
+        map.getOrDefault(
+            translatedKey.replaceFirstChar { it.titlecase() },
+            translatedKey,
+        )
 
-    fun reachLayer(layerName: LayerName, pos: KeyPosition, activation: LayerActivation): LayerRef {
+    fun reachLayer(
+        layerName: LayerName,
+        pos: KeyPosition,
+        activation: LayerActivation,
+    ): LayerRef {
         val option = layerOptions[layerName] ?: throw IllegalArgumentException("unknown layer $layerName in $pos")
         val number = layerNumbers[layerName]
         if (number != null && !activation.isToggle()) {
@@ -125,15 +137,22 @@ class QmkTranslator(
         return LayerRef(layerName, number, option)
     }
 
-    fun assertTargetOrder(targetLayerName: LayerName, pos: KeyPosition) {
-        if (layerNumbers.getValue(targetLayerName) < layerNumbers.getValue(pos.layerName))
+    fun assertTargetOrder(
+        targetLayerName: LayerName,
+        pos: KeyPosition,
+    ) {
+        if (layerNumbers.getValue(targetLayerName) < layerNumbers.getValue(pos.layerName)) {
             throw IllegalStateException("layer $targetLayerName is lower than $pos")
+        }
     }
 
     fun getKey(pos: KeyPosition): String =
         (keys[pos.layerName])?.get(pos.tableIndex)?.get(pos.row)?.get(pos.column) ?: ""
 
-    fun gotKey(key: String, pos: KeyPosition) {
+    fun gotKey(
+        key: String,
+        pos: KeyPosition,
+    ) {
         if (pos.layerName == "Num" && !key.first().isDigit()) {
             // non-num keys are only in additional to other layers
             return
@@ -142,32 +161,35 @@ class QmkTranslator(
     }
 }
 
-fun assertQmk(key: String, pos: KeyPosition): QmkKey {
-    return when {
+fun assertQmk(
+    key: String,
+    pos: KeyPosition,
+): QmkKey =
+    when {
         key == comboTrigger || qmkPrefixes.any { key.startsWith(it) } -> QmkKey.of(key)
         else -> throw IllegalStateException("key not translated '$key' in $pos")
     }
-}
 
-val qmkPrefixes = setOf(
-    "QK_",
-    "DT_",
-    "KC_",
-    "LT(",
-    "MO(",
-    "C(",
-    "RCS(",
-    "ALGR(",
-    "RSA(",
-    "A(",
-    "S(",
-    "ALT_T(",
-    "CTL_T(",
-    "SFT_T(",
-    "OSM(",
-    "LSFT_T(",
-    "RSFT_T(",
-    "UP(",
-    "UM(",
-    "OS_TOGG",
-)
+val qmkPrefixes =
+    setOf(
+        "QK_",
+        "DT_",
+        "KC_",
+        "LT(",
+        "MO(",
+        "C(",
+        "RCS(",
+        "ALGR(",
+        "RSA(",
+        "A(",
+        "S(",
+        "ALT_T(",
+        "CTL_T(",
+        "SFT_T(",
+        "OSM(",
+        "LSFT_T(",
+        "RSFT_T(",
+        "UP(",
+        "UM(",
+        "OS_TOGG",
+    )

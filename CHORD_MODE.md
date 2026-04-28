@@ -20,8 +20,8 @@ The basic pattern is:
 
 Examples from the current table:
 
-- `b` then `magic_d` -> `because `
-- `t` then `magic_d` -> `tion `
+- `b` then `magic_d` -> `because`
+- `t` then `magic_d` -> `tion`
 - `n` then `magic_d` -> `qu`
 - `,` then `magic_b` -> ` and `
 
@@ -48,9 +48,9 @@ Bare multi-character cells are treated as word expansions.
 
 Examples:
 
-- `b` + `magic_d` with cell `because` emits `ecause ` because the previous `b` is stripped
-- `j` + `magic_d` with cell `just` emits `ust `
-- `spc` + `magic_d` with cell `the` emits `the `
+- `b` + `magic_d` with cell `because` emits `ecause` because the previous `b` is stripped
+- `j` + `magic_d` with cell `just` emits `ust`
+- `spc` + `magic_d` with cell `the` emits `the`
 
 ### Quoted string cell
 
@@ -76,7 +76,7 @@ Bracketed names call a named handler instead of sending raw text.
 
 Current handler:
 
-- `[dotSpc]` -> backspace, send `. `, enable one-shot shift, clear suffix state
+- `[dotSpc]` -> backspace, send `.`, enable one-shot shift, clear suffix state
 
 ## Suffix Chaining
 
@@ -85,20 +85,20 @@ the trailing space into a suffix or punctuation.
 
 Supported suffix follow-ups:
 
-- `magic_g` -> `ed `, except after a word ending in `e` where it becomes `d `
-- `magic_e` -> `ly `
-- `magic_b` -> `s `
-- `magic_d` -> `n't `
-- `ing` key -> `ing `, with a second backspace when the prior letter is a vowel
-- `magic_i` -> `. ` and one-shot shift
-- `magic_h` -> `, `
+- `magic_g` -> `ed`, except after a word ending in `e` where it becomes `d`
+- `magic_e` -> `ly`
+- `magic_b` -> `s`
+- `magic_d` -> `n't`
+- `ing` key -> `ing`, with a second backspace when the prior letter is a vowel
+- `magic_i` -> `.` and one-shot shift
+- `magic_h` -> `,`
 
 Examples:
 
-- `b` + `magic_d` -> `because `, then `magic_b` -> `becauses `
-- `j` + `magic_d` -> `just `, then `magic_g` -> `justed `
-- `spc` + `magic_d` -> `the `, then `magic_i` -> `the. ` with shift armed
-- `u` + `magic_i` -> `update `, then `magic_g` -> `updated `
+- `b` + `magic_d` -> `because`, then `magic_b` -> `because`
+- `j` + `magic_d` -> `just`, then `magic_g` -> `justed`
+- `spc` + `magic_d` -> `the`, then `magic_i` -> `the.` with shift armed
+- `u` + `magic_i` -> `update`, then `magic_g` -> `updated`
 
 Suffix mode exits on any non-suffix key.
 

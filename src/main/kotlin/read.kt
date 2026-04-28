@@ -25,7 +25,7 @@ fun readLayer(
         base,
         combos,
         layerIndex,
-        option
+        option,
     )
 }
 
@@ -34,34 +34,56 @@ fun translateKey(
     pos: KeyPosition,
     command: String,
     recordUsage: Boolean = true,
-): Key = getFallbackIfNeeded(command, translator, pos, null, recordUsage)
-    .let { def ->
-        when {
-            // Symbol-table entries must win over prefix syntax so tokens like
-            // #gz can be resolved from the Symbols table instead of being
-            // misread as layer toggles.
-            def == qmkNo || translator.symbols.mapping.containsKey(def) -> translateSimpleKey(translator, def, pos)
-            else -> findLayerActivationKey(def, translator, pos) ?: when {
-            def.contains(" ") && !def.startsWith("\"") -> spaceSeparatedHint(def, translator, pos)
-            def.contains("+") && !def.startsWith("+") -> layerTapHoldKey(def, translator, pos)
+): Key =
+    getFallbackIfNeeded(command, translator, pos, null, recordUsage)
+        .let { def ->
+            when {
+                // Symbol-table entries must win over prefix syntax so tokens like
+                // #gz can be resolved from the Symbols table instead of being
+                // misread as layer toggles.
+                def == qmkNo || translator.symbols.mapping.containsKey(def) -> {
+                    translateSimpleKey(translator, def, pos)
+                }
 
-            def.contains("-") && def.length > 1 -> when {
-                def == "--" -> layerOffKey(translator, pos, pos.layerName)
-                else -> keyWithModifier(def, translator, pos)
+                else -> {
+                    findLayerActivationKey(def, translator, pos) ?: when {
+                        def.contains(" ") && !def.startsWith("\"") -> {
+                            spaceSeparatedHint(def, translator, pos)
+                        }
+
+                        def.contains("+") && !def.startsWith("+") -> {
+                            layerTapHoldKey(def, translator, pos)
+                        }
+
+                        def.contains("-") && def.length > 1 -> {
+                            when {
+                                def == "--" -> layerOffKey(translator, pos, pos.layerName)
+                                else -> keyWithModifier(def, translator, pos)
+                            }
+                        }
+
+                        else -> {
+                            translateSimpleKey(translator, def, pos)
+                        }
+                    }
+                }
             }
-
-            else -> translateSimpleKey(translator, def, pos)
         }
-        }
-    }
 
-private fun findLayerActivationKey(def: String, translator: QmkTranslator, pos: KeyPosition): Key? {
-    return LayerActivation.entries
+private fun findLayerActivationKey(
+    def: String,
+    translator: QmkTranslator,
+    pos: KeyPosition,
+): Key? =
+    LayerActivation.entries
         .firstOrNull { def.length > 1 && def[1] != ' ' && it.prefix != null && def.startsWith(it.prefix) }
         ?.let { activation -> layerKey(translator, pos, def.substring(1), activation) }
-}
 
-fun spaceSeparatedHint(def: String, translator: QmkTranslator, pos: KeyPosition): Key {
+fun spaceSeparatedHint(
+    def: String,
+    translator: QmkTranslator,
+    pos: KeyPosition,
+): Key {
     val parts = def.split(" ")
     val right = parts[1].trim()
     val left = parts[0].trim()
@@ -72,20 +94,28 @@ fun spaceSeparatedHint(def: String, translator: QmkTranslator, pos: KeyPosition)
             translator.ignoreMissing.add(translateSimpleKey(translator, right, pos).key)
             key
         }
-        else -> throw IllegalArgumentException("unknown command '$def' in $pos")
+
+        else -> {
+            throw IllegalArgumentException("unknown command '$def' in $pos")
+        }
     }
 }
 
-private fun layerTapHoldKey(def: String, translator: QmkTranslator, pos: KeyPosition): Key {
+private fun layerTapHoldKey(
+    def: String,
+    translator: QmkTranslator,
+    pos: KeyPosition,
+): Key {
     val parts = def.split("+")
     val key = addCustomIfNotSimpleKey(translateKey(translator, pos, parts[0]).key, pos, translator)
     if (key in translator.noHoldKeys) {
         throw IllegalArgumentException("key $key not allowed for tap hold at $pos")
     }
     translator.symbols.customKeycodes[key.key]?.let { customKey ->
-       customKey.command?.let { command ->
-           translator.symbols.customKeycodes[key.key] = customKey.copy(command = command.copy(type = CustomCommandType.OnTap))
-       }
+        customKey.command?.let { command ->
+            translator.symbols.customKeycodes[key.key] =
+                customKey.copy(command = command.copy(type = CustomCommandType.OnTap))
+        }
     }
     val command = QmkKey.of("LT(${translator.reachLayer(parts[1], pos, LayerActivation.TapHold).const()},$key)")
     translator.layerTapHold.add(command)
@@ -97,37 +127,57 @@ fun layerKey(
     pos: KeyPosition,
     layer: String,
     activation: LayerActivation,
-): Key {
-    return when {
-        activation == LayerActivation.Toggle -> layerOnKey(translator, pos, layer)
-        activation.method != null -> Key(
-            QmkKey.of(
-                "${activation.method}(${
-                    translator.reachLayer(layer, pos, activation).const()
-                })"
-            ),
-            pos
-        )
+): Key =
+    when {
+        activation == LayerActivation.Toggle -> {
+            layerOnKey(translator, pos, layer)
+        }
 
-        else -> throw IllegalArgumentException("unsupported layer activation $activation")
+        activation.method != null -> {
+            Key(
+                QmkKey.of(
+                    "${activation.method}(${
+                        translator.reachLayer(layer, pos, activation).const()
+                    })",
+                ),
+                pos,
+            )
+        }
+
+        else -> {
+            throw IllegalArgumentException("unsupported layer activation $activation")
+        }
     }
-}
 
-fun layerOnKey(translator: QmkTranslator, pos: KeyPosition, layer: String): Key {
+fun layerOnKey(
+    translator: QmkTranslator,
+    pos: KeyPosition,
+    layer: String,
+): Key {
     translator.layerOptions.getValue(layer).toggleOn = true
     return toggleKey(translator, layer, pos)
 }
 
-fun layerOffKey(translator: QmkTranslator, pos: KeyPosition, layer: String): Key {
+fun layerOffKey(
+    translator: QmkTranslator,
+    pos: KeyPosition,
+    layer: String,
+): Key {
     translator.layerOptions.getValue(layer).toggleOff = true
     return toggleKey(translator, baseLayerName, pos)
 }
 
-fun toggleKey(translator: QmkTranslator, layer: String, pos: KeyPosition): Key {
-    return Key(QmkKey.of("TO(${translator.reachLayer(layer, pos, LayerActivation.Toggle).const()})"), pos)
-}
+fun toggleKey(
+    translator: QmkTranslator,
+    layer: String,
+    pos: KeyPosition,
+): Key = Key(QmkKey.of("TO(${translator.reachLayer(layer, pos, LayerActivation.Toggle).const()})"), pos)
 
-fun keyWithModifier(def: String, translator: QmkTranslator, pos: KeyPosition): Key {
+fun keyWithModifier(
+    def: String,
+    translator: QmkTranslator,
+    pos: KeyPosition,
+): Key {
     val parts = def.split("-")
     val modifier = parts[0].toCharArray().map { Modifier.ofShort(it.toString()) }.toTypedArray()
     val target = parts[1]
@@ -139,18 +189,28 @@ fun keyWithModifier(def: String, translator: QmkTranslator, pos: KeyPosition): K
     }
 }
 
-fun addMods(key: QmkKey, vararg modifier: Modifier): QmkKey =
+fun addMods(
+    key: QmkKey,
+    vararg modifier: Modifier,
+): QmkKey =
     QmkKey.of(
-        if (modifier.size == 1) "${modifier[0].short}($key)" else
+        if (modifier.size == 1) {
+            "${modifier[0].short}($key)"
+        } else {
             when (modifier.toSet()) {
-                setOf(Modifier.Alt, Modifier.Shift) -> "LSA(${key})"
-                setOf(Modifier.Alt, Modifier.Ctrl) -> "LCA(${key})"
-                setOf(Modifier.Shift, Modifier.Ctrl) -> "RCS(${key})"
+                setOf(Modifier.Alt, Modifier.Shift) -> "LSA($key)"
+                setOf(Modifier.Alt, Modifier.Ctrl) -> "LCA($key)"
+                setOf(Modifier.Shift, Modifier.Ctrl) -> "RCS($key)"
                 else -> throw IllegalStateException("unknown modifier '${modifier.joinToString(", ")}'")
             }
+        },
     )
 
-fun translateSimpleKey(translator: QmkTranslator, def: String, pos: KeyPosition): Key {
+fun translateSimpleKey(
+    translator: QmkTranslator,
+    def: String,
+    pos: KeyPosition,
+): Key {
     val key = translator.toQmk(def, pos)
     return Key(key, pos, addModTab(key, pos, translator))
 }
@@ -159,17 +219,24 @@ fun translateTable(
     tables: MultiTable,
     translator: QmkTranslator,
     layerName: LayerName,
-): List<Rows> = tables.mapIndexed { tableIndex, table ->
-    table.mapIndexed { rowNumber, row ->
-        row.mapIndexed { column, def ->
-            translateKey(
-                translator, KeyPosition(
-                    tableIndex, rowNumber, column, layerName, translator.options.nonThumbColumns
-                ), def
-            )
+): List<Rows> =
+    tables.mapIndexed { tableIndex, table ->
+        table.mapIndexed { rowNumber, row ->
+            row.mapIndexed { column, def ->
+                translateKey(
+                    translator,
+                    KeyPosition(
+                        tableIndex,
+                        rowNumber,
+                        column,
+                        layerName,
+                        translator.options.nonThumbColumns,
+                    ),
+                    def,
+                )
+            }
         }
     }
-}
 
 fun getFallbackIfNeeded(
     key: String,
@@ -201,7 +268,10 @@ fun getFallbackIfNeeded(
     val fallbackLayer = fallbackLayer(pos, option)
 
     return when {
-        fallbackLayer == null || pos.layerName == baseLayerName || pos.tableIndex > 0 -> qmkNo
+        fallbackLayer == null || pos.layerName == baseLayerName || pos.tableIndex > 0 -> {
+            qmkNo
+        }
+
         else -> {
             val newPos = pos.copy(layerName = fallbackLayer)
             getFallbackIfNeeded(
@@ -209,13 +279,16 @@ fun getFallbackIfNeeded(
                 translator,
                 newPos,
                 translator.layerOptions[pos.layerName] ?: throw IllegalStateException("can't find layer at $pos"),
-                false
+                false,
             )
         }
     }
 }
 
-fun fallbackLayer(pos: KeyPosition, option: LayerOption): LayerName? {
+fun fallbackLayer(
+    pos: KeyPosition,
+    option: LayerOption,
+): LayerName? {
     val left = pos.column < pos.columns / 2
     return if (left) option.leftFallbackLayer else option.rightFallbackLayer
 }

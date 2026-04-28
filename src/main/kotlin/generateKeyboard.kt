@@ -9,7 +9,7 @@ data class GeneratorArgs(
     val generatorDir: GitFile,
     val dstDir: File,
     val versionString: String,
-    val printStats: Boolean ,
+    val printStats: Boolean,
 )
 
 val gitTemplate = "https://github.com/zeitlinger/keyboard/blob/main/%s"
@@ -26,7 +26,7 @@ fun main() {
             File("qmk"),
             "use target/qmk to build the firmware to get the git version",
             true,
-        )
+        ),
     )
     "cp -r qmk target/".runCommand()
     run(
@@ -36,7 +36,7 @@ fun main() {
             File("target/qmk"),
             readGitVersion(GitFile(cfg), cfg.name),
             false,
-        )
+        ),
     )
 }
 
@@ -49,7 +49,10 @@ data class Options(
     val homeRowPositions: Map<Int, Modifier>?,
 )
 
-enum class LayerActivation(val prefix: String?, val method: String?) {
+enum class LayerActivation(
+    val prefix: String?,
+    val method: String?,
+) {
     Toggle("#", null),
     Hold("*", "MO"),
     TapToggle("$", "TT"),
@@ -57,7 +60,8 @@ enum class LayerActivation(val prefix: String?, val method: String?) {
     ChangeDefault(">", "DF"),
     Hidden(null, null),
     TapHold(null, null),
-    ModTap(null, null);
+    ModTap(null, null),
+    ;
 
     fun isToggle(): Boolean = this == Toggle || this == ChangeDefault
 }
@@ -66,7 +70,11 @@ enum class LayerFlag { Alternate, Shifted, DirectComboLeft, DirectComboRight, Tr
 
 typealias LayerName = String
 
-data class LayerRef(val name: LayerName, val number: Int?, val option: LayerOption) {
+data class LayerRef(
+    val name: LayerName,
+    val number: Int?,
+    val option: LayerOption,
+) {
     fun const() = name.const()
 }
 
@@ -90,11 +98,8 @@ data class Key(
 ) {
     fun isBlocked(): Boolean = keyWithModifier.isNo
 
-    fun isReal(): Boolean {
-        return !(isBlocked() || key.key == comboTrigger || key.key == "KC_TRNS" || key.isNo)
-    }
+    fun isReal(): Boolean = !(isBlocked() || key.key == comboTrigger || key.key == "KC_TRNS" || key.isNo)
 }
-
 
 typealias Rows = List<List<Key>>
 

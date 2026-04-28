@@ -68,9 +68,14 @@ def set_flag(args: list[str], flag: str, value: str) -> None:
 
 
 def normalized_source_weights(present_labels: list[str], explicit: str | None) -> str:
-    canonical_labels = [SOURCE_LABEL_ALIASES.get(label, label) for label in present_labels]
+    canonical_labels = [
+        SOURCE_LABEL_ALIASES.get(label, label) for label in present_labels
+    ]
     if explicit is None:
-        return ",".join(f"{label}={DEFAULT_SOURCE_WEIGHTS.get(label, '1.0')}" for label in canonical_labels)
+        return ",".join(
+            f"{label}={DEFAULT_SOURCE_WEIGHTS.get(label, '1.0')}"
+            for label in canonical_labels
+        )
 
     weights: dict[str, str] = {}
     for part in explicit.split(","):
@@ -129,13 +134,18 @@ def main() -> None:
     rank_args = list(sys.argv[1:])
 
     env = os.environ.copy()
-    env["PYTHONPATH"] = str(ROOT) if not env.get("PYTHONPATH") else f"{ROOT}:{env['PYTHONPATH']}"
+    env["PYTHONPATH"] = (
+        str(ROOT) if not env.get("PYTHONPATH") else f"{ROOT}:{env['PYTHONPATH']}"
+    )
 
-    explicit_weights = explicit_source_weights(flag_value(rank_args, "--source-weights"))
+    explicit_weights = explicit_source_weights(
+        flag_value(rank_args, "--source-weights")
+    )
     selected_sources = [
         (label, path)
         for label, path in SOURCE_FILES
-        if path.exists() and (not explicit_weights or explicit_weights.get(label, 0.0) > 0.0)
+        if path.exists()
+        and (not explicit_weights or explicit_weights.get(label, 0.0) > 0.0)
     ]
     inputs = [path for _, path in selected_sources]
     if not inputs:
@@ -172,10 +182,14 @@ def main() -> None:
         set_flag(
             rank_args,
             "--source-weights",
-            normalized_source_weights(actual_labels, flag_value(rank_args, "--source-weights")),
+            normalized_source_weights(
+                actual_labels, flag_value(rank_args, "--source-weights")
+            ),
         )
         if flag_value(rank_args, "--limit") is None:
-            ensure_flag(rank_args, "--limit", flag_value(rank_args, "--budget") or "174")
+            ensure_flag(
+                rank_args, "--limit", flag_value(rank_args, "--budget") or "174"
+            )
 
         run(["uv", "run", str(RANK), *rank_args], env=env)
 

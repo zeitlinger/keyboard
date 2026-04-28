@@ -64,11 +64,13 @@ The Ferris Sweep has **aggressive columnar stagger** — each column sits at a d
 ## Motion Quality
 
 **Good (best→acceptable):**
+
 1. Hand alternation
 2. Inward rolls (toward center, same hand)
 3. Outward rolls (away from center, same hand)
 
 **Bad:**
+
 - **SFB** (same-finger bigram): same column, any row. Pairs in this layout: c↔f↔x (col 1), n↔l↔w (col 2), t↔d (col 3), a↔u (col 4), e↔o (col 5), i↔y (col 6)
 - **Scissors**: |row diff| ≥ 2 AND |col diff| ≤ 1 AND same hand. Example: d(3,2)→w(2,0), u(4,2)→'(5,0)
 - **Redirect**: same hand, direction reverses (not a roll)

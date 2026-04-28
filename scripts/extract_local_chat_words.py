@@ -68,8 +68,27 @@ INSTRUCTION_HINTS = (
 PACKAGE_TOKEN_RE = re.compile(r"\b[a-z0-9][a-z0-9.+-]{2,}\b")
 PROSE_WORD_RE = re.compile(r"\b[a-z]+(?:'[a-z]+)?\b", re.I)
 STOP_WORDS = {
-    "a", "an", "and", "as", "at", "be", "by", "for", "from", "in", "into", "is", "it", "of",
-    "on", "or", "the", "to", "was", "were", "with",
+    "a",
+    "an",
+    "and",
+    "as",
+    "at",
+    "be",
+    "by",
+    "for",
+    "from",
+    "in",
+    "into",
+    "is",
+    "it",
+    "of",
+    "on",
+    "or",
+    "the",
+    "to",
+    "was",
+    "were",
+    "with",
 }
 CONTRACTION_NORMALIZATIONS = {
     "cant": "can't",
@@ -104,21 +123,32 @@ def looks_like_machine_output(text: str) -> bool:
         return True
     package_like_tokens = PACKAGE_TOKEN_RE.findall(text.lower())
     if (
-        ("apt install" in text.lower() or "--only-upgrade" in text.lower() or "package names" in text.lower())
-        and len(package_like_tokens) >= 12
-    ):
+        "apt install" in text.lower()
+        or "--only-upgrade" in text.lower()
+        or "package names" in text.lower()
+    ) and len(package_like_tokens) >= 12:
         return True
     if len(package_like_tokens) >= 18:
-        punctuated = sum(1 for token in package_like_tokens if any(ch.isdigit() or ch in ".+-" for ch in token))
+        punctuated = sum(
+            1
+            for token in package_like_tokens
+            if any(ch.isdigit() or ch in ".+-" for ch in token)
+        )
         if punctuated >= max(8, len(package_like_tokens) // 3):
             return True
     if CAMEL_CASE_RE.search(text) and ("{" in text or '"' in text or "[" in text):
         return True
     if text.count("{") + text.count("}") >= 6 and text.count('"') >= 10:
         return True
-    if text.count("\n") >= 4 and ("$ " in text or "Traceback" in text or "Error:" in text):
+    if text.count("\n") >= 4 and (
+        "$ " in text or "Traceback" in text or "Error:" in text
+    ):
         return True
-    if text.count("\n") >= 8 and ("## " in text or "```" in text) and "AGENTS.md" in text:
+    if (
+        text.count("\n") >= 8
+        and ("## " in text or "```" in text)
+        and "AGENTS.md" in text
+    ):
         return True
     return False
 
@@ -126,7 +156,11 @@ def looks_like_machine_output(text: str) -> bool:
 def looks_like_instruction_payload(text: str) -> bool:
     if any(hint in text for hint in INSTRUCTION_HINTS):
         return True
-    if text.count("\n") >= 8 and ("## " in text or "```" in text) and "AGENTS.md" in text:
+    if (
+        text.count("\n") >= 8
+        and ("## " in text or "```" in text)
+        and "AGENTS.md" in text
+    ):
         return True
     return False
 
@@ -138,16 +172,31 @@ def line_has_prose_signal(line: str) -> bool:
     lowered = line.lower()
     if PERMISSION_LINE_RE.match(lowered):
         return False
-    if any(token in lowered for token in ("error:", "warning:", "traceback", "could not compile", "exited with status")):
+    if any(
+        token in lowered
+        for token in (
+            "error:",
+            "warning:",
+            "traceback",
+            "could not compile",
+            "exited with status",
+        )
+    ):
         return False
     if "$ " in line or line.startswith(("[", "{", ">", "|")):
         return False
     if re.match(r"^[a-z0-9_.-]+:\s", lowered):
         return False
-    if lowered.startswith(("sudo ", "apt ", "git ", "cargo ", "uv ", "python ", "mise ")):
+    if lowered.startswith(
+        ("sudo ", "apt ", "git ", "cargo ", "uv ", "python ", "mise ")
+    ):
         return False
     package_like_tokens = PACKAGE_TOKEN_RE.findall(lowered)
-    punctuated = sum(1 for token in package_like_tokens if any(ch.isdigit() or ch in ".+-/" for ch in token))
+    punctuated = sum(
+        1
+        for token in package_like_tokens
+        if any(ch.isdigit() or ch in ".+-/" for ch in token)
+    )
     return punctuated < max(4, len(package_like_tokens) // 3)
 
 
@@ -155,7 +204,13 @@ def extract_prose_blocks(text: str) -> list[str]:
     if looks_like_instruction_payload(text):
         return []
     if looks_like_machine_output(text):
-        kept_lines = [line.strip() for line in text.splitlines() if line.strip() and line_has_prose_signal(line) and not looks_like_machine_output(line)]
+        kept_lines = [
+            line.strip()
+            for line in text.splitlines()
+            if line.strip()
+            and line_has_prose_signal(line)
+            and not looks_like_machine_output(line)
+        ]
         return kept_lines
 
     kept_lines: list[str] = []
@@ -183,13 +238,28 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         help="Files or directories to scan. Defaults to local Codex history/sessions and Downloads/Claude.html if present.",
     )
-    parser.add_argument("--readme", type=Path, default=README, help="README used for current magic coverage")
-    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT, help="TSV output path")
-    parser.add_argument("--source-label", default="chat_local", help="Source label written into the TSV")
-    parser.add_argument("--limit", type=int, default=500, help="Maximum number of rows to write")
-    parser.add_argument("--min-count", type=int, default=2, help="Minimum token count to include")
+    parser.add_argument(
+        "--readme",
+        type=Path,
+        default=README,
+        help="README used for current magic coverage",
+    )
+    parser.add_argument(
+        "--output", type=Path, default=DEFAULT_OUTPUT, help="TSV output path"
+    )
+    parser.add_argument(
+        "--source-label", default="chat_local", help="Source label written into the TSV"
+    )
+    parser.add_argument(
+        "--limit", type=int, default=500, help="Maximum number of rows to write"
+    )
+    parser.add_argument(
+        "--min-count", type=int, default=2, help="Minimum token count to include"
+    )
     parser.add_argument("--min-length", type=int, default=3, help="Minimum word length")
-    parser.add_argument("--max-length", type=int, default=24, help="Maximum word length")
+    parser.add_argument(
+        "--max-length", type=int, default=24, help="Maximum word length"
+    )
     parser.add_argument(
         "--min-english-freq",
         type=float,
@@ -243,7 +313,9 @@ def flatten_content(content: object) -> list[str]:
         return texts
     if isinstance(content, dict):
         texts: list[str] = []
-        if content.get("type") in {"input_text", "output_text", "text"} and isinstance(content.get("text"), str):
+        if content.get("type") in {"input_text", "output_text", "text"} and isinstance(
+            content.get("text"), str
+        ):
             texts.append(content["text"])
         for key in ("text", "message", "content"):
             if key in content:
@@ -372,7 +444,9 @@ def count_words(
             for raw_word in WORD_RE.findall(cleaned):
                 if is_identifier_like_token(raw_word):
                     continue
-                word = CONTRACTION_NORMALIZATIONS.get(raw_word.lower(), raw_word.lower())
+                word = CONTRACTION_NORMALIZATIONS.get(
+                    raw_word.lower(), raw_word.lower()
+                )
                 if word in STOP_WORDS:
                     continue
                 if not (min_length <= len(word) <= max_length):
@@ -383,9 +457,13 @@ def count_words(
     return counts, files_seen, messages_seen
 
 
-def write_output(output: Path, rows: list[tuple[int, float, str]], *, source_label: str) -> None:
+def write_output(
+    output: Path, rows: list[tuple[int, float, str]], *, source_label: str
+) -> None:
     lines = ["# count\tfreq\tsource\tword"]
-    lines.extend(f"{count}\t{freq:.12f}\t{source_label}\t{word}" for count, freq, word in rows)
+    lines.extend(
+        f"{count}\t{freq:.12f}\t{source_label}\t{word}" for count, freq, word in rows
+    )
     output.write_text("\n".join(lines) + "\n")
 
 

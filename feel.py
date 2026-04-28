@@ -309,10 +309,17 @@ def plain_typing_effort(
     for index in range(1, len(keys)):
         previous_key = keys[index - 1]
         current_key = keys[index]
-        transition = float(min(feel_score(previous_key, current_key, combo_target_penalty=False), 5))
-        if blocked_pairs and (output_chars[index - 1], output_chars[index]) in blocked_pairs:
+        transition = float(
+            min(feel_score(previous_key, current_key, combo_target_penalty=False), 5)
+        )
+        if (
+            blocked_pairs
+            and (output_chars[index - 1], output_chars[index]) in blocked_pairs
+        ):
             transition = max(transition, 5.0)
-        effort += key_press_cost(LAYOUT[current_key]) * roll_press_discount(
-            LAYOUT[previous_key], LAYOUT[current_key]
-        ) + transition
+        effort += (
+            key_press_cost(LAYOUT[current_key])
+            * roll_press_discount(LAYOUT[previous_key], LAYOUT[current_key])
+            + transition
+        )
     return effort

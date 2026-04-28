@@ -27,8 +27,27 @@ README = ROOT / "README.md"
 DEFAULT_OUTPUT = ROOT / "github_words.tsv"
 WORD_RE = re.compile(r"[a-z]+(?:'[a-z]+)*")
 STOP_WORDS = {
-    "a", "an", "and", "as", "at", "be", "by", "for", "from", "in", "into", "is", "it", "of",
-    "on", "or", "the", "to", "was", "were", "with",
+    "a",
+    "an",
+    "and",
+    "as",
+    "at",
+    "be",
+    "by",
+    "for",
+    "from",
+    "in",
+    "into",
+    "is",
+    "it",
+    "of",
+    "on",
+    "or",
+    "the",
+    "to",
+    "was",
+    "were",
+    "with",
 }
 
 
@@ -45,20 +64,38 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Extract authored GitHub words from issues, PRs, and comments for magic-word ranking."
     )
-    parser.add_argument("--readme", type=Path, default=README, help="README used for current magic coverage")
-    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT, help="TSV output path")
-    parser.add_argument("--source-label", default="github", help="Source label written into the TSV")
-    parser.add_argument("--username", help="GitHub username to extract for (defaults to authenticated user)")
+    parser.add_argument(
+        "--readme",
+        type=Path,
+        default=README,
+        help="README used for current magic coverage",
+    )
+    parser.add_argument(
+        "--output", type=Path, default=DEFAULT_OUTPUT, help="TSV output path"
+    )
+    parser.add_argument(
+        "--source-label", default="github", help="Source label written into the TSV"
+    )
+    parser.add_argument(
+        "--username",
+        help="GitHub username to extract for (defaults to authenticated user)",
+    )
     parser.add_argument(
         "--repo",
         action="append",
         default=[],
         help="Restrict to one or more repos (owner/name), repeatable",
     )
-    parser.add_argument("--limit", type=int, default=500, help="Maximum number of rows to write")
-    parser.add_argument("--min-count", type=int, default=2, help="Minimum token count to include")
+    parser.add_argument(
+        "--limit", type=int, default=500, help="Maximum number of rows to write"
+    )
+    parser.add_argument(
+        "--min-count", type=int, default=2, help="Minimum token count to include"
+    )
     parser.add_argument("--min-length", type=int, default=3, help="Minimum word length")
-    parser.add_argument("--max-length", type=int, default=24, help="Maximum word length")
+    parser.add_argument(
+        "--max-length", type=int, default=24, help="Maximum word length"
+    )
     parser.add_argument(
         "--include-covered",
         action="store_true",
@@ -86,7 +123,9 @@ def github_token() -> str:
     return result.stdout.strip()
 
 
-def github_get_json(path: str, *, params: dict[str, str | int] | None = None, token: str) -> tuple[object, dict[str, str]]:
+def github_get_json(
+    path: str, *, params: dict[str, str | int] | None = None, token: str
+) -> tuple[object, dict[str, str]]:
     url = f"https://api.github.com{path}"
     if params:
         url += "?" + urllib.parse.urlencode(params)
@@ -108,7 +147,9 @@ def paged_list(path: str, *, token: str) -> list[dict]:
     results: list[dict] = []
     page = 1
     while True:
-        payload, _ = github_get_json(path, params={"per_page": 100, "page": page}, token=token)
+        payload, _ = github_get_json(
+            path, params={"per_page": 100, "page": page}, token=token
+        )
         if not payload:
             return results
         assert isinstance(payload, list)
@@ -134,7 +175,9 @@ def to_item(raw: dict) -> GithubItem:
     )
 
 
-def collect_items(username: str, repos: list[str], *, token: str, max_items: int) -> list[GithubItem]:
+def collect_items(
+    username: str, repos: list[str], *, token: str, max_items: int
+) -> list[GithubItem]:
     merged: dict[tuple[str, int], GithubItem] = {}
     for raw in paged_list("/issues", token=token):
         item = to_item(raw)
@@ -148,21 +191,29 @@ def collect_items(username: str, repos: list[str], *, token: str, max_items: int
 
 def authored_texts(item: GithubItem, username: str, *, token: str) -> list[str]:
     texts = []
-    issue_payload, _ = github_get_json(f"/repos/{item.repository}/issues/{item.number}", token=token)
+    issue_payload, _ = github_get_json(
+        f"/repos/{item.repository}/issues/{item.number}", token=token
+    )
     if issue_payload.get("user", {}).get("login") == username and item.title:
         texts.append(item.title)
     if issue_payload.get("user", {}).get("login") == username and item.body:
         texts.append(item.body)
 
-    for comment in paged_list(f"/repos/{item.repository}/issues/{item.number}/comments", token=token):
+    for comment in paged_list(
+        f"/repos/{item.repository}/issues/{item.number}/comments", token=token
+    ):
         if comment.get("user", {}).get("login") == username and comment.get("body"):
             texts.append(comment["body"])
 
     if item.is_pull_request:
-        for comment in paged_list(f"/repos/{item.repository}/pulls/{item.number}/comments", token=token):
+        for comment in paged_list(
+            f"/repos/{item.repository}/pulls/{item.number}/comments", token=token
+        ):
             if comment.get("user", {}).get("login") == username and comment.get("body"):
                 texts.append(comment["body"])
-        for review in paged_list(f"/repos/{item.repository}/pulls/{item.number}/reviews", token=token):
+        for review in paged_list(
+            f"/repos/{item.repository}/pulls/{item.number}/reviews", token=token
+        ):
             if review.get("user", {}).get("login") == username and review.get("body"):
                 texts.append(review["body"])
 
@@ -186,9 +237,13 @@ def count_words(
     return counts
 
 
-def write_output(output: Path, rows: list[tuple[int, float, str]], *, source_label: str) -> None:
+def write_output(
+    output: Path, rows: list[tuple[int, float, str]], *, source_label: str
+) -> None:
     lines = ["# count\tfreq\tsource\tword"]
-    lines.extend(f"{count}\t{freq:.12f}\t{source_label}\t{word}" for count, freq, word in rows)
+    lines.extend(
+        f"{count}\t{freq:.12f}\t{source_label}\t{word}" for count, freq, word in rows
+    )
     output.write_text("\n".join(lines) + "\n")
 
 

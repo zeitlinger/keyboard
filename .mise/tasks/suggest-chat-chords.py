@@ -52,7 +52,9 @@ def main() -> None:
     rank_args = list(sys.argv[1:])
 
     env = os.environ.copy()
-    env["PYTHONPATH"] = str(ROOT) if not env.get("PYTHONPATH") else f"{ROOT}:{env['PYTHONPATH']}"
+    env["PYTHONPATH"] = (
+        str(ROOT) if not env.get("PYTHONPATH") else f"{ROOT}:{env['PYTHONPATH']}"
+    )
 
     with tempfile.TemporaryDirectory(prefix="suggest_chords_") as temp_dir_name:
         temp_dir = Path(temp_dir_name)
@@ -130,7 +132,9 @@ def main() -> None:
         ensure_flag(rank_args, "--show-delta")
         ensure_flag(rank_args, "--new-only")
         if flag_value(rank_args, "--limit") is None:
-            ensure_flag(rank_args, "--limit", flag_value(rank_args, "--budget") or "174")
+            ensure_flag(
+                rank_args, "--limit", flag_value(rank_args, "--budget") or "174"
+            )
 
         run(["uv", "run", str(RANK), *rank_args], env=env)
 

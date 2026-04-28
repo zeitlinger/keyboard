@@ -34,8 +34,12 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         help="Input TSVs with columns count, freq, source, word",
     )
-    parser.add_argument("--output", type=Path, default=Path("merged_words.tsv"), help="Output TSV path")
-    parser.add_argument("--limit", type=int, default=1000, help="Maximum merged rows to write")
+    parser.add_argument(
+        "--output", type=Path, default=Path("merged_words.tsv"), help="Output TSV path"
+    )
+    parser.add_argument(
+        "--limit", type=int, default=1000, help="Maximum merged rows to write"
+    )
     parser.add_argument(
         "--source-weight",
         action="append",
@@ -60,7 +64,9 @@ def parse_rows(path: Path) -> list[Row]:
 
 
 def merge_rows(inputs: list[Path]) -> list[Row]:
-    merged: dict[str, dict[str, float | int | str]] = defaultdict(lambda: {"count": 0, "freq": 0.0, "source": ""})
+    merged: dict[str, dict[str, float | int | str]] = defaultdict(
+        lambda: {"count": 0, "freq": 0.0, "source": ""}
+    )
     for path in inputs:
         for row in parse_rows(path):
             current = merged[row.word]
@@ -70,14 +76,21 @@ def merge_rows(inputs: list[Path]) -> list[Row]:
             sources.add(row.source)
             current["source"] = "+".join(sorted(sources))
     return [
-        Row(count=int(values["count"]), freq=float(values["freq"]), source=str(values["source"]), word=word)
+        Row(
+            count=int(values["count"]),
+            freq=float(values["freq"]),
+            source=str(values["source"]),
+            word=word,
+        )
         for word, values in merged.items()
     ]
 
 
 def write_rows(path: Path, rows: list[Row]) -> None:
     lines = ["# count\tfreq\tsource\tword"]
-    lines.extend(f"{row.count}\t{row.freq:.12f}\t{row.source}\t{row.word}" for row in rows)
+    lines.extend(
+        f"{row.count}\t{row.freq:.12f}\t{row.source}\t{row.word}" for row in rows
+    )
     path.write_text("\n".join(lines) + "\n")
 
 

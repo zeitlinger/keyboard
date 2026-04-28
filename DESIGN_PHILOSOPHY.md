@@ -132,19 +132,19 @@ The light actuation force is critical for this layout, as it relies heavily on:
 **Preferred Movement Types:**
 
 1. **Rolls** (sequential keys, same hand)
-    - Example: "you"
-    - Fluid motion, minimal effort
-    - Fast and comfortable
+   - Example: "you"
+   - Fluid motion, minimal effort
+   - Fast and comfortable
 
 2. **Alternating hands**
-    - Example: "make", "work"
-    - Each hand rests while other types
-    - Reduces fatigue
+   - Example: "make", "work"
+   - Each hand rests while other types
+   - Reduces fatigue
 
 3. **Inward rolls** (slightly preferred)
-    - Fingers move toward center
-    - Feels more natural than outward
-    - Example: pinky → ring → middle
+   - Fingers move toward center
+   - Feels more natural than outward
+   - Example: pinky → ring → middle
 
 **Avoided Patterns:**
 
@@ -199,25 +199,24 @@ See [Magic Keys section in README](README.md#magic-keys) for complete list.
 **Secondary Layers:**
 
 1. **Nav Layer** - Navigation and shortcuts
-    - Arrow keys
-    - Enter, Backspace, Delete
-    - Home, End, Page Up/Down
-    - Copy, paste, cut
-    - Window/tab switching
+   - Arrow keys
+   - Enter, Backspace, Delete
+   - Home, End, Page Up/Down
+   - Copy, paste, cut
+   - Window/tab switching
 
 2. **FnSym Layer** - Symbols and function keys
-    - Symbols (!, @, #, etc.)
-    - Function keys (F1-F12)
-    - Brackets, quotes
+   - Symbols (!, @, #, etc.)
+   - Function keys (F1-F12)
+   - Brackets, quotes
 
 3. **Num Layer** (Tri-layer) - Number pad
-    - Activated when both right shift and FnSym active
-    - Dedicated number entry
+   - Activated when both right shift and FnSym active
+   - Dedicated number entry
 
 4. **Specialized Layers:**
-    - Case conversion layer
-    - Media keys layer
-
+   - Case conversion layer
+   - Media keys layer
 
 | Decimals   | Number Layer | FN Sym Layer |
 |------------|--------------|--------------|
@@ -710,4 +709,3 @@ The result is a layout that:
 **Date**: January 2026  
 **Author**: Gregor Zeitlinger  
 **Status**: Living document - continuously refined based on usage
-

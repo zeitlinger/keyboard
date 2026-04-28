@@ -9,7 +9,6 @@
 from __future__ import annotations
 
 import argparse
-import math
 import re
 import subprocess
 import sys
@@ -112,7 +111,10 @@ def mnemonic_row_bonus(output: str, row: str) -> float:
         for letter in set(compact)
     )
     anchor_bonus = 0.42 if row_score >= best_score - 0.04 else 0.0
-    return (1.0 + start_bonus + position_bonus + repeat_bonus + anchor_bonus) * hand_bonus
+    return (
+        1.0 + start_bonus + position_bonus + repeat_bonus + anchor_bonus
+    ) * hand_bonus
+
 
 # Approximate physical positions for keys that can precede a magic press.
 PRECEDING_POSITIONS = {
@@ -177,7 +179,11 @@ def parse_args() -> argparse.Namespace:
         description="Find free magic-table placements for candidate outputs."
     )
     parser.add_argument("--readme", type=Path, default=README, help="Path to README.md")
-    parser.add_argument("words", nargs="*", help="Explicit words or phrases to rank into free magic slots")
+    parser.add_argument(
+        "words",
+        nargs="*",
+        help="Explicit words or phrases to rank into free magic slots",
+    )
     parser.add_argument(
         "--words-file",
         type=Path,
@@ -377,7 +383,11 @@ def output_frequency(output: str) -> float:
 
 
 def candidate_frequency(entry: ChordEntry) -> float:
-    return entry.frequency_override if entry.frequency_override is not None else output_frequency(entry.output)
+    return (
+        entry.frequency_override
+        if entry.frequency_override is not None
+        else output_frequency(entry.output)
+    )
 
 
 def parse_source_weights(raw: str | None) -> dict[str, float]:
@@ -433,7 +443,9 @@ def assignment_value(
     if saved < min_saved:
         return 0.0, 0.0, 0.0, 0.0, 0.0, saved
     freq = weighted_frequency(entry, source_weights)
-    plain_effort = plain_typing_effort(entry.output, adaptives, blocked_pairs=blocked_pairs)
+    plain_effort = plain_typing_effort(
+        entry.output, adaptives, blocked_pairs=blocked_pairs
+    )
     chord_effort = chord_typing_effort(slot)
     effort_saved = plain_effort - chord_effort
     net_gain = effort_saved - CHORD_MEMORY_TAX
@@ -489,7 +501,9 @@ def load_old_chords(args: argparse.Namespace) -> list[ChordEntry]:
             | current_suffix_constructible_outputs(args.readme)
             | current_symbol_outputs(args.readme)
         )
-        entries = [entry for entry in entries if entry.output.lower() not in existing_outputs]
+        entries = [
+            entry for entry in entries if entry.output.lower() not in existing_outputs
+        ]
     return entries
 
 
@@ -529,7 +543,12 @@ def parse_candidates_file(path: Path) -> list[ChordEntry]:
 
         parts = line.split("\t")
         if len(parts) >= 4:
-            count_text, freq_text, source_label, output = parts[0], parts[1], parts[2], "\t".join(parts[3:])
+            count_text, freq_text, source_label, output = (
+                parts[0],
+                parts[1],
+                parts[2],
+                "\t".join(parts[3:]),
+            )
             try:
                 frequency = float(freq_text)
             except ValueError:
@@ -545,7 +564,11 @@ def parse_candidates_file(path: Path) -> list[ChordEntry]:
             match = re.match(r"(\d+)\s+([0-9.]+)\s+(.+)", line)
             if not match:
                 continue
-            count_text, freq_text, output = match.group(1), match.group(2), match.group(3)
+            count_text, freq_text, output = (
+                match.group(1),
+                match.group(2),
+                match.group(3),
+            )
             frequency = float(freq_text)
             source_label = "source"
 
@@ -561,7 +584,9 @@ def parse_candidates_file(path: Path) -> list[ChordEntry]:
     return rows
 
 
-def corpus_frequency_overrides(entries: list[ChordEntry]) -> dict[str, tuple[float, str]]:
+def corpus_frequency_overrides(
+    entries: list[ChordEntry],
+) -> dict[str, tuple[float, str]]:
     overrides: dict[str, tuple[float, str]] = {}
     for entry in entries:
         if entry.frequency_override is None:
@@ -674,7 +699,12 @@ def current_symbol_outputs(readme: Path) -> set[str]:
         if len(cells) < 2 or cells[0] in {"Symbol", "-------"}:
             continue
         command = cells[1].strip()
-        if not command or command.startswith("KC_") or command.startswith("custom:") or command.startswith("magic:"):
+        if (
+            not command
+            or command.startswith("KC_")
+            or command.startswith("custom:")
+            or command.startswith("magic:")
+        ):
             continue
         if command.startswith("UP(") or command.startswith("UM("):
             continue
@@ -686,7 +716,9 @@ def magic_table_bounds(lines: list[str]) -> tuple[int, int]:
     start = next(
         i
         for i, line in enumerate(lines)
-        if line.startswith("|") and split_table_line(line) and split_table_line(line)[0] == "Magic"
+        if line.startswith("|")
+        and split_table_line(line)
+        and split_table_line(line)[0] == "Magic"
     )
     end = start + 2
     while end < len(lines) and lines[end].startswith("|"):
@@ -710,7 +742,9 @@ def parse_magic_table_from_lines(
     return header, rows, lines
 
 
-def parse_magic_table(readme: Path) -> tuple[list[str], dict[str, tuple[int, list[str]]], list[str]]:
+def parse_magic_table(
+    readme: Path,
+) -> tuple[list[str], dict[str, tuple[int, list[str]]], list[str]]:
     return parse_magic_table_from_lines(readme.read_text().splitlines())
 
 
@@ -719,7 +753,9 @@ def magic_rows_map(
     rows: dict[str, tuple[int, list[str]]],
 ) -> dict[str, dict[str, str]]:
     return {
-        row: {column: cells[index] for index, column in enumerate(header) if cells[index]}
+        row: {
+            column: cells[index] for index, column in enumerate(header) if cells[index]
+        }
         for row, (_, cells) in rows.items()
     }
 
@@ -735,7 +771,11 @@ def format_magic_row(row_name: str, cells: list[str]) -> str:
             return f" {cell:^7} "
         return f" {cell} "
 
-    return "|" + "|".join([fmt_row_label(row_name)] + [fmt_cell(cell) for cell in cells]) + "|"
+    return (
+        "|"
+        + "|".join([fmt_row_label(row_name)] + [fmt_cell(cell) for cell in cells])
+        + "|"
+    )
 
 
 def literal_cell(output: str) -> str:
@@ -745,7 +785,9 @@ def literal_cell(output: str) -> str:
     return f'"{output} "'
 
 
-def magic_feel_score(prev: str, column: str, starts_with_prev: bool) -> tuple[float, bool]:
+def magic_feel_score(
+    prev: str, column: str, starts_with_prev: bool
+) -> tuple[float, bool]:
     prev_pos = PRECEDING_POSITIONS.get(prev)
     magic_pos = MAGIC_POSITIONS[column]
     opposite_hand = False
@@ -788,7 +830,12 @@ def candidate_slots(
             slot_key = (row, column)
             if current_cells[index] and not allow_occupied:
                 continue
-            if current_cells[index] and allow_occupied and movable_slots is not None and slot_key not in movable_slots:
+            if (
+                current_cells[index]
+                and allow_occupied
+                and movable_slots is not None
+                and slot_key not in movable_slots
+            ):
                 continue
             starts_with_row = len(row) == 1 and output.lower().startswith(row)
             feel, opposite_hand = magic_feel_score(row, column, starts_with_row)
@@ -796,7 +843,9 @@ def candidate_slots(
                 MagicSlot(
                     row=row,
                     column=column,
-                    row_kind="letter" if len(row) == 1 and row.isalpha() else "non-letter",
+                    row_kind="letter"
+                    if len(row) == 1 and row.isalpha()
+                    else "non-letter",
                     feel=feel,
                     opposite_hand=opposite_hand,
                     starts_with_row=starts_with_row,
@@ -806,8 +855,14 @@ def candidate_slots(
     return slots
 
 
-def physical_key_for_output(prev_output: str | None, current_output: str, adaptives: dict[tuple[str, str], str]) -> str | None:
-    key = adaptives.get((prev_output, current_output), current_output) if prev_output else current_output
+def physical_key_for_output(
+    prev_output: str | None, current_output: str, adaptives: dict[tuple[str, str], str]
+) -> str | None:
+    key = (
+        adaptives.get((prev_output, current_output), current_output)
+        if prev_output
+        else current_output
+    )
     return key if key in LAYOUT else None
 
 
@@ -845,7 +900,7 @@ def magic_emitted_suffix(prev_output: str, cell: str) -> str | None:
         return cell
     raw = cell[1:-1] if cell.startswith('"') and cell.endswith('"') else cell
     if raw.startswith(prev_output):
-        return raw[len(prev_output):]
+        return raw[len(prev_output) :]
     return None
 
 
@@ -855,7 +910,11 @@ def plain_segment_cost(
     next_output: str | None,
     adaptives: dict[tuple[str, str], str],
 ) -> float:
-    previous_action = PhysicalAction("key", physical_key_for_output(None, prev_output, adaptives) or prev_output, LAYOUT[physical_key_for_output(None, prev_output, adaptives) or prev_output])
+    previous_action = PhysicalAction(
+        "key",
+        physical_key_for_output(None, prev_output, adaptives) or prev_output,
+        LAYOUT[physical_key_for_output(None, prev_output, adaptives) or prev_output],
+    )
     current_prev_output = prev_output
     cost = 0.0
     for char in emitted:
@@ -869,13 +928,22 @@ def plain_segment_cost(
     if next_output:
         key = physical_key_for_output(current_prev_output, next_output, adaptives)
         if key is not None:
-            cost += action_transition_cost(previous_action, PhysicalAction("key", key, LAYOUT[key]))
+            cost += action_transition_cost(
+                previous_action, PhysicalAction("key", key, LAYOUT[key])
+            )
     return cost
 
 
-def magic_segment_penalty(word: str, index: int, adaptives: dict[tuple[str, str], str], magic_rows: dict[str, dict[str, str]]) -> float:
+def magic_segment_penalty(
+    word: str,
+    index: int,
+    adaptives: dict[tuple[str, str], str],
+    magic_rows: dict[str, dict[str, str]],
+) -> float:
     prev_output = word[index - 1]
-    prev_key = physical_key_for_output(word[index - 2] if index > 1 else None, prev_output, adaptives)
+    prev_key = physical_key_for_output(
+        word[index - 2] if index > 1 else None, prev_output, adaptives
+    )
     if prev_key is None:
         return 0.0
     best_extra = 0.0
@@ -901,8 +969,15 @@ def magic_segment_penalty(word: str, index: int, adaptives: dict[tuple[str, str]
     return best_extra
 
 
-def magic_penalty_multiplier(word: str, adaptives: dict[tuple[str, str], str], magic_rows: dict[str, dict[str, str]]) -> float:
-    extras = [magic_segment_penalty(word, index, adaptives, magic_rows) for index in range(1, len(word))]
+def magic_penalty_multiplier(
+    word: str,
+    adaptives: dict[tuple[str, str], str],
+    magic_rows: dict[str, dict[str, str]],
+) -> float:
+    extras = [
+        magic_segment_penalty(word, index, adaptives, magic_rows)
+        for index in range(1, len(word))
+    ]
     total_extra = sum(extra for extra in extras if extra > 0)
     transitions = max(1, len(word) - 1)
     return 1.0 + (total_extra / transitions)
@@ -967,16 +1042,18 @@ def greedy_assign(
             allow_occupied=allow_occupied,
             movable_slots=movable_slots,
         ):
-            value, freq, plain_effort, chord_effort, effort_saved, saved = assignment_value(
-                entry,
-                slot,
-                adaptives,
-                blocked_pairs,
-                magic_rows,
-                source_weights,
-                difficulty_power,
-                difficulty_cutoff,
-                min_saved,
+            value, freq, plain_effort, chord_effort, effort_saved, saved = (
+                assignment_value(
+                    entry,
+                    slot,
+                    adaptives,
+                    blocked_pairs,
+                    magic_rows,
+                    source_weights,
+                    difficulty_power,
+                    difficulty_cutoff,
+                    min_saved,
+                )
             )
             if min_difficulty is not None and plain_effort < min_difficulty:
                 continue
@@ -1040,12 +1117,16 @@ def greedy_assign(
         for candidate in candidates:
             if not can_use(candidate):
                 continue
-            entry_key = candidate.output if distinct_by_output else candidate.source_chord
+            entry_key = (
+                candidate.output if distinct_by_output else candidate.source_chord
+            )
             used_entries.add(entry_key)
             used_slots.add((candidate.slot.row, candidate.slot.column))
             for source in candidate.source_label.split("+"):
                 used_source_counts[source] = used_source_counts.get(source, 0) + 1
-            used_row_counts[candidate.slot.row] = used_row_counts.get(candidate.slot.row, 0) + 1
+            used_row_counts[candidate.slot.row] = (
+                used_row_counts.get(candidate.slot.row, 0) + 1
+            )
             assignments.append(candidate)
             if len(assignments) >= budget:
                 break
@@ -1057,7 +1138,9 @@ def greedy_assign(
         for candidate in candidates:
             if not can_use(candidate):
                 continue
-            adjusted_value = candidate.value * row_balance_multiplier(candidate.slot.row)
+            adjusted_value = candidate.value * row_balance_multiplier(
+                candidate.slot.row
+            )
             sort_key = (
                 adjusted_value,
                 -candidate.slot.feel,
@@ -1080,7 +1163,9 @@ def greedy_assign(
         candidate_sources = candidate.source_label.split("+")
         for source in candidate_sources:
             used_source_counts[source] = used_source_counts.get(source, 0) + 1
-        used_row_counts[candidate.slot.row] = used_row_counts.get(candidate.slot.row, 0) + 1
+        used_row_counts[candidate.slot.row] = (
+            used_row_counts.get(candidate.slot.row, 0) + 1
+        )
         assignments.append(candidate)
     return assignments
 
@@ -1120,11 +1205,14 @@ def apply_assignments(
                 (
                     rows[row][0] + 1
                     for row in reversed(LETTER_ROWS)
-                    if row in rows and LETTER_ROWS.index(row) < LETTER_ROWS.index(assignment.slot.row)
+                    if row in rows
+                    and LETTER_ROWS.index(row) < LETTER_ROWS.index(assignment.slot.row)
                 ),
                 rows[next(row for row in NON_LETTER_ROWS if row in rows)][0],
             )
-            lines.insert(insert_at, format_magic_row(assignment.slot.row, [""] * len(header)))
+            lines.insert(
+                insert_at, format_magic_row(assignment.slot.row, [""] * len(header))
+            )
             _, rows, lines = parse_magic_table_from_lines(lines)
 
         row_index, cells = rows[assignment.slot.row]
@@ -1144,7 +1232,9 @@ def apply_assignments(
         row_index, cells = rows[row_name]
         column_index = header.index(column)
         if cells[column_index]:
-            raise ValueError(f"Unassigned slot already occupied during restore: {row_name}/{column}")
+            raise ValueError(
+                f"Unassigned slot already occupied during restore: {row_name}/{column}"
+            )
         cells[column_index] = entry.representation
         lines[row_index] = format_magic_row(row_name, cells)
         _, rows, lines = parse_magic_table_from_lines(lines)
@@ -1167,7 +1257,9 @@ def print_summary(
         1
         for row in allowed_rows
         for index in range(len(header))
-        if not (rows.get(row, (-1, [""] * len(header)))[1][index] if row in rows else "")
+        if not (
+            rows.get(row, (-1, [""] * len(header)))[1][index] if row in rows else ""
+        )
     )
     occupied_slots = sum(1 for _, cells in rows.values() for cell in cells if cell)
     print(
@@ -1272,7 +1364,10 @@ def rows_with_assignments(
     rows: dict[str, tuple[int, list[str]]],
     assignments: list[Assignment],
 ) -> dict[str, tuple[int, list[str]]]:
-    updated_rows = {row_name: (row_index, list(cells)) for row_name, (row_index, cells) in rows.items()}
+    updated_rows = {
+        row_name: (row_index, list(cells))
+        for row_name, (row_index, cells) in rows.items()
+    }
     for row_name, (_, cells) in updated_rows.items():
         for index in range(len(cells)):
             cells[index] = ""
@@ -1307,7 +1402,10 @@ def print_rearrangements(
         if current_slot is None:
             continue
         current_row, current_column = current_slot.row, current_slot.column
-        if (current_row, current_column) == (assignment.slot.row, assignment.slot.column):
+        if (current_row, current_column) == (
+            assignment.slot.row,
+            assignment.slot.column,
+        ):
             continue
         current_value, _, _, _, _, _ = assignment_value(
             ChordEntry(
@@ -1427,13 +1525,17 @@ def main() -> None:
     current_entries = load_current_magic_words(args.readme)
     if args.move_current_only:
         if args.allow_replacement or args.rearrange_current:
-            raise SystemExit("--move-current-only cannot be combined with --allow-replacement/--rearrange-current")
+            raise SystemExit(
+                "--move-current-only cannot be combined with --allow-replacement/--rearrange-current"
+            )
         args.include_current = True
     if args.add is not None:
         if not args.include_current:
             raise SystemExit("--add requires --include-current")
         if args.allow_replacement or args.rearrange_current:
-            raise SystemExit("--add is only supported without --allow-replacement/--rearrange-current")
+            raise SystemExit(
+                "--add is only supported without --allow-replacement/--rearrange-current"
+            )
         if args.add < 0:
             raise SystemExit("--add must be non-negative")
     old_chords = load_old_chords(args)
@@ -1459,7 +1561,9 @@ def main() -> None:
         old_chords.extend(enriched_current_entries)
     source_weights = parse_source_weights(args.source_weights)
     source_caps = parse_source_caps(args.source_cap)
-    allow_occupied = args.rearrange_current or args.allow_replacement or args.move_current_only
+    allow_occupied = (
+        args.rearrange_current or args.allow_replacement or args.move_current_only
+    )
     if args.move_current_only:
         current_assignments = greedy_assign(
             enriched_current_entries,
@@ -1482,7 +1586,9 @@ def main() -> None:
             row_usage_alpha=0.35,
         )
         if args.add is not None:
-            addition_candidates = [entry for entry in old_chords if entry.status != "current"]
+            addition_candidates = [
+                entry for entry in old_chords if entry.status != "current"
+            ]
             reshuffled_rows = rows_with_assignments(header, rows, current_assignments)
             add_assignments = greedy_assign(
                 addition_candidates,
@@ -1518,8 +1624,12 @@ def main() -> None:
             args.difficulty_cutoff,
             args.min_saved,
         )
-        addition_candidates = [entry for entry in old_chords if entry.status != "current"]
-        target_total = len(pinned_assignments) + args.add if args.add is not None else args.budget
+        addition_candidates = [
+            entry for entry in old_chords if entry.status != "current"
+        ]
+        target_total = (
+            len(pinned_assignments) + args.add if args.add is not None else args.budget
+        )
         addition_budget = max(0, target_total - len(pinned_assignments))
         assignments = pinned_assignments + greedy_assign(
             addition_candidates,

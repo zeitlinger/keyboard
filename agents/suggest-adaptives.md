@@ -5,6 +5,7 @@ See [design-philosophy.md](design-philosophy.md) for layout key positions, motio
 ## Goal
 
 Find new adaptive key candidates that:
+
 1. Resolve a bad motion (SFB, scissors, or same-key double) in a common bigram
 2. Don't sacrifice a common physical bigram (the trigger+adaptive_key pair)
 3. Don't introduce new SFBs on the following keypress
@@ -20,6 +21,7 @@ Existing: `n` + `h` → `g` (typing "nh" outputs "ng", avoiding the n↔l SFB fo
 ## Algorithm
 
 For each bigram `(a, b)` sorted by frequency where `motion(a→b)` is bad (SFB, scissors, or `a == b` double):
+
 1. Find candidate physical keys `c` where:
    - `c ≠ a`, `c ≠ b`, `c` is a single-key letter (not combo-only)
    - `motion(a→c)` is good (not SFB, not scissors)
@@ -34,7 +36,8 @@ For each bigram `(a, b)` sorted by frequency where `motion(a→b)` is bad (SFB, 
 **Run:** `mise run suggest-adaptives` (or `python3 suggest_adaptives.py`)
 
 **Output format (one block per bad bigram):**
-```
+
+```text
 Bigram 'ua' (0.508%) — SFB (both col 4, R.Index)
   u + e → a  sacrifice 'ue' (0.104%)  following-bad: 0/5
   u + o → a  sacrifice 'uo' (0.001%)  following-bad: 1/5

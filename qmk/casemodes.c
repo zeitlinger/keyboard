@@ -29,7 +29,7 @@
  * - @sevanteri
  *     - fixed xcase waiting mode to allow more modified keys and keys from other layers.
  *     - Added @baffalop's separator defaulting on first keypress, with a
- *       configurable default separator and overrideable function to determine
+ *       configurable default separator and overridable function to determine
  *       if the default should be used.
  */
 
@@ -138,7 +138,7 @@ static void remove_delimiter(void) {
     }
 }
 
-// overrideable function to determine whether the case mode should stop
+// overridable function to determine whether the case mode should stop
 __attribute__ ((weak))
 bool terminate_case_modes(uint16_t keycode, const keyrecord_t *record) {
         switch (keycode) {
@@ -162,7 +162,7 @@ bool terminate_case_modes(uint16_t keycode, const keyrecord_t *record) {
         return false;
 }
 
-/* overrideable function to determine whether to use the default separator on
+/* overridable function to determine whether to use the default separator on
  * first keypress when waiting for the separator. */
 __attribute__ ((weak))
 bool use_default_xcase_separator(uint16_t keycode, const keyrecord_t *record) {
