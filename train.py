@@ -182,42 +182,29 @@ def render_trigger_hint(trigger: str) -> str:
     row_y = [0, 4, 8]
     thumb_y = 16
 
+    def left_slot(col: int, row_index: int) -> tuple[int, int]:
+        return left_x[col], row_y[row_index] + col_offsets[col]
+
+    def right_slot(col: int, row_index: int) -> tuple[int, int]:
+        mirrored_offset = col_offsets[3 - (col - 4)]
+        return right_x[col - 3], row_y[row_index] + mirrored_offset
+
     position_to_slot = {
-        (0, 0): (left_x[0], row_y[0] + col_offsets[0]),
-        (1, 0): (left_x[1], row_y[0] + col_offsets[1]),
-        (2, 0): (left_x[2], row_y[0] + col_offsets[2]),
-        (3, 0): (left_x[3], row_y[0] + col_offsets[3]),
-        (0, 2): (left_x[0], row_y[1] + col_offsets[0]),
-        (1, 2): (left_x[1], row_y[1] + col_offsets[1]),
-        (2, 2): (left_x[2], row_y[1] + col_offsets[2]),
-        (3, 2): (left_x[3], row_y[1] + col_offsets[3]),
-        (0, 4): (left_x[0], row_y[2] + col_offsets[0]),
-        (1, 4): (left_x[1], row_y[2] + col_offsets[1]),
-        (2, 4): (left_x[2], row_y[2] + col_offsets[2]),
-        (3, 4): (left_x[3], row_y[2] + col_offsets[3]),
-        (4, 0): (right_x[1], row_y[0] + col_offsets[0]),
-        (5, 0): (right_x[2], row_y[0] + col_offsets[1]),
-        (6, 0): (right_x[3], row_y[0] + col_offsets[2]),
-        (7, 0): (right_x[4], row_y[0] + col_offsets[3]),
-        (4, 2): (right_x[1], row_y[1] + col_offsets[0]),
-        (5, 2): (right_x[2], row_y[1] + col_offsets[1]),
-        (6, 2): (right_x[3], row_y[1] + col_offsets[2]),
-        (7, 2): (right_x[4], row_y[1] + col_offsets[3]),
-        (4, 4): (right_x[1], row_y[2] + col_offsets[0]),
-        (5, 4): (right_x[2], row_y[2] + col_offsets[1]),
-        (6, 4): (right_x[3], row_y[2] + col_offsets[2]),
-        (7, 4): (right_x[4], row_y[2] + col_offsets[3]),
-        (3, 5): (left_x[4], thumb_y),
-        (4, 5): (right_x[0], thumb_y),
+        (col, row): left_slot(col, row_index)
+        for row_index, row in enumerate((0, 2, 4))
+        for col in range(4)
     }
+    position_to_slot.update(
+        {
+            (col, row): right_slot(col, row_index)
+            for row_index, row in enumerate((0, 2, 4))
+            for col in range(4, 8)
+        }
+    )
+    position_to_slot[(3, 5)] = (left_x[4], thumb_y)
+    position_to_slot[(4, 5)] = (right_x[0], thumb_y)
 
     empty_slots = [
-        (left_x[4], row_y[0] + col_offsets[4]),
-        (left_x[4], row_y[1] + col_offsets[4]),
-        (left_x[4], row_y[2] + col_offsets[4]),
-        (right_x[0], row_y[0] + col_offsets[4]),
-        (right_x[0], row_y[1] + col_offsets[4]),
-        (right_x[0], row_y[2] + col_offsets[4]),
         (left_x[3], thumb_y),
         (right_x[1], thumb_y),
     ]
