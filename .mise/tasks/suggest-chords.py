@@ -15,6 +15,8 @@ ROOT = Path(__file__).parents[2]
 MERGE = ROOT / "scripts" / "merge_word_lists.py"
 RANK = ROOT / "scripts" / "find_available_chords.py"
 
+# Short name `r` is intentionally reserved for future use in this wrapper.
+
 GENERAL_WORDS = ROOT / "general_words.tsv"
 SOURCE_WORDS = ROOT / "source_words.tsv"
 LOCAL_CHAT_WORDS = ROOT / "local_chat_words.tsv"
@@ -42,6 +44,10 @@ def ensure_flag(args: list[str], flag: str, *values: str) -> None:
         return
     args.append(flag)
     args.extend(values)
+
+
+def has_flag(args: list[str], flag: str) -> bool:
+    return flag in args or any(item.startswith(flag + "=") for item in args)
 
 
 def flag_value(args: list[str], flag: str) -> str | None:
@@ -174,9 +180,14 @@ def main() -> None:
 
         actual_labels = merged_source_labels(merged_file)
         ensure_flag(rank_args, "--candidates-file", str(merged_file))
-        # ensure_flag(rank_args, "--include-current")
-        # ensure_flag(rank_args, "--allow-replacement")
-        # ensure_flag(rank_args, "--show-delta")
+        if not (
+            has_flag(rank_args, "--move-current-only")
+            or has_flag(rank_args, "--allow-replacement")
+            or has_flag(rank_args, "--rearrange-current")
+        ):
+            ensure_flag(rank_args, "--include-current")
+            ensure_flag(rank_args, "--allow-replacement")
+            ensure_flag(rank_args, "--show-delta")
         # ensure_flag(rank_args, "--new-only")
         set_flag(
             rank_args,

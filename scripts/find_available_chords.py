@@ -9,6 +9,7 @@
 from __future__ import annotations
 
 import argparse
+import heapq
 import re
 import subprocess
 import sys
@@ -37,6 +38,7 @@ from feel import (  # noqa: E402
 DEFAULT_OLD_CHORD_REF = "21f2800^"
 LETTER_ROWS = [chr(code) for code in range(ord("a"), ord("z") + 1)]
 NON_LETTER_ROWS = ["spc", "tab", "↩️️", "~", ",", ".", "-", "=", "!"]
+RESERVED_LETTER_ROWS = {"r"}
 README = ROOT / "README.md"
 CHORD_SYNCHRONIZATION_COST = 3.0
 CHORD_MEMORY_TAX = 3.0
@@ -96,7 +98,7 @@ def mnemonic_row_bonus(output: str, row: str) -> float:
     first_index = compact.index(row)
     count = compact.count(row)
     left_hand = row in LAYOUT and LAYOUT[row][0] < 4
-    hand_bonus = 1.0 if left_hand else 0.58
+    hand_bonus = 10.0 if left_hand else 1.0
     if first_index == 0:
         start_bonus = 0.55
     else:
@@ -821,7 +823,9 @@ def candidate_slots(
     allow_occupied: bool = False,
     movable_slots: set[tuple[str, str]] | None = None,
 ) -> list[MagicSlot]:
-    allowed_rows = LETTER_ROWS if letters_only else LETTER_ROWS + NON_LETTER_ROWS
+    allowed_rows = [row for row in LETTER_ROWS if row not in RESERVED_LETTER_ROWS]
+    if not letters_only:
+        allowed_rows += NON_LETTER_ROWS
     slots: list[MagicSlot] = []
     for row in allowed_rows:
         current = rows.get(row)
@@ -1170,6 +1174,393 @@ def greedy_assign(
     return assignments
 
 
+@dataclass
+class FlowEdge:
+    to: int
+    rev: int
+    cap: int
+    cost: int
+    flow: int = 0
+
+
+def add_flow_edge(
+    graph: list[list[FlowEdge]],
+    start: int,
+    end: int,
+    cap: int,
+    cost: int,
+) -> FlowEdge:
+    forward = FlowEdge(end, len(graph[end]), cap, cost)
+    backward = FlowEdge(start, len(graph[start]), 0, -cost)
+    graph[start].append(forward)
+    graph[end].append(backward)
+    return forward
+
+
+def min_cost_flow(
+    graph: list[list[FlowEdge]],
+    source: int,
+    sink: int,
+    required_flow: int,
+) -> tuple[int, int]:
+    node_count = len(graph)
+    flow = 0
+    cost = 0
+    potential = [0] * node_count
+
+    while flow < required_flow:
+        dist = [10**30] * node_count
+        prev_node = [-1] * node_count
+        prev_edge = [-1] * node_count
+        dist[source] = 0
+        queue: list[tuple[int, int]] = [(0, source)]
+
+        while queue:
+            current_dist, node = heapq.heappop(queue)
+            if current_dist != dist[node]:
+                continue
+            for edge_index, edge in enumerate(graph[node]):
+                if edge.cap <= 0:
+                    continue
+                next_dist = (
+                    current_dist + edge.cost + potential[node] - potential[edge.to]
+                )
+                if next_dist >= dist[edge.to]:
+                    continue
+                dist[edge.to] = next_dist
+                prev_node[edge.to] = node
+                prev_edge[edge.to] = edge_index
+                heapq.heappush(queue, (next_dist, edge.to))
+
+        if dist[sink] == 10**30:
+            break
+
+        for node in range(node_count):
+            if dist[node] < 10**30:
+                potential[node] += dist[node]
+
+        pushed = required_flow - flow
+        node = sink
+        while node != source:
+            edge = graph[prev_node[node]][prev_edge[node]]
+            pushed = min(pushed, edge.cap)
+            node = prev_node[node]
+
+        node = sink
+        while node != source:
+            edge = graph[prev_node[node]][prev_edge[node]]
+            reverse = graph[node][edge.rev]
+            edge.cap -= pushed
+            edge.flow += pushed
+            reverse.cap += pushed
+            reverse.flow -= pushed
+            node = prev_node[node]
+
+        flow += pushed
+        cost += pushed * potential[sink]
+
+    return flow, cost
+
+
+def movable_current_slots(current_entries: list[ChordEntry]) -> set[tuple[str, str]]:
+    slots: set[tuple[str, str]] = set()
+    for entry in current_entries:
+        if ":" not in entry.chord:
+            continue
+        row_name, column = entry.chord.split(":", 1)
+        slots.add((row_name, column))
+    return slots
+
+
+def candidate_assignments_for_entries(
+    entries: list[ChordEntry],
+    header: list[str],
+    rows: dict[str, tuple[int, list[str]]],
+    adaptives: dict[tuple[str, str], str],
+    blocked_pairs: set[tuple[str, str]],
+    magic_rows: dict[str, dict[str, str]],
+    source_weights: dict[str, float],
+    *,
+    letters_only: bool,
+    difficulty_power: float,
+    difficulty_cutoff: float,
+    min_difficulty: float | None,
+    min_saved: int,
+    allow_occupied: bool,
+    allow_zero_value: bool,
+    movable_slots: set[tuple[str, str]] | None = None,
+) -> list[tuple[ChordEntry, Assignment]]:
+    candidates: list[tuple[ChordEntry, Assignment]] = []
+    for entry in entries:
+        representation = entry.representation or literal_cell(entry.output)
+        for slot in candidate_slots(
+            entry.output,
+            representation,
+            header,
+            rows,
+            letters_only=letters_only,
+            allow_occupied=allow_occupied,
+            movable_slots=movable_slots,
+        ):
+            value, freq, plain_effort, chord_effort, effort_saved, saved = (
+                assignment_value(
+                    entry,
+                    slot,
+                    adaptives,
+                    blocked_pairs,
+                    magic_rows,
+                    source_weights,
+                    difficulty_power,
+                    difficulty_cutoff,
+                    min_saved,
+                )
+            )
+            if min_difficulty is not None and plain_effort < min_difficulty:
+                continue
+            if value < 0 or (value == 0 and not allow_zero_value):
+                continue
+            candidates.append(
+                (
+                    entry,
+                    Assignment(
+                        output=entry.output,
+                        slot=slot,
+                        value=value,
+                        frequency=freq,
+                        plain_effort=plain_effort,
+                        chord_effort=chord_effort,
+                        effort_saved=effort_saved,
+                        saved=saved,
+                        source_chord=entry.chord,
+                        source_label=entry.source_label,
+                    ),
+                )
+            )
+    return candidates
+
+
+def joint_assign_current_and_additions(
+    current_entries: list[ChordEntry],
+    addition_candidates: list[ChordEntry],
+    header: list[str],
+    rows: dict[str, tuple[int, list[str]]],
+    adaptives: dict[tuple[str, str], str],
+    blocked_pairs: set[tuple[str, str]],
+    magic_rows: dict[str, dict[str, str]],
+    source_weights: dict[str, float],
+    source_caps: dict[str, int],
+    *,
+    letters_only: bool,
+    add_budget: int,
+    difficulty_power: float,
+    difficulty_cutoff: float,
+    min_difficulty: float | None,
+    min_saved: int,
+) -> list[Assignment]:
+    movable_slots = movable_current_slots(current_entries)
+    current_minimum_values: dict[str, float] = {}
+    for entry in current_entries:
+        current_slot = current_slot_from_source(entry.chord, header, rows, entry.output)
+        if current_slot is None:
+            continue
+        current_value, _, _, _, _, _ = assignment_value(
+            entry,
+            current_slot,
+            adaptives,
+            blocked_pairs,
+            magic_rows,
+            source_weights,
+            difficulty_power,
+            difficulty_cutoff,
+            min_saved,
+        )
+        current_minimum_values[entry.chord] = current_value
+    current_candidates = candidate_assignments_for_entries(
+        current_entries,
+        header,
+        rows,
+        adaptives,
+        blocked_pairs,
+        magic_rows,
+        source_weights,
+        letters_only=letters_only,
+        difficulty_power=difficulty_power,
+        difficulty_cutoff=difficulty_cutoff,
+        min_difficulty=min_difficulty,
+        min_saved=min_saved,
+        allow_occupied=True,
+        allow_zero_value=True,
+        movable_slots=movable_slots,
+    )
+    current_candidates = [
+        (entry, assignment)
+        for entry, assignment in current_candidates
+        if assignment.value + 1e-12 >= current_minimum_values.get(entry.chord, 0.0)
+    ]
+    addition_candidates = [
+        entry
+        for entry in addition_candidates
+        if source_caps.get(entry.source_label, add_budget) > 0
+    ]
+    addition_candidates = addition_candidates[: max(add_budget * 6, add_budget)]
+    optional_candidates = candidate_assignments_for_entries(
+        addition_candidates,
+        header,
+        rows,
+        adaptives,
+        blocked_pairs,
+        magic_rows,
+        source_weights,
+        letters_only=letters_only,
+        difficulty_power=difficulty_power,
+        difficulty_cutoff=difficulty_cutoff,
+        min_difficulty=min_difficulty,
+        min_saved=min_saved,
+        allow_occupied=True,
+        allow_zero_value=False,
+        movable_slots=movable_slots,
+    )
+
+    current_ids = [f"current:{index}" for index in range(len(current_entries))]
+    current_by_id: dict[str, list[Assignment]] = {
+        entry_id: [] for entry_id in current_ids
+    }
+    for entry_id, entry in zip(current_ids, current_entries, strict=True):
+        current_by_id[entry_id].extend(
+            assignment
+            for candidate_entry, assignment in current_candidates
+            if candidate_entry is entry
+        )
+    missing_currents = [
+        entry.chord
+        for entry_id, entry in zip(current_ids, current_entries, strict=True)
+        if not current_by_id[entry_id]
+    ]
+    if missing_currents:
+        raise ValueError(
+            f"mandatory current entries have no available slot: {', '.join(missing_currents)}"
+        )
+
+    optional_ids = [f"optional:{index}" for index in range(len(addition_candidates))]
+    optional_by_id: dict[str, list[Assignment]] = {
+        entry_id: [] for entry_id in optional_ids
+    }
+    for entry_id, entry in zip(optional_ids, addition_candidates, strict=True):
+        optional_by_id[entry_id].extend(
+            assignment
+            for candidate_entry, assignment in optional_candidates
+            if candidate_entry is entry
+        )
+
+    slot_keys = sorted(
+        {
+            (assignment.slot.row, assignment.slot.column)
+            for _, assignment in current_candidates + optional_candidates
+        }
+    )
+    mandatory_count = len(current_entries)
+    optional_pairs = [
+        (entry_id, entry)
+        for entry_id, entry in zip(optional_ids, addition_candidates, strict=True)
+        if optional_by_id[entry_id]
+    ]
+    optional_count = len(optional_pairs)
+
+    source = 0
+    next_node = 1
+    mandatory_nodes = {
+        entry_id: next_node + index for index, entry_id in enumerate(current_ids)
+    }
+    next_node += mandatory_count
+    optional_nodes = {
+        entry_id: next_node + index
+        for index, (entry_id, _) in enumerate(optional_pairs)
+    }
+    next_node += optional_count
+    slot_nodes = {slot: next_node + index for index, slot in enumerate(slot_keys)}
+    next_node += len(slot_keys)
+    dummy_slot_count = max(0, optional_count - add_budget)
+    dummy_slot_nodes = [next_node + index for index in range(dummy_slot_count)]
+    next_node += dummy_slot_count
+    sink = next_node
+    graph: list[list[FlowEdge]] = [[] for _ in range(sink + 1)]
+    node_to_slot = {value: key for key, value in slot_nodes.items()}
+
+    for entry_id in current_ids:
+        add_flow_edge(graph, source, mandatory_nodes[entry_id], 1, 0)
+        for assignment in current_by_id[entry_id]:
+            score = max(0, int(round(assignment.value * 1_000_000)))
+            add_flow_edge(
+                graph,
+                mandatory_nodes[entry_id],
+                slot_nodes[(assignment.slot.row, assignment.slot.column)],
+                1,
+                -score,
+            )
+
+    for entry_id, _ in optional_pairs:
+        add_flow_edge(graph, source, optional_nodes[entry_id], 1, 0)
+        for dummy_slot in dummy_slot_nodes:
+            add_flow_edge(graph, optional_nodes[entry_id], dummy_slot, 1, 0)
+        for assignment in optional_by_id[entry_id]:
+            score = max(0, int(round(assignment.value * 1_000_000)))
+            add_flow_edge(
+                graph,
+                optional_nodes[entry_id],
+                slot_nodes[(assignment.slot.row, assignment.slot.column)],
+                1,
+                -score,
+            )
+
+    for slot in slot_keys:
+        add_flow_edge(graph, slot_nodes[slot], sink, 1, 0)
+    for dummy_slot in dummy_slot_nodes:
+        add_flow_edge(graph, dummy_slot, sink, 1, 0)
+
+    required_flow = mandatory_count + optional_count
+    flow, _ = min_cost_flow(graph, source, sink, required_flow)
+    if flow != required_flow:
+        raise ValueError(
+            "could not find a complete assignment for current+optional entries"
+        )
+
+    chosen: list[Assignment] = []
+    for entry_id in current_ids:
+        node = mandatory_nodes[entry_id]
+        for edge in graph[node]:
+            if edge.flow <= 0 or edge.to not in slot_nodes.values():
+                continue
+            slot = node_to_slot[edge.to]
+            assignment = next(
+                item
+                for item in current_by_id[entry_id]
+                if (item.slot.row, item.slot.column) == slot
+            )
+            chosen.append(assignment)
+            break
+
+    optional_selected: list[Assignment] = []
+    for entry_id, _ in optional_pairs:
+        node = optional_nodes[entry_id]
+        for edge in graph[node]:
+            if edge.flow <= 0 or edge.to not in slot_nodes.values():
+                continue
+            slot = node_to_slot[edge.to]
+            assignment = next(
+                item
+                for item in optional_by_id[entry_id]
+                if (item.slot.row, item.slot.column) == slot
+            )
+            optional_selected.append(assignment)
+            break
+
+    chosen.extend(optional_selected)
+    chosen.sort(
+        key=lambda item: (-item.value, item.slot.feel, item.slot.row, item.slot.column)
+    )
+    return chosen
+
+
 def apply_assignments(
     readme: Path,
     header: list[str],
@@ -1252,7 +1643,9 @@ def print_summary(
     limit: int,
     include_filled: bool,
 ) -> None:
-    allowed_rows = LETTER_ROWS if letters_only else LETTER_ROWS + NON_LETTER_ROWS
+    allowed_rows = [row for row in LETTER_ROWS if row not in RESERVED_LETTER_ROWS]
+    if not letters_only:
+        allowed_rows += NON_LETTER_ROWS
     free_slots = sum(
         1
         for row in allowed_rows
@@ -1565,52 +1958,48 @@ def main() -> None:
         args.rearrange_current or args.allow_replacement or args.move_current_only
     )
     if args.move_current_only:
-        current_assignments = greedy_assign(
-            enriched_current_entries,
-            header,
-            rows,
-            adaptives,
-            blocked_pairs,
-            magic_rows,
-            source_weights,
-            {},
-            letters_only=args.letters_only,
-            budget=len(enriched_current_entries),
-            difficulty_power=args.difficulty_power,
-            difficulty_cutoff=args.difficulty_cutoff,
-            min_difficulty=args.min_difficulty,
-            min_saved=args.min_saved,
-            allow_occupied=True,
-            distinct_by_output=False,
-            allow_zero_value=True,
-            row_usage_alpha=0.35,
-        )
         if args.add is not None:
             addition_candidates = [
                 entry for entry in old_chords if entry.status != "current"
             ]
-            reshuffled_rows = rows_with_assignments(header, rows, current_assignments)
-            add_assignments = greedy_assign(
+            assignments = joint_assign_current_and_additions(
+                enriched_current_entries,
                 addition_candidates,
                 header,
-                reshuffled_rows,
+                rows,
                 adaptives,
                 blocked_pairs,
                 magic_rows,
                 source_weights,
                 source_caps,
                 letters_only=args.letters_only,
-                budget=args.add,
+                add_budget=args.add,
                 difficulty_power=args.difficulty_power,
                 difficulty_cutoff=args.difficulty_cutoff,
                 min_difficulty=args.min_difficulty,
                 min_saved=args.min_saved,
-                allow_occupied=False,
-                distinct_by_output=True,
             )
-            assignments = current_assignments + add_assignments
         else:
-            assignments = current_assignments
+            assignments = greedy_assign(
+                enriched_current_entries,
+                header,
+                rows,
+                adaptives,
+                blocked_pairs,
+                magic_rows,
+                source_weights,
+                {},
+                letters_only=args.letters_only,
+                difficulty_power=args.difficulty_power,
+                difficulty_cutoff=args.difficulty_cutoff,
+                min_difficulty=args.min_difficulty,
+                min_saved=args.min_saved,
+                allow_occupied=True,
+                budget=len(enriched_current_entries),
+                distinct_by_output=False,
+                allow_zero_value=True,
+                row_usage_alpha=0.35,
+            )
     elif args.include_current and not allow_occupied:
         pinned_assignments = pinned_current_assignments(
             enriched_current_entries,

@@ -122,7 +122,7 @@ Cell = what to emit.
 |   n    |     r     |    h    |                    | understand |     only      |         |         |                 |    "qu"     |     x      |    p     |
 |   o    |           |         |         e          |            |               |         |    h    |                 |             |            |          |
 |   p    |     y     |    m    |                    |   people   |   probably    |         |         |   production    |      n      |     d      | possible |
-|   r    |           |         |                    |            |               |         |         |     realize     |             |     x      |          |
+|   r    |           |         |                    |            |               |         |         |                 |             |     x      |          |
 |   s    |  someone  |    r    |                    |   always   |               |  just   |         |    something    |   "sion"    |     d      |          |
 |   t    |     n     |    f    |                    | everything |    through    |  think  |         |     though      |   "tion"    |  without   |          |
 |   u    |           |         |                    |            |               |         |    h    |                 |             |            |          |
@@ -130,7 +130,7 @@ Cell = what to emit.
 |   w    |           | wasn't  |       worse        |   which    |               |         |         |                 |      s      |     x      |          |
 |   x    | exception |    w    |                    |  explain   |   explicit    | except  |         |     exclude     |      r      |     d      | example  |
 |   y    |           |         |                    |            |               |         |    r    |                 |             |            |          |
-|   z    |           |         |                    |     #g     |      #z       |   #gz   |         |  OpenTelemetry  | Spring Boot | Prometheus |          |
+|   z    |           |         |                    |     #g     |      #z       |   #gz   | realize |  OpenTelemetry  | Spring Boot | Prometheus |          |
 |  spc   |     '     |    "    |      [dotSpc]      |     !      |       ?       |   and   |    z    |        ,        |     the     |     .      |    j     |
 |  tab   |           |         |                    |            |               |   and   |         |                 |     the     |            |          |
 | enter  |           |         |                    |            |               |   and   |         |                 |     the     |            |          |
