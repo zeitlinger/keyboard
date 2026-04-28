@@ -104,8 +104,8 @@ Cell = what to emit.
 - `[name]` bracket tokens invoke named handlers (currently `[dotSpc]` = BS + `.` then one-shot shift).
 
 | Magic  |  magic_a   |  magic_b   |      magic_c       |   magic_d   |    magic_e    |  magic_f  |    magic_g    |     magic_h     |   magic_i   | magic_j |  magic_k   |
-| :----: | :--------: | :--------: | :----------------: | :---------: | :-----------: | :-------: |:-------------:| :-------------: |:-----------:| :-----: | :--------: |
-| suffix |            |     ly     |                    |     n't     |       ?       |           |    ", "       |       ed        |   " the "   |  ". "   |     s      |
+| :----: | :--------: | :--------: | :----------------: | :---------: | :-----------: | :-------: | :-----------: | :-------------: | :---------: | :-----: | :--------: |
+| suffix |            |     ly     |                    |     n't     |       ?       |           |     ", "      |       ed        |   " the "   |  ". "   |     s      |
 |   a    |            |            |                    |             |               |           |       e       |                 |             |         |            |
 |   b    | background |   behind   |                    |  baseline   | observability |  disable  |   basically   |    obsolete     |   because   |    d    |   before   |
 |   c    |     n      |   "'ll"    |                    |    "n't"    |       d       | container |               |     comment     |    "'re"    |  "'d"   |    "'s"    |
@@ -124,7 +124,7 @@ Cell = what to emit.
 |   p    |     y      |     m      |                    |   people    |   probably    |  python   |    improve    |   production    |      n      |    d    | Prometheus |
 |   r    |            |            |                    |             |               |           |               |                 |             |    x    |            |
 |   s    |  someone   |     r      |                    |  possible   |    support    |  similar  |   consumer    |    separate     |   "sion"    |    d    | something  |
-|   t    |     n      |     f      |                    |  adaptive   |    through    |   think   |   continue    |     though      |    "tion"    | without |  thought   |
+|   t    |     n      |     f      |                    |  adaptive   |    through    |   think   |   continue    |     though      |   "tion"    | without |  thought   |
 |   u    |            |            |                    |             |               |           |       h       |                 |             |         |            |
 |   v    | validation | everything | declarative config |    "'ve"    |    version    |           |               |    approval     |   resolve   |  I've   |            |
 |   w    |   always   |   wasn't   |                    |  workflow   |   otherwise   |  switch   |               |      which      |      s      |    x    |   worse    |

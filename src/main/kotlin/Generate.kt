@@ -237,9 +237,9 @@ private fun magicSuffixStatements(suffix: String): String {
         val literal = extractString(suffix)
         val taps = literal.map(::suffixTapStatement).joinToString(" ")
         return """
-        tap_code16(KC_BSPC); $taps
-        suffix_active = false;
-        """.trimIndent()
+            tap_code16(KC_BSPC); $taps
+            suffix_active = false;
+            """.trimIndent()
     }
     return when (suffix) {
         "." -> {
