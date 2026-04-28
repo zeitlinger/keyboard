@@ -255,9 +255,8 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--apply",
-        type=int,
-        metavar="N",
-        help="Write the top N greedy assignments into README.md",
+        action="store_true",
+        help="Write the full selected assignment set into README.md",
     )
     parser.add_argument(
         "--letters-only",
@@ -466,6 +465,8 @@ def assignment_value(
             mnemonic_bonus = min(mnemonic_bonus, 1.12)
         if slot.row in COMBO_KEYS:
             mnemonic_bonus *= 0.78
+    if entry.output.strip().lower() != suffix_family_key(entry.output):
+        mnemonic_bonus *= 0.2
     value = freq * net_gain * mnemonic_bonus
     return value, freq, plain_effort, chord_effort, net_gain, saved
 
@@ -712,6 +713,66 @@ def current_symbol_outputs(readme: Path) -> set[str]:
             continue
         outputs.add(command.lower())
     return outputs
+
+
+def suffix_constructible_outputs_for_output(output: str) -> set[str]:
+    normalized = output.strip().lower()
+    if (
+        len(normalized) <= 1
+        or " " in normalized
+        or normalized.startswith("[")
+        or not re.fullmatch(r"[A-Za-z0-9'@._/-]+", normalized)
+    ):
+        return {normalized} if normalized else set()
+
+    outputs = {normalized}
+    ing_output = construct_magic_ing_output(normalized)
+    if ing_output:
+        outputs.add(ing_output)
+    for suffix in ("ly", "n't", ".", "and", "?", ",", "the", "ed", "s"):
+        constructed = construct_magic_suffix_output(normalized, suffix)
+        if constructed:
+            outputs.add(constructed)
+    return outputs
+
+
+def suffix_family_key(output: str) -> str:
+    normalized = output.strip().lower()
+    if not normalized:
+        return normalized
+
+    candidates = {normalized}
+
+    if normalized.endswith("ing") and len(normalized) > 4:
+        stem = normalized[:-3]
+        candidates.add(stem)
+        candidates.update(f"{stem}{vowel}" for vowel in "aeiou")
+
+    reversible_suffixes = [
+        ("ly", 2),
+        ("n't", 3),
+        (".", 1),
+        ("and", 3),
+        ("?", 1),
+        (",", 1),
+        ("the", 3),
+        ("ed", 2),
+        ("s", 1),
+    ]
+    for suffix, length in reversible_suffixes:
+        if normalized.endswith(suffix) and len(normalized) > length:
+            candidates.add(normalized[:-length])
+            if suffix == "ed":
+                candidates.add(f"{normalized[:-length]}e")
+
+    viable = {
+        candidate
+        for candidate in candidates
+        if normalized in suffix_constructible_outputs_for_output(candidate)
+    }
+    if viable:
+        return min(viable, key=lambda item: (len(item), item))
+    return normalized
 
 
 def magic_table_bounds(lines: list[str]) -> tuple[int, int]:
@@ -1089,6 +1150,7 @@ def greedy_assign(
     )
 
     used_entries: set[str] = set()
+    used_family_keys: set[str] = set()
     used_slots: set[tuple[str, str]] = set()
     used_source_counts: dict[str, int] = {}
     used_row_counts: dict[str, int] = {}
@@ -1106,7 +1168,10 @@ def greedy_assign(
     def can_use(candidate: Assignment) -> bool:
         slot_key = (candidate.slot.row, candidate.slot.column)
         entry_key = candidate.output if distinct_by_output else candidate.source_chord
+        candidate_family_key = suffix_family_key(candidate.output)
         if entry_key in used_entries or slot_key in used_slots:
+            return False
+        if candidate_family_key in used_family_keys:
             return False
         candidate_sources = candidate.source_label.split("+")
         if any(
@@ -1125,6 +1190,7 @@ def greedy_assign(
                 candidate.output if distinct_by_output else candidate.source_chord
             )
             used_entries.add(entry_key)
+            used_family_keys.add(suffix_family_key(candidate.output))
             used_slots.add((candidate.slot.row, candidate.slot.column))
             for source in candidate.source_label.split("+"):
                 used_source_counts[source] = used_source_counts.get(source, 0) + 1
@@ -1163,6 +1229,7 @@ def greedy_assign(
         entry_key = candidate.output if distinct_by_output else candidate.source_chord
         slot_key = (candidate.slot.row, candidate.slot.column)
         used_entries.add(entry_key)
+        used_family_keys.add(suffix_family_key(candidate.output))
         used_slots.add(slot_key)
         candidate_sources = candidate.source_label.split("+")
         for source in candidate_sources:
@@ -1554,7 +1621,66 @@ def joint_assign_current_and_additions(
             optional_selected.append(assignment)
             break
 
-    chosen.extend(optional_selected)
+    chosen_family_keys = {suffix_family_key(assignment.output) for assignment in chosen}
+    chosen_slots = {
+        (assignment.slot.row, assignment.slot.column) for assignment in chosen
+    }
+    chosen_sources = {
+        assignment.source_chord
+        if assignment.source_chord.startswith("src:")
+        else assignment.output
+        for assignment in chosen
+    }
+
+    deduped_optional: list[Assignment] = []
+    for assignment in sorted(optional_selected, key=lambda item: -item.value):
+        candidate_family_key = suffix_family_key(assignment.output)
+        candidate_key = (
+            assignment.source_chord
+            if assignment.source_chord.startswith("src:")
+            else assignment.output
+        )
+        if (assignment.slot.row, assignment.slot.column) in chosen_slots:
+            continue
+        if candidate_family_key in chosen_family_keys:
+            continue
+        if candidate_key in chosen_sources:
+            continue
+        deduped_optional.append(assignment)
+        chosen_family_keys.add(candidate_family_key)
+        chosen_slots.add((assignment.slot.row, assignment.slot.column))
+        chosen_sources.add(candidate_key)
+
+    if len(deduped_optional) < add_budget:
+        fallback_optional = sorted(
+            (
+                assignment
+                for assignments in optional_by_id.values()
+                for assignment in assignments
+            ),
+            key=lambda item: -item.value,
+        )
+        for assignment in fallback_optional:
+            if len(deduped_optional) >= add_budget:
+                break
+            candidate_family_key = suffix_family_key(assignment.output)
+            candidate_key = (
+                assignment.source_chord
+                if assignment.source_chord.startswith("src:")
+                else assignment.output
+            )
+            if (assignment.slot.row, assignment.slot.column) in chosen_slots:
+                continue
+            if candidate_family_key in chosen_family_keys:
+                continue
+            if candidate_key in chosen_sources:
+                continue
+            deduped_optional.append(assignment)
+            chosen_family_keys.add(candidate_family_key)
+            chosen_slots.add((assignment.slot.row, assignment.slot.column))
+            chosen_sources.add(candidate_key)
+
+    chosen.extend(deduped_optional[:add_budget])
     chosen.sort(
         key=lambda item: (-item.value, item.slot.feel, item.slot.row, item.slot.column)
     )
@@ -1564,14 +1690,13 @@ def joint_assign_current_and_additions(
 def apply_assignments(
     readme: Path,
     header: list[str],
-    count: int,
     assignments: list[Assignment],
     *,
     rearrange_current: bool = False,
     current_entries: list[ChordEntry] | None = None,
 ) -> None:
     _, rows, lines = parse_magic_table(readme)
-    top = assignments[:count]
+    top = assignments
 
     if rearrange_current:
         assigned_sources = {assignment.source_chord for assignment in top}
@@ -2088,13 +2213,12 @@ def main() -> None:
         apply_assignments(
             args.readme,
             header,
-            args.apply,
             assignments,
             rearrange_current=allow_occupied,
             current_entries=current_entries if allow_occupied else None,
         )
         print()
-        print(f"applied top {args.apply} assignments to {args.readme}")
+        print(f"applied {len(assignments)} assignments to {args.readme}")
 
 
 if __name__ == "__main__":

@@ -219,7 +219,7 @@ See [Magic Keys section in README](README.md#magic-keys) for complete list.
    - Media keys layer
 
 | Decimals   | Number Layer | FN Sym Layer |
-|------------|--------------|--------------|
+| ---------- | ------------ | ------------ |
 | Home row   | 4 3 2 1      | F4 F3 F2 F1  |
 | Bottom row | 8 7 6 5      | F8 F7 F6 F5  |
 | Top row    | , 9          | F10 F9       |
@@ -638,7 +638,7 @@ mise run flash
 ### vs. QWERTY
 
 | Aspect          | This Layout | QWERTY        |
-|-----------------|-------------|---------------|
+| --------------- | ----------- | ------------- |
 | Finger Movement | Minimal     | High          |
 | SFB Frequency   | Very Low    | High          |
 | Comfort (8h+)   | Excellent   | Poor          |
@@ -649,7 +649,7 @@ mise run flash
 ### vs. Dvorak/Colemak
 
 | Aspect        | This Layout | Dvorak/Colemak |
-|---------------|-------------|----------------|
+| ------------- | ----------- | -------------- |
 | Key Count     | 34          | Usually 60+    |
 | Layers        | Essential   | Optional       |
 | Customization | Extensive   | Moderate       |
@@ -660,7 +660,7 @@ mise run flash
 ### vs. Other 34-Key Layouts
 
 | Aspect        | This Layout        | Others          |
-|---------------|--------------------|-----------------|
+| ------------- | ------------------ | --------------- |
 | Magic Keys    | Yes                | Rare            |
 | Chord System  | 220+ words         | Usually none    |
 | Combos        | Extensive          | Varies          |

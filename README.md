@@ -181,7 +181,7 @@ Cell = what to emit.
 ## Layout
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
-|:-----:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
+| :---: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
 | Base  |   esc   |    x    |    w    |  dead3  |  dead2  | magic_a | magic_b |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | \*Right |    f    |    l    |    d    |    u    |    o    |    y    | \*Left  |
@@ -257,9 +257,9 @@ Cell = what to emit.
 | FnSym |   f8    |   f7    |   f6    |   f5    |    -    |    {    |    }    |  \*Num  |
 | FnSym |         |         |         |   f12   |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| FnSym |         |         |         |    ➖    |   win   |         |         |         |
+| FnSym |         |         |         |   ➖    |   win   |         |         |         |
 | FnSym |         |         |         |   💎    |   💎    |         |         |         |
-| FnSym |         |         |         |    ➕    |    ~    |         |         |         |
+| FnSym |         |         |         |   ➕    |    ~    |         |         |         |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |         |         |   \*    |         |         |    <    |         |         |
@@ -279,7 +279,7 @@ Cell = what to emit.
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |  dead3  |   C-x   |   C-v   |  CS-z   |  dead1  |   esc   |   ins   |  dead2  |
 |  Nav  |  copy   |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬇️    |   ⬆️    |   ➡️    |
-|  Nav  |   C-z   |   C-w   | tab ➡️  | win ➡️  |   ↩️️   |  bspc   |   del   |   tab   |
+|  Nav  |   C-z   |   C-w   | tab ➡️  | win ➡️  |   ↩️️    |  bspc   |   del   |   tab   |
 |  Nav  |         |         |   🛑    |   🛑    |   spc   |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |         |         |         |  CS-v   |    ü    |         |         |         |
@@ -411,7 +411,7 @@ The order of the options is also the order of the layers in the layer stack.
 ## Symbols
 
 | Symbol  | Command                       |
-|---------|-------------------------------|
+| ------- | ----------------------------- |
 | ⬅️      | KC_LEFT                       |
 | ⬅️⬅️    | KC_HOME                       |
 | ⬇️      | KC_DOWN                       |
@@ -420,13 +420,13 @@ The order of the options is also the order of the layers in the layer stack.
 | ⬆️⬆️    | KC_PGUP                       |
 | ➡️      | KC_RIGHT                      |
 | ➡️➡️    | KC_END                        |
-| ➖       | KC_KP_MINUS                   |
-| ➕       | KC_KP_PLUS                    |
+| ➖      | KC_KP_MINUS                   |
+| ➕      | KC_KP_PLUS                    |
 | ins     | KC_INS                        |
 | del     | KC_DEL                        |
 | spc     | KC_SPC                        |
 | esc     | KC_ESC                        |
-| ↩️️     | KC_ENT                        |
+| ↩️️      | KC_ENT                        |
 | enter   | KC_ENT                        |
 | bspc    | KC_BSPC                       |
 | win     | KC_LGUI                       |

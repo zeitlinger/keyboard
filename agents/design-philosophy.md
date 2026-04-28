@@ -17,38 +17,38 @@ Bottom row preferred over top row (curl vs. stretch).
 Col 0-3 = left hand (pinky→index), col 4-7 = right hand (index→pinky).
 Row 0 = top, 1 = home, 2 = bottom, 3 = thumb.
 
-| Char | Col | Row | Finger     |
-|------|-----|-----|------------|
-| s    | 0   | 1   | L. Pinky   |
-| c    | 1   | 1   | L. Ring    |
-| n    | 2   | 1   | L. Middle  |
-| t    | 3   | 1   | L. Index   |
-| a    | 4   | 1   | R. Index   |
-| e    | 5   | 1   | R. Middle  |
-| i    | 6   | 1   | R. Ring    |
-| h    | 7   | 1   | R. Pinky   |
-| f    | 1   | 2   | L. Ring    |
-| l    | 2   | 2   | L. Middle  |
-| d    | 3   | 2   | L. Index   |
-| u    | 4   | 2   | R. Index   |
-| o    | 5   | 2   | R. Middle  |
-| y    | 6   | 2   | R. Ring    |
-| x    | 1   | 0   | L. Ring    |
-| w    | 2   | 0   | L. Middle  |
+| Char | Col | Row | Finger           |
+| ---- | --- | --- | ---------------- |
+| s    | 0   | 1   | L. Pinky         |
+| c    | 1   | 1   | L. Ring          |
+| n    | 2   | 1   | L. Middle        |
+| t    | 3   | 1   | L. Index         |
+| a    | 4   | 1   | R. Index         |
+| e    | 5   | 1   | R. Middle        |
+| i    | 6   | 1   | R. Ring          |
+| h    | 7   | 1   | R. Pinky         |
+| f    | 1   | 2   | L. Ring          |
+| l    | 2   | 2   | L. Middle        |
+| d    | 3   | 2   | L. Index         |
+| u    | 4   | 2   | R. Index         |
+| o    | 5   | 2   | R. Middle        |
+| y    | 6   | 2   | R. Ring          |
+| x    | 1   | 0   | L. Ring          |
+| w    | 2   | 0   | L. Middle        |
 | r    | 3   | 3   | L. Index (thumb) |
 
 Letters only via combo (not single-key): j, b, g, k, p, m, v, q, z
 
 **Combo keys** — vertical combos (home+top or home+bottom on the same finger). Approximate positions:
 
-| Char | Col | Row | Combo           |
-|------|-----|-----|-----------------|
-| p    | 1   | 0   | L. Ring top     |
-| b    | 1   | 2   | L. Ring bottom  |
-| m    | 2   | 0   | L. Middle top   |
-| g    | 2   | 2   | L. Middle bottom|
-| v    | 3   | 0   | L. Index top    |
-| k    | 3   | 2   | L. Index bottom |
+| Char | Col | Row | Combo            |
+| ---- | --- | --- | ---------------- |
+| p    | 1   | 0   | L. Ring top      |
+| b    | 1   | 2   | L. Ring bottom   |
+| m    | 2   | 0   | L. Middle top    |
+| g    | 2   | 2   | L. Middle bottom |
+| v    | 3   | 0   | L. Index top     |
+| k    | 3   | 2   | L. Index bottom  |
 
 The "combo row" (p, m, v across cols 1-2-3 at row 0, or b, g, k at row 2)
 forms natural inward rolls on the left hand. These are valid adaptive physical
