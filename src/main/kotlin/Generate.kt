@@ -231,8 +231,17 @@ private fun magicSuffixCases(
         }.joinToString("\n")
 }
 
-private fun magicSuffixStatements(suffix: String): String =
-    when (suffix) {
+private fun magicSuffixStatements(suffix: String): String {
+    if (isWord(suffix)) {
+        val literal = extractString(suffix)
+        val taps = literal.map(::suffixTapStatement).joinToString(" ")
+        val prefix = if (literal.startsWith(" ")) "" else "tap_code16(KC_BSPC); "
+        return """
+        $prefix$taps
+        suffix_active = false;
+        """.trimIndent()
+    }
+    return when (suffix) {
         "." -> {
             """
             tap_code16(KC_BSPC); tap_dot_space();
@@ -275,10 +284,13 @@ private fun magicSuffixStatements(suffix: String): String =
             """.trimIndent()
         }
     }
+}
 
 private fun suffixTapStatement(char: Char): String =
     when (char) {
+        ' ' -> "tap_code16(KC_SPC);"
         '\'' -> "tap_code16(KC_QUOTE);"
+        '"' -> "tap_code16(KC_DQUO);"
         '!' -> "tap_code16(KC_EXLM);"
         '?' -> "tap_code16(KC_QUES);"
         ',' -> "tap_code16(KC_COMMA);"
@@ -415,12 +427,13 @@ private fun magicCommand(
 
         resolvedDef.length == 1 -> {
             val qmk = translator.toQmk(resolvedDef, pos)
+            val prevIsSpace = precedingChar == "spc"
             val isLetterOutput = resolvedDef[0].isLetter()
-            val prevIsLetter = precedingChar.length == 1 && precedingChar[0].isLetter()
-            if (isLetterOutput || !prevIsLetter) {
-                MagicCommand(repeatableTap(qmk), qmk.key, qmk.key)
-            } else {
+            val prevIsReplaceable = isMagicReplaceablePreceding(precedingChar)
+            if (prevIsSpace || (!isLetterOutput && prevIsReplaceable)) {
                 MagicCommand("magic_replace_tap_repeatable(${qmk.key});", qmk.key, qmk.key)
+            } else {
+                MagicCommand(repeatableTap(qmk), qmk.key, qmk.key)
             }
         }
 
@@ -461,8 +474,12 @@ private fun magicCommand(
 
 private fun isBareWord(def: String): Boolean =
     def.length > 1 &&
-        !def.startsWith("\"") &&
+        !isQuotedString(def) &&
         !def.startsWith("[")
+
+private fun isMagicReplaceablePreceding(precedingChar: String): Boolean =
+    precedingChar == "spc" ||
+        (precedingChar.length == 1 && precedingChar[0].isLetter())
 
 private fun bracketCommand(
     name: String,
@@ -480,9 +497,21 @@ private fun bracketCommand(
         }
     }
 
-private fun isWord(alt: String) = alt.startsWith("\"") && alt.endsWith("\"")
+private fun isWord(alt: String) = isQuotedString(alt)
 
-private fun extractString(alt: String) = alt.removeSurrounding("\"")
+private fun extractString(alt: String): String =
+    when {
+        alt.length >= 2 && alt.startsWith("\"") && alt.endsWith("\"") -> alt.removeSurrounding("\"")
+        alt.length >= 2 && alt.startsWith("'") && alt.endsWith("'") -> alt.removeSurrounding("'")
+        else -> alt
+    }
+
+private fun isQuotedString(value: String): Boolean =
+    value.length >= 2 &&
+        (
+            (value.startsWith("\"") && value.endsWith("\"")) ||
+                (value.startsWith("'") && value.endsWith("'"))
+        )
 
 private fun sendString(alt: String) = "SEND_STRING($alt)"
 

@@ -104,8 +104,8 @@ Cell = what to emit.
 - `[name]` bracket tokens invoke named handlers (currently `[dotSpc]` = BS + `.` then one-shot shift).
 
 | Magic  |  magic_a   |  magic_b   |      magic_c       |   magic_d   |    magic_e    |  magic_f  |    magic_g    |     magic_h     |   magic_i   | magic_j |  magic_k   |
-| :----: | :--------: | :--------: | :----------------: | :---------: | :-----------: | :-------: | :-----------: | :-------------: | :---------: | :-----: | :--------: |
-| suffix |            |     ly     |                    |     n't     |       .       |    and    |       ?       |        ,        |     the     |   ed    |     s      |
+| :----: | :--------: | :--------: | :----------------: | :---------: | :-----------: | :-------: |:-------------:| :-------------: |:-----------:| :-----: | :--------: |
+| suffix |            |     ly     |                    |     n't     |       ?       |           |    ", "       |       ed        |   " the "   |  ". "   |     s      |
 |   a    |            |            |                    |             |               |           |       e       |                 |             |         |            |
 |   b    | background |   behind   |                    |  baseline   | observability |  disable  |   basically   |    obsolete     |   because   |    d    |   before   |
 |   c    |     n      |   "'ll"    |                    |    "n't"    |       d       | container |               |     comment     |    "'re"    |  "'d"   |    "'s"    |
@@ -131,7 +131,7 @@ Cell = what to emit.
 |   x    | exception  |     w      |                    |   except    |   explicit    |           |               |     exclude     |      r      |    d    |  example   |
 |   y    |            |            |                    |             |               |           |     only      |        r        |             |         |            |
 |   z    |            |  realize   |                    |     #g      |      #z       |    #gz    |               |  OpenTelemetry  | Spring Boot |         |            |
-|  spc   |     '      |     "      |      [dotSpc]      |      !      |       ?       |    and    |       z       |        ,        |     the     |    .    |     j      |
+|  spc   |     "      |     !      |      [dotSpc]      |      '      |       ?       |    and    |       z       |        ,        |     the     |    .    |     j      |
 |  tab   |            |            |                    |             |               |    and    |               |                 |     the     |         |            |
 | enter  |            |            |                    |             |               |    and    |               |                 |     the     |         |            |
 
