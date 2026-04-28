@@ -69,7 +69,7 @@ static void magic_tap_repeatable(uint16_t keycode) {
     magic_repeat_keycode = keycode;
 }
 
-static void magic_replace_tap_repeatable(uint16_t keycode) {
+static inline void magic_replace_tap_repeatable(uint16_t keycode) {
     tap_code16(KC_BSPC);
     magic_tap_repeatable(keycode);
 }
