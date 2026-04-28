@@ -104,6 +104,7 @@ Cell = what to emit.
 - `[name]` bracket tokens invoke named handlers. `[dotSpc]` = BS + `.` then one-shot shift.
   In the `suffix` row, `[next]` replaces the current word with the next item
   from the `Cycle` table while keeping suffix mode active.
+- Row "r" is reserved for future use.  
 
 | Magic  |  magic_a   |  magic_b   |      magic_c       |   magic_d   |    magic_e    |  magic_f  |    magic_g    |     magic_h     |   magic_i   | magic_j |  magic_k   |
 | :----: | :--------: | :--------: | :----------------: | :---------: | :-----------: | :-------: | :-----------: | :-------------: | :---------: | :-----: | :--------: |
@@ -118,15 +119,15 @@ Cell = what to emit.
 |   h    |            |            |                    |             |               |           |               |                 |             |    y    |            |
 |   i    |            |            |                    |             |               |           |   implement   |                 |             |         |            |
 |   j    |            |            |                    |             |               |           |     just      |                 |             |         |            |
-|   k    |     r      |            |                    |             |    merged     |           |               |     update      |    know     |    x    |    knew    |
+|   k    |     r      |            |                    |    think    |    merged     |           |               |     update      |    know     |    x    |    knew    |
 |   l    |     m      |     h      |                    |  language   |    already    | available |   unrelated   |    elaborate    |      r      |    c    |     b      |
 |   m    |     r      |     h      |                    |  migration  |   multiple    | mismatch  |               | instrumentation |    ment     |    l    |     t      |
-|   n    |     r      |     h      |                    |    never    |   anything    | renovate  | notifications |   understand    |    "qu"     |    x    |     p      |
+|   n    |     r      |     h      |                    |    never    |   anything    |           | notifications |   understand    |    "qu"     |    x    |     p      |
 |   o    |            |            |         e          |             |               |           |       h       |                 |             |         |            |
 |   p    |     y      |     m      |                    |   people    |   probably    |  python   |    improve    |   production    |      n      |    d    | Prometheus |
 |   r    |            |            |                    |             |               |           |               |                 |             |    x    |            |
 |   s    |  someone   |     r      |                    |  possible   |    support    |  similar  |   consumer    |    separate     |   "sion"    |    d    | something  |
-|   t    |     n      |     f      |                    |  adaptive   |    through    |   think   |   continue    |     though      |   "tion"    | without |  thought   |
+|   t    |     n      |     f      |                    |  adaptive   |    through    |           |   continue    |     though      |   "tion"    | without |  thought   |
 |   u    |            |            |                    |             |               |           |       h       |                 |             |         |            |
 |   v    | validation | everything | declarative config |    "'ve"    |    version    |           |               |    approval     |   resolve   |  I've   |            |
 |   w    |   always   |   wasn't   |                    |  workflow   |   otherwise   |  switch   |               |      which      |      s      |    x    |   worse    |
