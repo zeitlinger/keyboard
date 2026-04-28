@@ -96,6 +96,7 @@ fun triLayer(
 fun run(args: GeneratorArgs) {
     val tables = readTables(args.configFile.file)
     val translator = qmkTranslator(tables)
+    validateMagicWords(tables, translator)
 
     val layers =
         addSendString(
@@ -221,6 +222,11 @@ fun run(args: GeneratorArgs) {
 
     File(dstDir, "combos.def").writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
 }
+
+private data class MagicWordLocation(
+    val precedingChar: String,
+    val trigger: String,
+)
 
 private fun magicRows(table: Table): Table = table.filterNot(::isMagicSuffixRow)
 
@@ -646,6 +652,36 @@ private fun collectMagicOutputs(
         magic.default?.let { "$it" }
     }
     return outputs
+}
+
+private fun validateMagicWords(
+    tables: Tables,
+    translator: QmkTranslator,
+) {
+    val seen = mutableMapOf<String, MagicWordLocation>()
+    magicRows(tables.getOptional("Magic").orEmpty()).forEach { row ->
+        val precedingChar = row[0]
+        if (!(precedingChar.length == 1 && precedingChar[0].isLetter())) {
+            return@forEach
+        }
+        row.drop(1).forEachIndexed { index, def ->
+            val resolvedDef = resolveMagicDefinition(def, translator, invalidPos)
+            if (!isBareWord(resolvedDef)) {
+                return@forEachIndexed
+            }
+            val current =
+                MagicWordLocation(
+                    precedingChar = precedingChar,
+                    trigger = translator.magic.getOrNull(index)?.trigger?.key ?: "column ${index + 2}",
+                )
+            val previous = seen.putIfAbsent(resolvedDef, current)
+            require(previous == null) {
+                val duplicate = checkNotNull(previous)
+                "duplicate magic word '$resolvedDef' at ${current.precedingChar}+${current.trigger} " +
+                    "(already defined at ${duplicate.precedingChar}+${duplicate.trigger})"
+            }
+        }
+    }
 }
 
 private fun magicEmittedString(

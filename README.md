@@ -119,7 +119,7 @@ Cell = what to emit.
 |   h    |            |            |                    |             |               |           |               |                 |             |    y    |            |
 |   i    |            |            |                    |             |               |           |   implement   |                 |             |         |            |
 |   j    |            |            |                    |             |               |           |     just      |                 |             |         |            |
-|   k    |     r      |            |                    |    think    |    merged     |           |               |     update      |    know     |    x    |    knew    |
+|   k    |     r      |  question  |                    |    think    |    merged     |           |               |     update      |    know     |    x    |    knew    |
 |   l    |     m      |     h      |                    |  language   |    already    | available |   unrelated   |    elaborate    |      r      |    c    |     b      |
 |   m    |     r      |     h      |                    |  migration  |   multiple    | mismatch  |               | instrumentation |    ment     |    l    |     t      |
 |   n    |     r      |     h      |                    |    never    |   anything    |           | notifications |   understand    |    "qu"     |    x    |     p      |
