@@ -235,9 +235,8 @@ private fun magicSuffixStatements(suffix: String): String {
     if (isWord(suffix)) {
         val literal = extractString(suffix)
         val taps = literal.map(::suffixTapStatement).joinToString(" ")
-        val prefix = if (literal.startsWith(" ")) "" else "tap_code16(KC_BSPC); "
         return """
-        $prefix$taps
+        tap_code16(KC_BSPC); $taps
         suffix_active = false;
         """.trimIndent()
     }
