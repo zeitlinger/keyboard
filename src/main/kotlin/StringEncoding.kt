@@ -228,10 +228,5 @@ static void magic_decode_send_cap(uint16_t offset, char suffix) {
     magic_capitalize_next = false;
 }
 
-static void magic_decode_send_suffix(uint16_t offset, char suffix) {
-    magic_decode_send(offset);
-    set_suffix_state(suffix);
-}
-
         """.trimIndent()
 }
