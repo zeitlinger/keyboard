@@ -23,6 +23,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from feel import (
+    COMBO_KEYS,
     LAYOUT,
     MAGIC_POSITIONS,
     actual_keystrokes,
@@ -95,18 +96,23 @@ def mnemonic_row_bonus(output: str, row: str) -> float:
         return 0.45
     first_index = compact.index(row)
     count = compact.count(row)
-    start_bonus = 0.52 if first_index == 0 else 0.0
+    left_hand = row in LAYOUT and LAYOUT[row][0] < 4
+    hand_bonus = 1.0 if left_hand else 0.58
+    if first_index == 0:
+        start_bonus = 0.55
+    else:
+        start_bonus = 0.0
     position_bonus = max(0.0, 0.38 - 0.06 * min(first_index, 5))
     repeat_bonus = min(0.15, 0.05 * (count - 1))
     row_score = start_bonus + position_bonus + repeat_bonus
     best_score = max(
-        (0.52 if compact.index(letter) == 0 else 0.0)
+        (0.55 if compact.index(letter) == 0 else 0.0)
         + max(0.0, 0.38 - 0.06 * min(compact.index(letter), 5))
         + min(0.15, 0.05 * (compact.count(letter) - 1))
         for letter in set(compact)
     )
     anchor_bonus = 0.42 if row_score >= best_score - 0.04 else 0.0
-    return 1.0 + start_bonus + position_bonus + repeat_bonus + anchor_bonus
+    return (1.0 + start_bonus + position_bonus + repeat_bonus + anchor_bonus) * hand_bonus
 
 # Approximate physical positions for keys that can precede a magic press.
 PRECEDING_POSITIONS = {
@@ -444,6 +450,8 @@ def assignment_value(
             mnemonic_bonus *= 1.04
         if slot.column in {"magic_c", "magic_f"}:
             mnemonic_bonus = min(mnemonic_bonus, 1.12)
+        if slot.row in COMBO_KEYS:
+            mnemonic_bonus *= 0.78
     value = freq * net_gain * mnemonic_bonus
     return value, freq, plain_effort, chord_effort, net_gain, saved
 
@@ -588,47 +596,6 @@ def load_current_magic_words(readme: Path) -> list[ChordEntry]:
 
 def current_magic_outputs(readme: Path) -> set[str]:
     return {entry.output for entry in load_current_magic_words(readme)}
-
-
-def current_row_counts(entries: list[ChordEntry]) -> dict[str, int]:
-    counts: dict[str, int] = {}
-    for entry in entries:
-        if ":" not in entry.chord:
-            continue
-        row_name, _ = entry.chord.split(":", 1)
-        counts[row_name] = counts.get(row_name, 0) + 1
-    return counts
-
-
-def candidate_row_targets(entries: list[ChordEntry], total_assignments: int) -> dict[str, int]:
-    support_counts: dict[str, int] = {}
-    for entry in entries:
-        letters = {char for char in entry.output.lower() if char in LETTER_ROWS}
-        for letter in letters:
-            support_counts[letter] = support_counts.get(letter, 0) + 1
-
-    if not support_counts or total_assignments <= 0:
-        return {}
-
-    total_support = sum(support_counts.values())
-    raw_targets = {
-        row: support_counts[row] * total_assignments / total_support
-        for row in support_counts
-    }
-    targets = {row: int(raw_targets[row]) for row in raw_targets}
-    assigned = sum(targets.values())
-
-    ranked_remainders = sorted(
-        ((raw_targets[row] - targets[row], row) for row in raw_targets),
-        reverse=True,
-    )
-    for _, row in ranked_remainders:
-        if assigned >= total_assignments:
-            break
-        targets[row] += 1
-        assigned += 1
-
-    return {row: count for row, count in targets.items() if count > 0}
 
 
 def construct_magic_suffix_output(base: str, suffix: str) -> str | None:
@@ -977,7 +944,7 @@ def greedy_assign(
     allow_occupied: bool = False,
     distinct_by_output: bool = True,
     allow_zero_value: bool = False,
-    row_balance_baseline: dict[str, int] | None = None,
+    row_usage_alpha: float = 0.0,
 ) -> list[Assignment]:
     movable_slots = None
     if allow_occupied:
@@ -1047,17 +1014,13 @@ def greedy_assign(
     assignments: list[Assignment] = []
 
     def row_balance_multiplier(row: str) -> float:
-        if row_balance_baseline is None:
+        if row_usage_alpha <= 0:
             return 1.0
-        target = row_balance_baseline.get(row, 0)
-        if target <= 0:
-            return 1.0
-        used = used_row_counts.get(row, 0)
-        if used < target:
-            return 1.0 + 0.08 * (target - used)
-        if used > target:
-            return max(0.7, 1.0 - 0.14 * (used - target))
-        return 1.0
+        total_used = sum(used_row_counts.values())
+        distinct_rows = max(1, len(used_row_counts))
+        avg_used = max(1.0, total_used / distinct_rows)
+        row_used = max(1, used_row_counts.get(row, 0))
+        return min(1.5, (avg_used / row_used) ** row_usage_alpha)
 
     def can_use(candidate: Assignment) -> bool:
         slot_key = (candidate.slot.row, candidate.slot.column)
@@ -1073,7 +1036,7 @@ def greedy_assign(
             return False
         return True
 
-    if row_balance_baseline is None:
+    if row_usage_alpha <= 0:
         for candidate in candidates:
             if not can_use(candidate):
                 continue
@@ -1516,7 +1479,7 @@ def main() -> None:
             allow_occupied=True,
             distinct_by_output=False,
             allow_zero_value=True,
-            row_balance_baseline=candidate_row_targets(enriched_current_entries, len(enriched_current_entries)),
+            row_usage_alpha=0.35,
         )
         if args.add is not None:
             addition_candidates = [entry for entry in old_chords if entry.status != "current"]
