@@ -48,6 +48,7 @@ static bool suffix_active = false;
 static char last_magic_char = 0;
 static uint16_t suffix_cycle_offset = UINT16_MAX;
 static bool suffix_cycle_capitalize = false;
+static uint8_t suffix_cycle_common_prefix_length = 0;
 
 static inline void set_suffix_state(char c) {
     suffix_active = true;
@@ -59,6 +60,7 @@ static inline void set_suffix_state(char c) {
 static inline void clear_suffix_cycle_state(void) {
     suffix_cycle_offset = UINT16_MAX;
     suffix_cycle_capitalize = false;
+    suffix_cycle_common_prefix_length = 0;
 }
 
 static inline void clear_suffix_state(void) {

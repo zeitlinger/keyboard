@@ -31,6 +31,7 @@ private data class CycleEntry(
     val next: String,
     val currentOffset: Int,
     val nextOffset: Int,
+    val commonPrefixLength: Int,
     val nextLastChar: Char,
 )
 
@@ -700,7 +701,7 @@ private fun readCycleData(tables: Tables): CycleData {
     return CycleData(
         entries =
             entries.map { (current, next) ->
-                CycleEntry(current, next, -1, -1, next.dropLast(1).last())
+                CycleEntry(current, next, -1, -1, -1, next.dropLast(1).last())
             },
         outputs = outputs,
     )
@@ -715,6 +716,7 @@ private fun encodeCycleEntries(
             entry.copy(
                 currentOffset = stringOffsets.getValue(entry.current),
                 nextOffset = stringOffsets.getValue(entry.next),
+                commonPrefixLength = commonPrefixLength(entry.current, entry.next),
             )
         }.sortedBy { it.currentOffset }
 
@@ -726,12 +728,13 @@ private fun magicCycleData(entries: List<CycleEntry>): String {
             val rows =
                 entries.joinToString(",\n") {
                     val lastChar = cCharLiteral(it.nextLastChar)
-                    "    { ${it.currentOffset}, ${it.nextOffset}, $lastChar }"
+                    "    { ${it.currentOffset}, ${it.nextOffset}, ${it.commonPrefixLength}, $lastChar }"
                 }
             """
 typedef struct {
     uint16_t current_offset;
     uint16_t next_offset;
+    uint8_t common_prefix_length;
     char next_last_char;
 } magic_cycle_entry_t;
 
@@ -762,6 +765,7 @@ static bool magic_cycle_lookup(uint16_t current_offset, uint16_t* next_offset, c
         uint16_t mid_offset = magic_cycle_entries[mid].current_offset;
         if (mid_offset == current_offset) {
             *next_offset = magic_cycle_entries[mid].next_offset;
+            suffix_cycle_common_prefix_length = magic_cycle_entries[mid].common_prefix_length;
             *next_last_char = magic_cycle_entries[mid].next_last_char;
             return true;
         }
@@ -819,10 +823,15 @@ static bool process_magic_cycle_next(void) {
         return false;
     }
     tap_code16(KC_BSPC);
-    if (suffix_cycle_capitalize) {
+    uint8_t current_length = magic_string_data[suffix_cycle_offset];
+    uint8_t delete_count = current_length - 1 - suffix_cycle_common_prefix_length;
+    for (uint8_t i = 0; i < delete_count; i++) {
+        tap_code16(KC_BSPC);
+    }
+    if (suffix_cycle_capitalize && suffix_cycle_common_prefix_length == 0) {
         add_oneshot_mods(MOD_BIT(KC_LSFT));
     }
-    magic_decode_send(next_offset);
+    magic_decode_send_skip(next_offset, suffix_cycle_common_prefix_length);
     set_suffix_word_state(next_last_char, next_offset, suffix_cycle_capitalize);
     return true;
 }
@@ -849,6 +858,16 @@ private fun cCharLiteral(value: Char): String =
         '\t' -> "'\\t'"
         else -> "'$value'"
     }
+
+private fun commonPrefixLength(left: String, right: String): Int {
+    val max = minOf(left.length, right.length)
+    for (index in 0 until max) {
+        if (left[index] != right[index]) {
+            return index
+        }
+    }
+    return max
+}
 
 fun customKeycodes(
     translator: QmkTranslator,

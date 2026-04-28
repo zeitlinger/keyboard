@@ -169,7 +169,7 @@ ${eightBitLookup}static const uint8_t magic_string_data[] = {
 ${hexLines.joinToString(",\n")}
 };
 
-static void magic_decode_send(uint16_t offset) {
+static void magic_decode_send_skip(uint16_t offset, uint8_t skip_chars) {
     const uint8_t* data = magic_string_data + offset;
     uint8_t len = data[0];
     data++;
@@ -190,14 +190,22 @@ static void magic_decode_send(uint16_t offset) {
                 highNibble = true;
                 if (code >= 0xE0 && code < 0xE0 + sizeof(magic_char_extended)) {
                     c = magic_char_extended[code - 0xE0];
-                    send_char(c);
+                    if (skip_chars > 0) {
+                        skip_chars--;
+                    } else {
+                        send_char(c);
+                    }
                     charCount++;
                 }
             } else {
                 highNibble = false;
                 if (code < sizeof(magic_char_4bit)) {
                     c = magic_char_4bit[code];
-                    send_char(c);
+                    if (skip_chars > 0) {
+                        skip_chars--;
+                    } else {
+                        send_char(c);
+                    }
                     charCount++;
                 }
             }
@@ -210,11 +218,19 @@ static void magic_decode_send(uint16_t offset) {
             }
             if (code < sizeof(magic_char_4bit)) {
                 c = magic_char_4bit[code];
-                send_char(c);
+                if (skip_chars > 0) {
+                    skip_chars--;
+                } else {
+                    send_char(c);
+                }
                 charCount++;
             }
         }
     }
+}
+
+static void magic_decode_send(uint16_t offset) {
+    magic_decode_send_skip(offset, 0);
 }
 
 static void magic_decode_send_cap(uint16_t offset, char suffix) {

@@ -83,7 +83,7 @@ static const uint8_t magic_string_data[] = {
     0x00, 0x0a, 0xec, 0x15, 0x48, 0x53, 0xb1, 0x70
 };
 
-static void magic_decode_send(uint16_t offset) {
+static void magic_decode_send_skip(uint16_t offset, uint8_t skip_chars) {
     const uint8_t* data = magic_string_data + offset;
     uint8_t len = data[0];
     data++;
@@ -104,14 +104,22 @@ static void magic_decode_send(uint16_t offset) {
                 highNibble = true;
                 if (code >= 0xE0 && code < 0xE0 + sizeof(magic_char_extended)) {
                     c = magic_char_extended[code - 0xE0];
-                    send_char(c);
+                    if (skip_chars > 0) {
+                        skip_chars--;
+                    } else {
+                        send_char(c);
+                    }
                     charCount++;
                 }
             } else {
                 highNibble = false;
                 if (code < sizeof(magic_char_4bit)) {
                     c = magic_char_4bit[code];
-                    send_char(c);
+                    if (skip_chars > 0) {
+                        skip_chars--;
+                    } else {
+                        send_char(c);
+                    }
                     charCount++;
                 }
             }
@@ -124,11 +132,19 @@ static void magic_decode_send(uint16_t offset) {
             }
             if (code < sizeof(magic_char_4bit)) {
                 c = magic_char_4bit[code];
-                send_char(c);
+                if (skip_chars > 0) {
+                    skip_chars--;
+                } else {
+                    send_char(c);
+                }
                 charCount++;
             }
         }
     }
+}
+
+static void magic_decode_send(uint16_t offset) {
+    magic_decode_send_skip(offset, 0);
 }
 
 static void magic_decode_send_cap(uint16_t offset, char suffix) {
@@ -145,12 +161,13 @@ static void magic_decode_send_cap(uint16_t offset, char suffix) {
 typedef struct {
     uint16_t current_offset;
     uint16_t next_offset;
+    uint8_t common_prefix_length;
     char next_last_char;
 } magic_cycle_entry_t;
 
 static const magic_cycle_entry_t magic_cycle_entries[] = {
-    { 520, 528, 'n' },
-    { 528, 520, 't' }
+    { 520, 528, 9, 'n' },
+    { 528, 520, 9, 't' }
 };
 
 static bool magic_cycle_lookup(uint16_t current_offset, uint16_t* next_offset, char* next_last_char) {
@@ -161,6 +178,7 @@ static bool magic_cycle_lookup(uint16_t current_offset, uint16_t* next_offset, c
         uint16_t mid_offset = magic_cycle_entries[mid].current_offset;
         if (mid_offset == current_offset) {
             *next_offset = magic_cycle_entries[mid].next_offset;
+            suffix_cycle_common_prefix_length = magic_cycle_entries[mid].common_prefix_length;
             *next_last_char = magic_cycle_entries[mid].next_last_char;
             return true;
         }
@@ -212,10 +230,15 @@ static bool process_magic_cycle_next(void) {
         return false;
     }
     tap_code16(KC_BSPC);
-    if (suffix_cycle_capitalize) {
+    uint8_t current_length = magic_string_data[suffix_cycle_offset];
+    uint8_t delete_count = current_length - 1 - suffix_cycle_common_prefix_length;
+    for (uint8_t i = 0; i < delete_count; i++) {
+        tap_code16(KC_BSPC);
+    }
+    if (suffix_cycle_capitalize && suffix_cycle_common_prefix_length == 0) {
         add_oneshot_mods(MOD_BIT(KC_LSFT));
     }
-    magic_decode_send(next_offset);
+    magic_decode_send_skip(next_offset, suffix_cycle_common_prefix_length);
     set_suffix_word_state(next_last_char, next_offset, suffix_cycle_capitalize);
     return true;
 }
