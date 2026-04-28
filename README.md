@@ -123,8 +123,8 @@ Cell = what to emit.
 |   o    |            |            |         e          |             |               |           |       h       |                 |             |         |            |
 |   p    |     y      |     m      |                    |   people    |   probably    |  python   |    improve    |   production    |      n      |    d    | Prometheus |
 |   r    |            |            |                    |             |               |           |               |                 |             |    x    |            |
-|   s    |  someone   |     r      |                    |  possible   |    support    |  similar  |   consumer    |    separate     |    sion     |    d    | something  |
-|   t    |     n      |     f      |                    |  adaptive   |    through    |   think   |   continue    |     though      |    tion     | without |  thought   |
+|   s    |  someone   |     r      |                    |  possible   |    support    |  similar  |   consumer    |    separate     |   "sion"    |    d    | something  |
+|   t    |     n      |     f      |                    |  adaptive   |    through    |   think   |   continue    |     though      |    "tion"    | without |  thought   |
 |   u    |            |            |                    |             |               |           |       h       |                 |             |         |            |
 |   v    | validation | everything | declarative config |    "'ve"    |    version    |           |               |    approval     |   resolve   |  I've   |            |
 |   w    |   always   |   wasn't   |                    |  workflow   |   otherwise   |  switch   |               |      which      |      s      |    x    |   worse    |
