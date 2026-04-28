@@ -279,6 +279,10 @@ private fun magicSuffixStatements(suffix: String): String =
 private fun suffixTapStatement(char: Char): String =
     when (char) {
         '\'' -> "tap_code16(KC_QUOTE);"
+        '!' -> "tap_code16(KC_EXLM);"
+        '?' -> "tap_code16(KC_QUES);"
+        ',' -> "tap_code16(KC_COMMA);"
+        '.' -> "tap_code16(KC_DOT);"
         in 'a'..'z' -> "tap_code16(KC_${char.uppercaseChar()});"
         in 'A'..'Z' -> "tap_code16(S(KC_$char));"
         else -> throw IllegalArgumentException("unsupported suffix character '$char'")
@@ -402,15 +406,16 @@ private fun magicCommand(
     precedingChar: String,
     def: String,
     stringOffsets: Map<String, Int>,
-): MagicCommand =
-    when {
-        def.startsWith("[") && def.endsWith("]") -> {
-            MagicCommand(bracketCommand(def.removeSurrounding("[", "]"), pos, stringOffsets))
+) : MagicCommand {
+    val resolvedDef = resolveMagicDefinition(def, translator, pos)
+    return when {
+        resolvedDef.startsWith("[") && resolvedDef.endsWith("]") -> {
+            MagicCommand(bracketCommand(resolvedDef.removeSurrounding("[", "]"), pos, stringOffsets))
         }
 
-        def.length == 1 -> {
-            val qmk = translator.toQmk(def, pos)
-            val isLetterOutput = def[0].isLetter()
+        resolvedDef.length == 1 -> {
+            val qmk = translator.toQmk(resolvedDef, pos)
+            val isLetterOutput = resolvedDef[0].isLetter()
             val prevIsLetter = precedingChar.length == 1 && precedingChar[0].isLetter()
             if (isLetterOutput || !prevIsLetter) {
                 MagicCommand(repeatableTap(qmk), qmk.key, qmk.key)
@@ -419,9 +424,9 @@ private fun magicCommand(
             }
         }
 
-        isWord(def) || isBareWord(def) -> {
-            val quoted = isWord(def)
-            val str = if (quoted) extractString(def) else def
+        isWord(resolvedDef) || isBareWord(resolvedDef) -> {
+            val quoted = isWord(resolvedDef)
+            val str = if (quoted) extractString(resolvedDef) else resolvedDef
             val output = if (quoted) str else "$str "
             val prevIsLetter = precedingChar.length == 1 && precedingChar[0].isLetter()
             val outputStartsWithPreceding = prevIsLetter && output.startsWith(precedingChar)
@@ -449,9 +454,10 @@ private fun magicCommand(
         }
 
         else -> {
-            throw IllegalArgumentException("unknown command '$def' in $pos")
+            throw IllegalArgumentException("unknown command '$resolvedDef' in $pos")
         }
     }
+}
 
 private fun isBareWord(def: String): Boolean =
     def.length > 1 &&
@@ -482,6 +488,17 @@ private fun sendString(alt: String) = "SEND_STRING($alt)"
 
 private fun repeatableTap(qmk: QmkKey) = "magic_tap_repeatable(${qmk.key});"
 
+private fun resolveMagicDefinition(
+    def: String,
+    translator: QmkTranslator,
+    pos: KeyPosition,
+): String =
+    if (translator.symbols.mapping.containsKey(def)) {
+        translator.symbols.replace(def, pos, translator)
+    } else {
+        def
+    }
+
 private fun collectMagicOutputs(
     tables: Tables,
     translator: QmkTranslator,
@@ -490,9 +507,10 @@ private fun collectMagicOutputs(
     magicRows(tables.getOptional("Magic").orEmpty()).forEach { row ->
         val precedingChar = row[0]
         row.drop(1).forEach { def ->
-            magicEmittedString(precedingChar, def)?.let(outputs::add)
-            magicFullOutputString(precedingChar, def)?.let(outputs::add)
-            bracketOutputString(def)?.let(outputs::add)
+            val resolvedDef = resolveMagicDefinition(def, translator, invalidPos)
+            magicEmittedString(precedingChar, resolvedDef)?.let(outputs::add)
+            magicFullOutputString(precedingChar, resolvedDef)?.let(outputs::add)
+            bracketOutputString(resolvedDef)?.let(outputs::add)
         }
     }
     translator.magic.mapNotNullTo(outputs) { magic ->
