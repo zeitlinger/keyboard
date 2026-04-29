@@ -13,15 +13,15 @@ static const char magic_char_4bit[] = {
 };
 
 static const char magic_char_extended[] = {
-    'm', 'c', 'd', 'b', 'y', '\'', 'w', 'f', 'v', 'k', 'x', 'q', 'z', '.', 'G', 'I', 'O', 'T', 'P', 'S', 'B', 'Z', 'j'
+    'm', 'c', 'd', 'b', 'y', '\'', 'w', 'f', 'v', 'k', 'x', 'q', 'z', 'j', '.', 'G', 'I', 'O', 'T', 'P', 'S', 'B', 'Z'
 };
 
 static const uint8_t magic_string_data[] = {
     0x05, 0x06, 0x4f, 0xe2, 0x00, 0x05, 0x0f, 0xe3, 0xa3, 0x00, 0x03, 0xe5, 0xe2, 0x00, 0x04, 0xe5,
-    0x77, 0x00, 0x04, 0xe5, 0x81, 0x00, 0x03, 0xe5, 0x90, 0x04, 0xe5, 0xe8, 0x10, 0x02, 0xed, 0x00,
-    0x07, 0xee, 0x81, 0xb2, 0x80, 0x05, 0xef, 0xe5, 0xe8, 0x10, 0x0e, 0xf0, 0xd1, 0x4f, 0xf1, 0x17,
-    0x1f, 0xe0, 0x13, 0x8f, 0xe4, 0x00, 0x0b, 0xf2, 0x82, 0xe0, 0x13, 0xc1, 0xa9, 0x00, 0x0c, 0xf3,
-    0xd8, 0x54, 0xb0, 0xf4, 0x22, 0x30, 0x0b, 0xf5, 0x15, 0x37, 0x54, 0xb1, 0x80, 0x0a, 0x6f, 0xe1,
+    0x77, 0x00, 0x04, 0xe5, 0x81, 0x00, 0x03, 0xe5, 0x90, 0x04, 0xe5, 0xe8, 0x10, 0x02, 0xee, 0x00,
+    0x07, 0xef, 0x81, 0xb2, 0x80, 0x05, 0xf0, 0xe5, 0xe8, 0x10, 0x0e, 0xf1, 0xd1, 0x4f, 0xf2, 0x17,
+    0x1f, 0xe0, 0x13, 0x8f, 0xe4, 0x00, 0x0b, 0xf3, 0x82, 0xe0, 0x13, 0xc1, 0xa9, 0x00, 0x0c, 0xf4,
+    0xd8, 0x54, 0xb0, 0xf5, 0x22, 0x30, 0x0b, 0xf6, 0x15, 0x37, 0x54, 0xb1, 0x80, 0x0a, 0x6f, 0xe1,
     0xe9, 0xb8, 0x2a, 0x4f, 0xe2, 0x00, 0x0a, 0x67, 0x5f, 0xe2, 0x63, 0x52, 0x40, 0x08, 0x67, 0x81,
     0x6f, 0xe2, 0xe4, 0x00, 0x07, 0x67, 0xe6, 0x6f, 0xe4, 0x90, 0x04, 0x64, 0xe2, 0x00, 0x08, 0x64,
     0xba, 0x6b, 0x10, 0x08, 0x64, 0x23, 0xc1, 0x80, 0x09, 0x64, 0xe4, 0x3c, 0x54, 0xb0, 0x09, 0x6d,
@@ -49,33 +49,33 @@ static const uint8_t magic_string_data[] = {
     0x07, 0x5f, 0xe0, 0x57, 0x68, 0x00, 0x0a, 0x5f, 0xe0, 0xd7, 0x1f, 0xe0, 0x14, 0x30, 0x0f, 0x5f,
     0xe0, 0xd7, 0x1f, 0xe0, 0x14, 0x36, 0x35, 0x24, 0x00, 0x08, 0x5f, 0xe0, 0xd8, 0x2f, 0xe8, 0x10,
     0x10, 0x54, 0x93, 0x8a, 0xe0, 0x14, 0x36, 0x35, 0x24, 0x00, 0x03, 0x52, 0x40, 0x08, 0x59, 0xe0,
-    0x63, 0xe1, 0xc0, 0x06, 0x53, 0xca, 0xe3, 0x00, 0x05, 0xf6, 0xa9, 0x30, 0x05, 0xe9, 0x41, 0xe6,
-    0x00, 0x05, 0xe9, 0x42, 0xe6, 0x00, 0x09, 0x76, 0x4b, 0xa6, 0xb1, 0x00, 0x06, 0x72, 0xe3, 0x67,
-    0x00, 0x05, 0xe0, 0x14, 0x30, 0x07, 0xe0, 0x18, 0xb1, 0xe2, 0x00, 0x0a, 0xe0, 0x5b, 0x86, 0x35,
-    0x24, 0x00, 0x09, 0xe0, 0x59, 0xe0, 0x63, 0xe1, 0xc0, 0x03, 0xe0, 0xd7, 0x09, 0xe0, 0xd7, 0x1f,
-    0xe0, 0x14, 0x30, 0x09, 0xe0, 0xa7, 0x35, 0xd7, 0x10, 0x03, 0x4f, 0xe5, 0x30, 0x04, 0x4f, 0xe5,
-    0x30, 0x06, 0x41, 0xe8, 0x18, 0x00, 0x04, 0x41, 0xe6, 0x00, 0x04, 0x42, 0xe6, 0x00, 0x0e, 0x2f,
-    0xe3, 0x91, 0x8f, 0xe8, 0x6f, 0xe3, 0x57, 0x53, 0xe4, 0x00, 0x09, 0x2f, 0xe3, 0x92, 0x71, 0x31,
-    0x00, 0x07, 0x2f, 0xe1, 0xa9, 0x1f, 0xe2, 0x00, 0x04, 0x21, 0x90, 0x07, 0x21, 0x94, 0xe5, 0x30,
-    0x09, 0x27, 0x72, 0xe6, 0x54, 0xb0, 0x07, 0x2f, 0xe0, 0x12, 0x41, 0x00, 0x09, 0x2f, 0xe0, 0x13,
-    0xc5, 0x4b, 0x00, 0x07, 0x2f, 0xe0, 0xe0, 0x14, 0x30, 0x05, 0x24, 0xe5, 0x30, 0x05, 0x24, 0x7f,
-    0xe4, 0x00, 0x09, 0x28, 0xb6, 0x45, 0xec, 0x10, 0x08, 0x28, 0xe9, 0xe7, 0x72, 0xe6, 0x00, 0x05,
-    0x28, 0x91, 0x00, 0x0a, 0x23, 0xc1, 0x8f, 0xe6, 0x59, 0x10, 0x07, 0xd1, 0x2d, 0x71, 0x00, 0x0c,
-    0xd1, 0x8f, 0xe7, 0x28, 0xe0, 0x64, 0xe1, 0x10, 0x09, 0xd2, 0x99, 0x5f, 0xe3, 0x71, 0x00, 0x09,
-    0xd8, 0x2f, 0xe3, 0x6f, 0xe3, 0x7f, 0xe4, 0x00, 0x0b, 0xd8, 0x2f, 0xe2, 0xaf, 0xe1, 0x35, 0x24,
-    0x00, 0x07, 0xdf, 0xe4, 0x3c, 0x24, 0x00, 0x01, 0xeb, 0x02, 0xeb, 0xa0, 0x09, 0xeb, 0xa1, 0x93,
-    0x52, 0x40, 0x08, 0x81, 0x67, 0x5f, 0xec, 0x10, 0x09, 0x81, 0xeb, 0xa1, 0x4f, 0xe1, 0xe4, 0x00,
-    0x08, 0x81, 0x92, 0x7f, 0xe8, 0x10, 0x08, 0x82, 0xe3, 0x6f, 0xe3, 0x7f, 0xe4, 0x00, 0x0a, 0x82,
-    0xe2, 0xaf, 0xe1, 0x35, 0x24, 0x00, 0x09, 0x91, 0xd6, 0x86, 0x31, 0x00, 0x08, 0x95, 0xe0, 0x57,
-    0x68, 0x00, 0x04, 0x95, 0x24, 0x08, 0x92, 0xe0, 0x12, 0x41, 0x00, 0x0a, 0x92, 0xe0, 0x13, 0xc5,
-    0x4b, 0x00, 0x08, 0x9a, 0xbb, 0x19, 0x30, 0x08, 0x9a, 0xdd, 0x28, 0x30, 0x07, 0x9f, 0xe6, 0x53,
-    0xe1, 0xc0, 0x04, 0x3c, 0x10, 0x06, 0x3c, 0x54, 0xe9, 0x00, 0x07, 0x3c, 0x2a, 0xbc, 0x00, 0x08,
-    0x3c, 0x2a, 0xbc, 0x30, 0x08, 0x3c, 0x82, 0xab, 0xc0, 0x04, 0x35, 0x24, 0x08, 0xa7, 0x35, 0xd7,
-    0x10, 0x0b, 0xa4, 0xe2, 0x18, 0x93, 0x64, 0xe2, 0x00, 0x07, 0xad, 0xe2, 0x63, 0x10, 0x07, 0xad,
-    0xd2, 0x83, 0x00, 0x04, 0xa9, 0x30, 0x0b, 0xe8, 0x67, 0x5f, 0xe2, 0x63, 0x52, 0x40, 0x08, 0xe8,
-    0x18, 0x95, 0x24, 0x00, 0x07, 0xe6, 0x69, 0x4f, 0xe5, 0x30, 0x06, 0xe6, 0xc5, 0xe1, 0xc0, 0x08,
-    0xe6, 0x53, 0xc2, 0xa3, 0x00, 0x09, 0xe6, 0x28, 0xe9, 0xe7, 0x72, 0xe6, 0x00, 0x06, 0xe6, 0x28,
-    0x91, 0x00, 0x07, 0xea, 0xd7, 0x65, 0x40, 0x06, 0xe4, 0x3c, 0x24, 0x00, 0x01, 0xec
+    0x63, 0xe1, 0xc0, 0x06, 0x53, 0xca, 0xe3, 0x00, 0x01, 0xed, 0x05, 0xed, 0xa9, 0x30, 0x05, 0xe9,
+    0x41, 0xe6, 0x00, 0x05, 0xe9, 0x42, 0xe6, 0x00, 0x09, 0x76, 0x4b, 0xa6, 0xb1, 0x00, 0x06, 0x72,
+    0xe3, 0x67, 0x00, 0x05, 0xe0, 0x14, 0x30, 0x07, 0xe0, 0x18, 0xb1, 0xe2, 0x00, 0x0a, 0xe0, 0x5b,
+    0x86, 0x35, 0x24, 0x00, 0x09, 0xe0, 0x59, 0xe0, 0x63, 0xe1, 0xc0, 0x03, 0xe0, 0xd7, 0x09, 0xe0,
+    0xd7, 0x1f, 0xe0, 0x14, 0x30, 0x09, 0xe0, 0xa7, 0x35, 0xd7, 0x10, 0x03, 0x4f, 0xe5, 0x30, 0x04,
+    0x4f, 0xe5, 0x30, 0x06, 0x41, 0xe8, 0x18, 0x00, 0x04, 0x41, 0xe6, 0x00, 0x04, 0x42, 0xe6, 0x00,
+    0x0e, 0x2f, 0xe3, 0x91, 0x8f, 0xe8, 0x6f, 0xe3, 0x57, 0x53, 0xe4, 0x00, 0x09, 0x2f, 0xe3, 0x92,
+    0x71, 0x31, 0x00, 0x07, 0x2f, 0xe1, 0xa9, 0x1f, 0xe2, 0x00, 0x04, 0x21, 0x90, 0x07, 0x21, 0x94,
+    0xe5, 0x30, 0x09, 0x27, 0x72, 0xe6, 0x54, 0xb0, 0x07, 0x2f, 0xe0, 0x12, 0x41, 0x00, 0x09, 0x2f,
+    0xe0, 0x13, 0xc5, 0x4b, 0x00, 0x07, 0x2f, 0xe0, 0xe0, 0x14, 0x30, 0x05, 0x24, 0xe5, 0x30, 0x05,
+    0x24, 0x7f, 0xe4, 0x00, 0x09, 0x28, 0xb6, 0x45, 0xec, 0x10, 0x08, 0x28, 0xe9, 0xe7, 0x72, 0xe6,
+    0x00, 0x05, 0x28, 0x91, 0x00, 0x0a, 0x23, 0xc1, 0x8f, 0xe6, 0x59, 0x10, 0x07, 0xd1, 0x2d, 0x71,
+    0x00, 0x0c, 0xd1, 0x8f, 0xe7, 0x28, 0xe0, 0x64, 0xe1, 0x10, 0x09, 0xd2, 0x99, 0x5f, 0xe3, 0x71,
+    0x00, 0x09, 0xd8, 0x2f, 0xe3, 0x6f, 0xe3, 0x7f, 0xe4, 0x00, 0x0b, 0xd8, 0x2f, 0xe2, 0xaf, 0xe1,
+    0x35, 0x24, 0x00, 0x07, 0xdf, 0xe4, 0x3c, 0x24, 0x00, 0x01, 0xeb, 0x02, 0xeb, 0xa0, 0x09, 0xeb,
+    0xa1, 0x93, 0x52, 0x40, 0x08, 0x81, 0x67, 0x5f, 0xec, 0x10, 0x09, 0x81, 0xeb, 0xa1, 0x4f, 0xe1,
+    0xe4, 0x00, 0x08, 0x81, 0x92, 0x7f, 0xe8, 0x10, 0x08, 0x82, 0xe3, 0x6f, 0xe3, 0x7f, 0xe4, 0x00,
+    0x0a, 0x82, 0xe2, 0xaf, 0xe1, 0x35, 0x24, 0x00, 0x09, 0x91, 0xd6, 0x86, 0x31, 0x00, 0x08, 0x95,
+    0xe0, 0x57, 0x68, 0x00, 0x04, 0x95, 0x24, 0x08, 0x92, 0xe0, 0x12, 0x41, 0x00, 0x0a, 0x92, 0xe0,
+    0x13, 0xc5, 0x4b, 0x00, 0x08, 0x9a, 0xbb, 0x19, 0x30, 0x08, 0x9a, 0xdd, 0x28, 0x30, 0x07, 0x9f,
+    0xe6, 0x53, 0xe1, 0xc0, 0x04, 0x3c, 0x10, 0x06, 0x3c, 0x54, 0xe9, 0x00, 0x07, 0x3c, 0x2a, 0xbc,
+    0x00, 0x08, 0x3c, 0x2a, 0xbc, 0x30, 0x08, 0x3c, 0x82, 0xab, 0xc0, 0x04, 0x35, 0x24, 0x08, 0xa7,
+    0x35, 0xd7, 0x10, 0x0b, 0xa4, 0xe2, 0x18, 0x93, 0x64, 0xe2, 0x00, 0x07, 0xad, 0xe2, 0x63, 0x10,
+    0x07, 0xad, 0xd2, 0x83, 0x00, 0x04, 0xa9, 0x30, 0x0b, 0xe8, 0x67, 0x5f, 0xe2, 0x63, 0x52, 0x40,
+    0x08, 0xe8, 0x18, 0x95, 0x24, 0x00, 0x07, 0xe6, 0x69, 0x4f, 0xe5, 0x30, 0x06, 0xe6, 0xc5, 0xe1,
+    0xc0, 0x08, 0xe6, 0x53, 0xc2, 0xa3, 0x00, 0x09, 0xe6, 0x28, 0xe9, 0xe7, 0x72, 0xe6, 0x00, 0x06,
+    0xe6, 0x28, 0x91, 0x00, 0x07, 0xea, 0xd7, 0x65, 0x40, 0x06, 0xe4, 0x3c, 0x24, 0x00, 0x01, 0xec
 };
 
 static void magic_decode_send_skip(uint16_t offset, uint8_t skip_chars) {
@@ -215,7 +215,9 @@ static void magic_decode_send_suffix_cycle(uint16_t offset, char suffix, uint16_
 }
 
 static void magic_replace_decode_send_cap_cycle(uint16_t offset, char suffix, uint16_t cycle_offset) {
-    tap_code16(KC_BSPC);
+    if (magic_context_key_emitted) {
+        tap_code16(KC_BSPC);
+    }
     magic_decode_send_cap_cycle(offset, suffix, cycle_offset);
 }
 
@@ -363,6 +365,7 @@ static uint16_t last_magic_trigger = KC_NO;
 static uint16_t last_magic_repeat_keycode = KC_NO;
 static uint16_t magic_remembered_keycode = KC_NO;
 static uint16_t magic_repeat_keycode = KC_NO;
+static bool magic_context_key_emitted = true;
 
 static inline uint16_t unshift_letter_keycode(uint16_t keycode) {
     if (keycode >= S(KC_A) && keycode <= S(KC_Z)) {
@@ -408,7 +411,9 @@ bool tap_adaptive(uint16_t pressed_keycode, uint16_t output_keycode) {
 }
 
 static inline void magic_replace_decode_send_cap(uint16_t offset, char suffix) {
-    tap_code16(KC_BSPC);
+    if (magic_context_key_emitted) {
+        tap_code16(KC_BSPC);
+    }
     magic_decode_send_cap(offset, suffix);
 }
 
@@ -419,7 +424,9 @@ static void magic_tap_repeatable(uint16_t keycode) {
 }
 
 static inline void magic_replace_tap_repeatable(uint16_t keycode) {
-    tap_code16(KC_BSPC);
+    if (magic_context_key_emitted) {
+        tap_code16(KC_BSPC);
+    }
     magic_tap_repeatable(keycode);
 }
 
@@ -530,7 +537,246 @@ case KC_Z:
     }
 }
 
-static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_keycode, bool allow_repeat) {
+static bool has_magic_key_with_context(uint16_t keycode, uint16_t context_keycode) {
+    switch (keycode) {
+    case MAGIC_A:
+        switch (unshift_letter_keycode(context_keycode)) {
+            case KC_B:
+            case KC_C:
+            case KC_D:
+            case KC_F:
+            case KC_G:
+            case KC_K:
+            case KC_L:
+            case KC_M:
+            case KC_N:
+            case KC_P:
+            case KC_R:
+            case KC_S:
+            case KC_T:
+            case KC_V:
+            case KC_W:
+            case KC_X:
+                return true;
+            default:
+                return false;
+        }
+    case MAGIC_B:
+        switch (unshift_letter_keycode(context_keycode)) {
+            case KC_B:
+            case KC_C:
+            case KC_D:
+            case KC_F:
+            case KC_G:
+            case KC_K:
+            case KC_L:
+            case KC_M:
+            case KC_N:
+            case KC_P:
+            case KC_R:
+            case KC_S:
+            case KC_T:
+            case KC_V:
+            case KC_W:
+            case KC_X:
+            case KC_Z:
+                return true;
+            default:
+                return false;
+        }
+    case MAGIC_C:
+        switch (unshift_letter_keycode(context_keycode)) {
+            case KC_E:
+            case KC_I:
+            case KC_O:
+            case KC_SPC:
+            case KC_V:
+                return true;
+            default:
+                return false;
+        }
+    case MAGIC_D:
+        switch (unshift_letter_keycode(context_keycode)) {
+            case KC_B:
+            case KC_C:
+            case KC_D:
+            case KC_F:
+            case KC_G:
+            case KC_K:
+            case KC_L:
+            case KC_M:
+            case KC_N:
+            case KC_P:
+            case KC_R:
+            case KC_S:
+            case KC_W:
+            case KC_X:
+            case KC_Z:
+                return true;
+            default:
+                return false;
+        }
+    case MAGIC_E:
+        switch (unshift_letter_keycode(context_keycode)) {
+            case KC_B:
+            case KC_C:
+            case KC_E:
+            case KC_F:
+            case KC_G:
+            case KC_K:
+            case KC_L:
+            case KC_M:
+            case KC_N:
+            case KC_P:
+            case KC_R:
+            case KC_S:
+            case KC_T:
+            case KC_V:
+            case KC_W:
+            case KC_X:
+                return true;
+            default:
+                return false;
+        }
+    case MAGIC_F:
+        switch (unshift_letter_keycode(context_keycode)) {
+            case KC_B:
+            case KC_C:
+            case KC_D:
+            case KC_G:
+            case KC_L:
+            case KC_M:
+            case KC_P:
+            case KC_R:
+            case KC_S:
+            case KC_V:
+            case KC_W:
+                return true;
+            default:
+                return false;
+        }
+    case MAGIC_G:
+        switch (unshift_letter_keycode(context_keycode)) {
+            case KC_A:
+            case KC_E:
+            case KC_H:
+            case KC_I:
+            case KC_J:
+            case KC_O:
+            case KC_R:
+            case KC_SPC:
+            case KC_U:
+            case KC_Y:
+                return true;
+            default:
+                return false;
+        }
+    case MAGIC_H:
+        switch (unshift_letter_keycode(context_keycode)) {
+            case KC_B:
+            case KC_C:
+            case KC_COMMA:
+            case KC_D:
+            case KC_ENT:
+            case KC_F:
+            case KC_G:
+            case KC_K:
+            case KC_L:
+            case KC_M:
+            case KC_N:
+            case KC_P:
+            case KC_R:
+            case KC_S:
+            case KC_SPC:
+            case KC_T:
+            case KC_TAB:
+            case KC_V:
+            case KC_W:
+            case KC_X:
+            case KC_Y:
+            case KC_Z:
+                return true;
+            default:
+                return false;
+        }
+    case MAGIC_I:
+        switch (unshift_letter_keycode(context_keycode)) {
+            case KC_B:
+            case KC_C:
+            case KC_COMMA:
+            case KC_D:
+            case KC_ENT:
+            case KC_F:
+            case KC_G:
+            case KC_K:
+            case KC_L:
+            case KC_M:
+            case KC_N:
+            case KC_P:
+            case KC_R:
+            case KC_S:
+            case KC_SPC:
+            case KC_T:
+            case KC_TAB:
+            case KC_V:
+            case KC_W:
+            case KC_X:
+            case KC_Z:
+                return true;
+            default:
+                return false;
+        }
+    case MAGIC_J:
+        switch (unshift_letter_keycode(context_keycode)) {
+            case KC_B:
+            case KC_C:
+            case KC_D:
+            case KC_F:
+            case KC_G:
+            case KC_H:
+            case KC_K:
+            case KC_L:
+            case KC_M:
+            case KC_N:
+            case KC_P:
+            case KC_R:
+            case KC_S:
+            case KC_T:
+            case KC_V:
+            case KC_W:
+            case KC_X:
+                return true;
+            default:
+                return false;
+        }
+    case MAGIC_K:
+        switch (unshift_letter_keycode(context_keycode)) {
+            case KC_B:
+            case KC_C:
+            case KC_D:
+            case KC_E:
+            case KC_G:
+            case KC_K:
+            case KC_L:
+            case KC_M:
+            case KC_N:
+            case KC_P:
+            case KC_R:
+            case KC_S:
+            case KC_T:
+            case KC_W:
+            case KC_X:
+                return true;
+            default:
+                return false;
+        }
+    default:
+        return false;
+    }
+}
+
+static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_keycode, bool allow_repeat, bool context_emitted) {
+    magic_context_key_emitted = context_emitted;
     switch (keycode) {
         case MAGIC_A: {
             if (allow_repeat && repeat_last_magic_key(MAGIC_A)) {
@@ -539,20 +785,60 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_remembered_keycode = MAGIC_A;
             magic_repeat_keycode = KC_NO;
             switch (magic_prepare_last_keycode(context_keycode)) {
-                case KC_B: magic_decode_send_suffix_cycle(77, 'd', UINT16_MAX); /* emits "ackground " -> "background " */ break;
-                case KC_C: magic_tap_repeatable(KC_N); break;
-                case KC_D: magic_tap_repeatable(KC_C); break;
+                case KC_B:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(77, 'd', UINT16_MAX); /* emits "ackground " -> "background " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(154, 'd', UINT16_MAX); /* emits "background " */
+                                        } break;
+                case KC_C:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_N); break;
+                case KC_D:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_C); break;
                 case KC_F: magic_replace_decode_send_cap_cycle(207, 'g', UINT16_MAX); /* emits "confusing " */ break;
-                case KC_G: magic_decode_send_suffix_cycle(540, 'l', UINT16_MAX); /* emits "lobal " -> "global " */ break;
-                case KC_K: magic_tap_repeatable(KC_R); break;
-                case KC_L: magic_tap_repeatable(KC_M); break;
-                case KC_M: magic_tap_repeatable(KC_R); break;
-                case KC_N: magic_tap_repeatable(KC_R); break;
-                case KC_P: magic_tap_repeatable(KC_Y); break;
+                case KC_G:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(542, 'l', UINT16_MAX); /* emits "lobal " -> "global " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(414, 'l', UINT16_MAX); /* emits "global " */
+                                        } break;
+                case KC_K:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_R); break;
+                case KC_L:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_M); break;
+                case KC_M:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_R); break;
+                case KC_N:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_R); break;
+                case KC_P:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_Y); break;
                 case KC_R: magic_replace_tap_repeatable(KC_DQUO); break;
-                case KC_S: magic_decode_send_suffix_cycle(646, 'e', UINT16_MAX); /* emits "omeone " -> "someone " */ break;
-                case KC_T: magic_tap_repeatable(KC_N); break;
-                case KC_V: magic_decode_send_suffix_cycle(86, 'n', UINT16_MAX); /* emits "alidation " -> "validation " */ break;
+                case KC_S:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(648, 'e', UINT16_MAX); /* emits "omeone " -> "someone " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(807, 'e', UINT16_MAX); /* emits "someone " */
+                                        } break;
+                case KC_T:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_N); break;
+                case KC_V:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(86, 'n', UINT16_MAX); /* emits "alidation " -> "validation " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(888, 'n', UINT16_MAX); /* emits "validation " */
+                                        } break;
                 case KC_W: magic_replace_decode_send_cap_cycle(100, 's', UINT16_MAX); /* emits "always " */ break;
                 case KC_X: magic_replace_decode_send_cap_cycle(344, 'n', UINT16_MAX); /* emits "exception " */ break;
             }
@@ -569,23 +855,58 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_remembered_keycode = MAGIC_B;
             magic_repeat_keycode = KC_NO;
             switch (magic_prepare_last_keycode(context_keycode)) {
-                case KC_B: magic_decode_send_suffix_cycle(133, 'y', UINT16_MAX); /* emits "asically " -> "basically " */ break;
+                case KC_B:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(133, 'y', UINT16_MAX); /* emits "asically " -> "basically " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(164, 'y', UINT16_MAX); /* emits "basically " */
+                                        } break;
                 case KC_C: magic_replace_decode_send_cap_cycle(14, '\0', UINT16_MAX); /* emits "'ll " */ break;
-                case KC_D: magic_tap_repeatable(KC_H); break;
+                case KC_D:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_H); break;
                 case KC_F: magic_replace_decode_send_cap_cycle(200, 't', UINT16_MAX); /* emits "conflict " */ break;
-                case KC_G: magic_tap_repeatable(KC_F); break;
-                case KC_K: magic_replace_decode_send_cap_cycle(748, 'n', UINT16_MAX); /* emits "question " */ break;
-                case KC_L: magic_tap_repeatable(KC_H); break;
-                case KC_M: magic_tap_repeatable(KC_H); break;
-                case KC_N: magic_tap_repeatable(KC_H); break;
-                case KC_P: magic_tap_repeatable(KC_M); break;
-                case KC_R: magic_replace_decode_send_cap_cycle(743, '\0', UINT16_MAX); /* emits "q" */ break;
-                case KC_S: magic_tap_repeatable(KC_R); break;
-                case KC_T: magic_tap_repeatable(KC_F); break;
+                case KC_G:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_F); break;
+                case KC_K: magic_replace_decode_send_cap_cycle(750, 'n', UINT16_MAX); /* emits "question " */ break;
+                case KC_L:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_H); break;
+                case KC_M:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_H); break;
+                case KC_N:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_H); break;
+                case KC_P:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_M); break;
+                case KC_R: magic_replace_decode_send_cap_cycle(745, '\0', UINT16_MAX); /* emits "q" */ break;
+                case KC_S:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_R); break;
+                case KC_T:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_F); break;
                 case KC_V: magic_replace_decode_send_cap_cycle(323, 'g', UINT16_MAX); /* emits "everything " */ break;
-                case KC_W: magic_decode_send_suffix_cycle(141, 't', UINT16_MAX); /* emits "asn't " -> "wasn't " */ break;
-                case KC_X: magic_tap_repeatable(KC_W); break;
-                case KC_Z: magic_replace_decode_send_cap_cycle(754, 'e', UINT16_MAX); /* emits "realize " */ break;
+                case KC_W:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(141, 't', UINT16_MAX); /* emits "asn't " -> "wasn't " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(902, 't', UINT16_MAX); /* emits "wasn't " */
+                                        } break;
+                case KC_X:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_W); break;
+                case KC_Z: magic_replace_decode_send_cap_cycle(756, 'e', UINT16_MAX); /* emits "realize " */ break;
             }
             magic_capitalize_next = false;
             last_magic_trigger = MAGIC_B;
@@ -600,9 +921,19 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_remembered_keycode = MAGIC_C;
             magic_repeat_keycode = KC_NO;
             switch (magic_prepare_last_keycode(context_keycode)) {
-                case KC_E: magic_tap_repeatable(KC_U); break;
-                case KC_I: magic_decode_send_suffix_cycle(572, 't', 470); /* emits "mplement " -> "implement " */ break;
-                case KC_O: magic_tap_repeatable(KC_E); break;
+                case KC_E:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_U); break;
+                case KC_I:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(574, 't', 470); /* emits "mplement " -> "implement " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(470, 't', 470); /* emits "implement " */
+                                        } break;
+                case KC_O:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_E); break;
                 case KC_SPC: magic_replace_decode_send_cap(29, '\0'); /* emits ". " */ add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state(); break;
                 case KC_V: magic_replace_decode_send_cap_cycle(489, 'e', UINT16_MAX); /* emits "improve " */ break;
             }
@@ -619,22 +950,50 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_remembered_keycode = MAGIC_D;
             magic_repeat_keycode = KC_NO;
             switch (magic_prepare_last_keycode(context_keycode)) {
-                case KC_B: magic_decode_send_suffix_cycle(273, 'e', UINT16_MAX); /* emits "ecome " -> "become " */ break;
-                case KC_C: magic_replace_decode_send_cap_cycle(589, '\0', UINT16_MAX); /* emits "n't " */ break;
-                case KC_D: magic_decode_send_suffix_cycle(665, 't', UINT16_MAX); /* emits "on't " -> "don't " */ break;
-                case KC_F: magic_replace_decode_send_cap_cycle(703, 'e', UINT16_MAX); /* emits "performance " */ break;
-                case KC_G: magic_replace_decode_send_cap_cycle(674, 'e', UINT16_MAX); /* emits "organize " */ break;
-                case KC_K: magic_replace_decode_send_cap_cycle(837, 'k', UINT16_MAX); /* emits "think " */ break;
-                case KC_L: magic_decode_send_suffix_cycle(110, 'e', UINT16_MAX); /* emits "anguage " -> "language " */ break;
-                case KC_M: magic_decode_send_suffix_cycle(458, 'n', UINT16_MAX); /* emits "igration " -> "migration " */ break;
-                case KC_N: magic_decode_send_suffix_cycle(318, 'r', UINT16_MAX); /* emits "ever " -> "never " */ break;
-                case KC_P: magic_decode_send_suffix_cycle(304, 'e', UINT16_MAX); /* emits "eople " -> "people " */ break;
-                case KC_R: magic_replace_decode_send_cap_cycle(585, '\0', UINT16_MAX); /* emits "n't" */ break;
-                case KC_S: magic_replace_decode_send_cap_cycle(712, 'e', UINT16_MAX); /* emits "possible " */ break;
-                case KC_W: magic_decode_send_suffix_cycle(680, 'w', UINT16_MAX); /* emits "orkflow " -> "workflow " */ break;
+                case KC_B:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(273, 'e', UINT16_MAX); /* emits "ecome " -> "become " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(180, 'e', UINT16_MAX); /* emits "become " */
+                                        } break;
+                case KC_C: magic_replace_decode_send_cap_cycle(591, '\0', UINT16_MAX); /* emits "n't " */ break;
+                case KC_D:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(667, 't', UINT16_MAX); /* emits "on't " -> "don't " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(262, 't', UINT16_MAX); /* emits "don't " */
+                                        } break;
+                case KC_F: magic_replace_decode_send_cap_cycle(705, 'e', UINT16_MAX); /* emits "performance " */ break;
+                case KC_G: magic_replace_decode_send_cap_cycle(676, 'e', UINT16_MAX); /* emits "organize " */ break;
+                case KC_K: magic_replace_decode_send_cap_cycle(839, 'k', UINT16_MAX); /* emits "think " */ break;
+                case KC_L:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(110, 'e', UINT16_MAX); /* emits "anguage " -> "language " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(536, 'e', UINT16_MAX); /* emits "language " */
+                                        } break;
+                case KC_M:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(458, 'n', UINT16_MAX); /* emits "igration " -> "migration " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(557, 'n', UINT16_MAX); /* emits "migration " */
+                                        } break;
+                case KC_N:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(318, 'r', UINT16_MAX); /* emits "ever " -> "never " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(595, 'r', UINT16_MAX); /* emits "never " */
+                                        } break;
+                case KC_P:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(304, 'e', UINT16_MAX); /* emits "eople " -> "people " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(700, 'e', UINT16_MAX); /* emits "people " */
+                                        } break;
+                case KC_R: magic_replace_decode_send_cap_cycle(587, '\0', UINT16_MAX); /* emits "n't" */ break;
+                case KC_S: magic_replace_decode_send_cap_cycle(714, 'e', UINT16_MAX); /* emits "possible " */ break;
+                case KC_W:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(682, 'w', UINT16_MAX); /* emits "orkflow " -> "workflow " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(919, 'w', UINT16_MAX); /* emits "workflow " */
+                                        } break;
                 case KC_X: magic_replace_decode_send_cap_cycle(338, 't', UINT16_MAX); /* emits "except " */ break;
                 case KC_Z: magic_replace_decode_send_cap_cycle(420, '\0', UINT16_MAX); /* emits "gregor" */ break;
-                default: magic_decode_send(745); /* emits "qu" */ break;
+                default: magic_decode_send(747); /* emits "qu" */ break;
             }
             magic_capitalize_next = false;
             last_magic_trigger = MAGIC_D;
@@ -649,21 +1008,52 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_remembered_keycode = MAGIC_E;
             magic_repeat_keycode = KC_NO;
             switch (magic_prepare_last_keycode(context_keycode)) {
-                case KC_B: magic_replace_decode_send_cap_cycle(606, 'y', UINT16_MAX); /* emits "observability " */ break;
-                case KC_C: magic_tap_repeatable(KC_D); break;
+                case KC_B: magic_replace_decode_send_cap_cycle(608, 'y', UINT16_MAX); /* emits "observability " */ break;
+                case KC_C:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_D); break;
                 case KC_E: magic_replace_decode_send_cap_cycle(115, 'r', UINT16_MAX); /* emits "another " */ break;
-                case KC_F: magic_decode_send_suffix_cycle(760, 'y', UINT16_MAX); /* emits "requency " -> "frequency " */ break;
-                case KC_G: magic_decode_send_suffix_cycle(515, 'b', UINT16_MAX); /* emits "ithub " -> "github " */ break;
-                case KC_K: magic_replace_decode_send_cap_cycle(549, 'd', UINT16_MAX); /* emits "merged " */ break;
+                case KC_F:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(762, 'y', UINT16_MAX); /* emits "requency " -> "frequency " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(388, 'y', UINT16_MAX); /* emits "frequency " */
+                                        } break;
+                case KC_G:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(515, 'b', UINT16_MAX); /* emits "ithub " -> "github " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(408, 'b', UINT16_MAX); /* emits "github " */
+                                        } break;
+                case KC_K: magic_replace_decode_send_cap_cycle(551, 'd', UINT16_MAX); /* emits "merged " */ break;
                 case KC_L: magic_replace_decode_send_cap_cycle(93, 'y', UINT16_MAX); /* emits "already " */ break;
-                case KC_M: magic_decode_send_suffix_cycle(860, 'e', UINT16_MAX); /* emits "ultiple " -> "multiple " */ break;
+                case KC_M:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(862, 'e', UINT16_MAX); /* emits "ultiple " -> "multiple " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(581, 'e', UINT16_MAX); /* emits "multiple " */
+                                        } break;
                 case KC_N: magic_replace_decode_send_cap_cycle(120, 'g', UINT16_MAX); /* emits "anything " */ break;
-                case KC_P: magic_decode_send_suffix_cycle(774, 'y', UINT16_MAX); /* emits "robably " -> "probably " */ break;
+                case KC_P:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(776, 'y', UINT16_MAX); /* emits "robably " -> "probably " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(721, 'y', UINT16_MAX); /* emits "probably " */
+                                        } break;
                 case KC_R: magic_replace_tap_repeatable(KC_QUES); break;
-                case KC_S: magic_decode_send_suffix_cycle(878, 't', UINT16_MAX); /* emits "upport " -> "support " */ break;
-                case KC_T: magic_decode_send_suffix_cycle(437, 'h', UINT16_MAX); /* emits "hrough " -> "through " */ break;
-                case KC_V: magic_decode_send_suffix_cycle(313, 'n', UINT16_MAX); /* emits "ersion " -> "version " */ break;
-                case KC_W: magic_replace_decode_send_cap_cycle(691, 'e', UINT16_MAX); /* emits "otherwise " */ break;
+                case KC_S:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(880, 't', UINT16_MAX); /* emits "upport " -> "support " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(825, 't', UINT16_MAX); /* emits "support " */
+                                        } break;
+                case KC_T:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(437, 'h', UINT16_MAX); /* emits "hrough " -> "through " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(854, 'h', UINT16_MAX); /* emits "through " */
+                                        } break;
+                case KC_V:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(313, 'n', UINT16_MAX); /* emits "ersion " -> "version " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(896, 'n', UINT16_MAX); /* emits "version " */
+                                        } break;
+                case KC_W: magic_replace_decode_send_cap_cycle(693, 'e', UINT16_MAX); /* emits "otherwise " */ break;
                 case KC_X: magic_replace_decode_send_cap_cycle(365, 't', UINT16_MAX); /* emits "explicit " */ break;
             }
             magic_capitalize_next = false;
@@ -681,15 +1071,38 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             switch (magic_prepare_last_keycode(context_keycode)) {
                 case KC_B: magic_replace_decode_send_cap_cycle(245, 'e', UINT16_MAX); /* emits "disable " */ break;
                 case KC_C: magic_replace_decode_send_cap_cycle(25, '\0', UINT16_MAX); /* emits "'ve " */ break;
-                case KC_D: magic_decode_send_suffix_cycle(448, 'y', UINT16_MAX); /* emits "ifficulty " -> "difficulty " */ break;
-                case KC_G: magic_decode_send_suffix_cycle(291, 'l', UINT16_MAX); /* emits "eneral " -> "general " */ break;
+                case KC_D:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(448, 'y', UINT16_MAX); /* emits "ifficulty " -> "difficulty " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(234, 'y', UINT16_MAX); /* emits "difficulty " */
+                                        } break;
+                case KC_G:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(291, 'l', UINT16_MAX); /* emits "eneral " -> "general " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(397, 'l', UINT16_MAX); /* emits "general " */
+                                        } break;
                 case KC_L: magic_replace_decode_send_cap_cycle(146, 'e', UINT16_MAX); /* emits "available " */ break;
-                case KC_M: magic_decode_send_suffix_cycle(509, 'h', UINT16_MAX); /* emits "ismatch " -> "mismatch " */ break;
-                case KC_P: magic_decode_send_suffix_cycle(935, 'n', UINT16_MAX); /* emits "ython " -> "python " */ break;
-                case KC_R: magic_tap_repeatable(KC_X); break;
-                case KC_S: magic_decode_send_suffix_cycle(464, 'r', UINT16_MAX); /* emits "imilar " -> "similar " */ break;
+                case KC_M:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(509, 'h', UINT16_MAX); /* emits "ismatch " -> "mismatch " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(564, 'h', UINT16_MAX); /* emits "mismatch " */
+                                        } break;
+                case KC_P:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(937, 'n', UINT16_MAX); /* emits "ython " -> "python " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(739, 'n', UINT16_MAX); /* emits "python " */
+                                        } break;
+                case KC_R:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_X); break;
+                case KC_S:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(464, 'r', UINT16_MAX); /* emits "imilar " -> "similar " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(798, 'r', UINT16_MAX); /* emits "similar " */
+                                        } break;
                 case KC_V: magic_replace_decode_send_cap_cycle(214, '\0', UINT16_MAX); /* emits "declarative config" */ break;
-                case KC_W: magic_replace_decode_send_cap_cycle(828, 'h', UINT16_MAX); /* emits "switch " */ break;
+                case KC_W: magic_replace_decode_send_cap_cycle(830, 'h', UINT16_MAX); /* emits "switch " */ break;
             }
             magic_capitalize_next = false;
             last_magic_trigger = MAGIC_F;
@@ -704,16 +1117,35 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_remembered_keycode = MAGIC_G;
             magic_repeat_keycode = KC_NO;
             switch (magic_prepare_last_keycode(context_keycode)) {
-                case KC_A: magic_tap_repeatable(KC_E); break;
-                case KC_E: magic_tap_repeatable(KC_H); break;
-                case KC_H: magic_replace_decode_send_cap_cycle(745, '\0', UINT16_MAX); /* emits "qu" */ break;
-                case KC_I: magic_replace_decode_send_cap_cycle(569, '\0', UINT16_MAX); /* emits "mpl" */ break;
-                case KC_J: magic_decode_send_suffix_cycle(883, 't', UINT16_MAX); /* emits "ust " -> "just " */ break;
-                case KC_O: magic_tap_repeatable(KC_H); break;
+                case KC_A:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_E); break;
+                case KC_E:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_H); break;
+                case KC_H: magic_replace_decode_send_cap_cycle(747, '\0', UINT16_MAX); /* emits "qu" */ break;
+                case KC_I: magic_replace_decode_send_cap_cycle(571, '\0', UINT16_MAX); /* emits "mpl" */ break;
+                case KC_J:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(885, 't', UINT16_MAX); /* emits "ust " -> "just " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(522, 't', UINT16_MAX); /* emits "just " */
+                                        } break;
+                case KC_O:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_H); break;
                 case KC_R: magic_replace_tap_repeatable(KC_EXLM); break;
-                case KC_SPC: magic_decode_send_cap_cycle(940, '\0', UINT16_MAX); /* emits "z" */ break;
-                case KC_U: magic_tap_repeatable(KC_H); break;
-                case KC_Y: magic_replace_decode_send_cap_cycle(669, 'y', UINT16_MAX); /* emits "only " */ break;
+                case KC_SPC:                     if (!magic_context_key_emitted) {
+                                        tap_code16(context_keycode);
+                                    }
+                                    magic_decode_send_cap_cycle(942, '\0', UINT16_MAX); /* emits "z" */ break;
+                case KC_U:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_H); break;
+                case KC_Y: magic_replace_decode_send_cap_cycle(671, 'y', UINT16_MAX); /* emits "only " */ break;
             }
             magic_capitalize_next = false;
             last_magic_trigger = MAGIC_G;
@@ -728,27 +1160,74 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_remembered_keycode = MAGIC_H;
             magic_repeat_keycode = KC_NO;
             switch (magic_prepare_last_keycode(context_keycode)) {
-                case KC_B: magic_replace_decode_send_cap_cycle(618, 'e', UINT16_MAX); /* emits "obsolete " */ break;
-                case KC_C: magic_decode_send_suffix_cycle(659, 't', UINT16_MAX); /* emits "omment " -> "comment " */ break;
-                case KC_COMMA: magic_decode_send_cap_cycle(0, '\0', UINT16_MAX); /* emits " and " */ break;
-                case KC_D: magic_decode_send_suffix_cycle(442, 't', UINT16_MAX); /* emits "idn't " -> "didn't " */ break;
-                case KC_ENT: magic_decode_send_cap_cycle(106, 'd', UINT16_MAX); /* emits "and " */ break;
-                case KC_F: magic_decode_send_suffix_cycle(625, 'd', UINT16_MAX); /* emits "ocused " -> "focused " */ break;
-                case KC_G: magic_decode_send_suffix_cycle(296, 'e', UINT16_MAX); /* emits "enerate " -> "generate " */ break;
-                case KC_K: magic_replace_decode_send_cap_cycle(873, 'e', UINT16_MAX); /* emits "update " */ break;
+                case KC_B: magic_replace_decode_send_cap_cycle(620, 'e', UINT16_MAX); /* emits "obsolete " */ break;
+                case KC_C:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(661, 't', UINT16_MAX); /* emits "omment " -> "comment " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(193, 't', UINT16_MAX); /* emits "comment " */
+                                        } break;
+                case KC_COMMA:                     if (!magic_context_key_emitted) {
+                                        tap_code16(context_keycode);
+                                    }
+                                    magic_decode_send_cap_cycle(0, '\0', UINT16_MAX); /* emits " and " */ break;
+                case KC_D:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(442, 't', UINT16_MAX); /* emits "idn't " -> "didn't " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(227, 't', UINT16_MAX); /* emits "didn't " */
+                                        } break;
+                case KC_ENT:                     if (!magic_context_key_emitted) {
+                                        tap_code16(context_keycode);
+                                    }
+                                    magic_decode_send_cap_cycle(106, 'd', UINT16_MAX); /* emits "and " */ break;
+                case KC_F:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(627, 'd', UINT16_MAX); /* emits "ocused " -> "focused " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(373, 'd', UINT16_MAX); /* emits "focused " */
+                                        } break;
+                case KC_G:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(296, 'e', UINT16_MAX); /* emits "enerate " -> "generate " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(402, 'e', UINT16_MAX); /* emits "generate " */
+                                        } break;
+                case KC_K: magic_replace_decode_send_cap_cycle(875, 'e', UINT16_MAX); /* emits "update " */ break;
                 case KC_L: magic_replace_decode_send_cap_cycle(284, 'e', UINT16_MAX); /* emits "elaborate " */ break;
                 case KC_M: magic_replace_decode_send_cap_cycle(496, 'n', UINT16_MAX); /* emits "instrumentation " */ break;
-                case KC_N: magic_replace_decode_send_cap_cycle(865, 'd', UINT16_MAX); /* emits "understand " */ break;
-                case KC_P: magic_decode_send_suffix_cycle(782, 'n', UINT16_MAX); /* emits "roduction " -> "production " */ break;
+                case KC_N: magic_replace_decode_send_cap_cycle(867, 'd', UINT16_MAX); /* emits "understand " */ break;
+                case KC_P:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(784, 'n', UINT16_MAX); /* emits "roduction " -> "production " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(730, 'n', UINT16_MAX); /* emits "production " */
+                                        } break;
                 case KC_R: magic_replace_tap_repeatable(KC_QUOTE); break;
-                case KC_S: magic_decode_send_suffix_cycle(308, 'e', UINT16_MAX); /* emits "eparate " -> "separate " */ break;
-                case KC_SPC: magic_decode_send_cap_cycle(106, 'd', UINT16_MAX); /* emits "and " */ break;
-                case KC_T: magic_decode_send_suffix_cycle(428, 'h', UINT16_MAX); /* emits "hough " -> "though " */ break;
-                case KC_TAB: magic_decode_send_cap_cycle(106, 'd', UINT16_MAX); /* emits "and " */ break;
+                case KC_S:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(308, 'e', UINT16_MAX); /* emits "eparate " -> "separate " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(792, 'e', UINT16_MAX); /* emits "separate " */
+                                        } break;
+                case KC_SPC:                     if (!magic_context_key_emitted) {
+                                        tap_code16(context_keycode);
+                                    }
+                                    magic_decode_send_cap_cycle(106, 'd', UINT16_MAX); /* emits "and " */ break;
+                case KC_T:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(428, 'h', UINT16_MAX); /* emits "hough " -> "though " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(844, 'h', UINT16_MAX); /* emits "though " */
+                                        } break;
+                case KC_TAB:                     if (!magic_context_key_emitted) {
+                                        tap_code16(context_keycode);
+                                    }
+                                    magic_decode_send_cap_cycle(106, 'd', UINT16_MAX); /* emits "and " */ break;
                 case KC_V: magic_replace_decode_send_cap_cycle(126, 'l', UINT16_MAX); /* emits "approval " */ break;
-                case KC_W: magic_decode_send_suffix_cycle(424, 'h', UINT16_MAX); /* emits "hich " -> "which " */ break;
+                case KC_W:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(424, 'h', UINT16_MAX); /* emits "hich " -> "which " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(908, 'h', UINT16_MAX); /* emits "which " */
+                                        } break;
                 case KC_X: magic_replace_decode_send_cap_cycle(352, 'e', UINT16_MAX); /* emits "exclude " */ break;
-                case KC_Y: magic_tap_repeatable(KC_R); break;
+                case KC_Y:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_R); break;
                 case KC_Z: magic_replace_decode_send_cap_cycle(42, 'y', UINT16_MAX); /* emits "OpenTelemetry " */ break;
             }
             magic_capitalize_next = false;
@@ -764,26 +1243,81 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_remembered_keycode = MAGIC_I;
             magic_repeat_keycode = KC_NO;
             switch (magic_prepare_last_keycode(context_keycode)) {
-                case KC_B: magic_decode_send_suffix_cycle(267, 'e', UINT16_MAX); /* emits "ecause " -> "because " */ break;
+                case KC_B:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(267, 'e', UINT16_MAX); /* emits "ecause " -> "because " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(173, 'e', UINT16_MAX); /* emits "because " */
+                                        } break;
                 case KC_C: magic_replace_decode_send_cap_cycle(18, '\0', UINT16_MAX); /* emits "'re " */ break;
-                case KC_COMMA: magic_decode_send_cap_cycle(5, '\0', UINT16_MAX); /* emits " but " */ break;
-                case KC_D: magic_decode_send_suffix_cycle(635, 't', UINT16_MAX); /* emits "oesn't " -> "doesn't " */ break;
-                case KC_ENT: magic_decode_send_cap_cycle(834, 'e', UINT16_MAX); /* emits "the " */ break;
-                case KC_F: magic_decode_send_suffix_cycle(640, 'g', UINT16_MAX); /* emits "ollowing " -> "following " */ break;
-                case KC_G: magic_tap_repeatable(KC_K); break;
-                case KC_K: magic_decode_send_suffix_cycle(602, 'w', UINT16_MAX); /* emits "now " -> "know " */ break;
-                case KC_L: magic_tap_repeatable(KC_R); break;
-                case KC_M: magic_decode_send_suffix_cycle(301, 't', UINT16_MAX); /* emits "ent " -> "ment " */ break;
-                case KC_N: magic_replace_decode_send_cap_cycle(745, '\0', UINT16_MAX); /* emits "qu" */ break;
-                case KC_P: magic_tap_repeatable(KC_N); break;
+                case KC_COMMA:                     if (!magic_context_key_emitted) {
+                                        tap_code16(context_keycode);
+                                    }
+                                    magic_decode_send_cap_cycle(5, '\0', UINT16_MAX); /* emits " but " */ break;
+                case KC_D:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(637, 't', UINT16_MAX); /* emits "oesn't " -> "doesn't " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(256, 't', UINT16_MAX); /* emits "doesn't " */
+                                        } break;
+                case KC_ENT:                     if (!magic_context_key_emitted) {
+                                        tap_code16(context_keycode);
+                                    }
+                                    magic_decode_send_cap_cycle(836, 'e', UINT16_MAX); /* emits "the " */ break;
+                case KC_F:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(642, 'g', UINT16_MAX); /* emits "ollowing " -> "following " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(381, 'g', UINT16_MAX); /* emits "following " */
+                                        } break;
+                case KC_G:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_K); break;
+                case KC_K:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(604, 'w', UINT16_MAX); /* emits "now " -> "know " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(531, 'w', UINT16_MAX); /* emits "know " */
+                                        } break;
+                case KC_L:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_R); break;
+                case KC_M:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(301, 't', UINT16_MAX); /* emits "ent " -> "ment " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(547, 't', UINT16_MAX); /* emits "ment " */
+                                        } break;
+                case KC_N: magic_replace_decode_send_cap_cycle(747, '\0', UINT16_MAX); /* emits "qu" */ break;
+                case KC_P:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_N); break;
                 case KC_R: magic_replace_tap_repeatable(KC_COMMA); break;
-                case KC_S: magic_decode_send(506); /* emits "ion" -> "sion" */ break;
-                case KC_SPC: magic_decode_send_cap_cycle(834, 'e', UINT16_MAX); /* emits "the " */ break;
-                case KC_T: magic_decode_send(506); /* emits "ion" -> "tion" */ break;
-                case KC_TAB: magic_decode_send_cap_cycle(834, 'e', UINT16_MAX); /* emits "the " */ break;
-                case KC_V: magic_replace_decode_send_cap_cycle(768, 'e', UINT16_MAX); /* emits "resolve " */ break;
-                case KC_W: magic_tap_repeatable(KC_S); break;
-                case KC_X: magic_tap_repeatable(KC_R); break;
+                case KC_S:                         if (magic_context_key_emitted) {
+                                            magic_decode_send(506); /* emits "ion" -> "sion" */
+                                        } else {
+                                            magic_decode_send(804); /* emits "sion" */
+                                        } break;
+                case KC_SPC:                     if (!magic_context_key_emitted) {
+                                        tap_code16(context_keycode);
+                                    }
+                                    magic_decode_send_cap_cycle(836, 'e', UINT16_MAX); /* emits "the " */ break;
+                case KC_T:                         if (magic_context_key_emitted) {
+                                            magic_decode_send(506); /* emits "ion" -> "tion" */
+                                        } else {
+                                            magic_decode_send(859); /* emits "tion" */
+                                        } break;
+                case KC_TAB:                     if (!magic_context_key_emitted) {
+                                        tap_code16(context_keycode);
+                                    }
+                                    magic_decode_send_cap_cycle(836, 'e', UINT16_MAX); /* emits "the " */ break;
+                case KC_V: magic_replace_decode_send_cap_cycle(770, 'e', UINT16_MAX); /* emits "resolve " */ break;
+                case KC_W:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_S); break;
+                case KC_X:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_R); break;
                 case KC_Z: magic_replace_decode_send_cap_cycle(62, 't', UINT16_MAX); /* emits "Spring Boot " */ break;
             }
             magic_capitalize_next = false;
@@ -799,23 +1333,62 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_remembered_keycode = MAGIC_J;
             magic_repeat_keycode = KC_NO;
             switch (magic_prepare_last_keycode(context_keycode)) {
-                case KC_B: magic_tap_repeatable(KC_D); break;
+                case KC_B:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_D); break;
                 case KC_C: magic_replace_decode_send_cap_cycle(10, '\0', UINT16_MAX); /* emits "'d " */ break;
-                case KC_D: magic_tap_repeatable(KC_F); break;
-                case KC_F: magic_tap_repeatable(KC_D); break;
-                case KC_G: magic_tap_repeatable(KC_D); break;
-                case KC_H: magic_tap_repeatable(KC_Y); break;
-                case KC_K: magic_tap_repeatable(KC_X); break;
-                case KC_L: magic_tap_repeatable(KC_C); break;
-                case KC_M: magic_tap_repeatable(KC_L); break;
-                case KC_N: magic_tap_repeatable(KC_X); break;
-                case KC_P: magic_tap_repeatable(KC_D); break;
+                case KC_D:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_F); break;
+                case KC_F:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_D); break;
+                case KC_G:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_D); break;
+                case KC_H:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_Y); break;
+                case KC_K:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_X); break;
+                case KC_L:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_C); break;
+                case KC_M:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_L); break;
+                case KC_N:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_X); break;
+                case KC_P:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_D); break;
                 case KC_R: magic_replace_tap_repeatable(KC_DOT); break;
-                case KC_S: magic_tap_repeatable(KC_D); break;
-                case KC_T: magic_replace_decode_send_cap_cycle(911, 't', UINT16_MAX); /* emits "without " */ break;
+                case KC_S:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_D); break;
+                case KC_T: magic_replace_decode_send_cap_cycle(913, 't', UINT16_MAX); /* emits "without " */ break;
                 case KC_V: magic_replace_decode_send_cap_cycle(37, 'e', UINT16_MAX); /* emits "I've " */ break;
-                case KC_W: magic_tap_repeatable(KC_X); break;
-                case KC_X: magic_tap_repeatable(KC_D); break;
+                case KC_W:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_X); break;
+                case KC_X:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_D); break;
             }
             magic_capitalize_next = false;
             last_magic_trigger = MAGIC_J;
@@ -830,20 +1403,57 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_remembered_keycode = MAGIC_K;
             magic_repeat_keycode = KC_NO;
             switch (magic_prepare_last_keycode(context_keycode)) {
-                case KC_B: magic_decode_send_suffix_cycle(279, 'e', UINT16_MAX); /* emits "efore " -> "before " */ break;
+                case KC_B:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(279, 'e', UINT16_MAX); /* emits "efore " -> "before " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(187, 'e', UINT16_MAX); /* emits "before " */
+                                        } break;
                 case KC_C: magic_replace_decode_send_cap_cycle(22, '\0', UINT16_MAX); /* emits "'s " */ break;
-                case KC_D: magic_decode_send_suffix_cycle(632, 's', UINT16_MAX); /* emits "oes " -> "does " */ break;
-                case KC_E: magic_decode_send_suffix_cycle(930, 'n', UINT16_MAX); /* emits "xplain " -> "explain " */ break;
-                case KC_G: magic_replace_decode_send_cap_cycle(818, 't', UINT16_MAX); /* emits "suggest " */ break;
-                case KC_K: magic_decode_send_suffix_cycle(598, 'w', UINT16_MAX); /* emits "new " -> "knew " */ break;
-                case KC_L: magic_tap_repeatable(KC_B); break;
-                case KC_M: magic_tap_repeatable(KC_T); break;
-                case KC_N: magic_tap_repeatable(KC_P); break;
+                case KC_D:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(634, 's', UINT16_MAX); /* emits "oes " -> "does " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(252, 's', UINT16_MAX); /* emits "does " */
+                                        } break;
+                case KC_E:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(932, 'n', UINT16_MAX); /* emits "xplain " -> "explain " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(359, 'n', UINT16_MAX); /* emits "explain " */
+                                        } break;
+                case KC_G: magic_replace_decode_send_cap_cycle(820, 't', UINT16_MAX); /* emits "suggest " */ break;
+                case KC_K:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(600, 'w', UINT16_MAX); /* emits "new " -> "knew " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(526, 'w', UINT16_MAX); /* emits "knew " */
+                                        } break;
+                case KC_L:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_B); break;
+                case KC_M:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_T); break;
+                case KC_N:             if (!magic_context_key_emitted) {
+                                tap_code16(context_keycode);
+                            }
+                            magic_tap_repeatable(KC_P); break;
                 case KC_P: magic_replace_decode_send_cap_cycle(54, 's', UINT16_MAX); /* emits "Prometheus " */ break;
-                case KC_R: magic_tap_repeatable(KC_J); break;
-                case KC_S: magic_decode_send_suffix_cycle(652, 'g', UINT16_MAX); /* emits "omething " -> "something " */ break;
-                case KC_T: magic_decode_send_suffix_cycle(432, 't', UINT16_MAX); /* emits "hought " -> "thought " */ break;
-                case KC_W: magic_decode_send_suffix_cycle(687, 'e', UINT16_MAX); /* emits "orse " -> "worse " */ break;
+                case KC_R: magic_replace_decode_send_cap_cycle(520, '\0', UINT16_MAX); /* emits "j" */ break;
+                case KC_S:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(654, 'g', UINT16_MAX); /* emits "omething " -> "something " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(813, 'g', UINT16_MAX); /* emits "something " */
+                                        } break;
+                case KC_T:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(432, 't', UINT16_MAX); /* emits "hought " -> "thought " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(849, 't', UINT16_MAX); /* emits "thought " */
+                                        } break;
+                case KC_W:                         if (magic_context_key_emitted) {
+                                            magic_decode_send_suffix_cycle(689, 'e', UINT16_MAX); /* emits "orse " -> "worse " */
+                                        } else {
+                                            magic_decode_send_cap_cycle(927, 'e', UINT16_MAX); /* emits "worse " */
+                                        } break;
                 case KC_X: magic_replace_decode_send_cap_cycle(331, 'e', UINT16_MAX); /* emits "example " */ break;
             }
             magic_capitalize_next = false;
@@ -970,7 +1580,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
         }
     } else {
         if (record->event.pressed) {
-            if (!process_magic_key_with_context(keycode, last_keycode, true)) {
+            if (!process_magic_key_with_context(keycode, last_keycode, true, true)) {
                 return false;
             }
             switch (keycode) {

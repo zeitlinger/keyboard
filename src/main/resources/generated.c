@@ -31,6 +31,7 @@ static uint16_t last_magic_trigger = KC_NO;
 static uint16_t last_magic_repeat_keycode = KC_NO;
 static uint16_t magic_remembered_keycode = KC_NO;
 static uint16_t magic_repeat_keycode = KC_NO;
+static bool magic_context_key_emitted = true;
 
 static inline uint16_t unshift_letter_keycode(uint16_t keycode) {
     if (keycode >= S(KC_A) && keycode <= S(KC_Z)) {
@@ -76,7 +77,9 @@ bool tap_adaptive(uint16_t pressed_keycode, uint16_t output_keycode) {
 }
 
 static inline void magic_replace_decode_send_cap(uint16_t offset, char suffix) {
-    tap_code16(KC_BSPC);
+    if (magic_context_key_emitted) {
+        tap_code16(KC_BSPC);
+    }
     magic_decode_send_cap(offset, suffix);
 }
 
@@ -87,7 +90,9 @@ static void magic_tap_repeatable(uint16_t keycode) {
 }
 
 static inline void magic_replace_tap_repeatable(uint16_t keycode) {
-    tap_code16(KC_BSPC);
+    if (magic_context_key_emitted) {
+        tap_code16(KC_BSPC);
+    }
     magic_tap_repeatable(keycode);
 }
 
@@ -117,7 +122,16 @@ ${magicPreceding}
     }
 }
 
-static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_keycode, bool allow_repeat) {
+static bool has_magic_key_with_context(uint16_t keycode, uint16_t context_keycode) {
+    switch (keycode) {
+${magicPairs}
+    default:
+        return false;
+    }
+}
+
+static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_keycode, bool allow_repeat, bool context_emitted) {
+    magic_context_key_emitted = context_emitted;
     switch (keycode) {
 ${magic}
     default:
@@ -145,7 +159,7 @@ ${customKeycodesOnTapPress}
         }
     } else {
         if (record->event.pressed) {
-            if (!process_magic_key_with_context(keycode, last_keycode, true)) {
+            if (!process_magic_key_with_context(keycode, last_keycode, true, true)) {
                 return false;
             }
             switch (keycode) {

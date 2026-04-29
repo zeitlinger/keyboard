@@ -214,6 +214,7 @@ fun run(args: GeneratorArgs) {
             "magicSuffixes" to magicSuffixCases(translator, magicTable).prependIndent("    "),
             "magicExclusions" to translator.magic.map { "case ${it.trigger.key}:" }.indented(8),
             "magicPreceding" to magicPrecedingCases(translator, magicTable),
+            "magicPairs" to magicPairCases(translator),
             "adaptives" to adaptiveBlocks(translator.adaptives).indented(12),
         ),
     )
@@ -376,6 +377,31 @@ private fun magicPrecedingCases(
         .sorted()
         .joinToString("\n") { "case $it:" }
 
+private fun magicPairCases(translator: QmkTranslator): String =
+    translator.magic
+        .joinToString("\n") { magic ->
+            val cases =
+                magic.press.keys
+                    .sortedBy { it.key }
+                    .joinToString("\n") { "        case ${it.key}:" }
+            if (cases.isBlank()) {
+                listOf(
+                    "case ${magic.trigger.key}:",
+                    "    return false;",
+                ).joinToString("\n")
+            } else {
+                listOf(
+                    "case ${magic.trigger.key}:",
+                    "    switch (unshift_letter_keycode(context_keycode)) {",
+                    cases,
+                    "            return true;",
+                    "        default:",
+                    "            return false;",
+                    "    }",
+                ).joinToString("\n")
+            }
+        }.prependIndent("    ")
+
 private fun adaptiveBlocks(rules: List<AdaptiveRule>): List<String> =
     rules.groupBy { it.key }.map { (key, entries) ->
         val cases =
@@ -526,14 +552,30 @@ private fun magicCommand(
                 }
             val send =
                 if (outputStartsWithPreceding) {
+                    val fullOffset = stringOffsets.getValue(output)
                     if (quoted) {
-                        annotateMagicSend("magic_decode_send($offset);", emitted, output)
+                        """
+                        if (magic_context_key_emitted) {
+                            ${annotateMagicSend("magic_decode_send($offset);", emitted, output)}
+                        } else {
+                            ${annotateMagicSend("magic_decode_send($fullOffset);", output)}
+                        }
+                        """.trimIndent().replaceIndent("                        ")
                     } else {
-                        annotateMagicSend(
-                            "magic_decode_send_suffix_cycle($offset, $suffix, $cycleOffset);",
-                            emitted,
-                            output,
-                        )
+                        """
+                        if (magic_context_key_emitted) {
+                            ${annotateMagicSend(
+                                "magic_decode_send_suffix_cycle($offset, $suffix, $cycleOffset);",
+                                emitted,
+                                output,
+                            )}
+                        } else {
+                            ${annotateMagicSend(
+                                "magic_decode_send_cap_cycle($fullOffset, $suffix, $cycleOffset);",
+                                output,
+                            )}
+                        }
+                        """.trimIndent().replaceIndent("                        ")
                     }
                 } else if (shouldReplace) {
                     annotateMagicSend(
@@ -542,7 +584,12 @@ private fun magicCommand(
                         output,
                     )
                 } else {
-                    annotateMagicSend("magic_decode_send_cap_cycle($offset, $suffix, $cycleOffset);", emitted, output)
+                    """
+                    if (!magic_context_key_emitted) {
+                        tap_code16(context_keycode);
+                    }
+                    ${annotateMagicSend("magic_decode_send_cap_cycle($offset, $suffix, $cycleOffset);", emitted, output)}
+                    """.trimIndent().replaceIndent("                    ")
                 }
             MagicCommand(send)
         }
@@ -563,7 +610,16 @@ private fun magicTapCommand(
     return if (shouldReplace) {
         MagicCommand("magic_replace_tap_repeatable(${qmk.key});", qmk.key, qmk.key)
     } else {
-        MagicCommand(repeatableTap(qmk), qmk.key, qmk.key)
+        MagicCommand(
+            """
+            if (!magic_context_key_emitted) {
+                tap_code16(context_keycode);
+            }
+            ${repeatableTap(qmk)}
+            """.trimIndent().replaceIndent("            "),
+            qmk.key,
+            qmk.key,
+        )
     }
 }
 
@@ -921,7 +977,9 @@ static void magic_decode_send_suffix_cycle(uint16_t offset, char suffix, uint16_
 }
 
 static void magic_replace_decode_send_cap_cycle(uint16_t offset, char suffix, uint16_t cycle_offset) {
-    tap_code16(KC_BSPC);
+    if (magic_context_key_emitted) {
+        tap_code16(KC_BSPC);
+    }
     magic_decode_send_cap_cycle(offset, suffix, cycle_offset);
 }
 

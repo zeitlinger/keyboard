@@ -119,6 +119,15 @@ static inline void tap_ing(void) {
 
 #include "generated.c"
 
+static inline void remember_magic_preceding_press(uint16_t keycode) {
+    if (is_magic_preceding_keycode(unshift_letter_keycode(keycode))) {
+        last_magic_preceding_press = keycode;
+        last_magic_preceding_press_timer = timer_read();
+    } else {
+        last_magic_preceding_press = KC_NO;
+    }
+}
+
 bool is_window_switcher_active = false;
 bool is_tab_switcher_active = false;
 bool is_one_shot_mouse_active = false;
@@ -228,26 +237,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         }
     } else {
-        uint16_t unshifted_keycode = unshift_letter_keycode(keycode);
         if (pending_magic_within_term()) {
-            if (is_magic_preceding_keycode(unshifted_keycode)) {
+            if (has_magic_key_with_context(pending_magic_trigger, keycode)) {
                 uint16_t trigger = pending_magic_trigger;
-                remember_real_keycode(unshifted_keycode);
                 suppressed_partner_keycode = keycode;
                 pending_magic_trigger = KC_NO;
-                tap_code16(keycode);
-                return process_magic_key_with_context(trigger, unshifted_keycode, false);
+                remember_real_keycode(keycode);
+                return process_magic_key_with_context(trigger, keycode, false, false);
             }
             pending_magic_trigger = KC_NO;
         }
         if (is_magic_keycode(keycode)) {
             // Preserve the original behavior whenever a fresh previous key can
             // form a valid magic. Reverse-order magic is fallback only.
-            if (is_magic_preceding_keycode(last_keycode) && timer_elapsed(last_keycode_timer) < MAGIC_CHORD_TERM) {
-                return process_magic_key_with_context(keycode, last_keycode, true);
+            if (timer_elapsed(last_keycode_timer) < MAGIC_CHORD_TERM &&
+                has_magic_key_with_context(keycode, last_keycode)) {
+                return process_magic_key_with_context(keycode, last_keycode, true, true);
             }
-            if (magic_preceding_press_within_term()) {
-                return process_magic_key_with_context(keycode, last_magic_preceding_press, true);
+            if (magic_preceding_press_within_term() &&
+                has_magic_key_with_context(keycode, last_magic_preceding_press)) {
+                return process_magic_key_with_context(keycode, last_magic_preceding_press, true, true);
             }
             if (suppressed_magic_trigger != KC_NO && suppressed_magic_trigger != keycode) {
                 return false;
@@ -257,10 +266,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             pending_magic_timer = timer_read();
             return false;
         }
-        if (is_magic_preceding_keycode(unshifted_keycode)) {
-            last_magic_preceding_press = unshifted_keycode;
-            last_magic_preceding_press_timer = timer_read();
-        }
+        remember_magic_preceding_press(keycode);
     }
 
     if (!process_record_generated(keycode, record)) {
