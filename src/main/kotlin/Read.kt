@@ -45,6 +45,10 @@ fun translateKey(
                     translateSimpleKey(translator, def, pos)
                 }
 
+                def.startsWith("#") && def.length > 1 -> {
+                    throw IllegalArgumentException("symbol '$def' not found in Symbols table at $pos")
+                }
+
                 else -> {
                     findLayerActivationKey(def, translator, pos) ?: when {
                         def.contains(" ") && !def.startsWith("\"") -> {

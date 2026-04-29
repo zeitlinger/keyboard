@@ -672,7 +672,11 @@ private fun validateMagicWords(
             val current =
                 MagicWordLocation(
                     precedingChar = precedingChar,
-                    trigger = translator.magic.getOrNull(index)?.trigger?.key ?: "column ${index + 2}",
+                    trigger =
+                        translator.magic
+                            .getOrNull(index)
+                            ?.trigger
+                            ?.key ?: "column ${index + 2}",
                 )
             val previous = seen.putIfAbsent(resolvedDef, current)
             require(previous == null) {
