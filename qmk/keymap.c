@@ -55,6 +55,8 @@ static uint16_t pending_magic_trigger = KC_NO;
 static uint16_t suppressed_magic_trigger = KC_NO;
 static uint16_t suppressed_partner_keycode = KC_NO;
 static uint16_t pending_magic_timer = 0;
+static uint16_t last_magic_preceding_press = KC_NO;
+static uint16_t last_magic_preceding_press_timer = 0;
 
 #ifndef MAGIC_CHORD_TERM
 #define MAGIC_CHORD_TERM 30
@@ -86,6 +88,11 @@ static inline void clear_pending_magic_if_expired(void) {
     if (pending_magic_trigger != KC_NO && timer_elapsed(pending_magic_timer) >= MAGIC_CHORD_TERM) {
         pending_magic_trigger = KC_NO;
     }
+}
+
+static inline bool magic_preceding_press_within_term(void) {
+    return last_magic_preceding_press != KC_NO &&
+           timer_elapsed(last_magic_preceding_press_timer) < MAGIC_CHORD_TERM;
 }
 
 static inline void tap_dot_space(void) {
@@ -228,6 +235,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 remember_real_keycode(unshifted_keycode);
                 suppressed_partner_keycode = keycode;
                 pending_magic_trigger = KC_NO;
+                tap_code16(keycode);
                 return process_magic_key_with_context(trigger, unshifted_keycode, false);
             }
             pending_magic_trigger = KC_NO;
@@ -238,6 +246,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (is_magic_preceding_keycode(last_keycode) && timer_elapsed(last_keycode_timer) < MAGIC_CHORD_TERM) {
                 return process_magic_key_with_context(keycode, last_keycode, true);
             }
+            if (magic_preceding_press_within_term()) {
+                return process_magic_key_with_context(keycode, last_magic_preceding_press, true);
+            }
             if (suppressed_magic_trigger != KC_NO && suppressed_magic_trigger != keycode) {
                 return false;
             }
@@ -245,6 +256,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             suppressed_magic_trigger = keycode;
             pending_magic_timer = timer_read();
             return false;
+        }
+        if (is_magic_preceding_keycode(unshifted_keycode)) {
+            last_magic_preceding_press = unshifted_keycode;
+            last_magic_preceding_press_timer = timer_read();
         }
     }
 
