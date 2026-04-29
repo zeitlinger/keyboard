@@ -89,7 +89,8 @@ Cell = what to emit.
 - A cell may be prefixed with `⌫` to force `BS + output` when the preceding key
   is replaceable. This is an explicit table-level override and drives the
   generated logic directly.
-- Single-char letter cells append or tap (e.g. `a` + `e` yields `ae`).
+- Single-char letter cells append or tap unless prefixed with `⌫` (e.g.
+  `a` + `e` yields `ae`, while `spc` + `⌫z` yields `z`).
   Single-char punctuation/symbol cells do `⌫ + char` when the preceding key is
   replaceable (typically a letter or `spc`), so `t` + `.` yields `.`. A
   repeated press of the same magic key then replays just the emitted letter or
@@ -142,7 +143,7 @@ Cell = what to emit.
 |   x    | exception  |     w      |           |   except    |   explicit    |            |         |     exclude     |      r      |    d    |  example   |
 |   y    |            |            |           |             |               |            |  only   |        r        |             |         |            |
 |   z    |            |  realize   |           |     #g      |               |            |         |  OpenTelemetry  | Spring Boot |         |            |
-|  spc   |            |            | [dotSpc]  |             |               |            |   "z"   |       and       |     the     |         |            |
+|  spc   |            |            | [dotSpc]  |             |               |            |   ⌫z    |       and       |     the     |         |            |
 |  tab   |            |            |           |             |               |            |         |       and       |     the     |         |            |
 | enter  |            |            |           |             |               |            |         |       and       |     the     |         |            |
 |   ,    |            |            |           |             |               |            |         |     " and "     |   " but "   |         |            |

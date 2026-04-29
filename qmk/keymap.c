@@ -143,6 +143,10 @@ static inline uint16_t find_magic_forward_context(uint16_t magic_keycode) {
     return KC_NO;
 }
 
+static inline bool is_magic_layer_active(void) {
+    return layer == _BASE;
+}
+
 bool is_window_switcher_active = false;
 bool is_tab_switcher_active = false;
 bool is_one_shot_mouse_active = false;
@@ -241,6 +245,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     clear_pending_magic_if_expired();
+    bool magic_active = is_magic_layer_active();
+    if (!magic_active) {
+        clear_pending_magic();
+    }
 
     if (!record->event.pressed) {
         if (keycode == suppressed_partner_keycode) {
@@ -255,7 +263,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (keycode == suppressed_partner_keycode) {
             return false;
         }
-        if (pending_magic_within_term()) {
+        if (magic_active && pending_magic_within_term()) {
             if (has_reverse_magic_key_with_context(pending_magic_trigger, keycode)) {
                 uint16_t trigger = pending_magic_trigger;
                 suppressed_partner_keycode = keycode;
@@ -266,6 +274,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             clear_pending_magic();
         }
         if (is_magic_keycode(keycode)) {
+            if (!magic_active) {
+                return false;
+            }
             if (repeat_magic_key(keycode)) {
                 return false;
             }
@@ -363,6 +374,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     layer = get_highest_layer(state);
+    if (layer != _BASE) {
+        clear_pending_magic();
+    }
     switch (layer) {
     case _BASE:
         is_one_shot_mouse_active = false;

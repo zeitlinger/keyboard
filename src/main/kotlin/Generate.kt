@@ -650,7 +650,7 @@ private fun magicTapCommand(
     replaceable: Boolean,
     forceReplace: Boolean = false,
 ): MagicCommand {
-    val shouldReplace = replaceable && (forceReplace || isMagicReplaceablePreceding(precedingChar))
+    val shouldReplace = isMagicReplaceablePreceding(precedingChar) && (forceReplace || replaceable)
     return if (shouldReplace) {
         MagicCommand("magic_replace_tap_repeatable(${qmk.key});", qmk.key, qmk.key, reverseSafe = true)
     } else {
