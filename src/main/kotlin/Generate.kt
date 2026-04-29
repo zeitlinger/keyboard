@@ -213,7 +213,6 @@ fun run(args: GeneratorArgs) {
             "magic" to translator.magic.map { magicCase(it) }.indented(8),
             "magicSuffixes" to magicSuffixCases(translator, magicTable).prependIndent("    "),
             "magicExclusions" to translator.magic.map { "case ${it.trigger.key}:" }.indented(8),
-            "magicPreceding" to magicPrecedingCases(translator, magicTable),
             "magicContextBits" to magicContextBits(translator),
             "magicPairMasks" to magicPairMasks(translator, reverseSafeOnly = false),
             "reverseMagicPairMasks" to magicPairMasks(translator, reverseSafeOnly = true),
@@ -371,16 +370,6 @@ ${magicSwitch(magic.press)}$defaultCase
     }
         """.trimIndent()
 }
-
-private fun magicPrecedingCases(
-    translator: QmkTranslator,
-    magicTable: Table,
-): String =
-    magicRows(magicTable)
-        .map { row -> translator.toQmk(row[0], invalidPos).key }
-        .distinct()
-        .sorted()
-        .joinToString("\n") { "case $it:" }
 
 private fun magicContextKeys(translator: QmkTranslator): List<QmkKey> =
     translator.magic

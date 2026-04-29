@@ -518,43 +518,6 @@ static bool is_magic_keycode(uint16_t keycode) {
     }
 }
 
-static bool is_magic_preceding_keycode(uint16_t keycode) {
-    switch (keycode) {
-case KC_A:
-case KC_B:
-case KC_C:
-case KC_COMMA:
-case KC_D:
-case KC_E:
-case KC_ENT:
-case KC_F:
-case KC_G:
-case KC_H:
-case KC_I:
-case KC_J:
-case KC_K:
-case KC_L:
-case KC_M:
-case KC_N:
-case KC_O:
-case KC_P:
-case KC_R:
-case KC_S:
-case KC_SPC:
-case KC_T:
-case KC_TAB:
-case KC_U:
-case KC_V:
-case KC_W:
-case KC_X:
-case KC_Y:
-case KC_Z:
-            return true;
-    default:
-        return false;
-    }
-}
-
 static uint32_t magic_context_bit(uint16_t keycode) {
     switch (keycode) {
 case KC_A: return UINT32_C(1) << 0;

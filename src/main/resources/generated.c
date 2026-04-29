@@ -121,15 +121,6 @@ ${magicExclusions}
     }
 }
 
-static bool is_magic_preceding_keycode(uint16_t keycode) {
-    switch (keycode) {
-${magicPreceding}
-            return true;
-    default:
-        return false;
-    }
-}
-
 static uint32_t magic_context_bit(uint16_t keycode) {
     switch (keycode) {
 ${magicContextBits}
