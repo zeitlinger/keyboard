@@ -347,7 +347,7 @@ private fun magicBlock(magic: MagicInfo): String {
         }
         magic_remembered_keycode = ${magic.trigger.key};
         magic_repeat_keycode = KC_NO;
-        switch (magic_prepare_last_keycode(get_last_keycode())) {
+        switch (magic_prepare_last_keycode(last_keycode)) {
 ${magicSwitch(magic.press)}$defaultCase
         }
         magic_capitalize_next = false;
@@ -364,7 +364,7 @@ private fun adaptiveBlocks(rules: List<AdaptiveRule>): List<String> =
         val cases =
             entries
                 .sortedBy { it.after.key }
-                .joinToString("\n") { "        case ${it.after}: return tap(${it.output});" }
+                .joinToString("\n") { "        case ${it.after}: return tap_adaptive($key, ${it.output});" }
         "case $key:\n    switch (adaptive_prev_keycode) {\n$cases\n    }\n    break;"
     }
 

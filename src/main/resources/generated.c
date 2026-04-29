@@ -18,11 +18,12 @@ ${timeouts}
     }
 }
 
-// Two-variable tracking for adaptive keys.
-// prev_keycode = the key before the current one (what adaptives check against).
-// last_keycode = the most recent key (shifts to prev_keycode on the next keypress).
-// Updated only in remember_last_key_user (called with resolved combo keycodes,
-// so combo components like KC_C from P=KC_C+KC_X are never recorded — only KC_P is).
+// Two-variable tracking for real logical keys.
+// prev_keycode = the prior resolved key press (what adaptives and magics check against).
+// last_keycode = the most recent resolved key press (shifts to prev_keycode on the next keypress).
+// Updated from the real trigger keycode, not the emitted adaptive/magic output,
+// so context-sensitive logic can see through substitutions.
+// Combo components like KC_C from P=KC_C+KC_X are never recorded — only KC_P is.
 static uint16_t prev_keycode = KC_NO;
 static uint16_t last_keycode = KC_NO;
 static uint16_t last_magic_trigger = KC_NO;
@@ -52,10 +53,23 @@ static bool repeat_last_magic_key(uint16_t trigger) {
     return true;
 }
 
+static void remember_real_keycode(uint16_t keycode) {
+    prev_keycode = last_keycode;
+    last_keycode = keycode;
+    last_magic_trigger = KC_NO;
+    last_magic_repeat_keycode = KC_NO;
+}
+
 bool tap(uint16_t keycode) {
     tap_code16(keycode);
     set_last_keycode(keycode);
-    last_keycode = keycode;
+    return false;
+}
+
+bool tap_adaptive(uint16_t pressed_keycode, uint16_t output_keycode) {
+    remember_real_keycode(pressed_keycode);
+    tap_code16(output_keycode);
+    set_last_keycode(output_keycode);
     return false;
 }
 
@@ -130,9 +144,6 @@ ${magicExclusions}
             return false;
     }
 
-    prev_keycode = last_keycode;
-    last_keycode = keycode;
-    last_magic_trigger = KC_NO;
-    last_magic_repeat_keycode = KC_NO;
+    remember_real_keycode(keycode);
     return true;  // Other keys can be repeated.
 }
