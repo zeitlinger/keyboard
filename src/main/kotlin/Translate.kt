@@ -39,6 +39,7 @@ data class MagicCommand(
     val statements: String,
     val rememberedKeycode: String? = null,
     val repeatKeycode: String? = null,
+    val reverseSafe: Boolean = false,
 )
 
 data class AdaptiveRule(

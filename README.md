@@ -107,14 +107,15 @@ Cell = what to emit.
 - Order note: the table is still authored as `preceding key + magic`. Reverse
   order (`magic + following key`) is only a fallback when there is no fresh,
   valid preceding-key interpretation, so forward magics remain authoritative in
-  ambiguous sequences.
+  ambiguous sequences. Reverse fallback is limited to replacement cells; append
+  and prefix-strip cells still require forward order.
 - `[name]` bracket tokens invoke named handlers. `[dotSpc]` = BS + `.` then one-shot shift.
   In the `suffix` row, `[next]` replaces the current word with the next item
   from the `Cycle` table while keeping suffix mode active.
 - Row "r" is reserved for future use.  
 
 | Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |     magic_h     |   magic_i   | magic_j |  magic_k   |
-| :----: | :--------: | :--------: | :-------: | :---------: |:-------------:| :--------: | :-----: | :-------------: | :---------: | :-----: |:----------:|
+| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :-------------: | :---------: | :-----: | :--------: |
 | suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |     [next]      |   " the "   |  ". "   |     s      |
 |   a    |            |            |           |             |               |            |    e    |                 |             |         |            |
 |   b    | background | basically  |           |   become    | observability |  disable   |         |    obsolete     |   because   |    d    |   before   |

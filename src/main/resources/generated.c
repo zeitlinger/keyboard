@@ -122,15 +122,40 @@ ${magicPreceding}
     }
 }
 
-static bool has_magic_key_with_context(uint16_t keycode, uint16_t context_keycode) {
+static uint32_t magic_context_bit(uint16_t keycode) {
     switch (keycode) {
-${magicPairs}
+${magicContextBits}
+    default:
+        return 0;
+    }
+}
+
+static bool has_magic_key_with_context(uint16_t keycode, uint16_t context_keycode) {
+    uint32_t context_bit = magic_context_bit(unshift_letter_keycode(context_keycode));
+    if (context_bit == 0) {
+        return false;
+    }
+    switch (keycode) {
+${magicPairMasks}
     default:
         return false;
     }
 }
 
-static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_keycode, bool allow_repeat, bool context_emitted) {
+static bool has_reverse_magic_key_with_context(uint16_t keycode, uint16_t context_keycode) {
+    uint32_t context_bit = magic_context_bit(unshift_letter_keycode(context_keycode));
+    if (context_bit == 0) {
+        return false;
+    }
+    switch (keycode) {
+${reverseMagicPairMasks}
+    default:
+        return false;
+    }
+}
+
+static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_keycode,
+                                           bool allow_repeat, bool context_emitted) {
     magic_context_key_emitted = context_emitted;
     switch (keycode) {
 ${magic}

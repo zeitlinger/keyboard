@@ -238,7 +238,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
     } else {
         if (pending_magic_within_term()) {
-            if (has_magic_key_with_context(pending_magic_trigger, keycode)) {
+            if (has_reverse_magic_key_with_context(pending_magic_trigger, keycode)) {
                 uint16_t trigger = pending_magic_trigger;
                 suppressed_partner_keycode = keycode;
                 pending_magic_trigger = KC_NO;

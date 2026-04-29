@@ -214,7 +214,9 @@ fun run(args: GeneratorArgs) {
             "magicSuffixes" to magicSuffixCases(translator, magicTable).prependIndent("    "),
             "magicExclusions" to translator.magic.map { "case ${it.trigger.key}:" }.indented(8),
             "magicPreceding" to magicPrecedingCases(translator, magicTable),
-            "magicPairs" to magicPairCases(translator),
+            "magicContextBits" to magicContextBits(translator),
+            "magicPairMasks" to magicPairMasks(translator, reverseSafeOnly = false),
+            "reverseMagicPairMasks" to magicPairMasks(translator, reverseSafeOnly = true),
             "adaptives" to adaptiveBlocks(translator.adaptives).indented(12),
         ),
     )
@@ -377,30 +379,40 @@ private fun magicPrecedingCases(
         .sorted()
         .joinToString("\n") { "case $it:" }
 
-private fun magicPairCases(translator: QmkTranslator): String =
+private fun magicContextKeys(translator: QmkTranslator): List<QmkKey> =
     translator.magic
-        .joinToString("\n") { magic ->
-            val cases =
-                magic.press.keys
-                    .sortedBy { it.key }
-                    .joinToString("\n") { "        case ${it.key}:" }
-            if (cases.isBlank()) {
-                listOf(
-                    "case ${magic.trigger.key}:",
-                    "    return false;",
-                ).joinToString("\n")
-            } else {
-                listOf(
-                    "case ${magic.trigger.key}:",
-                    "    switch (unshift_letter_keycode(context_keycode)) {",
-                    cases,
-                    "            return true;",
-                    "        default:",
-                    "            return false;",
-                    "    }",
-                ).joinToString("\n")
+        .flatMap { it.press.keys }
+        .distinct()
+        .sortedBy { it.key }
+        .also {
+            require(it.size <= Int.SIZE_BITS) {
+                "magic context bitset supports at most ${Int.SIZE_BITS} keys, got ${it.size}"
             }
-        }.prependIndent("    ")
+        }
+
+private fun magicContextBits(translator: QmkTranslator): String =
+    magicContextKeys(translator)
+        .mapIndexed { index, key -> "case ${key.key}: return UINT32_C(1) << $index;" }
+        .joinToString("\n")
+
+private fun magicPairMasks(
+    translator: QmkTranslator,
+    reverseSafeOnly: Boolean,
+): String {
+    val bitIndex = magicContextKeys(translator).mapIndexed { index, key -> key to index }.toMap()
+    return translator.magic
+        .joinToString("\n") { magic ->
+            val mask =
+                magic.press.entries.fold(0L) { acc, entry ->
+                    if (reverseSafeOnly && !entry.value.reverseSafe) {
+                        acc
+                    } else {
+                        acc or (1L shl bitIndex.getValue(entry.key))
+                    }
+                }
+            "case ${magic.trigger.key}: return (UINT32_C(0x${mask.toString(16)}) & context_bit) != 0;"
+        }
+}
 
 private fun adaptiveBlocks(rules: List<AdaptiveRule>): List<String> =
     rules.groupBy { it.key }.map { (key, entries) ->
@@ -516,7 +528,8 @@ private fun magicCommand(
     val resolvedDef = spec.resolvedDef
     return when {
         isBracketToken(resolvedDef) -> {
-            MagicCommand(bracketCommand(resolvedDef.removeSurrounding("[", "]"), pos, stringOffsets))
+            val bracketName = resolvedDef.removeSurrounding("[", "]")
+            MagicCommand(bracketCommand(bracketName, pos, stringOffsets), reverseSafe = bracketName == "dotSpc")
         }
 
         translator.symbols.customKeycodes.contains(resolvedDef) || qmkPrefixes.any { resolvedDef.startsWith(it) } -> {
@@ -552,30 +565,14 @@ private fun magicCommand(
                 }
             val send =
                 if (outputStartsWithPreceding) {
-                    val fullOffset = stringOffsets.getValue(output)
                     if (quoted) {
-                        """
-                        if (magic_context_key_emitted) {
-                            ${annotateMagicSend("magic_decode_send($offset);", emitted, output)}
-                        } else {
-                            ${annotateMagicSend("magic_decode_send($fullOffset);", output)}
-                        }
-                        """.trimIndent().replaceIndent("                        ")
+                        annotateMagicSend("magic_decode_send($offset);", emitted, output)
                     } else {
-                        """
-                        if (magic_context_key_emitted) {
-                            ${annotateMagicSend(
-                                "magic_decode_send_suffix_cycle($offset, $suffix, $cycleOffset);",
-                                emitted,
-                                output,
-                            )}
-                        } else {
-                            ${annotateMagicSend(
-                                "magic_decode_send_cap_cycle($fullOffset, $suffix, $cycleOffset);",
-                                output,
-                            )}
-                        }
-                        """.trimIndent().replaceIndent("                        ")
+                        annotateMagicSend(
+                            "magic_decode_send_suffix_cycle($offset, $suffix, $cycleOffset);",
+                            emitted,
+                            output,
+                        )
                     }
                 } else if (shouldReplace) {
                     annotateMagicSend(
@@ -584,14 +581,9 @@ private fun magicCommand(
                         output,
                     )
                 } else {
-                    """
-                    if (!magic_context_key_emitted) {
-                        tap_code16(context_keycode);
-                    }
-                    ${annotateMagicSend("magic_decode_send_cap_cycle($offset, $suffix, $cycleOffset);", emitted, output)}
-                    """.trimIndent().replaceIndent("                    ")
+                    annotateMagicSend("magic_decode_send_cap_cycle($offset, $suffix, $cycleOffset);", emitted, output)
                 }
-            MagicCommand(send)
+            MagicCommand(send, reverseSafe = shouldReplace)
         }
 
         else -> {
@@ -608,18 +600,9 @@ private fun magicTapCommand(
 ): MagicCommand {
     val shouldReplace = replaceable && (forceReplace || isMagicReplaceablePreceding(precedingChar))
     return if (shouldReplace) {
-        MagicCommand("magic_replace_tap_repeatable(${qmk.key});", qmk.key, qmk.key)
+        MagicCommand("magic_replace_tap_repeatable(${qmk.key});", qmk.key, qmk.key, reverseSafe = true)
     } else {
-        MagicCommand(
-            """
-            if (!magic_context_key_emitted) {
-                tap_code16(context_keycode);
-            }
-            ${repeatableTap(qmk)}
-            """.trimIndent().replaceIndent("            "),
-            qmk.key,
-            qmk.key,
-        )
+        MagicCommand(repeatableTap(qmk), qmk.key, qmk.key)
     }
 }
 
