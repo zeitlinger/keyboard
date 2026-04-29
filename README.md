@@ -111,7 +111,7 @@ Cell = what to emit.
 | suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |     [next]      |   " the "   |  ". "   |     s      |
 |   a    |            |            |           |             |               |            |    e    |                 |             |         |            |
 |   b    | background | basically  |           |   become    | observability |  disable   |         |    obsolete     |   because   |    d    |   before   |
-|   c    |     n      |   "'ll"    |           |    "n't"    |       d       | container  |         |     comment     |    "'re"    |  "'d"   |    "'s"    |
+|   c    |     n      |   "'ll"    |           |             |       d       | container  |         |     comment     |    "'re"    |  "'d"   |    "'s"    |
 |   d    |     c      |     h      |           |    don't    |               | difficulty |         |     didn't      |   doesn't   |    f    |    does    |
 |   e    |            |            |     u     |             |    another    |            |    h    |                 |             |         |  explain   |
 |   f    | confusing  |  conflict  |           | performance |   frequency   |            |         |     focused     |  following  |    d    |            |
@@ -125,7 +125,7 @@ Cell = what to emit.
 |   n    |     r      |     h      |           |    never    |   anything    |            |         |   understand    |    "qu"     |    x    |     p      |
 |   o    |            |            |     e     |             |               |            |    h    |                 |             |         |            |
 |   p    |     y      |     m      |           |   people    |   probably    |   python   |         |   production    |      n      |    d    | Prometheus |
-|   r    |     "      |    "q"     |           |     n't     |       ?       |     x      |    !    |        '        |      ,      |    .    |    "j"     |
+|   r    |     "      |    "q"     |           |   "n't"     |       ?       |     x      |    !    |        '        |      ,      |    .    |    "j"     |
 |   s    |  someone   |     r      |           |  possible   |    support    |  similar   |         |    separate     |   "sion"    |    d    | something  |
 |   t    |     n      |     f      |           |             |    through    |            |         |     though      |   "tion"    | without |  thought   |
 |   u    |            |            |           |             |               |            |    h    |                 |             |         |            |
