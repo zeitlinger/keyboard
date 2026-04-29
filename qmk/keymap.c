@@ -55,11 +55,17 @@ static uint16_t pending_magic_trigger = KC_NO;
 static uint16_t suppressed_magic_trigger = KC_NO;
 static uint16_t suppressed_partner_keycode = KC_NO;
 static uint16_t pending_magic_timer = 0;
-static uint16_t last_magic_preceding_press = KC_NO;
-static uint16_t last_magic_preceding_press_timer = 0;
+
+#define MAGIC_CONTEXT_HISTORY 3
+static uint16_t magic_context_history[MAGIC_CONTEXT_HISTORY] = {KC_NO, KC_NO, KC_NO};
+static uint16_t magic_context_history_timer[MAGIC_CONTEXT_HISTORY] = {0, 0, 0};
 
 #ifndef MAGIC_CHORD_TERM
 #define MAGIC_CHORD_TERM 30
+#endif
+
+#ifndef MAGIC_FORWARD_TERM
+#define MAGIC_FORWARD_TERM 220
 #endif
 
 static inline void set_suffix_state(char c) {
@@ -84,15 +90,15 @@ static inline bool pending_magic_within_term(void) {
     return pending_magic_trigger != KC_NO && timer_elapsed(pending_magic_timer) < MAGIC_CHORD_TERM;
 }
 
-static inline void clear_pending_magic_if_expired(void) {
-    if (pending_magic_trigger != KC_NO && timer_elapsed(pending_magic_timer) >= MAGIC_CHORD_TERM) {
-        pending_magic_trigger = KC_NO;
-    }
+static inline void clear_pending_magic(void) {
+    pending_magic_trigger = KC_NO;
+    suppressed_magic_trigger = KC_NO;
 }
 
-static inline bool magic_preceding_press_within_term(void) {
-    return last_magic_preceding_press != KC_NO &&
-           timer_elapsed(last_magic_preceding_press_timer) < MAGIC_CHORD_TERM;
+static inline void clear_pending_magic_if_expired(void) {
+    if (pending_magic_trigger != KC_NO && timer_elapsed(pending_magic_timer) >= MAGIC_CHORD_TERM) {
+        clear_pending_magic();
+    }
 }
 
 static inline void tap_dot_space(void) {
@@ -120,12 +126,28 @@ static inline void tap_ing(void) {
 #include "generated.c"
 
 static inline void remember_magic_preceding_press(uint16_t keycode) {
-    if (is_magic_preceding_keycode(unshift_letter_keycode(keycode))) {
-        last_magic_preceding_press = keycode;
-        last_magic_preceding_press_timer = timer_read();
-    } else {
-        last_magic_preceding_press = KC_NO;
+    for (uint8_t i = MAGIC_CONTEXT_HISTORY - 1; i > 0; i--) {
+        magic_context_history[i] = magic_context_history[i - 1];
+        magic_context_history_timer[i] = magic_context_history_timer[i - 1];
     }
+    magic_context_history[0] = keycode;
+    magic_context_history_timer[0] = timer_read();
+}
+
+static inline uint16_t find_magic_forward_context(uint16_t magic_keycode) {
+    for (uint8_t i = 0; i < MAGIC_CONTEXT_HISTORY; i++) {
+        uint16_t candidate = magic_context_history[i];
+        if (candidate == KC_NO || timer_elapsed(magic_context_history_timer[i]) >= MAGIC_FORWARD_TERM) {
+            return KC_NO;
+        }
+        if (has_magic_key_with_context(magic_keycode, candidate)) {
+            return candidate;
+        }
+        if (!is_magic_combo_component_for(magic_keycode, candidate)) {
+            return KC_NO;
+        }
+    }
+    return KC_NO;
 }
 
 bool is_window_switcher_active = false;
@@ -241,22 +263,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (has_reverse_magic_key_with_context(pending_magic_trigger, keycode)) {
                 uint16_t trigger = pending_magic_trigger;
                 suppressed_partner_keycode = keycode;
-                pending_magic_trigger = KC_NO;
+                clear_pending_magic();
                 remember_real_keycode(keycode);
                 return process_magic_key_with_context(trigger, keycode, false, false);
             }
-            pending_magic_trigger = KC_NO;
+            clear_pending_magic();
         }
         if (is_magic_keycode(keycode)) {
+            if (repeat_magic_key(keycode)) {
+                return false;
+            }
             // Preserve the original behavior whenever a fresh previous key can
             // form a valid magic. Reverse-order magic is fallback only.
-            if (timer_elapsed(last_keycode_timer) < MAGIC_CHORD_TERM &&
-                has_magic_key_with_context(keycode, last_keycode)) {
-                return process_magic_key_with_context(keycode, last_keycode, true, true);
-            }
-            if (magic_preceding_press_within_term() &&
-                has_magic_key_with_context(keycode, last_magic_preceding_press)) {
-                return process_magic_key_with_context(keycode, last_magic_preceding_press, true, true);
+            uint16_t forward_context = find_magic_forward_context(keycode);
+            if (forward_context != KC_NO) {
+                return process_magic_key_with_context(keycode, forward_context, false, true);
             }
             if (suppressed_magic_trigger != KC_NO && suppressed_magic_trigger != keycode) {
                 return false;

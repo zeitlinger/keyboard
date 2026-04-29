@@ -55,6 +55,14 @@ static bool repeat_last_magic_key(uint16_t trigger) {
     return true;
 }
 
+static bool repeat_magic_key(uint16_t keycode) {
+    switch (keycode) {
+${magicRepeats}
+    default:
+        return false;
+    }
+}
+
 static void remember_real_keycode(uint16_t keycode) {
     prev_keycode = last_keycode;
     last_keycode = keycode;
@@ -149,6 +157,26 @@ static bool has_reverse_magic_key_with_context(uint16_t keycode, uint16_t contex
     }
     switch (keycode) {
 ${reverseMagicPairMasks}
+    default:
+        return false;
+    }
+}
+
+static uint16_t magic_combo_component_bit(uint16_t keycode) {
+    switch (keycode) {
+${magicComboComponentBits}
+    default:
+        return 0;
+    }
+}
+
+static bool is_magic_combo_component_for(uint16_t keycode, uint16_t component_keycode) {
+    uint16_t component_bit = magic_combo_component_bit(component_keycode);
+    if (component_bit == 0) {
+        return false;
+    }
+    switch (keycode) {
+${magicComboComponentMasks}
     default:
         return false;
     }

@@ -389,6 +389,24 @@ static bool repeat_last_magic_key(uint16_t trigger) {
     return true;
 }
 
+static bool repeat_magic_key(uint16_t keycode) {
+    switch (keycode) {
+case MAGIC_A: return repeat_last_magic_key(MAGIC_A);
+case MAGIC_B: return repeat_last_magic_key(MAGIC_B);
+case MAGIC_C: return repeat_last_magic_key(MAGIC_C);
+case MAGIC_D: return repeat_last_magic_key(MAGIC_D);
+case MAGIC_E: return repeat_last_magic_key(MAGIC_E);
+case MAGIC_F: return repeat_last_magic_key(MAGIC_F);
+case MAGIC_G: return repeat_last_magic_key(MAGIC_G);
+case MAGIC_H: return repeat_last_magic_key(MAGIC_H);
+case MAGIC_I: return repeat_last_magic_key(MAGIC_I);
+case MAGIC_J: return repeat_last_magic_key(MAGIC_J);
+case MAGIC_K: return repeat_last_magic_key(MAGIC_K);
+    default:
+        return false;
+    }
+}
+
 static void remember_real_keycode(uint16_t keycode) {
     prev_keycode = last_keycode;
     last_keycode = keycode;
@@ -612,6 +630,49 @@ case MAGIC_H: return (UINT32_C(0x1504f002) & context_bit) != 0;
 case MAGIC_I: return (UINT32_C(0x11048004) & context_bit) != 0;
 case MAGIC_J: return (UINT32_C(0x1240004) & context_bit) != 0;
 case MAGIC_K: return (UINT32_C(0x4060104) & context_bit) != 0;
+    default:
+        return false;
+    }
+}
+
+static uint16_t magic_combo_component_bit(uint16_t keycode) {
+    switch (keycode) {
+case DEAD1: return UINT16_C(1) << 0;
+case KC_A: return UINT16_C(1) << 1;
+case KC_E: return UINT16_C(1) << 2;
+case KC_ESC: return UINT16_C(1) << 3;
+case KC_H: return UINT16_C(1) << 4;
+case KC_I: return UINT16_C(1) << 5;
+case KC_O: return UINT16_C(1) << 6;
+case KC_S: return UINT16_C(1) << 7;
+case KC_U: return UINT16_C(1) << 8;
+case KC_Y: return UINT16_C(1) << 9;
+case MAGIC_A: return UINT16_C(1) << 10;
+case MAGIC_B: return UINT16_C(1) << 11;
+case MO(_LEFT): return UINT16_C(1) << 12;
+case MO(_RIGHT): return UINT16_C(1) << 13;
+    default:
+        return 0;
+    }
+}
+
+static bool is_magic_combo_component_for(uint16_t keycode, uint16_t component_keycode) {
+    uint16_t component_bit = magic_combo_component_bit(component_keycode);
+    if (component_bit == 0) {
+        return false;
+    }
+    switch (keycode) {
+case MAGIC_A: return (UINT16_C(0x0) & component_bit) != 0;
+case MAGIC_B: return (UINT16_C(0x0) & component_bit) != 0;
+case MAGIC_C: return (UINT16_C(0x88) & component_bit) != 0;
+case MAGIC_D: return (UINT16_C(0x404) & component_bit) != 0;
+case MAGIC_E: return (UINT16_C(0x820) & component_bit) != 0;
+case MAGIC_F: return (UINT16_C(0x11) & component_bit) != 0;
+case MAGIC_G: return (UINT16_C(0x2080) & component_bit) != 0;
+case MAGIC_H: return (UINT16_C(0x102) & component_bit) != 0;
+case MAGIC_I: return (UINT16_C(0x44) & component_bit) != 0;
+case MAGIC_J: return (UINT16_C(0x220) & component_bit) != 0;
+case MAGIC_K: return (UINT16_C(0x1010) & component_bit) != 0;
     default:
         return false;
     }

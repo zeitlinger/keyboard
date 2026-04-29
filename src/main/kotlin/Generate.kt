@@ -217,6 +217,9 @@ fun run(args: GeneratorArgs) {
             "magicContextBits" to magicContextBits(translator),
             "magicPairMasks" to magicPairMasks(translator, reverseSafeOnly = false),
             "reverseMagicPairMasks" to magicPairMasks(translator, reverseSafeOnly = true),
+            "magicComboComponentBits" to magicComboComponentBits(combos, translator),
+            "magicComboComponentMasks" to magicComboComponentMasks(combos, translator),
+            "magicRepeats" to magicRepeatCases(translator),
             "adaptives" to adaptiveBlocks(translator.adaptives).indented(12),
         ),
     )
@@ -411,6 +414,66 @@ private fun magicPairMasks(
                     }
                 }
             "case ${magic.trigger.key}: return (UINT32_C(0x${mask.toString(16)}) & context_bit) != 0;"
+        }
+}
+
+private fun magicRepeatCases(translator: QmkTranslator): String =
+    translator.magic
+        .joinToString("\n") { magic ->
+            "case ${magic.trigger.key}: return repeat_last_magic_key(${magic.trigger.key});"
+        }
+
+private fun magicComboComponents(
+    combos: List<Combo>,
+    translator: QmkTranslator,
+): Map<QmkKey, Set<QmkKey>> {
+    val magicKeys = translator.magic.map { it.trigger }.toSet()
+    return combos
+        .filter { it.result in magicKeys }
+        .groupBy { it.result }
+        .mapValues { (_, entries) ->
+            entries
+                .flatMap { combo -> combo.triggers.map { it.keyWithModifier } }
+                .toSet()
+        }
+}
+
+private fun magicComboComponentKeys(
+    combos: List<Combo>,
+    translator: QmkTranslator,
+): List<QmkKey> =
+    magicComboComponents(combos, translator)
+        .values
+        .flatten()
+        .distinct()
+        .sortedBy { it.key }
+        .also {
+            require(it.size <= Short.SIZE_BITS) {
+                "magic combo component bitset supports at most ${Short.SIZE_BITS} keys, got ${it.size}"
+            }
+        }
+
+private fun magicComboComponentBits(
+    combos: List<Combo>,
+    translator: QmkTranslator,
+): String =
+    magicComboComponentKeys(combos, translator)
+        .mapIndexed { index, key -> "case ${key.key}: return UINT16_C(1) << $index;" }
+        .joinToString("\n")
+
+private fun magicComboComponentMasks(
+    combos: List<Combo>,
+    translator: QmkTranslator,
+): String {
+    val componentMaps = magicComboComponents(combos, translator)
+    val bitIndex = magicComboComponentKeys(combos, translator).mapIndexed { index, key -> key to index }.toMap()
+    return translator.magic
+        .joinToString("\n") { magic ->
+            val mask =
+                componentMaps
+                    .getOrDefault(magic.trigger, emptySet())
+                    .fold(0) { acc, component -> acc or (1 shl bitIndex.getValue(component)) }
+            "case ${magic.trigger.key}: return (UINT16_C(0x${mask.toString(16)}) & component_bit) != 0;"
         }
 }
 
