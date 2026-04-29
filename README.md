@@ -107,7 +107,7 @@ Cell = what to emit.
 - Row "r" is reserved for future use.  
 
 | Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |     magic_h     |   magic_i   | magic_j |  magic_k   |
-| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :-------------: | :---------: | :-----: | :--------: |
+| :----: |:----------:|:----------:| :-------: | :---------: |:-------------:| :--------: |:-------:| :-------------: | :---------: | :-----: |:----------:|
 | suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |     [next]      |   " the "   |  ". "   |     s      |
 |   a    |            |            |           |             |               |            |    e    |                 |             |         |            |
 |   b    | background | basically  |           |   become    | observability |  disable   |         |    obsolete     |   because   |    d    |   before   |
@@ -125,7 +125,7 @@ Cell = what to emit.
 |   n    |     r      |     h      |           |    never    |   anything    |            |         |   understand    |    "qu"     |    x    |     p      |
 |   o    |            |            |     e     |             |               |            |    h    |                 |             |         |            |
 |   p    |     y      |     m      |           |   people    |   probably    |   python   |         |   production    |      n      |    d    | Prometheus |
-|   r    |            |            |           |             |               |            |         |                 |             |    x    |            |
+|   r    |     "      |    "q"     |           |     n't     |       ?       |     x      |    !    |        '        |      ,      |    .    |    "j"     |
 |   s    |  someone   |     r      |           |  possible   |    support    |  similar   |         |    separate     |   "sion"    |    d    | something  |
 |   t    |     n      |     f      |           |             |    through    |            |         |     though      |   "tion"    | without |  thought   |
 |   u    |            |            |           |             |               |            |    h    |                 |             |         |            |
@@ -133,10 +133,11 @@ Cell = what to emit.
 |   w    |   always   |   wasn't   |           |  workflow   |   otherwise   |   switch   |         |      which      |      s      |    x    |   worse    |
 |   x    | exception  |     w      |           |   except    |   explicit    |            |         |     exclude     |      r      |    d    |  example   |
 |   y    |            |            |           |             |               |            |  only   |        r        |             |         |            |
-|   z    |            |  realize   |           |     #g      |      #gz      |            |         |  OpenTelemetry  | Spring Boot |         |            |
-|  spc   |     "      |     !      | [dotSpc]  |      '      |       ?       |    and     |    z    |        ,        |     the     |    .    |     j      |
-|  tab   |            |            |           |             |               |    and     |         |                 |     the     |         |            |
-| enter  |            |            |           |             |               |    and     |         |                 |     the     |         |            |
+|   z    |            |  realize   |           |     #g      |               |            |         |  OpenTelemetry  | Spring Boot |         |            |
+|  spc   |            |            | [dotSpc]  |             |               |            |   "z"   |       and       |     the     |         |            |
+|  tab   |            |            |           |             |               |            |         |       and       |     the     |         |            |
+| enter  |            |            |           |             |               |            |         |       and       |     the     |         |            |
+|   ,    |            |            |           |             |               |            |         |     " and "     |   " but "   |         |            |
 
 ## Cycle
 
@@ -221,17 +222,17 @@ trailing auto-space.
 | Base  | magic_g |         |         |         |         |         |         | magic_k |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right |         |         |         |         |  dead3  |    "    |    !    |         |
+| Right |         |         |         |         |  dead3  |    "    |    q    |         |
 | Right |         |         |   C-f   |   C-r   |         |         |         |         |
 | Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |   \_    |
 | Right |         |         |  A-f7   |   C-n   |    [    |    ]    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |    `    |         |         |         |
 | Right |         |         |         |   💎    |   💎    |         |         |         |
-| Right |         |         |         |  CS-r   |   n't   |         |         |         |
+| Right |         |         |         |  CS-r   |    '    |         |         |         |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right |         |         |         |         |         |    '    |         |         |
+| Right |         |         |         |         |         |  n't    |         |         |
 | Right |         |         |   💎    |         |         |   💎    |         |         |
 | Right |         |         |  CS-f   |         |         |    ,    |         |         |
 | Right |         |         |         |         |         |         |         |         |
@@ -241,7 +242,7 @@ trailing auto-space.
 | Right |         |         |         |         |         |         |    .    |         |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right |         |         |         |         |         |         |         |    q    |
+| Right |         |         |         |         |         |         |         |    @    |
 | Right |         |         |         |         |         |         |         |   💎    |
 | Right |         |         |         |         |         |         |         |    j    |
 | Right |         |         |         |         |         |         |         |         |
@@ -256,7 +257,7 @@ trailing auto-space.
 | Left  |    :    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
 | Left  |         |         |    ;    |         | \*ANum  |  \*Num  |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Left  |    @    |         |         |         |         |         |         |         |
+| Left  |    !    |         |         |         |         |         |         |         |
 | Left  |   💎    |         |         |         |         |         |         |         |
 | Left  |    z    |         |         |         |         |         |         |         |
 | Left  |         |         |         |         |         |         |         |         |

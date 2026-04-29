@@ -475,16 +475,14 @@ private fun magicCommand(
             MagicCommand(bracketCommand(resolvedDef.removeSurrounding("[", "]"), pos, stringOffsets))
         }
 
+        translator.symbols.customKeycodes.contains(resolvedDef) || qmkPrefixes.any { resolvedDef.startsWith(it) } -> {
+            magicTapCommand(QmkKey.of(resolvedDef), precedingChar, replaceable = true)
+        }
+
         resolvedDef.length == 1 -> {
             val qmk = translator.toQmk(resolvedDef, pos)
-            val prevIsSpace = precedingChar == "spc"
             val isLetterOutput = resolvedDef[0].isLetter()
-            val prevIsReplaceable = isMagicReplaceablePreceding(precedingChar)
-            if (prevIsSpace || (!isLetterOutput && prevIsReplaceable)) {
-                MagicCommand("magic_replace_tap_repeatable(${qmk.key});", qmk.key, qmk.key)
-            } else {
-                MagicCommand(repeatableTap(qmk), qmk.key, qmk.key)
-            }
+            magicTapCommand(qmk, precedingChar, replaceable = !isLetterOutput)
         }
 
         isWord(resolvedDef) || isBareWord(resolvedDef) -> {
@@ -533,6 +531,19 @@ private fun magicCommand(
         else -> {
             throw IllegalArgumentException("unknown command '$resolvedDef' in $pos")
         }
+    }
+}
+
+private fun magicTapCommand(
+    qmk: QmkKey,
+    precedingChar: String,
+    replaceable: Boolean,
+): MagicCommand {
+    val shouldReplace = replaceable && isMagicReplaceablePreceding(precedingChar)
+    return if (shouldReplace) {
+        MagicCommand("magic_replace_tap_repeatable(${qmk.key});", qmk.key, qmk.key)
+    } else {
+        MagicCommand(repeatableTap(qmk), qmk.key, qmk.key)
     }
 }
 
@@ -630,6 +641,8 @@ private fun resolveMagicDefinition(
 ): String =
     if (translator.symbols.mapping.containsKey(def)) {
         translator.symbols.replace(def, pos, translator)
+    } else if (def.startsWith("#") && def.length > 1) {
+        throw IllegalArgumentException("symbol '$def' not found in Symbols table at $pos")
     } else {
         def
     }
@@ -643,8 +656,8 @@ private fun collectMagicOutputs(
         val precedingChar = row[0]
         row.drop(1).forEach { def ->
             val resolvedDef = resolveMagicDefinition(def, translator, invalidPos)
-            magicEmittedString(precedingChar, resolvedDef)?.let(outputs::add)
-            magicFullOutputString(precedingChar, resolvedDef)?.let(outputs::add)
+            magicEmittedString(precedingChar, resolvedDef, translator)?.let(outputs::add)
+            magicFullOutputString(precedingChar, resolvedDef, translator)?.let(outputs::add)
             bracketOutputString(resolvedDef)?.let(outputs::add)
         }
     }
@@ -691,7 +704,11 @@ private fun validateMagicWords(
 private fun magicEmittedString(
     precedingChar: String,
     def: String,
+    translator: QmkTranslator,
 ): String? {
+    if (translator.symbols.customKeycodes.contains(def) || qmkPrefixes.any { def.startsWith(it) }) {
+        return null
+    }
     if (!(isWord(def) || isBareWord(def))) {
         return null
     }
@@ -709,7 +726,11 @@ private fun magicEmittedString(
 private fun magicFullOutputString(
     precedingChar: String,
     def: String,
+    translator: QmkTranslator,
 ): String? {
+    if (translator.symbols.customKeycodes.contains(def) || qmkPrefixes.any { def.startsWith(it) }) {
+        return null
+    }
     if (!(isWord(def) || isBareWord(def))) {
         return null
     }
