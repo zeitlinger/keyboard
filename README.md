@@ -65,6 +65,7 @@ How to read this layout:
 - C-w = Ctrl-w (same for Alt and Shift)
 - f12+Num = tab-mod - f12 on tap and Num on hold
 - "that" = combo that produces "that"
+- #g = exact symbol token; `#...` entries must exist in the Symbols table
 - [ { = { is the shifted key of [, so it's used when Shift is held (only for information)
 - The symbol table at the bottom shows the meaning of the symbols used in the layout.
 
@@ -72,7 +73,6 @@ Currently unused features:
 
 - /+Ctrl = tab-mod - / on tab and CTRL on hold
 - $Mouse = layer is active while key is held (double tap to lock layer)
-- #Mouse = toggle layer
 - @Num = layer is active for the next keypress
 - Sym/Nav = layer is active for the next keypress:
   If the activation key is still down when the next key is pressed, the Nav layer is used, otherwise
@@ -106,37 +106,37 @@ Cell = what to emit.
   from the `Cycle` table while keeping suffix mode active.
 - Row "r" is reserved for future use.  
 
-| Magic  |  magic_a   |  magic_b   |      magic_c       |   magic_d   |    magic_e    |  magic_f  |    magic_g    |     magic_h     |   magic_i   | magic_j |  magic_k   |
-| :----: | :--------: | :--------: | :----------------: | :---------: | :-----------: | :-------: | :-----------: | :-------------: | :---------: | :-----: | :--------: |
-| suffix |     ed     |     ly     |                    |     n't     |       ?       |           |     ", "      |     [next]      |   " the "   |  ". "   |     s      |
-|   a    |            |            |                    |             |               |           |       e       |                 |             |         |            |
-|   b    | background |   behind   |                    |   become    | observability |  disable  |   basically   |    obsolete     |   because   |    d    |   before   |
-|   c    |     n      |   "'ll"    |                    |    "n't"    |       d       | container |               |     comment     |    "'re"    |  "'d"   |    "'s"    |
-|   d    |     c      |     h      |                    |    don't    |    default    | different |  difficulty   |     didn't      |   doesn't   |    f    |    does    |
-|   e    |            |            |         u          |             |    another    |           |       h       |                 |             |         |  explain   |
-|   f    | confusing  |  conflict  |                    | performance |   frequency   |           |               |     focused     |  following  |    d    |            |
-|   g    |   global   |     f      |                    |  organize   |    github     |  general  |               |    generate     |      k      |    d    |  suggest   |
-|   h    |            |            |                    |             |               |           |               |                 |             |    y    |            |
-|   i    |            |            |                    |             |               |           |   implement   |                 |             |         |            |
-|   j    |            |            |                    |             |               |           |     just      |                 |             |         |            |
-|   k    |     r      |  question  |                    |    think    |    merged     |           |               |     update      |    know     |    x    |    knew    |
-|   l    |     m      |     h      |                    |  language   |    already    | available |   unrelated   |    elaborate    |      r      |    c    |     b      |
-|   m    |     r      |     h      |                    |  migration  |   multiple    | mismatch  |               | instrumentation |    ment     |    l    |     t      |
-|   n    |     r      |     h      |                    |    never    |   anything    |           | notifications |   understand    |    "qu"     |    x    |     p      |
-|   o    |            |            |         e          |             |               |           |       h       |                 |             |         |            |
-|   p    |     y      |     m      |                    |   people    |   probably    |  python   |    improve    |   production    |      n      |    d    | Prometheus |
-|   r    |            |            |                    |             |               |           |               |                 |             |    x    |            |
-|   s    |  someone   |     r      |                    |  possible   |    support    |  similar  |   consumer    |    separate     |   "sion"    |    d    | something  |
-|   t    |     n      |     f      |                    |  adaptive   |    through    |           |   continue    |     though      |   "tion"    | without |  thought   |
-|   u    |            |            |                    |             |               |           |       h       |                 |             |         |            |
-|   v    | validation | everything | declarative config |    "'ve"    |    version    |           |               |    approval     |   resolve   |  I've   |            |
-|   w    |   always   |   wasn't   |                    |  workflow   |   otherwise   |  switch   |               |      which      |      s      |    x    |   worse    |
-|   x    | exception  |     w      |                    |   except    |   explicit    |           |               |     exclude     |      r      |    d    |  example   |
-|   y    |            |            |                    |             |               |           |     only      |        r        |             |         |            |
-|   z    |            |  realize   |                    |     #g      |      #z       |    #gz    |               |  OpenTelemetry  | Spring Boot |         |            |
-|  spc   |     "      |     !      |      [dotSpc]      |      '      |       ?       |    and    |       z       |        ,        |     the     |    .    |     j      |
-|  tab   |            |            |                    |             |               |    and    |               |                 |     the     |         |            |
-| enter  |            |            |                    |             |               |    and    |               |                 |     the     |         |            |
+| Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |     magic_h     |   magic_i   | magic_j |  magic_k   |
+| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :-------------: | :---------: | :-----: | :--------: |
+| suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |     [next]      |   " the "   |  ". "   |     s      |
+|   a    |            |            |           |             |               |            |    e    |                 |             |         |            |
+|   b    | background | basically  |           |   become    | observability |  disable   |         |    obsolete     |   because   |    d    |   before   |
+|   c    |     n      |   "'ll"    |           |    "n't"    |       d       | container  |         |     comment     |    "'re"    |  "'d"   |    "'s"    |
+|   d    |     c      |     h      |           |    don't    |               | difficulty |         |     didn't      |   doesn't   |    f    |    does    |
+|   e    |            |            |     u     |             |    another    |            |    h    |                 |             |         |  explain   |
+|   f    | confusing  |  conflict  |           | performance |   frequency   |            |         |     focused     |  following  |    d    |            |
+|   g    |   global   |     f      |           |  organize   |    github     |  general   |         |    generate     |      k      |    d    |  suggest   |
+|   h    |            |            |           |             |               |            |         |                 |             |    y    |            |
+|   i    |            |            | implement |             |               |            |  "mpl"  |                 |             |         |            |
+|   j    |            |            |           |             |               |            |  just   |                 |             |         |            |
+|   k    |     r      |  question  |           |    think    |    merged     |            |         |     update      |    know     |    x    |    knew    |
+|   l    |     m      |     h      |           |  language   |    already    | available  |         |    elaborate    |      r      |    c    |     b      |
+|   m    |     r      |     h      |           |  migration  |   multiple    |  mismatch  |         | instrumentation |    ment     |    l    |     t      |
+|   n    |     r      |     h      |           |    never    |   anything    |            |         |   understand    |    "qu"     |    x    |     p      |
+|   o    |            |            |     e     |             |               |            |    h    |                 |             |         |            |
+|   p    |     y      |     m      |           |   people    |   probably    |   python   |         |   production    |      n      |    d    | Prometheus |
+|   r    |            |            |           |             |               |            |         |                 |             |    x    |            |
+|   s    |  someone   |     r      |           |  possible   |    support    |  similar   |         |    separate     |   "sion"    |    d    | something  |
+|   t    |     n      |     f      |           |             |    through    |            |         |     though      |   "tion"    | without |  thought   |
+|   u    |            |            |           |             |               |            |    h    |                 |             |         |            |
+|   v    | validation | everything |  improve  |    "'ve"    |    version    |    #dc     |         |    approval     |   resolve   |  I've   |            |
+|   w    |   always   |   wasn't   |           |  workflow   |   otherwise   |   switch   |         |      which      |      s      |    x    |   worse    |
+|   x    | exception  |     w      |           |   except    |   explicit    |            |         |     exclude     |      r      |    d    |  example   |
+|   y    |            |            |           |             |               |            |  only   |        r        |             |         |            |
+|   z    |            |  realize   |           |     #g      |      #gz      |            |         |  OpenTelemetry  | Spring Boot |         |            |
+|  spc   |     "      |     !      | [dotSpc]  |      '      |       ?       |    and     |    z    |        ,        |     the     |    .    |     j      |
+|  tab   |            |            |           |             |               |    and     |         |                 |     the     |         |            |
+| enter  |            |            |           |             |               |    and     |         |                 |     the     |         |            |
 
 ## Cycle
 
@@ -147,6 +147,7 @@ trailing auto-space.
 |   Cycle   |      next      |
 | :-------: | :------------: |
 | implement | implementation |
+|  Gregor   | " Zeitlinger " |
 
 ## Adaptives
 
@@ -220,27 +221,27 @@ trailing auto-space.
 | Base  | magic_g |         |         |         |         |         |         | magic_k |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right |         |         |         |         |  dead3  |    q    |    '    |         |
+| Right |         |         |         |         |  dead3  |    "    |    !    |         |
 | Right |         |         |   C-f   |   C-r   |         |         |         |         |
 | Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |   \_    |
 | Right |         |         |  A-f7   |   C-n   |    [    |    ]    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |    `    |         |         |         |
 | Right |         |         |         |   💎    |   💎    |         |         |         |
-| Right |         |         |         |  CS-r   |    @    |         |         |         |
+| Right |         |         |         |  CS-r   |   n't   |         |         |         |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right |         |         |         |         |         |   n't   |         |         |
+| Right |         |         |         |         |         |    '    |         |         |
 | Right |         |         |   💎    |         |         |   💎    |         |         |
-| Right |         |         |  CS-f   |         |         |    !    |         |         |
+| Right |         |         |  CS-f   |         |         |    ,    |         |         |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right |         |         |         |         |         |         |    \    |         |
-| Right |         |         |         |         |         |         |   💎    |         |
 | Right |         |         |         |         |         |         |    ?    |         |
+| Right |         |         |         |         |         |         |   💎    |         |
+| Right |         |         |         |         |         |         |    .    |         |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right |         |         |         |         |         |         |         |    "    |
+| Right |         |         |         |         |         |         |         |    q    |
 | Right |         |         |         |         |         |         |         |   💎    |
 | Right |         |         |         |         |         |         |         |    j    |
 | Right |         |         |         |         |         |         |         |         |
@@ -255,7 +256,7 @@ trailing auto-space.
 | Left  |    :    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
 | Left  |         |         |    ;    |         | \*ANum  |  \*Num  |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Left  |  "Qu"   |         |         |         |         |         |         |         |
+| Left  |    @    |         |         |         |         |         |         |         |
 | Left  |   💎    |         |         |         |         |         |         |         |
 | Left  |    z    |         |         |         |         |         |         |         |
 | Left  |         |         |         |         |         |         |         |         |
@@ -285,7 +286,7 @@ trailing auto-space.
 | FnSym |         |    &    |         |         |         |         |    #    |         |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| FnSym |   😀    |         |         |         |         |         |         |    ^    |
+| FnSym |    ^    |         |         |         |         |         |         |    \    |
 | FnSym |   💎    |         |         |         |         |         |         |   💎    |
 | FnSym |    $    |         |         |         |         |         |         |    %    |
 | FnSym |         |         |         |         |         |         |         |         |
@@ -423,6 +424,8 @@ The order of the options is also the order of the layers in the layer stack.
 
 ## Symbols
 
+Exact-match symbol tokens such as `#g`, `#G`, and `#GL` must be declared here.
+
 | Symbol  | Command                       |
 | ------- | ----------------------------- |
 | ⬅️      | KC_LEFT                       |
@@ -459,7 +462,6 @@ The order of the options is also the order of the layers in the layer stack.
 | ö       | UP(UMLAUT_o, UMLAUT_O)        |
 | ü       | UP(UMLAUT_u, UMLAUT_U)        |
 | ß       | UM(UMLAUT_s)                  |
-| 😀      | UM(SMILEY)                    |
 | magic_a | magic:MAGIC_A                 |
 | magic_b | magic:MAGIC_B                 |
 | magic_c | magic:MAGIC_C                 |
@@ -491,10 +493,9 @@ The order of the options is also the order of the layers in the layer stack.
 | @gl     | gregor.zeitlinger@grafana.com |
 | @zeit   | gregor@zeitlinger.de          |
 | #g      | gregor                        |
-| #z      | zeitlinger                    |
-| #gz     | Gregor Zeitlinger             |
 | #G      | Grafana                       |
 | #GL     | Grafana Labs                  |
+| #dc     | declarative config            |
 
 ## Generator
 

@@ -73,7 +73,7 @@ bool tap_adaptive(uint16_t pressed_keycode, uint16_t output_keycode) {
     return false;
 }
 
-static void magic_replace_decode_send_cap(uint16_t offset, char suffix) {
+static inline void magic_replace_decode_send_cap(uint16_t offset, char suffix) {
     tap_code16(KC_BSPC);
     magic_decode_send_cap(offset, suffix);
 }
