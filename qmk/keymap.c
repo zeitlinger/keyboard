@@ -274,9 +274,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             clear_pending_magic();
         }
         if (is_magic_keycode(keycode)) {
-            if (!magic_active) {
-                return false;
-            }
             if (repeat_magic_key(keycode)) {
                 return false;
             }
@@ -286,6 +283,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             uint16_t forward_context = find_magic_forward_context(keycode);
             if (forward_context != KC_NO) {
                 return process_magic_key_with_context(keycode, forward_context, false, true);
+            }
+            if (!magic_active) {
+                return false;
             }
             if (suppressed_magic_trigger != KC_NO && suppressed_magic_trigger != keycode) {
                 return false;
