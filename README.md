@@ -86,37 +86,44 @@ Rows = preceding key. Columns = the eleven physical magic keys (see the Layout t
 
 Cell = what to emit.
 
+- A cell may be prefixed with `⌫` to force `BS + output` when the preceding key
+  is replaceable. This is an explicit table-level override and drives the
+  generated logic directly.
 - Single-char letter cells append or tap (e.g. `a` + `e` yields `ae`).
-  Single-char punctuation/symbol cells backspace the preceding letter first
-  (e.g. `t` + `.` yields `.`). A repeated press of the same magic key then
-  replays just the emitted letter or symbol, with no extra backspace. No
-  suffix state.
+  Single-char punctuation/symbol cells do `⌫ + char` when the preceding key is
+  replaceable (typically a letter or `spc`), so `t` + `.` yields `.`. A
+  repeated press of the same magic key then replays just the emitted letter or
+  symbol, with no extra backspace. No suffix state.
 - Bare words/phrases (unquoted multi-char, e.g. `because`, `thank you`):
   generator auto-appends a trailing space and activates the suffix state
   machine. From there, the next magic press chains the suffix shown in the
   `suffix` row; the `ing` key also works with vowel-drop. `.` exits with
-  one-shot shift, `,` exits without shift. Prefix-strip and BS rules below also
-  apply to bare words.
+  one-shot shift, `,` exits without shift. Bare words may append, strip the
+  repeated prefix letter, or do `⌫ + word`, depending on the preceding key.
 - Quoted strings (literal — no auto-space, no suffix state):
   - Preceding key is a letter and cell starts with it → strip prefix. `b` + `"because"` emits `ecause`, yielding `because`.
-  - Preceding key is a letter and cell does _not_ start with it → BS + cell.
+  - Preceding key is a letter and cell does _not_ start with it → `⌫ + cell`.
   - Preceding key is not a letter (spc, punctuation) → append as-is. `,` + `" and "` yields `, and` plus a trailing space.
+- Order note: the table is still authored as `preceding key + magic`. Reverse
+  order (`magic + following key`) is only a fallback when there is no fresh,
+  valid preceding-key interpretation, so forward magics remain authoritative in
+  ambiguous sequences.
 - `[name]` bracket tokens invoke named handlers. `[dotSpc]` = BS + `.` then one-shot shift.
   In the `suffix` row, `[next]` replaces the current word with the next item
   from the `Cycle` table while keeping suffix mode active.
 - Row "r" is reserved for future use.  
 
 | Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |     magic_h     |   magic_i   | magic_j |  magic_k   |
-| :----: |:----------:|:----------:| :-------: | :---------: |:-------------:| :--------: |:-------:| :-------------: | :---------: | :-----: |:----------:|
+| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :-------------: | :---------: | :-----: | :--------: |
 | suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |     [next]      |   " the "   |  ". "   |     s      |
 |   a    |            |            |           |             |               |            |    e    |                 |             |         |            |
 |   b    | background | basically  |           |   become    | observability |  disable   |         |    obsolete     |   because   |    d    |   before   |
-|   c    |     n      |   "'ll"    |           |             |       d       | container  |         |     comment     |    "'re"    |  "'d"   |    "'s"    |
+|   c    |     n      |   "'ll "   |           |   "n't "    |       d       |   "'ve "   |         |     comment     |   "'re "    |  "'d "  |   "'s "    |
 |   d    |     c      |     h      |           |    don't    |               | difficulty |         |     didn't      |   doesn't   |    f    |    does    |
 |   e    |            |            |     u     |             |    another    |            |    h    |                 |             |         |  explain   |
 |   f    | confusing  |  conflict  |           | performance |   frequency   |            |         |     focused     |  following  |    d    |            |
 |   g    |   global   |     f      |           |  organize   |    github     |  general   |         |    generate     |      k      |    d    |  suggest   |
-|   h    |            |            |           |             |               |            |         |                 |             |    y    |            |
+|   h    |            |            |           |             |               |            |  "qu"   |                 |             |    y    |            |
 |   i    |            |            | implement |             |               |            |  "mpl"  |                 |             |         |            |
 |   j    |            |            |           |             |               |            |  just   |                 |             |         |            |
 |   k    |     r      |  question  |           |    think    |    merged     |            |         |     update      |    know     |    x    |    knew    |
@@ -125,11 +132,11 @@ Cell = what to emit.
 |   n    |     r      |     h      |           |    never    |   anything    |            |         |   understand    |    "qu"     |    x    |     p      |
 |   o    |            |            |     e     |             |               |            |    h    |                 |             |         |            |
 |   p    |     y      |     m      |           |   people    |   probably    |   python   |         |   production    |      n      |    d    | Prometheus |
-|   r    |     "      |    "q"     |           |   "n't"     |       ?       |     x      |    !    |        '        |      ,      |    .    |    "j"     |
+|   r    |     "      |    "q"     |           |   ⌫"n't"    |      ⌫?       |     x      |   ⌫!    |       ⌫'        |     ⌫,      |   ⌫.    |     j      |
 |   s    |  someone   |     r      |           |  possible   |    support    |  similar   |         |    separate     |   "sion"    |    d    | something  |
 |   t    |     n      |     f      |           |             |    through    |            |         |     though      |   "tion"    | without |  thought   |
 |   u    |            |            |           |             |               |            |    h    |                 |             |         |            |
-|   v    | validation | everything |  improve  |    "'ve"    |    version    |    #dc     |         |    approval     |   resolve   |  I've   |            |
+|   v    | validation | everything |  improve  |             |    version    |    #dc     |         |    approval     |   resolve   |  I've   |            |
 |   w    |   always   |   wasn't   |           |  workflow   |   otherwise   |   switch   |         |      which      |      s      |    x    |   worse    |
 |   x    | exception  |     w      |           |   except    |   explicit    |            |         |     exclude     |      r      |    d    |  example   |
 |   y    |            |            |           |             |               |            |  only   |        r        |             |         |            |
@@ -232,7 +239,7 @@ trailing auto-space.
 | Right |         |         |         |  CS-r   |    '    |         |         |         |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right |         |         |         |         |         |  n't    |         |         |
+| Right |         |         |         |         |         |   n't   |         |         |
 | Right |         |         |   💎    |         |         |   💎    |         |         |
 | Right |         |         |  CS-f   |         |         |    ,    |         |         |
 | Right |         |         |         |         |         |         |         |         |

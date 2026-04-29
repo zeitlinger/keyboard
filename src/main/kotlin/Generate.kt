@@ -25,6 +25,7 @@ fun template(layers: List<Layer>): String =
 
 private const val THUMB_COLUMNS = 4
 private const val NO_CYCLE_OFFSET = "UINT16_MAX"
+private const val MAGIC_REPLACE_PREFIX = "⌫"
 
 private data class CycleEntry(
     val current: String,
@@ -209,9 +210,10 @@ fun run(args: GeneratorArgs) {
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
             "magicStringDecoder" to (encodedMagicStrings.decoder ?: ""),
             "magicCycleData" to magicCycleData(encodedCycles),
-            "magic" to translator.magic.map { magicBlock(it) }.indented(12),
+            "magic" to translator.magic.map { magicCase(it) }.indented(8),
             "magicSuffixes" to magicSuffixCases(translator, magicTable).prependIndent("    "),
             "magicExclusions" to translator.magic.map { "case ${it.trigger.key}:" }.indented(8),
+            "magicPreceding" to magicPrecedingCases(translator, magicTable),
             "adaptives" to adaptiveBlocks(translator.adaptives).indented(12),
         ),
     )
@@ -226,6 +228,11 @@ fun run(args: GeneratorArgs) {
 private data class MagicWordLocation(
     val precedingChar: String,
     val trigger: String,
+)
+
+private data class MagicSpec(
+    val forceReplace: Boolean,
+    val resolvedDef: String,
 )
 
 private fun magicRows(table: Table): Table = table.filterNot(::isMagicSuffixRow)
@@ -338,16 +345,16 @@ private fun suffixTapStatement(char: Char): String =
         else -> throw IllegalArgumentException("unsupported suffix character '$char'")
     }
 
-private fun magicBlock(magic: MagicInfo): String {
+private fun magicCase(magic: MagicInfo): String {
     val defaultCase = magic.defaultCommand?.let { "\n            default: $it break;" } ?: ""
     return """
     case ${magic.trigger.key}: {
-        if (repeat_last_magic_key(${magic.trigger.key})) {
+        if (allow_repeat && repeat_last_magic_key(${magic.trigger.key})) {
             return false;
         }
         magic_remembered_keycode = ${magic.trigger.key};
         magic_repeat_keycode = KC_NO;
-        switch (magic_prepare_last_keycode(last_keycode)) {
+        switch (magic_prepare_last_keycode(context_keycode)) {
 ${magicSwitch(magic.press)}$defaultCase
         }
         magic_capitalize_next = false;
@@ -358,6 +365,16 @@ ${magicSwitch(magic.press)}$defaultCase
     }
         """.trimIndent()
 }
+
+private fun magicPrecedingCases(
+    translator: QmkTranslator,
+    magicTable: Table,
+): String =
+    magicRows(magicTable)
+        .map { row -> translator.toQmk(row[0], invalidPos).key }
+        .distinct()
+        .sorted()
+        .joinToString("\n") { "case $it:" }
 
 private fun adaptiveBlocks(rules: List<AdaptiveRule>): List<String> =
     rules.groupBy { it.key }.map { (key, entries) ->
@@ -469,20 +486,21 @@ private fun magicCommand(
     stringOffsets: Map<String, Int>,
     cycleData: List<CycleEntry>,
 ): MagicCommand {
-    val resolvedDef = resolveMagicDefinition(def, translator, pos)
+    val spec = parseMagicSpec(def, translator, pos)
+    val resolvedDef = spec.resolvedDef
     return when {
         isBracketToken(resolvedDef) -> {
             MagicCommand(bracketCommand(resolvedDef.removeSurrounding("[", "]"), pos, stringOffsets))
         }
 
         translator.symbols.customKeycodes.contains(resolvedDef) || qmkPrefixes.any { resolvedDef.startsWith(it) } -> {
-            magicTapCommand(QmkKey.of(resolvedDef), precedingChar, replaceable = true)
+            magicTapCommand(QmkKey.of(resolvedDef), precedingChar, replaceable = true, forceReplace = spec.forceReplace)
         }
 
         resolvedDef.length == 1 -> {
             val qmk = translator.toQmk(resolvedDef, pos)
             val isLetterOutput = resolvedDef[0].isLetter()
-            magicTapCommand(qmk, precedingChar, replaceable = !isLetterOutput)
+            magicTapCommand(qmk, precedingChar, replaceable = !isLetterOutput, forceReplace = spec.forceReplace)
         }
 
         isWord(resolvedDef) || isBareWord(resolvedDef) -> {
@@ -491,6 +509,7 @@ private fun magicCommand(
             val output = if (quoted) str else "$str "
             val prevIsLetter = precedingChar.length == 1 && precedingChar[0].isLetter()
             val outputStartsWithPreceding = prevIsLetter && output.startsWith(precedingChar)
+            val shouldReplace = !outputStartsWithPreceding && (spec.forceReplace || prevIsLetter)
             val emitted =
                 if (outputStartsWithPreceding) {
                     output.drop(precedingChar.length)
@@ -516,7 +535,7 @@ private fun magicCommand(
                             output,
                         )
                     }
-                } else if (prevIsLetter) {
+                } else if (shouldReplace) {
                     annotateMagicSend(
                         "magic_replace_decode_send_cap_cycle($offset, $suffix, $cycleOffset);",
                         emitted,
@@ -538,8 +557,9 @@ private fun magicTapCommand(
     qmk: QmkKey,
     precedingChar: String,
     replaceable: Boolean,
+    forceReplace: Boolean = false,
 ): MagicCommand {
-    val shouldReplace = replaceable && isMagicReplaceablePreceding(precedingChar)
+    val shouldReplace = replaceable && (forceReplace || isMagicReplaceablePreceding(precedingChar))
     return if (shouldReplace) {
         MagicCommand("magic_replace_tap_repeatable(${qmk.key});", qmk.key, qmk.key)
     } else {
@@ -647,6 +667,16 @@ private fun resolveMagicDefinition(
         def
     }
 
+private fun parseMagicSpec(
+    def: String,
+    translator: QmkTranslator,
+    pos: KeyPosition,
+): MagicSpec {
+    val forceReplace = def.startsWith(MAGIC_REPLACE_PREFIX)
+    val rawDef = if (forceReplace) def.removePrefix(MAGIC_REPLACE_PREFIX).trimStart() else def
+    return MagicSpec(forceReplace, resolveMagicDefinition(rawDef, translator, pos))
+}
+
 private fun collectMagicOutputs(
     tables: Tables,
     translator: QmkTranslator,
@@ -655,10 +685,10 @@ private fun collectMagicOutputs(
     magicRows(tables.getOptional("Magic").orEmpty()).forEach { row ->
         val precedingChar = row[0]
         row.drop(1).forEach { def ->
-            val resolvedDef = resolveMagicDefinition(def, translator, invalidPos)
-            magicEmittedString(precedingChar, resolvedDef, translator)?.let(outputs::add)
-            magicFullOutputString(precedingChar, resolvedDef, translator)?.let(outputs::add)
-            bracketOutputString(resolvedDef)?.let(outputs::add)
+            val spec = parseMagicSpec(def, translator, invalidPos)
+            magicEmittedString(precedingChar, spec, translator)?.let(outputs::add)
+            magicFullOutputString(precedingChar, spec, translator)?.let(outputs::add)
+            bracketOutputString(spec.resolvedDef)?.let(outputs::add)
         }
     }
     translator.magic.mapNotNullTo(outputs) { magic ->
@@ -678,7 +708,7 @@ private fun validateMagicWords(
             return@forEach
         }
         row.drop(1).forEachIndexed { index, def ->
-            val resolvedDef = resolveMagicDefinition(def, translator, invalidPos)
+            val resolvedDef = parseMagicSpec(def, translator, invalidPos).resolvedDef
             if (!isBareWord(resolvedDef)) {
                 return@forEachIndexed
             }
@@ -703,9 +733,10 @@ private fun validateMagicWords(
 
 private fun magicEmittedString(
     precedingChar: String,
-    def: String,
+    spec: MagicSpec,
     translator: QmkTranslator,
 ): String? {
+    val def = spec.resolvedDef
     if (translator.symbols.customKeycodes.contains(def) || qmkPrefixes.any { def.startsWith(it) }) {
         return null
     }
@@ -725,9 +756,10 @@ private fun magicEmittedString(
 
 private fun magicFullOutputString(
     precedingChar: String,
-    def: String,
+    spec: MagicSpec,
     translator: QmkTranslator,
 ): String? {
+    val def = spec.resolvedDef
     if (translator.symbols.customKeycodes.contains(def) || qmkPrefixes.any { def.startsWith(it) }) {
         return null
     }

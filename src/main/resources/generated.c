@@ -26,6 +26,7 @@ ${timeouts}
 // Combo components like KC_C from P=KC_C+KC_X are never recorded — only KC_P is.
 static uint16_t prev_keycode = KC_NO;
 static uint16_t last_keycode = KC_NO;
+static uint16_t last_keycode_timer = 0;
 static uint16_t last_magic_trigger = KC_NO;
 static uint16_t last_magic_repeat_keycode = KC_NO;
 static uint16_t magic_remembered_keycode = KC_NO;
@@ -56,6 +57,7 @@ static bool repeat_last_magic_key(uint16_t trigger) {
 static void remember_real_keycode(uint16_t keycode) {
     prev_keycode = last_keycode;
     last_keycode = keycode;
+    last_keycode_timer = timer_read();
     last_magic_trigger = KC_NO;
     last_magic_repeat_keycode = KC_NO;
 }
@@ -97,6 +99,32 @@ ${magicSuffixes}
     }
 }
 
+static bool is_magic_keycode(uint16_t keycode) {
+    switch (keycode) {
+${magicExclusions}
+            return true;
+    default:
+        return false;
+    }
+}
+
+static bool is_magic_preceding_keycode(uint16_t keycode) {
+    switch (keycode) {
+${magicPreceding}
+            return true;
+    default:
+        return false;
+    }
+}
+
+static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_keycode, bool allow_repeat) {
+    switch (keycode) {
+${magic}
+    default:
+        return true;
+    }
+}
+
 bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
         // Adaptive keys: runs after combo resolution in process_record_user,
@@ -117,11 +145,13 @@ ${customKeycodesOnTapPress}
         }
     } else {
         if (record->event.pressed) {
+            if (!process_magic_key_with_context(keycode, last_keycode, true)) {
+                return false;
+            }
             switch (keycode) {
-${magic}
 ${customKeycodesOnPress}
-            default:
-                break;
+                default:
+                    break;
             }
         }
     }

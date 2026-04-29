@@ -49,6 +49,16 @@ static char last_magic_char = 0;
 static uint16_t suffix_cycle_offset = UINT16_MAX;
 static bool suffix_cycle_capitalize = false;
 static uint8_t suffix_cycle_common_prefix_length = 0;
+// Reverse-order magic fallback: a magic key can wait briefly for a following
+// partner key, but only when there is no fresh previous+magic interpretation.
+static uint16_t pending_magic_trigger = KC_NO;
+static uint16_t suppressed_magic_trigger = KC_NO;
+static uint16_t suppressed_partner_keycode = KC_NO;
+static uint16_t pending_magic_timer = 0;
+
+#ifndef MAGIC_CHORD_TERM
+#define MAGIC_CHORD_TERM 30
+#endif
 
 static inline void set_suffix_state(char c) {
     suffix_active = true;
@@ -66,6 +76,16 @@ static inline void clear_suffix_cycle_state(void) {
 static inline void clear_suffix_state(void) {
     suffix_active = false;
     clear_suffix_cycle_state();
+}
+
+static inline bool pending_magic_within_term(void) {
+    return pending_magic_trigger != KC_NO && timer_elapsed(pending_magic_timer) < MAGIC_CHORD_TERM;
+}
+
+static inline void clear_pending_magic_if_expired(void) {
+    if (pending_magic_trigger != KC_NO && timer_elapsed(pending_magic_timer) >= MAGIC_CHORD_TERM) {
+        pending_magic_trigger = KC_NO;
+    }
 }
 
 static inline void tap_dot_space(void) {
@@ -188,6 +208,46 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_suffix(keycode, record)) {
         return false;
     }
+
+    clear_pending_magic_if_expired();
+
+    if (!record->event.pressed) {
+        if (keycode == suppressed_partner_keycode) {
+            suppressed_partner_keycode = KC_NO;
+            return false;
+        }
+        if (keycode == suppressed_magic_trigger) {
+            suppressed_magic_trigger = KC_NO;
+            return false;
+        }
+    } else {
+        uint16_t unshifted_keycode = unshift_letter_keycode(keycode);
+        if (pending_magic_within_term()) {
+            if (is_magic_preceding_keycode(unshifted_keycode)) {
+                uint16_t trigger = pending_magic_trigger;
+                remember_real_keycode(unshifted_keycode);
+                suppressed_partner_keycode = keycode;
+                pending_magic_trigger = KC_NO;
+                return process_magic_key_with_context(trigger, unshifted_keycode, false);
+            }
+            pending_magic_trigger = KC_NO;
+        }
+        if (is_magic_keycode(keycode)) {
+            // Preserve the original behavior whenever a fresh previous key can
+            // form a valid magic. Reverse-order magic is fallback only.
+            if (is_magic_preceding_keycode(last_keycode) && timer_elapsed(last_keycode_timer) < MAGIC_CHORD_TERM) {
+                return process_magic_key_with_context(keycode, last_keycode, true);
+            }
+            if (suppressed_magic_trigger != KC_NO && suppressed_magic_trigger != keycode) {
+                return false;
+            }
+            pending_magic_trigger = keycode;
+            suppressed_magic_trigger = keycode;
+            pending_magic_timer = timer_read();
+            return false;
+        }
+    }
+
     if (!process_record_generated(keycode, record)) {
         return false;
     }
