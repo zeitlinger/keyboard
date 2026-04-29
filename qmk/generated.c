@@ -6,6 +6,7 @@
 int layer = _BASE;
 
 static bool magic_capitalize_next = false;
+static bool magic_context_key_emitted = true;
 
 // Magic string decoder lookup tables
 static const char magic_char_4bit[] = {
@@ -365,7 +366,6 @@ static uint16_t last_magic_trigger = KC_NO;
 static uint16_t last_magic_repeat_keycode = KC_NO;
 static uint16_t magic_remembered_keycode = KC_NO;
 static uint16_t magic_repeat_keycode = KC_NO;
-static bool magic_context_key_emitted = true;
 
 static inline uint16_t unshift_letter_keycode(uint16_t keycode) {
     if (keycode >= S(KC_A) && keycode <= S(KC_Z)) {
