@@ -114,7 +114,7 @@ Cell = what to emit.
 - Row "r" is reserved for future use.  
 
 | Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |     magic_h     |   magic_i   | magic_j |  magic_k   |
-| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :-------------: | :---------: | :-----: | :--------: |
+| :----: | :--------: | :--------: | :-------: | :---------: |:-------------:| :--------: | :-----: | :-------------: | :---------: | :-----: |:----------:|
 | suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |     [next]      |   " the "   |  ". "   |     s      |
 |   a    |            |            |           |             |               |            |    e    |                 |             |         |            |
 |   b    | background | basically  |           |   become    | observability |  disable   |         |    obsolete     |   because   |    d    |   before   |
@@ -122,7 +122,7 @@ Cell = what to emit.
 |   d    |     c      |     h      |           |    don't    |               | difficulty |         |     didn't      |   doesn't   |    f    |    does    |
 |   e    |            |            |     u     |             |    another    |            |    h    |                 |             |         |  explain   |
 |   f    | confusing  |  conflict  |           | performance |   frequency   |            |         |     focused     |  following  |    d    |            |
-|   g    |   global   |     f      |           |  organize   |    github     |  general   |         |    generate     |      k      |    d    |  suggest   |
+|   g    |   global   |     f      |           |  organize   |    change     |  general   |         |    generate     |      k      |    d    |  suggest   |
 |   h    |            |            |           |             |               |            |  "qu"   |                 |             |    y    |            |
 |   i    |            |            | implement |             |               |            |  "mpl"  |                 |             |         |            |
 |   j    |            |            |           |             |               |            |  just   |                 |             |         |            |
@@ -132,7 +132,7 @@ Cell = what to emit.
 |   n    |     r      |     h      |           |    never    |   anything    |            |         |   understand    |    "qu"     |    x    |     p      |
 |   o    |            |            |     e     |             |               |            |    h    |                 |             |         |            |
 |   p    |     y      |     m      |           |   people    |   probably    |   python   |         |   production    |      n      |    d    | Prometheus |
-|   r    |     "      |    "q"     |           |   ⌫"n't"    |      ⌫?       |     x      |   ⌫!    |       ⌫'        |     ⌫,      |   ⌫.    |     j      |
+|   r    |     "      |    "q"     |           |   ⌫"n't"    |      ⌫?       |     x      |   ⌫!    |       ⌫'        |     ⌫,      |   ⌫.    |    "j"     |
 |   s    |  someone   |     r      |           |  possible   |    support    |  similar   |         |    separate     |   "sion"    |    d    | something  |
 |   t    |     n      |     f      |           |             |    through    |            |         |     though      |   "tion"    | without |  thought   |
 |   u    |            |            |           |             |               |            |    h    |                 |             |         |            |
