@@ -437,11 +437,13 @@ static bool process_magic_suffix(uint16_t keycode) {
         return true;
     case MAGIC_B:
         tap_code16(KC_BSPC); tap_code16(KC_L); tap_code16(KC_Y); tap_code16(KC_SPC);
-        clear_suffix_state();
+        last_magic_char = 'y';
+        clear_suffix_cycle_state();
         return true;
     case MAGIC_D:
-        tap_code16(KC_BSPC); tap_code16(KC_N); tap_code16(KC_QUOTE); tap_code16(KC_T); tap_code16(KC_SPC);
-        clear_suffix_state();
+        tap_code16(KC_BSPC); tap_n_t(); tap_code16(KC_SPC);
+        last_magic_char = 't';
+        clear_suffix_cycle_state();
         return true;
     case MAGIC_E:
         tap_code16(KC_BSPC); tap_code16(KC_QUES); tap_code16(KC_SPC);
@@ -464,7 +466,8 @@ static bool process_magic_suffix(uint16_t keycode) {
         return true;
     case MAGIC_K:
         tap_code16(KC_BSPC); tap_code16(KC_S); tap_code16(KC_SPC);
-        clear_suffix_state();
+        last_magic_char = 's';
+        clear_suffix_cycle_state();
         return true;
     default:
         return false;
@@ -703,6 +706,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             switch (magic_prepare_last_keycode(context_keycode)) {
                 case KC_A: magic_tap_repeatable(KC_E); break;
                 case KC_E: magic_tap_repeatable(KC_H); break;
+                case KC_H: magic_replace_decode_send_cap_cycle(745, '\0', UINT16_MAX); /* emits "qu" */ break;
                 case KC_I: magic_replace_decode_send_cap_cycle(569, '\0', UINT16_MAX); /* emits "mpl" */ break;
                 case KC_J: magic_decode_send_suffix_cycle(883, 't', UINT16_MAX); /* emits "ust " -> "just " */ break;
                 case KC_O: magic_tap_repeatable(KC_H); break;
