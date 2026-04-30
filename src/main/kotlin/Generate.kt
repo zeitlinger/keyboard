@@ -24,7 +24,7 @@ fun template(layers: List<Layer>): String =
     }
 
 private const val THUMB_COLUMNS = 4
-private const val NO_CYCLE_OFFSET = "UINT16_MAX"
+private const val NO_CYCLE_OFFSET = "MAGIC_CYCLE_NONE"
 private const val MAGIC_REPLACE_PREFIX = "⌫"
 
 private data class CycleEntry(
@@ -128,7 +128,13 @@ fun run(args: GeneratorArgs) {
     magicRows(magicTable).let {
         it.forEachIndexed { index, row ->
             val pos = KeyPosition(0, index, 0, "magic", 0)
-            addMagic(translator, row, pos, encodedMagicStrings.stringOffsets, encodedCycles)
+            addMagic(
+                translator,
+                row,
+                pos,
+                encodedMagicStrings.stringOffsetConstants,
+                encodedCycles,
+            )
         }
     }
 
@@ -202,7 +208,7 @@ fun run(args: GeneratorArgs) {
             "customKeycodesOnPress" to customKeycodes(translator, CustomCommandType.OnPress),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
             "magicStringDecoder" to (encodedMagicStrings.decoder ?: ""),
-            "magicCycleData" to magicCycleData(encodedCycles),
+            "magicCycleData" to magicCycleData(encodedCycles, encodedMagicStrings.stringOffsetConstants),
             "magic" to translator.magic.map { magicCase(it) }.indented(8),
             "magicSuffixes" to magicSuffixCases(translator, magicTable).prependIndent("    "),
             "magicExclusions" to translator.magic.map { "case ${it.trigger.key}:" }.indented(8),
@@ -524,7 +530,7 @@ private fun addMagic(
     translator: QmkTranslator,
     row: List<String>,
     pos: KeyPosition,
-    stringOffsets: Map<String, Int>,
+    stringOffsetConstants: Map<String, String>,
     cycleData: List<CycleEntry>,
 ) {
     val precedingChar = row[0]
@@ -538,7 +544,7 @@ private fun addMagic(
                 base,
                 precedingChar,
                 def,
-                stringOffsets,
+                stringOffsetConstants,
                 cycleData,
             )
         }
@@ -552,10 +558,10 @@ private fun addMagicEntry(
     base: QmkKey,
     precedingChar: String,
     def: String,
-    stringOffsets: Map<String, Int>,
+    stringOffsetConstants: Map<String, String>,
     cycleData: List<CycleEntry>,
 ) {
-    map[base] = magicCommand(translator, pos, base, precedingChar, def, stringOffsets, cycleData)
+    map[base] = magicCommand(translator, pos, base, precedingChar, def, stringOffsetConstants, cycleData)
 }
 
 private fun magicCommand(
@@ -564,7 +570,7 @@ private fun magicCommand(
     base: QmkKey,
     precedingChar: String,
     def: String,
-    stringOffsets: Map<String, Int>,
+    stringOffsetConstants: Map<String, String>,
     cycleData: List<CycleEntry>,
 ): MagicCommand {
     val spec = parseMagicSpec(def, translator, pos)
@@ -572,7 +578,10 @@ private fun magicCommand(
     return when {
         isBracketToken(resolvedDef) -> {
             val bracketName = resolvedDef.removeSurrounding("[", "]")
-            MagicCommand(bracketCommand(bracketName, pos, stringOffsets), reverseSafe = bracketName == "dotSpc")
+            MagicCommand(
+                bracketCommand(bracketName, pos, stringOffsetConstants),
+                reverseSafe = bracketName == "dotSpc",
+            )
         }
 
         translator.symbols.customKeycodes.contains(resolvedDef) || qmkPrefixes.any { resolvedDef.startsWith(it) } -> {
@@ -599,12 +608,12 @@ private fun magicCommand(
                     output
                 }
             val suffix = if (quoted) "'\\0'" else "'${str.last()}'"
-            val offset = stringOffsets.getValue(emitted)
+            val offset = stringOffsetConstants.getValue(emitted)
             val cycleOffset =
                 if (quoted) {
                     NO_CYCLE_OFFSET
                 } else {
-                    cycleLiteral(output, cycleData)
+                    cycleLiteral(output, cycleData, stringOffsetConstants)
                 }
             val send =
                 if (outputStartsWithPreceding) {
@@ -663,11 +672,11 @@ private fun isMagicReplaceablePreceding(precedingChar: String): Boolean =
 private fun bracketCommand(
     name: String,
     pos: KeyPosition,
-    stringOffsets: Map<String, Int>,
+    stringOffsetConstants: Map<String, String>,
 ): String =
     when (name) {
         "dotSpc" -> {
-            val offset = stringOffsets.getValue(". ")
+            val offset = stringOffsetConstants.getValue(". ")
             "${annotateMagicSend("magic_replace_decode_send_cap($offset, '\\0');", ". ")} " +
                 "add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state();"
         }
@@ -700,11 +709,12 @@ private fun repeatableTap(qmk: QmkKey) = "magic_tap_repeatable(${qmk.key});"
 private fun cycleLiteral(
     output: String,
     cycleData: List<CycleEntry>,
+    stringOffsetConstants: Map<String, String>,
 ): String =
     cycleData
         .firstOrNull { it.current == output }
-        ?.currentOffset
-        ?.toString() ?: NO_CYCLE_OFFSET
+        ?.current
+        ?.let(stringOffsetConstants::getValue) ?: NO_CYCLE_OFFSET
 
 private fun annotateMagicSend(
     statement: String,
@@ -909,7 +919,10 @@ private fun encodeCycleEntries(
             )
         }.sortedBy { it.currentOffset }
 
-private fun magicCycleData(entries: List<CycleEntry>): String {
+private fun magicCycleData(
+    entries: List<CycleEntry>,
+    stringOffsetConstants: Map<String, String>,
+): String {
     val declarations =
         if (entries.isEmpty()) {
             ""
@@ -917,7 +930,9 @@ private fun magicCycleData(entries: List<CycleEntry>): String {
             val rows =
                 entries.joinToString(",\n") {
                     val lastChar = cCharLiteral(it.nextLastChar)
-                    "    { ${it.currentOffset}, ${it.nextOffset}, ${it.commonPrefixLength}, $lastChar }"
+                    val currentOffset = stringOffsetConstants.getValue(it.current)
+                    val nextOffset = stringOffsetConstants.getValue(it.next)
+                    "    { $currentOffset, $nextOffset, ${it.commonPrefixLength}, $lastChar }"
                 }
             """
 typedef struct {
@@ -973,6 +988,8 @@ static bool magic_cycle_lookup(uint16_t current_offset, uint16_t* next_offset, c
 $declarations
 $lookup
 
+#define MAGIC_CYCLE_NONE UINT16_MAX
+
 static inline void set_suffix_word_state(char c, uint16_t cycle_offset, bool capitalize) {
     suffix_active = true;
     last_magic_char = c;
@@ -1009,7 +1026,7 @@ static void magic_replace_decode_send_cap_cycle(uint16_t offset, char suffix, ui
 static bool process_magic_cycle_next(void) {
     uint16_t next_offset = 0;
     char next_last_char = '\0';
-    if (suffix_cycle_offset == UINT16_MAX || !magic_cycle_lookup(suffix_cycle_offset, &next_offset, &next_last_char)) {
+    if (suffix_cycle_offset == MAGIC_CYCLE_NONE || !magic_cycle_lookup(suffix_cycle_offset, &next_offset, &next_last_char)) {
         clear_suffix_state();
         return false;
     }
