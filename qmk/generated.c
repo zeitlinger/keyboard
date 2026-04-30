@@ -10,72 +10,71 @@ static bool magic_context_key_emitted = true;
 
 // Magic string decoder lookup tables
 static const char magic_char_4bit[] = {
-    ' ', 'e', 'o', 'n', 't', 'i', 'a', 'l', 'r', 's', 'g', 'u', 'p', 'm'
+    ' ', 'e', 'o', 't', 'n', 'i', 'a', 'l', 'r', 's', 'h', 'u', 'g', 'm'
 };
 
 static const char magic_char_extended[] = {
-    'h', 'c', 'd', 'b', '\'', 'w', 'y', 'f', 'v', 'k', 'x', 'q', 'j', '.', 'G', 'I', 'O', 'T', 'P', 'S', 'B', 'Z', 'z'
+    'p', 'd', 'c', 'b', 'w', '\'', 'y', 'f', 'v', 'k', 'x', 'q', '.', 'G', 'I', 'P', 'Z', 'j', 'z'
 };
 
 static const uint8_t magic_string_data[] = {
-    0x05, 0x06, 0x3f, 0xe2, 0x00, 0x05, 0x0f, 0xe3, 0xb4, 0x00, 0x03, 0xe4, 0xe2, 0x00, 0x04, 0xe4,
-    0x77, 0x00, 0x04, 0xe4, 0x81, 0x00, 0x03, 0xe4, 0x90, 0x04, 0xe4, 0xe8, 0x10, 0x02, 0xed, 0x00,
-    0x07, 0xee, 0x81, 0xa2, 0x80, 0x05, 0xef, 0xe4, 0xe8, 0x10, 0x0e, 0xf0, 0xc1, 0x3f, 0xf1, 0x17,
-    0x1d, 0x14, 0x8f, 0xe6, 0x00, 0x0b, 0xf2, 0x82, 0xd1, 0x4f, 0xe0, 0x1b, 0x90, 0x0c, 0xf3, 0xc8,
-    0x53, 0xa0, 0xf4, 0x22, 0x40, 0x0b, 0xf5, 0x15, 0x47, 0x53, 0xa1, 0x80, 0x0a, 0x6f, 0xe1, 0xe9,
-    0xa8, 0x2b, 0x3f, 0xe2, 0x00, 0x08, 0x6f, 0xe2, 0xe2, 0x81, 0x99, 0x00, 0x0a, 0x67, 0x5f, 0xe2,
-    0x64, 0x52, 0x30, 0x08, 0x67, 0x81, 0x6f, 0xe2, 0xe6, 0x00, 0x07, 0x67, 0xe5, 0x6f, 0xe6, 0x90,
-    0x04, 0x63, 0xe2, 0x00, 0x08, 0x63, 0xab, 0x6a, 0x10, 0x08, 0x63, 0x24, 0xe0, 0x18, 0x00, 0x09,
-    0x63, 0xe6, 0x4f, 0xe0, 0x53, 0xa0, 0x09, 0x6c, 0xc8, 0x2f, 0xe8, 0x67, 0x00, 0x09, 0x69, 0x5f,
-    0xe1, 0x67, 0x7f, 0xe6, 0x00, 0x06, 0x69, 0x3f, 0xe4, 0x40, 0x0a, 0x6f, 0xe8, 0x65, 0x76, 0xe3,
-    0x71, 0x00, 0x0b, 0xe3, 0x6f, 0xe1, 0xe9, 0xa8, 0x2b, 0x3f, 0xe2, 0x00, 0x0a, 0xe3, 0x69, 0x5f,
-    0xe1, 0x67, 0x7f, 0xe6, 0x00, 0x08, 0xe3, 0x1f, 0xe1, 0x6b, 0x91, 0x00, 0x07, 0xe3, 0x1f, 0xe1,
-    0x2d, 0x10, 0x07, 0xe3, 0x1f, 0xe7, 0x28, 0x10, 0x07, 0xe1, 0xe0, 0x63, 0xa1, 0x00, 0x08, 0xe1,
-    0x2d, 0xd1, 0x34, 0x00, 0x09, 0xe1, 0x23, 0xe7, 0x75, 0xe1, 0x40, 0x0a, 0xe1, 0x23, 0xe7, 0xb9,
-    0x53, 0xa0, 0x07, 0xe2, 0xe2, 0x81, 0x99, 0x00, 0x12, 0xe2, 0x1f, 0xe1, 0x76, 0x86, 0x45, 0xe8,
-    0x10, 0xe1, 0x23, 0xe7, 0x5a, 0x07, 0xe2, 0x5f, 0xe2, 0x3f, 0xe4, 0x40, 0x0b, 0xe2, 0x5f, 0xe7,
-    0xe7, 0x5f, 0xe1, 0xb7, 0x4f, 0xe6, 0x00, 0x08, 0xe2, 0x59, 0x6f, 0xe3, 0x71, 0x00, 0x05, 0xe2,
-    0x21, 0x90, 0x08, 0xe2, 0x21, 0x93, 0xe4, 0x40, 0x06, 0xe2, 0x23, 0xe4, 0x40, 0x07, 0x1f, 0xe1,
-    0x6b, 0x91, 0x00, 0x06, 0x1f, 0xe1, 0x2d, 0x10, 0x06, 0x1f, 0xe7, 0x28, 0x10, 0x0a, 0x17, 0x6f,
-    0xe3, 0x28, 0x64, 0x10, 0x07, 0x13, 0x18, 0x67, 0x00, 0x08, 0x13, 0x18, 0x64, 0x10, 0x03, 0x13,
-    0x40, 0x06, 0x12, 0xc7, 0x10, 0x08, 0x1c, 0x68, 0x64, 0x10, 0x07, 0x18, 0x95, 0x23, 0x00, 0x05,
-    0x1f, 0xe8, 0x18, 0x00, 0x0b, 0x1f, 0xe8, 0x18, 0xe6, 0x4f, 0xe0, 0x53, 0xa0, 0x08, 0x1f, 0xea,
-    0x6d, 0xc7, 0x10, 0x07, 0x1f, 0xea, 0xe1, 0x1c, 0x40, 0x0a, 0x1f, 0xea, 0xe1, 0x1c, 0x45, 0x23,
-    0x00, 0x08, 0x1f, 0xea, 0xe1, 0x7b, 0xe2, 0x10, 0x08, 0x1f, 0xea, 0xc7, 0x65, 0x30, 0x09, 0x1f,
-    0xea, 0xc7, 0x5f, 0xe1, 0x54, 0x00, 0x08, 0xe7, 0x2f, 0xe1, 0xb9, 0x1f, 0xe2, 0x00, 0x0a, 0xe7,
-    0x27, 0x72, 0xe5, 0x53, 0xa0, 0x08, 0xa1, 0x31, 0x86, 0x70, 0x09, 0xa1, 0x31, 0x86, 0x41, 0x00,
-    0x07, 0xa7, 0x2f, 0xe3, 0x67, 0x00, 0x06, 0xa8, 0x1a, 0x28, 0x05, 0xe0, 0x5f, 0xe1, 0xe0, 0x00,
-    0x06, 0xe0, 0x2b, 0xaf, 0xe0, 0x00, 0x07, 0xe0, 0x2b, 0xaf, 0xe0, 0x40, 0x07, 0xe0, 0x82, 0xba,
-    0xe0, 0x00, 0x06, 0x5f, 0xe2, 0x3f, 0xe4, 0x40, 0x0a, 0x5f, 0xe7, 0xe7, 0x5f, 0xe1, 0xb7, 0x4f,
-    0xe6, 0x00, 0x09, 0x5a, 0x86, 0x45, 0x23, 0x00, 0x07, 0x5d, 0x57, 0x68, 0x00, 0x0a, 0x5d, 0xc7,
-    0x1d, 0x13, 0x40, 0x0f, 0x5d, 0xc7, 0x1d, 0x13, 0x46, 0x45, 0x23, 0x00, 0x08, 0x5d, 0xc8, 0x2f,
-    0xe8, 0x10, 0x10, 0x53, 0x94, 0x8b, 0xd1, 0x34, 0x64, 0x52, 0x30, 0x03, 0x52, 0x30, 0x08, 0x59,
-    0xd6, 0x4f, 0xe1, 0xe0, 0x00, 0x01, 0xec, 0x05, 0xec, 0xb9, 0x40, 0x05, 0xe9, 0x31, 0xe5, 0x00,
-    0x05, 0xe9, 0x32, 0xe5, 0x00, 0x09, 0x76, 0x3a, 0xb6, 0xa1, 0x00, 0x06, 0x72, 0xe3, 0x67, 0x00,
-    0x04, 0xd1, 0x34, 0x07, 0xd1, 0x8a, 0x1f, 0xe2, 0x00, 0x0a, 0xd5, 0xa8, 0x64, 0x52, 0x30, 0x09,
-    0xd5, 0x9d, 0x64, 0xe1, 0xe0, 0x00, 0x03, 0xdc, 0x70, 0x09, 0xdc, 0x71, 0xd1, 0x34, 0x00, 0x09,
-    0xdb, 0x74, 0x5c, 0x71, 0x00, 0x03, 0x3f, 0xe4, 0x40, 0x04, 0x3f, 0xe4, 0x40, 0x06, 0x31, 0xe8,
-    0x18, 0x00, 0x04, 0x31, 0xe5, 0x00, 0x04, 0x32, 0xe5, 0x00, 0x0e, 0x2f, 0xe3, 0x91, 0x8f, 0xe8,
-    0x6f, 0xe3, 0x57, 0x54, 0xe6, 0x00, 0x09, 0x2f, 0xe3, 0x92, 0x71, 0x41, 0x00, 0x07, 0x2f, 0xe1,
-    0xb9, 0x1f, 0xe2, 0x00, 0x04, 0x21, 0x90, 0x07, 0x21, 0x93, 0xe4, 0x40, 0x09, 0x27, 0x72, 0xe5,
-    0x53, 0xa0, 0x07, 0x2d, 0x12, 0x31, 0x00, 0x09, 0x2d, 0x14, 0xe0, 0x53, 0xa0, 0x07, 0x2d, 0xd1,
-    0x34, 0x00, 0x05, 0x23, 0xe4, 0x40, 0x05, 0x23, 0x7f, 0xe6, 0x00, 0x09, 0x28, 0xa6, 0x35, 0xf6,
-    0x10, 0x08, 0x28, 0xe9, 0xe7, 0x72, 0xe5, 0x00, 0x05, 0x28, 0x91, 0x00, 0x0a, 0x24, 0xe0, 0x18,
-    0xe5, 0x59, 0x10, 0x07, 0xc1, 0x2c, 0x71, 0x00, 0x0c, 0xc1, 0x8f, 0xe7, 0x28, 0xd6, 0x3f, 0xe1,
-    0x10, 0x09, 0xc2, 0x99, 0x5f, 0xe3, 0x71, 0x00, 0x09, 0xc8, 0x2f, 0xe3, 0x6f, 0xe3, 0x7f, 0xe6,
-    0x00, 0x0b, 0xc8, 0x2f, 0xe2, 0xbf, 0xe1, 0x45, 0x23, 0x00, 0x07, 0xcf, 0xe6, 0x4f, 0xe0, 0x23,
-    0x00, 0x01, 0xeb, 0x02, 0xeb, 0xb0, 0x09, 0xeb, 0xb1, 0x94, 0x52, 0x30, 0x08, 0x81, 0x92, 0x7f,
-    0xe8, 0x10, 0x08, 0x82, 0xe3, 0x6f, 0xe3, 0x7f, 0xe6, 0x00, 0x0a, 0x82, 0xe2, 0xbf, 0xe1, 0x45,
-    0x23, 0x00, 0x09, 0x91, 0xc6, 0x86, 0x41, 0x00, 0x08, 0x95, 0xd5, 0x76, 0x80, 0x04, 0x95, 0x23,
-    0x08, 0x92, 0xd1, 0x23, 0x10, 0x0a, 0x92, 0xd1, 0x4f, 0xe0, 0x53, 0xa0, 0x08, 0x9b, 0xaa, 0x19,
-    0x40, 0x08, 0x9b, 0xcc, 0x28, 0x40, 0x07, 0x9f, 0xe5, 0x54, 0xe1, 0xe0, 0x00, 0x04, 0x4f, 0xe0,
-    0x10, 0x06, 0x4f, 0xe0, 0x53, 0xe9, 0x00, 0x07, 0x4f, 0xe0, 0x2b, 0xaf, 0xe0, 0x00, 0x08, 0x4f,
-    0xe0, 0x2b, 0xaf, 0xe0, 0x40, 0x08, 0x4f, 0xe0, 0x82, 0xba, 0xe0, 0x00, 0x04, 0x45, 0x23, 0x08,
-    0xb7, 0x45, 0xc7, 0x10, 0x0b, 0xb3, 0xe2, 0x18, 0x94, 0x63, 0xe2, 0x00, 0x07, 0xbc, 0xe2, 0x64,
-    0x10, 0x07, 0xbc, 0xc2, 0x84, 0x00, 0x0b, 0xe8, 0x67, 0x5f, 0xe2, 0x64, 0x52, 0x30, 0x08, 0xe8,
-    0x18, 0x95, 0x23, 0x00, 0x07, 0xe5, 0x69, 0x3f, 0xe4, 0x40, 0x06, 0xe5, 0xe0, 0x5f, 0xe1, 0xe0,
-    0x00, 0x08, 0xe5, 0x54, 0xe0, 0x2b, 0x40, 0x09, 0xe5, 0x28, 0xe9, 0xe7, 0x72, 0xe5, 0x00, 0x06,
-    0xe5, 0x28, 0x91, 0x00, 0x07, 0xea, 0xc7, 0x65, 0x30, 0x06, 0xe6, 0x4f, 0xe0, 0x23, 0x00
+    0x05, 0x06, 0x4f, 0xe1, 0x00, 0x05, 0x0f, 0xe3, 0xb3, 0x00, 0x03, 0xe5, 0xe1, 0x00, 0x04, 0xe5,
+    0x77, 0x00, 0x04, 0xe5, 0x81, 0x00, 0x03, 0xe5, 0x90, 0x04, 0xe5, 0xe8, 0x10, 0x02, 0xec, 0x00,
+    0x07, 0xed, 0x81, 0xc2, 0x80, 0x05, 0xee, 0xe5, 0xe8, 0x10, 0x0b, 0xef, 0x82, 0xd1, 0x3a, 0x1b,
+    0x90, 0x0b, 0xf0, 0x15, 0x37, 0x54, 0xc1, 0x80, 0x0a, 0x6f, 0xe2, 0xe9, 0xc8, 0x2b, 0x4f, 0xe1,
+    0x00, 0x08, 0x6f, 0xe1, 0xe1, 0x81, 0x99, 0x00, 0x0a, 0x67, 0x5f, 0xe1, 0x63, 0x52, 0x40, 0x08,
+    0x67, 0x81, 0x6f, 0xe1, 0xe6, 0x00, 0x07, 0x67, 0xe4, 0x6f, 0xe6, 0x90, 0x04, 0x64, 0xe1, 0x00,
+    0x08, 0x64, 0xcb, 0x6c, 0x10, 0x08, 0x64, 0x23, 0xa1, 0x80, 0x09, 0x64, 0xe6, 0x3a, 0x54, 0xc0,
+    0x09, 0x6f, 0xe0, 0xe0, 0x82, 0xe8, 0x67, 0x00, 0x09, 0x69, 0x5f, 0xe2, 0x67, 0x7f, 0xe6, 0x00,
+    0x06, 0x69, 0x4f, 0xe5, 0x30, 0x0a, 0x6f, 0xe8, 0x65, 0x76, 0xe3, 0x71, 0x00, 0x0b, 0xe3, 0x6f,
+    0xe2, 0xe9, 0xc8, 0x2b, 0x4f, 0xe1, 0x00, 0x0a, 0xe3, 0x69, 0x5f, 0xe2, 0x67, 0x7f, 0xe6, 0x00,
+    0x08, 0xe3, 0x1f, 0xe2, 0x6b, 0x91, 0x00, 0x07, 0xe3, 0x1f, 0xe2, 0x2d, 0x10, 0x07, 0xe3, 0x1f,
+    0xe7, 0x28, 0x10, 0x07, 0xe2, 0xa6, 0x4c, 0x10, 0x08, 0xe2, 0x2d, 0xd1, 0x43, 0x00, 0x09, 0xe2,
+    0x24, 0xe7, 0x75, 0xe2, 0x30, 0x0a, 0xe2, 0x24, 0xe7, 0xb9, 0x54, 0xc0, 0x07, 0xe1, 0xe1, 0x81,
+    0x99, 0x00, 0x07, 0xe1, 0x5f, 0xe1, 0x4f, 0xe5, 0x30, 0x0b, 0xe1, 0x5f, 0xe7, 0xe7, 0x5f, 0xe2,
+    0xb7, 0x3f, 0xe6, 0x00, 0x08, 0xe1, 0x59, 0x6f, 0xe3, 0x71, 0x00, 0x05, 0xe1, 0x21, 0x90, 0x08,
+    0xe1, 0x21, 0x94, 0xe5, 0x30, 0x06, 0xe1, 0x24, 0xe5, 0x30, 0x07, 0x1f, 0xe2, 0x6b, 0x91, 0x00,
+    0x06, 0x1f, 0xe2, 0x2d, 0x10, 0x06, 0x1f, 0xe7, 0x28, 0x10, 0x0a, 0x17, 0x6f, 0xe3, 0x28, 0x63,
+    0x10, 0x07, 0x14, 0x18, 0x67, 0x00, 0x08, 0x14, 0x18, 0x63, 0x10, 0x03, 0x14, 0x30, 0x06, 0x12,
+    0xe0, 0x71, 0x00, 0x08, 0x1f, 0xe0, 0x68, 0x63, 0x10, 0x07, 0x18, 0x95, 0x24, 0x00, 0x05, 0x1f,
+    0xe8, 0x18, 0x00, 0x0b, 0x1f, 0xe8, 0x18, 0xe6, 0x3a, 0x54, 0xc0, 0x08, 0x1f, 0xea, 0x6d, 0xe0,
+    0x71, 0x00, 0x07, 0x1f, 0xea, 0xe2, 0x1f, 0xe0, 0x30, 0x0a, 0x1f, 0xea, 0xe2, 0x1f, 0xe0, 0x35,
+    0x24, 0x00, 0x08, 0x1f, 0xea, 0xe2, 0x7b, 0xe1, 0x10, 0x05, 0x1f, 0xea, 0x53, 0x00, 0x08, 0x1f,
+    0xea, 0xe0, 0x76, 0x54, 0x00, 0x09, 0x1f, 0xea, 0xe0, 0x75, 0xe2, 0x53, 0x00, 0x08, 0xe7, 0x2f,
+    0xe2, 0xb9, 0x1f, 0xe1, 0x00, 0x0a, 0xe7, 0x27, 0x72, 0xe4, 0x54, 0xc0, 0x08, 0xc1, 0x41, 0x86,
+    0x70, 0x09, 0xc1, 0x41, 0x86, 0x31, 0x00, 0x07, 0xc7, 0x2f, 0xe3, 0x67, 0x00, 0x06, 0xc8, 0x1c,
+    0x28, 0x05, 0xa5, 0xe2, 0xa0, 0x06, 0xa2, 0xbc, 0xa0, 0x07, 0xa2, 0xbc, 0xa3, 0x00, 0x07, 0xa8,
+    0x2b, 0xca, 0x00, 0x03, 0xaf, 0xe6, 0x00, 0x06, 0x5f, 0xe1, 0x4f, 0xe5, 0x30, 0x0a, 0x5f, 0xe7,
+    0xe7, 0x5f, 0xe2, 0xb7, 0x3f, 0xe6, 0x00, 0x09, 0x5c, 0x86, 0x35, 0x24, 0x00, 0x07, 0x5d, 0x57,
+    0x68, 0x00, 0x04, 0x5d, 0xe0, 0x70, 0x0a, 0x5d, 0xe0, 0x71, 0xd1, 0x43, 0x00, 0x0f, 0x5d, 0xe0,
+    0x71, 0xd1, 0x43, 0x63, 0x52, 0x40, 0x08, 0x5d, 0xe0, 0x82, 0xe8, 0x10, 0x10, 0x54, 0x93, 0x8b,
+    0xd1, 0x43, 0x63, 0x52, 0x40, 0x03, 0x52, 0x40, 0x08, 0x59, 0xd6, 0x3f, 0xe2, 0xa0, 0x05, 0xf1,
+    0xb9, 0x30, 0x05, 0xe9, 0x41, 0xe4, 0x00, 0x05, 0xe9, 0x42, 0xe4, 0x00, 0x09, 0x76, 0x4c, 0xb6,
+    0xc1, 0x00, 0x06, 0x72, 0xe3, 0x67, 0x00, 0x04, 0xd1, 0x43, 0x07, 0xd1, 0x8c, 0x1f, 0xe1, 0x00,
+    0x0a, 0xd5, 0xc8, 0x63, 0x52, 0x40, 0x09, 0xd5, 0x9d, 0x63, 0xe2, 0xa0, 0x03, 0xdf, 0xe0, 0x70,
+    0x09, 0xdf, 0xe0, 0x71, 0xd1, 0x43, 0x00, 0x09, 0xdb, 0x73, 0x5f, 0xe0, 0x71, 0x00, 0x03, 0x4f,
+    0xe5, 0x30, 0x04, 0x4f, 0xe5, 0x30, 0x06, 0x41, 0xe8, 0x18, 0x00, 0x04, 0x41, 0xe4, 0x00, 0x04,
+    0x42, 0xe4, 0x00, 0x0e, 0x2f, 0xe3, 0x91, 0x8f, 0xe8, 0x6f, 0xe3, 0x57, 0x53, 0xe6, 0x00, 0x09,
+    0x2f, 0xe3, 0x92, 0x71, 0x31, 0x00, 0x07, 0x2f, 0xe2, 0xb9, 0x1f, 0xe1, 0x00, 0x04, 0x21, 0x90,
+    0x07, 0x21, 0x94, 0xe5, 0x30, 0x09, 0x27, 0x72, 0xe4, 0x54, 0xc0, 0x07, 0x2d, 0x12, 0x41, 0x00,
+    0x09, 0x2d, 0x13, 0xa5, 0x4c, 0x00, 0x07, 0x2d, 0xd1, 0x43, 0x00, 0x05, 0x24, 0xe5, 0x30, 0x05,
+    0x24, 0x7f, 0xe6, 0x00, 0x09, 0x28, 0xc6, 0x45, 0xf2, 0x10, 0x08, 0x28, 0xe9, 0xe7, 0x72, 0xe4,
+    0x00, 0x0a, 0x23, 0xa1, 0x8f, 0xe4, 0x59, 0x10, 0x07, 0xe0, 0x12, 0xe0, 0x71, 0x00, 0x0c, 0xe0,
+    0x18, 0xe7, 0x28, 0xd6, 0x4f, 0xe2, 0x10, 0x09, 0xe0, 0x29, 0x95, 0xe3, 0x71, 0x00, 0x09, 0xe0,
+    0x82, 0xe3, 0x6f, 0xe3, 0x7f, 0xe6, 0x00, 0x0b, 0xe0, 0x82, 0xe1, 0xbf, 0xe2, 0x35, 0x24, 0x00,
+    0x07, 0xe0, 0xe6, 0x3a, 0x24, 0x00, 0x03, 0xeb, 0xb0, 0x09, 0xeb, 0xb1, 0x93, 0x52, 0x40, 0x08,
+    0x81, 0x92, 0x7f, 0xe8, 0x10, 0x08, 0x82, 0xe3, 0x6f, 0xe3, 0x7f, 0xe6, 0x00, 0x0a, 0x82, 0xe1,
+    0xbf, 0xe2, 0x35, 0x24, 0x00, 0x09, 0x91, 0xe0, 0x68, 0x63, 0x10, 0x08, 0x95, 0xd5, 0x76, 0x80,
+    0x04, 0x95, 0x24, 0x08, 0x92, 0xd1, 0x24, 0x10, 0x0a, 0x92, 0xd1, 0x3a, 0x54, 0xc0, 0x08, 0x9b,
+    0xcc, 0x19, 0x30, 0x08, 0x9b, 0xe0, 0xe0, 0x28, 0x30, 0x07, 0x9f, 0xe4, 0x53, 0xe2, 0xa0, 0x0a,
+    0x3a, 0x64, 0xe9, 0x0f, 0xe6, 0x2b, 0x00, 0x07, 0x3a, 0x64, 0xe9, 0x90, 0x04, 0x3a, 0x10, 0x06,
+    0x3a, 0x54, 0xe9, 0x00, 0x07, 0x3a, 0x2b, 0xca, 0x00, 0x08, 0x3a, 0x2b, 0xca, 0x30, 0x08, 0x3a,
+    0x82, 0xbc, 0xa0, 0x04, 0x35, 0x24, 0x08, 0xb7, 0x35, 0xe0, 0x71, 0x00, 0x0b, 0xb4, 0xe1, 0x18,
+    0x93, 0x64, 0xe1, 0x00, 0x07, 0xbf, 0xe0, 0xe1, 0x63, 0x10, 0x07, 0xbf, 0xe0, 0xe0, 0x28, 0x30,
+    0x0b, 0xe8, 0x67, 0x5f, 0xe1, 0x63, 0x52, 0x40, 0x08, 0xe8, 0x18, 0x95, 0x24, 0x00, 0x07, 0xe4,
+    0x69, 0x4f, 0xe5, 0x30, 0x06, 0xe4, 0xa5, 0xe2, 0xa0, 0x04, 0xe4, 0xaf, 0xe6, 0x00, 0x08, 0xe4,
+    0x53, 0xa2, 0xb3, 0x00, 0x06, 0xe4, 0x24, 0xe5, 0x30, 0x09, 0xe4, 0x28, 0xe9, 0xe7, 0x72, 0xe4,
+    0x00, 0x06, 0xe4, 0x28, 0x91, 0x00, 0x06, 0xe6, 0x3a, 0x24, 0x00
 };
 
 static void magic_decode_send_skip(uint16_t offset, uint8_t skip_chars) {
@@ -161,10 +160,12 @@ typedef struct {
 } magic_cycle_entry_t;
 
 static const magic_cycle_entry_t magic_cycle_entries[] = {
-    { 32, 69, 0, 'r' },
-    { 69, 32, 0, 'r' },
-    { 477, 483, 9, 'n' },
-    { 483, 477, 9, 't' }
+    { 32, 49, 0, 'r' },
+    { 49, 32, 0, 'r' },
+    { 454, 461, 9, 'n' },
+    { 461, 454, 9, 't' },
+    { 783, 791, 5, 's' },
+    { 791, 783, 5, 'u' }
 };
 
 static bool magic_cycle_lookup(uint16_t current_offset, uint16_t* next_offset, char* next_last_char) {
@@ -557,17 +558,17 @@ static bool has_magic_key_with_context(uint16_t keycode, uint16_t context_keycod
         return false;
     }
     switch (keycode) {
-case MAGIC_A: return (UINT32_C(0x3977997) & context_bit) != 0;
+case MAGIC_A: return (UINT32_C(0x3977996) & context_bit) != 0;
 case MAGIC_B: return (UINT32_C(0x3977996) & context_bit) != 0;
-case MAGIC_C: return (UINT32_C(0x888421) & context_bit) != 0;
-case MAGIC_D: return (UINT32_C(0x3177996) & context_bit) != 0;
+case MAGIC_C: return (UINT32_C(0x4488621) & context_bit) != 0;
+case MAGIC_D: return (UINT32_C(0x3977996) & context_bit) != 0;
 case MAGIC_E: return (UINT32_C(0x3977986) & context_bit) != 0;
-case MAGIC_F: return (UINT32_C(0x1973114) & context_bit) != 0;
-case MAGIC_G: return (UINT32_C(0x44a8421) & context_bit) != 0;
-case MAGIC_H: return (UINT32_C(0x7bf79df) & context_bit) != 0;
-case MAGIC_I: return (UINT32_C(0x3bf79df) & context_bit) != 0;
-case MAGIC_J: return (UINT32_C(0x3977b96) & context_bit) != 0;
-case MAGIC_K: return (UINT32_C(0x3177936) & context_bit) != 0;
+case MAGIC_F: return (UINT32_C(0x3177914) & context_bit) != 0;
+case MAGIC_G: return (UINT32_C(0x44a8621) & context_bit) != 0;
+case MAGIC_H: return (UINT32_C(0x3bf79de) & context_bit) != 0;
+case MAGIC_I: return (UINT32_C(0x3bf79de) & context_bit) != 0;
+case MAGIC_J: return (UINT32_C(0x3977996) & context_bit) != 0;
+case MAGIC_K: return (UINT32_C(0x3977916) & context_bit) != 0;
     default:
         return false;
     }
@@ -579,17 +580,17 @@ static bool has_reverse_magic_key_with_context(uint16_t keycode, uint16_t contex
         return false;
     }
     switch (keycode) {
-case MAGIC_A: return (UINT32_C(0x3020081) & context_bit) != 0;
+case MAGIC_A: return (UINT32_C(0x3020080) & context_bit) != 0;
 case MAGIC_B: return (UINT32_C(0x820884) & context_bit) != 0;
-case MAGIC_C: return (UINT32_C(0x880000) & context_bit) != 0;
-case MAGIC_D: return (UINT32_C(0x2160984) & context_bit) != 0;
+case MAGIC_C: return (UINT32_C(0x480200) & context_bit) != 0;
+case MAGIC_D: return (UINT32_C(0x2960984) & context_bit) != 0;
 case MAGIC_E: return (UINT32_C(0x3025982) & context_bit) != 0;
-case MAGIC_F: return (UINT32_C(0x1901004) & context_bit) != 0;
-case MAGIC_G: return (UINT32_C(0x40a0400) & context_bit) != 0;
-case MAGIC_H: return (UINT32_C(0x2827803) & context_bit) != 0;
-case MAGIC_I: return (UINT32_C(0x824005) & context_bit) != 0;
+case MAGIC_F: return (UINT32_C(0x3105804) & context_bit) != 0;
+case MAGIC_G: return (UINT32_C(0x40a0000) & context_bit) != 0;
+case MAGIC_H: return (UINT32_C(0x2827802) & context_bit) != 0;
+case MAGIC_I: return (UINT32_C(0x824004) & context_bit) != 0;
 case MAGIC_J: return (UINT32_C(0x920004) & context_bit) != 0;
-case MAGIC_K: return (UINT32_C(0x2030104) & context_bit) != 0;
+case MAGIC_K: return (UINT32_C(0x2830104) & context_bit) != 0;
     default:
         return false;
     }
@@ -649,23 +650,22 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_remembered_keycode = MAGIC_A;
             magic_repeat_keycode = KC_NO;
             switch (magic_prepare_last_keycode(context_keycode)) {
-                case KC_A: magic_replace_decode_send_cap_cycle(422, '\0', UINT16_MAX); /* emits "gregor" */ break;
-                case KC_B: magic_decode_send_suffix_cycle(76, 'd', UINT16_MAX); /* emits "ackground " -> "background " */ break;
+                case KC_B: magic_decode_send_suffix_cycle(56, 'd', UINT16_MAX); /* emits "ackground " -> "background " */ break;
                 case KC_C: magic_tap_repeatable(KC_N); break;
                 case KC_D: magic_tap_repeatable(KC_C); break;
-                case KC_F: magic_replace_decode_send_cap_cycle(219, 'g', UINT16_MAX); /* emits "confusing " */ break;
-                case KC_G: magic_decode_send_suffix_cycle(539, 'l', UINT16_MAX); /* emits "lobal " -> "global " */ break;
+                case KC_F: magic_replace_decode_send_cap_cycle(197, 'g', UINT16_MAX); /* emits "confusing " */ break;
+                case KC_G: magic_decode_send_suffix_cycle(514, 'l', UINT16_MAX); /* emits "lobal " -> "global " */ break;
                 case KC_K: magic_tap_repeatable(KC_R); break;
                 case KC_L: magic_tap_repeatable(KC_M); break;
                 case KC_M: magic_tap_repeatable(KC_R); break;
                 case KC_N: magic_tap_repeatable(KC_R); break;
                 case KC_P: magic_tap_repeatable(KC_Y); break;
                 case KC_R: magic_replace_tap_repeatable(KC_DQUO); break;
-                case KC_S: magic_decode_send_suffix_cycle(642, 'e', UINT16_MAX); /* emits "omeone " -> "someone " */ break;
+                case KC_S: magic_decode_send_suffix_cycle(619, 'e', UINT16_MAX); /* emits "omeone " -> "someone " */ break;
                 case KC_T: magic_tap_repeatable(KC_N); break;
-                case KC_V: magic_decode_send_suffix_cycle(92, 'n', UINT16_MAX); /* emits "alidation " -> "validation " */ break;
-                case KC_W: magic_replace_decode_send_cap_cycle(106, 's', UINT16_MAX); /* emits "always " */ break;
-                case KC_X: magic_replace_decode_send_cap_cycle(361, 'n', UINT16_MAX); /* emits "exception " */ break;
+                case KC_V: magic_decode_send_suffix_cycle(72, 'n', UINT16_MAX); /* emits "alidation " -> "validation " */ break;
+                case KC_W: magic_replace_decode_send_cap_cycle(86, 's', UINT16_MAX); /* emits "always " */ break;
+                case KC_X: magic_replace_decode_send_cap_cycle(329, 'n', UINT16_MAX); /* emits "exception " */ break;
             }
             magic_capitalize_next = false;
             last_magic_trigger = MAGIC_A;
@@ -680,21 +680,21 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_remembered_keycode = MAGIC_B;
             magic_repeat_keycode = KC_NO;
             switch (magic_prepare_last_keycode(context_keycode)) {
-                case KC_B: magic_decode_send_suffix_cycle(141, 'y', UINT16_MAX); /* emits "asically " -> "basically " */ break;
+                case KC_B: magic_decode_send_suffix_cycle(120, 'y', UINT16_MAX); /* emits "asically " -> "basically " */ break;
                 case KC_C: magic_replace_decode_send_cap_cycle(14, '\0', UINT16_MAX); /* emits "'ll " */ break;
                 case KC_D: magic_tap_repeatable(KC_H); break;
-                case KC_F: magic_replace_decode_send_cap_cycle(212, 't', UINT16_MAX); /* emits "conflict " */ break;
+                case KC_F: magic_replace_decode_send_cap_cycle(190, 't', UINT16_MAX); /* emits "conflict " */ break;
                 case KC_G: magic_tap_repeatable(KC_F); break;
-                case KC_K: magic_replace_decode_send_cap_cycle(742, 'n', UINT16_MAX); /* emits "question " */ break;
+                case KC_K: magic_replace_decode_send_cap_cycle(713, 'n', UINT16_MAX); /* emits "question " */ break;
                 case KC_L: magic_tap_repeatable(KC_H); break;
                 case KC_M: magic_tap_repeatable(KC_H); break;
                 case KC_N: magic_tap_repeatable(KC_H); break;
                 case KC_P: magic_tap_repeatable(KC_M); break;
-                case KC_R: magic_replace_decode_send_cap_cycle(737, '\0', UINT16_MAX); /* emits "q" */ break;
+                case KC_R: magic_replace_tap_repeatable(KC_Q); break;
                 case KC_S: magic_tap_repeatable(KC_R); break;
                 case KC_T: magic_tap_repeatable(KC_F); break;
-                case KC_V: magic_replace_decode_send_cap_cycle(340, 'g', UINT16_MAX); /* emits "everything " */ break;
-                case KC_W: magic_decode_send_suffix_cycle(149, 't', UINT16_MAX); /* emits "asn't " -> "wasn't " */ break;
+                case KC_V: magic_replace_decode_send_cap_cycle(307, 'g', UINT16_MAX); /* emits "everything " */ break;
+                case KC_W: magic_decode_send_suffix_cycle(128, 't', UINT16_MAX); /* emits "asn't " -> "wasn't " */ break;
                 case KC_X: magic_tap_repeatable(KC_W); break;
             }
             magic_capitalize_next = false;
@@ -710,12 +710,14 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_remembered_keycode = MAGIC_C;
             magic_repeat_keycode = KC_NO;
             switch (magic_prepare_last_keycode(context_keycode)) {
-                case KC_A: magic_decode_send_suffix_cycle(226, 's', UINT16_MAX); /* emits "ddress " -> "address " */ break;
+                case KC_A: magic_decode_send_suffix_cycle(204, 's', UINT16_MAX); /* emits "ddress " -> "address " */ break;
                 case KC_E: magic_tap_repeatable(KC_U); break;
-                case KC_I: magic_decode_send_suffix_cycle(569, 't', 477); /* emits "mplement " -> "implement " */ break;
+                case KC_H: magic_replace_decode_send_cap_cycle(710, 'u', UINT16_MAX); /* emits "qu " */ break;
+                case KC_I: magic_decode_send_suffix_cycle(544, 't', 454); /* emits "mplement " -> "implement " */ break;
                 case KC_O: magic_tap_repeatable(KC_E); break;
                 case KC_SPC: magic_replace_decode_send_cap(29, '\0'); /* emits ". " */ add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state(); break;
-                case KC_V: magic_replace_decode_send_cap_cycle(492, 'e', UINT16_MAX); /* emits "improve " */ break;
+                case KC_U: magic_replace_decode_send_cap_cycle(397, '\0', UINT16_MAX); /* emits "gregor" */ break;
+                case KC_Y: magic_tap_repeatable(KC_R); break;
             }
             magic_capitalize_next = false;
             last_magic_trigger = MAGIC_C;
@@ -730,21 +732,22 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_remembered_keycode = MAGIC_D;
             magic_repeat_keycode = KC_NO;
             switch (magic_prepare_last_keycode(context_keycode)) {
-                case KC_B: magic_decode_send_suffix_cycle(291, 'e', UINT16_MAX); /* emits "ecome " -> "become " */ break;
-                case KC_C: magic_replace_decode_send_cap_cycle(585, '\0', UINT16_MAX); /* emits "n't " */ break;
-                case KC_D: magic_decode_send_suffix_cycle(658, 't', UINT16_MAX); /* emits "on't " -> "don't " */ break;
-                case KC_F: magic_replace_decode_send_cap_cycle(696, 'e', UINT16_MAX); /* emits "performance " */ break;
-                case KC_G: magic_replace_decode_send_cap_cycle(667, 'e', UINT16_MAX); /* emits "organize " */ break;
-                case KC_K: magic_replace_decode_send_cap_cycle(817, 'k', UINT16_MAX); /* emits "think " */ break;
-                case KC_L: magic_decode_send_suffix_cycle(116, 'e', UINT16_MAX); /* emits "anguage " -> "language " */ break;
-                case KC_M: magic_decode_send_suffix_cycle(466, 'n', UINT16_MAX); /* emits "igration " -> "migration " */ break;
-                case KC_N: magic_decode_send_suffix_cycle(335, 'r', UINT16_MAX); /* emits "ever " -> "never " */ break;
-                case KC_P: magic_decode_send_suffix_cycle(321, 'e', UINT16_MAX); /* emits "eople " -> "people " */ break;
-                case KC_R: magic_replace_decode_send_cap_cycle(581, '\0', UINT16_MAX); /* emits "n't" */ break;
-                case KC_S: magic_replace_decode_send_cap_cycle(705, 'e', UINT16_MAX); /* emits "possible " */ break;
-                case KC_T: magic_replace_decode_send_cap_cycle(519, 't', UINT16_MAX); /* emits "just " */ break;
-                case KC_W: magic_decode_send_suffix_cycle(673, 'w', UINT16_MAX); /* emits "orkflow " -> "workflow " */ break;
-                case KC_X: magic_replace_decode_send_cap_cycle(355, 't', UINT16_MAX); /* emits "except " */ break;
+                case KC_B: magic_decode_send_suffix_cycle(256, 'e', UINT16_MAX); /* emits "ecome " -> "become " */ break;
+                case KC_C: magic_replace_decode_send_cap_cycle(562, '\0', UINT16_MAX); /* emits "n't " */ break;
+                case KC_D: magic_decode_send_suffix_cycle(635, 't', UINT16_MAX); /* emits "on't " -> "don't " */ break;
+                case KC_F: magic_replace_decode_send_cap_cycle(670, 'e', UINT16_MAX); /* emits "performance " */ break;
+                case KC_G: magic_replace_decode_send_cap_cycle(644, 'e', UINT16_MAX); /* emits "organize " */ break;
+                case KC_K: magic_replace_decode_send_cap_cycle(799, 'k', UINT16_MAX); /* emits "think " */ break;
+                case KC_L: magic_decode_send_suffix_cycle(96, 'e', UINT16_MAX); /* emits "anguage " -> "language " */ break;
+                case KC_M: magic_decode_send_suffix_cycle(439, 'n', UINT16_MAX); /* emits "igration " -> "migration " */ break;
+                case KC_N: magic_decode_send_suffix_cycle(302, 'r', UINT16_MAX); /* emits "ever " -> "never " */ break;
+                case KC_P: magic_decode_send_suffix_cycle(286, 'e', UINT16_MAX); /* emits "eople " -> "people " */ break;
+                case KC_R: magic_replace_decode_send_cap_cycle(558, '\0', UINT16_MAX); /* emits "n't" */ break;
+                case KC_S: magic_replace_decode_send_cap_cycle(679, 'e', UINT16_MAX); /* emits "possible " */ break;
+                case KC_T: magic_replace_decode_send_cap_cycle(494, 't', UINT16_MAX); /* emits "just " */ break;
+                case KC_V: magic_replace_decode_send_cap_cycle(470, 'e', UINT16_MAX); /* emits "improve " */ break;
+                case KC_W: magic_decode_send_suffix_cycle(650, 'w', UINT16_MAX); /* emits "orkflow " -> "workflow " */ break;
+                case KC_X: magic_replace_decode_send_cap_cycle(322, 't', UINT16_MAX); /* emits "except " */ break;
             }
             magic_capitalize_next = false;
             last_magic_trigger = MAGIC_D;
@@ -759,21 +762,21 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_remembered_keycode = MAGIC_E;
             magic_repeat_keycode = KC_NO;
             switch (magic_prepare_last_keycode(context_keycode)) {
-                case KC_B: magic_replace_decode_send_cap_cycle(602, 'y', UINT16_MAX); /* emits "observability " */ break;
+                case KC_B: magic_replace_decode_send_cap_cycle(579, 'y', UINT16_MAX); /* emits "observability " */ break;
                 case KC_C: magic_tap_repeatable(KC_D); break;
-                case KC_F: magic_replace_decode_send_cap_cycle(263, 'e', UINT16_MAX); /* emits "disable " */ break;
-                case KC_G: magic_replace_decode_send_cap_cycle(200, 'e', UINT16_MAX); /* emits "change " */ break;
-                case KC_K: magic_replace_decode_send_cap_cycle(547, 'd', UINT16_MAX); /* emits "merged " */ break;
-                case KC_L: magic_replace_decode_send_cap_cycle(99, 'y', UINT16_MAX); /* emits "already " */ break;
-                case KC_M: magic_decode_send_suffix_cycle(847, 'e', UINT16_MAX); /* emits "ultiple " -> "multiple " */ break;
-                case KC_N: magic_replace_decode_send_cap_cycle(127, 'g', UINT16_MAX); /* emits "anything " */ break;
-                case KC_P: magic_decode_send_suffix_cycle(754, 'y', UINT16_MAX); /* emits "robably " -> "probably " */ break;
+                case KC_F: magic_replace_decode_send_cap_cycle(228, 'e', UINT16_MAX); /* emits "disable " */ break;
+                case KC_G: magic_replace_decode_send_cap_cycle(179, 'e', UINT16_MAX); /* emits "change " */ break;
+                case KC_K: magic_replace_decode_send_cap_cycle(522, 'd', UINT16_MAX); /* emits "merged " */ break;
+                case KC_L: magic_replace_decode_send_cap_cycle(79, 'y', UINT16_MAX); /* emits "already " */ break;
+                case KC_M: magic_decode_send_suffix_cycle(822, 'e', UINT16_MAX); /* emits "ultiple " -> "multiple " */ break;
+                case KC_N: magic_replace_decode_send_cap_cycle(106, 'g', UINT16_MAX); /* emits "anything " */ break;
+                case KC_P: magic_decode_send_suffix_cycle(725, 'y', UINT16_MAX); /* emits "robably " -> "probably " */ break;
                 case KC_R: magic_replace_tap_repeatable(KC_QUES); break;
-                case KC_S: magic_decode_send_suffix_cycle(865, 't', UINT16_MAX); /* emits "upport " -> "support " */ break;
-                case KC_T: magic_decode_send_suffix_cycle(444, 'h', UINT16_MAX); /* emits "hrough " -> "through " */ break;
-                case KC_V: magic_decode_send_suffix_cycle(330, 'n', UINT16_MAX); /* emits "ersion " -> "version " */ break;
-                case KC_W: magic_replace_decode_send_cap_cycle(684, 'e', UINT16_MAX); /* emits "otherwise " */ break;
-                case KC_X: magic_replace_decode_send_cap_cycle(382, 't', UINT16_MAX); /* emits "explicit " */ break;
+                case KC_S: magic_decode_send_suffix_cycle(842, 't', UINT16_MAX); /* emits "upport " -> "support " */ break;
+                case KC_T: magic_decode_send_suffix_cycle(414, 'h', UINT16_MAX); /* emits "hrough " -> "through " */ break;
+                case KC_V: magic_decode_send_suffix_cycle(297, 'n', UINT16_MAX); /* emits "ersion " -> "version " */ break;
+                case KC_W: magic_replace_decode_send_cap_cycle(657, 'e', UINT16_MAX); /* emits "otherwise " */ break;
+                case KC_X: magic_replace_decode_send_cap_cycle(357, 't', UINT16_MAX); /* emits "explicit " */ break;
             }
             magic_capitalize_next = false;
             last_magic_trigger = MAGIC_E;
@@ -789,16 +792,18 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_repeat_keycode = KC_NO;
             switch (magic_prepare_last_keycode(context_keycode)) {
                 case KC_C: magic_replace_decode_send_cap_cycle(25, '\0', UINT16_MAX); /* emits "'ve " */ break;
-                case KC_D: magic_decode_send_suffix_cycle(456, 'y', UINT16_MAX); /* emits "ifficulty " -> "difficulty " */ break;
-                case KC_G: magic_decode_send_suffix_cycle(308, 'l', UINT16_MAX); /* emits "eneral " -> "general " */ break;
-                case KC_L: magic_replace_decode_send_cap_cycle(154, 'e', UINT16_MAX); /* emits "available " */ break;
-                case KC_M: magic_decode_send_suffix_cycle(510, 'h', UINT16_MAX); /* emits "ismatch " -> "mismatch " */ break;
-                case KC_P: magic_decode_send_suffix_cycle(921, 'n', UINT16_MAX); /* emits "ython " -> "python " */ break;
+                case KC_D: magic_decode_send_suffix_cycle(429, 'y', UINT16_MAX); /* emits "ifficulty " -> "difficulty " */ break;
+                case KC_G: magic_decode_send_suffix_cycle(273, 'l', UINT16_MAX); /* emits "eneral " -> "general " */ break;
+                case KC_K: magic_replace_decode_send_cap_cycle(791, 's', 791); /* emits "thanks " */ break;
+                case KC_L: magic_replace_decode_send_cap_cycle(133, 'e', UINT16_MAX); /* emits "available " */ break;
+                case KC_M: magic_decode_send_suffix_cycle(488, 'h', UINT16_MAX); /* emits "ismatch " -> "mismatch " */ break;
+                case KC_N: magic_replace_decode_send_cap_cycle(350, 'n', UINT16_MAX); /* emits "explain " */ break;
+                case KC_P: magic_decode_send_suffix_cycle(902, 'n', UINT16_MAX); /* emits "ython " -> "python " */ break;
                 case KC_R: magic_tap_repeatable(KC_X); break;
-                case KC_S: magic_decode_send_suffix_cycle(472, 'r', UINT16_MAX); /* emits "imilar " -> "similar " */ break;
-                case KC_T: magic_replace_decode_send_cap_cycle(121, 'r', UINT16_MAX); /* emits "another " */ break;
-                case KC_V: magic_replace_decode_send_cap_cycle(232, '\0', UINT16_MAX); /* emits "declarative config" */ break;
-                case KC_W: magic_replace_decode_send_cap_cycle(806, 'h', UINT16_MAX); /* emits "switch " */ break;
+                case KC_S: magic_decode_send_suffix_cycle(445, 'r', UINT16_MAX); /* emits "imilar " -> "similar " */ break;
+                case KC_T: magic_replace_decode_send_cap_cycle(101, 'r', UINT16_MAX); /* emits "another " */ break;
+                case KC_W: magic_replace_decode_send_cap_cycle(777, 'h', UINT16_MAX); /* emits "switch " */ break;
+                case KC_X: magic_replace_decode_send_cap_cycle(345, 't', UINT16_MAX); /* emits "exit " */ break;
             }
             magic_capitalize_next = false;
             last_magic_trigger = MAGIC_F;
@@ -815,12 +820,13 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             switch (magic_prepare_last_keycode(context_keycode)) {
                 case KC_A: magic_tap_repeatable(KC_E); break;
                 case KC_E: magic_tap_repeatable(KC_H); break;
-                case KC_I: magic_replace_decode_send_cap_cycle(566, '\0', UINT16_MAX); /* emits "mpl" */ break;
+                case KC_H: magic_tap_repeatable(KC_Y); break;
+                case KC_I: magic_decode_send(540); /* emits "mpl" -> "impl" */ break;
                 case KC_O: magic_tap_repeatable(KC_H); break;
                 case KC_R: magic_replace_tap_repeatable(KC_EXLM); break;
                 case KC_SPC: magic_replace_tap_repeatable(KC_Z); break;
                 case KC_U: magic_tap_repeatable(KC_H); break;
-                case KC_Y: magic_replace_decode_send_cap_cycle(662, 'y', UINT16_MAX); /* emits "only " */ break;
+                case KC_Y: magic_replace_decode_send_cap_cycle(639, 'y', UINT16_MAX); /* emits "only " */ break;
             }
             magic_capitalize_next = false;
             last_magic_trigger = MAGIC_G;
@@ -835,28 +841,26 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_remembered_keycode = MAGIC_H;
             magic_repeat_keycode = KC_NO;
             switch (magic_prepare_last_keycode(context_keycode)) {
-                case KC_A: magic_replace_decode_send_cap_cycle(42, 'y', UINT16_MAX); /* emits "OpenTelemetry " */ break;
-                case KC_B: magic_replace_decode_send_cap_cycle(614, 'e', UINT16_MAX); /* emits "obsolete " */ break;
-                case KC_C: magic_decode_send_suffix_cycle(653, 't', UINT16_MAX); /* emits "omment " -> "comment " */ break;
-                case KC_COMMA: magic_decode_send_cap_cycle(0, '\0', UINT16_MAX); /* emits " and " */ break;
-                case KC_D: magic_decode_send_suffix_cycle(450, 't', UINT16_MAX); /* emits "idn't " -> "didn't " */ break;
-                case KC_ENT: magic_decode_send_cap_cycle(112, 'd', UINT16_MAX); /* emits "and " */ break;
-                case KC_F: magic_decode_send_suffix_cycle(621, 'd', UINT16_MAX); /* emits "ocused " -> "focused " */ break;
-                case KC_G: magic_decode_send_suffix_cycle(313, 'e', UINT16_MAX); /* emits "enerate " -> "generate " */ break;
-                case KC_K: magic_replace_decode_send_cap_cycle(860, 'e', UINT16_MAX); /* emits "update " */ break;
-                case KC_L: magic_replace_decode_send_cap_cycle(301, 'e', UINT16_MAX); /* emits "elaborate " */ break;
-                case KC_M: magic_replace_decode_send_cap_cycle(498, 'n', UINT16_MAX); /* emits "instrumentation " */ break;
-                case KC_N: magic_replace_decode_send_cap_cycle(852, 'd', UINT16_MAX); /* emits "understand " */ break;
-                case KC_P: magic_decode_send_suffix_cycle(762, 'n', UINT16_MAX); /* emits "roduction " -> "production " */ break;
+                case KC_B: magic_replace_decode_send_cap_cycle(591, 'e', UINT16_MAX); /* emits "obsolete " */ break;
+                case KC_C: magic_decode_send_suffix_cycle(630, 't', UINT16_MAX); /* emits "omment " -> "comment " */ break;
+                case KC_COMMA: magic_decode_send_cap_cycle(5, '\0', UINT16_MAX); /* emits " but " */ break;
+                case KC_D: magic_decode_send_suffix_cycle(423, 't', UINT16_MAX); /* emits "idn't " -> "didn't " */ break;
+                case KC_ENT: magic_decode_send_cap_cycle(796, 'e', UINT16_MAX); /* emits "the " */ break;
+                case KC_F: magic_decode_send_suffix_cycle(598, 'd', UINT16_MAX); /* emits "ocused " -> "focused " */ break;
+                case KC_G: magic_decode_send_suffix_cycle(278, 'e', UINT16_MAX); /* emits "enerate " -> "generate " */ break;
+                case KC_K: magic_replace_decode_send_cap_cycle(836, 'e', UINT16_MAX); /* emits "update " */ break;
+                case KC_L: magic_replace_decode_send_cap_cycle(266, 'e', UINT16_MAX); /* emits "elaborate " */ break;
+                case KC_M: magic_replace_decode_send_cap_cycle(476, 'n', UINT16_MAX); /* emits "instrumentation " */ break;
+                case KC_N: magic_replace_decode_send_cap_cycle(828, 'd', UINT16_MAX); /* emits "understand " */ break;
+                case KC_P: magic_decode_send_suffix_cycle(733, 'n', UINT16_MAX); /* emits "roduction " -> "production " */ break;
                 case KC_R: magic_replace_tap_repeatable(KC_QUOTE); break;
-                case KC_S: magic_decode_send_suffix_cycle(325, 'e', UINT16_MAX); /* emits "eparate " -> "separate " */ break;
-                case KC_SPC: magic_decode_send_cap_cycle(112, 'd', UINT16_MAX); /* emits "and " */ break;
-                case KC_T: magic_decode_send_suffix_cycle(432, 'h', UINT16_MAX); /* emits "hough " -> "though " */ break;
-                case KC_TAB: magic_decode_send_cap_cycle(112, 'd', UINT16_MAX); /* emits "and " */ break;
-                case KC_V: magic_replace_decode_send_cap_cycle(134, 'l', UINT16_MAX); /* emits "approval " */ break;
-                case KC_W: magic_decode_send_suffix_cycle(426, 'h', UINT16_MAX); /* emits "hich " -> "which " */ break;
-                case KC_X: magic_replace_decode_send_cap_cycle(369, 'e', UINT16_MAX); /* emits "exclude " */ break;
-                case KC_Y: magic_tap_repeatable(KC_R); break;
+                case KC_S: magic_decode_send_suffix_cycle(291, 'e', UINT16_MAX); /* emits "eparate " -> "separate " */ break;
+                case KC_SPC: magic_decode_send_cap_cycle(796, 'e', UINT16_MAX); /* emits "the " */ break;
+                case KC_T: magic_decode_send_suffix_cycle(405, 'h', UINT16_MAX); /* emits "hough " -> "though " */ break;
+                case KC_TAB: magic_decode_send_cap_cycle(796, 'e', UINT16_MAX); /* emits "the " */ break;
+                case KC_V: magic_replace_decode_send_cap_cycle(112, 'l', UINT16_MAX); /* emits "approval " */ break;
+                case KC_W: magic_decode_send_suffix_cycle(419, 'y', UINT16_MAX); /* emits "hy " -> "why " */ break;
+                case KC_X: magic_replace_decode_send_cap_cycle(338, 'e', UINT16_MAX); /* emits "exclude " */ break;
             }
             magic_capitalize_next = false;
             last_magic_trigger = MAGIC_H;
@@ -871,25 +875,24 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_remembered_keycode = MAGIC_I;
             magic_repeat_keycode = KC_NO;
             switch (magic_prepare_last_keycode(context_keycode)) {
-                case KC_A: magic_replace_decode_send_cap_cycle(61, 't', UINT16_MAX); /* emits "Spring Boot " */ break;
-                case KC_B: magic_decode_send_suffix_cycle(285, 'e', UINT16_MAX); /* emits "ecause " -> "because " */ break;
+                case KC_B: magic_decode_send_suffix_cycle(250, 'e', UINT16_MAX); /* emits "ecause " -> "because " */ break;
                 case KC_C: magic_replace_decode_send_cap_cycle(18, '\0', UINT16_MAX); /* emits "'re " */ break;
-                case KC_COMMA: magic_decode_send_cap_cycle(5, '\0', UINT16_MAX); /* emits " but " */ break;
-                case KC_D: magic_decode_send_suffix_cycle(631, 't', UINT16_MAX); /* emits "oesn't " -> "doesn't " */ break;
-                case KC_ENT: magic_decode_send_cap_cycle(813, 'e', UINT16_MAX); /* emits "the " */ break;
-                case KC_F: magic_decode_send_suffix_cycle(636, 'g', UINT16_MAX); /* emits "ollowing " -> "following " */ break;
+                case KC_COMMA: magic_decode_send_cap_cycle(0, '\0', UINT16_MAX); /* emits " and " */ break;
+                case KC_D: magic_decode_send_suffix_cycle(608, 't', UINT16_MAX); /* emits "oesn't " -> "doesn't " */ break;
+                case KC_ENT: magic_decode_send_cap_cycle(92, 'd', UINT16_MAX); /* emits "and " */ break;
+                case KC_F: magic_decode_send_suffix_cycle(613, 'g', UINT16_MAX); /* emits "ollowing " -> "following " */ break;
                 case KC_G: magic_tap_repeatable(KC_K); break;
-                case KC_K: magic_decode_send_suffix_cycle(598, 'w', UINT16_MAX); /* emits "now " -> "know " */ break;
+                case KC_K: magic_decode_send_suffix_cycle(575, 'w', UINT16_MAX); /* emits "now " -> "know " */ break;
                 case KC_L: magic_tap_repeatable(KC_R); break;
-                case KC_M: magic_decode_send(318); /* emits "ent" -> "ment" */ break;
-                case KC_N: magic_replace_decode_send_cap_cycle(739, '\0', UINT16_MAX); /* emits "qu" */ break;
+                case KC_M: magic_decode_send(283); /* emits "ent" -> "ment" */ break;
+                case KC_N: magic_replace_decode_send_cap_cycle(884, 't', UINT16_MAX); /* emits "won't " */ break;
                 case KC_P: magic_tap_repeatable(KC_N); break;
                 case KC_R: magic_replace_tap_repeatable(KC_COMMA); break;
-                case KC_S: magic_decode_send(507); /* emits "ion" -> "sion" */ break;
-                case KC_SPC: magic_decode_send_cap_cycle(813, 'e', UINT16_MAX); /* emits "the " */ break;
-                case KC_T: magic_decode_send(507); /* emits "ion" -> "tion" */ break;
-                case KC_TAB: magic_decode_send_cap_cycle(813, 'e', UINT16_MAX); /* emits "the " */ break;
-                case KC_V: magic_replace_decode_send_cap_cycle(748, 'e', UINT16_MAX); /* emits "resolve " */ break;
+                case KC_S: magic_decode_send(485); /* emits "ion" -> "sion" */ break;
+                case KC_SPC: magic_decode_send_cap_cycle(92, 'd', UINT16_MAX); /* emits "and " */ break;
+                case KC_T: magic_decode_send(485); /* emits "ion" -> "tion" */ break;
+                case KC_TAB: magic_decode_send_cap_cycle(92, 'd', UINT16_MAX); /* emits "and " */ break;
+                case KC_V: magic_replace_decode_send_cap_cycle(719, 'e', UINT16_MAX); /* emits "resolve " */ break;
                 case KC_W: magic_tap_repeatable(KC_S); break;
                 case KC_X: magic_tap_repeatable(KC_R); break;
             }
@@ -911,7 +914,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_D: magic_tap_repeatable(KC_F); break;
                 case KC_F: magic_tap_repeatable(KC_D); break;
                 case KC_G: magic_tap_repeatable(KC_D); break;
-                case KC_H: magic_tap_repeatable(KC_Y); break;
                 case KC_K: magic_tap_repeatable(KC_X); break;
                 case KC_L: magic_tap_repeatable(KC_C); break;
                 case KC_M: magic_tap_repeatable(KC_L); break;
@@ -919,7 +921,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_P: magic_tap_repeatable(KC_D); break;
                 case KC_R: magic_replace_tap_repeatable(KC_DOT); break;
                 case KC_S: magic_tap_repeatable(KC_D); break;
-                case KC_T: magic_replace_decode_send_cap_cycle(897, 't', UINT16_MAX); /* emits "without " */ break;
+                case KC_T: magic_replace_decode_send_cap_cycle(878, 't', UINT16_MAX); /* emits "without " */ break;
                 case KC_V: magic_replace_decode_send_cap_cycle(37, 'e', UINT16_MAX); /* emits "I've " */ break;
                 case KC_W: magic_tap_repeatable(KC_X); break;
                 case KC_X: magic_tap_repeatable(KC_D); break;
@@ -937,21 +939,21 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_remembered_keycode = MAGIC_K;
             magic_repeat_keycode = KC_NO;
             switch (magic_prepare_last_keycode(context_keycode)) {
-                case KC_B: magic_decode_send_suffix_cycle(296, 'e', UINT16_MAX); /* emits "efore " -> "before " */ break;
+                case KC_B: magic_decode_send_suffix_cycle(261, 'e', UINT16_MAX); /* emits "efore " -> "before " */ break;
                 case KC_C: magic_replace_decode_send_cap_cycle(22, '\0', UINT16_MAX); /* emits "'s " */ break;
-                case KC_D: magic_decode_send_suffix_cycle(628, 's', UINT16_MAX); /* emits "oes " -> "does " */ break;
-                case KC_E: magic_decode_send_suffix_cycle(916, 'n', UINT16_MAX); /* emits "xplain " -> "explain " */ break;
-                case KC_G: magic_replace_decode_send_cap_cycle(796, 't', UINT16_MAX); /* emits "suggest " */ break;
-                case KC_K: magic_decode_send_suffix_cycle(594, 'w', UINT16_MAX); /* emits "new " -> "knew " */ break;
+                case KC_D: magic_decode_send_suffix_cycle(605, 's', UINT16_MAX); /* emits "oes " -> "does " */ break;
+                case KC_G: magic_replace_decode_send_cap_cycle(766, 't', UINT16_MAX); /* emits "suggest " */ break;
+                case KC_K: magic_decode_send_suffix_cycle(571, 'w', UINT16_MAX); /* emits "new " -> "knew " */ break;
                 case KC_L: magic_tap_repeatable(KC_B); break;
                 case KC_M: magic_tap_repeatable(KC_T); break;
                 case KC_N: magic_tap_repeatable(KC_P); break;
-                case KC_P: magic_replace_decode_send_cap_cycle(53, 's', UINT16_MAX); /* emits "Prometheus " */ break;
-                case KC_R: magic_replace_decode_send_cap_cycle(517, '\0', UINT16_MAX); /* emits "j" */ break;
-                case KC_S: magic_decode_send_suffix_cycle(647, 'g', UINT16_MAX); /* emits "omething " -> "something " */ break;
-                case KC_T: magic_decode_send_suffix_cycle(438, 't', UINT16_MAX); /* emits "hought " -> "thought " */ break;
-                case KC_W: magic_decode_send_suffix_cycle(680, 'e', UINT16_MAX); /* emits "orse " -> "worse " */ break;
-                case KC_X: magic_replace_decode_send_cap_cycle(349, 'e', UINT16_MAX); /* emits "example " */ break;
+                case KC_P: magic_replace_decode_send_cap_cycle(42, 's', UINT16_MAX); /* emits "Prometheus " */ break;
+                case KC_R: magic_replace_tap_repeatable(KC_J); break;
+                case KC_S: magic_decode_send_suffix_cycle(624, 'g', UINT16_MAX); /* emits "omething " -> "something " */ break;
+                case KC_T: magic_decode_send_suffix_cycle(409, 't', UINT16_MAX); /* emits "hought " -> "thought " */ break;
+                case KC_V: magic_replace_decode_send_cap_cycle(897, 'e', UINT16_MAX); /* emits "worse " */ break;
+                case KC_W: magic_decode_send_suffix_cycle(401, 'h', UINT16_MAX); /* emits "hich " -> "which " */ break;
+                case KC_X: magic_replace_decode_send_cap_cycle(315, 'e', UINT16_MAX); /* emits "example " */ break;
             }
             magic_capitalize_next = false;
             last_magic_trigger = MAGIC_K;
