@@ -118,16 +118,15 @@ Cell = what to emit.
 | Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |     magic_h     |   magic_i   | magic_j |  magic_k   |
 | :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :-------------: | :---------: | :-----: | :--------: |
 | suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |     [next]      |   " the "   |  ". "   |     s      |
-|   a    |            |            |           |             |               |            |    e    |                 |             |         |            |
-|   b    | background | basically  |           |   become    | observability |  disable   |         |    obsolete     |   because   |    d    |   before   |
+|   a    |     #g     |            |  address  |             |               |            |    e    |  OpenTelemetry  | Spring Boot |         |            |
+|   b    | background | basically  |           |   become    | observability |            |         |    obsolete     |   because   |    d    |   before   |
 |   c    |     n      |   "'ll "   |           |   "n't "    |       d       |   "'ve "   |         |     comment     |   "'re "    |  "'d "  |   "'s "    |
 |   d    |     c      |     h      |           |    don't    |               | difficulty |         |     didn't      |   doesn't   |    f    |    does    |
-|   e    |            |            |     u     |             |    another    |            |    h    |                 |             |         |  explain   |
-|   f    | confusing  |  conflict  |           | performance |   frequency   |            |         |     focused     |  following  |    d    |            |
+|   e    |            |            |     u     |             |               |            |    h    |                 |             |         |  explain   |
+|   f    | confusing  |  conflict  |           | performance |    disable    |            |         |     focused     |  following  |    d    |            |
 |   g    |   global   |     f      |           |  organize   |    change     |  general   |         |    generate     |      k      |    d    |  suggest   |
-|   h    |            |            |           |             |               |            |  "qu"   |                 |             |    y    |            |
+|   h    |            |            |           |             |               |            |         |                 |             |    y    |            |
 |   i    |            |            | implement |             |               |            |  "mpl"  |                 |             |         |            |
-|   j    |            |            |           |             |               |            |  just   |                 |             |         |            |
 |   k    |     r      |  question  |           |    think    |    merged     |            |         |     update      |    know     |    x    |    knew    |
 |   l    |     m      |     h      |           |  language   |    already    | available  |         |    elaborate    |      r      |    c    |     b      |
 |   m    |     r      |     h      |           |  migration  |   multiple    |  mismatch  |         | instrumentation |    ment     |    l    |     t      |
@@ -136,13 +135,12 @@ Cell = what to emit.
 |   p    |     y      |     m      |           |   people    |   probably    |   python   |         |   production    |      n      |    d    | Prometheus |
 |   r    |     "      |    "q"     |           |   ⌫"n't"    |      ⌫?       |     x      |   ⌫!    |       ⌫'        |     ⌫,      |   ⌫.    |    "j"     |
 |   s    |  someone   |     r      |           |  possible   |    support    |  similar   |         |    separate     |   "sion"    |    d    | something  |
-|   t    |     n      |     f      |           |             |    through    |            |         |     though      |   "tion"    | without |  thought   |
+|   t    |     n      |     f      |           |    just     |    through    |  another   |         |     though      |   "tion"    | without |  thought   |
 |   u    |            |            |           |             |               |            |    h    |                 |             |         |            |
 |   v    | validation | everything |  improve  |             |    version    |    #dc     |         |    approval     |   resolve   |  I've   |            |
 |   w    |   always   |   wasn't   |           |  workflow   |   otherwise   |   switch   |         |      which      |      s      |    x    |   worse    |
 |   x    | exception  |     w      |           |   except    |   explicit    |            |         |     exclude     |      r      |    d    |  example   |
 |   y    |            |            |           |             |               |            |  only   |        r        |             |         |            |
-|   z    |            |  realize   |           |     #g      |               |            |         |  OpenTelemetry  | Spring Boot |         |            |
 |  spc   |            |            | [dotSpc]  |             |               |            |   ⌫z    |       and       |     the     |         |            |
 |  tab   |            |            |           |             |               |            |         |       and       |     the     |         |            |
 | enter  |            |            |           |             |               |            |         |       and       |     the     |         |            |
@@ -256,10 +254,15 @@ trailing auto-space.
 | Right |         |         |         |         |         |         |         |    j    |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| RMods |         |         |         |         |         |         |         |         |
+| RMods |         |         |         |         |         |         |    Q    |         |
 | RMods |         |         |         |         |         |         |         |         |
 | RMods |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |    =    |
 | RMods |         |         |         |         |    [    |    ]    |         |         |
+|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| RMods |         |         |         |         |         |         |         |         |
+| RMods |         |         |         |         |         |         |         |   💎    |
+| RMods |         |         |         |         |         |         |         |    S-j  |
+| RMods |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |         |         |         |         |  dead1  |         |         |         |
 | Left  |         |         |         |         | \*CNum  | \*Case  | \*Media |         |
@@ -274,6 +277,11 @@ trailing auto-space.
 | LMods |         |         |         |         |         |         |         |         |
 | LMods |         |         |         |         |         |         |         |         |
 | LMods |    -    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
+| LMods |         |         |         |         |         |         |         |         |
+|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| LMods |         |         |         |         |         |         |         |         |
+| LMods |   💎    |         |         |         |         |         |         |         |
+| LMods |    S-z  |         |         |         |         |         |         |         |
 | LMods |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |  dead2  |   f10   |   f9    |  dead2  |  dead3  |    (    |    )    |  dead1  |
@@ -421,8 +429,8 @@ The order of the options is also the order of the layers in the layer stack.
 |     Base     |                 |                 |               |                |                  |      200      |
 |     Left     |                 | BottomRow+LMods |     Base      |                | Shifted          |      200      |
 |    Right     | BottomRow+RMods |                 |               |      Base      | Shifted          |      200      |
-|    LMods     |                 | BottomRow+LMods |     Base      |                |                  |               |
-|    RMods     | BottomRow+RMods |                 |               |      Base      |                  |               |
+|    LMods     |                 | BottomRow+LMods |     Base      |                |                  |      200      |
+|    RMods     | BottomRow+RMods |                 |               |      Base      |                  |      200      |
 |     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |      200      |
 |    FnSym     |                 |     HomeRow     |               |                | DirectComboRight |      200      |
 |     Num      |                 |                 |               |                | TriLayer         |      200      |

@@ -114,7 +114,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                         KC_MINUS,                 KC_F,                 KC_L,                 KC_D, KC_NO, KC_NO, LM(_LMODS, MOD_LSFT), LM(_LMODS, MOD_LCTL), LM(_LMODS, MOD_LALT),                KC_NO,
                                            KC_NO,                 KC_R,                KC_NO,                KC_NO),
 	[_RMODS] = LAYOUT_split_3x5_2(
-                           KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                DEAD2,              MAGIC_A,              MAGIC_B,                DEAD1,
+                           KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                DEAD2,              MAGIC_A,                 KC_Q,                DEAD1,
                            KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                 KC_A,                 KC_E,                 KC_I,                 KC_H,
                            KC_NO, LM(_RMODS, MOD_LALT), LM(_RMODS, MOD_LCTL), LM(_RMODS, MOD_LSFT), KC_NO, KC_NO,                 KC_U,                 KC_O,                 KC_Y,             KC_EQUAL,
                                            KC_NO,                KC_NO,      KC_LEFT_BRACKET,     KC_RIGHT_BRACKET),
