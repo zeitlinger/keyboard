@@ -121,17 +121,17 @@ Cell = what to emit.
 | suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |     [next]      |  " the "  |  ". "   |     s      |
 |   b    | background | basically  |           |   become    | observability |            |         |    obsolete     |  because  |    d    |   before   |
 |   c    |     n      |   "'ll "   |           |   "n't "    |       d       |   "'ve "   |         |     comment     |  "'re "   |  "'d "  |   "'s "    |
-|   d    |     c      |     h      |           |    don't    |               | difficulty |         |     didn't      |  doesn't  |    f    |    does    |
-|   f    | confusing  |  conflict  |           | performance |    disable    |            |         |     focused     | following |    d    |            |
+|   d    |     c      |     h      |           |    don't    |    disable    | difficulty |         |     didn't      |  doesn't  |    f    |    does    |
+|   f    | confusing  |  conflict  |           | performance |    merged     |            |         |     focused     | following |    d    |            |
 |   g    |   global   |     f      |           |  organize   |    change     |  general   |         |    generate     |     k     |    d    |  suggest   |
-|   k    |     r      |  question  |           |    think    |    merged     |   thanks   |         |     update      |   know    |    x    |    knew    |
+|   k    |     r      |  question  |           |    think    |     task      |   thanks   |         |     update      |   know    |    x    |    knew    |
 |   l    |     m      |     h      |           |  language   |    already    | available  |         |    elaborate    |     r     |    c    |     b      |
 |   m    |     r      |     h      |           |  migration  |   multiple    |  mismatch  |         | instrumentation |  "ment"   |    l    |     t      |
 |   n    |     r      |     h      |           |    never    |   anything    |  explain   |         |   understand    |   won't   |    x    |     p      |
-|   p    |     y      |     m      |           |   people    |   probably    |   python   |         |   production    |     n     |    d    | Prometheus |
+|   p    |     y      |     m      |           |   people    |   probably    | important  |         |   production    |     n     |    d    | Prometheus |
 |   s    |  someone   |     r      |           |  possible   |    support    |  similar   |         |    separate     |  "sion"   |    d    | something  |
 |   t    |     n      |     f      |           |    just     |    through    |  another   |         |     though      |  "tion"   | without |  thought   |
-|   v    | validation | everything |           |   improve   |    version    |            |         |    approval     |  resolve  |  I've   |   worse    |
+|   v    |  validate  | everything |           |   improve   |    version    |            |         |    approval     |  resolve  |  I've   |   worse    |
 |   w    |   always   |   wasn't   |           |  workflow   |   otherwise   |   switch   |         |       why       |     s     |    x    |   which    |
 |   x    | exception  |     w      |           |   except    |   explicit    |    exit    |         |     exclude     |     r     |    d    |  example   |
 |   a    |            |            |  address  |             |               |            |    e    |                 |           |         |            |
@@ -155,8 +155,11 @@ trailing auto-space.
 
 |   Cycle   |      next      |
 | :-------: | :------------: |
+|  disable  |     enable     |
 | implement | implementation |
+| possible  |   impossible   |
 |  thanks   |   thank you    |
+| validate  |   validation   |
 |  Gregor   | " Zeitlinger " |
 
 ## Adaptives
