@@ -483,7 +483,7 @@ Exact-match symbol tokens such as `#g`, `#G`, and `#GL` must be declared here.
 | magic_a | magic:MAGIC_A                 |
 | magic_b | magic:MAGIC_B                 |
 | magic_c | magic:MAGIC_C                 |
-| magic_d | magic:MAGIC_D:qu              |
+| magic_d | magic:MAGIC_D                 |
 | magic_e | magic:MAGIC_E                 |
 | magic_f | magic:MAGIC_F                 |
 | magic_g | magic:MAGIC_G                 |

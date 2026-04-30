@@ -123,13 +123,6 @@ fun run(args: GeneratorArgs) {
     val cycleData = readCycleData(tables)
     val encodedMagicStrings = encodeStrings(collectMagicOutputs(tables, translator) + cycleData.outputs)
     val encodedCycles = encodeCycleEntries(cycleData, encodedMagicStrings.stringOffsets)
-    translator.magic.forEach { magic ->
-        magic.defaultCommand =
-            magic.default?.let {
-                val offset = encodedMagicStrings.stringOffsets.getValue(it)
-                annotateMagicSend("magic_decode_send($offset);", it)
-            }
-    }
 
     val magicTable = tables.getOptional("Magic").orEmpty()
     magicRows(magicTable).let {
@@ -351,7 +344,6 @@ private fun suffixTapStatement(char: Char): String =
     }
 
 private fun magicCase(magic: MagicInfo): String {
-    val defaultCase = magic.defaultCommand?.let { "\n            default: $it break;" } ?: ""
     return """
     case ${magic.trigger.key}: {
         if (allow_repeat && repeat_last_magic_key(${magic.trigger.key})) {
@@ -360,7 +352,7 @@ private fun magicCase(magic: MagicInfo): String {
         magic_remembered_keycode = ${magic.trigger.key};
         magic_repeat_keycode = KC_NO;
         switch (magic_prepare_last_keycode(context_keycode)) {
-${magicSwitch(magic.press)}$defaultCase
+${magicSwitch(magic.press)}
         }
         magic_capitalize_next = false;
         last_magic_trigger = ${magic.trigger.key};
@@ -781,9 +773,6 @@ private fun collectMagicOutputs(
             magicFullOutputString(precedingChar, spec, translator)?.let(outputs::add)
             bracketOutputString(spec.resolvedDef)?.let(outputs::add)
         }
-    }
-    translator.magic.mapNotNullTo(outputs) { magic ->
-        magic.default?.let { "$it" }
     }
     return outputs
 }

@@ -66,7 +66,7 @@ private fun readSymbols(
                             "magic:",
                         )
                     ) {
-                        value.substringAfter("magic:").split(":", limit = 2)
+                        value.substringAfter("magic:").split(":", limit = 1)
                     } else {
                         null
                     }
@@ -96,10 +96,9 @@ private fun readSymbols(
 
                     magic != null -> {
                         val keycode = magic[0]
-                        val default = magic.getOrNull(1)
                         val qmkKey = QmkKey.of(keycode)
                         customKeycodes[keycode] = CustomKey(qmkKey, null, null, null)
-                        magics += MagicInfo(keycode, default)
+                        magics += MagicInfo(keycode)
                         listOf(key to keycode)
                     }
 

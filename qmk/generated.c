@@ -747,7 +747,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_T: magic_replace_decode_send_cap_cycle(519, 't', UINT16_MAX); /* emits "just " */ break;
                 case KC_W: magic_decode_send_suffix_cycle(674, 'w', UINT16_MAX); /* emits "orkflow " -> "workflow " */ break;
                 case KC_X: magic_replace_decode_send_cap_cycle(355, 't', UINT16_MAX); /* emits "except " */ break;
-                default: magic_decode_send(740); /* emits "qu" */ break;
             }
             magic_capitalize_next = false;
             last_magic_trigger = MAGIC_D;
