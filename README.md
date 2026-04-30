@@ -129,7 +129,7 @@ Cell = what to emit.
 |   i    |            |            | implement |             |               |            |  "mpl"  |                 |             |         |            |
 |   k    |     r      |  question  |           |    think    |    merged     |            |         |     update      |    know     |    x    |    knew    |
 |   l    |     m      |     h      |           |  language   |    already    | available  |         |    elaborate    |      r      |    c    |     b      |
-|   m    |     r      |     h      |           |  migration  |   multiple    |  mismatch  |         | instrumentation |    ment     |    l    |     t      |
+|   m    |     r      |     h      |           |  migration  |   multiple    |  mismatch  |         | instrumentation |   "ment"    |    l    |     t      |
 |   n    |     r      |     h      |           |    never    |   anything    |            |         |   understand    |    "qu"     |    x    |     p      |
 |   o    |            |            |     e     |             |               |            |    h    |                 |             |         |            |
 |   p    |     y      |     m      |           |   people    |   probably    |   python   |         |   production    |      n      |    d    | Prometheus |
@@ -261,7 +261,7 @@ trailing auto-space.
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | RMods |         |         |         |         |         |         |         |         |
 | RMods |         |         |         |         |         |         |         |   💎    |
-| RMods |         |         |         |         |         |         |         |    S-j  |
+| RMods |         |         |         |         |         |         |         |   S-j   |
 | RMods |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |         |         |         |         |  dead1  |         |         |         |
@@ -281,7 +281,7 @@ trailing auto-space.
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | LMods |         |         |         |         |         |         |         |         |
 | LMods |   💎    |         |         |         |         |         |         |         |
-| LMods |    S-z  |         |         |         |         |         |         |         |
+| LMods |   S-z   |         |         |         |         |         |         |         |
 | LMods |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |  dead2  |   f10   |   f9    |  dead2  |  dead3  |    (    |    )    |  dead1  |

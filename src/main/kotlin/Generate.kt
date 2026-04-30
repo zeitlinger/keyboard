@@ -343,8 +343,8 @@ private fun suffixTapStatement(char: Char): String =
         else -> throw IllegalArgumentException("unsupported suffix character '$char'")
     }
 
-private fun magicCase(magic: MagicInfo): String {
-    return """
+private fun magicCase(magic: MagicInfo): String =
+    """
     case ${magic.trigger.key}: {
         if (allow_repeat && repeat_last_magic_key(${magic.trigger.key})) {
             return false;
@@ -360,8 +360,7 @@ ${magicSwitch(magic.press)}
         set_last_keycode(magic_remembered_keycode);
         return false;
     }
-        """.trimIndent()
-}
+    """.trimIndent()
 
 private fun magicContextKeys(translator: QmkTranslator): List<QmkKey> =
     translator.magic
