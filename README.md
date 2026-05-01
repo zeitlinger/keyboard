@@ -137,7 +137,7 @@ Cell = what to emit.
 |   w    |   always   |   wasn't   |           |  workflow   |   otherwise   |   switch   |         |     why     |     s      |    x    |   which    |
 |   x    |            |     w      |           |   except    |   explicit    |    exit    |         |   exclude   |     r      |    d    |  example   |
 |   a    |            |            |  address  |             |               |            |    e    |   gregor    | zeitlinger | grafana |            |
-|   e    |            |            |     u     |             |               |            |    h    |             |            |         |            |
+|   e    |            |            |     u     |             |               |            |    h    |   LGTM      |            |         |            |
 |   i    |            |            | implement |             |               |            | "impl"  |   #@gmail   |    #@gl    | #@zeit  |            |
 |   h    |            |            |           |             |               |            |  "qu"   |             |            |         |            |
 |   u    |            |            |           |             |               |            |    h    |             |            |         |            |
