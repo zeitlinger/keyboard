@@ -136,7 +136,7 @@ Cell = what to emit.
 |   w    |   always   |   wasn't   |           |  workflow   |   otherwise   |   switch   |         |    why     |     s     |    x    |   which    |
 |   x    | exception  |     w      |           |   except    |   explicit    |  exclude   |         |    exit    |     r     |    d    |  example   |
 |   a    |            |            |  address  |             |               |            |    e    |            |           |         |            |
-|   e    |            |            |     u     |             |               |            |    h    |            |           |         |            |
+|   e    |            |            |     u     |             |               |            |    h    |      LGTM      |           |         |            |
 |   h    |            |            |           |             |               |            |  "qu"   |            |           |         |            |
 |   i    |            |            | implement |             |               |            | "impl"  |            |           |         |            |
 |   o    |            |            |     e     |             |               |            |    h    |            |           |         |            |
