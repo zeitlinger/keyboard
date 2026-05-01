@@ -56,6 +56,10 @@ static bool repeat_last_magic_key(uint16_t trigger) {
     if (last_magic_trigger != trigger || last_magic_repeat_keycode == KC_NO) {
         return false;
     }
+    if (last_magic_repeat_keycode >= SAFE_RANGE) {
+        last_magic_repeat_keycode = KC_NO;
+        return false;
+    }
     tap_code16(last_magic_repeat_keycode);
     set_last_keycode(last_magic_repeat_keycode);
     return true;
