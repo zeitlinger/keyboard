@@ -97,8 +97,3 @@ COMB(S_C_BASE_KC_K                      , S(KC_K)                            , S
 COMB(S_C_BASE_KC_M                      , S(KC_M)                            , S(KC_N), S(KC_W))
 COMB(S_C_BASE_KC_P                      , S(KC_P)                            , S(KC_C), S(KC_X))
 COMB(S_C_BASE_KC_V                      , S(KC_V)                            , S(DEAD3), S(KC_T))
-SUBS(SUB_1                              , "gregor.zeitlinger@grafana.com"    , KC_MPLY, KC_MUTE)
-SUBS(SUB_2                              , "zeitlinger@gmail.com"             , KC_MNXT, KC_VOLU)
-SUBS(SUB_3                              , "gregor@zeitlinger.de"             , KC_MPRV, KC_VOLD)
-SUBS(SUB_4                              , "Grafana"                          , DEAD2, KC_PSCR)
-SUBS(SUB_5                              , "Grafana Labs"                     , KC_PSCR, PRINT_VERSION)

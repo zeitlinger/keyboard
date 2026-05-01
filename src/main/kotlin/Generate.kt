@@ -273,14 +273,6 @@ private fun magicSuffixStatements(suffix: String): String {
     if (isBracketToken(suffix)) {
         return suffixBracketCommand(suffix.removeSurrounding("[", "]"))
     }
-    if (isWord(suffix)) {
-        val literal = extractString(suffix)
-        val taps = literal.map(::suffixTapStatement).joinToString(" ")
-        return """
-            tap_code16(KC_BSPC); $taps
-            clear_suffix_state();
-            """.trimIndent()
-    }
     return when (suffix) {
         "." -> {
             """
@@ -318,13 +310,36 @@ private fun magicSuffixStatements(suffix: String): String {
             """.trimIndent()
         }
 
-        else -> {
-            val taps = suffix.map(::suffixTapStatement).joinToString(" ")
+        "ation" -> {
             """
-            tap_code16(KC_BSPC); $taps tap_code16(KC_SPC);
-            last_magic_char = '${suffix.last()}';
+            tap_code16(KC_BSPC);
+            if (last_magic_char == 'e') {
+                tap_code16(KC_BSPC);
+                tap_code16(KC_I); tap_code16(KC_O); tap_code16(KC_N); tap_code16(KC_SPC);
+            } else {
+                tap_code16(KC_A); tap_code16(KC_T); tap_code16(KC_I); tap_code16(KC_O); tap_code16(KC_N); tap_code16(KC_SPC);
+            }
+            last_magic_char = 'n';
             clear_suffix_cycle_state();
             """.trimIndent()
+        }
+
+        else -> {
+            if (isWord(suffix)) {
+                val literal = extractString(suffix)
+                val taps = literal.map(::suffixTapStatement).joinToString(" ")
+                """
+                tap_code16(KC_BSPC); $taps
+                clear_suffix_state();
+                """.trimIndent()
+            } else {
+                val taps = suffix.map(::suffixTapStatement).joinToString(" ")
+                """
+                tap_code16(KC_BSPC); $taps tap_code16(KC_SPC);
+                last_magic_char = '${suffix.last()}';
+                clear_suffix_cycle_state();
+                """.trimIndent()
+            }
         }
     }
 }
