@@ -237,7 +237,17 @@ private data class MagicWordLocation(
 private data class MagicSpec(
     val forceReplace: Boolean,
     val resolvedDef: String,
+    val suffixTransform: SuffixTransform = SuffixTransform.None,
 )
+
+private enum class SuffixTransform(
+    val marker: String?,
+    val cConstant: String,
+) {
+    None(null, "SUFFIX_TRANSFORM_NONE"),
+    DropETion("\$1", "SUFFIX_TRANSFORM_DROP_E_ION"),
+    DropEAtion("\$2", "SUFFIX_TRANSFORM_DROP_E_ATION"),
+}
 
 private fun magicRows(table: Table): Table = table.filterNot(::isMagicSuffixRow)
 
@@ -313,9 +323,12 @@ private fun magicSuffixStatements(suffix: String): String {
         "ation" -> {
             """
             tap_code16(KC_BSPC);
-            if (last_magic_char == 'e') {
+            if (suffix_transform_mode == SUFFIX_TRANSFORM_DROP_E_ION) {
                 tap_code16(KC_BSPC);
                 tap_code16(KC_I); tap_code16(KC_O); tap_code16(KC_N); tap_code16(KC_SPC);
+            } else if (suffix_transform_mode == SUFFIX_TRANSFORM_DROP_E_ATION) {
+                tap_code16(KC_BSPC);
+                tap_code16(KC_A); tap_code16(KC_T); tap_code16(KC_I); tap_code16(KC_O); tap_code16(KC_N); tap_code16(KC_SPC);
             } else {
                 tap_code16(KC_A); tap_code16(KC_T); tap_code16(KC_I); tap_code16(KC_O); tap_code16(KC_N); tap_code16(KC_SPC);
             }
@@ -630,25 +643,30 @@ private fun magicCommand(
                 } else {
                     cycleLiteral(output, cycleData, stringOffsetConstants)
                 }
+            val suffixTransform = if (quoted) SuffixTransform.None.cConstant else spec.suffixTransform.cConstant
             val send =
                 if (outputStartsWithPreceding) {
                     if (quoted) {
                         annotateMagicSend("magic_decode_send($offset);", emitted, output)
                     } else {
                         annotateMagicSend(
-                            "magic_decode_send_suffix_cycle($offset, $suffix, $cycleOffset);",
+                            "magic_decode_send_suffix_cycle($offset, $suffix, $cycleOffset, $suffixTransform);",
                             emitted,
                             output,
                         )
                     }
                 } else if (shouldReplace) {
                     annotateMagicSend(
-                        "magic_replace_decode_send_cap_cycle($offset, $suffix, $cycleOffset);",
+                        "magic_replace_decode_send_cap_cycle($offset, $suffix, $cycleOffset, $suffixTransform);",
                         emitted,
                         output,
                     )
                 } else {
-                    annotateMagicSend("magic_decode_send_cap_cycle($offset, $suffix, $cycleOffset);", emitted, output)
+                    annotateMagicSend(
+                        "magic_decode_send_cap_cycle($offset, $suffix, $cycleOffset, $suffixTransform);",
+                        emitted,
+                        output,
+                    )
                 }
             MagicCommand(send, reverseSafe = shouldReplace)
         }
@@ -781,7 +799,17 @@ private fun parseMagicSpec(
 ): MagicSpec {
     val forceReplace = def.startsWith(MAGIC_REPLACE_PREFIX)
     val rawDef = if (forceReplace) def.removePrefix(MAGIC_REPLACE_PREFIX).trimStart() else def
-    return MagicSpec(forceReplace, resolveMagicDefinition(rawDef, translator, pos))
+    val suffixTransform =
+        SuffixTransform.entries.firstOrNull { marker ->
+            marker.marker != null &&
+                rawDef.endsWith(marker.marker)
+        }
+    val unmarkedDef = suffixTransform?.let { rawDef.removeSuffix(it.marker!!).trimEnd() } ?: rawDef
+    return MagicSpec(
+        forceReplace,
+        resolveMagicDefinition(unmarkedDef, translator, pos),
+        suffixTransform ?: SuffixTransform.None,
+    )
 }
 
 private fun collectMagicOutputs(
@@ -1005,37 +1033,38 @@ $lookup
 
 #define MAGIC_CYCLE_NONE UINT16_MAX
 
-static inline void set_suffix_word_state(char c, uint16_t cycle_offset, bool capitalize) {
+static inline void set_suffix_word_state(char c, uint16_t cycle_offset, bool capitalize, uint8_t suffix_transform) {
     suffix_active = true;
     last_magic_char = c;
     suffix_cycle_offset = cycle_offset;
     suffix_cycle_capitalize = capitalize;
+    suffix_transform_mode = suffix_transform;
 }
 
-static void magic_decode_send_cap_cycle(uint16_t offset, char suffix, uint16_t cycle_offset) {
+static void magic_decode_send_cap_cycle(uint16_t offset, char suffix, uint16_t cycle_offset, uint8_t suffix_transform) {
     bool capitalize = magic_capitalize_next;
     if (capitalize) {
         add_oneshot_mods(MOD_BIT(KC_LSFT));
     }
     magic_decode_send(offset);
     if (suffix != '\0') {
-        set_suffix_word_state(suffix, cycle_offset, capitalize);
+        set_suffix_word_state(suffix, cycle_offset, capitalize, suffix_transform);
     }
     magic_capitalize_next = false;
 }
 
-static void magic_decode_send_suffix_cycle(uint16_t offset, char suffix, uint16_t cycle_offset) {
+static void magic_decode_send_suffix_cycle(uint16_t offset, char suffix, uint16_t cycle_offset, uint8_t suffix_transform) {
     bool capitalize = magic_capitalize_next;
     magic_decode_send(offset);
-    set_suffix_word_state(suffix, cycle_offset, capitalize);
+    set_suffix_word_state(suffix, cycle_offset, capitalize, suffix_transform);
     magic_capitalize_next = false;
 }
 
-static void magic_replace_decode_send_cap_cycle(uint16_t offset, char suffix, uint16_t cycle_offset) {
+static void magic_replace_decode_send_cap_cycle(uint16_t offset, char suffix, uint16_t cycle_offset, uint8_t suffix_transform) {
     if (magic_context_key_emitted) {
         tap_code16(KC_BSPC);
     }
-    magic_decode_send_cap_cycle(offset, suffix, cycle_offset);
+    magic_decode_send_cap_cycle(offset, suffix, cycle_offset, suffix_transform);
 }
 
 static bool process_magic_cycle_next(void) {
@@ -1055,7 +1084,7 @@ static bool process_magic_cycle_next(void) {
         add_oneshot_mods(MOD_BIT(KC_LSFT));
     }
     magic_decode_send_skip(next_offset, suffix_cycle_common_prefix_length);
-    set_suffix_word_state(next_last_char, next_offset, suffix_cycle_capitalize);
+    set_suffix_word_state(next_last_char, next_offset, suffix_cycle_capitalize, SUFFIX_TRANSFORM_NONE);
     return true;
 }
         """.trimIndent()
