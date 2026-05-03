@@ -268,7 +268,7 @@ trailing auto-space.
 | RMods |         |         |         |         |    [    |    ]    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |         |         |         |         |  dead1  |         |         |         |
-| Left  |         |         |         |         | \*CNum  | \*Case  | \*Media |         |
+| Left  |         |         |         |         |         | \*Case  | \*Media |         |
 | Left  |    :    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
 | Left  |         |         |    ;    |         | \*ANum  |  \*Num  |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -382,11 +382,6 @@ trailing auto-space.
 | ANum  |   A-8   |   A-7   |   A-6   |   A-5   |         |         |         |         |
 | ANum  |         |         |   A-9   |   A-0   |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| CNum  |         |         |         |         |         |         |         |         |
-| CNum  |   C-4   |   C-3   |   C-2   |   C-1   |         |         |         |         |
-| CNum  |   C-8   |   C-7   |   C-6   |   C-5   |         |         |         |         |
-| CNum  |         |         |   C-9   |   C-0   |   🛑    |   🛑    |         |         |
-|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Media |  dead2  |   🔅    |   🔆    |  dead1  |         |         |         |         |
 | Media |   prt   |   🔈    |   🔊    |   🔇    |         |         |         |   🛑    |
 | Media |   ver   |   ⏮️    |   ⏭️    |   ⏯️    |         |         |         |         |
@@ -413,7 +408,6 @@ The order of the options is also the order of the layers in the layer stack.
 |    FnSym     |                 |     HomeRow     |               |                | DirectComboRight |
 |     Num      |                 |      BottomRow  |               |                | TriLayer         |
 |     ANum     |                 |                 |               |                |                  |
-|     CNum     |                 |                 |               |                |                  |
 |    Media     |                 |                 |               |                |                  |
 |     Case     |                 |                 |               |                |                  |
 
