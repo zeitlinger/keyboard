@@ -143,7 +143,6 @@ private fun layerOption(tables: Tables): Map<LayerName, LayerOption> =
                     .filter { it.isNotBlank() }
                     .map { LayerFlag.valueOf(it) }
                     .toSet(),
-                it.value[6].takeUnless { it.isBlank() }?.toInt(),
                 mutableMapOf(),
             )
         }
