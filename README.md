@@ -101,8 +101,6 @@ Cell = what to emit.
   `suffix` row; the `ing` key also works with vowel-drop. `.` exits with
   one-shot shift, `,` exits without shift. Bare words may append, strip the
   repeated prefix letter, or do `⌫ + word`, depending on the preceding key.
-  Bare words may also carry a trailing transform tag for the `ation` suffix:
-  `$1` maps `...e -> ...ion`, `$2` maps `...e -> ...ation`.
 - Quoted strings (literal — no auto-space, no suffix state):
   - Preceding key is a letter and cell starts with it → strip prefix. `b` + `"because"` emits `ecause`, yielding `because`.
   - Preceding key is a letter and cell does _not_ start with it → `⌫ + cell`.
@@ -120,20 +118,20 @@ Cell = what to emit.
 
 | Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |   magic_h   |  magic_i   | magic_j |  magic_k   |
 | :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :---------: | :--------: | :-----: | :--------: |
-| suffix |     ed     |     ly     |   ation   |     n't     |       ?       |            |  ", "   |   [next]    |  " the "   |  ". "   |     s      |
+| suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |   [next]    |  " the "   |  ". "   |     s      |
 |   b    | background | basically  |           |   become    | observability |            |         |  obsolete   |  because   |    d    |   before   |
 |   c    |     n      |   "'ll "   |           |   "n't "    |       d       |   "'ve "   |         |   comment   |   "'re "   |  "'d "  |   "'s "    |
 |   d    |     c      |     h      |           |    don't    |    disable    | difficulty |         |   didn't    |  doesn't   |    f    |    does    |
 |   f    | confusing  |  conflict  |           | performance |    merged     |            |         |   focused   | following  |    d    |            |
-|   g    |   global   |     f      |           | organize$2  |    change     |  general   |         | generate$1  |     k      |    d    |  suggest   |
+|   g    |   global   |     f      |           |  organize   |    change     |  general   |         |  generate   |     k      |    d    |  suggest   |
 |   k    |     r      |  question  |           |    think    |     task      |   thanks   |         |   update    |    know    |    x    |    knew    |
-|   l    |     m      |     h      |           |  language   |    already    | available  |         | elaborate$1 |     r      |    c    |     b      |
+|   l    |     m      |     h      |           |  language   |    already    | available  |         |  elaborate  |     r      |    c    |     b      |
 |   m    |     r      |     h      |           |   migrate   |   multiple    |  mismatch  |         | instrument  |   "ment"   |    l    |     t      |
 |   n    |     r      |     h      |           |    never    |   anything    |  explain   |         | understand  |   won't    |    x    |     p      |
 |   p    |     y      |     m      |           |   people    |   probably    | important  |         | production  |     n      |    d    | Prometheus |
-|   s    |  someone   |     r      |           |  possible   |    support    |  similar   |         | separate$1  |   "sion"   |    d    | something  |
+|   s    |  someone   |     r      |           |  possible   |    support    |  similar   |         |  separate   |   "sion"   |    d    | something  |
 |   t    |     n      |     f      |           |    just     |    through    |  another   |         |   though    |   "tion"   | without |  thought   |
-|   v    | validate$1 | everything |           |   improve   |    version    |            |         |  approval   |  resolve   |  I've   |   worse    |
+|   v    |  validate  | everything |           |   improve   |    version    |            |         |  approval   |  resolve   |  I've   |   worse    |
 |   w    |   always   |   wasn't   |           |  workflow   |   otherwise   |   switch   |         |     why     |     s      |    x    |   which    |
 |   x    |            |     w      |           |   except    |   explicit    |    exit    |         |   exclude   |     r      |    d    |  example   |
 |   a    |            |            |  address  |             |               |            |    e    |   gregor    | zeitlinger | grafana |            |
@@ -161,9 +159,17 @@ trailing auto-space.
 |  disable   |     enable      |
 |   except   |    exception    |
 |  explain   |   explanation   |
+|  generate  |    generation   |
+| implement  | implementation  |
+| instrument | instrumentation |
+| elaborate  |   elaboration   |
+|  migrate   |    migration    |
+|  organize  |   organization  |
 |  possible  |   impossible    |
 |  resolve   |   resolution    |
+|  separate  |    separation   |
 |   thanks   |    thank you    |
+|  validate  |   validation    |
 
 ## Adaptives
 
