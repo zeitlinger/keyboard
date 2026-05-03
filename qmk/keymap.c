@@ -16,8 +16,7 @@ enum unicode_names {
     UMLAUT_o,
     UMLAUT_U,
     UMLAUT_u,
-    UMLAUT_s,
-    SMILEY
+    UMLAUT_s
 };
 
 const uint32_t PROGMEM unicode_map[] = {
@@ -28,7 +27,6 @@ const uint32_t PROGMEM unicode_map[] = {
     [UMLAUT_u]  = 0x00FC, // ü
     [UMLAUT_U]  = 0x00DC, // Ü
     [UMLAUT_s]  = 0x00DF, // ß
-    [SMILEY]    = 0x1F600 // 😀
 };
 
 #include "layout.h"
