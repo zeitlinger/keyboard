@@ -113,13 +113,6 @@ fun run(args: GeneratorArgs) {
     val combos = translator.combos + generateAllCombos(layers, translator)
     val comboLines = getComboLines(combos)
 
-    val timeouts =
-        combos
-            .filter { it.timeout != null }
-            .map {
-                "case ${it.name}: return ${it.timeout};"
-            }.sorted()
-
     val cycleData = readCycleData(tables)
     val encodedMagicStrings = encodeStrings(collectMagicOutputs(tables, translator) + cycleData.outputs)
     val encodedCycles = encodeCycleEntries(cycleData, encodedMagicStrings.stringOffsets)
@@ -203,7 +196,6 @@ fun run(args: GeneratorArgs) {
         File(dstDir, "generated.c"),
         mapOf(
             "generationNote" to generationNote,
-            "timeouts" to timeouts.indented(4),
             "customKeycodesOnTapPress" to customKeycodes(translator, CustomCommandType.OnTap),
             "customKeycodesOnPress" to customKeycodes(translator, CustomCommandType.OnPress),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
