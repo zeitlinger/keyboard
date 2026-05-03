@@ -17,14 +17,6 @@ static uint8_t suffix_transform_mode = SUFFIX_TRANSFORM_NONE;
 ${magicStringDecoder}
 ${magicCycleData}
 
-uint16_t get_combo_term(uint16_t index, combo_t *combo) {
-    switch(index) {
-${timeouts}
-    default:
-        return COMBO_TERM;
-    }
-}
-
 // Two-variable tracking for real logical keys.
 // prev_keycode = the prior resolved key press (what adaptives and magics check against).
 // last_keycode = the most recent resolved key press (shifts to prev_keycode on the next keypress).
