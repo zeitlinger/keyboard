@@ -7,12 +7,6 @@ int layer = _BASE;
 
 static bool magic_capitalize_next = false;
 static bool magic_context_key_emitted = true;
-enum {
-    SUFFIX_TRANSFORM_NONE = 0,
-    SUFFIX_TRANSFORM_DROP_E_ION = 1,
-    SUFFIX_TRANSFORM_DROP_E_ATION = 2,
-};
-static uint8_t suffix_transform_mode = SUFFIX_TRANSFORM_NONE;
 
 // Magic string decoder lookup tables
 #define MAGIC_STRING_APOSTROPHE_D 10

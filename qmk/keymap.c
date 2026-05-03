@@ -40,6 +40,13 @@ const uint32_t PROGMEM unicode_map[] = {
 #include "g/keymap_combo.h"
 #include "casemodes.h"
 
+enum {
+    SUFFIX_TRANSFORM_NONE = 0,
+    SUFFIX_TRANSFORM_DROP_E_ION = 1,
+    SUFFIX_TRANSFORM_DROP_E_ATION = 2,
+};
+static uint8_t suffix_transform_mode = SUFFIX_TRANSFORM_NONE;
+
 // Suffix state machine: set when a word-magic fires. Next magic press is
 // interpreted as a suffix chain (ed/ly/s/n't/ing) or exit (./,).
 static bool suffix_active = false;
