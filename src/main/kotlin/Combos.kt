@@ -31,7 +31,6 @@ data class Combo(
     var name: String,
     val result: QmkKey,
     val triggers: List<Key>,
-    val timeout: Int?,
 ) {
     companion object {
         fun of(
@@ -40,7 +39,6 @@ data class Combo(
             name: String,
             result: QmkKey,
             triggers: List<Key>,
-            timeout: Int? = 0,
         ): List<Combo> {
             if (name.contains("DEAD")) {
                 return emptyList()
@@ -54,7 +52,7 @@ data class Combo(
                     }",
                 )
             }
-            return listOf(Combo(type, name, result, triggers.sortedBy { it.keyWithModifier.key }, timeout))
+            return listOf(Combo(type, name, result, triggers.sortedBy { it.keyWithModifier.key }))
         }
     }
 }
@@ -272,7 +270,7 @@ private fun keyCombos(
     val qmkKey = translator.originalKeys[key.pos] ?: key.key
     val type = if (qmkKey.substitution != null) ComboType.Substitution else ComboType.Combo
     val name = type.name(layer.name, qmkKey.key)
-    return combos(type, source, name, qmkKey, triggers, key.comboTimeout, translator, layers, layer)
+    return combos(type, source, name, qmkKey, triggers, translator, layers, layer)
 }
 
 private fun combos(
@@ -281,13 +279,10 @@ private fun combos(
     name: String,
     content: QmkKey,
     triggers: List<Key>,
-    timeout: Int?,
     translator: QmkTranslator,
     layers: List<Layer>,
     layer: Layer,
 ): List<Combo> {
-    val keyTimeout =
-        timeout ?: layer.option.comboTimeout ?: throw IllegalStateException("no timeout for layer ${layer.name}")
     val combo =
         Combo.of(
             type,
@@ -295,7 +290,6 @@ private fun combos(
             name,
             content,
             triggers,
-            keyTimeout,
         )
 
     val shiftLayer =
@@ -306,8 +300,6 @@ private fun combos(
 
     return when {
         shiftLayer != null && isLetter(content) -> {
-            val shiftLayerTimeout =
-                shiftLayer.option.comboTimeout ?: throw IllegalStateException("no timeout for layer ${shiftLayer.name}")
             val shifted =
                 combos(
                     type,
@@ -318,7 +310,6 @@ private fun combos(
                         val position = t.pos.layerRelative()
                         shiftLayer.rows.flatten().first { it.pos.layerRelative() == position }
                     },
-                    shiftLayerTimeout,
                     translator,
                     emptyList(), // prevent recursion
                     layer,
@@ -334,7 +325,6 @@ private fun combos(
                             shiftLayer.option.reachable.keys
                                 .single(),
                         ),
-                    shiftLayerTimeout,
                     translator,
                     emptyList(), // prevent recursion
                     layer,

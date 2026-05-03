@@ -428,21 +428,21 @@ trailing auto-space.
 
 The order of the options is also the order of the layers in the layer stack.
 
-| LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags            | Combo Timeout |
-| :----------: | :-------------: | :-------------: | :-----------: | :------------: | ---------------- | :-----------: |
-|     Base     |                 |                 |               |                |                  |      200      |
-|     Left     |                 | BottomRow+LMods |     Base      |                | Shifted          |      200      |
-|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted          |      200      |
-|    LMods     |                 | BottomRow+LMods |     Base      |                |                  |      200      |
-|    RMods     | BottomRow+RMods |                 |               |      Base      |                  |      200      |
-|     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |      200      |
-|    FnSym     |                 |     HomeRow     |               |                | DirectComboRight |      200      |
-|     Num      |                 |                 |               |                | TriLayer         |      200      |
-|     Num2     |                 |     HomeRow     |      Num      |                |                  |               |
-|     ANum     |                 |                 |               |                |                  |               |
-|     CNum     |                 |                 |               |                |                  |      200      |
-|    Media     |                 |                 |               |                |                  |      200      |
-|     Case     |                 |                 |               |                |                  |               |
+| LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags            |
+| :----------: | :-------------: | :-------------: | :-----------: | :------------: | ---------------- |
+|     Base     |                 |                 |               |                |                  |
+|     Left     |                 | BottomRow+LMods |     Base      |                | Shifted          |
+|    Right     | BottomRow+RMods |                 |               |      Base      | Shifted          |
+|    LMods     |                 | BottomRow+LMods |     Base      |                |                  |
+|    RMods     | BottomRow+RMods |                 |               |      Base      |                  |
+|     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |
+|    FnSym     |                 |     HomeRow     |               |                | DirectComboRight |
+|     Num      |                 |                 |               |                | TriLayer         |
+|     Num2     |                 |     HomeRow     |      Num      |                |                  |
+|     ANum     |                 |                 |               |                |                  |
+|     CNum     |                 |                 |               |                |                  |
+|    Media     |                 |                 |               |                |                  |
+|     Case     |                 |                 |               |                |                  |
 
 ## Symbols
 

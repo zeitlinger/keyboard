@@ -84,7 +84,6 @@ data class LayerOption(
     val leftFallbackLayer: LayerName?,
     val rightFallbackLayer: LayerName?,
     var flags: Set<LayerFlag>,
-    val comboTimeout: Int?,
     var reachable: MutableMap<KeyPosition, LayerActivation>,
     var toggleOn: Boolean = false,
     var toggleOff: Boolean = false,
@@ -94,7 +93,6 @@ data class Key(
     val key: QmkKey,
     val pos: KeyPosition,
     val keyWithModifier: QmkKey = key,
-    val comboTimeout: Int? = null,
 ) {
     fun isBlocked(): Boolean = keyWithModifier.isNo
 
