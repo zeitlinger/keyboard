@@ -118,36 +118,36 @@ Cell = what to emit.
 - Row "r" is reserved for future use.  
 - Orderded by hand - thumbs last.
 
-| Magic  |  magic_a   |  magic_b   |   magic_c   |   magic_d   |    magic_e    |  magic_f   | magic_g |   magic_h    |  magic_i   | magic_j |  magic_k   |
-| :----: | :--------: | :--------: | :---------: | :---------: | :-----------: | :--------: | :-----: | :----------: | :--------: | :-----: | :--------: |
-| suffix |     ed     |     ly     |    ation    |     n't     |       ?       |            |  ", "   |    [next]    |  " the "   |  ". "   |     s      |
-|   b    | background | basically  |             |   become    | observability |            |         |   obsolete   |  because   |    d    |   before   |
-|   c    |     n      |   "'ll "   |             |   "n't "    |       d       |   "'ve "   |         |   comment    |   "'re "   |  "'d "  |   "'s "    |
-|   d    |     c      |     h      |             |    don't    |    disable    | difficulty |         |    didn't    |  doesn't   |    f    |    does    |
-|   f    | confusing  |  conflict  |             | performance |    merged     |            |         |   focused    | following  |    d    |            |
-|   g    |   global   |     f      |             | organize$2  |    change     |  general   |         |  generate$1  |     k      |    d    |  suggest   |
-|   k    |     r      |  question  |             |    think    |     task      |   thanks   |         |    update    |    know    |    x    |    knew    |
-|   l    |     m      |     h      |             |  language   |    already    | available  |         | elaborate$1  |     r      |    c    |     b      |
-|   m    |     r      |     h      |             |  migrate$1  |   multiple    |  mismatch  |         | instrument$2 |   "ment"   |    l    |     t      |
-|   n    |     r      |     h      |             |    never    |   anything    |  explain   |         |  understand  |   won't    |    x    |     p      |
-|   p    |     y      |     m      |             |   people    |   probably    | important  |         |  production  |     n      |    d    | Prometheus |
-|   s    |  someone   |     r      |             |  possible   |    support    |  similar   |         |  separate$1  |   "sion"   |    d    | something  |
-|   t    |     n      |     f      |             |    just     |    through    |  another   |         |    though    |   "tion"   | without |  thought   |
-|   v    | validate$1 | everything |             |   improve   |    version    |            |         |   approval   |  resolve   |  I've   |   worse    |
-|   w    |   always   |   wasn't   |             |  workflow   |   otherwise   |   switch   |         |     why      |     s      |    x    |   which    |
-|   x    |            |     w      |             |   except    |   explicit    |    exit    |         |   exclude    |     r      |    d    |  example   |
-|   a    |            |            |   address   |             |               |            |    e    |    gregor    | zeitlinger | grafana |            |
-|   e    |            |            |      u      |             |               |            |    h    |     LGTM     |            |         |            |
-|   i    |            |            | implement$2 |             |               |            | "impl"  |   #@gmail    |    #@gl    | #@zeit  |            |
-|   h    |            |            |             |             |               |            |  "qu"   |              |            |         |            |
-|   u    |            |            |             |             |               |            |    h    |              |            |         |            |
-|   o    |            |            |      e      |             |               |            |    h    |              |            |         |            |
-|   y    |            |            |      r      |             |               |            |  only   |              |            |         |            |
-|  tab   |            |            |             |             |               |            |         |     and      |    the     |         |            |
-| enter  |            |            |             |             |               |            |         |     and      |    the     |         |            |
-|   ,    |            |            |             |             |               |            |         |   " and "    |  " but "   |         |            |
-|  spc   |            |            |  [dotSpc]   |             |               |            |   ⌫z    |     and      |    the     |         |            |
-|   r    |     "      |     ⌫q     |             |   ⌫"n't"    |      ⌫?       |     x      |   ⌫!    |      ⌫'      |     ⌫,     |   ⌫.    |     ⌫j     |
+| Magic  |  magic_a   |  magic_b   |   magic_c   |   magic_d   |    magic_e    |  magic_f   |  magic_g   |   magic_h    |  magic_i   | magic_j |  magic_k   |
+| :----: | :--------: | :--------: | :---------: | :---------: | :-----------: | :--------: |:----------:| :----------: | :--------: | :-----: | :--------: |
+| suffix |     ed     |     ly     |    ation    |     n't     |       ?       |            |    ", "    |    [next]    |  " the "   |  ". "   |     s      |
+|   b    | background | basically  |             |   become    | observability |            |            |   obsolete   |  because   |    d    |   before   |
+|   c    |     n      |   "'ll "   |             |   "n't "    |       d       |   "'ve "   |            |   comment    |   "'re "   |  "'d "  |   "'s "    |
+|   d    |     c      |     h      |             |    don't    |    disable    | difficulty | consider$2 |    didn't    |  doesn't   |    f    |    does    |
+|   f    | confusing  |  conflict  |             | performance |    merged     |            |            |   focused    | following  |    d    |            |
+|   g    |   global   |     f      |             | organize$2  |    change     |  general   |            |  generate$1  |     k      |    d    |  suggest   |
+|   k    |     r      |  question  |             |    think    |     task      |   thanks   |            |    update    |    know    |    x    |    knew    |
+|   l    |     m      |     h      |             |  language   |    already    | available  |            | elaborate$1  |     r      |    c    |     b      |
+|   m    |     r      |     h      |             |  migrate$1  |   multiple    |  mismatch  |            | instrument$2 |   "ment"   |    l    |     t      |
+|   n    |     r      |     h      |             |    never    |   anything    |  explain   |            |  understand  |   won't    |    x    |     p      |
+|   p    |     y      |     m      |             |   people    |   probably    | important  |            |  production  |     n      |    d    | Prometheus |
+|   s    |  someone   |     r      |             |  possible   |    support    |  similar   |            |  separate$1  |   "sion"   |    d    | something  |
+|   t    |     n      |     f      |             |    just     |    through    |  another   |            |    though    |   "tion"   | without |  thought   |
+|   v    | validate$1 | everything |             |   improve   |    version    |            |            |   approval   |  resolve   |  I've   |   worse    |
+|   w    |   always   |   wasn't   |             |  workflow   |   otherwise   |   switch   |            |     why      |     s      |    x    |   which    |
+|   x    |            |     w      |             |   except    |   explicit    |    exit    |            |   exclude    |     r      |    d    |  example   |
+|   a    |            |            |   address   |             |               |            |     e      |    gregor    | zeitlinger | grafana |            |
+|   e    |            |            |      u      |             |               |            |     h      |     LGTM     |            |         |            |
+|   i    |            |            | implement$2 |             |               |            |   "impl"   |   #@gmail    |    #@gl    | #@zeit  |            |
+|   h    |            |            |             |             |               |            |    "qu"    |              |            |         |            |
+|   u    |            |            |             |             |               |            |     h      |              |            |         |            |
+|   o    |            |            |      e      |             |               |            |     h      |              |            |         |            |
+|   y    |            |            |      r      |             |               |            |    only    |              |            |         |            |
+|  tab   |            |            |             |             |               |            |            |     and      |    the     |         |            |
+| enter  |            |            |             |             |               |            |            |     and      |    the     |         |            |
+|   ,    |            |            |             |             |               |            |            |   " and "    |  " but "   |         |            |
+|  spc   |            |            |  [dotSpc]   |             |               |            |     ⌫z     |     and      |    the     |         |            |
+|   r    |     "      |     ⌫q     |             |   ⌫"n't"    |      ⌫?       |     x      |     ⌫!     |      ⌫'      |     ⌫,     |   ⌫.    |     ⌫j     |
 
 ## Cycle
 

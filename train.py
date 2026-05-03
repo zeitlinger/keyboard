@@ -78,6 +78,8 @@ def canonical_trigger(row: str, column: str) -> str:
 
 def normalize_output(cell: str) -> str | None:
     text = cell.strip()
+    if text.find("$") != -1:
+        text = text.split("$", 1)[0].strip()
     if not text or text.startswith("["):
         return None
     if text.startswith('"') and text.endswith('"'):
