@@ -66,12 +66,14 @@ static inline void set_suffix_state(char c) {
     last_magic_char = c;
     suffix_cycle_offset = UINT16_MAX;
     suffix_cycle_capitalize = false;
+    suffix_transform_mode = SUFFIX_TRANSFORM_NONE;
 }
 
 static inline void clear_suffix_cycle_state(void) {
     suffix_cycle_offset = UINT16_MAX;
     suffix_cycle_capitalize = false;
     suffix_cycle_common_prefix_length = 0;
+    suffix_transform_mode = SUFFIX_TRANSFORM_NONE;
 }
 
 static inline void clear_suffix_state(void) {
