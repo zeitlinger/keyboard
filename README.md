@@ -116,36 +116,36 @@ Cell = what to emit.
 - Row "r" is reserved for future use.  
 - Orderded by hand - thumbs last.
 
-| Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |   magic_h   |  magic_i   | magic_j |  magic_k   |
-| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :---------: | :--------: | :-----: | :--------: |
-| suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |   [next]    |  " the "   |  ". "   |     s      |
-|   b    | background | basically  |           |   become    | observability |            |         |  obsolete   |  because   |    d    |   before   |
-|   c    |     n      |   "'ll "   |           |   "n't "    |       d       |   "'ve "   |         |   comment   |   "'re "   |  "'d "  |   "'s "    |
-|   d    |     c      |     h      |           |    don't    |    disable    | difficulty |         |   didn't    |  doesn't   |    f    |    does    |
-|   f    | confusing  |  conflict  |           | performance |    merged     |            |         |   focused   | following  |    d    |            |
-|   g    |   global   |     f      |           |  organize   |    change     |  general   |         |  generate   |     k      |    d    |  suggest   |
-|   k    |     r      |  question  |           |    think    |     task      |   thanks   |         |   update    |    know    |    x    |    knew    |
-|   l    |     m      |     h      |           |  language   |    already    | available  |         |  elaborate  |     r      |    c    |     b      |
-|   m    |     r      |     h      |           |   migrate   |   multiple    |  mismatch  |         | instrument  |   "ment"   |    l    |     t      |
-|   n    |     r      |     h      |           |    never    |   anything    |  explain   |         | understand  |   won't    |    x    |     p      |
-|   p    |     y      |     m      |           |   people    |   probably    | important  |         | production  |     n      |    d    | Prometheus |
-|   s    |  someone   |     r      |           |  possible   |    support    |  similar   |         |  separate   |   "sion"   |    d    | something  |
-|   t    |     n      |     f      |           |    just     |    through    |  another   |         |   though    |   "tion"   | without |  thought   |
-|   v    |  validate  | everything |           |   improve   |    version    |            |         |  approval   |  resolve   |  I've   |   worse    |
-|   w    |   always   |   wasn't   |           |  workflow   |   otherwise   |   switch   |         |     why     |     s      |    x    |   which    |
-|   x    |            |     w      |           |   except    |   explicit    |    exit    |         |   exclude   |     r      |    d    |  example   |
-|   a    |            |            |  address  |             |               |            |    e    |   gregor    | zeitlinger | grafana |            |
-|   e    |            |            |     u     |             |               |            |    h    |   LGTM      |            |         |            |
-|   i    |            |            | implement |             |               |            | "impl"  |   #@gmail   |    #@gl    | #@zeit  |            |
-|   h    |            |            |           |             |               |            |  "qu"   |             |            |         |            |
-|   u    |            |            |           |             |               |            |    h    |             |            |         |            |
-|   o    |            |            |     e     |             |               |            |    h    |             |            |         |            |
-|   y    |            |            |     r     |             |               |            |  only   |             |            |         |            |
-|  tab   |            |            |           |             |               |            |         |     and     |    the     |         |            |
-| enter  |            |            |           |             |               |            |         |     and     |    the     |         |            |
-|   ,    |            |            |           |             |               |            |         |   " and "   |  " but "   |         |            |
-|  spc   |            |            | [dotSpc]  |             |               |            |   ⌫z    |     and     |    the     |         |            |
-|   r    |     "      |     ⌫q     |           |   ⌫"n't"    |      ⌫?       |     x      |   ⌫!    |     ⌫'      |     ⌫,     |   ⌫.    |     ⌫j     |
+| Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |  magic_h   |  magic_i   | magic_j |  magic_k   |
+| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :--------: | :--------: | :-----: | :--------: |
+| suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |   [next]   |  " the "   |  ". "   |     s      |
+|   b    | background | basically  |           |   become    | observability |            |         |  obsolete  |  because   |    d    |   before   |
+|   c    |     n      |   "'ll "   |           |   "n't "    |       d       |   "'ve "   |         |  comment   |   "'re "   |  "'d "  |   "'s "    |
+|   d    |     c      |     h      |           |    don't    |    disable    | difficulty |         |   didn't   |  doesn't   |    f    |    does    |
+|   f    | confusing  |  conflict  |           | performance |    merged     |            |         |  focused   | following  |    d    |            |
+|   g    |   global   |     f      |           |  organize   |    change     |  general   |         |  generate  |     k      |    d    |  suggest   |
+|   k    |     r      |  question  |           |    think    |     task      |   thanks   |         |   update   |    know    |    x    |    knew    |
+|   l    |     m      |     h      |           |  language   |    already    | available  |         | elaborate  |     r      |    c    |     b      |
+|   m    |     r      |     h      |           |   migrate   |   multiple    |  mismatch  |         | instrument |   "ment"   |    l    |     t      |
+|   n    |     r      |     h      |           |    never    |   anything    |  explain   |         | understand |   won't    |    x    |     p      |
+|   p    |     y      |     m      |           |   people    |   probably    | important  |         | production |     n      |    d    | Prometheus |
+|   s    |  someone   |     r      |           |  possible   |    support    |  similar   |         |  separate  |   "sion"   |    d    | something  |
+|   t    |     n      |     f      |           |    just     |    through    |  another   |         |   though   |   "tion"   | without |  thought   |
+|   v    |  validate  | everything |           |   improve   |    version    |            |         |  approval  |  resolve   |  I've   |   worse    |
+|   w    |   always   |   wasn't   |           |  workflow   |   otherwise   |   switch   |         |    why     |     s      |    x    |   which    |
+|   x    |            |     w      |           |   except    |   explicit    |    exit    |         |  exclude   |     r      |    d    |  example   |
+|   a    |            |            |  address  |             |               |            |    e    |   gregor   | zeitlinger | grafana |            |
+|   e    |            |            |     u     |             |               |            |    h    |    LGTM    |            |         |            |
+|   i    |            |            | implement |             |               |            | "impl"  |  #@gmail   |    #@gl    | #@zeit  |            |
+|   h    |            |            |           |             |               |            |  "qu"   |            |            |         |            |
+|   u    |            |            |           |             |               |            |    h    |            |            |         |            |
+|   o    |            |            |     e     |             |               |            |    h    |            |            |         |            |
+|   y    |            |            |     r     |             |               |            |  only   |            |            |         |            |
+|  tab   |            |            |           |             |               |            |         |    and     |    the     |         |            |
+| enter  |            |            |           |             |               |            |         |    and     |    the     |         |            |
+|   ,    |            |            |           |             |               |            |         |  " and "   |  " but "   |         |            |
+|  spc   |            |            | [dotSpc]  |             |               |            |   ⌫z    |    and     |    the     |         |            |
+|   r    |     "      |     ⌫q     |           |   ⌫"n't"    |      ⌫?       |     x      |   ⌫!    |     ⌫'     |     ⌫,     |   ⌫.    |     ⌫j     |
 
 ## Cycle
 
@@ -217,7 +217,7 @@ trailing auto-space.
 ## Layout
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
-| :---: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |:-------:|
+| :---: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
 | Base  |   esc   |    x    |    w    |  dead3  |  dead2  | magic_a | magic_b |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | \*Right |    f    |    l    |    d    |    u    |    o    |    y    | \*Left  |
@@ -248,7 +248,7 @@ trailing auto-space.
 | Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |   \_    |
 | Right |         |         |  A-f7   |   C-n   |    [    |    ]    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
- | Right |         |         |         |         |    @    |         |         |         |
+| Right |         |         |         |         |    @    |         |         |         |
 | Right |         |         |         |   💎    |   💎    |         |         |         |
 | Right |         |         |         |  CS-r   |    '    |         |         |         |
 | Right |         |         |         |         |         |         |         |         |
@@ -289,7 +289,7 @@ trailing auto-space.
 | LMods |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |  dead2  |   f10   |   f9    |  dead2  |  dead3  |    (    |    )    |  dead1  |
-| FnSym |   f4    |   f3    |   f2    |   f1    |   🛑    |   🛑    |   🛑    |  =      |
+| FnSym |   f4    |   f3    |   f2    |   f1    |   🛑    |   🛑    |   🛑    |    =    |
 | FnSym |   f8    |   f7    |   f6    |   f5    |    -    |    {    |    }    |  \*Num  |
 | FnSym |         |         |         |   f12   |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -412,7 +412,7 @@ The order of the options is also the order of the layers in the layer stack.
 |    RMods     | BottomRow+RMods |                 |               |      Base      |                  |
 |     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |
 |    FnSym     |                 |     HomeRow     |               |                | DirectComboRight |
-|     Num      |                 |      BottomRow  |               |                | TriLayer         |
+|     Num      |                 |    BottomRow    |               |                | TriLayer         |
 |     ANum     |                 |                 |               |                |                  |
 |    Media     |                 |                 |               |                |                  |
 |     Case     |                 |                 |               |                |                  |
