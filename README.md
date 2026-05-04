@@ -136,7 +136,7 @@ Cell = what to emit.
 |   x    | exception  |     w      |           |   except    |   explicit    |    exit    |         |  exclude   |     r     |    d    |  example   |
 |   a    |            |            |  address  |             |               |            |    e    |            |           |         |            |
 |   e    |            |            |     u     |             |               |            |    h    |            |           |         |            |
-|   h    |            |            |           |             |               |            |  "qu"   |            |           |         |            |  
+|   h    |            |            |           |             |               |            |  "qu"   |            |           |         |            |
 |   i    |            |            | implement |             |               |            | "impl"  |            |           |         |            |
 |   o    |            |            |     e     |             |               |            |    h    |            |           |         |            |
 |   u    |            |            |    #g     |             |               |            |    h    |            |           |         |            |
