@@ -55,12 +55,18 @@ static uint16_t pending_magic_trigger = KC_NO;
 static uint16_t suppressed_magic_trigger = KC_NO;
 static uint16_t suppressed_partner_keycode = KC_NO;
 static uint16_t pending_magic_timer = 0;
+static uint16_t suppressed_magic_timer = 0;
+static uint16_t suppressed_partner_timer = 0;
 
 #define MAGIC_CONTEXT_HISTORY 3
 static uint16_t magic_context_history[MAGIC_CONTEXT_HISTORY] = {KC_NO, KC_NO, KC_NO};
 
 #ifndef MAGIC_CHORD_TERM
 #define MAGIC_CHORD_TERM 30
+#endif
+
+#ifndef MAGIC_SUPPRESSION_TERM
+#define MAGIC_SUPPRESSION_TERM 250
 #endif
 
 static inline void set_suffix_state(char c) {
@@ -88,11 +94,27 @@ static inline bool pending_magic_within_term(void) {
 static inline void clear_pending_magic(void) {
     pending_magic_trigger = KC_NO;
     suppressed_magic_trigger = KC_NO;
+    suppressed_magic_timer = 0;
 }
 
 static inline void clear_pending_magic_if_expired(void) {
     if (pending_magic_trigger != KC_NO && timer_elapsed(pending_magic_timer) >= MAGIC_CHORD_TERM) {
         clear_pending_magic();
+    }
+}
+
+static inline void clear_suppressed_partner(void) {
+    suppressed_partner_keycode = KC_NO;
+    suppressed_partner_timer = 0;
+}
+
+static inline void clear_stale_suppressed_keys(void) {
+    if (suppressed_magic_trigger != KC_NO && timer_elapsed(suppressed_magic_timer) >= MAGIC_SUPPRESSION_TERM) {
+        suppressed_magic_trigger = KC_NO;
+        suppressed_magic_timer = 0;
+    }
+    if (suppressed_partner_keycode != KC_NO && timer_elapsed(suppressed_partner_timer) >= MAGIC_SUPPRESSION_TERM) {
+        clear_suppressed_partner();
     }
 }
 
@@ -244,6 +266,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
+    clear_stale_suppressed_keys();
     clear_pending_magic_if_expired();
     bool magic_active = is_magic_layer_active();
     if (!magic_active) {
@@ -252,11 +275,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     if (!record->event.pressed) {
         if (keycode == suppressed_partner_keycode) {
-            suppressed_partner_keycode = KC_NO;
+            clear_suppressed_partner();
             return false;
         }
         if (keycode == suppressed_magic_trigger) {
             suppressed_magic_trigger = KC_NO;
+            suppressed_magic_timer = 0;
             return false;
         }
     } else {
@@ -267,6 +291,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (has_reverse_magic_key_with_context(pending_magic_trigger, keycode)) {
                 uint16_t trigger = pending_magic_trigger;
                 suppressed_partner_keycode = keycode;
+                suppressed_partner_timer = timer_read();
                 clear_pending_magic();
                 remember_real_keycode(keycode);
                 return process_magic_key_with_context(trigger, keycode, false, false);
@@ -293,6 +318,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             pending_magic_trigger = keycode;
             suppressed_magic_trigger = keycode;
             pending_magic_timer = timer_read();
+            suppressed_magic_timer = pending_magic_timer;
             return false;
         }
         remember_magic_preceding_press(keycode);
@@ -376,6 +402,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     layer = get_highest_layer(state);
     if (layer != _BASE) {
         clear_pending_magic();
+        clear_suppressed_partner();
     }
     switch (layer) {
     case _BASE:
