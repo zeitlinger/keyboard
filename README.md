@@ -133,7 +133,7 @@ Cell = what to emit.
 |   t    |     n      |     f      |           |    just     |    through    |  another   |         |   though   |  "tion"   | without |  thought   |
 |   v    |  validate  | everything |           |   improve   |    version    |            |         |  approval  |  resolve  |  I've   |   worse    |
 |   w    |   always   |   wasn't   |           |  workflow   |   otherwise   |   switch   |         |    why     |     s     |    x    |   which    |
-|   x    | exception  |     w      |           |   except    |   explicit    |    exit    |         |  exclude   |     r     |    d    |  example   |
+|   x    | exception  |     w      |           |   except    |   explicit    |  exclude   |         |    exit    |     r     |    d    |  example   |
 |   a    |            |            |  address  |             |               |            |    e    |            |           |         |            |
 |   e    |            |            |     u     |             |               |            |    h    |            |           |         |            |
 |   h    |            |            |           |             |               |            |  "qu"   |            |           |         |            |
@@ -237,7 +237,7 @@ trailing auto-space.
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |  dead3  |    "    |    q    |         |
 | Right |         |         |   C-f   |   C-r   |         |         |         |         |
-| Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |   \_    |
+| Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |    j    |
 | Right |         |         |  A-f7   |   C-n   |    [    |    ]    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |    @    |         |         |         |
@@ -245,7 +245,7 @@ trailing auto-space.
 | Right |         |         |         |  CS-r   |    '    |         |         |         |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right |         |         |         |         |         |   n't   |         |         |
+| Right |         |         |    !    |         |         |   n't   |         |         |
 | Right |         |         |   💎    |         |         |   💎    |         |         |
 | Right |         |         |  CS-f   |         |         |    ,    |         |         |
 | Right |         |         |         |         |         |         |         |         |
@@ -257,7 +257,7 @@ trailing auto-space.
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |         |         |         |    `    |
 | Right |         |         |         |         |         |         |         |   💎    |
-| Right |         |         |         |         |         |         |         |    j    |
+| Right |         |         |         |         |         |         |         |   \_    |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | RMods |         |         |         |         |         |    .    |    q    |         |
@@ -267,18 +267,13 @@ trailing auto-space.
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |         |         |         |         |  dead1  |         |         |         |
 | Left  |         |         |         |         | \*CNum  | \*Case  | \*Media |         |
-| Left  |    :    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
+| Left  |    z    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
 | Left  |         |         |    ;    |         | \*ANum  |  \*Num  |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Left  |    !    |         |         |         |         |         |         |         |
+| Left  |   qu    |         |         |         |         |         |         |         |
 | Left  |   💎    |         |         |         |         |         |         |         |
-| Left  |    z    |         |         |         |         |         |         |         |
+| Left  |    :    |         |         |         |         |         |         |         |
 | Left  |         |         |         |         |         |         |         |         |
-|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| LMods |         |         |         |         |         |         |         |         |
-| LMods |         |         |         |         |         |         |         |         |
-| LMods |    z    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
-| LMods |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |  dead2  |   f10   |   f9    |  dead2  |  dead3  |    (    |    )    |  dead1  |
 | FnSym |   f4    |   f3    |   f2    |   f1    |   🛑    |   🛑    |   🛑    | =+Num2  |
