@@ -54,9 +54,9 @@ static uint8_t suffix_cycle_common_prefix_length = 0;
 static uint16_t pending_magic_trigger = KC_NO;
 static uint16_t suppressed_magic_trigger = KC_NO;
 static uint16_t suppressed_partner_keycode = KC_NO;
-static uint16_t pending_magic_timer = 0;
-static uint16_t suppressed_magic_timer = 0;
-static uint16_t suppressed_partner_timer = 0;
+static uint32_t pending_magic_timer = 0;
+static uint32_t suppressed_magic_timer = 0;
+static uint32_t suppressed_partner_timer = 0;
 
 #define MAGIC_CONTEXT_HISTORY 3
 static uint16_t magic_context_history[MAGIC_CONTEXT_HISTORY] = {KC_NO, KC_NO, KC_NO};
@@ -88,7 +88,7 @@ static inline void clear_suffix_state(void) {
 }
 
 static inline bool pending_magic_within_term(void) {
-    return pending_magic_trigger != KC_NO && timer_elapsed(pending_magic_timer) < MAGIC_CHORD_TERM;
+    return pending_magic_trigger != KC_NO && timer_elapsed32(pending_magic_timer) < MAGIC_CHORD_TERM;
 }
 
 static inline void clear_pending_magic(void) {
@@ -98,7 +98,7 @@ static inline void clear_pending_magic(void) {
 }
 
 static inline void clear_pending_magic_if_expired(void) {
-    if (pending_magic_trigger != KC_NO && timer_elapsed(pending_magic_timer) >= MAGIC_CHORD_TERM) {
+    if (pending_magic_trigger != KC_NO && timer_elapsed32(pending_magic_timer) >= MAGIC_CHORD_TERM) {
         clear_pending_magic();
     }
 }
@@ -109,11 +109,11 @@ static inline void clear_suppressed_partner(void) {
 }
 
 static inline void clear_stale_suppressed_keys(void) {
-    if (suppressed_magic_trigger != KC_NO && timer_elapsed(suppressed_magic_timer) >= MAGIC_SUPPRESSION_TERM) {
+    if (suppressed_magic_trigger != KC_NO && timer_elapsed32(suppressed_magic_timer) >= MAGIC_SUPPRESSION_TERM) {
         suppressed_magic_trigger = KC_NO;
         suppressed_magic_timer = 0;
     }
-    if (suppressed_partner_keycode != KC_NO && timer_elapsed(suppressed_partner_timer) >= MAGIC_SUPPRESSION_TERM) {
+    if (suppressed_partner_keycode != KC_NO && timer_elapsed32(suppressed_partner_timer) >= MAGIC_SUPPRESSION_TERM) {
         clear_suppressed_partner();
     }
 }
@@ -291,7 +291,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (has_reverse_magic_key_with_context(pending_magic_trigger, keycode)) {
                 uint16_t trigger = pending_magic_trigger;
                 suppressed_partner_keycode = keycode;
-                suppressed_partner_timer = timer_read();
+                suppressed_partner_timer = timer_read32();
                 clear_pending_magic();
                 remember_real_keycode(keycode);
                 return process_magic_key_with_context(trigger, keycode, false, false);
@@ -317,7 +317,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             pending_magic_trigger = keycode;
             suppressed_magic_trigger = keycode;
-            pending_magic_timer = timer_read();
+            pending_magic_timer = timer_read32();
             suppressed_magic_timer = pending_magic_timer;
             return false;
         }
