@@ -123,7 +123,7 @@ Cell = what to emit.
 |   c    |     n      |   "'ll "   |           |   "n't "    |       d       |   "'ve "   |         |  comment   |  "'re "   |  "'d "  |   "'s "    |
 |   d    |     c      |     h      |           |    don't    |    disable    | difficulty |         |   didn't   |  doesn't  |    f    |    does    |
 |   f    | confusing  |  conflict  |           | performance |    merged     |            |         |  focused   | following |    d    |            |
-|   g    |   global   |     f      |           |  organize   |    change     |  general   |         |  generate  |     k     |    d    |  suggest   |
+|   g    |   global   |     f      |           |  organize   |    change     |     t      |         |  generate  |     k     |    d    |  suggest   |
 |   k    |     r      |  question  |           |    think    |     task      |   thanks   |         |   update   |   know    |    x    |    knew    |
 |   l    |     m      |     h      |           |  language   |    already    | available  |         | elaborate  |     r     |    c    |     b      |
 |   m    |     r      |     h      |           |  migration  |   multiple    |  mismatch  |         | instrument |  "ment"   |    l    |     t      |
@@ -165,51 +165,52 @@ trailing auto-space.
 
 ## Adaptives
 
-| Adaptives | Key | Output |
-| :-------: | :-: | :----: |
-|     a     |  e  |   u    |
-|     b     |  d  |   s    |
-|     c     |  d  |   c    |
-|     c     |  n  |   k    |
-|     d     |  c  |   v    |
-|     d     |  f  |   d    |
-|     d     |  h  |   g    |
-|     e     |  h  |   e    |
-|     e     |  u  |   o    |
-|     f     |  d  |   f    |
-|     g     |  d  |   n    |
-|     g     |  f  |   l    |
-|     k     |  r  |   n    |
-|     l     |  b  |   k    |
-|     l     |  c  |   v    |
-|     l     |  h  |   p    |
-|     l     |  r  |   l    |
-|     m     |  h  |   m    |
-|     m     |  r  |   p    |
-|     m     |  t  |   b    |
-|     n     |  h  |   n    |
-|     n     |  p  |   k    |
-|     n     |  r  |   g    |
-|     n     |  x  |   l    |
-|     o     |  h  |   o    |
-|     p     |  d  |   l    |
-|     p     |  n  |   p    |
-|     p     |  y  |   s    |
-|     r     |  x  |   r    |
-|     s     |  d  |   p    |
-|     s     |  r  |   s    |
-|     t     |  f  |   w    |
-|     t     |  n  |   t    |
-|     u     |  h  |   a    |
-|     w     |  x  |   n    |
-|     x     |  d  |   c    |
-|     x     |  w  |   p    |
-|     y     |  r  |   i    |
+| Adaptives |  Key  | Output |
+| :-------: | :---: | :----: |
+|     a     |   e   |   u    |
+|     b     |   d   |   s    |
+|     c     |   d   |   c    |
+|     c     |   n   |   k    |
+|     d     |   c   |   v    |
+|     d     |   f   |   d    |
+|     d     |   h   |   g    |
+|     e     |   h   |   e    |
+|     e     |   u   |   o    |
+|     f     |   d   |   f    |
+|     g     |   d   |   n    |
+|     g     |   f   |   l    |
+|     g     |   t   |   g    |
+|     k     |   r   |   n    |
+|     l     |   b   |   k    |
+|     l     |   c   |   v    |
+|     l     |   h   |   p    |
+|     l     |   r   |   l    |
+|     m     |   h   |   m    |
+|     m     |   r   |   p    |
+|     m     |   t   |   b    |
+|     n     |   h   |   n    |
+|     n     |   p   |   k    |
+|     n     |   r   |   g    |
+|     n     |   x   |   l    |
+|     o     |   h   |   o    |
+|     p     |   d   |   l    |
+|     p     |   n   |   p    |
+|     p     |   y   |   s    |
+|     r     |   x   |   r    |
+|     s     |   d   |   p    |
+|     s     |   r   |   s    |
+|     t     |   f   |   w    |
+|     t     |   n   |   t    |
+|     u     |   h   |   a    |
+|     w     |   x   |   n    |
+|     x     |   d   |   c    |
+|     x     |   w   |   p    |
+|     y     |   r   |   i    |
 
 ## Layout
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
-| :---: |:-------:| :-----: |:-------:| :-----: | :-----: | :-----: | :-----: | :-----: |
+| :---: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
 | Base  |   esc   |    x    |    w    |  dead3  |  dead2  | magic_a | magic_b |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | \*Right |    f    |    l    |    d    |    u    |    o    |    y    | \*Left  |
