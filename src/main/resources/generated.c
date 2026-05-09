@@ -27,7 +27,6 @@ ${timeouts}
 // Combo components like KC_C from P=KC_C+KC_X are never recorded — only KC_P is.
 static uint16_t prev_keycode = KC_NO;
 static uint16_t last_keycode = KC_NO;
-static uint16_t last_keycode_timer = 0;
 static uint16_t last_magic_trigger = KC_NO;
 static uint16_t last_magic_repeat_keycode = KC_NO;
 static uint16_t magic_remembered_keycode = KC_NO;
@@ -66,7 +65,6 @@ ${magicRepeats}
 static void remember_real_keycode(uint16_t keycode) {
     prev_keycode = last_keycode;
     last_keycode = keycode;
-    last_keycode_timer = timer_read();
     last_magic_trigger = KC_NO;
     last_magic_repeat_keycode = KC_NO;
 }
@@ -116,58 +114,6 @@ static bool is_magic_keycode(uint16_t keycode) {
     switch (keycode) {
 ${magicExclusions}
             return true;
-    default:
-        return false;
-    }
-}
-
-static uint32_t magic_context_bit(uint16_t keycode) {
-    switch (keycode) {
-${magicContextBits}
-    default:
-        return 0;
-    }
-}
-
-static bool has_magic_key_with_context(uint16_t keycode, uint16_t context_keycode) {
-    uint32_t context_bit = magic_context_bit(unshift_letter_keycode(context_keycode));
-    if (context_bit == 0) {
-        return false;
-    }
-    switch (keycode) {
-${magicPairMasks}
-    default:
-        return false;
-    }
-}
-
-static bool has_reverse_magic_key_with_context(uint16_t keycode, uint16_t context_keycode) {
-    uint32_t context_bit = magic_context_bit(unshift_letter_keycode(context_keycode));
-    if (context_bit == 0) {
-        return false;
-    }
-    switch (keycode) {
-${reverseMagicPairMasks}
-    default:
-        return false;
-    }
-}
-
-static uint16_t magic_combo_component_bit(uint16_t keycode) {
-    switch (keycode) {
-${magicComboComponentBits}
-    default:
-        return 0;
-    }
-}
-
-static bool is_magic_combo_component_for(uint16_t keycode, uint16_t component_keycode) {
-    uint16_t component_bit = magic_combo_component_bit(component_keycode);
-    if (component_bit == 0) {
-        return false;
-    }
-    switch (keycode) {
-${magicComboComponentMasks}
     default:
         return false;
     }

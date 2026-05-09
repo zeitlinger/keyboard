@@ -49,26 +49,6 @@ static char last_magic_char = 0;
 static uint16_t suffix_cycle_offset = UINT16_MAX;
 static bool suffix_cycle_capitalize = false;
 static uint8_t suffix_cycle_common_prefix_length = 0;
-// Reverse-order magic fallback: a magic key can wait briefly for a following
-// partner key, but only when there is no fresh previous+magic interpretation.
-static uint16_t pending_magic_trigger = KC_NO;
-static uint16_t suppressed_magic_trigger = KC_NO;
-static uint16_t suppressed_partner_keycode = KC_NO;
-static uint32_t pending_magic_timer = 0;
-static uint32_t suppressed_magic_timer = 0;
-static uint32_t suppressed_partner_timer = 0;
-
-#define MAGIC_CONTEXT_HISTORY 3
-static uint16_t magic_context_history[MAGIC_CONTEXT_HISTORY] = {KC_NO, KC_NO, KC_NO};
-
-#ifndef MAGIC_CHORD_TERM
-#define MAGIC_CHORD_TERM 30
-#endif
-
-#ifndef MAGIC_SUPPRESSION_TERM
-#define MAGIC_SUPPRESSION_TERM 250
-#endif
-
 static inline void set_suffix_state(char c) {
     suffix_active = true;
     last_magic_char = c;
@@ -85,37 +65,6 @@ static inline void clear_suffix_cycle_state(void) {
 static inline void clear_suffix_state(void) {
     suffix_active = false;
     clear_suffix_cycle_state();
-}
-
-static inline bool pending_magic_within_term(void) {
-    return pending_magic_trigger != KC_NO && timer_elapsed32(pending_magic_timer) < MAGIC_CHORD_TERM;
-}
-
-static inline void clear_pending_magic(void) {
-    pending_magic_trigger = KC_NO;
-    suppressed_magic_trigger = KC_NO;
-    suppressed_magic_timer = 0;
-}
-
-static inline void clear_pending_magic_if_expired(void) {
-    if (pending_magic_trigger != KC_NO && timer_elapsed32(pending_magic_timer) >= MAGIC_CHORD_TERM) {
-        clear_pending_magic();
-    }
-}
-
-static inline void clear_suppressed_partner(void) {
-    suppressed_partner_keycode = KC_NO;
-    suppressed_partner_timer = 0;
-}
-
-static inline void clear_stale_suppressed_keys(void) {
-    if (suppressed_magic_trigger != KC_NO && timer_elapsed32(suppressed_magic_timer) >= MAGIC_SUPPRESSION_TERM) {
-        suppressed_magic_trigger = KC_NO;
-        suppressed_magic_timer = 0;
-    }
-    if (suppressed_partner_keycode != KC_NO && timer_elapsed32(suppressed_partner_timer) >= MAGIC_SUPPRESSION_TERM) {
-        clear_suppressed_partner();
-    }
 }
 
 static inline void tap_dot_space(void) {
@@ -141,33 +90,6 @@ static inline void tap_ing(void) {
 }
 
 #include "generated.c"
-
-static inline void remember_magic_preceding_press(uint16_t keycode) {
-    for (uint8_t i = MAGIC_CONTEXT_HISTORY - 1; i > 0; i--) {
-        magic_context_history[i] = magic_context_history[i - 1];
-    }
-    magic_context_history[0] = keycode;
-}
-
-static inline uint16_t find_magic_forward_context(uint16_t magic_keycode) {
-    for (uint8_t i = 0; i < MAGIC_CONTEXT_HISTORY; i++) {
-        uint16_t candidate = magic_context_history[i];
-        if (candidate == KC_NO) {
-            return KC_NO;
-        }
-        if (has_magic_key_with_context(magic_keycode, candidate)) {
-            return candidate;
-        }
-        if (!is_magic_combo_component_for(magic_keycode, candidate)) {
-            return KC_NO;
-        }
-    }
-    return KC_NO;
-}
-
-static inline bool is_magic_layer_active(void) {
-    return layer == _BASE;
-}
 
 bool is_window_switcher_active = false;
 bool is_tab_switcher_active = false;
@@ -266,62 +188,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
-    clear_stale_suppressed_keys();
-    clear_pending_magic_if_expired();
-    bool magic_active = is_magic_layer_active();
-    if (!magic_active) {
-        clear_pending_magic();
-    }
-
-    if (!record->event.pressed) {
-        if (keycode == suppressed_partner_keycode) {
-            clear_suppressed_partner();
+    if (record->event.pressed) {
+        if (is_magic_keycode(keycode) && repeat_magic_key(keycode)) {
             return false;
         }
-        if (keycode == suppressed_magic_trigger) {
-            suppressed_magic_trigger = KC_NO;
-            suppressed_magic_timer = 0;
-            return false;
-        }
-    } else {
-        if (keycode == suppressed_partner_keycode) {
-            return false;
-        }
-        if (magic_active && pending_magic_within_term()) {
-            if (has_reverse_magic_key_with_context(pending_magic_trigger, keycode)) {
-                uint16_t trigger = pending_magic_trigger;
-                suppressed_partner_keycode = keycode;
-                suppressed_partner_timer = timer_read32();
-                clear_pending_magic();
-                remember_real_keycode(keycode);
-                return process_magic_key_with_context(trigger, keycode, false, false);
-            }
-            clear_pending_magic();
-        }
-        if (is_magic_keycode(keycode)) {
-            if (repeat_magic_key(keycode)) {
-                return false;
-            }
-            // Preserve the original timing-independent behavior whenever the
-            // previous logical key can form a valid magic. Reverse-order magic
-            // is fallback only and remains limited by MAGIC_CHORD_TERM.
-            uint16_t forward_context = find_magic_forward_context(keycode);
-            if (forward_context != KC_NO) {
-                return process_magic_key_with_context(keycode, forward_context, false, true);
-            }
-            if (!magic_active) {
-                return false;
-            }
-            if (suppressed_magic_trigger != KC_NO && suppressed_magic_trigger != keycode) {
-                return false;
-            }
-            pending_magic_trigger = keycode;
-            suppressed_magic_trigger = keycode;
-            pending_magic_timer = timer_read32();
-            suppressed_magic_timer = pending_magic_timer;
-            return false;
-        }
-        remember_magic_preceding_press(keycode);
     }
 
     if (!process_record_generated(keycode, record)) {
@@ -400,10 +270,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     layer = get_highest_layer(state);
-    if (layer != _BASE) {
-        clear_pending_magic();
-        clear_suppressed_partner();
-    }
     switch (layer) {
     case _BASE:
         is_one_shot_mouse_active = false;
