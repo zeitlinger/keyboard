@@ -123,7 +123,7 @@ Cell = what to emit.
 |   c    |     n      |   "'ll "   |           |   "n't "    |       d       |   "'ve "   |         |  comment   |  "'re "   |  "'d "  |   "'s "    |
 |   d    |     c      |     h      |           |    don't    |    disable    | difficulty |         |   didn't   |  doesn't  |    f    |    does    |
 |   f    | confusing  |  conflict  |           | performance |    merged     |            |         |  focused   | following |    d    |            |
-|   g    |   global   |     f      |           |  organize   |    change     |     t      |         |  generate  |     k     |    d    |  suggest   |
+|   g    |     t      |     f      |           |    goes     |    change     |            |         |  generate  |     k     |    d    |  suggest   |
 |   k    |     r      |  question  |           |    think    |     task      |   thanks   |         |   update   |   know    |    x    |    knew    |
 |   l    |     m      |     h      |           |  language   |    already    | available  |         | elaborate  |     r     |    c    |     b      |
 |   m    |     r      |     h      |           |  migration  |   multiple    |  mismatch  |         | instrument |  "ment"   |    l    |     t      |
@@ -195,6 +195,7 @@ trailing auto-space.
 |     o     |   h   |   o    |
 |     p     |   d   |   l    |
 |     p     |   n   |   p    |
+|     p     |   s   |   y    |
 |     p     |   y   |   s    |
 |     r     |   x   |   r    |
 |     s     |   d   |   p    |
