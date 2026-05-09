@@ -456,8 +456,7 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_FNSYM_KC_TILD: return 200;
     case C_FNSYM_LT_NUM2KC_EQUAL: return 200;
     case C_FNSYM_MO_NUM: return 200;
-    case C_LEFT_KC_EXLM: return 200;
-    case C_LEFT_KC_Z: return 200;
+    case C_LEFT_KC_COLN: return 200;
     case C_NAV_AKC_F12: return 200;
     case C_NAV_CKC_A: return 200;
     case C_NAV_CKC_B: return 200;
@@ -496,10 +495,11 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case C_RIGHT_KC_AT: return 200;
     case C_RIGHT_KC_COMMA: return 200;
     case C_RIGHT_KC_DOT: return 200;
+    case C_RIGHT_KC_EXLM: return 200;
     case C_RIGHT_KC_GRAVE: return 200;
-    case C_RIGHT_KC_J: return 200;
     case C_RIGHT_KC_QUES: return 200;
     case C_RIGHT_KC_QUOTE: return 200;
+    case C_RIGHT_KC_UNDS: return 200;
     case C_RIGHT_N_T: return 200;
     case C_RIGHT_RCSKC_F: return 200;
     case C_RIGHT_RCSKC_R: return 200;
@@ -514,6 +514,7 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     case SUB_3: return 200;
     case SUB_4: return 200;
     case SUB_5: return 200;
+    case SUB_6: return 200;
     case S_C_BASE_KC_B: return 200;
     case S_C_BASE_KC_G: return 200;
     case S_C_BASE_KC_K: return 200;
@@ -975,7 +976,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_S: magic_decode_send_suffix_cycle(MAGIC_STRING_I_M_I_L_A_R, 'r', MAGIC_CYCLE_NONE); /* emits "imilar " -> "similar " */ break;
                 case KC_T: magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_N_O_T_H_E_R, 'r', MAGIC_CYCLE_NONE); /* emits "another " */ break;
                 case KC_W: magic_replace_decode_send_cap_cycle(MAGIC_STRING_S_W_I_T_C_H, 'h', MAGIC_CYCLE_NONE); /* emits "switch " */ break;
-                case KC_X: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_I_T, 't', MAGIC_CYCLE_NONE); /* emits "exit " */ break;
+                case KC_X: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_C_L_U_D_E, 'e', MAGIC_CYCLE_NONE); /* emits "exclude " */ break;
             }
             magic_capitalize_next = false;
             last_magic_trigger = MAGIC_F;
@@ -1032,7 +1033,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_TAB: magic_decode_send_cap_cycle(MAGIC_STRING_A_N_D_2, 'd', MAGIC_CYCLE_NONE); /* emits "and " */ break;
                 case KC_V: magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_P_P_R_O_V_A_L, 'l', MAGIC_CYCLE_NONE); /* emits "approval " */ break;
                 case KC_W: magic_decode_send_suffix_cycle(MAGIC_STRING_H_Y, 'y', MAGIC_CYCLE_NONE); /* emits "hy " -> "why " */ break;
-                case KC_X: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_C_L_U_D_E, 'e', MAGIC_CYCLE_NONE); /* emits "exclude " */ break;
+                case KC_X: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_I_T, 't', MAGIC_CYCLE_NONE); /* emits "exit " */ break;
             }
             magic_capitalize_next = false;
             last_magic_trigger = MAGIC_H;

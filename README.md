@@ -209,7 +209,7 @@ trailing auto-space.
 ## Layout
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
-| :---: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
+| :---: |:-------:| :-----: |:-------:| :-----: | :-----: | :-----: | :-----: | :-----: |
 | Base  |   esc   |    x    |    w    |  dead3  |  dead2  | magic_a | magic_b |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | \*Right |    f    |    l    |    d    |    u    |    o    |    y    | \*Left  |
@@ -235,7 +235,7 @@ trailing auto-space.
 | Base  | magic_g |         |         |         |         |         |         | magic_k |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right |         |         |         |         |  dead3  |    "    |    q    |         |
+| Right |         |         |  dead1  |         |  dead3  |    "    |    q    |         |
 | Right |         |         |   C-f   |   C-r   |         |         |         |         |
 | Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |    j    |
 | Right |         |         |  A-f7   |   C-n   |    [    |    ]    |         |         |
@@ -270,7 +270,7 @@ trailing auto-space.
 | Left  |    z    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
 | Left  |         |         |    ;    |         | \*ANum  |  \*Num  |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Left  |   qu    |         |         |         |         |         |         |         |
+| Left  |  "qu"   |         |         |         |         |         |         |         |
 | Left  |   💎    |         |         |         |         |         |         |         |
 | Left  |    :    |         |         |         |         |         |         |         |
 | Left  |         |         |         |         |         |         |         |         |
