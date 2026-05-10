@@ -176,6 +176,21 @@ def load_magic_coverage(magic_table):
     return covered
 
 
+def is_adaptive_recoverable(trigger, output, existing_adaptives, recommended_adaptives):
+    """True if literal trigger+output can already be typed via another adaptive.
+
+    Example: if o+o→e intercepts literal 'oo', but o+h→o exists, then 'oo' is
+    still recoverable as physical o+h and needs no extra magic recovery.
+    """
+    for (a, physical), emitted in {
+        **existing_adaptives,
+        **recommended_adaptives,
+    }.items():
+        if a == trigger and physical != output and emitted == output:
+            return True
+    return False
+
+
 MIN_FREQ_PCT = 0.01  # ignore bad bigrams below this frequency
 MAX_MAGIC_SACRIFICE_PCT = (
     MIN_FREQ_PCT  # sacrifice bigrams below this can be covered by adding a magic entry
@@ -460,10 +475,19 @@ def main():
                 bad_keys.add((a, b))
 
     bad.sort(key=lambda x: -effective_gain(*x))
+    recommendable_bad = [(a, b, freq) for a, b, freq in bad if a != b]
+    doubled_bigrams = [(a, b, freq) for a, b, freq in bad if a == b]
 
     print("=== Bad Bigrams (SFB / scissors / combo-adjacent) ===\n")
     for a, b, freq in bad:
         print(f"  {a}{b}  {pct(freq):.3f}%  {bad_reason_chars(a, b)}")
+
+    if doubled_bigrams:
+        print(
+            "\n=== Doubled Letters (reported only; not recommended automatically) ===\n"
+        )
+        for a, b, freq in doubled_bigrams:
+            print(f"  {a}{b}  {pct(freq):.3f}%  {bad_reason_chars(a, b)}")
 
     # --- Adaptive candidates for bad bigrams ---
     print("\n=== Adaptive Candidates for Bad Bigrams ===")
@@ -471,7 +495,7 @@ def main():
     # all_candidates[(a, b)] = [(c, sacrifice, bad_following, feel), ...] sorted
     all_candidates = {}
 
-    for a, b, bigram_freq in bad:
+    for a, b, bigram_freq in recommendable_bad:
         print(
             f"\nBigram '{a}{b}' ({pct(bigram_freq):.3f}%) — {bad_reason_chars(a, b)}:"
         )
@@ -621,7 +645,7 @@ def main():
     print("(bad bigrams resolvable by rolling trigger→combo-key)\n")
 
     combo_hits = []
-    for a, b, bigram_freq in bad:
+    for a, b, bigram_freq in recommendable_bad:
         followers = sorted(
             [
                 (tg, cnt)
@@ -661,14 +685,14 @@ def main():
     # Assign candidates greedily by effective-gain order; fall back when (a, c)
     # is already claimed. Existing adaptives compete normally and can be displaced
     # if a higher-value output wants the same slot.
-    bad_freq = {(a, b): freq for a, b, freq in bad}
+    bad_freq = {(a, b): freq for a, b, freq in recommendable_bad}
     recommended = {}  # (trigger, physical) -> output
     # Existing adaptives already cover these outputs; don't propose duplicates
     # on a different physical key unless we are explicitly remapping/replacing.
     recommended_outputs = {
         (a, b) for (a, _c), b in existing.items()
     }  # (trigger, output)
-    for a, b, _ in bad:  # already sorted by frequency descending
+    for a, b, _ in recommendable_bad:  # already sorted by frequency descending
         if (a, b) in recommended_outputs:
             continue
         candidates_list = all_candidates.get((a, b), [])
@@ -745,7 +769,7 @@ def main():
             covered_outputs.add((a, b))
 
         magic_add = {}  # (trigger, output) -> reason
-        for a, b, bigram_freq in bad:
+        for a, b, bigram_freq in recommendable_bad:
             if (a, b) in covered_outputs:
                 continue
             acceptable = [
@@ -775,6 +799,7 @@ def main():
                 sacrifice > 0
                 and (a, c) not in magic_covered
                 and (a, c) not in compensation
+                and not is_adaptive_recoverable(a, c, existing, current_recommended)
             ):
                 magic_add.setdefault(
                     (a, c),
@@ -787,6 +812,7 @@ def main():
                 sacrifice > 0
                 and (a, c) not in magic_covered
                 and (a, c) not in compensation
+                and not is_adaptive_recoverable(a, c, existing, current_recommended)
             ):
                 magic_add.setdefault(
                     (a, c),
@@ -826,7 +852,7 @@ def main():
         magic_remove_pairs = {(t, val) for (t, v), val in magic_remove.items()}
 
         magic_keep = {}
-        for a, b, _ in bad:
+        for a, b, _ in recommendable_bad:
             for cand in all_candidates.get((a, b), []):
                 c, _sacrifice, _bad_following, _feel, _same_hand, mfree, _ff = cand
                 if (
