@@ -226,7 +226,7 @@ trailing auto-space.
 ## Layout
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
-| :---: | :-----: | :-----: | :-----: | :-----: | :-----: |:-------:| :-----: | :-----: |
+| :---: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
 | Base  |   esc   |    x    |    w    |  dead3  |  dead2  | magic_a | magic_b |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | \*Right |    f    |    l    |    d    |    u    |    o    |    y    | \*Left  |
@@ -282,7 +282,7 @@ trailing auto-space.
 | RMods |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |    j    |
 | RMods |         |         |         |         |    [    |    ]    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Left  |         |         |         |         |  dead1  | \*Num2  |         |         |
+| Left  |         |         |         |         |  dead1  |         |         |         |
 | Left  |         |         |         |         | \*CNum  | \*Case  | \*Media |         |
 | Left  |    z    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
 | Left  |         |         |    ;    |         | \*ANum  |  \*Num  |         |         |
@@ -451,8 +451,7 @@ The order of the options is also the order of the layers in the layer stack.
 |    RMods     | BottomRow+RMods |                 |               |      Base      |                  |
 |     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |
 |    FnSym     |                 |     HomeRow     |               |                | DirectComboRight |
-|     Num      |                 |     BottomRow   |               |                | TriLayer         |
-|     Num2     |                 |     HomeRow     |      Num      |                |                  |
+|     Num      |                 |    BottomRow    |               |                | TriLayer         |
 |     ANum     |                 |                 |               |                |                  |
 |     CNum     |                 |                 |               |                |                  |
 |    Media     |                 |                 |               |                |                  |
