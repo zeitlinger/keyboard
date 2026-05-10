@@ -139,7 +139,7 @@ Cell = what to emit.
 |   e    |            |            |     u     |             |               |            |    h    |    LGTM    |           |         |            |
 |   h    |            |            |           |             |               |            |  "qu"   |            |           |         |            |
 |   i    |            |            | implement |             |               |            | "impl"  |            |           |         |            |
-|   o    |            |            |     x     |             |               |            |    h    |            |           |         |            |
+|   o    |            |            |           |             |               |            |    h    |            |           |         |            |
 |   u    |            |            |  gregor   |             |               |            |    h    |            |           |         |            |
 |   y    |            |            |     r     |             |               |            |  only   |            |           |         |            |
 |  tab   |            |            |           |             |               |            |         |    and     |    the    |         |            |
@@ -204,7 +204,7 @@ trailing auto-space.
 |     n     |   r   |   g    |
 |     n     |   x   |   l    |
 |     o     |   h   |   o    |
-|     o     |   x   |   e    |
+|     o     |   o   |   e    |
 |     p     |   d   |   l    |
 |     p     |   n   |   p    |
 |     p     |   s   |   y    |
