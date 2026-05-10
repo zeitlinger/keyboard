@@ -212,7 +212,7 @@ trailing auto-space.
 ## Layout
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
-| :---: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |:-------:|
+| :---: | :-----: | :-----: |:-------:| :-----: |:-------:| :-----: | :-----: |:-------:|
 | Base  |   esc   |    x    |    w    |  dead3  |  dead2  | magic_a | magic_b |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | \*Right |    f    |    l    |    d    |    u    |    o    |    y    | \*Left  |
@@ -248,7 +248,7 @@ trailing auto-space.
 | Right |         |         |         |  CS-r   |    '    |         |         |         |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right |         |         |    !    |         |         |   n't   |         |         |
+| Right |         |         |   win   |         |         |   n't   |         |         |
 | Right |         |         |   💎    |         |         |   💎    |         |         |
 | Right |         |         |  CS-f   |         |         |    ,    |         |         |
 | Right |         |         |         |         |         |         |         |         |
@@ -293,7 +293,7 @@ trailing auto-space.
 | FnSym |   f8    |   f7    |   f6    |   f5    |    -    |    {    |    }    |  \*Num  |
 | FnSym |         |         |         |   f12   |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| FnSym |         |         |         |   ➖    |   win   |         |         |         |
+| FnSym |         |         |         |   ➖    |    !    |         |         |         |
 | FnSym |         |         |         |   💎    |   💎    |         |         |         |
 | FnSym |         |         |         |   ➕    |    ~    |         |         |         |
 | FnSym |         |         |         |         |         |         |         |         |
@@ -315,7 +315,7 @@ trailing auto-space.
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |  dead3  |   C-x   |   C-v   |  CS-z   |  dead1  |   esc   |   ins   |  dead2  |
 |  Nav  |  copy   |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬇️    |   ⬆️    |   ➡️    |
-|  Nav  |   C-z   |   C-w   | tab ➡️  | win ➡️  |   ↩️️    |  bspc   |   del   |   tab   |
+|  Nav  |   C-z   |   C-w   | tab ➡️  | win ➡️  |   ↩️️   |  bspc   |   del   |   tab   |
 |  Nav  |         |         |   🛑    |   🛑    |   spc   |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |         |         |         |  CS-v   |    ü    |         |         |         |
