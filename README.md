@@ -118,13 +118,13 @@ Cell = what to emit.
 - Orderded by hand - thumbs last.
 
 | Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |  magic_h   |  magic_i  | magic_j |  magic_k   |
-| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :--------: | :-------: | :-----: | :--------: |
+| :----: | :--------: | :--------: |:---------:| :---------: | :-----------: |:----------:| :-----: | :--------: | :-------: | :-----: | :--------: |
 | suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |   [next]   |  " the "  |  ". "   |     s      |
 |   b    | background | basically  |           |   become    | observability |            |         |  obsolete  |  because  |    d    |   before   |
-|   c    |     n      |   "'ll "   |           |   "n't "    |       d       |   "'ve "   |         |  comment   |  "'re "   |  "'d "  |   "'s "    |
+|   c    |     n      |   "'ll "   |           |   "n't "    |       d       |   "'ve "   |consider |  comment   |  "'re "   |  "'d "  |   "'s "    |
 |   d    |     c      |     h      |           |    don't    |    disable    | difficulty |         |   didn't   |  doesn't  |    f    |    does    |
 |   f    | confusing  |  conflict  |           | performance |    merged     |            |         |  focused   | following |    d    |            |
-|   g    |     t      |     f      |           |    goes     |    change     |            |         |  generate  |     k     |    d    |  suggest   |
+|   g    |     t      |     f      |           |    goes     |    change     |  organize  |         |  generate  |     k     |    d    |  suggest   |
 |   k    |     r      |  question  |           |    think    |     task      |   thanks   |         |   update   |   know    |    x    |    knew    |
 |   l    |     m      |     h      |           |  language   |    already    | available  |         | elaborate  |     r     |    c    |     b      |
 |   m    |     r      |     h      |           |  migration  |   multiple    |  mismatch  |         | instrument |  "ment"   |    l    |     t      |
@@ -140,7 +140,7 @@ Cell = what to emit.
 |   h    |            |            |           |             |               |            |  "qu"   |            |           |         |            |
 |   i    |            |            | implement |             |               |            | "impl"  |            |           |         |            |
 |   o    |            |            |     x     |             |               |            |    h    |            |           |         |            |
-|   u    |            |            |    #g     |             |               |            |    h    |            |           |         |            |
+|   u    |            |            |  gregor   |             |               |            |    h    |            |           |         |            |
 |   y    |            |            |     r     |             |               |            |  only   |            |           |         |            |
 |  tab   |            |            |           |             |               |            |         |    and     |    the    |         |            |
 | enter  |            |            |           |             |               |            |         |    and     |    the    |         |            |
@@ -155,14 +155,24 @@ the last item wraps back to the first. Cycle entries are authored without the
 trailing auto-space.
 
 |   Cycle    |      next       |
-| :--------: | :-------------: |
+|:----------:|:---------------:|
+|  approve   |    approval     |
+|  consider  |  consideration  |
 |  disable   |     enable      |
+| elaborate  |   elaboration   |
+|   except   |    exception    |
+|  explain   |   explanation   |
+|  generate  |   generation    |
 | implement  | implementation  |
 | instrument | instrumentation |
+|  migrate   |    migration    |
+|  organize  |  organization   |
 |  possible  |   impossible    |
+|  resolve   |   resolution    |
+|  separate  |   separation    |
 |   thanks   |    thank you    |
 |  validate  |   validation    |
-|   Gregor   | " Zeitlinger "  |
+|   gregor   | " Zeitlinger "  |
 
 ## Adaptives
 
@@ -508,7 +518,6 @@ Exact-match symbol tokens such as `#g`, `#G`, and `#GL` must be declared here.
 | @gmail  | zeitlinger@gmail.com          |
 | @gl     | gregor.zeitlinger@grafana.com |
 | @zeit   | gregor@zeitlinger.de          |
-| #g      | gregor                        |
 | #G      | Grafana                       |
 | #GL     | Grafana Labs                  |
 
