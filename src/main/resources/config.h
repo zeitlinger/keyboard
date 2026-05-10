@@ -2,6 +2,7 @@
 
 // Configure the global tapping term (default: 200ms)
 #define TAPPING_TERM 200
+#define COMBO_TERM 200
 #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 
 #define TAPPING_TOGGLE 2
