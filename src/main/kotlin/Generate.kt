@@ -172,6 +172,7 @@ fun run(args: GeneratorArgs) {
                     ?.let { triLayer(it, translator) } ?: ""
             ),
             "comboCount" to combos.size.toString(),
+            "baseLayerNumber" to translator.layerNumbers.getValue(BASE_LAYER_NAME).toString(),
         ),
     )
     replaceTemplate(
