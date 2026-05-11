@@ -10,7 +10,165 @@ static inline void clear_suffix_state(void);
 bool process_record_generated(uint16_t keycode, keyrecord_t *record);
 extern int layer;
 
+#ifdef TRACE_LOGIC
+static void trace_keycode_label(uint16_t keycode) {
+    switch (keycode) {
+    case KC_NO: SEND_STRING("NO"); break;
+    case KC_SPC: SEND_STRING("SPC"); break;
+    case KC_TAB: SEND_STRING("TAB"); break;
+    case KC_ENT: SEND_STRING("ENT"); break;
+    case KC_ESC: SEND_STRING("ESC"); break;
+    case KC_BSPC: SEND_STRING("BSP"); break;
+    case KC_DEL: SEND_STRING("DEL"); break;
+    case KC_DOT: SEND_STRING("."); break;
+    case KC_COMMA: SEND_STRING(","); break;
+    case KC_QUOTE: SEND_STRING("'"); break;
+    case KC_DQUO: SEND_STRING("\""); break;
+    case KC_SCLN: SEND_STRING(";"); break;
+    case KC_COLN: SEND_STRING(":"); break;
+    case KC_A: SEND_STRING("A"); break;
+    case KC_B: SEND_STRING("B"); break;
+    case KC_C: SEND_STRING("C"); break;
+    case KC_D: SEND_STRING("D"); break;
+    case KC_E: SEND_STRING("E"); break;
+    case KC_F: SEND_STRING("F"); break;
+    case KC_G: SEND_STRING("G"); break;
+    case KC_H: SEND_STRING("H"); break;
+    case KC_I: SEND_STRING("I"); break;
+    case KC_J: SEND_STRING("J"); break;
+    case KC_K: SEND_STRING("K"); break;
+    case KC_L: SEND_STRING("L"); break;
+    case KC_M: SEND_STRING("M"); break;
+    case KC_N: SEND_STRING("N"); break;
+    case KC_O: SEND_STRING("O"); break;
+    case KC_P: SEND_STRING("P"); break;
+    case KC_Q: SEND_STRING("Q"); break;
+    case KC_R: SEND_STRING("R"); break;
+    case KC_S: SEND_STRING("S"); break;
+    case KC_T: SEND_STRING("T"); break;
+    case KC_U: SEND_STRING("U"); break;
+    case KC_V: SEND_STRING("V"); break;
+    case KC_W: SEND_STRING("W"); break;
+    case KC_X: SEND_STRING("X"); break;
+    case KC_Y: SEND_STRING("Y"); break;
+    case KC_Z: SEND_STRING("Z"); break;
+    case S(KC_A): SEND_STRING("S-A"); break;
+    case S(KC_B): SEND_STRING("S-B"); break;
+    case S(KC_C): SEND_STRING("S-C"); break;
+    case S(KC_D): SEND_STRING("S-D"); break;
+    case S(KC_E): SEND_STRING("S-E"); break;
+    case S(KC_F): SEND_STRING("S-F"); break;
+    case S(KC_G): SEND_STRING("S-G"); break;
+    case S(KC_H): SEND_STRING("S-H"); break;
+    case S(KC_I): SEND_STRING("S-I"); break;
+    case S(KC_J): SEND_STRING("S-J"); break;
+    case S(KC_K): SEND_STRING("S-K"); break;
+    case S(KC_L): SEND_STRING("S-L"); break;
+    case S(KC_M): SEND_STRING("S-M"); break;
+    case S(KC_N): SEND_STRING("S-N"); break;
+    case S(KC_O): SEND_STRING("S-O"); break;
+    case S(KC_P): SEND_STRING("S-P"); break;
+    case S(KC_Q): SEND_STRING("S-Q"); break;
+    case S(KC_R): SEND_STRING("S-R"); break;
+    case S(KC_S): SEND_STRING("S-S"); break;
+    case S(KC_T): SEND_STRING("S-T"); break;
+    case S(KC_U): SEND_STRING("S-U"); break;
+    case S(KC_V): SEND_STRING("S-V"); break;
+    case S(KC_W): SEND_STRING("S-W"); break;
+    case S(KC_X): SEND_STRING("S-X"); break;
+    case S(KC_Y): SEND_STRING("S-Y"); break;
+    case S(KC_Z): SEND_STRING("S-Z"); break;
+    case MAGIC_A: SEND_STRING("MA"); break;
+    case MAGIC_B: SEND_STRING("MB"); break;
+    case MAGIC_C: SEND_STRING("MC"); break;
+    case MAGIC_D: SEND_STRING("MD"); break;
+    case MAGIC_E: SEND_STRING("ME"); break;
+    case MAGIC_F: SEND_STRING("MF"); break;
+    case MAGIC_G: SEND_STRING("MG"); break;
+    case MAGIC_H: SEND_STRING("MH"); break;
+    case MAGIC_I: SEND_STRING("MI"); break;
+    case MAGIC_J: SEND_STRING("MJ"); break;
+    case MAGIC_K: SEND_STRING("MK"); break;
+#ifdef _HANDLER_N_T
+    case _HANDLER_N_T: SEND_STRING("N_T"); break;
+#endif
+#ifdef _HANDLER_ING
+    case _HANDLER_ING: SEND_STRING("ING"); break;
+#endif
+    default: SEND_STRING("?"); break;
+    }
+}
+
+static void trace_char_label(char c) {
+    switch (c) {
+    case '\0': SEND_STRING("0"); break;
+    case 'a': SEND_STRING("a"); break;
+    case 'b': SEND_STRING("b"); break;
+    case 'c': SEND_STRING("c"); break;
+    case 'd': SEND_STRING("d"); break;
+    case 'e': SEND_STRING("e"); break;
+    case 'f': SEND_STRING("f"); break;
+    case 'g': SEND_STRING("g"); break;
+    case 'h': SEND_STRING("h"); break;
+    case 'i': SEND_STRING("i"); break;
+    case 'j': SEND_STRING("j"); break;
+    case 'k': SEND_STRING("k"); break;
+    case 'l': SEND_STRING("l"); break;
+    case 'm': SEND_STRING("m"); break;
+    case 'n': SEND_STRING("n"); break;
+    case 'o': SEND_STRING("o"); break;
+    case 'p': SEND_STRING("p"); break;
+    case 'q': SEND_STRING("q"); break;
+    case 'r': SEND_STRING("r"); break;
+    case 's': SEND_STRING("s"); break;
+    case 't': SEND_STRING("t"); break;
+    case 'u': SEND_STRING("u"); break;
+    case 'v': SEND_STRING("v"); break;
+    case 'w': SEND_STRING("w"); break;
+    case 'x': SEND_STRING("x"); break;
+    case 'y': SEND_STRING("y"); break;
+    case 'z': SEND_STRING("z"); break;
+    case '.': SEND_STRING("."); break;
+    case ',': SEND_STRING(","); break;
+    case '?': SEND_STRING("?"); break;
+    case '!': SEND_STRING("!"); break;
+    case '\'': SEND_STRING("'"); break;
+    case ' ': SEND_STRING("SPC"); break;
+    default: SEND_STRING("?"); break;
+    }
+}
+
+static void trace_bool_label(bool value) {
+    if (value) {
+        SEND_STRING("1");
+    } else {
+        SEND_STRING("0");
+    }
+}
+
+static void trace_layer_label(int active_layer) {
+    switch (active_layer) {
+    case _BASE: SEND_STRING("BASE"); break;
+    case _LEFT: SEND_STRING("LEFT"); break;
+    case _RIGHT: SEND_STRING("RIGHT"); break;
+    case _NAV: SEND_STRING("NAV"); break;
+    case _FNSYM: SEND_STRING("FNSYM"); break;
+    case _NUM: SEND_STRING("NUM"); break;
+    case _NUM2: SEND_STRING("NUM2"); break;
+    case _CASE: SEND_STRING("CASE"); break;
+    default: SEND_STRING("?"); break;
+    }
+}
+#endif
+
 static void combo_tap_logical(uint16_t keycode) {
+#ifdef TRACE_LOGIC
+    SEND_STRING("[C:");
+    trace_keycode_label(keycode);
+    SEND_STRING("|L=");
+    trace_layer_label(layer);
+    SEND_STRING("]");
+#endif
     clear_suffix_state();
     remember_real_keycode(keycode);
     keyrecord_t record = {
@@ -25,8 +183,16 @@ static void combo_tap_logical(uint16_t keycode) {
         },
     };
     if (!process_record_generated(keycode, &record)) {
+#ifdef TRACE_LOGIC
+        SEND_STRING("[CH]");
+#endif
         return;
     }
+#ifdef TRACE_LOGIC
+    SEND_STRING("[CR:");
+    trace_keycode_label(keycode);
+    SEND_STRING("]");
+#endif
     tap_code16(keycode);
 }
 
@@ -428,12 +594,36 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
 void process_combo_event(uint16_t combo_index, bool pressed) {
     if (!pressed) return;
     switch (combo_index) {
-    case SUB_1: magic_decode_send(764); break; // "qu"
-    case SUB_2: magic_decode_send(410); break; // "gregor.zeitlinger@grafana.com"
-    case SUB_3: magic_decode_send(968); break; // "zeitlinger@gmail.com"
-    case SUB_4: magic_decode_send(430); break; // "gregor@zeitlinger.de"
-    case SUB_5: magic_decode_send(32); break; // "Grafana"
-    case SUB_6: magic_decode_send(38); break; // "Grafana Labs"
+    case SUB_1:
+#ifdef TRACE_LOGIC
+        SEND_STRING("[CS]");
+#endif
+        magic_decode_send(764); break; // "qu"
+    case SUB_2:
+#ifdef TRACE_LOGIC
+        SEND_STRING("[CS]");
+#endif
+        magic_decode_send(410); break; // "gregor.zeitlinger@grafana.com"
+    case SUB_3:
+#ifdef TRACE_LOGIC
+        SEND_STRING("[CS]");
+#endif
+        magic_decode_send(968); break; // "zeitlinger@gmail.com"
+    case SUB_4:
+#ifdef TRACE_LOGIC
+        SEND_STRING("[CS]");
+#endif
+        magic_decode_send(430); break; // "gregor@zeitlinger.de"
+    case SUB_5:
+#ifdef TRACE_LOGIC
+        SEND_STRING("[CS]");
+#endif
+        magic_decode_send(32); break; // "Grafana"
+    case SUB_6:
+#ifdef TRACE_LOGIC
+        SEND_STRING("[CS]");
+#endif
+        magic_decode_send(38); break; // "Grafana Labs"
     case C_BASE_KC_B: combo_tap_logical(layer == _LEFT ? S(KC_B) : KC_B); break;
     case C_BASE_KC_G: combo_tap_logical(layer == _LEFT ? S(KC_G) : KC_G); break;
     case C_BASE_KC_K: combo_tap_logical(layer == _LEFT ? S(KC_K) : KC_K); break;

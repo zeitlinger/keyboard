@@ -45,6 +45,11 @@ static inline void set_suffix_state(char c) {
     last_magic_char = c;
     suffix_cycle_offset = UINT16_MAX;
     suffix_cycle_capitalize = false;
+#ifdef TRACE_LOGIC
+    SEND_STRING("[SS:");
+    trace_char_label(c);
+    SEND_STRING("]");
+#endif
 }
 
 static inline void clear_suffix_cycle_state(void) {
@@ -54,6 +59,11 @@ static inline void clear_suffix_cycle_state(void) {
 }
 
 static inline void clear_suffix_state(void) {
+#ifdef TRACE_LOGIC
+    if (suffix_active || suffix_cycle_offset != UINT16_MAX) {
+        SEND_STRING("[SC]");
+    }
+#endif
     suffix_active = false;
     clear_suffix_cycle_state();
 }
@@ -241,11 +251,24 @@ static bool process_custom_combo_poc(uint16_t keycode, keyrecord_t *record) {
 
 static bool process_suffix(uint16_t keycode, keyrecord_t *record) {
     if (!suffix_active || !record->event.pressed) return true;
+#ifdef TRACE_LOGIC
+    SEND_STRING("[SX:");
+    trace_keycode_label(keycode);
+    SEND_STRING("|last=");
+    trace_char_label(last_magic_char);
+    SEND_STRING("]");
+#endif
     if (process_magic_suffix(keycode)) {
+#ifdef TRACE_LOGIC
+        SEND_STRING("[SX!]");
+#endif
         return false;
     }
     switch (keycode) {
     case _HANDLER_ING:
+#ifdef TRACE_LOGIC
+        SEND_STRING("[SX:ING]");
+#endif
         tap_code16(KC_BSPC);
         if (last_magic_char == 'a' || last_magic_char == 'e' ||
             last_magic_char == 'i' || last_magic_char == 'o' ||
@@ -257,6 +280,9 @@ static bool process_suffix(uint16_t keycode, keyrecord_t *record) {
         clear_suffix_cycle_state();
         return false;
     default:
+#ifdef TRACE_LOGIC
+        SEND_STRING("[SX-]");
+#endif
         clear_suffix_state();
         return true;
     }
@@ -328,6 +354,13 @@ bool process_switcher(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+#ifdef TRACE_LOGIC
+    if (record->event.pressed) {
+        SEND_STRING("[U:");
+        trace_keycode_label(keycode);
+        SEND_STRING("]");
+    }
+#endif
 #ifdef USE_CUSTOM_COMBO_POC
     if (!process_custom_combo_poc(keycode, record)) {
         return false;
