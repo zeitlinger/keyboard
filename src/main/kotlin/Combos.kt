@@ -288,64 +288,14 @@ private fun combos(
 ): List<Combo> {
     val keyTimeout =
         timeout ?: layer.option.comboTimeout ?: throw IllegalStateException("no timeout for layer ${layer.name}")
-    val combo =
-        Combo.of(
-            type,
-            source,
-            name,
-            content,
-            triggers,
-            keyTimeout,
-        )
-
-    val shiftLayer =
-        layers.singleOrNull { l ->
-            LayerFlag.Shifted in l.option.flags &&
-                fallbackLayer(triggers[0].pos, l.option) == layer.name
-        }
-
-    return when {
-        shiftLayer != null && isLetter(content) -> {
-            val shiftLayerTimeout =
-                shiftLayer.option.comboTimeout ?: throw IllegalStateException("no timeout for layer ${shiftLayer.name}")
-            val shifted =
-                combos(
-                    type,
-                    ComboSource.Shifted,
-                    "S_$name",
-                    shifted(content),
-                    triggers.map { t ->
-                        val position = t.pos.layerRelative()
-                        shiftLayer.rows.flatten().first { it.pos.layerRelative() == position }
-                    },
-                    shiftLayerTimeout,
-                    translator,
-                    emptyList(), // prevent recursion
-                    layer,
-                )
-            val directShifted =
-                combos(
-                    type,
-                    ComboSource.DirectShifted,
-                    "DS_$name",
-                    shifted(content),
-                    triggers +
-                        layer.get(
-                            shiftLayer.option.reachable.keys
-                                .single(),
-                        ),
-                    shiftLayerTimeout,
-                    translator,
-                    emptyList(), // prevent recursion
-                    layer,
-                )
-            combo + shifted + directShifted
-        }
-
-        else -> {
-            combo
-        }
-    }
+    return Combo.of(
+        type,
+        source,
+        name,
+        content,
+        triggers,
+        keyTimeout,
+    )
 }
 
 fun shifted(content: QmkKey): QmkKey = addMods(content, Modifier.Shift)
