@@ -62,6 +62,7 @@ static inline void clear_suffix_cycle_state(void) {
 
 static inline void clear_suffix_state(void) {
     suffix_active = false;
+    last_magic_char = 0;
     clear_suffix_cycle_state();
 }
 
