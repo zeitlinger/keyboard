@@ -2,6 +2,9 @@
 #include QMK_KEYBOARD_H
 #include "layout.h"
 
+// Defined in generated.c; combos.c shares the magic string table.
+void magic_decode_send(uint16_t offset);
+
 const uint16_t PROGMEM C_BASE_ING_combo[] = {DEAD2, KC_A, COMBO_END};
 const uint16_t PROGMEM C_BASE_KC_B_combo[] = {KC_C, KC_F, COMBO_END};
 const uint16_t PROGMEM C_BASE_KC_G_combo[] = {KC_L, KC_N, COMBO_END};
@@ -326,12 +329,12 @@ uint16_t COMBO_LEN = ARRAY_SIZE(key_combos);
 void process_combo_event(uint16_t combo_index, bool pressed) {
     if (!pressed) return;
     switch (combo_index) {
-    case SUB_1: SEND_STRING("qu"); break;
-    case SUB_2: SEND_STRING("gregor.zeitlinger@grafana.com"); break;
-    case SUB_3: SEND_STRING("zeitlinger@gmail.com"); break;
-    case SUB_4: SEND_STRING("gregor@zeitlinger.de"); break;
-    case SUB_5: SEND_STRING("Grafana"); break;
-    case SUB_6: SEND_STRING("Grafana Labs"); break;
+    case SUB_1: magic_decode_send(764); break; // "qu"
+    case SUB_2: magic_decode_send(410); break; // "gregor.zeitlinger@grafana.com"
+    case SUB_3: magic_decode_send(968); break; // "zeitlinger@gmail.com"
+    case SUB_4: magic_decode_send(430); break; // "gregor@zeitlinger.de"
+    case SUB_5: magic_decode_send(32); break; // "Grafana"
+    case SUB_6: magic_decode_send(38); break; // "Grafana Labs"
     default: break;
     }
 }
