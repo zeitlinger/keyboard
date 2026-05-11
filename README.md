@@ -157,9 +157,14 @@ trailing auto-space.
 |   Cycle    |      next       |
 | :--------: | :-------------: |
 |  disable   |     enable      |
+|  generate  |   generation    |
 | implement  | implementation  |
 | instrument | instrumentation |
+|  migrate   |    migration    |
+|  organize  |  organization   |
 |  possible  |   impossible    |
+|  resolve   |   resolution    |
+|  separate  |   separation    |
 |   thanks   |    thank you    |
 |  validate  |   validation    |
 |   Gregor   | " Zeitlinger "  |
