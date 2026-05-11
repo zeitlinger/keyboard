@@ -121,10 +121,10 @@ Cell = what to emit.
 | :----: | :--------: | :--------: |:---------:| :---------: | :-----------: |:----------:| :-----: | :--------: | :-------: | :-----: | :--------: |
 | suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |   [next]   |  " the "  |  ". "   |     s      |
 |   b    | background | basically  |           |   become    | observability |            |         |  obsolete  |  because  |    d    |   before   |
-|   c    |     n      |   "'ll "   |           |   "n't "    |       d       |   "'ve "   |consider |  comment   |  "'re "   |  "'d "  |   "'s "    |
+|   c    |     n      |   "'ll "   |           |   "n't "    |       d       |   "'ve "   |         |  comment   |  "'re "   |  "'d "  |   "'s "    |
 |   d    |     c      |     h      |           |    don't    |    disable    | difficulty |         |   didn't   |  doesn't  |    f    |    does    |
 |   f    | confusing  |  conflict  |           | performance |    merged     |            |         |  focused   | following |    d    |            |
-|   g    |     t      |     f      |           |    goes     |    change     |  organize  |         |  generate  |     k     |    d    |  suggest   |
+|   g    |     t      |     f      |           |    goes     |    change     |            |         |  generate  |     k     |    d    |  suggest   |
 |   k    |     r      |  question  |           |    think    |     task      |   thanks   |         |   update   |   know    |    x    |    knew    |
 |   l    |     m      |     h      |           |  language   |    already    | available  |         | elaborate  |     r     |    c    |     b      |
 |   m    |     r      |     h      |           |  migration  |   multiple    |  mismatch  |         | instrument |  "ment"   |    l    |     t      |
@@ -157,7 +157,6 @@ trailing auto-space.
 |   Cycle    |      next       |
 |:----------:|:---------------:|
 |  approve   |    approval     |
-|  consider  |  consideration  |
 |  disable   |     enable      |
 | elaborate  |   elaboration   |
 |   except   |    exception    |
@@ -166,7 +165,6 @@ trailing auto-space.
 | implement  | implementation  |
 | instrument | instrumentation |
 |  migrate   |    migration    |
-|  organize  |  organization   |
 |  possible  |   impossible    |
 |  resolve   |   resolution    |
 |  separate  |   separation    |
