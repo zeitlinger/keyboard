@@ -91,10 +91,19 @@ bool is_one_shot_mouse_active = false;
 #define CUSTOM_COMBO_TERM 50
 #endif
 
+typedef struct {
+    uint16_t prev;
+    uint16_t last;
+    uint16_t last_magic_trigger;
+    uint16_t last_magic_repeat_keycode;
+} custom_combo_poc_context_t;
+
 static bool custom_combo_poc_pending = false;
 static keypos_t custom_combo_poc_pending_key = {0, 0};
 static uint16_t custom_combo_poc_pending_keycode = KC_NO;
 static uint16_t custom_combo_poc_pending_timer = 0;
+static custom_combo_poc_context_t custom_combo_poc_pre_qmk_context = {KC_NO, KC_NO, KC_NO, KC_NO};
+static custom_combo_poc_context_t custom_combo_poc_pending_context = {KC_NO, KC_NO, KC_NO, KC_NO};
 
 static bool custom_combo_poc_active = false;
 static keypos_t custom_combo_poc_active_keys[2];
@@ -102,6 +111,27 @@ static bool custom_combo_poc_active_down[2] = {false, false};
 
 static bool custom_combo_poc_same_key(keypos_t a, keypos_t b) {
     return a.row == b.row && a.col == b.col;
+}
+
+static custom_combo_poc_context_t custom_combo_poc_capture_context(void) {
+    return (custom_combo_poc_context_t){
+        .prev = prev_keycode,
+        .last = last_keycode,
+        .last_magic_trigger = last_magic_trigger,
+        .last_magic_repeat_keycode = last_magic_repeat_keycode,
+    };
+}
+
+static void custom_combo_poc_restore_context(custom_combo_poc_context_t context) {
+    prev_keycode = context.prev;
+    last_keycode = context.last;
+    last_magic_trigger = context.last_magic_trigger;
+    last_magic_repeat_keycode = context.last_magic_repeat_keycode;
+}
+
+bool pre_process_record_user(uint16_t keycode, keyrecord_t *record) {
+    custom_combo_poc_pre_qmk_context = custom_combo_poc_capture_context();
+    return true;
 }
 
 static bool custom_combo_poc_layer_ok(void) {
@@ -118,20 +148,27 @@ static void custom_combo_poc_clear_pending(void) {
     custom_combo_poc_pending_timer = 0;
 }
 
-static void custom_combo_poc_tap_logical(uint16_t keycode) {
-    remember_real_keycode(keycode);
+static void custom_combo_poc_tap_raw(uint16_t keycode) {
     tap_code16(keycode);
 }
 
 static void custom_combo_poc_emit_pending(void) {
     if (custom_combo_poc_pending) {
-        custom_combo_poc_tap_logical(custom_combo_poc_pending_keycode);
+        // QMK's Repeat Key tracker already recorded this physical key before
+        // process_record_user() ran. Emit it to the host, but do not update
+        // prev_keycode/last_keycode a second time.
+        custom_combo_poc_tap_raw(custom_combo_poc_pending_keycode);
         custom_combo_poc_clear_pending();
     }
 }
 
 static void custom_combo_poc_emit_combo(void) {
-    custom_combo_poc_tap_logical(layer == _LEFT ? S(KC_P) : KC_P);
+    // The physical trigger keys were already recorded by QMK before this hook.
+    // Rewind to the context before the first trigger, then remember only the
+    // logical combo result.
+    custom_combo_poc_restore_context(custom_combo_poc_pending_context);
+    remember_real_keycode(layer == _LEFT ? S(KC_P) : KC_P);
+    custom_combo_poc_tap_raw(layer == _LEFT ? S(KC_P) : KC_P);
 }
 
 static bool process_custom_combo_poc(uint16_t keycode, keyrecord_t *record) {
@@ -174,6 +211,7 @@ static bool process_custom_combo_poc(uint16_t keycode, keyrecord_t *record) {
         custom_combo_poc_pending_key = key;
         custom_combo_poc_pending_keycode = keycode;
         custom_combo_poc_pending_timer = timer_read();
+        custom_combo_poc_pending_context = custom_combo_poc_pre_qmk_context;
         return false;
     }
 
