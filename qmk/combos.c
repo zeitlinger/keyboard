@@ -9,26 +9,9 @@ static void remember_real_keycode(uint16_t keycode);
 static inline void clear_suffix_state(void);
 extern int layer;
 
-#ifdef TRACE_LOGIC
-static void combo_trace_logical(uint16_t keycode) {
-    switch (keycode) {
-    case KC_K: SEND_STRING("[C:K]"); break;
-    case KC_M: SEND_STRING("[C:M]"); break;
-    case KC_P: SEND_STRING("[C:P]"); break;
-    case S(KC_K): SEND_STRING("[C:SK]"); break;
-    case S(KC_M): SEND_STRING("[C:SM]"); break;
-    case S(KC_P): SEND_STRING("[C:SP]"); break;
-    default: break;
-    }
-}
-#endif
-
 static void combo_tap_logical(uint16_t keycode) {
     clear_suffix_state();
     remember_real_keycode(keycode);
-#ifdef TRACE_LOGIC
-    combo_trace_logical(keycode);
-#endif
     tap_code16(keycode);
 }
 

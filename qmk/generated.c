@@ -505,49 +505,6 @@ static void magic_tap_repeatable(uint16_t keycode) {
     magic_repeat_keycode = keycode;
 }
 
-#ifdef TRACE_LOGIC
-static void trace_keycode_label(uint16_t keycode) {
-    switch (unshift_letter_keycode(keycode)) {
-    case KC_A: SEND_STRING("A"); break;
-    case KC_B: SEND_STRING("B"); break;
-    case KC_C: SEND_STRING("C"); break;
-    case KC_D: SEND_STRING("D"); break;
-    case KC_E: SEND_STRING("E"); break;
-    case KC_F: SEND_STRING("F"); break;
-    case KC_G: SEND_STRING("G"); break;
-    case KC_H: SEND_STRING("H"); break;
-    case KC_I: SEND_STRING("I"); break;
-    case KC_J: SEND_STRING("J"); break;
-    case KC_K: SEND_STRING("K"); break;
-    case KC_L: SEND_STRING("L"); break;
-    case KC_M: SEND_STRING("M"); break;
-    case KC_N: SEND_STRING("N"); break;
-    case KC_O: SEND_STRING("O"); break;
-    case KC_P: SEND_STRING("P"); break;
-    case KC_Q: SEND_STRING("Q"); break;
-    case KC_R: SEND_STRING("R"); break;
-    case KC_S: SEND_STRING("S"); break;
-    case KC_T: SEND_STRING("T"); break;
-    case KC_U: SEND_STRING("U"); break;
-    case KC_V: SEND_STRING("V"); break;
-    case KC_W: SEND_STRING("W"); break;
-    case KC_X: SEND_STRING("X"); break;
-    case KC_Y: SEND_STRING("Y"); break;
-    case KC_Z: SEND_STRING("Z"); break;
-    case KC_NO: SEND_STRING("NO"); break;
-    default: SEND_STRING("?"); break;
-    }
-}
-
-static void trace_magic_context(uint16_t keycode, uint16_t context_keycode) {
-    if (keycode == MAGIC_D) {
-        SEND_STRING("[D:");
-        trace_keycode_label(context_keycode);
-        SEND_STRING("]");
-    }
-}
-#endif
-
 static inline void magic_replace_tap_repeatable(uint16_t keycode) {
     if (magic_context_key_emitted) {
         tap_code16(KC_BSPC);
@@ -628,9 +585,6 @@ static bool is_magic_keycode(uint16_t keycode) {
 static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_keycode,
                                            bool allow_repeat, bool context_emitted) {
     magic_context_key_emitted = context_emitted;
-#ifdef TRACE_LOGIC
-    trace_magic_context(keycode, context_keycode);
-#endif
     switch (keycode) {
         case MAGIC_A: {
             if (allow_repeat && repeat_last_magic_key(MAGIC_A)) {

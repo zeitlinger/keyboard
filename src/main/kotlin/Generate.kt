@@ -551,26 +551,9 @@ private fun emitCombosC(
         "static inline void clear_suffix_state(void);",
         "extern int layer;",
         "",
-        "#ifdef TRACE_LOGIC\n" +
-            "static void combo_trace_logical(uint16_t keycode) {\n" +
-            "    switch (keycode) {\n" +
-            "    case KC_K: SEND_STRING(\"[C:K]\"); break;\n" +
-            "    case KC_M: SEND_STRING(\"[C:M]\"); break;\n" +
-            "    case KC_P: SEND_STRING(\"[C:P]\"); break;\n" +
-            "    case S(KC_K): SEND_STRING(\"[C:SK]\"); break;\n" +
-            "    case S(KC_M): SEND_STRING(\"[C:SM]\"); break;\n" +
-            "    case S(KC_P): SEND_STRING(\"[C:SP]\"); break;\n" +
-            "    default: break;\n" +
-            "    }\n" +
-            "}\n" +
-            "#endif",
-        "",
         "static void combo_tap_logical(uint16_t keycode) {\n" +
             "    clear_suffix_state();\n" +
             "    remember_real_keycode(keycode);\n" +
-            "#ifdef TRACE_LOGIC\n" +
-            "    combo_trace_logical(keycode);\n" +
-            "#endif\n" +
             "    tap_code16(keycode);\n" +
             "}",
         "",
