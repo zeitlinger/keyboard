@@ -490,6 +490,13 @@ private fun emitCombosC(
             } +
             "\n};"
 
+    val emitFunction =
+        "static void emit_custom_combo(uint16_t combo_index) {\n" +
+            "    switch (combo_index) {\n" +
+            emitCases.joinToString("\n") +
+            "\n    default: break;\n" +
+            "    }\n}"
+
     val customMatcher =
         """
 static bool custom_combo_replaying = false;
@@ -499,7 +506,6 @@ static keyrecord_t custom_combo_pending_record;
 static uint16_t custom_combo_pending_keycode = KC_NO;
 static uint16_t custom_combo_pending_timer = 0;
 static uint16_t custom_combo_pending_term = 0;
-static void emit_custom_combo(uint16_t combo_index);
 
 static bool custom_combo_active = false;
 static keypos_t custom_combo_active_keys[2];
@@ -676,13 +682,6 @@ void custom_combo_task(void) {
 }
         """.trimIndent()
 
-    val emitFunction =
-        "static void emit_custom_combo(uint16_t combo_index) {\n" +
-            "    switch (combo_index) {\n" +
-            emitCases.joinToString("\n") +
-            "\n    default: break;\n" +
-            "    }\n}"
-
     return listOf(
         "// $generationNote",
         "#include QMK_KEYBOARD_H",
@@ -698,9 +697,9 @@ void custom_combo_task(void) {
         "",
         metadata,
         "",
-        customMatcher,
-        "",
         emitFunction,
+        "",
+        customMatcher,
         "",
     ).joinToString("\n")
 }

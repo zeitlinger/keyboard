@@ -209,6 +209,104 @@ static const positional_combo_t positional_combos[] = {
     {SUB_6, 1, 0, 2, 0, _MEDIA, false, 50}
 };
 
+static void emit_custom_combo(uint16_t combo_index) {
+    switch (combo_index) {
+    case SUB_1: magic_decode_send(764); break; // "qu"
+    case SUB_2: magic_decode_send(410); break; // "gregor.zeitlinger@grafana.com"
+    case SUB_3: magic_decode_send(968); break; // "zeitlinger@gmail.com"
+    case SUB_4: magic_decode_send(430); break; // "gregor@zeitlinger.de"
+    case SUB_5: magic_decode_send(32); break; // "Grafana"
+    case SUB_6: magic_decode_send(38); break; // "Grafana Labs"
+    case C_BASE_KC_B: custom_combo_tap_keycode(layer == _LEFT ? S(KC_B) : KC_B); break;
+    case C_BASE_KC_G: custom_combo_tap_keycode(layer == _LEFT ? S(KC_G) : KC_G); break;
+    case C_BASE_KC_K: custom_combo_tap_keycode(layer == _LEFT ? S(KC_K) : KC_K); break;
+    case C_BASE_KC_M: custom_combo_tap_keycode(layer == _LEFT ? S(KC_M) : KC_M); break;
+    case C_BASE_KC_P: custom_combo_tap_keycode(layer == _LEFT ? S(KC_P) : KC_P); break;
+    case C_BASE_KC_V: custom_combo_tap_keycode(layer == _LEFT ? S(KC_V) : KC_V); break;
+    case C_BASE_ING: custom_combo_tap_keycode(ING); break;
+    case C_BASE_MAGIC_C: custom_combo_tap_keycode(MAGIC_C); break;
+    case C_BASE_MAGIC_D: custom_combo_tap_keycode(MAGIC_D); break;
+    case C_BASE_MAGIC_E: custom_combo_tap_keycode(MAGIC_E); break;
+    case C_BASE_MAGIC_F: custom_combo_tap_keycode(MAGIC_F); break;
+    case C_BASE_MAGIC_G: custom_combo_tap_keycode(MAGIC_G); break;
+    case C_BASE_MAGIC_H: custom_combo_tap_keycode(MAGIC_H); break;
+    case C_BASE_MAGIC_I: custom_combo_tap_keycode(MAGIC_I); break;
+    case C_BASE_MAGIC_J: custom_combo_tap_keycode(MAGIC_J); break;
+    case C_BASE_MAGIC_K: custom_combo_tap_keycode(MAGIC_K); break;
+    case C_FNSYM_KC_AMPR: custom_combo_tap_keycode(KC_AMPR); break;
+    case C_FNSYM_KC_ASTR: custom_combo_tap_keycode(KC_ASTR); break;
+    case C_FNSYM_KC_BACKSLASH: custom_combo_tap_keycode(KC_BACKSLASH); break;
+    case C_FNSYM_KC_CIRC: custom_combo_tap_keycode(KC_CIRC); break;
+    case C_FNSYM_KC_DLR: custom_combo_tap_keycode(KC_DLR); break;
+    case C_FNSYM_KC_F11: custom_combo_tap_keycode(KC_F11); break;
+    case C_FNSYM_KC_HASH: custom_combo_tap_keycode(KC_HASH); break;
+    case C_FNSYM_KC_KP_MINUS: custom_combo_tap_keycode(KC_KP_MINUS); break;
+    case C_FNSYM_KC_KP_PLUS: custom_combo_tap_keycode(KC_KP_PLUS); break;
+    case C_FNSYM_KC_LABK: custom_combo_tap_keycode(KC_LABK); break;
+    case C_FNSYM_KC_LCBR: custom_combo_tap_keycode(KC_LCBR); break;
+    case C_FNSYM_KC_LGUI: custom_combo_tap_keycode(KC_LGUI); break;
+    case C_FNSYM_KC_LPRN: custom_combo_tap_keycode(KC_LPRN); break;
+    case C_FNSYM_KC_MINUS: custom_combo_tap_keycode(KC_MINUS); break;
+    case C_FNSYM_KC_PERC: custom_combo_tap_keycode(KC_PERC); break;
+    case C_FNSYM_KC_PIPE: custom_combo_tap_keycode(KC_PIPE); break;
+    case C_FNSYM_KC_RABK: custom_combo_tap_keycode(KC_RABK); break;
+    case C_FNSYM_KC_RCBR: custom_combo_tap_keycode(KC_RCBR); break;
+    case C_FNSYM_KC_RPRN: custom_combo_tap_keycode(KC_RPRN); break;
+    case C_FNSYM_KC_SLASH: custom_combo_tap_keycode(KC_SLASH); break;
+    case C_FNSYM_KC_TILD: custom_combo_tap_keycode(KC_TILD); break;
+    case C_FNSYM_LT_NUM2KC_EQUAL: custom_combo_tap_keycode(LT(_NUM2,KC_EQUAL)); break;
+    case C_FNSYM_MO_NUM: custom_combo_tap_keycode(MO(_NUM)); break;
+    case C_LEFT_KC_COLN: custom_combo_tap_keycode(KC_COLN); break;
+    case C_NAV_AKC_F12: custom_combo_tap_keycode(A(KC_F12)); break;
+    case C_NAV_CKC_A: custom_combo_tap_keycode(C(KC_A)); break;
+    case C_NAV_CKC_B: custom_combo_tap_keycode(C(KC_B)); break;
+    case C_NAV_CKC_C: custom_combo_tap_keycode(C(KC_C)); break;
+    case C_NAV_CKC_D: custom_combo_tap_keycode(C(KC_D)); break;
+    case C_NAV_CKC_E: custom_combo_tap_keycode(C(KC_E)); break;
+    case C_NAV_CKC_F12: custom_combo_tap_keycode(C(KC_F12)); break;
+    case C_NAV_CKC_K: custom_combo_tap_keycode(C(KC_K)); break;
+    case C_NAV_CKC_P: custom_combo_tap_keycode(C(KC_P)); break;
+    case C_NAV_CKC_SLASH: custom_combo_tap_keycode(C(KC_SLASH)); break;
+    case C_NAV_CKC_V: custom_combo_tap_keycode(C(KC_V)); break;
+    case C_NAV_CKC_W: custom_combo_tap_keycode(C(KC_W)); break;
+    case C_NAV_CKC_X: custom_combo_tap_keycode(C(KC_X)); break;
+    case C_NAV_CKC_Y: custom_combo_tap_keycode(C(KC_Y)); break;
+    case C_NAV_CKC_Z: custom_combo_tap_keycode(C(KC_Z)); break;
+    case C_NAV_KC_END: custom_combo_tap_keycode(KC_END); break;
+    case C_NAV_KC_HOME: custom_combo_tap_keycode(KC_HOME); break;
+    case C_NAV_KC_PGDN: custom_combo_tap_keycode(KC_PGDN); break;
+    case C_NAV_KC_PGUP: custom_combo_tap_keycode(KC_PGUP); break;
+    case C_NAV_LCAKC_B: custom_combo_tap_keycode(LCA(KC_B)); break;
+    case C_NAV_RCSKC_C: custom_combo_tap_keycode(RCS(KC_C)); break;
+    case C_NAV_RCSKC_N: custom_combo_tap_keycode(RCS(KC_N)); break;
+    case C_NAV_RCSKC_V: custom_combo_tap_keycode(RCS(KC_V)); break;
+    case C_NAV_RCSKC_Z: custom_combo_tap_keycode(RCS(KC_Z)); break;
+    case C_NAV_UMUMLAUT_S: custom_combo_tap_keycode(UM(UMLAUT_s)); break;
+    case C_NAV_UPUMLAUT_AUMLAUT_A: custom_combo_tap_keycode(UP(UMLAUT_a, UMLAUT_A)); break;
+    case C_NAV_UPUMLAUT_OUMLAUT_O: custom_combo_tap_keycode(UP(UMLAUT_o, UMLAUT_O)); break;
+    case C_NAV_UPUMLAUT_UUMLAUT_U: custom_combo_tap_keycode(UP(UMLAUT_u, UMLAUT_U)); break;
+    case C_NUM_AKC_F1: custom_combo_tap_keycode(A(KC_F1)); break;
+    case C_NUM_CKC_G: custom_combo_tap_keycode(C(KC_G)); break;
+    case C_NUM_LCAKC_L: custom_combo_tap_keycode(LCA(KC_L)); break;
+    case C_NUM_LSAKC_B: custom_combo_tap_keycode(LSA(KC_B)); break;
+    case C_NUM_LSAKC_S: custom_combo_tap_keycode(LSA(KC_S)); break;
+    case C_NUM_LSAKC_X: custom_combo_tap_keycode(LSA(KC_X)); break;
+    case C_NUM_RCSKC_V: custom_combo_tap_keycode(RCS(KC_V)); break;
+    case C_RIGHT_KC_AT: custom_combo_tap_keycode(KC_AT); break;
+    case C_RIGHT_KC_COMMA: custom_combo_tap_keycode(KC_COMMA); break;
+    case C_RIGHT_KC_DOT: custom_combo_tap_keycode(KC_DOT); break;
+    case C_RIGHT_KC_EXLM: custom_combo_tap_keycode(KC_EXLM); break;
+    case C_RIGHT_KC_GRAVE: custom_combo_tap_keycode(KC_GRAVE); break;
+    case C_RIGHT_KC_QUES: custom_combo_tap_keycode(KC_QUES); break;
+    case C_RIGHT_KC_QUOTE: custom_combo_tap_keycode(KC_QUOTE); break;
+    case C_RIGHT_KC_UNDS: custom_combo_tap_keycode(KC_UNDS); break;
+    case C_RIGHT_N_T: custom_combo_tap_keycode(N_T); break;
+    case C_RIGHT_RCSKC_F: custom_combo_tap_keycode(RCS(KC_F)); break;
+    case C_RIGHT_RCSKC_R: custom_combo_tap_keycode(RCS(KC_R)); break;
+    default: break;
+    }
+}
+
 static bool custom_combo_replaying = false;
 static bool custom_combo_pending = false;
 static bool custom_combo_pending_passthrough = false;
@@ -216,7 +314,6 @@ static keyrecord_t custom_combo_pending_record;
 static uint16_t custom_combo_pending_keycode = KC_NO;
 static uint16_t custom_combo_pending_timer = 0;
 static uint16_t custom_combo_pending_term = 0;
-static void emit_custom_combo(uint16_t combo_index);
 
 static bool custom_combo_active = false;
 static keypos_t custom_combo_active_keys[2];
@@ -389,103 +486,5 @@ void custom_combo_task(void) {
     if (custom_combo_pending && !custom_combo_pending_passthrough && custom_combo_pending_term > 0
         && timer_elapsed(custom_combo_pending_timer) > custom_combo_pending_term) {
         custom_combo_flush_pending_press();
-    }
-}
-
-static void emit_custom_combo(uint16_t combo_index) {
-    switch (combo_index) {
-    case SUB_1: magic_decode_send(764); break; // "qu"
-    case SUB_2: magic_decode_send(410); break; // "gregor.zeitlinger@grafana.com"
-    case SUB_3: magic_decode_send(968); break; // "zeitlinger@gmail.com"
-    case SUB_4: magic_decode_send(430); break; // "gregor@zeitlinger.de"
-    case SUB_5: magic_decode_send(32); break; // "Grafana"
-    case SUB_6: magic_decode_send(38); break; // "Grafana Labs"
-    case C_BASE_KC_B: custom_combo_tap_keycode(layer == _LEFT ? S(KC_B) : KC_B); break;
-    case C_BASE_KC_G: custom_combo_tap_keycode(layer == _LEFT ? S(KC_G) : KC_G); break;
-    case C_BASE_KC_K: custom_combo_tap_keycode(layer == _LEFT ? S(KC_K) : KC_K); break;
-    case C_BASE_KC_M: custom_combo_tap_keycode(layer == _LEFT ? S(KC_M) : KC_M); break;
-    case C_BASE_KC_P: custom_combo_tap_keycode(layer == _LEFT ? S(KC_P) : KC_P); break;
-    case C_BASE_KC_V: custom_combo_tap_keycode(layer == _LEFT ? S(KC_V) : KC_V); break;
-    case C_BASE_ING: custom_combo_tap_keycode(ING); break;
-    case C_BASE_MAGIC_C: custom_combo_tap_keycode(MAGIC_C); break;
-    case C_BASE_MAGIC_D: custom_combo_tap_keycode(MAGIC_D); break;
-    case C_BASE_MAGIC_E: custom_combo_tap_keycode(MAGIC_E); break;
-    case C_BASE_MAGIC_F: custom_combo_tap_keycode(MAGIC_F); break;
-    case C_BASE_MAGIC_G: custom_combo_tap_keycode(MAGIC_G); break;
-    case C_BASE_MAGIC_H: custom_combo_tap_keycode(MAGIC_H); break;
-    case C_BASE_MAGIC_I: custom_combo_tap_keycode(MAGIC_I); break;
-    case C_BASE_MAGIC_J: custom_combo_tap_keycode(MAGIC_J); break;
-    case C_BASE_MAGIC_K: custom_combo_tap_keycode(MAGIC_K); break;
-    case C_FNSYM_KC_AMPR: custom_combo_tap_keycode(KC_AMPR); break;
-    case C_FNSYM_KC_ASTR: custom_combo_tap_keycode(KC_ASTR); break;
-    case C_FNSYM_KC_BACKSLASH: custom_combo_tap_keycode(KC_BACKSLASH); break;
-    case C_FNSYM_KC_CIRC: custom_combo_tap_keycode(KC_CIRC); break;
-    case C_FNSYM_KC_DLR: custom_combo_tap_keycode(KC_DLR); break;
-    case C_FNSYM_KC_F11: custom_combo_tap_keycode(KC_F11); break;
-    case C_FNSYM_KC_HASH: custom_combo_tap_keycode(KC_HASH); break;
-    case C_FNSYM_KC_KP_MINUS: custom_combo_tap_keycode(KC_KP_MINUS); break;
-    case C_FNSYM_KC_KP_PLUS: custom_combo_tap_keycode(KC_KP_PLUS); break;
-    case C_FNSYM_KC_LABK: custom_combo_tap_keycode(KC_LABK); break;
-    case C_FNSYM_KC_LCBR: custom_combo_tap_keycode(KC_LCBR); break;
-    case C_FNSYM_KC_LGUI: custom_combo_tap_keycode(KC_LGUI); break;
-    case C_FNSYM_KC_LPRN: custom_combo_tap_keycode(KC_LPRN); break;
-    case C_FNSYM_KC_MINUS: custom_combo_tap_keycode(KC_MINUS); break;
-    case C_FNSYM_KC_PERC: custom_combo_tap_keycode(KC_PERC); break;
-    case C_FNSYM_KC_PIPE: custom_combo_tap_keycode(KC_PIPE); break;
-    case C_FNSYM_KC_RABK: custom_combo_tap_keycode(KC_RABK); break;
-    case C_FNSYM_KC_RCBR: custom_combo_tap_keycode(KC_RCBR); break;
-    case C_FNSYM_KC_RPRN: custom_combo_tap_keycode(KC_RPRN); break;
-    case C_FNSYM_KC_SLASH: custom_combo_tap_keycode(KC_SLASH); break;
-    case C_FNSYM_KC_TILD: custom_combo_tap_keycode(KC_TILD); break;
-    case C_FNSYM_LT_NUM2KC_EQUAL: custom_combo_tap_keycode(LT(_NUM2,KC_EQUAL)); break;
-    case C_FNSYM_MO_NUM: custom_combo_tap_keycode(MO(_NUM)); break;
-    case C_LEFT_KC_COLN: custom_combo_tap_keycode(KC_COLN); break;
-    case C_NAV_AKC_F12: custom_combo_tap_keycode(A(KC_F12)); break;
-    case C_NAV_CKC_A: custom_combo_tap_keycode(C(KC_A)); break;
-    case C_NAV_CKC_B: custom_combo_tap_keycode(C(KC_B)); break;
-    case C_NAV_CKC_C: custom_combo_tap_keycode(C(KC_C)); break;
-    case C_NAV_CKC_D: custom_combo_tap_keycode(C(KC_D)); break;
-    case C_NAV_CKC_E: custom_combo_tap_keycode(C(KC_E)); break;
-    case C_NAV_CKC_F12: custom_combo_tap_keycode(C(KC_F12)); break;
-    case C_NAV_CKC_K: custom_combo_tap_keycode(C(KC_K)); break;
-    case C_NAV_CKC_P: custom_combo_tap_keycode(C(KC_P)); break;
-    case C_NAV_CKC_SLASH: custom_combo_tap_keycode(C(KC_SLASH)); break;
-    case C_NAV_CKC_V: custom_combo_tap_keycode(C(KC_V)); break;
-    case C_NAV_CKC_W: custom_combo_tap_keycode(C(KC_W)); break;
-    case C_NAV_CKC_X: custom_combo_tap_keycode(C(KC_X)); break;
-    case C_NAV_CKC_Y: custom_combo_tap_keycode(C(KC_Y)); break;
-    case C_NAV_CKC_Z: custom_combo_tap_keycode(C(KC_Z)); break;
-    case C_NAV_KC_END: custom_combo_tap_keycode(KC_END); break;
-    case C_NAV_KC_HOME: custom_combo_tap_keycode(KC_HOME); break;
-    case C_NAV_KC_PGDN: custom_combo_tap_keycode(KC_PGDN); break;
-    case C_NAV_KC_PGUP: custom_combo_tap_keycode(KC_PGUP); break;
-    case C_NAV_LCAKC_B: custom_combo_tap_keycode(LCA(KC_B)); break;
-    case C_NAV_RCSKC_C: custom_combo_tap_keycode(RCS(KC_C)); break;
-    case C_NAV_RCSKC_N: custom_combo_tap_keycode(RCS(KC_N)); break;
-    case C_NAV_RCSKC_V: custom_combo_tap_keycode(RCS(KC_V)); break;
-    case C_NAV_RCSKC_Z: custom_combo_tap_keycode(RCS(KC_Z)); break;
-    case C_NAV_UMUMLAUT_S: custom_combo_tap_keycode(UM(UMLAUT_s)); break;
-    case C_NAV_UPUMLAUT_AUMLAUT_A: custom_combo_tap_keycode(UP(UMLAUT_a, UMLAUT_A)); break;
-    case C_NAV_UPUMLAUT_OUMLAUT_O: custom_combo_tap_keycode(UP(UMLAUT_o, UMLAUT_O)); break;
-    case C_NAV_UPUMLAUT_UUMLAUT_U: custom_combo_tap_keycode(UP(UMLAUT_u, UMLAUT_U)); break;
-    case C_NUM_AKC_F1: custom_combo_tap_keycode(A(KC_F1)); break;
-    case C_NUM_CKC_G: custom_combo_tap_keycode(C(KC_G)); break;
-    case C_NUM_LCAKC_L: custom_combo_tap_keycode(LCA(KC_L)); break;
-    case C_NUM_LSAKC_B: custom_combo_tap_keycode(LSA(KC_B)); break;
-    case C_NUM_LSAKC_S: custom_combo_tap_keycode(LSA(KC_S)); break;
-    case C_NUM_LSAKC_X: custom_combo_tap_keycode(LSA(KC_X)); break;
-    case C_NUM_RCSKC_V: custom_combo_tap_keycode(RCS(KC_V)); break;
-    case C_RIGHT_KC_AT: custom_combo_tap_keycode(KC_AT); break;
-    case C_RIGHT_KC_COMMA: custom_combo_tap_keycode(KC_COMMA); break;
-    case C_RIGHT_KC_DOT: custom_combo_tap_keycode(KC_DOT); break;
-    case C_RIGHT_KC_EXLM: custom_combo_tap_keycode(KC_EXLM); break;
-    case C_RIGHT_KC_GRAVE: custom_combo_tap_keycode(KC_GRAVE); break;
-    case C_RIGHT_KC_QUES: custom_combo_tap_keycode(KC_QUES); break;
-    case C_RIGHT_KC_QUOTE: custom_combo_tap_keycode(KC_QUOTE); break;
-    case C_RIGHT_KC_UNDS: custom_combo_tap_keycode(KC_UNDS); break;
-    case C_RIGHT_N_T: custom_combo_tap_keycode(N_T); break;
-    case C_RIGHT_RCSKC_F: custom_combo_tap_keycode(RCS(KC_F)); break;
-    case C_RIGHT_RCSKC_R: custom_combo_tap_keycode(RCS(KC_R)); break;
-    default: break;
     }
 }
