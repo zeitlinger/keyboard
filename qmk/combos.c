@@ -8,9 +8,14 @@ void magic_decode_send(uint16_t offset);
 static void remember_real_keycode(uint16_t keycode);
 static inline void clear_suffix_state(void);
 bool process_record_generated(uint16_t keycode, keyrecord_t *record);
+bool process_record_user(uint16_t keycode, keyrecord_t *record);
 
 static uint8_t combo_active_layer(void) {
     return get_highest_layer(layer_state | default_layer_state);
+}
+
+static bool combo_shift_active(void) {
+    return (get_mods() | get_oneshot_mods()) & MOD_MASK_SHIFT;
 }
 
 #ifdef TRACE_LOGIC
@@ -94,6 +99,21 @@ static void trace_layer_label(int active_layer) {
     }
 }
 #endif
+
+static void combo_process_keycode(uint16_t keycode) {
+    keyrecord_t record = {
+        .event = {
+            .key = (keypos_t){0, 0},
+            .pressed = true,
+            .time = timer_read(),
+        },
+        .tap = {
+            .count = 0,
+            .interrupted = false,
+        },
+    };
+    process_record_user(keycode, &record);
+}
 
 static void combo_tap_logical(uint16_t keycode) {
 #ifdef TRACE_LOGIC
@@ -328,7 +348,7 @@ combo_t key_combos[] = {
     [C_BASE_KC_V] = COMBO_ACTION(C_BASE_KC_V_combo),
     [C_BASE_MAGIC_C] = COMBO(C_BASE_MAGIC_C_combo, MAGIC_C),
     [C_BASE_MAGIC_D] = COMBO(C_BASE_MAGIC_D_combo, MAGIC_D),
-    [C_BASE_MAGIC_E] = COMBO(C_BASE_MAGIC_E_combo, MAGIC_E),
+    [C_BASE_MAGIC_E] = COMBO_ACTION(C_BASE_MAGIC_E_combo),
     [C_BASE_MAGIC_F] = COMBO(C_BASE_MAGIC_F_combo, MAGIC_F),
     [C_BASE_MAGIC_G] = COMBO(C_BASE_MAGIC_G_combo, MAGIC_G),
     [C_BASE_MAGIC_H] = COMBO(C_BASE_MAGIC_H_combo, MAGIC_H),
@@ -425,7 +445,6 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     case C_BASE_ING:
     case C_BASE_MAGIC_C:
     case C_BASE_MAGIC_D:
-    case C_BASE_MAGIC_E:
     case C_BASE_MAGIC_F:
     case C_BASE_MAGIC_H:
     case C_BASE_MAGIC_I:
@@ -440,6 +459,8 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
         return active_layer == _BASE || active_layer == _LEFT;
     case C_BASE_MAGIC_G:
         return active_layer == _BASE || active_layer == _RIGHT;
+    case C_BASE_MAGIC_E:
+        return active_layer == _BASE || active_layer == _RIGHT || combo_shift_active();
     case C_FNSYM_KC_AMPR:
     case C_FNSYM_KC_ASTR:
     case C_FNSYM_KC_BACKSLASH:
@@ -566,6 +587,14 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     case C_BASE_KC_M: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_M) : KC_M); break;
     case C_BASE_KC_P: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_P) : KC_P); break;
     case C_BASE_KC_V: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_V) : KC_V); break;
+    case C_BASE_MAGIC_E:
+        if (combo_active_layer() == _RIGHT || combo_shift_active()) {
+            remember_real_keycode(KC_QUES);
+            tap_code16(KC_QUES);
+        } else {
+            combo_process_keycode(MAGIC_E);
+        }
+        break;
     default: break;
     }
 }

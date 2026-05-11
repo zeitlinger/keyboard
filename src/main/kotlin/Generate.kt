@@ -557,6 +557,11 @@ private fun emitCombosC(
             combo.name.startsWith("C_BASE_") &&
             isLetter(combo.result)
 
+    fun isLayerAwareMagicCombo(combo: Combo): Boolean = combo.name == "C_BASE_MAGIC_E"
+
+    fun isActionCombo(combo: Combo): Boolean =
+        combo.type == ComboType.Substitution || isLetterCombo(combo) || isLayerAwareMagicCombo(combo)
+
     fun comboLayerCheck(combo: Combo): String? {
         val home = combo.homeLayer.uppercase()
 
@@ -566,6 +571,9 @@ private fun emitCombosC(
                 isLetter(combo.result)
         if (isLetterBase) {
             return "active_layer == _BASE || active_layer == _LEFT"
+        }
+        if (combo.name == "C_BASE_MAGIC_E") {
+            return "active_layer == _BASE || active_layer == _RIGHT || combo_shift_active()"
         }
 
         val allowedLayers = mutableListOf("_$home")
@@ -585,7 +593,7 @@ private fun emitCombosC(
         "combo_t key_combos[] = {\n" +
             sorted.joinToString(",\n") { combo ->
                 when {
-                    combo.type == ComboType.Substitution || isLetterCombo(combo) -> {
+                    isActionCombo(combo) -> {
                         "    [${combo.name}] = COMBO_ACTION(${combo.name}_combo)"
                     }
 
@@ -610,14 +618,25 @@ private fun emitCombosC(
             val base = combo.result.key
             "    case ${combo.name}: combo_tap_logical(combo_active_layer() == _LEFT ? S($base) : $base); break;"
         }
+    val layerAwareMagicCases =
+        sorted.filter { isLayerAwareMagicCombo(it) }.map { combo ->
+            "    case ${combo.name}:\n" +
+                "        if (combo_active_layer() == _RIGHT || combo_shift_active()) {\n" +
+                "            remember_real_keycode(KC_QUES);\n" +
+                "            tap_code16(KC_QUES);\n" +
+                "        } else {\n" +
+                "            combo_process_keycode(MAGIC_E);\n" +
+                "        }\n" +
+                "        break;"
+        }
     val processEvent =
-        if (subsCases.isEmpty() && letterCases.isEmpty()) {
+        if (subsCases.isEmpty() && letterCases.isEmpty() && layerAwareMagicCases.isEmpty()) {
             "void process_combo_event(uint16_t combo_index, bool pressed) {}"
         } else {
             "void process_combo_event(uint16_t combo_index, bool pressed) {\n" +
                 "    if (!pressed) return;\n" +
                 "    switch (combo_index) {\n" +
-                (subsCases + letterCases).joinToString("\n") +
+                (subsCases + letterCases + layerAwareMagicCases).joinToString("\n") +
                 "\n    default: break;\n" +
                 "    }\n}"
         }
@@ -672,12 +691,32 @@ private fun emitCombosC(
         "static void remember_real_keycode(uint16_t keycode);",
         "static inline void clear_suffix_state(void);",
         "bool process_record_generated(uint16_t keycode, keyrecord_t *record);",
+        "bool process_record_user(uint16_t keycode, keyrecord_t *record);",
         "",
         "static uint8_t combo_active_layer(void) {\n" +
             "    return get_highest_layer(layer_state | default_layer_state);\n" +
             "}",
         "",
+        "static bool combo_shift_active(void) {\n" +
+            "    return (get_mods() | get_oneshot_mods()) & MOD_MASK_SHIFT;\n" +
+            "}",
+        "",
         traceHelpersC(),
+        "",
+        "static void combo_process_keycode(uint16_t keycode) {\n" +
+            "    keyrecord_t record = {\n" +
+            "        .event = {\n" +
+            "            .key = (keypos_t){0, 0},\n" +
+            "            .pressed = true,\n" +
+            "            .time = timer_read(),\n" +
+            "        },\n" +
+            "        .tap = {\n" +
+            "            .count = 0,\n" +
+            "            .interrupted = false,\n" +
+            "        },\n" +
+            "    };\n" +
+            "    process_record_user(keycode, &record);\n" +
+            "}",
         "",
         "static void combo_tap_logical(uint16_t keycode) {\n" +
             "#ifdef TRACE_LOGIC\n" +
