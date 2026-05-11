@@ -342,7 +342,105 @@ uint16_t COMBO_LEN = ARRAY_SIZE(key_combos);
 
 uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {
     (void)combo;
-    return combo_index < 16 ? 50 : 200;
+    switch (combo_index) {
+    case C_BASE_ING:
+    case C_BASE_KC_B:
+    case C_BASE_KC_G:
+    case C_BASE_KC_K:
+    case C_BASE_KC_M:
+    case C_BASE_KC_P:
+    case C_BASE_KC_V:
+    case C_BASE_MAGIC_C:
+    case C_BASE_MAGIC_D:
+    case C_BASE_MAGIC_E:
+    case C_BASE_MAGIC_F:
+    case C_BASE_MAGIC_G:
+    case C_BASE_MAGIC_H:
+    case C_BASE_MAGIC_I:
+    case C_BASE_MAGIC_J:
+    case C_BASE_MAGIC_K:
+        return 50;
+    case C_FNSYM_KC_AMPR:
+    case C_FNSYM_KC_ASTR:
+    case C_FNSYM_KC_BACKSLASH:
+    case C_FNSYM_KC_CIRC:
+    case C_FNSYM_KC_DLR:
+    case C_FNSYM_KC_F11:
+    case C_FNSYM_KC_HASH:
+    case C_FNSYM_KC_KP_MINUS:
+    case C_FNSYM_KC_KP_PLUS:
+    case C_FNSYM_KC_LABK:
+    case C_FNSYM_KC_LCBR:
+    case C_FNSYM_KC_LGUI:
+    case C_FNSYM_KC_LPRN:
+    case C_FNSYM_KC_MINUS:
+    case C_FNSYM_KC_PERC:
+    case C_FNSYM_KC_PIPE:
+    case C_FNSYM_KC_RABK:
+    case C_FNSYM_KC_RCBR:
+    case C_FNSYM_KC_RPRN:
+    case C_FNSYM_KC_SLASH:
+    case C_FNSYM_KC_TILD:
+    case C_FNSYM_LT_NUM2KC_EQUAL:
+    case C_FNSYM_MO_NUM:
+    case C_LEFT_KC_COLN:
+    case C_NUM_AKC_F1:
+    case C_NUM_CKC_G:
+    case C_NUM_LCAKC_L:
+    case C_NUM_LSAKC_B:
+    case C_NUM_LSAKC_S:
+    case C_NUM_LSAKC_X:
+    case C_NUM_RCSKC_V:
+    case C_RIGHT_KC_AT:
+    case C_RIGHT_KC_COMMA:
+    case C_RIGHT_KC_DOT:
+    case C_RIGHT_KC_EXLM:
+    case C_RIGHT_KC_GRAVE:
+    case C_RIGHT_KC_QUES:
+    case C_RIGHT_KC_QUOTE:
+    case C_RIGHT_KC_UNDS:
+    case C_RIGHT_N_T:
+    case C_RIGHT_RCSKC_F:
+    case C_RIGHT_RCSKC_R:
+    case SUB_1:
+    case SUB_2:
+    case SUB_3:
+    case SUB_4:
+    case SUB_5:
+    case SUB_6:
+        return 200;
+    case C_NAV_AKC_F12:
+    case C_NAV_CKC_A:
+    case C_NAV_CKC_B:
+    case C_NAV_CKC_C:
+    case C_NAV_CKC_D:
+    case C_NAV_CKC_E:
+    case C_NAV_CKC_F12:
+    case C_NAV_CKC_K:
+    case C_NAV_CKC_P:
+    case C_NAV_CKC_SLASH:
+    case C_NAV_CKC_V:
+    case C_NAV_CKC_W:
+    case C_NAV_CKC_X:
+    case C_NAV_CKC_Y:
+    case C_NAV_CKC_Z:
+    case C_NAV_KC_END:
+    case C_NAV_KC_HOME:
+    case C_NAV_KC_PGDN:
+    case C_NAV_KC_PGUP:
+    case C_NAV_LCAKC_B:
+    case C_NAV_RCSKC_C:
+    case C_NAV_RCSKC_N:
+    case C_NAV_RCSKC_V:
+    case C_NAV_RCSKC_Z:
+    case C_NAV_UMUMLAUT_S:
+    case C_NAV_UPUMLAUT_AUMLAUT_A:
+    case C_NAV_UPUMLAUT_OUMLAUT_O:
+    case C_NAV_UPUMLAUT_UUMLAUT_U:
+        return 300;
+    default:
+        return COMBO_TERM;
+    }
 }
 
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {

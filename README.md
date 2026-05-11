@@ -429,7 +429,7 @@ The order of the options is also the order of the layers in the layer stack.
 |    Right     | BottomRow+RMods |                 |               |      Base      | Shifted          |      200      |
 |    LMods     |                 | BottomRow+LMods |     Base      |                |                  |      200      |
 |    RMods     | BottomRow+RMods |                 |               |      Base      |                  |      200      |
-|     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |      200      |
+|     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |      300      |
 |    FnSym     |                 |     HomeRow     |               |                | DirectComboRight |      200      |
 |     Num      |                 |                 |               |                | TriLayer         |      200      |
 |     Num2     |                 |     HomeRow     |      Num      |                |                  |               |
