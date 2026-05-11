@@ -414,7 +414,10 @@ fun addSendString(
         )
     }
 
-private fun emitCombosC(combos: List<Combo>, generationNote: String): String {
+private fun emitCombosC(
+    combos: List<Combo>,
+    generationNote: String,
+): String {
     val sorted = combos.sortedBy { it.name }
     val triggerArrays =
         sorted.joinToString("\n") { combo ->
@@ -429,10 +432,13 @@ private fun emitCombosC(combos: List<Combo>, generationNote: String): String {
         "combo_t key_combos[] = {\n" +
             sorted.joinToString(",\n") { combo ->
                 when (combo.type) {
-                    ComboType.Combo ->
+                    ComboType.Combo -> {
                         "    [${combo.name}] = COMBO(${combo.name}_combo, ${combo.result.key})"
-                    ComboType.Substitution ->
+                    }
+
+                    ComboType.Substitution -> {
                         "    [${combo.name}] = COMBO_ACTION(${combo.name}_combo)"
+                    }
                 }
             } + "\n};"
     val subs =
