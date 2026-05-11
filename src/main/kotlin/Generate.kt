@@ -557,6 +557,30 @@ private fun emitCombosC(
             combo.name.startsWith("C_BASE_") &&
             isLetter(combo.result)
 
+    fun comboLayerCheck(combo: Combo): String? {
+        val home = combo.homeLayer.uppercase()
+
+        val isLetterBase =
+            combo.homeLayer == BASE_LAYER_NAME &&
+                combo.type == ComboType.Combo &&
+                isLetter(combo.result)
+        if (isLetterBase) {
+            return "active_layer == _BASE || active_layer == _LEFT"
+        }
+
+        val allowedLayers = mutableListOf("_$home")
+        if (combo.homeLayer == BASE_LAYER_NAME) {
+            combo.triggers
+                .map(::triggerKeycode)
+                .mapNotNull { Regex("MO\\(_([A-Z0-9]+)\\)").find(it)?.groupValues?.get(1) }
+                .forEach { allowedLayers += "_$it" }
+        }
+
+        return allowedLayers
+            .distinct()
+            .joinToString(" || ") { "active_layer == $it" }
+    }
+
     val table =
         "combo_t key_combos[] = {\n" +
             sorted.joinToString(",\n") { combo ->
@@ -584,7 +608,7 @@ private fun emitCombosC(
     val letterCases =
         sorted.filter { isLetterCombo(it) }.map { combo ->
             val base = combo.result.key
-            "    case ${combo.name}: combo_tap_logical(layer == _LEFT ? S($base) : $base); break;"
+            "    case ${combo.name}: combo_tap_logical(combo_active_layer() == _LEFT ? S($base) : $base); break;"
         }
     val processEvent =
         if (subsCases.isEmpty() && letterCases.isEmpty()) {
@@ -625,6 +649,7 @@ private fun emitCombosC(
             "$shouldTriggerSignature { return true; }"
         } else {
             "$shouldTriggerSignature {\n" +
+                "    uint8_t active_layer = combo_active_layer();\n" +
                 "    switch (combo_index) {\n" +
                 "#ifdef USE_CUSTOM_COMBO_POC\n" +
                 "    case C_BASE_KC_P:\n" +
@@ -647,7 +672,10 @@ private fun emitCombosC(
         "static void remember_real_keycode(uint16_t keycode);",
         "static inline void clear_suffix_state(void);",
         "bool process_record_generated(uint16_t keycode, keyrecord_t *record);",
-        "extern int layer;",
+        "",
+        "static uint8_t combo_active_layer(void) {\n" +
+            "    return get_highest_layer(layer_state | default_layer_state);\n" +
+            "}",
         "",
         traceHelpersC(),
         "",
@@ -656,7 +684,7 @@ private fun emitCombosC(
             "    SEND_STRING(\"[C:\");\n" +
             "    trace_keycode_label(keycode);\n" +
             "    SEND_STRING(\"|L=\");\n" +
-            "    trace_layer_label(layer);\n" +
+            "    trace_layer_label(combo_active_layer());\n" +
             "    SEND_STRING(\"]\");\n" +
             "#endif\n" +
             "    clear_suffix_state();\n" +
@@ -699,25 +727,6 @@ private fun emitCombosC(
         processEvent,
         "",
     ).joinToString("\n")
-}
-
-// Maps a combo to a C boolean expression that returns true on layers
-// where the combo is allowed to fire. Letter combos fire on both _BASE
-// and _LEFT (output layer-resolved in process_combo_event). Other
-// combos fire only on their home layer, including SUB_* combos.
-private fun comboLayerCheck(combo: Combo): String? {
-    val home = combo.homeLayer.uppercase()
-    val homeCheck = "layer == _$home"
-
-    val isLetterBase =
-        combo.homeLayer == BASE_LAYER_NAME &&
-            combo.type == ComboType.Combo &&
-            isLetter(combo.result)
-    return if (isLetterBase) {
-        "$homeCheck || layer == _LEFT"
-    } else {
-        homeCheck
-    }
 }
 
 private fun addMagic(

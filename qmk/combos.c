@@ -8,7 +8,10 @@ void magic_decode_send(uint16_t offset);
 static void remember_real_keycode(uint16_t keycode);
 static inline void clear_suffix_state(void);
 bool process_record_generated(uint16_t keycode, keyrecord_t *record);
-extern int layer;
+
+static uint8_t combo_active_layer(void) {
+    return get_highest_layer(layer_state | default_layer_state);
+}
 
 #ifdef TRACE_LOGIC
 static void trace_keycode_label(uint16_t keycode) {
@@ -97,7 +100,7 @@ static void combo_tap_logical(uint16_t keycode) {
     SEND_STRING("[C:");
     trace_keycode_label(keycode);
     SEND_STRING("|L=");
-    trace_layer_label(layer);
+    trace_layer_label(combo_active_layer());
     SEND_STRING("]");
 #endif
     clear_suffix_state();
@@ -413,6 +416,7 @@ combo_t key_combos[] = {
 uint16_t COMBO_LEN = ARRAY_SIZE(key_combos);
 
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
+    uint8_t active_layer = combo_active_layer();
     switch (combo_index) {
 #ifdef USE_CUSTOM_COMBO_POC
     case C_BASE_KC_P:
@@ -423,18 +427,19 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     case C_BASE_MAGIC_D:
     case C_BASE_MAGIC_E:
     case C_BASE_MAGIC_F:
-    case C_BASE_MAGIC_G:
     case C_BASE_MAGIC_H:
     case C_BASE_MAGIC_I:
     case C_BASE_MAGIC_J:
-    case C_BASE_MAGIC_K:
-        return layer == _BASE;
+        return active_layer == _BASE;
     case C_BASE_KC_B:
     case C_BASE_KC_G:
     case C_BASE_KC_K:
     case C_BASE_KC_M:
     case C_BASE_KC_V:
-        return layer == _BASE || layer == _LEFT;
+    case C_BASE_MAGIC_K:
+        return active_layer == _BASE || active_layer == _LEFT;
+    case C_BASE_MAGIC_G:
+        return active_layer == _BASE || active_layer == _RIGHT;
     case C_FNSYM_KC_AMPR:
     case C_FNSYM_KC_ASTR:
     case C_FNSYM_KC_BACKSLASH:
@@ -458,16 +463,16 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     case C_FNSYM_KC_TILD:
     case C_FNSYM_LT_NUM2KC_EQUAL:
     case C_FNSYM_MO_NUM:
-        return layer == _FNSYM;
+        return active_layer == _FNSYM;
     case C_LEFT_KC_COLN:
     case SUB_1:
-        return layer == _LEFT;
+        return active_layer == _LEFT;
     case SUB_2:
     case SUB_3:
     case SUB_4:
     case SUB_5:
     case SUB_6:
-        return layer == _MEDIA;
+        return active_layer == _MEDIA;
     case C_NAV_AKC_F12:
     case C_NAV_CKC_A:
     case C_NAV_CKC_B:
@@ -496,7 +501,7 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     case C_NAV_UPUMLAUT_AUMLAUT_A:
     case C_NAV_UPUMLAUT_OUMLAUT_O:
     case C_NAV_UPUMLAUT_UUMLAUT_U:
-        return layer == _NAV;
+        return active_layer == _NAV;
     case C_NUM_AKC_F1:
     case C_NUM_CKC_G:
     case C_NUM_LCAKC_L:
@@ -504,7 +509,7 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     case C_NUM_LSAKC_S:
     case C_NUM_LSAKC_X:
     case C_NUM_RCSKC_V:
-        return layer == _NUM;
+        return active_layer == _NUM;
     case C_RIGHT_KC_AT:
     case C_RIGHT_KC_COMMA:
     case C_RIGHT_KC_DOT:
@@ -516,7 +521,7 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     case C_RIGHT_N_T:
     case C_RIGHT_RCSKC_F:
     case C_RIGHT_RCSKC_R:
-        return layer == _RIGHT;
+        return active_layer == _RIGHT;
     default:
         return true;
     }
@@ -555,12 +560,12 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         SEND_STRING("[CS]");
 #endif
         magic_decode_send(38); break; // "Grafana Labs"
-    case C_BASE_KC_B: combo_tap_logical(layer == _LEFT ? S(KC_B) : KC_B); break;
-    case C_BASE_KC_G: combo_tap_logical(layer == _LEFT ? S(KC_G) : KC_G); break;
-    case C_BASE_KC_K: combo_tap_logical(layer == _LEFT ? S(KC_K) : KC_K); break;
-    case C_BASE_KC_M: combo_tap_logical(layer == _LEFT ? S(KC_M) : KC_M); break;
-    case C_BASE_KC_P: combo_tap_logical(layer == _LEFT ? S(KC_P) : KC_P); break;
-    case C_BASE_KC_V: combo_tap_logical(layer == _LEFT ? S(KC_V) : KC_V); break;
+    case C_BASE_KC_B: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_B) : KC_B); break;
+    case C_BASE_KC_G: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_G) : KC_G); break;
+    case C_BASE_KC_K: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_K) : KC_K); break;
+    case C_BASE_KC_M: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_M) : KC_M); break;
+    case C_BASE_KC_P: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_P) : KC_P); break;
+    case C_BASE_KC_V: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_V) : KC_V); break;
     default: break;
     }
 }
