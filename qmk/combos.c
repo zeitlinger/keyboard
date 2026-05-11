@@ -18,52 +18,7 @@ static bool combo_shift_active(void) {
     return (get_mods() | get_oneshot_mods()) & MOD_MASK_SHIFT;
 }
 
-#ifdef _HANDLER_ING
-    case _HANDLER_ING: SEND_STRING("ING"); break;
-#endif
-    default: tap_code16(S(KC_SLASH)); break;
-    }
-}
 
-static void trace_char_label(char c) {
-    if (c >= 'a' && c <= 'z') {
-        tap_code16(KC_A + (c - 'a'));
-        return;
-    }
-    if (c >= 'A' && c <= 'Z') {
-        tap_code16(S(KC_A + (c - 'A')));
-        return;
-    }
-    switch (c) {
-    case '\0': tap_code16(KC_0); break;
-    case ' ': tap_code16(KC_UNDS); break;
-    case '.': tap_code16(KC_DOT); break;
-    case ',': tap_code16(KC_COMMA); break;
-    case '?': tap_code16(KC_QUES); break;
-    case '!': tap_code16(KC_EXLM); break;
-    case '\'': tap_code16(KC_QUOTE); break;
-    default: tap_code16(S(KC_SLASH)); break;
-    }
-}
-
-static void trace_bool_label(bool value) {
-    tap_code16(value ? KC_1 : KC_0);
-}
-
-static void trace_layer_label(int active_layer) {
-    switch (active_layer) {
-    case _BASE: SEND_STRING("BASE"); break;
-    case _LEFT: SEND_STRING("LEFT"); break;
-    case _RIGHT: SEND_STRING("RIGHT"); break;
-    case _NAV: SEND_STRING("NAV"); break;
-    case _FNSYM: SEND_STRING("FNSYM"); break;
-    case _NUM: SEND_STRING("NUM"); break;
-    case _NUM2: SEND_STRING("NUM2"); break;
-    case _CASE: SEND_STRING("CASE"); break;
-    default: tap_code16(S(KC_SLASH)); break;
-    }
-}
-#endif
 
 static void combo_process_keycode(uint16_t keycode) {
     keyrecord_t record = {
@@ -392,9 +347,6 @@ uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {
 
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
     uint8_t active_layer = combo_active_layer();
-#ifdef USE_CUSTOM_COMBO_POC
-    if (combo_index == C_BASE_KC_P) return false;
-#endif
     if (combo_index == 0) return active_layer == _BASE;
     if (combo_index >= 1 && combo_index <= 4) return active_layer == _BASE || active_layer == _LEFT;
     if (combo_index == 6) return active_layer == _BASE || active_layer == _LEFT;

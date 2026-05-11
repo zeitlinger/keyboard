@@ -27,6 +27,7 @@ private const val THUMB_COLUMNS = 4
 private const val NO_CYCLE_OFFSET = "MAGIC_CYCLE_NONE"
 private const val MAGIC_REPLACE_PREFIX = "⌫"
 private const val TRACE_LOGIC_ENABLED = false
+private const val CUSTOM_COMBO_POC_ENABLED = false
 
 private data class CycleEntry(
     val current: String,
@@ -222,7 +223,15 @@ fun run(args: GeneratorArgs) {
 
     val baseLayer = layers.first { it.name == BASE_LAYER_NAME }
     File(dstDir, "combos.c").writeText(
-        renderTraceLogic(emitCombosC(combos, generationNote, encodedMagicStrings.stringOffsets, baseLayer)),
+        renderTraceLogic(
+            emitCombosC(
+                combos,
+                generationNote,
+                encodedMagicStrings.stringOffsets,
+                baseLayer,
+                translator.symbols.customKeycodes.keys.toSet(),
+            ),
+        ),
     )
     File(dstDir, "combos.def").delete()
 }
@@ -456,9 +465,11 @@ fun addSendString(
         )
     }
 
-private fun traceHelpersC(): String =
-    """
-#ifdef TRACE_LOGIC
+private fun traceHelpersC(hasNT: Boolean, hasING: Boolean): String {
+    if (!TRACE_LOGIC_ENABLED) return ""
+    val ntCase = if (hasNT) "    case _HANDLER_N_T: SEND_STRING(\"NT\"); break;\n" else ""
+    val ingCase = if (hasING) "    case _HANDLER_ING: SEND_STRING(\"ING\"); break;\n" else ""
+    return """
 static void trace_keycode_label(uint16_t keycode) {
     uint16_t unshifted = keycode;
     bool shifted = false;
@@ -490,12 +501,7 @@ static void trace_keycode_label(uint16_t keycode) {
     case KC_COMMA: tap_code16(KC_COMMA); break;
     case KC_QUOTE: tap_code16(KC_QUOTE); break;
     case KC_DQUO: tap_code16(KC_DQUO); break;
-#ifdef _HANDLER_N_T
-    case _HANDLER_N_T: SEND_STRING("NT"); break;
-#endif
-#ifdef _HANDLER_ING
-    case _HANDLER_ING: SEND_STRING("ING"); break;
-#endif
+${ntCase}${ingCase}\
     default: tap_code16(S(KC_SLASH)); break;
     }
 }
@@ -538,14 +544,15 @@ static void trace_layer_label(int active_layer) {
     default: tap_code16(S(KC_SLASH)); break;
     }
 }
-#endif
     """.trimIndent()
+}
 
 private fun emitCombosC(
     combos: List<Combo>,
     generationNote: String,
     stringOffsets: Map<String, Int>,
     baseLayer: Layer,
+    customKeycodes: Set<String>,
 ): String {
     val sorted = combos.sortedBy { it.name }
 
@@ -729,11 +736,15 @@ private fun emitCombosC(
                         }
                     "    if ($condition) return $check;"
                 }
+            val pocGuard =
+                if (CUSTOM_COMBO_POC_ENABLED) {
+                    "    if (combo_index == C_BASE_KC_P) return false;\n"
+                } else {
+                    ""
+                }
             "$shouldTriggerSignature {\n" +
                 "    uint8_t active_layer = combo_active_layer();\n" +
-                "#ifdef USE_CUSTOM_COMBO_POC\n" +
-                "    if (combo_index == C_BASE_KC_P) return false;\n" +
-                "#endif\n" +
+                pocGuard +
                 shouldTriggerConditions.joinToString("\n") +
                 "\n    return true;\n}"
         }
@@ -759,7 +770,10 @@ private fun emitCombosC(
             "    return (get_mods() | get_oneshot_mods()) & MOD_MASK_SHIFT;\n" +
             "}",
         "",
-        traceHelpersC(),
+        traceHelpersC(
+            hasNT = "_HANDLER_N_T" in customKeycodes,
+            hasING = "_HANDLER_ING" in customKeycodes,
+        ),
         "",
         "static void combo_process_keycode(uint16_t keycode) {\n" +
             "    keyrecord_t record = {\n" +
