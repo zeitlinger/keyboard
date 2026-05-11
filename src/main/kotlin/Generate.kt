@@ -459,12 +459,12 @@ private fun emitCombosC(
         } +
             sorted.filter { isLetterCombo(it) }.map { combo ->
             val base = combo.result.key
-            "    case ${combo.name}: tap_code16(layer == _LEFT ? S($base) : $base); break;"
+            "    case ${combo.name}: custom_combo_tap_keycode(layer == _LEFT ? S($base) : $base); break;"
         } +
             sorted
                 .filter { it.type != ComboType.Substitution && !isLetterCombo(it) }
                 .map { combo ->
-                    "    case ${combo.name}: tap_code16(${combo.result.key}); break;"
+                    "    case ${combo.name}: custom_combo_tap_keycode(${combo.result.key}); break;"
                 }
 
     val metadata =
@@ -569,6 +569,25 @@ static void custom_combo_dispatch_record(keyrecord_t record, uint16_t keycode) {
     process_record(&record);
 #endif
     custom_combo_replaying = false;
+}
+
+static void custom_combo_tap_keycode(uint16_t keycode) {
+    keyrecord_t press = {
+        .event = {
+            .key = (keypos_t){0, 0},
+            .pressed = true,
+            .time = timer_read()
+        },
+        .tap = {
+            .count = 0,
+            .interrupted = false
+        }
+    };
+    keyrecord_t release = press;
+    release.event.pressed = false;
+    release.event.time = timer_read();
+    custom_combo_dispatch_record(press, keycode);
+    custom_combo_dispatch_record(release, keycode);
 }
 
 static void custom_combo_clear_pending(void) {
