@@ -6,6 +6,7 @@
 // Defined in generated.c.
 void magic_decode_send(uint16_t offset);
 static void remember_real_keycode(uint16_t keycode);
+static inline void clear_suffix_state(void);
 extern int layer;
 
 #ifdef TRACE_LOGIC
@@ -23,6 +24,7 @@ static void combo_trace_logical(uint16_t keycode) {
 #endif
 
 static void combo_tap_logical(uint16_t keycode) {
+    clear_suffix_state();
     remember_real_keycode(keycode);
 #ifdef TRACE_LOGIC
     combo_trace_logical(keycode);

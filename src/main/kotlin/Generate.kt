@@ -548,6 +548,7 @@ private fun emitCombosC(
         "// Defined in generated.c.",
         "void magic_decode_send(uint16_t offset);",
         "static void remember_real_keycode(uint16_t keycode);",
+        "static inline void clear_suffix_state(void);",
         "extern int layer;",
         "",
         "#ifdef TRACE_LOGIC\n" +
@@ -565,6 +566,7 @@ private fun emitCombosC(
             "#endif",
         "",
         "static void combo_tap_logical(uint16_t keycode) {\n" +
+            "    clear_suffix_state();\n" +
             "    remember_real_keycode(keycode);\n" +
             "#ifdef TRACE_LOGIC\n" +
             "    combo_trace_logical(keycode);\n" +
