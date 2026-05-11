@@ -2,7 +2,7 @@ import java.io.File
 
 const val MAIN_LAYER_TEMPLATE_4_COLUMNS =
     "\t[%s] = LAYOUT_split_3x5_2(\n" +
-        "            %s, %s, %s, %s, PRINT_VERSION, KC_NO, %s, %s, %s, %s,\n" +
+        "            %s, %s, %s, %s, PRINT_VERSION, QK_REBOOT, %s, %s, %s, %s,\n" +
         "            %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s,\n" +
         "            %s, %s, %s, %s, KC_NO, KC_NO, %s, %s, %s, %s,\n" +
         "                            %s, %s, %s, %s),"
