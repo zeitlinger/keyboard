@@ -343,9 +343,7 @@ uint16_t COMBO_LEN = ARRAY_SIZE(key_combos);
 uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {
     (void)combo;
     if (combo_index >= 0 && combo_index <= 15) return 50;
-    if (combo_index >= 16 && combo_index <= 39) return 200;
-    if (combo_index >= 40 && combo_index <= 67) return 300;
-    if (combo_index >= 68 && combo_index <= 91) return 200;
+    if (combo_index >= 16 && combo_index <= 91) return 300;
     return COMBO_TERM;
 }
 

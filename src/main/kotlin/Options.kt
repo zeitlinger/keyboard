@@ -148,7 +148,7 @@ private fun layerOption(tables: Tables): Map<LayerName, LayerOption> {
                     .filter { it.isNotBlank() }
                     .map { LayerFlag.valueOf(it) }
                     .toSet(),
-                comboTimeouts[it.key],
+                comboTimeouts[it.key] ?: comboTimeouts[if (it.key == BASE_LAYER_NAME) BASE_LAYER_NAME else "Other"],
                 mutableMapOf(),
             )
         }

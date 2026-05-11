@@ -441,15 +441,7 @@ The order of the options is also the order of the layers in the layer stack.
 | ComboTimeout | Timeout |
 | :----------: | :-----: |
 |     Base     |   50    |
-|     Left     |   200   |
-|    Right     |   200   |
-|    LMods     |   200   |
-|    RMods     |   200   |
-|     Nav      |   300   |
-|    FnSym     |   200   |
-|     Num      |   200   |
-|     CNum     |   200   |
-|    Media     |   200   |
+|    Other     |   300   |
 
 ## Symbols
 
