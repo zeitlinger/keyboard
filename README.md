@@ -136,7 +136,7 @@ Cell = what to emit.
 |   w    |   always   |   wasn't   |           |  workflow   |   otherwise   |   switch   |         |    why     |     s     |    x    |   which    |
 |   x    | exception  |     w      |           |   except    |   explicit    |  exclude   |         |    exit    |     r     |    d    |  example   |
 |   a    |            |            |  address  |             |               |            |    e    |            |           |         |            |
-|   e    |            |            |     u     |             |               |            |    h    |      LGTM      |           |         |            |
+|   e    |            |            |     u     |             |               |            |    h    |    LGTM    |           |         |            |
 |   h    |            |            |           |             |               |            |  "qu"   |            |           |         |            |
 |   i    |            |            | implement |             |               |            | "impl"  |            |           |         |            |
 |   o    |            |            |     e     |             |               |            |    h    |            |           |         |            |
@@ -212,7 +212,7 @@ trailing auto-space.
 ## Layout
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
-| :---: | :-----: | :-----: |:-------:| :-----: |:-------:| :-----: | :-----: |:-------:|
+| :---: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
 | Base  |   esc   |    x    |    w    |  dead3  |  dead2  | magic_a | magic_b |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | \*Right |    f    |    l    |    d    |    u    |    o    |    y    | \*Left  |
@@ -289,7 +289,7 @@ trailing auto-space.
 | LMods |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |  dead2  |   f10   |   f9    |  dead2  |  dead3  |    (    |    )    |  dead1  |
-| FnSym |   f4    |   f3    |   f2    |   f1    |   🛑    |   🛑    |   🛑    |  =      |
+| FnSym |   f4    |   f3    |   f2    |   f1    |   🛑    |   🛑    |   🛑    |    =    |
 | FnSym |   f8    |   f7    |   f6    |   f5    |    -    |    {    |    }    |  \*Num  |
 | FnSym |         |         |         |   f12   |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -315,7 +315,7 @@ trailing auto-space.
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |  dead3  |   C-x   |   C-v   |  CS-z   |  dead1  |   esc   |   ins   |  dead2  |
 |  Nav  |  copy   |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬇️    |   ⬆️    |   ➡️    |
-|  Nav  |   C-z   |   C-w   | tab ➡️  | win ➡️  |   ↩️️   |  bspc   |   del   |   tab   |
+|  Nav  |   C-z   |   C-w   | tab ➡️  | win ➡️  |   ↩️️    |  bspc   |   del   |   tab   |
 |  Nav  |         |         |   🛑    |   🛑    |   spc   |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |         |         |         |  CS-v   |    ü    |         |         |         |
@@ -432,7 +432,7 @@ The order of the options is also the order of the layers in the layer stack.
 |    RMods     | BottomRow+RMods |                 |               |      Base      |                  |
 |     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |
 |    FnSym     |                 |     HomeRow     |               |                | DirectComboRight |
-|     Num      |                 |      BottomRow  |               |                | TriLayer         |
+|     Num      |                 |    BottomRow    |               |                | TriLayer         |
 |     ANum     |                 |                 |               |                |                  |
 |    Media     |                 |                 |               |                |                  |
 |     Case     |                 |                 |               |                |                  |
