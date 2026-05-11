@@ -1,6 +1,7 @@
 // file is generated from https://github.com/zeitlinger/keyboard/blob/main/README.md
 #include QMK_KEYBOARD_H
 #include "layout.h"
+#include "unicode_names.h"
 
 // Defined in generated.c; combos.c shares the magic string table.
 void magic_decode_send(uint16_t offset);
