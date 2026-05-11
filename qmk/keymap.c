@@ -133,9 +133,16 @@ static void dump_state(void) {
     send_string(" ");      send_hex_u16(magic_repeat_keycode);
     send_string(" ");      send_hex_u16(suffix_cycle_offset);
     send_string(" ");      send_hex_byte((uint8_t)last_magic_char);
+    for (uint8_t r = 0; r < MATRIX_ROWS; r++) {
+        send_string(" ");
+        matrix_row_t row = matrix_get_row(r);
+        send_hex_byte((row >> 8) & 0xFF);
+        send_hex_byte(row & 0xFF);
+    }
 }
 
 static void reset_all_state(void) {
+    clear_keyboard();
     clear_mods();
     clear_oneshot_mods();
     clear_weak_mods();
