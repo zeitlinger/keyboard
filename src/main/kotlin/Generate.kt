@@ -556,20 +556,16 @@ private fun emitCombosC(
 
 // Maps a combo to a C boolean expression that returns true on layers
 // where the combo is allowed to fire. Letter combos fire on both _BASE
-// and _LEFT (output layer-resolved in process_combo_event). Non-letter
-// combos fire only on the layer encoded in their name.
+// and _LEFT (output layer-resolved in process_combo_event). Other
+// combos fire only on their home layer, including SUB_* combos.
 private fun comboLayerCheck(combo: Combo): String? {
-    val name = combo.name
-    if (name.startsWith("SUB_")) return null // SUBS fire anywhere
-
-    val home =
-        when {
-            name.startsWith("C_") -> name.removePrefix("C_").substringBefore("_").uppercase()
-            else -> return null
-        }
+    val home = combo.homeLayer.uppercase()
     val homeCheck = "IS_LAYER_ON(_$home)"
 
-    val isLetterBase = home == "BASE" && combo.type == ComboType.Combo && isLetter(combo.result)
+    val isLetterBase =
+        combo.homeLayer == BASE_LAYER_NAME &&
+            combo.type == ComboType.Combo &&
+            isLetter(combo.result)
     return if (isLetterBase) {
         "$homeCheck || IS_LAYER_ON(_LEFT)"
     } else {

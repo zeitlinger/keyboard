@@ -337,7 +337,14 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     case C_FNSYM_MO_NUM:
         return IS_LAYER_ON(_FNSYM);
     case C_LEFT_KC_COLN:
+    case SUB_1:
         return IS_LAYER_ON(_LEFT);
+    case SUB_2:
+    case SUB_3:
+    case SUB_4:
+    case SUB_5:
+    case SUB_6:
+        return IS_LAYER_ON(_MEDIA);
     case C_NAV_AKC_F12:
     case C_NAV_CKC_A:
     case C_NAV_CKC_B:

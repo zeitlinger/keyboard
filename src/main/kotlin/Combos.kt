@@ -29,6 +29,7 @@ enum class ComboSource {
 data class Combo(
     val type: ComboType,
     var name: String,
+    val homeLayer: String,
     val result: QmkKey,
     val triggers: List<Key>,
     val timeout: Int?,
@@ -38,6 +39,7 @@ data class Combo(
             type: ComboType,
             source: ComboSource,
             name: String,
+            homeLayer: String,
             result: QmkKey,
             triggers: List<Key>,
             timeout: Int? = 0,
@@ -54,7 +56,7 @@ data class Combo(
                     }",
                 )
             }
-            return listOf(Combo(type, name, result, triggers.sortedBy { it.keyWithModifier.key }, timeout))
+            return listOf(Combo(type, name, homeLayer, result, triggers.sortedBy { it.keyWithModifier.key }, timeout))
         }
     }
 }
@@ -292,6 +294,7 @@ private fun combos(
         type,
         source,
         name,
+        layer.name,
         content,
         triggers,
         keyTimeout,
