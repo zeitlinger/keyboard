@@ -630,7 +630,9 @@ bool process_custom_combo(uint16_t keycode, keyrecord_t *record) {
     if (!record->event.pressed) {
         if (custom_combo_pending && custom_combo_keypos_equal(custom_combo_pending_record.event.key, key)) {
             if (!custom_combo_pending_passthrough) {
-                custom_combo_dispatch_record(custom_combo_pending_record, custom_combo_pending_keycode);
+                custom_combo_tap_keycode(custom_combo_pending_keycode);
+                custom_combo_clear_pending();
+                return false;
             }
             custom_combo_clear_pending();
         }
