@@ -112,7 +112,7 @@ static void send_hex_u16(uint16_t v) {
 
 // Order: mods osm weak layer flags last prev mtrig mrep mrem mrep2 cyc lmc
 //   flags bits: 0 suffix, 1 winsw, 2 tabsw, 3 osmouse, 4 caps, 5-6 xcase, 7 magcap
-static void dump_state(void) {
+static void dump_state(uint8_t snap_mods, uint8_t snap_osm, uint8_t snap_weak) {
     uint8_t flags = (suffix_active                ? 0x01 : 0)
                   | (is_window_switcher_active    ? 0x02 : 0)
                   | (is_tab_switcher_active       ? 0x04 : 0)
@@ -120,9 +120,9 @@ static void dump_state(void) {
                   | (caps_word_enabled()          ? 0x10 : 0)
                   | ((get_xcase_state() & 0x3) << 5)
                   | (magic_capitalize_next        ? 0x80 : 0);
-    send_string(" ");      send_hex_byte(get_mods());
-    send_string(" ");      send_hex_byte(get_oneshot_mods());
-    send_string(" ");      send_hex_byte(get_weak_mods());
+    send_string(" ");      send_hex_byte(snap_mods);
+    send_string(" ");      send_hex_byte(snap_osm);
+    send_string(" ");      send_hex_byte(snap_weak);
     send_string(" ");      send_hex_byte((uint8_t)layer);
     send_string(" ");      send_hex_byte(flags);
     send_string(" ");      send_hex_u16(last_keycode);
@@ -252,6 +252,24 @@ bool process_switcher(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    // Emergency dump+reset must bypass every other handler so a wedged
+    // state (e.g. switcher swallowing all keys) cannot trap it.
+    if (keycode == _HANDLER_PRINT_VERSION) {
+        if (record->event.pressed) {
+            uint8_t snap_mods = get_mods();
+            uint8_t snap_osm  = get_oneshot_mods();
+            uint8_t snap_weak = get_weak_mods();
+            clear_keyboard();
+            clear_mods();
+            clear_oneshot_mods();
+            clear_weak_mods();
+            SEND_STRING(VERSION_STRING);
+            dump_state(snap_mods, snap_osm, snap_weak);
+            reset_all_state();
+        }
+        return false;
+    }
+
     if (!process_suffix(keycode, record)) {
         return false;
     }
@@ -295,13 +313,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         break;
     #endif
-    case _HANDLER_PRINT_VERSION:
-        if (record->event.pressed) {
-            SEND_STRING(VERSION_STRING);
-            dump_state();
-            reset_all_state();
-        }
-        return false;
     #ifdef _HANDLER_DOT_SPC
     case _HANDLER_DOT_SPC:
         if (record->event.pressed) {
