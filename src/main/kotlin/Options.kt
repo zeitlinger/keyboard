@@ -128,8 +128,13 @@ private fun readSymbols(
     )
 }
 
-private fun layerOption(tables: Tables): Map<LayerName, LayerOption> =
-    tables
+private fun layerOption(tables: Tables): Map<LayerName, LayerOption> {
+    val comboTimeouts =
+        tables
+            .getOptional("ComboTimeout")
+            ?.associate { it[0] to it[1].toInt() }
+            .orEmpty()
+    return tables
         .getSingle("LayerOptions")
         .associateBy { it[0] }
         .mapValues {
@@ -143,10 +148,11 @@ private fun layerOption(tables: Tables): Map<LayerName, LayerOption> =
                     .filter { it.isNotBlank() }
                     .map { LayerFlag.valueOf(it) }
                     .toSet(),
-                it.value[6].takeUnless { it.isBlank() }?.toInt(),
+                comboTimeouts[it.key],
                 mutableMapOf(),
             )
         }
+}
 
 private fun options(
     tables: Tables,

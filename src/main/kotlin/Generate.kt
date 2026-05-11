@@ -686,38 +686,41 @@ private fun emitCombosC(
                 }
             }
         }
-    val comboTimeouts = sorted.map { it.timeout ?: error("combo timeout missing") }
-    val baseComboCount = sorted.takeWhile { it.homeLayer == BASE_LAYER_NAME }.size
-    val baseComboTimeout = comboTimeouts.take(baseComboCount).distinct().singleOrNull()
-    val nonBaseComboTimeout = comboTimeouts.drop(baseComboCount).distinct().singleOrNull()
-    val comboTermCases =
-        sorted
-            .groupBy { it.timeout ?: error("combo timeout missing") }
-            .toList()
-            .sortedBy { it.first }
-            .flatMap { (timeout, combos) ->
-                combos.sortedBy { it.name }.map { "    case ${it.name}:" } + "        return $timeout;"
+    val comboTimeoutRanges =
+        buildList<Triple<Int, Int, Int>> {
+            for ((index, combo) in sorted.withIndex()) {
+                val timeout = combo.timeout ?: error("combo timeout missing")
+                val last = lastOrNull()
+                if (last != null && last.third == timeout && last.second + 1 == index) {
+                    this[this.lastIndex] = Triple(last.first, index, timeout)
+                } else {
+                    add(Triple(index, index, timeout))
+                }
             }
+        }
     val getComboTerm =
         when {
-            comboTermCases.isEmpty() ->
+            comboTimeoutRanges.isEmpty() ->
                 "uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) { (void)combo; return COMBO_TERM; }"
-            baseComboCount > 0 &&
-                baseComboCount < sorted.size &&
-                baseComboTimeout != null &&
-                nonBaseComboTimeout != null ->
+            comboTimeoutRanges.size == 1 ->
+                "uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) { (void)combo; (void)combo_index; return ${comboTimeoutRanges.single().third}; }"
+            else -> {
+                val conditions =
+                    comboTimeoutRanges.map { (start, end, timeout) ->
+                        val condition =
+                            if (start == end) {
+                                "combo_index == $start"
+                            } else {
+                                "combo_index >= $start && combo_index <= $end"
+                            }
+                        "    if ($condition) return $timeout;"
+                    }
                 "uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {\n" +
                     "    (void)combo;\n" +
-                    "    return combo_index < $baseComboCount ? $baseComboTimeout : $nonBaseComboTimeout;\n" +
+                    conditions.joinToString("\n") +
+                    "\n    return COMBO_TERM;\n" +
                     "}"
-            else ->
-                "uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {\n" +
-                    "    (void)combo;\n" +
-                    "    switch (combo_index) {\n" +
-                    comboTermCases.joinToString("\n") +
-                    "\n    default:\n" +
-                    "        return COMBO_TERM;\n" +
-                    "    }\n}"
+            }
         }
     val shouldTriggerSignature =
         "bool combo_should_trigger(uint16_t combo_index, combo_t *combo, " +
