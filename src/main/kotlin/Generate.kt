@@ -171,6 +171,7 @@ fun run(args: GeneratorArgs) {
                     .singleOrNull { LayerFlag.TriLayer in it.option.flags }
                     ?.let { triLayer(it, translator) } ?: ""
             ),
+            "comboCount" to combos.size.toString(),
         ),
     )
     replaceTemplate(

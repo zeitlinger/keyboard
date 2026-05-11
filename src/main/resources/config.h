@@ -7,6 +7,7 @@
 #define TAPPING_TOGGLE 2
 
 #define EXTRA_SHORT_COMBOS
+#define COMBO_COUNT ${comboCount}
 
 #define UNICODE_SELECTED_MODES UNICODE_MODE_LINUX
 
