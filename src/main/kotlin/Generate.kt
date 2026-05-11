@@ -218,8 +218,9 @@ fun run(args: GeneratorArgs) {
         analyze(translator, layers)
     }
 
+    val baseLayer = layers.first { it.name == BASE_LAYER_NAME }
     File(dstDir, "combos.c").writeText(
-        emitCombosC(combos, generationNote, encodedMagicStrings.stringOffsets),
+        emitCombosC(combos, generationNote, encodedMagicStrings.stringOffsets, baseLayer),
     )
     File(dstDir, "combos.def").delete()
 }
@@ -436,55 +437,101 @@ private fun emitCombosC(
     combos: List<Combo>,
     generationNote: String,
     stringOffsets: Map<String, Int>,
+    baseLayer: Layer,
 ): String {
     val sorted = combos.sortedBy { it.name }
+
+    // With COMBO_ONLY_FROM_LAYER _BASE, the matcher reads keycodes from
+    // the base layer for any position. So rewrite each combo trigger to
+    // the keycode that lives at the same row/col on _BASE.
+    fun triggerKeycode(key: Key): String =
+        baseLayer.rows[key.pos.row][key.pos.column].keyWithModifier.key
+
     val triggerArrays =
         sorted.joinToString("\n") { combo ->
-            val triggers = combo.triggers.joinToString(", ") { it.keyWithModifier.key }
+            val triggers = combo.triggers.joinToString(", ") { triggerKeycode(it) }
             "const uint16_t PROGMEM ${combo.name}_combo[] = {$triggers, COMBO_END};"
         }
     val enum =
         "enum combos {\n" +
             sorted.joinToString(",\n") { "    ${it.name}" } +
             "\n};"
+
+    // Letter combos (output is a single basic letter on _BASE) need
+    // layer-aware emission so that shifted layers produce shifted output.
+    fun isLetterCombo(combo: Combo): Boolean =
+        combo.type == ComboType.Combo &&
+            combo.name.startsWith("C_BASE_") &&
+            isLetter(combo.result)
+
     val table =
         "combo_t key_combos[] = {\n" +
             sorted.joinToString(",\n") { combo ->
-                when (combo.type) {
-                    ComboType.Combo -> {
-                        "    [${combo.name}] = COMBO(${combo.name}_combo, ${combo.result.key})"
-                    }
-
-                    ComboType.Substitution -> {
+                when {
+                    combo.type == ComboType.Substitution || isLetterCombo(combo) ->
                         "    [${combo.name}] = COMBO_ACTION(${combo.name}_combo)"
-                    }
+                    else ->
+                        "    [${combo.name}] = COMBO(${combo.name}_combo, ${combo.result.key})"
                 }
             } + "\n};"
-    val subs =
-        sorted.filter { it.type == ComboType.Substitution }
+
+    val subsCases =
+        sorted.filter { it.type == ComboType.Substitution }.map { combo ->
+            val raw = unquoteSubsString(combo.result.substitution!!)
+            val offset = stringOffsets.getValue(raw)
+            "    case ${combo.name}: magic_decode_send($offset); break; // ${combo.result.substitution}"
+        }
+    val letterCases =
+        sorted.filter { isLetterCombo(it) }.map { combo ->
+            val base = combo.result.key
+            "    case ${combo.name}: tap_code16(layer == _LEFT ? S($base) : $base); break;"
+        }
     val processEvent =
-        if (subs.isEmpty()) {
+        if (subsCases.isEmpty() && letterCases.isEmpty()) {
             "void process_combo_event(uint16_t combo_index, bool pressed) {}"
         } else {
             "void process_combo_event(uint16_t combo_index, bool pressed) {\n" +
                 "    if (!pressed) return;\n" +
                 "    switch (combo_index) {\n" +
-                subs.joinToString("\n") { combo ->
-                    val raw = unquoteSubsString(combo.result.substitution!!)
-                    val offset = stringOffsets.getValue(raw)
-                    "    case ${combo.name}: magic_decode_send($offset); break; // ${combo.result.substitution}"
-                } +
+                (subsCases + letterCases).joinToString("\n") +
                 "\n    default: break;\n" +
                 "    }\n}"
         }
+
+    // combo_should_trigger gates each combo to its declared home layer.
+    // Without this, e.g. a C_NAV_* combo's base-layer trigger keycodes
+    // would also match on _BASE, _LEFT, etc., misfiring those layers.
+    // Letter combos (C_BASE_*) intentionally fire on both _BASE and
+    // _LEFT — the layer-aware process_combo_event picks shifted output.
+    val shouldTriggerCases =
+        sorted
+            .mapNotNull { combo -> comboLayerCheck(combo)?.let { combo.name to it } }
+            .groupBy({ it.second }, { it.first })
+            .toSortedMap()
+            .flatMap { (check, names) ->
+                names.sorted().map { "    case $it:" } + "        return $check;"
+            }
+    val shouldTrigger =
+        if (shouldTriggerCases.isEmpty()) {
+            "bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) { return true; }"
+        } else {
+            "bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {\n" +
+                "    switch (combo_index) {\n" +
+                shouldTriggerCases.joinToString("\n") +
+                "\n    default:\n" +
+                "        return true;\n" +
+                "    }\n}"
+        }
+
     return listOf(
         "// $generationNote",
         "#include QMK_KEYBOARD_H",
         "#include \"layout.h\"",
         "#include \"unicode_names.h\"",
         "",
-        "// Defined in generated.c; combos.c shares the magic string table.",
+        "// Defined in generated.c.",
         "void magic_decode_send(uint16_t offset);",
+        "extern int layer;",
         "",
         triggerArrays,
         "",
@@ -494,9 +541,34 @@ private fun emitCombosC(
         "",
         "uint16_t COMBO_LEN = ARRAY_SIZE(key_combos);",
         "",
+        shouldTrigger,
+        "",
         processEvent,
         "",
     ).joinToString("\n")
+}
+
+// Maps a combo to a C boolean expression that returns true on layers
+// where the combo is allowed to fire. Letter combos fire on both _BASE
+// and _LEFT (output layer-resolved in process_combo_event). Non-letter
+// combos fire only on the layer encoded in their name.
+private fun comboLayerCheck(combo: Combo): String? {
+    val name = combo.name
+    if (name.startsWith("SUB_")) return null // SUBS fire anywhere
+
+    val home =
+        when {
+            name.startsWith("C_") -> name.removePrefix("C_").substringBefore("_").uppercase()
+            else -> return null
+        }
+    val homeCheck = "IS_LAYER_ON(_$home)"
+
+    val isLetterBase = home == "BASE" && combo.type == ComboType.Combo && isLetter(combo.result)
+    return if (isLetterBase) {
+        "$homeCheck || IS_LAYER_ON(_LEFT)"
+    } else {
+        homeCheck
+    }
 }
 
 private fun addMagic(
