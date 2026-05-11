@@ -110,11 +110,6 @@ static void send_hex_byte(uint8_t b) {
     send_hex_nibble(b & 0xF);
 }
 
-static void send_hex_u16(uint16_t v) {
-    send_hex_byte(v >> 8);
-    send_hex_byte(v & 0xFF);
-}
-
 // Emit only fields that differ from a clean idle state, each with a short
 // label. Empty output = nothing wrong. Flags bits: 0 suffix, 1 winsw,
 // 2 tabsw, 3 osmouse, 4 caps, 5-6 xcase, 7 magcap.
