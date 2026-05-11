@@ -370,22 +370,10 @@ static inline void set_suffix_word_state(char c, uint16_t cycle_offset, bool cap
     last_magic_char = c;
     suffix_cycle_offset = cycle_offset;
     suffix_cycle_capitalize = capitalize;
-#ifdef TRACE_LOGIC
-    SEND_STRING("[SSW:");
-    trace_char_label(c);
-    SEND_STRING("]");
-#endif
 }
 
 static void magic_decode_send_cap_cycle(uint16_t offset, char suffix, uint16_t cycle_offset) {
     bool capitalize = magic_capitalize_next;
-#ifdef TRACE_LOGIC
-    SEND_STRING("[MWC:");
-    trace_char_label(suffix);
-    SEND_STRING("|cap=");
-    trace_bool_label(capitalize);
-    SEND_STRING("]");
-#endif
     if (capitalize) {
         add_oneshot_mods(MOD_BIT(KC_LSFT));
     }
@@ -398,26 +386,12 @@ static void magic_decode_send_cap_cycle(uint16_t offset, char suffix, uint16_t c
 
 static void magic_decode_send_suffix_cycle(uint16_t offset, char suffix, uint16_t cycle_offset) {
     bool capitalize = magic_capitalize_next;
-#ifdef TRACE_LOGIC
-    SEND_STRING("[MWS:");
-    trace_char_label(suffix);
-    SEND_STRING("|cap=");
-    trace_bool_label(capitalize);
-    SEND_STRING("]");
-#endif
     magic_decode_send(offset);
     set_suffix_word_state(suffix, cycle_offset, capitalize);
     magic_capitalize_next = false;
 }
 
 static void magic_replace_decode_send_cap_cycle(uint16_t offset, char suffix, uint16_t cycle_offset) {
-#ifdef TRACE_LOGIC
-    SEND_STRING("[MWR:");
-    trace_char_label(suffix);
-    SEND_STRING("|ctx=");
-    trace_bool_label(magic_context_key_emitted);
-    SEND_STRING("]");
-#endif
     if (magic_context_key_emitted) {
         tap_code16(KC_BSPC);
     }
@@ -427,13 +401,7 @@ static void magic_replace_decode_send_cap_cycle(uint16_t offset, char suffix, ui
 static bool process_magic_cycle_next(void) {
     uint16_t next_offset = 0;
     char next_last_char = '\0';
-#ifdef TRACE_LOGIC
-    SEND_STRING("[CY]");
-#endif
     if (suffix_cycle_offset == MAGIC_CYCLE_NONE || !magic_cycle_lookup(suffix_cycle_offset, &next_offset, &next_last_char)) {
-#ifdef TRACE_LOGIC
-        SEND_STRING("[CY0]");
-#endif
         clear_suffix_state();
         return false;
     }
@@ -448,11 +416,6 @@ static bool process_magic_cycle_next(void) {
     }
     magic_decode_send_skip(next_offset, suffix_cycle_common_prefix_length);
     set_suffix_word_state(next_last_char, next_offset, suffix_cycle_capitalize);
-#ifdef TRACE_LOGIC
-    SEND_STRING("[CY>:");
-    trace_char_label(next_last_char);
-    SEND_STRING("]");
-#endif
     return true;
 }
 
@@ -486,13 +449,6 @@ static bool repeat_last_magic_key(uint16_t trigger) {
     if (last_magic_trigger != trigger || last_magic_repeat_keycode == KC_NO) {
         return false;
     }
-#ifdef TRACE_LOGIC
-    SEND_STRING("[MR:");
-    trace_keycode_label(trigger);
-    SEND_STRING(">");
-    trace_keycode_label(last_magic_repeat_keycode);
-    SEND_STRING("]");
-#endif
     tap_code16(last_magic_repeat_keycode);
     set_last_keycode(last_magic_repeat_keycode);
     return true;
@@ -533,11 +489,6 @@ static void remember_real_keycode(uint16_t keycode) {
 }
 
 bool tap(uint16_t keycode) {
-#ifdef TRACE_LOGIC
-    SEND_STRING("[T:");
-    trace_keycode_label(keycode);
-    SEND_STRING("]");
-#endif
     tap_code16(keycode);
     set_last_keycode(keycode);
     return false;
@@ -560,13 +511,6 @@ bool tap_adaptive(uint16_t pressed_keycode, uint16_t output_keycode) {
 }
 
 static inline void magic_replace_decode_send_cap(uint16_t offset, char suffix) {
-#ifdef TRACE_LOGIC
-    SEND_STRING("[MWR0:");
-    trace_char_label(suffix);
-    SEND_STRING("|ctx=");
-    trace_bool_label(magic_context_key_emitted);
-    SEND_STRING("]");
-#endif
     if (magic_context_key_emitted) {
         tap_code16(KC_BSPC);
     }
@@ -574,24 +518,12 @@ static inline void magic_replace_decode_send_cap(uint16_t offset, char suffix) {
 }
 
 static void magic_tap_repeatable(uint16_t keycode) {
-#ifdef TRACE_LOGIC
-    SEND_STRING("[MT:");
-    trace_keycode_label(keycode);
-    SEND_STRING("]");
-#endif
     tap_code16(keycode);
     magic_remembered_keycode = keycode;
     magic_repeat_keycode = keycode;
 }
 
 static inline void magic_replace_tap_repeatable(uint16_t keycode) {
-#ifdef TRACE_LOGIC
-    SEND_STRING("[MTR:");
-    trace_keycode_label(keycode);
-    SEND_STRING("|ctx=");
-    trace_bool_label(magic_context_key_emitted);
-    SEND_STRING("]");
-#endif
     if (magic_context_key_emitted) {
         tap_code16(KC_BSPC);
     }
