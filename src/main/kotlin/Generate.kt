@@ -219,9 +219,8 @@ fun run(args: GeneratorArgs) {
         analyze(translator, layers)
     }
 
-    val baseLayer = layers.first { it.name == BASE_LAYER_NAME }
     File(dstDir, "combos.c").writeText(
-        emitCombosC(combos, generationNote, encodedMagicStrings.stringOffsets, baseLayer),
+        emitCombosC(combos, generationNote, encodedMagicStrings.stringOffsets),
     )
     File(dstDir, "combos.def").delete()
 }
@@ -438,20 +437,8 @@ private fun emitCombosC(
     combos: List<Combo>,
     generationNote: String,
     stringOffsets: Map<String, Int>,
-    baseLayer: Layer,
 ): String {
     val sorted = combos.sortedBy { it.name }
-
-    // With COMBO_ONLY_FROM_LAYER _BASE, the matcher reads keycodes from
-    // the base layer for any position. So rewrite each combo trigger to
-    // the keycode that lives at the same row/col on _BASE.
-    fun triggerKeycode(key: Key): String = baseLayer.rows[key.pos.row][key.pos.column].keyWithModifier.key
-
-    val triggerArrays =
-        sorted.joinToString("\n") { combo ->
-            val triggers = combo.triggers.joinToString(", ") { triggerKeycode(it) }
-            "const uint16_t PROGMEM ${combo.name}_combo[] = {$triggers, COMBO_END};"
-        }
     val enum =
         "enum combos {\n" +
             sorted.joinToString(",\n") { "    ${it.name}" } +
@@ -464,74 +451,222 @@ private fun emitCombosC(
             combo.name.startsWith("C_BASE_") &&
             isLetter(combo.result)
 
-    val table =
-        "combo_t key_combos[] = {\n" +
-            sorted.joinToString(",\n") { combo ->
-                when {
-                    combo.type == ComboType.Substitution || isLetterCombo(combo) -> {
-                        "    [${combo.name}] = COMBO_ACTION(${combo.name}_combo)"
-                    }
-
-                    else -> {
-                        "    [${combo.name}] = COMBO(${combo.name}_combo, ${combo.result.key})"
-                    }
-                }
-            } + "\n};"
-
-    val subsCases =
+    val emitCases =
         sorted.filter { it.type == ComboType.Substitution }.map { combo ->
             val raw = unquoteSubsString(combo.result.substitution!!)
             val offset = stringOffsets.getValue(raw)
             "    case ${combo.name}: magic_decode_send($offset); break; // ${combo.result.substitution}"
-        }
-    val letterCases =
-        sorted.filter { isLetterCombo(it) }.map { combo ->
+        } +
+            sorted.filter { isLetterCombo(it) }.map { combo ->
             val base = combo.result.key
             "    case ${combo.name}: tap_code16(layer == _LEFT ? S($base) : $base); break;"
+        } +
+            sorted
+                .filter { it.type != ComboType.Substitution && !isLetterCombo(it) }
+                .map { combo ->
+                    "    case ${combo.name}: tap_code16(${combo.result.key}); break;"
+                }
+
+    val metadata =
+        "typedef struct {\n" +
+            "    uint16_t index;\n" +
+            "    uint8_t row1;\n" +
+            "    uint8_t col1;\n" +
+            "    uint8_t row2;\n" +
+            "    uint8_t col2;\n" +
+            "    uint8_t home_layer;\n" +
+            "    bool allow_left;\n" +
+            "    uint16_t term;\n" +
+            "} positional_combo_t;\n\n" +
+            "static const positional_combo_t positional_combos[] = {\n" +
+            sorted.joinToString(",\n") { combo ->
+                val a = combo.triggers[0].pos
+                val b = combo.triggers[1].pos
+                val allowLeft =
+                    combo.homeLayer == BASE_LAYER_NAME &&
+                        combo.type == ComboType.Combo &&
+                        isLetter(combo.result)
+                "    {${combo.name}, ${a.row}, ${a.column}, ${b.row}, ${b.column}, _${combo.homeLayer.uppercase()}, ${if (allowLeft) "true" else "false"}, ${combo.timeout ?: 0}}"
+            } +
+            "\n};"
+
+    val emitFunction =
+        "static void emit_custom_combo(uint16_t combo_index) {\n" +
+            "    switch (combo_index) {\n" +
+            emitCases.joinToString("\n") +
+            "\n    default: break;\n" +
+            "    }\n}"
+
+    val customMatcher =
+        """
+static bool custom_combo_replaying = false;
+static bool custom_combo_pending = false;
+static bool custom_combo_pending_passthrough = false;
+static keyrecord_t custom_combo_pending_record;
+static uint16_t custom_combo_pending_keycode = KC_NO;
+static uint16_t custom_combo_pending_timer = 0;
+static uint16_t custom_combo_pending_term = 0;
+
+static bool custom_combo_active = false;
+static keypos_t custom_combo_active_keys[2];
+static bool custom_combo_active_down[2] = {false, false};
+static bool custom_combo_swallow_release[2] = {false, false};
+
+static bool custom_combo_keypos_equal(keypos_t a, keypos_t b) {
+    return a.row == b.row && a.col == b.col;
+}
+
+static bool custom_combo_allows_layer(const positional_combo_t *combo) {
+    return layer == combo->home_layer || (combo->allow_left && layer == _LEFT);
+}
+
+static bool custom_combo_contains_pos(const positional_combo_t *combo, keypos_t key) {
+    return (combo->row1 == key.row && combo->col1 == key.col)
+        || (combo->row2 == key.row && combo->col2 == key.col);
+}
+
+static uint16_t custom_combo_term_for_key(keypos_t key) {
+    uint16_t best = 0;
+    for (uint16_t i = 0; i < ARRAY_SIZE(positional_combos); ++i) {
+        const positional_combo_t *combo = &positional_combos[i];
+        if (custom_combo_allows_layer(combo) && custom_combo_contains_pos(combo, key) && combo->term > best) {
+            best = combo->term;
         }
-    val processEvent =
-        if (subsCases.isEmpty() && letterCases.isEmpty()) {
-            "void process_combo_event(uint16_t combo_index, bool pressed) {}"
-        } else {
-            "void process_combo_event(uint16_t combo_index, bool pressed) {\n" +
-                "    if (!pressed) return;\n" +
-                "    switch (combo_index) {\n" +
-                (subsCases + letterCases).joinToString("\n") +
-                "\n    default: break;\n" +
-                "    }\n}"
+    }
+    return best;
+}
+
+static bool custom_combo_has_candidate(keypos_t key) {
+    return custom_combo_term_for_key(key) > 0;
+}
+
+static int16_t custom_combo_find_match(keypos_t a, keypos_t b) {
+    for (uint16_t i = 0; i < ARRAY_SIZE(positional_combos); ++i) {
+        const positional_combo_t *combo = &positional_combos[i];
+        if (!custom_combo_allows_layer(combo)) {
+            continue;
+        }
+        const bool forward = combo->row1 == a.row && combo->col1 == a.col && combo->row2 == b.row && combo->col2 == b.col;
+        const bool reverse = combo->row1 == b.row && combo->col1 == b.col && combo->row2 == a.row && combo->col2 == a.col;
+        if (forward || reverse) {
+            return combo->index;
+        }
+    }
+    return -1;
+}
+
+static bool custom_combo_key_must_passthrough(uint16_t keycode) {
+    return (QK_MOMENTARY <= keycode && keycode <= QK_MOMENTARY_MAX)
+        || (QK_LAYER_TAP <= keycode && keycode <= QK_ONE_SHOT_LAYER_MAX);
+}
+
+static void custom_combo_dispatch_record(keyrecord_t record, uint16_t keycode) {
+    custom_combo_replaying = true;
+    record.keycode = keycode;
+#ifndef NO_ACTION_TAPPING
+    action_tapping_process(record);
+#else
+    process_record(&record);
+#endif
+    custom_combo_replaying = false;
+}
+
+static void custom_combo_clear_pending(void) {
+    custom_combo_pending = false;
+    custom_combo_pending_passthrough = false;
+    custom_combo_pending_keycode = KC_NO;
+    custom_combo_pending_timer = 0;
+    custom_combo_pending_term = 0;
+}
+
+static void custom_combo_flush_pending_press(void) {
+    if (!custom_combo_pending) {
+        return;
+    }
+    if (!custom_combo_pending_passthrough) {
+        custom_combo_dispatch_record(custom_combo_pending_record, custom_combo_pending_keycode);
+    }
+    custom_combo_clear_pending();
+}
+
+bool process_custom_combo(uint16_t keycode, keyrecord_t *record) {
+    if (custom_combo_replaying) {
+        return true;
+    }
+
+    keypos_t key = record->event.key;
+
+    if (custom_combo_active && !record->event.pressed) {
+        for (uint8_t i = 0; i < 2; ++i) {
+            if (custom_combo_active_down[i] && custom_combo_keypos_equal(custom_combo_active_keys[i], key)) {
+                custom_combo_active_down[i] = false;
+                const bool swallow = custom_combo_swallow_release[i];
+                if (!custom_combo_active_down[0] && !custom_combo_active_down[1]) {
+                    custom_combo_active = false;
+                }
+                return !swallow;
+            }
+        }
+    }
+
+    if (custom_combo_pending && custom_combo_pending_term > 0
+        && timer_elapsed(custom_combo_pending_timer) > custom_combo_pending_term) {
+        custom_combo_flush_pending_press();
+    }
+
+    if (!record->event.pressed) {
+        if (custom_combo_pending && custom_combo_keypos_equal(custom_combo_pending_record.event.key, key)) {
+            if (!custom_combo_pending_passthrough) {
+                custom_combo_dispatch_record(custom_combo_pending_record, custom_combo_pending_keycode);
+            }
+            custom_combo_clear_pending();
+        }
+        return true;
+    }
+
+    if (custom_combo_pending) {
+        int16_t combo_index = custom_combo_find_match(custom_combo_pending_record.event.key, key);
+        if (combo_index >= 0) {
+            emit_custom_combo((uint16_t)combo_index);
+            custom_combo_active = true;
+            custom_combo_active_keys[0] = custom_combo_pending_record.event.key;
+            custom_combo_active_keys[1] = key;
+            custom_combo_active_down[0] = true;
+            custom_combo_active_down[1] = true;
+            custom_combo_swallow_release[0] = !custom_combo_pending_passthrough;
+            custom_combo_swallow_release[1] = true;
+            custom_combo_clear_pending();
+            return false;
         }
 
-    // combo_should_trigger gates each combo to its declared home layer.
-    // Without this, e.g. a C_NAV_* combo's base-layer trigger keycodes
-    // would also match on _BASE, _LEFT, etc., misfiring those layers.
-    // Letter combos (C_BASE_*) intentionally fire on both _BASE and
-    // _LEFT — the layer-aware process_combo_event picks shifted output.
-    val shouldTriggerCases =
-        sorted
-            .mapNotNull { combo -> comboLayerCheck(combo)?.let { combo.name to it } }
-            .groupBy({ it.second }, { it.first })
-            .toSortedMap()
-            .flatMap { (check, names) ->
-                names.sorted().map { "    case $it:" } + "        return $check;"
-            }
-    val shouldTriggerSignature =
-        "bool combo_should_trigger(uint16_t combo_index, combo_t *combo, " +
-            "uint16_t keycode, keyrecord_t *record)"
-    val shouldTrigger =
-        if (shouldTriggerCases.isEmpty()) {
-            "$shouldTriggerSignature { return true; }"
-        } else {
-            "$shouldTriggerSignature {\n" +
-                "    switch (combo_index) {\n" +
-                shouldTriggerCases.joinToString("\n") +
-                "\n    default:\n" +
-                "        return true;\n" +
-                "    }\n}"
-        }
+        custom_combo_flush_pending_press();
+    }
+
+    if (!custom_combo_has_candidate(key)) {
+        return true;
+    }
+
+    custom_combo_pending = true;
+    custom_combo_pending_passthrough = custom_combo_key_must_passthrough(keycode);
+    custom_combo_pending_record = *record;
+    custom_combo_pending_keycode = keycode;
+    custom_combo_pending_timer = timer_read();
+    custom_combo_pending_term = custom_combo_term_for_key(key);
+    return custom_combo_pending_passthrough;
+}
+
+void custom_combo_task(void) {
+    if (custom_combo_pending && !custom_combo_pending_passthrough && custom_combo_pending_term > 0
+        && timer_elapsed(custom_combo_pending_timer) > custom_combo_pending_term) {
+        custom_combo_flush_pending_press();
+    }
+}
+        """.trimIndent()
 
     return listOf(
         "// $generationNote",
         "#include QMK_KEYBOARD_H",
+        "#include \"action_tapping.h\"",
         "#include \"layout.h\"",
         "#include \"unicode_names.h\"",
         "",
@@ -539,38 +674,15 @@ private fun emitCombosC(
         "void magic_decode_send(uint16_t offset);",
         "extern int layer;",
         "",
-        triggerArrays,
-        "",
         enum,
         "",
-        table,
+        metadata,
         "",
-        "uint16_t COMBO_LEN = ARRAY_SIZE(key_combos);",
+        emitFunction,
         "",
-        shouldTrigger,
-        "",
-        processEvent,
+        customMatcher,
         "",
     ).joinToString("\n")
-}
-
-// Maps a combo to a C boolean expression that returns true on layers
-// where the combo is allowed to fire. Letter combos fire on both _BASE
-// and _LEFT (output layer-resolved in process_combo_event). Other
-// combos fire only on their home layer, including SUB_* combos.
-private fun comboLayerCheck(combo: Combo): String? {
-    val home = combo.homeLayer.uppercase()
-    val homeCheck = "layer == _$home"
-
-    val isLetterBase =
-        combo.homeLayer == BASE_LAYER_NAME &&
-            combo.type == ComboType.Combo &&
-            isLetter(combo.result)
-    return if (isLetterBase) {
-        "$homeCheck || layer == _LEFT"
-    } else {
-        homeCheck
-    }
 }
 
 private fun addMagic(
