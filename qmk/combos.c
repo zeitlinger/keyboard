@@ -7,11 +7,26 @@
 void magic_decode_send(uint16_t offset);
 static void remember_real_keycode(uint16_t keycode);
 static inline void clear_suffix_state(void);
+bool process_record_generated(uint16_t keycode, keyrecord_t *record);
 extern int layer;
 
 static void combo_tap_logical(uint16_t keycode) {
     clear_suffix_state();
     remember_real_keycode(keycode);
+    keyrecord_t record = {
+        .event = {
+            .key = (keypos_t){0, 0},
+            .pressed = true,
+            .time = timer_read(),
+        },
+        .tap = {
+            .count = 0,
+            .interrupted = false,
+        },
+    };
+    if (!process_record_generated(keycode, &record)) {
+        return;
+    }
     tap_code16(keycode);
 }
 

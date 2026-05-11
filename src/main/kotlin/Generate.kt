@@ -549,11 +549,26 @@ private fun emitCombosC(
         "void magic_decode_send(uint16_t offset);",
         "static void remember_real_keycode(uint16_t keycode);",
         "static inline void clear_suffix_state(void);",
+        "bool process_record_generated(uint16_t keycode, keyrecord_t *record);",
         "extern int layer;",
         "",
         "static void combo_tap_logical(uint16_t keycode) {\n" +
             "    clear_suffix_state();\n" +
             "    remember_real_keycode(keycode);\n" +
+            "    keyrecord_t record = {\n" +
+            "        .event = {\n" +
+            "            .key = (keypos_t){0, 0},\n" +
+            "            .pressed = true,\n" +
+            "            .time = timer_read(),\n" +
+            "        },\n" +
+            "        .tap = {\n" +
+            "            .count = 0,\n" +
+            "            .interrupted = false,\n" +
+            "        },\n" +
+            "    };\n" +
+            "    if (!process_record_generated(keycode, &record)) {\n" +
+            "        return;\n" +
+            "    }\n" +
             "    tap_code16(keycode);\n" +
             "}",
         "",
