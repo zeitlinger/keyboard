@@ -444,8 +444,7 @@ private fun emitCombosC(
     // With COMBO_ONLY_FROM_LAYER _BASE, the matcher reads keycodes from
     // the base layer for any position. So rewrite each combo trigger to
     // the keycode that lives at the same row/col on _BASE.
-    fun triggerKeycode(key: Key): String =
-        baseLayer.rows[key.pos.row][key.pos.column].keyWithModifier.key
+    fun triggerKeycode(key: Key): String = baseLayer.rows[key.pos.row][key.pos.column].keyWithModifier.key
 
     val triggerArrays =
         sorted.joinToString("\n") { combo ->
@@ -468,10 +467,13 @@ private fun emitCombosC(
         "combo_t key_combos[] = {\n" +
             sorted.joinToString(",\n") { combo ->
                 when {
-                    combo.type == ComboType.Substitution || isLetterCombo(combo) ->
+                    combo.type == ComboType.Substitution || isLetterCombo(combo) -> {
                         "    [${combo.name}] = COMBO_ACTION(${combo.name}_combo)"
-                    else ->
+                    }
+
+                    else -> {
                         "    [${combo.name}] = COMBO(${combo.name}_combo, ${combo.result.key})"
+                    }
                 }
             } + "\n};"
 
