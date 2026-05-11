@@ -513,11 +513,14 @@ private fun emitCombosC(
             .flatMap { (check, names) ->
                 names.sorted().map { "    case $it:" } + "        return $check;"
             }
+    val shouldTriggerSignature =
+        "bool combo_should_trigger(uint16_t combo_index, combo_t *combo, " +
+            "uint16_t keycode, keyrecord_t *record)"
     val shouldTrigger =
         if (shouldTriggerCases.isEmpty()) {
-            "bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) { return true; }"
+            "$shouldTriggerSignature { return true; }"
         } else {
-            "bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {\n" +
+            "$shouldTriggerSignature {\n" +
                 "    switch (combo_index) {\n" +
                 shouldTriggerCases.joinToString("\n") +
                 "\n    default:\n" +
