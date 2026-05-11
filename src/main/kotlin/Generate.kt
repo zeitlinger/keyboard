@@ -494,6 +494,12 @@ private fun emitCombosC(
         "",
         "uint16_t COMBO_LEN = ARRAY_SIZE(key_combos);",
         "",
+        "// QMK's keymap_introspection.c defines a weak combo_count_raw()",
+        "// that uses ARRAY_SIZE(key_combos), which doesn't work when the",
+        "// array lives in a separate TU. Override it here.",
+        "uint16_t combo_count_raw(void) { return COMBO_LEN; }",
+        "combo_t* combo_get_raw(uint16_t combo_idx) { return &key_combos[combo_idx]; }",
+        "",
         processEvent,
         "",
     ).joinToString("\n")
