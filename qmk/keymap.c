@@ -354,13 +354,6 @@ bool process_switcher(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-#ifdef TRACE_LOGIC
-    if (record->event.pressed) {
-        SEND_STRING("[U:");
-        trace_keycode_label(keycode);
-        SEND_STRING("]");
-    }
-#endif
 #ifdef USE_CUSTOM_COMBO_POC
     if (!process_custom_combo_poc(keycode, record)) {
         return false;
