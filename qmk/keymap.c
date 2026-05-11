@@ -164,7 +164,6 @@ static bool process_custom_combo_poc(uint16_t keycode, keyrecord_t *record) {
 
     if (!record->event.pressed) {
         if (custom_combo_poc_pending && custom_combo_poc_same_key(custom_combo_poc_pending_key, key)) {
-            custom_combo_poc_emit_pending();
             return false;
         }
         return true;
