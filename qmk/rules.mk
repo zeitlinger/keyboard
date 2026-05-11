@@ -1,4 +1,4 @@
-SRC += casemodes.c
+SRC += casemodes.c combos.c
 COMBO_ENABLE = yes
 REPEAT_KEY_ENABLE = yes
 UNICODEMAP_ENABLE = yes
@@ -12,6 +12,4 @@ SPACE_CADET_ENABLE = no
 GRAVE_ESC_ENABLE = no
 MAGIC_ENABLE = no
 AVR_USE_MINIMAL_PRINTF = yes
-
-VPATH += keyboards/gboards
 

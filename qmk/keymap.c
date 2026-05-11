@@ -39,7 +39,6 @@ const uint32_t PROGMEM unicode_map[] = {
 // #include "masks/lily58.h"
 // #include "masks/crkbd.h"
 
-#include "g/keymap_combo.h"
 #include "casemodes.h"
 
 // Suffix state machine: set when a word-magic fires. Next magic press is

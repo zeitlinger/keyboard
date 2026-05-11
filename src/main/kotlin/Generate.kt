@@ -111,14 +111,6 @@ fun run(args: GeneratorArgs) {
         )
 
     val combos = translator.combos + generateAllCombos(layers, translator)
-    val comboLines = getComboLines(combos)
-
-    val timeouts =
-        combos
-            .filter { it.timeout != null }
-            .map {
-                "case ${it.name}: return ${it.timeout};"
-            }.sorted()
 
     val cycleData = readCycleData(tables)
     val encodedMagicStrings = encodeStrings(collectMagicOutputs(tables, translator) + cycleData.outputs)
@@ -203,7 +195,6 @@ fun run(args: GeneratorArgs) {
         File(dstDir, "generated.c"),
         mapOf(
             "generationNote" to generationNote,
-            "timeouts" to timeouts.indented(4),
             "customKeycodesOnTapPress" to customKeycodes(translator, CustomCommandType.OnTap),
             "customKeycodesOnPress" to customKeycodes(translator, CustomCommandType.OnPress),
             "holdOnOtherKeyPress" to holdOnOtherKeyPress(translator.layerTapHold.toSet()),
@@ -221,7 +212,8 @@ fun run(args: GeneratorArgs) {
         analyze(translator, layers)
     }
 
-    File(dstDir, "combos.def").writeText((listOf("// $generationNote") + comboLines).joinToString("\n"))
+    File(dstDir, "combos.c").writeText(emitCombosC(combos, generationNote))
+    File(dstDir, "combos.def").delete()
 }
 
 private data class MagicWordLocation(
@@ -422,15 +414,59 @@ fun addSendString(
         )
     }
 
-private fun getComboLines(combos: List<Combo>) =
-    combos
-        .map { combo ->
-            combo.type.template.format(
-                combo.name.padEnd(35),
-                combo.result.let { it.substitution ?: it.key }.padEnd(35),
-                combo.triggers.joinToString(", ") { it.keyWithModifier.key },
-            )
-        }.sorted()
+private fun emitCombosC(combos: List<Combo>, generationNote: String): String {
+    val sorted = combos.sortedBy { it.name }
+    val triggerArrays =
+        sorted.joinToString("\n") { combo ->
+            val triggers = combo.triggers.joinToString(", ") { it.keyWithModifier.key }
+            "const uint16_t PROGMEM ${combo.name}_combo[] = {$triggers, COMBO_END};"
+        }
+    val enum =
+        "enum combos {\n" +
+            sorted.joinToString(",\n") { "    ${it.name}" } +
+            "\n};"
+    val table =
+        "combo_t key_combos[] = {\n" +
+            sorted.joinToString(",\n") { combo ->
+                when (combo.type) {
+                    ComboType.Combo ->
+                        "    [${combo.name}] = COMBO(${combo.name}_combo, ${combo.result.key})"
+                    ComboType.Substitution ->
+                        "    [${combo.name}] = COMBO_ACTION(${combo.name}_combo)"
+                }
+            } + "\n};"
+    val subs =
+        sorted.filter { it.type == ComboType.Substitution }
+    val processEvent =
+        if (subs.isEmpty()) {
+            "void process_combo_event(uint16_t combo_index, bool pressed) {}"
+        } else {
+            "void process_combo_event(uint16_t combo_index, bool pressed) {\n" +
+                "    if (!pressed) return;\n" +
+                "    switch (combo_index) {\n" +
+                subs.joinToString("\n") { combo ->
+                    "    case ${combo.name}: SEND_STRING(${combo.result.substitution}); break;"
+                } +
+                "\n    default: break;\n" +
+                "    }\n}"
+        }
+    return listOf(
+        "// $generationNote",
+        "#include QMK_KEYBOARD_H",
+        "#include \"layout.h\"",
+        "",
+        triggerArrays,
+        "",
+        enum,
+        "",
+        table,
+        "",
+        "uint16_t COMBO_LEN = ARRAY_SIZE(key_combos);",
+        "",
+        processEvent,
+        "",
+    ).joinToString("\n")
+}
 
 private fun addMagic(
     translator: QmkTranslator,
