@@ -692,102 +692,31 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 magic_remembered_keycode = MAGIC_A;
                 magic_repeat_keycode = KC_NO;
                 uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
-        #ifdef TRACE_LOGIC
-                bool magic_matched = false;
-        #endif
                 switch (magic_context_prepared) {
-                    case KC_B:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_A_C_K_G_R_O_U_N_D, 'd', MAGIC_CYCLE_NONE); /* emits "ackground " -> "background " */ break;
-                    case KC_C:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_N); break;
-                    case KC_D:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_C); break;
-                    case KC_F:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_C_O_N_F_U_S_I_N_G, 'g', MAGIC_CYCLE_NONE); /* emits "confusing " */ break;
-                    case KC_G:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_T); break;
-                    case KC_K:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_R); break;
-                    case KC_L:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_M); break;
-                    case KC_M:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_R); break;
-                    case KC_N:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_R); break;
-                    case KC_P:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_Y); break;
-                    case KC_R:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_tap_repeatable(KC_DQUO); break;
-                    case KC_S:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_O_M_E_O_N_E, 'e', MAGIC_CYCLE_NONE); /* emits "omeone " -> "someone " */ break;
-                    case KC_T:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_N); break;
-                    case KC_V:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_A_L_I_D_A_T_E, 'e', MAGIC_STRING_V_A_L_I_D_A_T_E); /* emits "alidate " -> "validate " */ break;
-                    case KC_W:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_L_W_A_Y_S, 's', MAGIC_CYCLE_NONE); /* emits "always " */ break;
-                    case KC_X:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_C_E_P_T_I_O_N, 'n', MAGIC_CYCLE_NONE); /* emits "exception " */ break;
-                }
+                    case KC_B: magic_decode_send_suffix_cycle(MAGIC_STRING_A_C_K_G_R_O_U_N_D, 'd', MAGIC_CYCLE_NONE); /* emits "ackground " -> "background " */ break;
+                    case KC_C: magic_tap_repeatable(KC_N); break;
+                    case KC_D: magic_tap_repeatable(KC_C); break;
+                    case KC_F: magic_replace_decode_send_cap_cycle(MAGIC_STRING_C_O_N_F_U_S_I_N_G, 'g', MAGIC_CYCLE_NONE); /* emits "confusing " */ break;
+                    case KC_G: magic_tap_repeatable(KC_T); break;
+                    case KC_K: magic_tap_repeatable(KC_R); break;
+                    case KC_L: magic_tap_repeatable(KC_M); break;
+                    case KC_M: magic_tap_repeatable(KC_R); break;
+                    case KC_N: magic_tap_repeatable(KC_R); break;
+                    case KC_P: magic_tap_repeatable(KC_Y); break;
+                    case KC_R: magic_replace_tap_repeatable(KC_DQUO); break;
+                    case KC_S: magic_decode_send_suffix_cycle(MAGIC_STRING_O_M_E_O_N_E, 'e', MAGIC_CYCLE_NONE); /* emits "omeone " -> "someone " */ break;
+                    case KC_T: magic_tap_repeatable(KC_N); break;
+                    case KC_V: magic_decode_send_suffix_cycle(MAGIC_STRING_A_L_I_D_A_T_E, 'e', MAGIC_STRING_V_A_L_I_D_A_T_E); /* emits "alidate " -> "validate " */ break;
+                    case KC_W: magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_L_W_A_Y_S, 's', MAGIC_CYCLE_NONE); /* emits "always " */ break;
+                    case KC_X: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_C_E_P_T_I_O_N, 'n', MAGIC_CYCLE_NONE); /* emits "exception " */ break;
+                default:
         #ifdef TRACE_LOGIC
-                if (magic_matched) {
-                    SEND_STRING("[MH:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-                } else {
                     SEND_STRING("[M0:");
                     trace_keycode_label(magic_context_prepared);
                     SEND_STRING("]");
-                }
         #endif
+                    break;
+                }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_A;
                 last_magic_repeat_keycode = magic_repeat_keycode;
@@ -801,102 +730,31 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 magic_remembered_keycode = MAGIC_B;
                 magic_repeat_keycode = KC_NO;
                 uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
-        #ifdef TRACE_LOGIC
-                bool magic_matched = false;
-        #endif
                 switch (magic_context_prepared) {
-                    case KC_B:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_A_S_I_C_A_L_L_Y, 'y', MAGIC_CYCLE_NONE); /* emits "asically " -> "basically " */ break;
-                    case KC_C:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_APOSTROPHE_L_L, '\0', MAGIC_CYCLE_NONE); /* emits "'ll " */ break;
-                    case KC_D:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_H); break;
-                    case KC_F:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_C_O_N_F_L_I_C_T, 't', MAGIC_CYCLE_NONE); /* emits "conflict " */ break;
-                    case KC_G:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_F); break;
-                    case KC_K:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_Q_U_E_S_T_I_O_N, 'n', MAGIC_CYCLE_NONE); /* emits "question " */ break;
-                    case KC_L:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_H); break;
-                    case KC_M:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_H); break;
-                    case KC_N:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_H); break;
-                    case KC_P:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_M); break;
-                    case KC_R:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_tap_repeatable(KC_Q); break;
-                    case KC_S:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_R); break;
-                    case KC_T:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_F); break;
-                    case KC_V:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_V_E_R_Y_T_H_I_N_G, 'g', MAGIC_CYCLE_NONE); /* emits "everything " */ break;
-                    case KC_W:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_A_S_N_APOSTROPHE_T, 't', MAGIC_CYCLE_NONE); /* emits "asn't " -> "wasn't " */ break;
-                    case KC_X:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_W); break;
-                }
+                    case KC_B: magic_decode_send_suffix_cycle(MAGIC_STRING_A_S_I_C_A_L_L_Y, 'y', MAGIC_CYCLE_NONE); /* emits "asically " -> "basically " */ break;
+                    case KC_C: magic_replace_decode_send_cap_cycle(MAGIC_STRING_APOSTROPHE_L_L, '\0', MAGIC_CYCLE_NONE); /* emits "'ll " */ break;
+                    case KC_D: magic_tap_repeatable(KC_H); break;
+                    case KC_F: magic_replace_decode_send_cap_cycle(MAGIC_STRING_C_O_N_F_L_I_C_T, 't', MAGIC_CYCLE_NONE); /* emits "conflict " */ break;
+                    case KC_G: magic_tap_repeatable(KC_F); break;
+                    case KC_K: magic_replace_decode_send_cap_cycle(MAGIC_STRING_Q_U_E_S_T_I_O_N, 'n', MAGIC_CYCLE_NONE); /* emits "question " */ break;
+                    case KC_L: magic_tap_repeatable(KC_H); break;
+                    case KC_M: magic_tap_repeatable(KC_H); break;
+                    case KC_N: magic_tap_repeatable(KC_H); break;
+                    case KC_P: magic_tap_repeatable(KC_M); break;
+                    case KC_R: magic_replace_tap_repeatable(KC_Q); break;
+                    case KC_S: magic_tap_repeatable(KC_R); break;
+                    case KC_T: magic_tap_repeatable(KC_F); break;
+                    case KC_V: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_V_E_R_Y_T_H_I_N_G, 'g', MAGIC_CYCLE_NONE); /* emits "everything " */ break;
+                    case KC_W: magic_decode_send_suffix_cycle(MAGIC_STRING_A_S_N_APOSTROPHE_T, 't', MAGIC_CYCLE_NONE); /* emits "asn't " -> "wasn't " */ break;
+                    case KC_X: magic_tap_repeatable(KC_W); break;
+                default:
         #ifdef TRACE_LOGIC
-                if (magic_matched) {
-                    SEND_STRING("[MH:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-                } else {
                     SEND_STRING("[M0:");
                     trace_keycode_label(magic_context_prepared);
                     SEND_STRING("]");
-                }
         #endif
+                    break;
+                }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_B;
                 last_magic_repeat_keycode = magic_repeat_keycode;
@@ -910,57 +768,22 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 magic_remembered_keycode = MAGIC_C;
                 magic_repeat_keycode = KC_NO;
                 uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
-        #ifdef TRACE_LOGIC
-                bool magic_matched = false;
-        #endif
                 switch (magic_context_prepared) {
-                    case KC_A:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_D_D_R_E_S_S, 's', MAGIC_CYCLE_NONE); /* emits "ddress " -> "address " */ break;
-                    case KC_E:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_U); break;
-                    case KC_I:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_M_P_L_E_M_E_N_T, 't', MAGIC_STRING_I_M_P_L_E_M_E_N_T); /* emits "mplement " -> "implement " */ break;
-                    case KC_O:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_E); break;
-                    case KC_SPC:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap(MAGIC_STRING_DOT, '\0'); /* emits ". " */ add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state(); break;
-                    case KC_U:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_G_R_E_G_O_R_2, '\0', MAGIC_CYCLE_NONE); /* emits "gregor" */ break;
-                    case KC_Y:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_R); break;
-                }
+                    case KC_A: magic_decode_send_suffix_cycle(MAGIC_STRING_D_D_R_E_S_S, 's', MAGIC_CYCLE_NONE); /* emits "ddress " -> "address " */ break;
+                    case KC_E: magic_tap_repeatable(KC_U); break;
+                    case KC_I: magic_decode_send_suffix_cycle(MAGIC_STRING_M_P_L_E_M_E_N_T, 't', MAGIC_STRING_I_M_P_L_E_M_E_N_T); /* emits "mplement " -> "implement " */ break;
+                    case KC_O: magic_tap_repeatable(KC_E); break;
+                    case KC_SPC: magic_replace_decode_send_cap(MAGIC_STRING_DOT, '\0'); /* emits ". " */ add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state(); break;
+                    case KC_U: magic_replace_decode_send_cap_cycle(MAGIC_STRING_G_R_E_G_O_R_2, '\0', MAGIC_CYCLE_NONE); /* emits "gregor" */ break;
+                    case KC_Y: magic_tap_repeatable(KC_R); break;
+                default:
         #ifdef TRACE_LOGIC
-                if (magic_matched) {
-                    SEND_STRING("[MH:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-                } else {
                     SEND_STRING("[M0:");
                     trace_keycode_label(magic_context_prepared);
                     SEND_STRING("]");
-                }
         #endif
+                    break;
+                }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_C;
                 last_magic_repeat_keycode = magic_repeat_keycode;
@@ -974,102 +797,31 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 magic_remembered_keycode = MAGIC_D;
                 magic_repeat_keycode = KC_NO;
                 uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
-        #ifdef TRACE_LOGIC
-                bool magic_matched = false;
-        #endif
                 switch (magic_context_prepared) {
-                    case KC_B:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_E_C_O_M_E, 'e', MAGIC_CYCLE_NONE); /* emits "ecome " -> "become " */ break;
-                    case KC_C:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_N_APOSTROPHE_T_2, '\0', MAGIC_CYCLE_NONE); /* emits "n't " */ break;
-                    case KC_D:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_O_N_APOSTROPHE_T, 't', MAGIC_CYCLE_NONE); /* emits "on't " -> "don't " */ break;
-                    case KC_F:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_P_E_R_F_O_R_M_A_N_C_E, 'e', MAGIC_CYCLE_NONE); /* emits "performance " */ break;
-                    case KC_G:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_O_E_S, 's', MAGIC_CYCLE_NONE); /* emits "oes " -> "goes " */ break;
-                    case KC_K:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_T_H_I_N_K, 'k', MAGIC_CYCLE_NONE); /* emits "think " */ break;
-                    case KC_L:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_A_N_G_U_A_G_E, 'e', MAGIC_CYCLE_NONE); /* emits "anguage " -> "language " */ break;
-                    case KC_M:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_I_G_R_A_T_I_O_N, 'n', MAGIC_CYCLE_NONE); /* emits "igration " -> "migration " */ break;
-                    case KC_N:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_E_V_E_R, 'r', MAGIC_CYCLE_NONE); /* emits "ever " -> "never " */ break;
-                    case KC_P:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_E_O_P_L_E, 'e', MAGIC_CYCLE_NONE); /* emits "eople " -> "people " */ break;
-                    case KC_R:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_N_APOSTROPHE_T, '\0', MAGIC_CYCLE_NONE); /* emits "n't" */ break;
-                    case KC_S:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_P_O_S_S_I_B_L_E, 'e', MAGIC_STRING_P_O_S_S_I_B_L_E); /* emits "possible " */ break;
-                    case KC_T:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_J_U_S_T, 't', MAGIC_CYCLE_NONE); /* emits "just " */ break;
-                    case KC_V:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_I_M_P_R_O_V_E, 'e', MAGIC_CYCLE_NONE); /* emits "improve " */ break;
-                    case KC_W:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_O_R_K_F_L_O_W, 'w', MAGIC_CYCLE_NONE); /* emits "orkflow " -> "workflow " */ break;
-                    case KC_X:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_C_E_P_T, 't', MAGIC_CYCLE_NONE); /* emits "except " */ break;
-                }
+                    case KC_B: magic_decode_send_suffix_cycle(MAGIC_STRING_E_C_O_M_E, 'e', MAGIC_CYCLE_NONE); /* emits "ecome " -> "become " */ break;
+                    case KC_C: magic_replace_decode_send_cap_cycle(MAGIC_STRING_N_APOSTROPHE_T_2, '\0', MAGIC_CYCLE_NONE); /* emits "n't " */ break;
+                    case KC_D: magic_decode_send_suffix_cycle(MAGIC_STRING_O_N_APOSTROPHE_T, 't', MAGIC_CYCLE_NONE); /* emits "on't " -> "don't " */ break;
+                    case KC_F: magic_replace_decode_send_cap_cycle(MAGIC_STRING_P_E_R_F_O_R_M_A_N_C_E, 'e', MAGIC_CYCLE_NONE); /* emits "performance " */ break;
+                    case KC_G: magic_decode_send_suffix_cycle(MAGIC_STRING_O_E_S, 's', MAGIC_CYCLE_NONE); /* emits "oes " -> "goes " */ break;
+                    case KC_K: magic_replace_decode_send_cap_cycle(MAGIC_STRING_T_H_I_N_K, 'k', MAGIC_CYCLE_NONE); /* emits "think " */ break;
+                    case KC_L: magic_decode_send_suffix_cycle(MAGIC_STRING_A_N_G_U_A_G_E, 'e', MAGIC_CYCLE_NONE); /* emits "anguage " -> "language " */ break;
+                    case KC_M: magic_decode_send_suffix_cycle(MAGIC_STRING_I_G_R_A_T_I_O_N, 'n', MAGIC_CYCLE_NONE); /* emits "igration " -> "migration " */ break;
+                    case KC_N: magic_decode_send_suffix_cycle(MAGIC_STRING_E_V_E_R, 'r', MAGIC_CYCLE_NONE); /* emits "ever " -> "never " */ break;
+                    case KC_P: magic_decode_send_suffix_cycle(MAGIC_STRING_E_O_P_L_E, 'e', MAGIC_CYCLE_NONE); /* emits "eople " -> "people " */ break;
+                    case KC_R: magic_replace_decode_send_cap_cycle(MAGIC_STRING_N_APOSTROPHE_T, '\0', MAGIC_CYCLE_NONE); /* emits "n't" */ break;
+                    case KC_S: magic_replace_decode_send_cap_cycle(MAGIC_STRING_P_O_S_S_I_B_L_E, 'e', MAGIC_STRING_P_O_S_S_I_B_L_E); /* emits "possible " */ break;
+                    case KC_T: magic_replace_decode_send_cap_cycle(MAGIC_STRING_J_U_S_T, 't', MAGIC_CYCLE_NONE); /* emits "just " */ break;
+                    case KC_V: magic_replace_decode_send_cap_cycle(MAGIC_STRING_I_M_P_R_O_V_E, 'e', MAGIC_CYCLE_NONE); /* emits "improve " */ break;
+                    case KC_W: magic_decode_send_suffix_cycle(MAGIC_STRING_O_R_K_F_L_O_W, 'w', MAGIC_CYCLE_NONE); /* emits "orkflow " -> "workflow " */ break;
+                    case KC_X: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_C_E_P_T, 't', MAGIC_CYCLE_NONE); /* emits "except " */ break;
+                default:
         #ifdef TRACE_LOGIC
-                if (magic_matched) {
-                    SEND_STRING("[MH:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-                } else {
                     SEND_STRING("[M0:");
                     trace_keycode_label(magic_context_prepared);
                     SEND_STRING("]");
-                }
         #endif
+                    break;
+                }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_D;
                 last_magic_repeat_keycode = magic_repeat_keycode;
@@ -1083,102 +835,31 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 magic_remembered_keycode = MAGIC_E;
                 magic_repeat_keycode = KC_NO;
                 uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
-        #ifdef TRACE_LOGIC
-                bool magic_matched = false;
-        #endif
                 switch (magic_context_prepared) {
-                    case KC_B:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_O_B_S_E_R_V_A_B_I_L_I_T_Y, 'y', MAGIC_CYCLE_NONE); /* emits "observability " */ break;
-                    case KC_C:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_D); break;
-                    case KC_D:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_I_S_A_B_L_E, 'e', MAGIC_STRING_D_I_S_A_B_L_E); /* emits "isable " -> "disable " */ break;
-                    case KC_F:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_M_E_R_G_E_D, 'd', MAGIC_CYCLE_NONE); /* emits "merged " */ break;
-                    case KC_G:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_C_H_A_N_G_E, 'e', MAGIC_CYCLE_NONE); /* emits "change " */ break;
-                    case KC_K:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_T_A_S_K, 'k', MAGIC_CYCLE_NONE); /* emits "task " */ break;
-                    case KC_L:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_L_R_E_A_D_Y, 'y', MAGIC_CYCLE_NONE); /* emits "already " */ break;
-                    case KC_M:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_U_L_T_I_P_L_E, 'e', MAGIC_CYCLE_NONE); /* emits "ultiple " -> "multiple " */ break;
-                    case KC_N:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_N_Y_T_H_I_N_G, 'g', MAGIC_CYCLE_NONE); /* emits "anything " */ break;
-                    case KC_P:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_R_O_B_A_B_L_Y, 'y', MAGIC_CYCLE_NONE); /* emits "robably " -> "probably " */ break;
-                    case KC_R:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_tap_repeatable(KC_QUES); break;
-                    case KC_S:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_U_P_P_O_R_T, 't', MAGIC_CYCLE_NONE); /* emits "upport " -> "support " */ break;
-                    case KC_T:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_H_R_O_U_G_H, 'h', MAGIC_CYCLE_NONE); /* emits "hrough " -> "through " */ break;
-                    case KC_V:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_E_R_S_I_O_N, 'n', MAGIC_CYCLE_NONE); /* emits "ersion " -> "version " */ break;
-                    case KC_W:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_O_T_H_E_R_W_I_S_E, 'e', MAGIC_CYCLE_NONE); /* emits "otherwise " */ break;
-                    case KC_X:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_P_L_I_C_I_T, 't', MAGIC_CYCLE_NONE); /* emits "explicit " */ break;
-                }
+                    case KC_B: magic_replace_decode_send_cap_cycle(MAGIC_STRING_O_B_S_E_R_V_A_B_I_L_I_T_Y, 'y', MAGIC_CYCLE_NONE); /* emits "observability " */ break;
+                    case KC_C: magic_tap_repeatable(KC_D); break;
+                    case KC_D: magic_decode_send_suffix_cycle(MAGIC_STRING_I_S_A_B_L_E, 'e', MAGIC_STRING_D_I_S_A_B_L_E); /* emits "isable " -> "disable " */ break;
+                    case KC_F: magic_replace_decode_send_cap_cycle(MAGIC_STRING_M_E_R_G_E_D, 'd', MAGIC_CYCLE_NONE); /* emits "merged " */ break;
+                    case KC_G: magic_replace_decode_send_cap_cycle(MAGIC_STRING_C_H_A_N_G_E, 'e', MAGIC_CYCLE_NONE); /* emits "change " */ break;
+                    case KC_K: magic_replace_decode_send_cap_cycle(MAGIC_STRING_T_A_S_K, 'k', MAGIC_CYCLE_NONE); /* emits "task " */ break;
+                    case KC_L: magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_L_R_E_A_D_Y, 'y', MAGIC_CYCLE_NONE); /* emits "already " */ break;
+                    case KC_M: magic_decode_send_suffix_cycle(MAGIC_STRING_U_L_T_I_P_L_E, 'e', MAGIC_CYCLE_NONE); /* emits "ultiple " -> "multiple " */ break;
+                    case KC_N: magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_N_Y_T_H_I_N_G, 'g', MAGIC_CYCLE_NONE); /* emits "anything " */ break;
+                    case KC_P: magic_decode_send_suffix_cycle(MAGIC_STRING_R_O_B_A_B_L_Y, 'y', MAGIC_CYCLE_NONE); /* emits "robably " -> "probably " */ break;
+                    case KC_R: magic_replace_tap_repeatable(KC_QUES); break;
+                    case KC_S: magic_decode_send_suffix_cycle(MAGIC_STRING_U_P_P_O_R_T, 't', MAGIC_CYCLE_NONE); /* emits "upport " -> "support " */ break;
+                    case KC_T: magic_decode_send_suffix_cycle(MAGIC_STRING_H_R_O_U_G_H, 'h', MAGIC_CYCLE_NONE); /* emits "hrough " -> "through " */ break;
+                    case KC_V: magic_decode_send_suffix_cycle(MAGIC_STRING_E_R_S_I_O_N, 'n', MAGIC_CYCLE_NONE); /* emits "ersion " -> "version " */ break;
+                    case KC_W: magic_replace_decode_send_cap_cycle(MAGIC_STRING_O_T_H_E_R_W_I_S_E, 'e', MAGIC_CYCLE_NONE); /* emits "otherwise " */ break;
+                    case KC_X: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_P_L_I_C_I_T, 't', MAGIC_CYCLE_NONE); /* emits "explicit " */ break;
+                default:
         #ifdef TRACE_LOGIC
-                if (magic_matched) {
-                    SEND_STRING("[MH:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-                } else {
                     SEND_STRING("[M0:");
                     trace_keycode_label(magic_context_prepared);
                     SEND_STRING("]");
-                }
         #endif
+                    break;
+                }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_E;
                 last_magic_repeat_keycode = magic_repeat_keycode;
@@ -1192,82 +873,27 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 magic_remembered_keycode = MAGIC_F;
                 magic_repeat_keycode = KC_NO;
                 uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
-        #ifdef TRACE_LOGIC
-                bool magic_matched = false;
-        #endif
                 switch (magic_context_prepared) {
-                    case KC_C:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_APOSTROPHE_V_E, '\0', MAGIC_CYCLE_NONE); /* emits "'ve " */ break;
-                    case KC_D:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_I_F_F_I_C_U_L_T_Y, 'y', MAGIC_CYCLE_NONE); /* emits "ifficulty " -> "difficulty " */ break;
-                    case KC_K:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_T_H_A_N_K_S, 's', MAGIC_STRING_T_H_A_N_K_S); /* emits "thanks " */ break;
-                    case KC_L:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_V_A_I_L_A_B_L_E, 'e', MAGIC_CYCLE_NONE); /* emits "available " */ break;
-                    case KC_M:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_I_S_M_A_T_C_H, 'h', MAGIC_CYCLE_NONE); /* emits "ismatch " -> "mismatch " */ break;
-                    case KC_N:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_P_L_A_I_N, 'n', MAGIC_CYCLE_NONE); /* emits "explain " */ break;
-                    case KC_P:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_I_M_P_O_R_T_A_N_T, 't', MAGIC_CYCLE_NONE); /* emits "important " */ break;
-                    case KC_R:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_X); break;
-                    case KC_S:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_I_M_I_L_A_R, 'r', MAGIC_CYCLE_NONE); /* emits "imilar " -> "similar " */ break;
-                    case KC_T:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_N_O_T_H_E_R, 'r', MAGIC_CYCLE_NONE); /* emits "another " */ break;
-                    case KC_W:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_S_W_I_T_C_H, 'h', MAGIC_CYCLE_NONE); /* emits "switch " */ break;
-                    case KC_X:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_C_L_U_D_E, 'e', MAGIC_CYCLE_NONE); /* emits "exclude " */ break;
-                }
+                    case KC_C: magic_replace_decode_send_cap_cycle(MAGIC_STRING_APOSTROPHE_V_E, '\0', MAGIC_CYCLE_NONE); /* emits "'ve " */ break;
+                    case KC_D: magic_decode_send_suffix_cycle(MAGIC_STRING_I_F_F_I_C_U_L_T_Y, 'y', MAGIC_CYCLE_NONE); /* emits "ifficulty " -> "difficulty " */ break;
+                    case KC_K: magic_replace_decode_send_cap_cycle(MAGIC_STRING_T_H_A_N_K_S, 's', MAGIC_STRING_T_H_A_N_K_S); /* emits "thanks " */ break;
+                    case KC_L: magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_V_A_I_L_A_B_L_E, 'e', MAGIC_CYCLE_NONE); /* emits "available " */ break;
+                    case KC_M: magic_decode_send_suffix_cycle(MAGIC_STRING_I_S_M_A_T_C_H, 'h', MAGIC_CYCLE_NONE); /* emits "ismatch " -> "mismatch " */ break;
+                    case KC_N: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_P_L_A_I_N, 'n', MAGIC_CYCLE_NONE); /* emits "explain " */ break;
+                    case KC_P: magic_replace_decode_send_cap_cycle(MAGIC_STRING_I_M_P_O_R_T_A_N_T, 't', MAGIC_CYCLE_NONE); /* emits "important " */ break;
+                    case KC_R: magic_tap_repeatable(KC_X); break;
+                    case KC_S: magic_decode_send_suffix_cycle(MAGIC_STRING_I_M_I_L_A_R, 'r', MAGIC_CYCLE_NONE); /* emits "imilar " -> "similar " */ break;
+                    case KC_T: magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_N_O_T_H_E_R, 'r', MAGIC_CYCLE_NONE); /* emits "another " */ break;
+                    case KC_W: magic_replace_decode_send_cap_cycle(MAGIC_STRING_S_W_I_T_C_H, 'h', MAGIC_CYCLE_NONE); /* emits "switch " */ break;
+                    case KC_X: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_C_L_U_D_E, 'e', MAGIC_CYCLE_NONE); /* emits "exclude " */ break;
+                default:
         #ifdef TRACE_LOGIC
-                if (magic_matched) {
-                    SEND_STRING("[MH:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-                } else {
                     SEND_STRING("[M0:");
                     trace_keycode_label(magic_context_prepared);
                     SEND_STRING("]");
-                }
         #endif
+                    break;
+                }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_F;
                 last_magic_repeat_keycode = magic_repeat_keycode;
@@ -1281,67 +907,24 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 magic_remembered_keycode = MAGIC_G;
                 magic_repeat_keycode = KC_NO;
                 uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
-        #ifdef TRACE_LOGIC
-                bool magic_matched = false;
-        #endif
                 switch (magic_context_prepared) {
-                    case KC_A:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_E); break;
-                    case KC_E:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_H); break;
-                    case KC_H:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_Q_U, '\0', MAGIC_CYCLE_NONE); /* emits "qu" */ break;
-                    case KC_I:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send(MAGIC_STRING_M_P_L); /* emits "mpl" -> "impl" */ break;
-                    case KC_O:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_H); break;
-                    case KC_R:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_tap_repeatable(KC_EXLM); break;
-                    case KC_SPC:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_tap_repeatable(KC_Z); break;
-                    case KC_U:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_H); break;
-                    case KC_Y:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_O_N_L_Y, 'y', MAGIC_CYCLE_NONE); /* emits "only " */ break;
-                }
+                    case KC_A: magic_tap_repeatable(KC_E); break;
+                    case KC_E: magic_tap_repeatable(KC_H); break;
+                    case KC_H: magic_replace_decode_send_cap_cycle(MAGIC_STRING_Q_U, '\0', MAGIC_CYCLE_NONE); /* emits "qu" */ break;
+                    case KC_I: magic_decode_send(MAGIC_STRING_M_P_L); /* emits "mpl" -> "impl" */ break;
+                    case KC_O: magic_tap_repeatable(KC_H); break;
+                    case KC_R: magic_replace_tap_repeatable(KC_EXLM); break;
+                    case KC_SPC: magic_replace_tap_repeatable(KC_Z); break;
+                    case KC_U: magic_tap_repeatable(KC_H); break;
+                    case KC_Y: magic_replace_decode_send_cap_cycle(MAGIC_STRING_O_N_L_Y, 'y', MAGIC_CYCLE_NONE); /* emits "only " */ break;
+                default:
         #ifdef TRACE_LOGIC
-                if (magic_matched) {
-                    SEND_STRING("[MH:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-                } else {
                     SEND_STRING("[M0:");
                     trace_keycode_label(magic_context_prepared);
                     SEND_STRING("]");
-                }
         #endif
+                    break;
+                }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_G;
                 last_magic_repeat_keycode = magic_repeat_keycode;
@@ -1355,122 +938,35 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 magic_remembered_keycode = MAGIC_H;
                 magic_repeat_keycode = KC_NO;
                 uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
-        #ifdef TRACE_LOGIC
-                bool magic_matched = false;
-        #endif
                 switch (magic_context_prepared) {
-                    case KC_B:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_O_B_S_O_L_E_T_E, 'e', MAGIC_CYCLE_NONE); /* emits "obsolete " */ break;
-                    case KC_C:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_O_M_M_E_N_T, 't', MAGIC_CYCLE_NONE); /* emits "omment " -> "comment " */ break;
-                    case KC_COMMA:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_cap_cycle(MAGIC_STRING_A_N_D, '\0', MAGIC_CYCLE_NONE); /* emits " and " */ break;
-                    case KC_D:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_I_D_N_APOSTROPHE_T, 't', MAGIC_CYCLE_NONE); /* emits "idn't " -> "didn't " */ break;
-                    case KC_ENT:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_cap_cycle(MAGIC_STRING_A_N_D_2, 'd', MAGIC_CYCLE_NONE); /* emits "and " */ break;
-                    case KC_F:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_O_C_U_S_E_D, 'd', MAGIC_CYCLE_NONE); /* emits "ocused " -> "focused " */ break;
-                    case KC_G:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_E_N_E_R_A_T_E, 'e', MAGIC_CYCLE_NONE); /* emits "enerate " -> "generate " */ break;
-                    case KC_K:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_U_P_D_A_T_E, 'e', MAGIC_CYCLE_NONE); /* emits "update " */ break;
-                    case KC_L:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_L_A_B_O_R_A_T_E, 'e', MAGIC_CYCLE_NONE); /* emits "elaborate " */ break;
-                    case KC_M:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_I_N_S_T_R_U_M_E_N_T, 't', MAGIC_STRING_I_N_S_T_R_U_M_E_N_T); /* emits "instrument " */ break;
-                    case KC_N:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_U_N_D_E_R_S_T_A_N_D, 'd', MAGIC_CYCLE_NONE); /* emits "understand " */ break;
-                    case KC_P:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_R_O_D_U_C_T_I_O_N, 'n', MAGIC_CYCLE_NONE); /* emits "roduction " -> "production " */ break;
-                    case KC_R:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_tap_repeatable(KC_QUOTE); break;
-                    case KC_S:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_E_P_A_R_A_T_E, 'e', MAGIC_CYCLE_NONE); /* emits "eparate " -> "separate " */ break;
-                    case KC_SPC:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_cap_cycle(MAGIC_STRING_A_N_D_2, 'd', MAGIC_CYCLE_NONE); /* emits "and " */ break;
-                    case KC_T:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_H_O_U_G_H, 'h', MAGIC_CYCLE_NONE); /* emits "hough " -> "though " */ break;
-                    case KC_TAB:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_cap_cycle(MAGIC_STRING_A_N_D_2, 'd', MAGIC_CYCLE_NONE); /* emits "and " */ break;
-                    case KC_V:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_P_P_R_O_V_A_L, 'l', MAGIC_CYCLE_NONE); /* emits "approval " */ break;
-                    case KC_W:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_H_Y, 'y', MAGIC_CYCLE_NONE); /* emits "hy " -> "why " */ break;
-                    case KC_X:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_I_T, 't', MAGIC_CYCLE_NONE); /* emits "exit " */ break;
-                }
+                    case KC_B: magic_replace_decode_send_cap_cycle(MAGIC_STRING_O_B_S_O_L_E_T_E, 'e', MAGIC_CYCLE_NONE); /* emits "obsolete " */ break;
+                    case KC_C: magic_decode_send_suffix_cycle(MAGIC_STRING_O_M_M_E_N_T, 't', MAGIC_CYCLE_NONE); /* emits "omment " -> "comment " */ break;
+                    case KC_COMMA: magic_decode_send_cap_cycle(MAGIC_STRING_A_N_D, '\0', MAGIC_CYCLE_NONE); /* emits " and " */ break;
+                    case KC_D: magic_decode_send_suffix_cycle(MAGIC_STRING_I_D_N_APOSTROPHE_T, 't', MAGIC_CYCLE_NONE); /* emits "idn't " -> "didn't " */ break;
+                    case KC_ENT: magic_decode_send_cap_cycle(MAGIC_STRING_A_N_D_2, 'd', MAGIC_CYCLE_NONE); /* emits "and " */ break;
+                    case KC_F: magic_decode_send_suffix_cycle(MAGIC_STRING_O_C_U_S_E_D, 'd', MAGIC_CYCLE_NONE); /* emits "ocused " -> "focused " */ break;
+                    case KC_G: magic_decode_send_suffix_cycle(MAGIC_STRING_E_N_E_R_A_T_E, 'e', MAGIC_CYCLE_NONE); /* emits "enerate " -> "generate " */ break;
+                    case KC_K: magic_replace_decode_send_cap_cycle(MAGIC_STRING_U_P_D_A_T_E, 'e', MAGIC_CYCLE_NONE); /* emits "update " */ break;
+                    case KC_L: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_L_A_B_O_R_A_T_E, 'e', MAGIC_CYCLE_NONE); /* emits "elaborate " */ break;
+                    case KC_M: magic_replace_decode_send_cap_cycle(MAGIC_STRING_I_N_S_T_R_U_M_E_N_T, 't', MAGIC_STRING_I_N_S_T_R_U_M_E_N_T); /* emits "instrument " */ break;
+                    case KC_N: magic_replace_decode_send_cap_cycle(MAGIC_STRING_U_N_D_E_R_S_T_A_N_D, 'd', MAGIC_CYCLE_NONE); /* emits "understand " */ break;
+                    case KC_P: magic_decode_send_suffix_cycle(MAGIC_STRING_R_O_D_U_C_T_I_O_N, 'n', MAGIC_CYCLE_NONE); /* emits "roduction " -> "production " */ break;
+                    case KC_R: magic_replace_tap_repeatable(KC_QUOTE); break;
+                    case KC_S: magic_decode_send_suffix_cycle(MAGIC_STRING_E_P_A_R_A_T_E, 'e', MAGIC_CYCLE_NONE); /* emits "eparate " -> "separate " */ break;
+                    case KC_SPC: magic_decode_send_cap_cycle(MAGIC_STRING_A_N_D_2, 'd', MAGIC_CYCLE_NONE); /* emits "and " */ break;
+                    case KC_T: magic_decode_send_suffix_cycle(MAGIC_STRING_H_O_U_G_H, 'h', MAGIC_CYCLE_NONE); /* emits "hough " -> "though " */ break;
+                    case KC_TAB: magic_decode_send_cap_cycle(MAGIC_STRING_A_N_D_2, 'd', MAGIC_CYCLE_NONE); /* emits "and " */ break;
+                    case KC_V: magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_P_P_R_O_V_A_L, 'l', MAGIC_CYCLE_NONE); /* emits "approval " */ break;
+                    case KC_W: magic_decode_send_suffix_cycle(MAGIC_STRING_H_Y, 'y', MAGIC_CYCLE_NONE); /* emits "hy " -> "why " */ break;
+                    case KC_X: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_I_T, 't', MAGIC_CYCLE_NONE); /* emits "exit " */ break;
+                default:
         #ifdef TRACE_LOGIC
-                if (magic_matched) {
-                    SEND_STRING("[MH:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-                } else {
                     SEND_STRING("[M0:");
                     trace_keycode_label(magic_context_prepared);
                     SEND_STRING("]");
-                }
         #endif
+                    break;
+                }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_H;
                 last_magic_repeat_keycode = magic_repeat_keycode;
@@ -1484,122 +980,35 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 magic_remembered_keycode = MAGIC_I;
                 magic_repeat_keycode = KC_NO;
                 uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
-        #ifdef TRACE_LOGIC
-                bool magic_matched = false;
-        #endif
                 switch (magic_context_prepared) {
-                    case KC_B:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_E_C_A_U_S_E, 'e', MAGIC_CYCLE_NONE); /* emits "ecause " -> "because " */ break;
-                    case KC_C:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_APOSTROPHE_R_E, '\0', MAGIC_CYCLE_NONE); /* emits "'re " */ break;
-                    case KC_COMMA:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_cap_cycle(MAGIC_STRING_B_U_T, '\0', MAGIC_CYCLE_NONE); /* emits " but " */ break;
-                    case KC_D:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_O_E_S_N_APOSTROPHE_T, 't', MAGIC_CYCLE_NONE); /* emits "oesn't " -> "doesn't " */ break;
-                    case KC_ENT:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_cap_cycle(MAGIC_STRING_T_H_E, 'e', MAGIC_CYCLE_NONE); /* emits "the " */ break;
-                    case KC_F:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_O_L_L_O_W_I_N_G, 'g', MAGIC_CYCLE_NONE); /* emits "ollowing " -> "following " */ break;
-                    case KC_G:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_K); break;
-                    case KC_K:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_N_O_W, 'w', MAGIC_CYCLE_NONE); /* emits "now " -> "know " */ break;
-                    case KC_L:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_R); break;
-                    case KC_M:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send(MAGIC_STRING_E_N_T); /* emits "ent" -> "ment" */ break;
-                    case KC_N:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_W_O_N_APOSTROPHE_T, 't', MAGIC_CYCLE_NONE); /* emits "won't " */ break;
-                    case KC_P:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_N); break;
-                    case KC_R:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_tap_repeatable(KC_COMMA); break;
-                    case KC_S:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send(MAGIC_STRING_I_O_N); /* emits "ion" -> "sion" */ break;
-                    case KC_SPC:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_cap_cycle(MAGIC_STRING_T_H_E, 'e', MAGIC_CYCLE_NONE); /* emits "the " */ break;
-                    case KC_T:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send(MAGIC_STRING_I_O_N); /* emits "ion" -> "tion" */ break;
-                    case KC_TAB:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_cap_cycle(MAGIC_STRING_T_H_E, 'e', MAGIC_CYCLE_NONE); /* emits "the " */ break;
-                    case KC_V:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_R_E_S_O_L_V_E, 'e', MAGIC_CYCLE_NONE); /* emits "resolve " */ break;
-                    case KC_W:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_S); break;
-                    case KC_X:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_R); break;
-                }
+                    case KC_B: magic_decode_send_suffix_cycle(MAGIC_STRING_E_C_A_U_S_E, 'e', MAGIC_CYCLE_NONE); /* emits "ecause " -> "because " */ break;
+                    case KC_C: magic_replace_decode_send_cap_cycle(MAGIC_STRING_APOSTROPHE_R_E, '\0', MAGIC_CYCLE_NONE); /* emits "'re " */ break;
+                    case KC_COMMA: magic_decode_send_cap_cycle(MAGIC_STRING_B_U_T, '\0', MAGIC_CYCLE_NONE); /* emits " but " */ break;
+                    case KC_D: magic_decode_send_suffix_cycle(MAGIC_STRING_O_E_S_N_APOSTROPHE_T, 't', MAGIC_CYCLE_NONE); /* emits "oesn't " -> "doesn't " */ break;
+                    case KC_ENT: magic_decode_send_cap_cycle(MAGIC_STRING_T_H_E, 'e', MAGIC_CYCLE_NONE); /* emits "the " */ break;
+                    case KC_F: magic_decode_send_suffix_cycle(MAGIC_STRING_O_L_L_O_W_I_N_G, 'g', MAGIC_CYCLE_NONE); /* emits "ollowing " -> "following " */ break;
+                    case KC_G: magic_tap_repeatable(KC_K); break;
+                    case KC_K: magic_decode_send_suffix_cycle(MAGIC_STRING_N_O_W, 'w', MAGIC_CYCLE_NONE); /* emits "now " -> "know " */ break;
+                    case KC_L: magic_tap_repeatable(KC_R); break;
+                    case KC_M: magic_decode_send(MAGIC_STRING_E_N_T); /* emits "ent" -> "ment" */ break;
+                    case KC_N: magic_replace_decode_send_cap_cycle(MAGIC_STRING_W_O_N_APOSTROPHE_T, 't', MAGIC_CYCLE_NONE); /* emits "won't " */ break;
+                    case KC_P: magic_tap_repeatable(KC_N); break;
+                    case KC_R: magic_replace_tap_repeatable(KC_COMMA); break;
+                    case KC_S: magic_decode_send(MAGIC_STRING_I_O_N); /* emits "ion" -> "sion" */ break;
+                    case KC_SPC: magic_decode_send_cap_cycle(MAGIC_STRING_T_H_E, 'e', MAGIC_CYCLE_NONE); /* emits "the " */ break;
+                    case KC_T: magic_decode_send(MAGIC_STRING_I_O_N); /* emits "ion" -> "tion" */ break;
+                    case KC_TAB: magic_decode_send_cap_cycle(MAGIC_STRING_T_H_E, 'e', MAGIC_CYCLE_NONE); /* emits "the " */ break;
+                    case KC_V: magic_replace_decode_send_cap_cycle(MAGIC_STRING_R_E_S_O_L_V_E, 'e', MAGIC_CYCLE_NONE); /* emits "resolve " */ break;
+                    case KC_W: magic_tap_repeatable(KC_S); break;
+                    case KC_X: magic_tap_repeatable(KC_R); break;
+                default:
         #ifdef TRACE_LOGIC
-                if (magic_matched) {
-                    SEND_STRING("[MH:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-                } else {
                     SEND_STRING("[M0:");
                     trace_keycode_label(magic_context_prepared);
                     SEND_STRING("]");
-                }
         #endif
+                    break;
+                }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_I;
                 last_magic_repeat_keycode = magic_repeat_keycode;
@@ -1613,102 +1022,31 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 magic_remembered_keycode = MAGIC_J;
                 magic_repeat_keycode = KC_NO;
                 uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
-        #ifdef TRACE_LOGIC
-                bool magic_matched = false;
-        #endif
                 switch (magic_context_prepared) {
-                    case KC_B:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_D); break;
-                    case KC_C:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_APOSTROPHE_D, '\0', MAGIC_CYCLE_NONE); /* emits "'d " */ break;
-                    case KC_D:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_F); break;
-                    case KC_F:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_D); break;
-                    case KC_G:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_D); break;
-                    case KC_K:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_X); break;
-                    case KC_L:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_C); break;
-                    case KC_M:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_L); break;
-                    case KC_N:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_X); break;
-                    case KC_P:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_D); break;
-                    case KC_R:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_tap_repeatable(KC_DOT); break;
-                    case KC_S:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_D); break;
-                    case KC_T:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_W_I_T_H_O_U_T, 't', MAGIC_CYCLE_NONE); /* emits "without " */ break;
-                    case KC_V:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_I_APOSTROPHE_V_E, 'e', MAGIC_CYCLE_NONE); /* emits "I've " */ break;
-                    case KC_W:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_X); break;
-                    case KC_X:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_D); break;
-                }
+                    case KC_B: magic_tap_repeatable(KC_D); break;
+                    case KC_C: magic_replace_decode_send_cap_cycle(MAGIC_STRING_APOSTROPHE_D, '\0', MAGIC_CYCLE_NONE); /* emits "'d " */ break;
+                    case KC_D: magic_tap_repeatable(KC_F); break;
+                    case KC_F: magic_tap_repeatable(KC_D); break;
+                    case KC_G: magic_tap_repeatable(KC_D); break;
+                    case KC_K: magic_tap_repeatable(KC_X); break;
+                    case KC_L: magic_tap_repeatable(KC_C); break;
+                    case KC_M: magic_tap_repeatable(KC_L); break;
+                    case KC_N: magic_tap_repeatable(KC_X); break;
+                    case KC_P: magic_tap_repeatable(KC_D); break;
+                    case KC_R: magic_replace_tap_repeatable(KC_DOT); break;
+                    case KC_S: magic_tap_repeatable(KC_D); break;
+                    case KC_T: magic_replace_decode_send_cap_cycle(MAGIC_STRING_W_I_T_H_O_U_T, 't', MAGIC_CYCLE_NONE); /* emits "without " */ break;
+                    case KC_V: magic_replace_decode_send_cap_cycle(MAGIC_STRING_I_APOSTROPHE_V_E, 'e', MAGIC_CYCLE_NONE); /* emits "I've " */ break;
+                    case KC_W: magic_tap_repeatable(KC_X); break;
+                    case KC_X: magic_tap_repeatable(KC_D); break;
+                default:
         #ifdef TRACE_LOGIC
-                if (magic_matched) {
-                    SEND_STRING("[MH:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-                } else {
                     SEND_STRING("[M0:");
                     trace_keycode_label(magic_context_prepared);
                     SEND_STRING("]");
-                }
         #endif
+                    break;
+                }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_J;
                 last_magic_repeat_keycode = magic_repeat_keycode;
@@ -1722,97 +1060,30 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 magic_remembered_keycode = MAGIC_K;
                 magic_repeat_keycode = KC_NO;
                 uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
-        #ifdef TRACE_LOGIC
-                bool magic_matched = false;
-        #endif
                 switch (magic_context_prepared) {
-                    case KC_B:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_E_F_O_R_E, 'e', MAGIC_CYCLE_NONE); /* emits "efore " -> "before " */ break;
-                    case KC_C:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_APOSTROPHE_S, '\0', MAGIC_CYCLE_NONE); /* emits "'s " */ break;
-                    case KC_D:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_O_E_S, 's', MAGIC_CYCLE_NONE); /* emits "oes " -> "does " */ break;
-                    case KC_G:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_S_U_G_G_E_S_T, 't', MAGIC_CYCLE_NONE); /* emits "suggest " */ break;
-                    case KC_K:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_N_E_W, 'w', MAGIC_CYCLE_NONE); /* emits "new " -> "knew " */ break;
-                    case KC_L:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_B); break;
-                    case KC_M:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_T); break;
-                    case KC_N:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_tap_repeatable(KC_P); break;
-                    case KC_P:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_P_R_O_M_E_T_H_E_U_S, 's', MAGIC_CYCLE_NONE); /* emits "Prometheus " */ break;
-                    case KC_R:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_tap_repeatable(KC_J); break;
-                    case KC_S:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_O_M_E_T_H_I_N_G, 'g', MAGIC_CYCLE_NONE); /* emits "omething " -> "something " */ break;
-                    case KC_T:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_H_O_U_G_H_T, 't', MAGIC_CYCLE_NONE); /* emits "hought " -> "thought " */ break;
-                    case KC_V:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_W_O_R_S_E, 'e', MAGIC_CYCLE_NONE); /* emits "worse " */ break;
-                    case KC_W:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_decode_send_suffix_cycle(MAGIC_STRING_H_I_C_H, 'h', MAGIC_CYCLE_NONE); /* emits "hich " -> "which " */ break;
-                    case KC_X:
-                        #ifdef TRACE_LOGIC
-                        magic_matched = true;
-                        #endif
-                        magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_A_M_P_L_E, 'e', MAGIC_CYCLE_NONE); /* emits "example " */ break;
-                }
+                    case KC_B: magic_decode_send_suffix_cycle(MAGIC_STRING_E_F_O_R_E, 'e', MAGIC_CYCLE_NONE); /* emits "efore " -> "before " */ break;
+                    case KC_C: magic_replace_decode_send_cap_cycle(MAGIC_STRING_APOSTROPHE_S, '\0', MAGIC_CYCLE_NONE); /* emits "'s " */ break;
+                    case KC_D: magic_decode_send_suffix_cycle(MAGIC_STRING_O_E_S, 's', MAGIC_CYCLE_NONE); /* emits "oes " -> "does " */ break;
+                    case KC_G: magic_replace_decode_send_cap_cycle(MAGIC_STRING_S_U_G_G_E_S_T, 't', MAGIC_CYCLE_NONE); /* emits "suggest " */ break;
+                    case KC_K: magic_decode_send_suffix_cycle(MAGIC_STRING_N_E_W, 'w', MAGIC_CYCLE_NONE); /* emits "new " -> "knew " */ break;
+                    case KC_L: magic_tap_repeatable(KC_B); break;
+                    case KC_M: magic_tap_repeatable(KC_T); break;
+                    case KC_N: magic_tap_repeatable(KC_P); break;
+                    case KC_P: magic_replace_decode_send_cap_cycle(MAGIC_STRING_P_R_O_M_E_T_H_E_U_S, 's', MAGIC_CYCLE_NONE); /* emits "Prometheus " */ break;
+                    case KC_R: magic_replace_tap_repeatable(KC_J); break;
+                    case KC_S: magic_decode_send_suffix_cycle(MAGIC_STRING_O_M_E_T_H_I_N_G, 'g', MAGIC_CYCLE_NONE); /* emits "omething " -> "something " */ break;
+                    case KC_T: magic_decode_send_suffix_cycle(MAGIC_STRING_H_O_U_G_H_T, 't', MAGIC_CYCLE_NONE); /* emits "hought " -> "thought " */ break;
+                    case KC_V: magic_replace_decode_send_cap_cycle(MAGIC_STRING_W_O_R_S_E, 'e', MAGIC_CYCLE_NONE); /* emits "worse " */ break;
+                    case KC_W: magic_decode_send_suffix_cycle(MAGIC_STRING_H_I_C_H, 'h', MAGIC_CYCLE_NONE); /* emits "hich " -> "which " */ break;
+                    case KC_X: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_A_M_P_L_E, 'e', MAGIC_CYCLE_NONE); /* emits "example " */ break;
+                default:
         #ifdef TRACE_LOGIC
-                if (magic_matched) {
-                    SEND_STRING("[MH:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-                } else {
                     SEND_STRING("[M0:");
                     trace_keycode_label(magic_context_prepared);
                     SEND_STRING("]");
-                }
         #endif
+                    break;
+                }
                 magic_capitalize_next = false;
                 last_magic_trigger = MAGIC_K;
                 last_magic_repeat_keycode = magic_repeat_keycode;
