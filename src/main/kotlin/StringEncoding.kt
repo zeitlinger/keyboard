@@ -292,7 +292,7 @@ static void magic_decode_send_skip(uint16_t offset, uint8_t skip_chars) {
     }
 }
 
-static void magic_decode_send(uint16_t offset) {
+void magic_decode_send(uint16_t offset) {
     magic_decode_send_skip(offset, 0);
 }
 

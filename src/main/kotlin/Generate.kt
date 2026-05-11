@@ -113,7 +113,12 @@ fun run(args: GeneratorArgs) {
     val combos = translator.combos + generateAllCombos(layers, translator)
 
     val cycleData = readCycleData(tables)
-    val encodedMagicStrings = encodeStrings(collectMagicOutputs(tables, translator) + cycleData.outputs)
+    val subsStrings =
+        combos
+            .filter { it.type == ComboType.Substitution }
+            .map { unquoteSubsString(it.result.substitution!!) }
+    val encodedMagicStrings =
+        encodeStrings(collectMagicOutputs(tables, translator) + cycleData.outputs + subsStrings)
     val encodedCycles = encodeCycleEntries(cycleData, encodedMagicStrings.stringOffsets)
 
     val magicTable = tables.getOptional("Magic").orEmpty()
@@ -212,8 +217,20 @@ fun run(args: GeneratorArgs) {
         analyze(translator, layers)
     }
 
-    File(dstDir, "combos.c").writeText(emitCombosC(combos, generationNote))
+    File(dstDir, "combos.c").writeText(
+        emitCombosC(combos, generationNote, encodedMagicStrings.stringOffsets),
+    )
     File(dstDir, "combos.def").delete()
+}
+
+private fun unquoteSubsString(quoted: String): String {
+    require(quoted.length >= 2 && quoted.startsWith("\"") && quoted.endsWith("\"")) {
+        "SUBS string must be quoted: $quoted"
+    }
+    return quoted
+        .substring(1, quoted.length - 1)
+        .replace("\\\"", "\"")
+        .replace("\\\\", "\\")
 }
 
 private data class MagicWordLocation(
@@ -417,6 +434,7 @@ fun addSendString(
 private fun emitCombosC(
     combos: List<Combo>,
     generationNote: String,
+    stringOffsets: Map<String, Int>,
 ): String {
     val sorted = combos.sortedBy { it.name }
     val triggerArrays =
@@ -451,7 +469,9 @@ private fun emitCombosC(
                 "    if (!pressed) return;\n" +
                 "    switch (combo_index) {\n" +
                 subs.joinToString("\n") { combo ->
-                    "    case ${combo.name}: SEND_STRING(${combo.result.substitution}); break;"
+                    val raw = unquoteSubsString(combo.result.substitution!!)
+                    val offset = stringOffsets.getValue(raw)
+                    "    case ${combo.name}: magic_decode_send($offset); break; // ${combo.result.substitution}"
                 } +
                 "\n    default: break;\n" +
                 "    }\n}"
@@ -460,6 +480,9 @@ private fun emitCombosC(
         "// $generationNote",
         "#include QMK_KEYBOARD_H",
         "#include \"layout.h\"",
+        "",
+        "// Defined in generated.c; combos.c shares the magic string table.",
+        "void magic_decode_send(uint16_t offset);",
         "",
         triggerArrays,
         "",
