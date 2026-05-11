@@ -16,7 +16,7 @@
 // #define CUSTOM_COMBO_TERM 50
 // Temporary trace markers typed into the host to debug logical combo/magic
 // context. Disable after testing.
-#define TRACE_LOGIC
+// #define TRACE_LOGIC
 // Combo trigger keycodes are always read from the Base layer regardless of the
 // active layer. process_combo_event picks the output keycode per layer
 // (e.g. emit S(KC_P) on _LEFT), so we no longer need S_*/DS_* shadow
