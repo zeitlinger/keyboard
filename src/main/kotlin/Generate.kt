@@ -560,14 +560,14 @@ private fun emitCombosC(
 // combos fire only on their home layer, including SUB_* combos.
 private fun comboLayerCheck(combo: Combo): String? {
     val home = combo.homeLayer.uppercase()
-    val homeCheck = "IS_LAYER_ON(_$home)"
+    val homeCheck = "layer == _$home"
 
     val isLetterBase =
         combo.homeLayer == BASE_LAYER_NAME &&
             combo.type == ComboType.Combo &&
             isLetter(combo.result)
     return if (isLetterBase) {
-        "$homeCheck || IS_LAYER_ON(_LEFT)"
+        "$homeCheck || layer == _LEFT"
     } else {
         homeCheck
     }

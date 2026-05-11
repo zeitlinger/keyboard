@@ -304,14 +304,14 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     case C_BASE_MAGIC_I:
     case C_BASE_MAGIC_J:
     case C_BASE_MAGIC_K:
-        return IS_LAYER_ON(_BASE);
+        return layer == _BASE;
     case C_BASE_KC_B:
     case C_BASE_KC_G:
     case C_BASE_KC_K:
     case C_BASE_KC_M:
     case C_BASE_KC_P:
     case C_BASE_KC_V:
-        return IS_LAYER_ON(_BASE) || IS_LAYER_ON(_LEFT);
+        return layer == _BASE || layer == _LEFT;
     case C_FNSYM_KC_AMPR:
     case C_FNSYM_KC_ASTR:
     case C_FNSYM_KC_BACKSLASH:
@@ -335,16 +335,16 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     case C_FNSYM_KC_TILD:
     case C_FNSYM_LT_NUM2KC_EQUAL:
     case C_FNSYM_MO_NUM:
-        return IS_LAYER_ON(_FNSYM);
+        return layer == _FNSYM;
     case C_LEFT_KC_COLN:
     case SUB_1:
-        return IS_LAYER_ON(_LEFT);
+        return layer == _LEFT;
     case SUB_2:
     case SUB_3:
     case SUB_4:
     case SUB_5:
     case SUB_6:
-        return IS_LAYER_ON(_MEDIA);
+        return layer == _MEDIA;
     case C_NAV_AKC_F12:
     case C_NAV_CKC_A:
     case C_NAV_CKC_B:
@@ -373,7 +373,7 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     case C_NAV_UPUMLAUT_AUMLAUT_A:
     case C_NAV_UPUMLAUT_OUMLAUT_O:
     case C_NAV_UPUMLAUT_UUMLAUT_U:
-        return IS_LAYER_ON(_NAV);
+        return layer == _NAV;
     case C_NUM_AKC_F1:
     case C_NUM_CKC_G:
     case C_NUM_LCAKC_L:
@@ -381,7 +381,7 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     case C_NUM_LSAKC_S:
     case C_NUM_LSAKC_X:
     case C_NUM_RCSKC_V:
-        return IS_LAYER_ON(_NUM);
+        return layer == _NUM;
     case C_RIGHT_KC_AT:
     case C_RIGHT_KC_COMMA:
     case C_RIGHT_KC_DOT:
@@ -393,7 +393,7 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     case C_RIGHT_N_T:
     case C_RIGHT_RCSKC_F:
     case C_RIGHT_RCSKC_R:
-        return IS_LAYER_ON(_RIGHT);
+        return layer == _RIGHT;
     default:
         return true;
     }

@@ -8,6 +8,7 @@
 
 #define EXTRA_SHORT_COMBOS
 #define COMBO_COUNT ${comboCount}
+#define COMBO_SHOULD_TRIGGER
 // Combo trigger keycodes are always read from the Base layer regardless of the
 // active layer. process_combo_event picks the output keycode per layer
 // (e.g. emit S(KC_P) on _LEFT), so we no longer need S_*/DS_* shadow
