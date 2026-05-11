@@ -175,10 +175,6 @@ bool process_switcher(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (!process_custom_combo(keycode, record)) {
-        return false;
-    }
-
     if (!process_suffix(keycode, record)) {
         return false;
     }
@@ -280,8 +276,4 @@ layer_state_t layer_state_set_user(layer_state_t state) {
       is_tab_switcher_active = false;
     }
     return state;
-}
-
-void matrix_scan_user(void) {
-    custom_combo_task();
 }
