@@ -504,7 +504,6 @@ bool tap_adaptive(uint16_t pressed_keycode, uint16_t output_keycode) {
     trace_keycode_label(output_keycode);
     SEND_STRING("]");
 #endif
-    remember_real_keycode(pressed_keycode);
     tap_code16(output_keycode);
     set_last_keycode(output_keycode);
     return false;
