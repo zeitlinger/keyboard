@@ -156,7 +156,12 @@ trailing auto-space.
 
 |   Cycle    |      next       |
 | :--------: | :-------------: |
+|  approve   |    approval     |
+|  consider  |  consideration  |
 |  disable   |     enable      |
+| elaborate  |   elaboration   |
+|   except   |    exception    |
+|  explain   |   explanation   |
 | implement  | implementation  |
 | instrument | instrumentation |
 |  possible  |   impossible    |
