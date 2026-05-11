@@ -118,7 +118,7 @@ Cell = what to emit.
 - Orderded by hand - thumbs last.
 
 | Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |  magic_h   |  magic_i  | magic_j |  magic_k   |
-| :----: | :--------: | :--------: |:---------:| :---------: | :-----------: |:----------:| :-----: | :--------: | :-------: | :-----: | :--------: |
+| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :--------: | :-------: | :-----: | :--------: |
 | suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |   [next]   |  " the "  |  ". "   |     s      |
 |   b    | background | basically  |           |   become    | observability |            |         |  obsolete  |  because  |    d    |   before   |
 |   c    |     n      |   "'ll "   |           |   "n't "    |       d       |   "'ve "   |         |  comment   |  "'re "   |  "'d "  |   "'s "    |
@@ -155,7 +155,7 @@ the last item wraps back to the first. Cycle entries are authored without the
 trailing auto-space.
 
 |   Cycle    |      next       |
-|:----------:|:---------------:|
+| :--------: | :-------------: |
 |  approve   |    approval     |
 |  disable   |     enable      |
 | elaborate  |   elaboration   |
