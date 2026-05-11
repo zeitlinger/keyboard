@@ -93,6 +93,68 @@ bool is_window_switcher_active = false;
 bool is_tab_switcher_active = false;
 bool is_one_shot_mouse_active = false;
 
+static void send_hex_nibble(uint8_t n) {
+    char c = n < 10 ? '0' + n : 'A' + (n - 10);
+    char s[2] = {c, 0};
+    send_string(s);
+}
+
+static void send_hex_byte(uint8_t b) {
+    send_hex_nibble(b >> 4);
+    send_hex_nibble(b & 0xF);
+}
+
+static void send_hex_u16(uint16_t v) {
+    send_hex_byte(v >> 8);
+    send_hex_byte(v & 0xFF);
+}
+
+// Order: mods osm weak layer flags last prev mtrig mrep mrem mrep2 cyc lmc
+//   flags bits: 0 suffix, 1 winsw, 2 tabsw, 3 osmouse, 4 caps, 5-6 xcase, 7 magcap
+static void dump_state(void) {
+    uint8_t flags = (suffix_active                ? 0x01 : 0)
+                  | (is_window_switcher_active    ? 0x02 : 0)
+                  | (is_tab_switcher_active       ? 0x04 : 0)
+                  | (is_one_shot_mouse_active     ? 0x08 : 0)
+                  | (caps_word_enabled()          ? 0x10 : 0)
+                  | ((get_xcase_state() & 0x3) << 5)
+                  | (magic_capitalize_next        ? 0x80 : 0);
+    send_string(" ");      send_hex_byte(get_mods());
+    send_string(" ");      send_hex_byte(get_oneshot_mods());
+    send_string(" ");      send_hex_byte(get_weak_mods());
+    send_string(" ");      send_hex_byte((uint8_t)layer);
+    send_string(" ");      send_hex_byte(flags);
+    send_string(" ");      send_hex_u16(last_keycode);
+    send_string(" ");      send_hex_u16(prev_keycode);
+    send_string(" ");      send_hex_u16(last_magic_trigger);
+    send_string(" ");      send_hex_u16(last_magic_repeat_keycode);
+    send_string(" ");      send_hex_u16(magic_remembered_keycode);
+    send_string(" ");      send_hex_u16(magic_repeat_keycode);
+    send_string(" ");      send_hex_u16(suffix_cycle_offset);
+    send_string(" ");      send_hex_byte((uint8_t)last_magic_char);
+}
+
+static void reset_all_state(void) {
+    clear_mods();
+    clear_oneshot_mods();
+    clear_weak_mods();
+    if (is_window_switcher_active) { unregister_code(KC_LALT); is_window_switcher_active = false; }
+    if (is_tab_switcher_active)    { unregister_code(KC_LCTL); is_tab_switcher_active    = false; }
+    is_one_shot_mouse_active = false;
+    clear_suffix_state();
+    disable_caps_word();
+    disable_xcase();
+    magic_capitalize_next      = false;
+    magic_context_key_emitted  = true;
+    prev_keycode               = KC_NO;
+    last_keycode               = KC_NO;
+    last_magic_trigger         = KC_NO;
+    last_magic_repeat_keycode  = KC_NO;
+    magic_remembered_keycode   = KC_NO;
+    magic_repeat_keycode       = KC_NO;
+    layer_move(_BASE);
+}
+
 static bool process_suffix(uint16_t keycode, keyrecord_t *record) {
     if (!suffix_active || !record->event.pressed) return true;
     if (process_magic_suffix(keycode)) {
@@ -228,6 +290,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case _HANDLER_PRINT_VERSION:
         if (record->event.pressed) {
             SEND_STRING(VERSION_STRING);
+            dump_state();
+            reset_all_state();
         }
         return false;
     #ifdef _HANDLER_DOT_SPC

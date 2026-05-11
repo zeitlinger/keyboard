@@ -8,3 +8,4 @@ __pycache__/
 .codex
 magic_stats.json
 *_words.tsv
+flash.log
