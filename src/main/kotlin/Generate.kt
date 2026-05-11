@@ -508,7 +508,13 @@ private fun emitCombosC(
     // _LEFT — the layer-aware process_combo_event picks shifted output.
     val shouldTriggerCases =
         sorted
-            .mapNotNull { combo -> comboLayerCheck(combo)?.let { combo.name to it } }
+            .mapNotNull { combo ->
+                if (combo.name == "C_BASE_KC_P") {
+                    null
+                } else {
+                    comboLayerCheck(combo)?.let { combo.name to it }
+                }
+            }
             .groupBy({ it.second }, { it.first })
             .toSortedMap()
             .flatMap { (check, names) ->

@@ -313,7 +313,6 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     case C_BASE_KC_G:
     case C_BASE_KC_K:
     case C_BASE_KC_M:
-    case C_BASE_KC_P:
     case C_BASE_KC_V:
         return layer == _BASE || layer == _LEFT;
     case C_FNSYM_KC_AMPR:
