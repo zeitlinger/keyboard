@@ -294,6 +294,10 @@ uint16_t COMBO_LEN = ARRAY_SIZE(key_combos);
 
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
     switch (combo_index) {
+#ifdef USE_CUSTOM_COMBO_POC
+    case C_BASE_KC_P:
+        return false;
+#endif
     case C_BASE_ING:
     case C_BASE_MAGIC_C:
     case C_BASE_MAGIC_D:

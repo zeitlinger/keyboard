@@ -86,6 +86,117 @@ bool is_window_switcher_active = false;
 bool is_tab_switcher_active = false;
 bool is_one_shot_mouse_active = false;
 
+#ifdef USE_CUSTOM_COMBO_POC
+#ifndef CUSTOM_COMBO_TERM
+#define CUSTOM_COMBO_TERM 50
+#endif
+
+static bool custom_combo_poc_pending = false;
+static keypos_t custom_combo_poc_pending_key = {0, 0};
+static uint16_t custom_combo_poc_pending_keycode = KC_NO;
+static uint16_t custom_combo_poc_pending_timer = 0;
+
+static bool custom_combo_poc_active = false;
+static keypos_t custom_combo_poc_active_keys[2];
+static bool custom_combo_poc_active_down[2] = {false, false};
+
+static bool custom_combo_poc_same_key(keypos_t a, keypos_t b) {
+    return a.row == b.row && a.col == b.col;
+}
+
+static bool custom_combo_poc_layer_ok(void) {
+    return layer == _BASE || layer == _LEFT;
+}
+
+static bool custom_combo_poc_is_trigger(keypos_t key) {
+    return (key.row == 1 && key.col == 1) || (key.row == 0 && key.col == 1); // KC_C + KC_X -> KC_P
+}
+
+static void custom_combo_poc_clear_pending(void) {
+    custom_combo_poc_pending = false;
+    custom_combo_poc_pending_keycode = KC_NO;
+    custom_combo_poc_pending_timer = 0;
+}
+
+static void custom_combo_poc_emit_pending(void) {
+    if (custom_combo_poc_pending) {
+        tap_code16(custom_combo_poc_pending_keycode);
+        custom_combo_poc_clear_pending();
+    }
+}
+
+static void custom_combo_poc_emit_combo(void) {
+    tap_code16(layer == _LEFT ? S(KC_P) : KC_P);
+}
+
+static bool process_custom_combo_poc(uint16_t keycode, keyrecord_t *record) {
+    keypos_t key = record->event.key;
+
+    if (custom_combo_poc_active && !record->event.pressed) {
+        for (uint8_t i = 0; i < 2; ++i) {
+            if (custom_combo_poc_active_down[i] && custom_combo_poc_same_key(custom_combo_poc_active_keys[i], key)) {
+                custom_combo_poc_active_down[i] = false;
+                if (!custom_combo_poc_active_down[0] && !custom_combo_poc_active_down[1]) {
+                    custom_combo_poc_active = false;
+                }
+                return false;
+            }
+        }
+    }
+
+    if (custom_combo_poc_pending) {
+        bool expired = timer_elapsed(custom_combo_poc_pending_timer) > CUSTOM_COMBO_TERM;
+        bool same_layer = custom_combo_poc_layer_ok();
+        bool is_trigger = custom_combo_poc_is_trigger(key);
+        if (!same_layer || expired || (record->event.pressed && !is_trigger)) {
+            custom_combo_poc_emit_pending();
+        }
+    }
+
+    if (!custom_combo_poc_layer_ok() || !custom_combo_poc_is_trigger(key)) {
+        return true;
+    }
+
+    if (!record->event.pressed) {
+        if (custom_combo_poc_pending && custom_combo_poc_same_key(custom_combo_poc_pending_key, key)) {
+            custom_combo_poc_emit_pending();
+            return false;
+        }
+        return true;
+    }
+
+    if (!custom_combo_poc_pending) {
+        custom_combo_poc_pending = true;
+        custom_combo_poc_pending_key = key;
+        custom_combo_poc_pending_keycode = keycode;
+        custom_combo_poc_pending_timer = timer_read();
+        return false;
+    }
+
+    if (custom_combo_poc_same_key(custom_combo_poc_pending_key, key)) {
+        return false;
+    }
+
+    if (timer_elapsed(custom_combo_poc_pending_timer) > CUSTOM_COMBO_TERM) {
+        custom_combo_poc_emit_pending();
+        custom_combo_poc_pending = true;
+        custom_combo_poc_pending_key = key;
+        custom_combo_poc_pending_keycode = keycode;
+        custom_combo_poc_pending_timer = timer_read();
+        return false;
+    }
+
+    custom_combo_poc_emit_combo();
+    custom_combo_poc_active = true;
+    custom_combo_poc_active_keys[0] = custom_combo_poc_pending_key;
+    custom_combo_poc_active_keys[1] = key;
+    custom_combo_poc_active_down[0] = true;
+    custom_combo_poc_active_down[1] = true;
+    custom_combo_poc_clear_pending();
+    return false;
+}
+#endif
+
 static bool process_suffix(uint16_t keycode, keyrecord_t *record) {
     if (!suffix_active || !record->event.pressed) return true;
     if (process_magic_suffix(keycode)) {
@@ -175,6 +286,12 @@ bool process_switcher(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+#ifdef USE_CUSTOM_COMBO_POC
+    if (!process_custom_combo_poc(keycode, record)) {
+        return false;
+    }
+#endif
+
     if (!process_suffix(keycode, record)) {
         return false;
     }

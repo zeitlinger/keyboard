@@ -523,6 +523,10 @@ private fun emitCombosC(
         } else {
             "$shouldTriggerSignature {\n" +
                 "    switch (combo_index) {\n" +
+                "#ifdef USE_CUSTOM_COMBO_POC\n" +
+                "    case C_BASE_KC_P:\n" +
+                "        return false;\n" +
+                "#endif\n" +
                 shouldTriggerCases.joinToString("\n") +
                 "\n    default:\n" +
                 "        return true;\n" +
