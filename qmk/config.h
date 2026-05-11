@@ -9,7 +9,7 @@
 #define EXTRA_SHORT_COMBOS
 // Custom combo matcher buffers the first key press and resolves combos by
 // physical key position instead of QMK's keycode-based combo engine.
-#define CUSTOM_COMBO_TERM 50
+#define CUSTOM_COMBO_TERM TAPPING_TERM
 
 #define UNICODE_SELECTED_MODES UNICODE_MODE_LINUX
 
