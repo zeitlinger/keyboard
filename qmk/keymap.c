@@ -31,6 +31,7 @@ const uint32_t PROGMEM unicode_map[] = {
 // #include "masks/crkbd.h"
 
 #include "casemodes.h"
+#include "combos.c"
 
 // Suffix state machine: set when a word-magic fires. Next magic press is
 // interpreted as a suffix chain (ed/ly/s/n't/ing) or exit (./,).
