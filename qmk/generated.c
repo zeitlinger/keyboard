@@ -422,8 +422,9 @@ static bool process_magic_cycle_next(void) {
 // Two-variable tracking for real logical keys.
 // prev_keycode = the prior resolved key press (what adaptives and magics check against).
 // last_keycode = the most recent resolved key press (shifts to prev_keycode on the next keypress).
-// Updated from the real trigger keycode, not the emitted adaptive/magic output,
-// so context-sensitive logic can see through substitutions.
+// Key presses first remember the real trigger keycode. If an adaptive fires,
+// last_keycode is then overwritten with the emitted logical output so the next
+// adaptive sees what was typed, not the physical substitute key.
 // Combo components like KC_C from P=KC_C+KC_X are never recorded — only KC_P is.
 static uint16_t prev_keycode = KC_NO;
 static uint16_t last_keycode = KC_NO;
@@ -504,6 +505,7 @@ bool tap_adaptive(uint16_t pressed_keycode, uint16_t output_keycode) {
     trace_keycode_label(output_keycode);
     SEND_STRING("]");
 #endif
+    last_keycode = output_keycode;
     tap_code16(output_keycode);
     set_last_keycode(output_keycode);
     return false;
