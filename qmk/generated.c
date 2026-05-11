@@ -478,15 +478,6 @@ static void remember_real_keycode(uint16_t keycode) {
     last_keycode = keycode;
     last_magic_trigger = KC_NO;
     last_magic_repeat_keycode = KC_NO;
-#ifdef TRACE_LOGIC
-    SEND_STRING("[R:");
-    trace_keycode_label(keycode);
-    SEND_STRING("|p=");
-    trace_keycode_label(prev_keycode);
-    SEND_STRING("|l=");
-    trace_keycode_label(last_keycode);
-    SEND_STRING("]");
-#endif
 }
 
 bool tap(uint16_t keycode) {
@@ -496,15 +487,6 @@ bool tap(uint16_t keycode) {
 }
 
 bool tap_adaptive(uint16_t pressed_keycode, uint16_t output_keycode) {
-#ifdef TRACE_LOGIC
-    SEND_STRING("[A:");
-    trace_keycode_label(prev_keycode);
-    SEND_STRING("+");
-    trace_keycode_label(pressed_keycode);
-    SEND_STRING(">");
-    trace_keycode_label(output_keycode);
-    SEND_STRING("]");
-#endif
     last_keycode = output_keycode;
     tap_code16(output_keycode);
     set_last_keycode(output_keycode);
@@ -604,19 +586,6 @@ static bool is_magic_keycode(uint16_t keycode) {
 static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_keycode,
                                            bool allow_repeat, bool context_emitted) {
     magic_context_key_emitted = context_emitted;
-#ifdef TRACE_LOGIC
-    if (is_magic_keycode(keycode)) {
-        SEND_STRING("[M:");
-        trace_keycode_label(keycode);
-        SEND_STRING("|ctx=");
-        trace_keycode_label(context_keycode);
-        SEND_STRING("|rep=");
-        trace_bool_label(allow_repeat);
-        SEND_STRING("|emit=");
-        trace_bool_label(context_emitted);
-        SEND_STRING("]");
-    }
-#endif
     switch (keycode) {
             case MAGIC_A: {
                 if (allow_repeat && repeat_last_magic_key(MAGIC_A)) {
@@ -643,11 +612,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                     case KC_W: magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_L_W_A_Y_S, 's', MAGIC_CYCLE_NONE); /* emits "always " */ break;
                     case KC_X: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_C_E_P_T_I_O_N, 'n', MAGIC_CYCLE_NONE); /* emits "exception " */ break;
                 default:
-        #ifdef TRACE_LOGIC
-                    SEND_STRING("[M0:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-        #endif
                     break;
                 }
                 magic_capitalize_next = false;
@@ -681,11 +645,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                     case KC_W: magic_decode_send_suffix_cycle(MAGIC_STRING_A_S_N_APOSTROPHE_T, 't', MAGIC_CYCLE_NONE); /* emits "asn't " -> "wasn't " */ break;
                     case KC_X: magic_tap_repeatable(KC_W); break;
                 default:
-        #ifdef TRACE_LOGIC
-                    SEND_STRING("[M0:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-        #endif
                     break;
                 }
                 magic_capitalize_next = false;
@@ -710,11 +669,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                     case KC_U: magic_replace_decode_send_cap_cycle(MAGIC_STRING_G_R_E_G_O_R_2, '\0', MAGIC_CYCLE_NONE); /* emits "gregor" */ break;
                     case KC_Y: magic_tap_repeatable(KC_R); break;
                 default:
-        #ifdef TRACE_LOGIC
-                    SEND_STRING("[M0:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-        #endif
                     break;
                 }
                 magic_capitalize_next = false;
@@ -748,11 +702,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                     case KC_W: magic_decode_send_suffix_cycle(MAGIC_STRING_O_R_K_F_L_O_W, 'w', MAGIC_CYCLE_NONE); /* emits "orkflow " -> "workflow " */ break;
                     case KC_X: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_C_E_P_T, 't', MAGIC_CYCLE_NONE); /* emits "except " */ break;
                 default:
-        #ifdef TRACE_LOGIC
-                    SEND_STRING("[M0:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-        #endif
                     break;
                 }
                 magic_capitalize_next = false;
@@ -786,11 +735,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                     case KC_W: magic_replace_decode_send_cap_cycle(MAGIC_STRING_O_T_H_E_R_W_I_S_E, 'e', MAGIC_CYCLE_NONE); /* emits "otherwise " */ break;
                     case KC_X: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_P_L_I_C_I_T, 't', MAGIC_CYCLE_NONE); /* emits "explicit " */ break;
                 default:
-        #ifdef TRACE_LOGIC
-                    SEND_STRING("[M0:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-        #endif
                     break;
                 }
                 magic_capitalize_next = false;
@@ -820,11 +764,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                     case KC_W: magic_replace_decode_send_cap_cycle(MAGIC_STRING_S_W_I_T_C_H, 'h', MAGIC_CYCLE_NONE); /* emits "switch " */ break;
                     case KC_X: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_C_L_U_D_E, 'e', MAGIC_CYCLE_NONE); /* emits "exclude " */ break;
                 default:
-        #ifdef TRACE_LOGIC
-                    SEND_STRING("[M0:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-        #endif
                     break;
                 }
                 magic_capitalize_next = false;
@@ -851,11 +790,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                     case KC_U: magic_tap_repeatable(KC_H); break;
                     case KC_Y: magic_replace_decode_send_cap_cycle(MAGIC_STRING_O_N_L_Y, 'y', MAGIC_CYCLE_NONE); /* emits "only " */ break;
                 default:
-        #ifdef TRACE_LOGIC
-                    SEND_STRING("[M0:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-        #endif
                     break;
                 }
                 magic_capitalize_next = false;
@@ -893,11 +827,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                     case KC_W: magic_decode_send_suffix_cycle(MAGIC_STRING_H_Y, 'y', MAGIC_CYCLE_NONE); /* emits "hy " -> "why " */ break;
                     case KC_X: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_I_T, 't', MAGIC_CYCLE_NONE); /* emits "exit " */ break;
                 default:
-        #ifdef TRACE_LOGIC
-                    SEND_STRING("[M0:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-        #endif
                     break;
                 }
                 magic_capitalize_next = false;
@@ -935,11 +864,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                     case KC_W: magic_tap_repeatable(KC_S); break;
                     case KC_X: magic_tap_repeatable(KC_R); break;
                 default:
-        #ifdef TRACE_LOGIC
-                    SEND_STRING("[M0:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-        #endif
                     break;
                 }
                 magic_capitalize_next = false;
@@ -973,11 +897,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                     case KC_W: magic_tap_repeatable(KC_X); break;
                     case KC_X: magic_tap_repeatable(KC_D); break;
                 default:
-        #ifdef TRACE_LOGIC
-                    SEND_STRING("[M0:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-        #endif
                     break;
                 }
                 magic_capitalize_next = false;
@@ -1010,11 +929,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                     case KC_W: magic_decode_send_suffix_cycle(MAGIC_STRING_H_I_C_H, 'h', MAGIC_CYCLE_NONE); /* emits "hich " -> "which " */ break;
                     case KC_X: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_A_M_P_L_E, 'e', MAGIC_CYCLE_NONE); /* emits "example " */ break;
                 default:
-        #ifdef TRACE_LOGIC
-                    SEND_STRING("[M0:");
-                    trace_keycode_label(magic_context_prepared);
-                    SEND_STRING("]");
-        #endif
                     break;
                 }
                 magic_capitalize_next = false;
@@ -1030,18 +944,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
 
 bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
-#ifdef TRACE_LOGIC
-        SEND_STRING("[P:");
-        trace_keycode_label(keycode);
-        SEND_STRING("|p=");
-        trace_keycode_label(prev_keycode);
-        SEND_STRING("|l=");
-        trace_keycode_label(last_keycode);
-        if (record->tap.count) {
-            SEND_STRING("|tap");
-        }
-        SEND_STRING("]");
-#endif
         // Adaptive keys: runs after combo resolution in process_record_user,
         // so combo components are suppressed and prev_keycode reflects the
         // resolved combo keycode (e.g. KC_P not KC_C).
@@ -1195,11 +1097,6 @@ bool remember_last_key_user(uint16_t keycode, keyrecord_t* record,
         case MAGIC_I:
         case MAGIC_J:
         case MAGIC_K:
-#ifdef TRACE_LOGIC
-            SEND_STRING("[RX:");
-            trace_keycode_label(keycode);
-            SEND_STRING("]");
-#endif
             return false;
     }
 

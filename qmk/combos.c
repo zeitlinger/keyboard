@@ -18,41 +18,6 @@ static bool combo_shift_active(void) {
     return (get_mods() | get_oneshot_mods()) & MOD_MASK_SHIFT;
 }
 
-#ifdef TRACE_LOGIC
-static void trace_keycode_label(uint16_t keycode) {
-    uint16_t unshifted = keycode;
-    bool shifted = false;
-    if (keycode >= S(KC_A) && keycode <= S(KC_Z)) {
-        shifted = true;
-        unshifted = keycode - S(KC_A) + KC_A;
-    }
-    if (unshifted >= KC_A && unshifted <= KC_Z) {
-        if (shifted) {
-            tap_code16(KC_CIRC);
-        }
-        tap_code16(S(KC_A + (unshifted - KC_A)));
-        return;
-    }
-    if (keycode >= MAGIC_A && keycode <= MAGIC_K) {
-        tap_code16(S(KC_M));
-        tap_code16(S(KC_A + (keycode - MAGIC_A)));
-        return;
-    }
-    switch (keycode) {
-    case KC_NO: tap_code16(KC_0); break;
-    case KC_SPC: tap_code16(KC_UNDS); break;
-    case KC_TAB: SEND_STRING("TAB"); break;
-    case KC_ENT: SEND_STRING("ENT"); break;
-    case KC_ESC: SEND_STRING("ESC"); break;
-    case KC_BSPC: SEND_STRING("BSP"); break;
-    case KC_DEL: SEND_STRING("DEL"); break;
-    case KC_DOT: tap_code16(KC_DOT); break;
-    case KC_COMMA: tap_code16(KC_COMMA); break;
-    case KC_QUOTE: tap_code16(KC_QUOTE); break;
-    case KC_DQUO: tap_code16(KC_DQUO); break;
-#ifdef _HANDLER_N_T
-    case _HANDLER_N_T: SEND_STRING("NT"); break;
-#endif
 #ifdef _HANDLER_ING
     case _HANDLER_ING: SEND_STRING("ING"); break;
 #endif
@@ -116,13 +81,6 @@ static void combo_process_keycode(uint16_t keycode) {
 }
 
 static void combo_tap_logical(uint16_t keycode) {
-#ifdef TRACE_LOGIC
-    SEND_STRING("[C:");
-    trace_keycode_label(keycode);
-    SEND_STRING("|L=");
-    trace_layer_label(combo_active_layer());
-    SEND_STRING("]");
-#endif
     clear_suffix_state();
     remember_real_keycode(keycode);
     keyrecord_t record = {
@@ -137,16 +95,8 @@ static void combo_tap_logical(uint16_t keycode) {
         },
     };
     if (!process_record_generated(keycode, &record)) {
-#ifdef TRACE_LOGIC
-        SEND_STRING("[CH]");
-#endif
         return;
     }
-#ifdef TRACE_LOGIC
-    SEND_STRING("[CR:");
-    trace_keycode_label(keycode);
-    SEND_STRING("]");
-#endif
     tap_code16(keycode);
 }
 
@@ -468,34 +418,16 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     if (!pressed) return;
     switch (combo_index) {
     case SUB_1:
-#ifdef TRACE_LOGIC
-        SEND_STRING("[CS]");
-#endif
         magic_decode_send(764); break; // "qu"
     case SUB_2:
-#ifdef TRACE_LOGIC
-        SEND_STRING("[CS]");
-#endif
         magic_decode_send(410); break; // "gregor.zeitlinger@grafana.com"
     case SUB_3:
-#ifdef TRACE_LOGIC
-        SEND_STRING("[CS]");
-#endif
         magic_decode_send(968); break; // "zeitlinger@gmail.com"
     case SUB_4:
-#ifdef TRACE_LOGIC
-        SEND_STRING("[CS]");
-#endif
         magic_decode_send(430); break; // "gregor@zeitlinger.de"
     case SUB_5:
-#ifdef TRACE_LOGIC
-        SEND_STRING("[CS]");
-#endif
         magic_decode_send(32); break; // "Grafana"
     case SUB_6:
-#ifdef TRACE_LOGIC
-        SEND_STRING("[CS]");
-#endif
         magic_decode_send(38); break; // "Grafana Labs"
     case C_BASE_KC_B: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_B) : KC_B); break;
     case C_BASE_KC_G: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_G) : KC_G); break;

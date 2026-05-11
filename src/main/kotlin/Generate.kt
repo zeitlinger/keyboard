@@ -26,6 +26,7 @@ fun template(layers: List<Layer>): String =
 private const val THUMB_COLUMNS = 4
 private const val NO_CYCLE_OFFSET = "MAGIC_CYCLE_NONE"
 private const val MAGIC_REPLACE_PREFIX = "⌫"
+private const val TRACE_LOGIC_ENABLED = false
 
 private data class CycleEntry(
     val current: String,
@@ -221,7 +222,7 @@ fun run(args: GeneratorArgs) {
 
     val baseLayer = layers.first { it.name == BASE_LAYER_NAME }
     File(dstDir, "combos.c").writeText(
-        emitCombosC(combos, generationNote, encodedMagicStrings.stringOffsets, baseLayer),
+        renderTraceLogic(emitCombosC(combos, generationNote, encodedMagicStrings.stringOffsets, baseLayer)),
     )
     File(dstDir, "combos.def").delete()
 }
@@ -234,6 +235,19 @@ private fun unquoteSubsString(quoted: String): String {
         .substring(1, quoted.length - 1)
         .replace("\\\"", "\"")
         .replace("\\\\", "\\")
+}
+
+private fun renderTraceLogic(text: String): String {
+    val regex = Regex("""(?ms)^[ \t]*#ifdef TRACE_LOGIC\n(.*?\n)?^[ \t]*#endif\n?""")
+    return if (TRACE_LOGIC_ENABLED) {
+        regex.replace(text) { match ->
+            match.value
+                .replace(Regex("""^[ \t]*#ifdef TRACE_LOGIC\n"""), "")
+                .replace(Regex("""^[ \t]*#endif\n?""", RegexOption.MULTILINE), "")
+        }
+    } else {
+        regex.replace(text, "")
+    }
 }
 
 private data class MagicWordLocation(
@@ -1395,8 +1409,10 @@ private fun replaceTemplate(
     vars: Map<String, String>,
 ) {
     dst.writeText(
-        vars.entries.fold(src.readText()) { acc, entry ->
-            acc.replace("\${${entry.key}}", entry.value)
-        },
+        renderTraceLogic(
+            vars.entries.fold(src.readText()) { acc, entry ->
+                acc.replace("\${${entry.key}}", entry.value)
+            },
+        ),
     )
 }
