@@ -7,7 +7,12 @@
 #define TAPPING_TOGGLE 2
 
 #define EXTRA_SHORT_COMBOS
-#define COMBO_COUNT 104
+#define COMBO_COUNT 92
+// Combo trigger keycodes are always read from _BASE regardless of the
+// active layer. process_combo_event picks the output keycode per layer
+// (e.g. emit S(KC_P) on _LEFT), so we no longer need S_*/DS_* shadow
+// combos.
+#define COMBO_ONLY_FROM_LAYER _BASE
 
 #define UNICODE_SELECTED_MODES UNICODE_MODE_LINUX
 
