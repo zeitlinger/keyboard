@@ -9,16 +9,7 @@
 
 #include QMK_KEYBOARD_H
 
-enum unicode_names {
-    UMLAUT_A,
-    UMLAUT_a,
-    UMLAUT_O,
-    UMLAUT_o,
-    UMLAUT_U,
-    UMLAUT_u,
-    UMLAUT_s,
-    SMILEY
-};
+#include "unicode_names.h"
 
 const uint32_t PROGMEM unicode_map[] = {
     [UMLAUT_a]  = 0x00E4, // ä

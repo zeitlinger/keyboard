@@ -480,6 +480,7 @@ private fun emitCombosC(
         "// $generationNote",
         "#include QMK_KEYBOARD_H",
         "#include \"layout.h\"",
+        "#include \"unicode_names.h\"",
         "",
         "// Defined in generated.c; combos.c shares the magic string table.",
         "void magic_decode_send(uint16_t offset);",
