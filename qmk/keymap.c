@@ -29,6 +29,11 @@ const uint32_t PROGMEM unicode_map[] = {
     [UMLAUT_s]  = 0x00DF, // ß
 };
 
+// Defined before layout.h so it's in scope for keymap bindings.
+enum keymap_custom_keycodes {
+    DEBUG_DUMP = SAFE_RANGE + 100,
+};
+
 #include "layout.h"
 
 /* for >34 key users, replace this line with an include statement for the mask file */
@@ -110,8 +115,24 @@ static void send_hex_u16(uint16_t v) {
     send_hex_byte(v & 0xFF);
 }
 
-// Order: mods osm weak layer flags last prev mtrig mrep mrem mrep2 cyc lmc
-//   flags bits: 0 suffix, 1 winsw, 2 tabsw, 3 osmouse, 4 caps, 5-6 xcase, 7 magcap
+// Emit only fields that differ from a clean idle state, each with a short
+// label. Empty output = nothing wrong. Flags bits: 0 suffix, 1 winsw,
+// 2 tabsw, 3 osmouse, 4 caps, 5-6 xcase, 7 magcap.
+//
+// Inner col left upper (DEBUG_DUMP trigger) sits at matrix row 0 col 4
+// (bit 0x0010); a row showing only that bit is the trigger itself, not
+// a stuck key, so it's skipped.
+#define DEBUG_DUMP_TRIGGER_ROW  0
+#define DEBUG_DUMP_TRIGGER_MASK 0x0010
+static void dump_field_u8(const char *label, uint8_t v) {
+    if (!v) return;
+    send_string(" "); send_string(label); send_string("="); send_hex_byte(v);
+}
+static void dump_field_u16(const char *label, uint16_t v) {
+    if (!v) return;
+    send_string(" "); send_string(label); send_string("=");
+    send_hex_byte(v >> 8); send_hex_byte(v & 0xFF);
+}
 static void dump_state(uint8_t snap_mods, uint8_t snap_osm, uint8_t snap_weak) {
     uint8_t flags = (suffix_active                ? 0x01 : 0)
                   | (is_window_switcher_active    ? 0x02 : 0)
@@ -120,24 +141,27 @@ static void dump_state(uint8_t snap_mods, uint8_t snap_osm, uint8_t snap_weak) {
                   | (caps_word_enabled()          ? 0x10 : 0)
                   | ((get_xcase_state() & 0x3) << 5)
                   | (magic_capitalize_next        ? 0x80 : 0);
-    send_string(" ");      send_hex_byte(snap_mods);
-    send_string(" ");      send_hex_byte(snap_osm);
-    send_string(" ");      send_hex_byte(snap_weak);
-    send_string(" ");      send_hex_byte((uint8_t)layer);
-    send_string(" ");      send_hex_byte(flags);
-    send_string(" ");      send_hex_u16(last_keycode);
-    send_string(" ");      send_hex_u16(prev_keycode);
-    send_string(" ");      send_hex_u16(last_magic_trigger);
-    send_string(" ");      send_hex_u16(last_magic_repeat_keycode);
-    send_string(" ");      send_hex_u16(magic_remembered_keycode);
-    send_string(" ");      send_hex_u16(magic_repeat_keycode);
-    send_string(" ");      send_hex_u16(suffix_cycle_offset);
-    send_string(" ");      send_hex_byte((uint8_t)last_magic_char);
+    dump_field_u8 ("m",   snap_mods);
+    dump_field_u8 ("osm", snap_osm);
+    dump_field_u8 ("w",   snap_weak);
+    dump_field_u8 ("lay", (uint8_t)layer);
+    dump_field_u8 ("flg", flags);
+    dump_field_u16("l",   last_keycode);
+    dump_field_u16("p",   prev_keycode);
+    dump_field_u16("mt",  last_magic_trigger);
+    dump_field_u16("mr",  last_magic_repeat_keycode);
+    dump_field_u16("mrm", magic_remembered_keycode);
+    dump_field_u16("mrp", magic_repeat_keycode);
+    if (suffix_cycle_offset != UINT16_MAX) {
+        dump_field_u16("cyc", suffix_cycle_offset);
+    }
+    dump_field_u8 ("lmc", (uint8_t)last_magic_char);
     for (uint8_t r = 0; r < MATRIX_ROWS; r++) {
-        send_string(" ");
         matrix_row_t row = matrix_get_row(r);
-        send_hex_byte((row >> 8) & 0xFF);
-        send_hex_byte(row & 0xFF);
+        if (!row) continue;
+        if (r == DEBUG_DUMP_TRIGGER_ROW && row == DEBUG_DUMP_TRIGGER_MASK) continue;
+        send_string(" r"); send_hex_nibble(r); send_string("=");
+        send_hex_byte((row >> 8) & 0xFF); send_hex_byte(row & 0xFF);
     }
 }
 
@@ -254,7 +278,7 @@ bool process_switcher(uint16_t keycode, keyrecord_t *record) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // Emergency dump+reset must bypass every other handler so a wedged
     // state (e.g. switcher swallowing all keys) cannot trap it.
-    if (keycode == _HANDLER_PRINT_VERSION) {
+    if (keycode == DEBUG_DUMP) {
         if (record->event.pressed) {
             uint8_t snap_mods = get_mods();
             uint8_t snap_osm  = get_oneshot_mods();
@@ -263,7 +287,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             clear_mods();
             clear_oneshot_mods();
             clear_weak_mods();
-            SEND_STRING(VERSION_STRING);
             dump_state(snap_mods, snap_osm, snap_weak);
             reset_all_state();
         }
@@ -313,6 +336,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         break;
     #endif
+    case _HANDLER_PRINT_VERSION:
+        if (record->event.pressed) {
+            SEND_STRING(VERSION_STRING);
+        }
+        return false;
     #ifdef _HANDLER_DOT_SPC
     case _HANDLER_DOT_SPC:
         if (record->event.pressed) {
