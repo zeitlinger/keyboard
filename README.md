@@ -156,20 +156,10 @@ trailing auto-space.
 
 |   Cycle    |      next       |
 |:----------:|:---------------:|
-|  approve   |    approval     |
-|  consider  |  consideration  |
 |  disable   |     enable      |
-| elaborate  |   elaboration   |
-|   except   |    exception    |
-|  explain   |   explanation   |
-|  generate  |   generation    |
 | implement  | implementation  |
 | instrument | instrumentation |
-|  migrate   |    migration    |
-|  organize  |  organization   |
 |  possible  |   impossible    |
-|  resolve   |   resolution    |
-|  separate  |   separation    |
 |   thanks   |    thank you    |
 |  validate  |   validation    |
 |   gregor   | " Zeitlinger "  |
