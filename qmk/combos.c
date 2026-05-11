@@ -5,7 +5,13 @@
 
 // Defined in generated.c.
 void magic_decode_send(uint16_t offset);
+static void remember_real_keycode(uint16_t keycode);
 extern int layer;
+
+static void combo_tap_logical(uint16_t keycode) {
+    remember_real_keycode(keycode);
+    tap_code16(keycode);
+}
 
 const uint16_t PROGMEM C_BASE_ING_combo[] = {DEAD2, KC_A, COMBO_END};
 const uint16_t PROGMEM C_BASE_KC_B_combo[] = {KC_C, KC_F, COMBO_END};
@@ -411,12 +417,12 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     case SUB_4: magic_decode_send(430); break; // "gregor@zeitlinger.de"
     case SUB_5: magic_decode_send(32); break; // "Grafana"
     case SUB_6: magic_decode_send(38); break; // "Grafana Labs"
-    case C_BASE_KC_B: tap_code16(layer == _LEFT ? S(KC_B) : KC_B); break;
-    case C_BASE_KC_G: tap_code16(layer == _LEFT ? S(KC_G) : KC_G); break;
-    case C_BASE_KC_K: tap_code16(layer == _LEFT ? S(KC_K) : KC_K); break;
-    case C_BASE_KC_M: tap_code16(layer == _LEFT ? S(KC_M) : KC_M); break;
-    case C_BASE_KC_P: tap_code16(layer == _LEFT ? S(KC_P) : KC_P); break;
-    case C_BASE_KC_V: tap_code16(layer == _LEFT ? S(KC_V) : KC_V); break;
+    case C_BASE_KC_B: combo_tap_logical(layer == _LEFT ? S(KC_B) : KC_B); break;
+    case C_BASE_KC_G: combo_tap_logical(layer == _LEFT ? S(KC_G) : KC_G); break;
+    case C_BASE_KC_K: combo_tap_logical(layer == _LEFT ? S(KC_K) : KC_K); break;
+    case C_BASE_KC_M: combo_tap_logical(layer == _LEFT ? S(KC_M) : KC_M); break;
+    case C_BASE_KC_P: combo_tap_logical(layer == _LEFT ? S(KC_P) : KC_P); break;
+    case C_BASE_KC_V: combo_tap_logical(layer == _LEFT ? S(KC_V) : KC_V); break;
     default: break;
     }
 }

@@ -487,7 +487,7 @@ private fun emitCombosC(
     val letterCases =
         sorted.filter { isLetterCombo(it) }.map { combo ->
             val base = combo.result.key
-            "    case ${combo.name}: tap_code16(layer == _LEFT ? S($base) : $base); break;"
+            "    case ${combo.name}: combo_tap_logical(layer == _LEFT ? S($base) : $base); break;"
         }
     val processEvent =
         if (subsCases.isEmpty() && letterCases.isEmpty()) {
@@ -547,7 +547,13 @@ private fun emitCombosC(
         "",
         "// Defined in generated.c.",
         "void magic_decode_send(uint16_t offset);",
+        "static void remember_real_keycode(uint16_t keycode);",
         "extern int layer;",
+        "",
+        "static void combo_tap_logical(uint16_t keycode) {\n" +
+            "    remember_real_keycode(keycode);\n" +
+            "    tap_code16(keycode);\n" +
+            "}",
         "",
         triggerArrays,
         "",
