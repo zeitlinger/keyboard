@@ -118,15 +118,20 @@ static void custom_combo_poc_clear_pending(void) {
     custom_combo_poc_pending_timer = 0;
 }
 
+static void custom_combo_poc_tap_logical(uint16_t keycode) {
+    remember_real_keycode(keycode);
+    tap_code16(keycode);
+}
+
 static void custom_combo_poc_emit_pending(void) {
     if (custom_combo_poc_pending) {
-        tap_code16(custom_combo_poc_pending_keycode);
+        custom_combo_poc_tap_logical(custom_combo_poc_pending_keycode);
         custom_combo_poc_clear_pending();
     }
 }
 
 static void custom_combo_poc_emit_combo(void) {
-    tap_code16(layer == _LEFT ? S(KC_P) : KC_P);
+    custom_combo_poc_tap_logical(layer == _LEFT ? S(KC_P) : KC_P);
 }
 
 static bool process_custom_combo_poc(uint16_t keycode, keyrecord_t *record) {
