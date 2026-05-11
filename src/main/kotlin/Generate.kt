@@ -660,6 +660,26 @@ private fun emitCombosC(
             .flatMap { (check, names) ->
                 names.sorted().map { "    case $it:" } + "        return $check;"
             }
+    val comboTermCases =
+        sorted
+            .groupBy { it.timeout ?: error("combo timeout missing") }
+            .toList()
+            .sortedBy { it.first }
+            .flatMap { (timeout, combos) ->
+                combos.sortedBy { it.name }.map { "    case ${it.name}:" } + "        return $timeout;"
+            }
+    val getComboTerm =
+        if (comboTermCases.isEmpty()) {
+            "uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) { (void)combo; return COMBO_TERM; }"
+        } else {
+            "uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {\n" +
+                "    (void)combo;\n" +
+                "    switch (combo_index) {\n" +
+                comboTermCases.joinToString("\n") +
+                "\n    default:\n" +
+                "        return COMBO_TERM;\n" +
+                "    }\n}"
+        }
     val shouldTriggerSignature =
         "bool combo_should_trigger(uint16_t combo_index, combo_t *combo, " +
             "uint16_t keycode, keyrecord_t *record)"
@@ -760,6 +780,8 @@ private fun emitCombosC(
         table,
         "",
         "uint16_t COMBO_LEN = ARRAY_SIZE(key_combos);",
+        "",
+        getComboTerm,
         "",
         shouldTrigger,
         "",
