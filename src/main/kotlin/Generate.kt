@@ -646,20 +646,29 @@ private fun emitCombosC(
     // would also match on _BASE, _LEFT, etc., misfiring those layers.
     // Letter combos (C_BASE_*) intentionally fire on both _BASE and
     // _LEFT — the layer-aware process_combo_event picks shifted output.
-    val shouldTriggerCases =
-        sorted
-            .mapNotNull { combo ->
-                if (combo.name == "C_BASE_KC_P") {
-                    null
+    val indexedShouldTriggerChecks =
+        sorted.mapIndexedNotNull { index, combo ->
+            if (combo.name == "C_BASE_KC_P") {
+                null
+            } else {
+                comboLayerCheck(combo)?.let { index to it }
+            }
+        }
+    val shouldTriggerRanges =
+        buildList<Triple<Int, Int, String>> {
+            for ((index, check) in indexedShouldTriggerChecks) {
+                val last = lastOrNull()
+                if (last != null && last.third == check && last.second + 1 == index) {
+                    this[this.lastIndex] = Triple(last.first, index, check)
                 } else {
-                    comboLayerCheck(combo)?.let { combo.name to it }
+                    add(Triple(index, index, check))
                 }
             }
-            .groupBy({ it.second }, { it.first })
-            .toSortedMap()
-            .flatMap { (check, names) ->
-                names.sorted().map { "    case $it:" } + "        return $check;"
-            }
+        }
+    val comboTimeouts = sorted.map { it.timeout ?: error("combo timeout missing") }
+    val baseComboCount = sorted.takeWhile { it.homeLayer == BASE_LAYER_NAME }.size
+    val baseComboTimeout = comboTimeouts.take(baseComboCount).distinct().singleOrNull()
+    val nonBaseComboTimeout = comboTimeouts.drop(baseComboCount).distinct().singleOrNull()
     val comboTermCases =
         sorted
             .groupBy { it.timeout ?: error("combo timeout missing") }
@@ -669,35 +678,50 @@ private fun emitCombosC(
                 combos.sortedBy { it.name }.map { "    case ${it.name}:" } + "        return $timeout;"
             }
     val getComboTerm =
-        if (comboTermCases.isEmpty()) {
-            "uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) { (void)combo; return COMBO_TERM; }"
-        } else {
-            "uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {\n" +
-                "    (void)combo;\n" +
-                "    switch (combo_index) {\n" +
-                comboTermCases.joinToString("\n") +
-                "\n    default:\n" +
-                "        return COMBO_TERM;\n" +
-                "    }\n}"
+        when {
+            comboTermCases.isEmpty() ->
+                "uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) { (void)combo; return COMBO_TERM; }"
+            baseComboCount > 0 &&
+                baseComboCount < sorted.size &&
+                baseComboTimeout != null &&
+                nonBaseComboTimeout != null ->
+                "uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {\n" +
+                    "    (void)combo;\n" +
+                    "    return combo_index < $baseComboCount ? $baseComboTimeout : $nonBaseComboTimeout;\n" +
+                    "}"
+            else ->
+                "uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {\n" +
+                    "    (void)combo;\n" +
+                    "    switch (combo_index) {\n" +
+                    comboTermCases.joinToString("\n") +
+                    "\n    default:\n" +
+                    "        return COMBO_TERM;\n" +
+                    "    }\n}"
         }
     val shouldTriggerSignature =
         "bool combo_should_trigger(uint16_t combo_index, combo_t *combo, " +
             "uint16_t keycode, keyrecord_t *record)"
     val shouldTrigger =
-        if (shouldTriggerCases.isEmpty()) {
+        if (shouldTriggerRanges.isEmpty()) {
             "$shouldTriggerSignature { return true; }"
         } else {
+            val shouldTriggerConditions =
+                shouldTriggerRanges.map { (start, end, check) ->
+                    val condition =
+                        if (start == end) {
+                            "combo_index == $start"
+                        } else {
+                            "combo_index >= $start && combo_index <= $end"
+                        }
+                    "    if ($condition) return $check;"
+                }
             "$shouldTriggerSignature {\n" +
                 "    uint8_t active_layer = combo_active_layer();\n" +
-                "    switch (combo_index) {\n" +
                 "#ifdef USE_CUSTOM_COMBO_POC\n" +
-                "    case C_BASE_KC_P:\n" +
-                "        return false;\n" +
+                "    if (combo_index == C_BASE_KC_P) return false;\n" +
                 "#endif\n" +
-                shouldTriggerCases.joinToString("\n") +
-                "\n    default:\n" +
-                "        return true;\n" +
-                "    }\n}"
+                shouldTriggerConditions.joinToString("\n") +
+                "\n    return true;\n}"
         }
 
     return listOf(

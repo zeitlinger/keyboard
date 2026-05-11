@@ -437,217 +437,31 @@ uint16_t COMBO_LEN = ARRAY_SIZE(key_combos);
 
 uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {
     (void)combo;
-    switch (combo_index) {
-    case C_BASE_ING:
-    case C_BASE_KC_B:
-    case C_BASE_KC_G:
-    case C_BASE_KC_K:
-    case C_BASE_KC_M:
-    case C_BASE_KC_P:
-    case C_BASE_KC_V:
-    case C_BASE_MAGIC_C:
-    case C_BASE_MAGIC_D:
-    case C_BASE_MAGIC_E:
-    case C_BASE_MAGIC_F:
-    case C_BASE_MAGIC_G:
-    case C_BASE_MAGIC_H:
-    case C_BASE_MAGIC_I:
-    case C_BASE_MAGIC_J:
-    case C_BASE_MAGIC_K:
-        return 50;
-    case C_FNSYM_KC_AMPR:
-    case C_FNSYM_KC_ASTR:
-    case C_FNSYM_KC_BACKSLASH:
-    case C_FNSYM_KC_CIRC:
-    case C_FNSYM_KC_DLR:
-    case C_FNSYM_KC_F11:
-    case C_FNSYM_KC_HASH:
-    case C_FNSYM_KC_KP_MINUS:
-    case C_FNSYM_KC_KP_PLUS:
-    case C_FNSYM_KC_LABK:
-    case C_FNSYM_KC_LCBR:
-    case C_FNSYM_KC_LGUI:
-    case C_FNSYM_KC_LPRN:
-    case C_FNSYM_KC_MINUS:
-    case C_FNSYM_KC_PERC:
-    case C_FNSYM_KC_PIPE:
-    case C_FNSYM_KC_RABK:
-    case C_FNSYM_KC_RCBR:
-    case C_FNSYM_KC_RPRN:
-    case C_FNSYM_KC_SLASH:
-    case C_FNSYM_KC_TILD:
-    case C_FNSYM_LT_NUM2KC_EQUAL:
-    case C_FNSYM_MO_NUM:
-    case C_LEFT_KC_COLN:
-    case C_NAV_AKC_F12:
-    case C_NAV_CKC_A:
-    case C_NAV_CKC_B:
-    case C_NAV_CKC_C:
-    case C_NAV_CKC_D:
-    case C_NAV_CKC_E:
-    case C_NAV_CKC_F12:
-    case C_NAV_CKC_K:
-    case C_NAV_CKC_P:
-    case C_NAV_CKC_SLASH:
-    case C_NAV_CKC_V:
-    case C_NAV_CKC_W:
-    case C_NAV_CKC_X:
-    case C_NAV_CKC_Y:
-    case C_NAV_CKC_Z:
-    case C_NAV_KC_END:
-    case C_NAV_KC_HOME:
-    case C_NAV_KC_PGDN:
-    case C_NAV_KC_PGUP:
-    case C_NAV_LCAKC_B:
-    case C_NAV_RCSKC_C:
-    case C_NAV_RCSKC_N:
-    case C_NAV_RCSKC_V:
-    case C_NAV_RCSKC_Z:
-    case C_NAV_UMUMLAUT_S:
-    case C_NAV_UPUMLAUT_AUMLAUT_A:
-    case C_NAV_UPUMLAUT_OUMLAUT_O:
-    case C_NAV_UPUMLAUT_UUMLAUT_U:
-    case C_NUM_AKC_F1:
-    case C_NUM_CKC_G:
-    case C_NUM_LCAKC_L:
-    case C_NUM_LSAKC_B:
-    case C_NUM_LSAKC_S:
-    case C_NUM_LSAKC_X:
-    case C_NUM_RCSKC_V:
-    case C_RIGHT_KC_AT:
-    case C_RIGHT_KC_COMMA:
-    case C_RIGHT_KC_DOT:
-    case C_RIGHT_KC_EXLM:
-    case C_RIGHT_KC_GRAVE:
-    case C_RIGHT_KC_QUES:
-    case C_RIGHT_KC_QUOTE:
-    case C_RIGHT_KC_UNDS:
-    case C_RIGHT_N_T:
-    case C_RIGHT_RCSKC_F:
-    case C_RIGHT_RCSKC_R:
-    case SUB_1:
-    case SUB_2:
-    case SUB_3:
-    case SUB_4:
-    case SUB_5:
-    case SUB_6:
-        return 200;
-    default:
-        return COMBO_TERM;
-    }
+    return combo_index < 16 ? 50 : 200;
 }
 
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
     uint8_t active_layer = combo_active_layer();
-    switch (combo_index) {
 #ifdef USE_CUSTOM_COMBO_POC
-    case C_BASE_KC_P:
-        return false;
+    if (combo_index == C_BASE_KC_P) return false;
 #endif
-    case C_BASE_ING:
-    case C_BASE_MAGIC_C:
-    case C_BASE_MAGIC_D:
-    case C_BASE_MAGIC_F:
-    case C_BASE_MAGIC_H:
-    case C_BASE_MAGIC_I:
-    case C_BASE_MAGIC_J:
-        return active_layer == _BASE;
-    case C_BASE_KC_B:
-    case C_BASE_KC_G:
-    case C_BASE_KC_K:
-    case C_BASE_KC_M:
-    case C_BASE_KC_V:
-    case C_BASE_MAGIC_K:
-        return active_layer == _BASE || active_layer == _LEFT;
-    case C_BASE_MAGIC_G:
-        return active_layer == _BASE || active_layer == _RIGHT;
-    case C_BASE_MAGIC_E:
-        return active_layer == _BASE || active_layer == _RIGHT || combo_shift_active();
-    case C_FNSYM_KC_AMPR:
-    case C_FNSYM_KC_ASTR:
-    case C_FNSYM_KC_BACKSLASH:
-    case C_FNSYM_KC_CIRC:
-    case C_FNSYM_KC_DLR:
-    case C_FNSYM_KC_F11:
-    case C_FNSYM_KC_HASH:
-    case C_FNSYM_KC_KP_MINUS:
-    case C_FNSYM_KC_KP_PLUS:
-    case C_FNSYM_KC_LABK:
-    case C_FNSYM_KC_LCBR:
-    case C_FNSYM_KC_LGUI:
-    case C_FNSYM_KC_LPRN:
-    case C_FNSYM_KC_MINUS:
-    case C_FNSYM_KC_PERC:
-    case C_FNSYM_KC_PIPE:
-    case C_FNSYM_KC_RABK:
-    case C_FNSYM_KC_RCBR:
-    case C_FNSYM_KC_RPRN:
-    case C_FNSYM_KC_SLASH:
-    case C_FNSYM_KC_TILD:
-    case C_FNSYM_LT_NUM2KC_EQUAL:
-    case C_FNSYM_MO_NUM:
-        return active_layer == _FNSYM;
-    case C_LEFT_KC_COLN:
-    case SUB_1:
-        return active_layer == _LEFT;
-    case SUB_2:
-    case SUB_3:
-    case SUB_4:
-    case SUB_5:
-    case SUB_6:
-        return active_layer == _MEDIA;
-    case C_NAV_AKC_F12:
-    case C_NAV_CKC_A:
-    case C_NAV_CKC_B:
-    case C_NAV_CKC_C:
-    case C_NAV_CKC_D:
-    case C_NAV_CKC_E:
-    case C_NAV_CKC_F12:
-    case C_NAV_CKC_K:
-    case C_NAV_CKC_P:
-    case C_NAV_CKC_SLASH:
-    case C_NAV_CKC_V:
-    case C_NAV_CKC_W:
-    case C_NAV_CKC_X:
-    case C_NAV_CKC_Y:
-    case C_NAV_CKC_Z:
-    case C_NAV_KC_END:
-    case C_NAV_KC_HOME:
-    case C_NAV_KC_PGDN:
-    case C_NAV_KC_PGUP:
-    case C_NAV_LCAKC_B:
-    case C_NAV_RCSKC_C:
-    case C_NAV_RCSKC_N:
-    case C_NAV_RCSKC_V:
-    case C_NAV_RCSKC_Z:
-    case C_NAV_UMUMLAUT_S:
-    case C_NAV_UPUMLAUT_AUMLAUT_A:
-    case C_NAV_UPUMLAUT_OUMLAUT_O:
-    case C_NAV_UPUMLAUT_UUMLAUT_U:
-        return active_layer == _NAV;
-    case C_NUM_AKC_F1:
-    case C_NUM_CKC_G:
-    case C_NUM_LCAKC_L:
-    case C_NUM_LSAKC_B:
-    case C_NUM_LSAKC_S:
-    case C_NUM_LSAKC_X:
-    case C_NUM_RCSKC_V:
-        return active_layer == _NUM;
-    case C_RIGHT_KC_AT:
-    case C_RIGHT_KC_COMMA:
-    case C_RIGHT_KC_DOT:
-    case C_RIGHT_KC_EXLM:
-    case C_RIGHT_KC_GRAVE:
-    case C_RIGHT_KC_QUES:
-    case C_RIGHT_KC_QUOTE:
-    case C_RIGHT_KC_UNDS:
-    case C_RIGHT_N_T:
-    case C_RIGHT_RCSKC_F:
-    case C_RIGHT_RCSKC_R:
-        return active_layer == _RIGHT;
-    default:
-        return true;
-    }
+    if (combo_index == 0) return active_layer == _BASE;
+    if (combo_index >= 1 && combo_index <= 4) return active_layer == _BASE || active_layer == _LEFT;
+    if (combo_index == 6) return active_layer == _BASE || active_layer == _LEFT;
+    if (combo_index >= 7 && combo_index <= 8) return active_layer == _BASE;
+    if (combo_index == 9) return active_layer == _BASE || active_layer == _RIGHT || combo_shift_active();
+    if (combo_index == 10) return active_layer == _BASE;
+    if (combo_index == 11) return active_layer == _BASE || active_layer == _RIGHT;
+    if (combo_index >= 12 && combo_index <= 14) return active_layer == _BASE;
+    if (combo_index == 15) return active_layer == _BASE || active_layer == _LEFT;
+    if (combo_index >= 16 && combo_index <= 38) return active_layer == _FNSYM;
+    if (combo_index == 39) return active_layer == _LEFT;
+    if (combo_index >= 40 && combo_index <= 67) return active_layer == _NAV;
+    if (combo_index >= 68 && combo_index <= 74) return active_layer == _NUM;
+    if (combo_index >= 75 && combo_index <= 85) return active_layer == _RIGHT;
+    if (combo_index == 86) return active_layer == _LEFT;
+    if (combo_index >= 87 && combo_index <= 91) return active_layer == _MEDIA;
+    return true;
 }
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
