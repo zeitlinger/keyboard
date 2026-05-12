@@ -193,6 +193,7 @@ trailing auto-space.
 |     n     |   r   |   g    |
 |     n     |   x   |   l    |
 |     o     |   h   |   o    |
+|     o     |   o   |   e    |
 |     p     |   d   |   l    |
 |     p     |   n   |   p    |
 |     p     |   s   |   y    |
@@ -276,13 +277,18 @@ trailing auto-space.
 | Left  |    :    |         |         |         |         |         |         |         |
 | Left  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| LMods |         |         |         |         |         |         |         |         |
+| LMods |  dead2  |         |         |         |         |         |         |         |
 | LMods |         |         |         |         |         |         |         |         |
 | LMods |    z    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
 | LMods |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| LMods |  "Qu"   |         |         |         |         |         |         |         |
+| LMods |   💎    |         |         |         |         |         |         |         |
+| LMods |         |         |         |         |         |         |         |         |
+| LMods |         |         |         |         |         |         |         |         |
+|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |  dead2  |   f10   |   f9    |  dead2  |  dead3  |    (    |    )    |  dead1  |
-| FnSym |   f4    |   f3    |   f2    |   f1    |   🛑    |   🛑    |   🛑    | =+Num2  |
+| FnSym |   f4    |   f3    |   f2    |   f1    |   🛑    |   🛑    |   🛑    |    =    |
 | FnSym |   f8    |   f7    |   f6    |   f5    |    -    |    {    |    }    |  \*Num  |
 | FnSym |         |         |         |   f12   |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -430,8 +436,7 @@ The order of the options is also the order of the layers in the layer stack.
 |    RMods     | BottomRow+RMods |                 |               |      Base      |                  |
 |     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |
 |    FnSym     |                 |     HomeRow     |               |                | DirectComboRight |
-|     Num      |                 |                 |               |                | TriLayer         |
-|     Num2     |                 |     HomeRow     |      Num      |                |                  |
+|     Num      |                 |    BottomRow    |               |                | TriLayer         |
 |     ANum     |                 |                 |               |                |                  |
 |     CNum     |                 |                 |               |                |                  |
 |    Media     |                 |                 |               |                |                  |
