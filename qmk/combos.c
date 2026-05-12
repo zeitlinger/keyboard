@@ -349,15 +349,15 @@ uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {
 
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
     uint8_t active_layer = combo_active_layer();
-    if (combo_index == 0) return active_layer == _BASE;
-    if (combo_index >= 1 && combo_index <= 4) return active_layer == _BASE || active_layer == _LEFT;
-    if (combo_index == 6) return active_layer == _BASE || active_layer == _LEFT;
-    if (combo_index >= 7 && combo_index <= 8) return active_layer == _BASE;
+    if (combo_index == 0) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS;
+    if (combo_index >= 1 && combo_index <= 4) return active_layer == _BASE || active_layer == _LEFT || active_layer == _LMODS || active_layer == _RMODS;
+    if (combo_index == 6) return active_layer == _BASE || active_layer == _LEFT || active_layer == _LMODS || active_layer == _RMODS;
+    if (combo_index >= 7 && combo_index <= 8) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS;
     if (combo_index == 9) return active_layer == _BASE || active_layer == _RIGHT || combo_shift_active();
-    if (combo_index == 10) return active_layer == _BASE;
-    if (combo_index == 11) return active_layer == _BASE || active_layer == _RIGHT;
-    if (combo_index >= 12 && combo_index <= 14) return active_layer == _BASE;
-    if (combo_index == 15) return active_layer == _BASE || active_layer == _LEFT;
+    if (combo_index == 10) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS;
+    if (combo_index == 11) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
+    if (combo_index >= 12 && combo_index <= 14) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS;
+    if (combo_index == 15) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
     if (combo_index >= 16 && combo_index <= 38) return active_layer == _FNSYM;
     if (combo_index == 39) return active_layer == _LEFT;
     if (combo_index >= 40 && combo_index <= 67) return active_layer == _NAV;

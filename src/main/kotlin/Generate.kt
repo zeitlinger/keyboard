@@ -230,6 +230,13 @@ fun run(args: GeneratorArgs) {
                 encodedMagicStrings.stringOffsets,
                 baseLayer,
                 translator.symbols.customKeycodes.keys.toSet(),
+                layers
+                    .filter {
+                        it.name != BASE_LAYER_NAME &&
+                            LayerFlag.Shifted !in it.option.flags &&
+                            (it.option.leftFallbackLayer == BASE_LAYER_NAME || it.option.rightFallbackLayer == BASE_LAYER_NAME)
+                    }
+                    .map { it.name },
             ),
         ),
     )
@@ -553,6 +560,7 @@ private fun emitCombosC(
     stringOffsets: Map<String, Int>,
     baseLayer: Layer,
     customKeycodes: Set<String>,
+    baseComboLayers: List<String>,
 ): String {
     val sorted = combos.sortedBy { it.name }
 
@@ -591,7 +599,9 @@ private fun emitCombosC(
                 combo.type == ComboType.Combo &&
                 isLetter(combo.result)
         if (isLetterBase) {
-            return "active_layer == _BASE || active_layer == _LEFT"
+            return (listOf("_BASE", "_LEFT") + baseComboLayers.map { "_${it.uppercase()}" })
+                .distinct()
+                .joinToString(" || ") { "active_layer == $it" }
         }
         if (combo.name == "C_BASE_MAGIC_E") {
             return "active_layer == _BASE || active_layer == _RIGHT || combo_shift_active()"
@@ -599,6 +609,7 @@ private fun emitCombosC(
 
         val allowedLayers = mutableListOf("_$home")
         if (combo.homeLayer == BASE_LAYER_NAME) {
+            allowedLayers += baseComboLayers.map { "_${it.uppercase()}" }
             combo.triggers
                 .map(::triggerKeycode)
                 .mapNotNull { Regex("MO\\(_([A-Z0-9]+)\\)").find(it)?.groupValues?.get(1) }
