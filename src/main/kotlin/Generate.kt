@@ -229,14 +229,17 @@ fun run(args: GeneratorArgs) {
                 generationNote,
                 encodedMagicStrings.stringOffsets,
                 baseLayer,
-                translator.symbols.customKeycodes.keys.toSet(),
+                translator.symbols.customKeycodes.keys
+                    .toSet(),
                 layers
                     .filter {
                         it.name != BASE_LAYER_NAME &&
                             LayerFlag.Shifted !in it.option.flags &&
-                            (it.option.leftFallbackLayer == BASE_LAYER_NAME || it.option.rightFallbackLayer == BASE_LAYER_NAME)
-                    }
-                    .map { it.name },
+                            (
+                                it.option.leftFallbackLayer == BASE_LAYER_NAME ||
+                                    it.option.rightFallbackLayer == BASE_LAYER_NAME
+                            )
+                    }.map { it.name },
             ),
         ),
     )
@@ -472,7 +475,10 @@ fun addSendString(
         )
     }
 
-private fun traceHelpersC(hasNT: Boolean, hasING: Boolean): String {
+private fun traceHelpersC(
+    hasNT: Boolean,
+    hasING: Boolean,
+): String {
     if (!TRACE_LOGIC_ENABLED) return ""
     val ntCase = if (hasNT) "    case _HANDLER_N_T: SEND_STRING(\"NT\"); break;\n" else ""
     val ingCase = if (hasING) "    case _HANDLER_ING: SEND_STRING(\"ING\"); break;\n" else ""
@@ -508,7 +514,7 @@ static void trace_keycode_label(uint16_t keycode) {
     case KC_COMMA: tap_code16(KC_COMMA); break;
     case KC_QUOTE: tap_code16(KC_QUOTE); break;
     case KC_DQUO: tap_code16(KC_DQUO); break;
-${ntCase}${ingCase}\
+${ntCase}$ingCase\
     default: tap_code16(S(KC_SLASH)); break;
     }
 }
@@ -551,7 +557,7 @@ static void trace_layer_label(int active_layer) {
     default: tap_code16(S(KC_SLASH)); break;
     }
 }
-    """.trimIndent()
+        """.trimIndent()
 }
 
 private fun emitCombosC(
@@ -711,10 +717,14 @@ private fun emitCombosC(
         }
     val getComboTerm =
         when {
-            comboTimeoutRanges.isEmpty() ->
+            comboTimeoutRanges.isEmpty() -> {
                 "uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) { (void)combo; return COMBO_TERM; }"
-            comboTimeoutRanges.size == 1 ->
+            }
+
+            comboTimeoutRanges.size == 1 -> {
                 "uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) { (void)combo; (void)combo_index; return ${comboTimeoutRanges.single().third}; }"
+            }
+
             else -> {
                 val conditions =
                     comboTimeoutRanges.map { (start, end, timeout) ->
