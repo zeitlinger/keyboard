@@ -1,2 +1,2 @@
 [settings]
-exclude = ["qmk/generated.c"]
+exclude = ["qmk/generated.c", "qmk/combos.c"]
