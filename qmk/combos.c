@@ -76,6 +76,7 @@ const uint16_t PROGMEM C_FNSYM_KC_ASTR_combo[] = {KC_N, KC_W, COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_BACKSLASH_combo[] = {DEAD1, KC_H, COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_CIRC_combo[] = {KC_ESC, KC_S, COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_DLR_combo[] = {KC_S, MO(_RIGHT), COMBO_END};
+const uint16_t PROGMEM C_FNSYM_KC_EQUAL_combo[] = {KC_H, MO(_FNSYM), COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_F11_combo[] = {KC_N, KC_L, COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_HASH_combo[] = {KC_I, KC_Y, COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_KP_MINUS_combo[] = {DEAD3, KC_T, COMBO_END};
@@ -92,7 +93,6 @@ const uint16_t PROGMEM C_FNSYM_KC_RCBR_combo[] = {KC_Y, MO(_FNSYM), COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_RPRN_combo[] = {MAGIC_B, MO(_FNSYM), COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_SLASH_combo[] = {KC_O, KC_E, COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_TILD_combo[] = {KC_A, KC_U, COMBO_END};
-const uint16_t PROGMEM C_FNSYM_LT_NUM2KC_EQUAL_combo[] = {KC_H, MO(_FNSYM), COMBO_END};
 const uint16_t PROGMEM C_FNSYM_MO_NUM_combo[] = {MO(_FNSYM), MO(_LEFT), COMBO_END};
 const uint16_t PROGMEM C_LEFT_KC_COLN_combo[] = {MO(_RIGHT), KC_S, COMBO_END};
 const uint16_t PROGMEM C_NAV_AKC_F12_combo[] = {KC_E, KC_I, COMBO_END};
@@ -142,11 +142,12 @@ const uint16_t PROGMEM C_RIGHT_N_T_combo[] = {MAGIC_A, KC_E, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_RCSKC_F_combo[] = {KC_N, KC_L, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_RCSKC_R_combo[] = {KC_T, KC_D, COMBO_END};
 const uint16_t PROGMEM SUB_1_combo[] = {KC_ESC, KC_S, COMBO_END};
-const uint16_t PROGMEM SUB_2_combo[] = {KC_D, KC_T, COMBO_END};
-const uint16_t PROGMEM SUB_3_combo[] = {KC_L, KC_N, COMBO_END};
-const uint16_t PROGMEM SUB_4_combo[] = {KC_F, KC_C, COMBO_END};
-const uint16_t PROGMEM SUB_5_combo[] = {KC_ESC, KC_S, COMBO_END};
-const uint16_t PROGMEM SUB_6_combo[] = {KC_S, MO(_RIGHT), COMBO_END};
+const uint16_t PROGMEM SUB_2_combo[] = {KC_ESC, KC_S, COMBO_END};
+const uint16_t PROGMEM SUB_3_combo[] = {KC_D, KC_T, COMBO_END};
+const uint16_t PROGMEM SUB_4_combo[] = {KC_L, KC_N, COMBO_END};
+const uint16_t PROGMEM SUB_5_combo[] = {KC_F, KC_C, COMBO_END};
+const uint16_t PROGMEM SUB_6_combo[] = {KC_ESC, KC_S, COMBO_END};
+const uint16_t PROGMEM SUB_7_combo[] = {KC_S, MO(_RIGHT), COMBO_END};
 
 enum combos {
     C_BASE_ING,
@@ -170,6 +171,7 @@ enum combos {
     C_FNSYM_KC_BACKSLASH,
     C_FNSYM_KC_CIRC,
     C_FNSYM_KC_DLR,
+    C_FNSYM_KC_EQUAL,
     C_FNSYM_KC_F11,
     C_FNSYM_KC_HASH,
     C_FNSYM_KC_KP_MINUS,
@@ -186,7 +188,6 @@ enum combos {
     C_FNSYM_KC_RPRN,
     C_FNSYM_KC_SLASH,
     C_FNSYM_KC_TILD,
-    C_FNSYM_LT_NUM2KC_EQUAL,
     C_FNSYM_MO_NUM,
     C_LEFT_KC_COLN,
     C_NAV_AKC_F12,
@@ -240,7 +241,8 @@ enum combos {
     SUB_3,
     SUB_4,
     SUB_5,
-    SUB_6
+    SUB_6,
+    SUB_7
 };
 
 combo_t key_combos[] = {
@@ -265,6 +267,7 @@ combo_t key_combos[] = {
     [C_FNSYM_KC_BACKSLASH] = COMBO(C_FNSYM_KC_BACKSLASH_combo, KC_BACKSLASH),
     [C_FNSYM_KC_CIRC] = COMBO(C_FNSYM_KC_CIRC_combo, KC_CIRC),
     [C_FNSYM_KC_DLR] = COMBO(C_FNSYM_KC_DLR_combo, KC_DLR),
+    [C_FNSYM_KC_EQUAL] = COMBO(C_FNSYM_KC_EQUAL_combo, KC_EQUAL),
     [C_FNSYM_KC_F11] = COMBO(C_FNSYM_KC_F11_combo, KC_F11),
     [C_FNSYM_KC_HASH] = COMBO(C_FNSYM_KC_HASH_combo, KC_HASH),
     [C_FNSYM_KC_KP_MINUS] = COMBO(C_FNSYM_KC_KP_MINUS_combo, KC_KP_MINUS),
@@ -281,7 +284,6 @@ combo_t key_combos[] = {
     [C_FNSYM_KC_RPRN] = COMBO(C_FNSYM_KC_RPRN_combo, KC_RPRN),
     [C_FNSYM_KC_SLASH] = COMBO(C_FNSYM_KC_SLASH_combo, KC_SLASH),
     [C_FNSYM_KC_TILD] = COMBO(C_FNSYM_KC_TILD_combo, KC_TILD),
-    [C_FNSYM_LT_NUM2KC_EQUAL] = COMBO(C_FNSYM_LT_NUM2KC_EQUAL_combo, LT(_NUM2,KC_EQUAL)),
     [C_FNSYM_MO_NUM] = COMBO(C_FNSYM_MO_NUM_combo, MO(_NUM)),
     [C_LEFT_KC_COLN] = COMBO(C_LEFT_KC_COLN_combo, KC_COLN),
     [C_NAV_AKC_F12] = COMBO(C_NAV_AKC_F12_combo, A(KC_F12)),
@@ -335,7 +337,8 @@ combo_t key_combos[] = {
     [SUB_3] = COMBO_ACTION(SUB_3_combo),
     [SUB_4] = COMBO_ACTION(SUB_4_combo),
     [SUB_5] = COMBO_ACTION(SUB_5_combo),
-    [SUB_6] = COMBO_ACTION(SUB_6_combo)
+    [SUB_6] = COMBO_ACTION(SUB_6_combo),
+    [SUB_7] = COMBO_ACTION(SUB_7_combo)
 };
 
 uint16_t COMBO_LEN = ARRAY_SIZE(key_combos);
@@ -343,7 +346,7 @@ uint16_t COMBO_LEN = ARRAY_SIZE(key_combos);
 uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {
     (void)combo;
     if (combo_index >= 0 && combo_index <= 15) return 50;
-    if (combo_index >= 16 && combo_index <= 91) return 300;
+    if (combo_index >= 16 && combo_index <= 92) return 300;
     return COMBO_TERM;
 }
 
@@ -364,7 +367,8 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     if (combo_index >= 68 && combo_index <= 74) return active_layer == _NUM;
     if (combo_index >= 75 && combo_index <= 85) return active_layer == _RIGHT;
     if (combo_index == 86) return active_layer == _LEFT;
-    if (combo_index >= 87 && combo_index <= 91) return active_layer == _MEDIA;
+    if (combo_index == 87) return active_layer == _LMODS;
+    if (combo_index >= 88 && combo_index <= 92) return active_layer == _MEDIA;
     return true;
 }
 
@@ -374,14 +378,16 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     case SUB_1:
         magic_decode_send(764); break; // "qu"
     case SUB_2:
-        magic_decode_send(410); break; // "gregor.zeitlinger@grafana.com"
+        magic_decode_send(65); break; // "Qu"
     case SUB_3:
-        magic_decode_send(968); break; // "zeitlinger@gmail.com"
+        magic_decode_send(413); break; // "gregor.zeitlinger@grafana.com"
     case SUB_4:
-        magic_decode_send(430); break; // "gregor@zeitlinger.de"
+        magic_decode_send(965); break; // "zeitlinger@gmail.com"
     case SUB_5:
-        magic_decode_send(32); break; // "Grafana"
+        magic_decode_send(433); break; // "gregor@zeitlinger.de"
     case SUB_6:
+        magic_decode_send(32); break; // "Grafana"
+    case SUB_7:
         magic_decode_send(38); break; // "Grafana Labs"
     case C_BASE_KC_B: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_B) : KC_B); break;
     case C_BASE_KC_G: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_G) : KC_G); break;
