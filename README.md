@@ -117,7 +117,7 @@ Cell = what to emit.
 - Orderded by hand - thumbs last.
 
 | Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |  magic_h   |  magic_i  | magic_j |  magic_k   |
-| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :--------: | :-------: | :-----: | :--------: |
+| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :--------: | :-------: |:-------:| :--------: |
 | suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |   [next]   |  " the "  |  ". "   |     s      |
 |   b    | background | basically  |           |   become    | observability |            |         |  obsolete  |  because  |    d    |   before   |
 |   c    |     n      |   "'ll "   |           |   "n't "    |       d       |   "'ve "   |         |  comment   |  "'re "   |  "'d "  |   "'s "    |
@@ -133,7 +133,7 @@ Cell = what to emit.
 |   t    |     n      |     f      |           |    just     |    through    |  another   |         |   though   |  "tion"   | without |  thought   |
 |   v    |  validate  | everything |           |   improve   |    version    |            |         |  approval  |  resolve  |  I've   |   worse    |
 |   w    |   always   |   wasn't   |           |    work     |   otherwise   |   switch   |         |    why     |     s     |    x    |   which    |
-|   x    | exception  |     w      |           |   except    |   explicit    |  exclude   |         |    exit    |     r     |    d    |  example   |
+|   x    | exception  |     w      |           |   except    |   explicit    |  exclude   |         |    exit    |     r     |         |  example   |
 |   a    |            |            |  address  |             |               |            |    e    |            |           |         |            |
 |   e    |            |            |     u     |             |               |            |    h    |            |           |         |            |
 |   h    |            |            |           |             |               |            |  "qu"   |            |           |         |            |
@@ -204,7 +204,7 @@ trailing auto-space.
 |     t     |   n   |   t    |
 |     u     |   h   |   a    |
 |     w     |   x   |   n    |
-|     x     |   d   |   c    |
+|     x     |   r   |   c    |
 |     x     |   w   |   p    |
 |     y     |   r   |   i    |
 
