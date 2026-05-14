@@ -31,8 +31,8 @@ run = "uv run .mise/tasks/suggest-combos.py"
 description = "Flash the keyboard"
 depends = "generate"
 run = [
-    "uv run qmk flash -kb ferris/sweep -km zeitlinger -bl avrdude-split-left",
-    "printf '%s %s\\n' \"$(date -Iseconds)\" \"$(git rev-parse HEAD)\" >> flash.log",
+  "uv run qmk flash -kb ferris/sweep -km zeitlinger -bl avrdude-split-left",
+  "printf '%s %s\\n' \"$(date -Iseconds)\" \"$(git rev-parse HEAD)\" >> flash.log",
 ]
 
 [tasks.lint]
