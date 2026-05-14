@@ -33,6 +33,7 @@
 - To review explicit placement ideas against current table occupancy:
   `mise run suggest-magic-placements -- --prefer-row 'thank you=t' --prefer-row 'gregor=z' 'thank you' gregor`
 - Prefer `mise run ...` for these helper workflows; the implementations live under `scripts/`, not at repo root.
+- Run the interactive magic trainer directly with `uv run train.py` or `./train.py`, not through `mise`.
 
 ## Home Row Mods
 

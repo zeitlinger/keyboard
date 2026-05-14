@@ -27,15 +27,13 @@ run = "mvn compile exec:java"
 description = "Suggest magic-key expansions to add, ranked by typing benefit"
 run = "uv run .mise/tasks/suggest-combos.py"
 
-[tasks.train]
-description = "Train magic-key vocabulary"
-run = "uv run train.py"
-
-
 [tasks.flash]
 description = "Flash the keyboard"
 depends = "generate"
-run = "uv run qmk flash -kb ferris/sweep -km zeitlinger -bl avrdude-split-left"
+run = [
+    "uv run qmk flash -kb ferris/sweep -km zeitlinger -bl avrdude-split-left",
+    "printf '%s %s\\n' \"$(date -Iseconds)\" \"$(git rev-parse HEAD)\" >> flash.log",
+]
 
 [tasks.lint]
 description = "Run all lints"

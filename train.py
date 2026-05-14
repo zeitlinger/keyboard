@@ -48,18 +48,50 @@ console = Console()
 _tty = None
 
 
+HELP_TEXT = """Magic Trainer
+
+Usage:
+  mise run train
+  uv run train.py
+  ./train.py
+
+Controls:
+  type the trigger for the shown output
+  type the output itself as an alternative answer
+  q to quit
+"""
+
+
 def clear_screen() -> None:
     print("\033[H\033[2J\033[3J", end="", flush=True)
 
 
 def tty_input() -> str:
     global _tty
-    if _tty is None:
-        _tty = open("/dev/tty")
-    line = _tty.readline()
+
+    stream = sys.stdin
+    if not sys.stdin.isatty():
+        if _tty is None:
+            try:
+                _tty = open("/dev/tty")
+            except OSError:
+                _tty = sys.stdin
+        stream = _tty
+
+    line = stream.readline()
     if not line:
         raise EOFError
     return line.rstrip("\n")
+
+
+def has_interactive_input() -> bool:
+    if sys.stdin.isatty():
+        return True
+    try:
+        with open("/dev/tty"):
+            return True
+    except OSError:
+        return False
 
 
 def now_iso() -> str:
@@ -136,6 +168,31 @@ def normalize_output_answer(output: str) -> set[str]:
     variants.add(collapsed)
     variants.add(collapsed.replace(" ", ""))
     return variants
+
+
+def preferred_hint_trigger(triggers: tuple[str, ...]) -> str:
+    row_priority = {"spc": 0, "enter": 1, "tab": 2}
+
+    def key(trigger: str) -> tuple[int, int, str]:
+        row, _ = trigger.split("+", 1)
+        return (row_priority.get(row, 99), len(trigger), trigger)
+
+    return min(triggers, key=key)
+
+
+def format_trigger(trigger: str) -> str:
+    row, column = trigger.split("+", 1)
+    row_labels = {
+        "spc": "space",
+        "enter": "enter",
+        "tab": "tab",
+        ",": "comma",
+    }
+    return f"{row_labels.get(row, row)}+{column}"
+
+
+def format_triggers(triggers: tuple[str, ...]) -> str:
+    return ", ".join(format_trigger(trigger) for trigger in triggers)
 
 
 def render_trigger_hint(trigger: str) -> str:
@@ -325,14 +382,18 @@ def is_stale(entry: dict) -> bool:
 
 
 def record_answer(stats: dict, output: str, correct: bool) -> dict:
-    entry = stats.setdefault(output, {"correct": 0, "total": 0, "streak": 0})
+    entry = stats.setdefault(
+        output, {"correct": 0, "total": 0, "streak": 0, "recent_misses": 0}
+    )
     entry["total"] += 1
     entry["last_seen"] = now_iso()
     if correct:
         entry["correct"] += 1
         entry["streak"] = entry.get("streak", 0) + 1
+        entry["recent_misses"] = 0
     else:
         entry["streak"] = 0
+        entry["recent_misses"] = entry.get("recent_misses", 0) + 1
     return entry
 
 
@@ -435,7 +496,7 @@ def show_prompt(
         if is_stale(stat):
             last = stat.get("last_seen")
             age = f"{days_since(last):.0f}d ago" if last else "never"
-            info = f"  [bold yellow]refresh ({age})[/]"
+            info = f"  [dim]refresh ({age})[/]"
         else:
             info = f"  [dim]review ({correct}/{total})[/]"
     elif total:
@@ -444,14 +505,23 @@ def show_prompt(
     else:
         info = "  [dim]new[/]"
 
-    console.print(f"  Type trigger for: [bold white]{output}[/]{info}")
-    if len(entry.triggers) > 1:
-        console.print(f"  [dim]Accepts any of: {', '.join(entry.triggers)}[/]")
+    console.print(
+        f"  Type trigger or word, then press Enter: [bold yellow]{output}[/]{info}"
+    )
+    if stat.get("recent_misses", 0) >= 2:
+        console.print(f"  [dim]Accepted triggers: {format_triggers(entry.triggers)}[/]")
     console.print()
     console.print("  [blue]>[/] ", end="")
 
 
 def run() -> None:
+    if not has_interactive_input():
+        console.print(
+            "[bold yellow]No interactive terminal detected.[/] "
+            "Run the trainer from a real terminal/PTY."
+        )
+        sys.exit(1)
+
     entries = load_entries()
     if not entries:
         console.print(
@@ -506,17 +576,20 @@ def run() -> None:
             if correct:
                 if entry["streak"] == GRADUATION_STREAK:
                     console.print(
-                        f"  [bold cyan]✓ Mastered! ({output} → {entries[output].best_trigger})[/]"
+                        f"  [bold cyan]✓ Mastered! ({output} → {format_trigger(preferred_hint_trigger(entries[output].triggers))})[/]"
                     )
                 else:
                     console.print("  [bold white]✓ Correct![/]")
+                console.print()
+                console.print("  [dim]press enter to continue[/] ", end="")
+                tty_input()
             else:
                 console.print(
-                    f"  [bold yellow]✗  expected one of: {', '.join(entries[output].triggers)}  "
+                    f"  [bold yellow]✗  expected one of: {format_triggers(entries[output].triggers)}  "
                     f"(you typed: {answer or '?'})[/]"
                 )
                 for line in render_trigger_hint(
-                    entries[output].best_trigger
+                    preferred_hint_trigger(entries[output].triggers)
                 ).splitlines():
                     console.print(f"  [dim]{line}[/]")
                 console.print()
@@ -535,4 +608,7 @@ def run() -> None:
 
 
 if __name__ == "__main__":
+    if any(arg in {"-h", "--help"} for arg in sys.argv[1:]):
+        print(HELP_TEXT)
+        sys.exit(0)
     run()
