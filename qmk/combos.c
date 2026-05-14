@@ -376,13 +376,13 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     if (!pressed) return;
     switch (combo_index) {
     case SUB_1:
-        magic_decode_send(764); break; // "qu"
+        magic_decode_send(756); break; // "qu"
     case SUB_2:
         magic_decode_send(65); break; // "Qu"
     case SUB_3:
         magic_decode_send(413); break; // "gregor.zeitlinger@grafana.com"
     case SUB_4:
-        magic_decode_send(965); break; // "zeitlinger@gmail.com"
+        magic_decode_send(957); break; // "zeitlinger@gmail.com"
     case SUB_5:
         magic_decode_send(433); break; // "gregor@zeitlinger.de"
     case SUB_6:

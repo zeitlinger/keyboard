@@ -32,6 +32,13 @@ static inline uint16_t unshift_letter_keycode(uint16_t keycode) {
     return keycode;
 }
 
+static inline uint16_t maybe_shift_letter_keycode(uint16_t keycode) {
+    if (keycode >= KC_A && keycode <= KC_Z && ((get_mods() | get_oneshot_mods()) & MOD_MASK_SHIFT)) {
+        return S(keycode);
+    }
+    return keycode;
+}
+
 static uint16_t magic_prepare_last_keycode(uint16_t keycode) {
     uint16_t unshifted = unshift_letter_keycode(keycode);
     magic_capitalize_next = unshifted != keycode;
@@ -56,6 +63,7 @@ ${magicRepeats}
 }
 
 static void remember_real_keycode(uint16_t keycode) {
+    keycode = maybe_shift_letter_keycode(keycode);
     prev_keycode = last_keycode;
     last_keycode = keycode;
     last_magic_trigger = KC_NO;
