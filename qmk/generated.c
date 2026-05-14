@@ -1010,7 +1010,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
                 switch (adaptive_prev_keycode) {
                     case KC_K: return tap_adaptive(KC_R, KC_N);
                     case KC_L: return tap_adaptive(KC_R, KC_L);
-                    case KC_M: return tap_adaptive(KC_R, KC_P);
+                    case KC_M: tap_code16(KC_P); return tap_adaptive(KC_R, KC_L);
                     case KC_N: return tap_adaptive(KC_R, KC_G);
                     case KC_S: return tap_adaptive(KC_R, KC_S);
                     case KC_X: return tap_adaptive(KC_R, KC_C);

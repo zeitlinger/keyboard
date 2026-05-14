@@ -118,7 +118,7 @@ Cell = what to emit.
 - Orderded by hand - thumbs last.
 
 | Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |  magic_h   |  magic_i  | magic_j |  magic_k   |
-| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :--------: | :-------: |:-------:| :--------: |
+| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: |:-------:| :--------: | :-------: |:-------:| :--------: |
 | suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |   [next]   |  " the "  |  ". "   |     s      |
 |   b    | background | basically  |           |   become    | observability |            |         |  obsolete  |  because  |    d    |   before   |
 |   c    |     n      |   "'ll "   |           |   "n't "    |       d       |   "'ve "   |         |  comment   |  "'re "   |  "'d "  |   "'s "    |
@@ -138,7 +138,7 @@ Cell = what to emit.
 |   a    |            |            |  address  |             |               |            |    e    |            |           |         |            |
 |   e    |            |            |     u     |             |               |            |    h    |            |           |         |            |
 |   h    |            |            |           |             |               |            |  "qu"   |            |           |         |            |
-|   i    |            |            | implement |             |               |            | "impl"  |            |           |         |            |
+|   i    |            |            | implement |             |               |            |         |            |           |         |            |
 |   o    |            |            |     e     |             |               |            |    h    |            |           |         |            |
 |   u    |            |            |    #g     |             |               |            |    h    |            |           |         |            |
 |   y    |            |            |     r     |             |               |            |  only   |            |           |         |            |
@@ -167,7 +167,7 @@ trailing auto-space.
 ## Adaptives
 
 | Adaptives |  Key  | Output |
-| :-------: | :---: | :----: |
+| :-------: | :---: |:------:|
 |     a     |   e   |   u    |
 |     b     |   d   |   s    |
 |     c     |   d   |   c    |
@@ -187,7 +187,7 @@ trailing auto-space.
 |     l     |   h   |   p    |
 |     l     |   r   |   l    |
 |     m     |   h   |   m    |
-|     m     |   r   |   p    |
+|     m     |   r   |   pl   |
 |     m     |   t   |   b    |
 |     n     |   h   |   n    |
 |     n     |   p   |   k    |

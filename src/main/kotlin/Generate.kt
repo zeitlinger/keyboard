@@ -142,7 +142,16 @@ fun run(args: GeneratorArgs) {
             val pos = KeyPosition(0, index, 0, "adaptives", 0)
             val after = translator.toQmk(row[0], pos)
             val key = translator.toQmk(row[1], pos)
-            val output = translator.toQmk(row[2], pos)
+            val output =
+                runCatching { translator.toQmk(row[2], pos) }
+                    .getOrElse { error ->
+                        val raw = row[2]
+                        if (raw.length > 1 && raw.all { char -> char.isLetter() }) {
+                            QmkKey.substitution("\"$raw\"", "\"$raw\"")
+                        } else {
+                            throw error
+                        }
+                    }
             val seen = translator.adaptives.map { it.key to it.after }.toSet()
             check(key to after !in seen) {
                 "Duplicate adaptive at row ${index + 1}: key=$key after=$after"
@@ -213,7 +222,7 @@ fun run(args: GeneratorArgs) {
             "magicSuffixes" to magicSuffixCases(translator, magicTable).prependIndent("    "),
             "magicExclusions" to translator.magic.map { "case ${it.trigger.key}:" }.indented(8),
             "magicRepeats" to magicRepeatCases(translator),
-            "adaptives" to adaptiveBlocks(translator.adaptives).indented(12),
+            "adaptives" to adaptiveBlocks(translator.adaptives, translator).indented(12),
         ),
     )
 
@@ -422,14 +431,36 @@ private fun magicRepeatCases(translator: QmkTranslator): String =
             "case ${magic.trigger.key}: return repeat_last_magic_key(${magic.trigger.key});"
         }
 
-private fun adaptiveBlocks(rules: List<AdaptiveRule>): List<String> =
+private fun adaptiveBlocks(
+    rules: List<AdaptiveRule>,
+    translator: QmkTranslator,
+): List<String> =
     rules.groupBy { it.key }.map { (key, entries) ->
         val cases =
             entries
                 .sortedBy { it.after.key }
-                .joinToString("\n") { "        case ${it.after}: return tap_adaptive($key, ${it.output});" }
+                .joinToString("\n") { rule ->
+                    "        case ${rule.after}: ${adaptiveAction(rule, translator)}"
+                }
         "case $key:\n    switch (adaptive_prev_keycode) {\n$cases\n    }\n    break;"
     }
+
+private fun adaptiveAction(
+    rule: AdaptiveRule,
+    translator: QmkTranslator,
+): String {
+    val substitution = rule.output.substitution ?: return "return tap_adaptive(${rule.key}, ${rule.output});"
+    val keycodes =
+        unquoteSubsString(substitution)
+            .map { char -> translator.toQmkIgnoringPosition(char.toString()) }
+    require(keycodes.isNotEmpty()) { "Adaptive substitution cannot be empty: $rule" }
+    return buildString {
+        keycodes.dropLast(1).forEach { keycode ->
+            append("tap_code16($keycode); ")
+        }
+        append("return tap_adaptive(${rule.key}, ${keycodes.last()});")
+    }
+}
 
 private fun magicSwitch(map: MutableMap<QmkKey, MagicCommand>): String =
     map.entries
