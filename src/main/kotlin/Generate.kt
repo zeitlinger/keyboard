@@ -41,6 +41,7 @@ private data class CycleEntry(
 private data class CycleData(
     val entries: List<CycleEntry>,
     val outputs: Set<String>,
+    val rows: List<List<String>>,
 )
 
 fun generateBase(layers: List<Layer>): String {
@@ -119,8 +120,10 @@ fun run(args: GeneratorArgs) {
         combos
             .filter { it.type == ComboType.Substitution }
             .map { unquoteSubsString(it.result.substitution!!) }
+    val magicOutputs = collectMagicOutputs(tables, translator)
+    validateCycleEntriesUsed(cycleData, magicOutputs)
     val encodedMagicStrings =
-        encodeStrings(collectMagicOutputs(tables, translator) + cycleData.outputs + subsStrings)
+        encodeStrings(magicOutputs + cycleData.outputs + subsStrings)
     val encodedCycles = encodeCycleEntries(cycleData, encodedMagicStrings.stringOffsets)
 
     val magicTable = tables.getOptional("Magic").orEmpty()
@@ -1240,7 +1243,7 @@ private fun bracketOutputString(def: String): String? =
 private fun readCycleData(tables: Tables): CycleData {
     val cycleTable = tables.getOptional("Cycle").orEmpty()
     if (cycleTable.isEmpty()) {
-        return CycleData(emptyList(), emptySet())
+        return CycleData(emptyList(), emptySet(), emptyList())
     }
 
     val entries = mutableListOf<Pair<String, String>>()
@@ -1274,7 +1277,21 @@ private fun readCycleData(tables: Tables): CycleData {
                 CycleEntry(current, next, -1, -1, -1, next.dropLast(1).last())
             },
         outputs = outputs,
+        rows = cycleTable.map { row -> row.map(::cycleItem).filter { it.isNotBlank() } },
     )
+}
+
+private fun validateCycleEntriesUsed(
+    cycleData: CycleData,
+    magicOutputs: Set<String>,
+) {
+    cycleData.rows.forEachIndexed { rowIndex, row ->
+        val rowOutputs = row.map(::cycleOutput)
+        require(rowOutputs.any(magicOutputs::contains)) {
+            val items = row.joinToString(", ") { cStringLiteral(it) }
+            "unused Cycle row ${rowIndex + 1}: $items"
+        }
+    }
 }
 
 private fun encodeCycleEntries(

@@ -127,20 +127,20 @@ Cell = what to emit.
 |   g    |     t      |     f      |           |   suggest   |    change     |            |         |  generate  |     k     |    d    |    goes    |
 |   k    |     r      |  question  |           |    think    |     task      |   thanks   |         |   update   |   know    |    x    |    knew    |
 |   l    |     m      |     h      |           |  language   |    already    | available  |         | elaborate  |     r     |    c    |     b      |
-|   m    |     r      |     h      |           |  migration  |   multiple    |  mismatch  |         | instrument |  "ment"   |    l    |     t      |
+|   m    |     r      |     h      |           |   migrate   |   multiple    |  mismatch  |         | instrument |  "ment"   |    l    |     t      |
 |   n    |     r      |     h      |           |    never    |   anything    |  explain   |         | understand |   won't   |    x    |     p      |
 |   p    |     y      |     m      |           |   people    |   probably    | important  |         | production |     n     |    d    | Prometheus |
 |   s    |  someone   |     r      |           |  possible   |    support    |  similar   |         |  separate  |  "sion"   |    d    | something  |
 |   t    |     n      |     f      |           |    just     |    through    |  another   |         |   though   |  "tion"   | without |  thought   |
 |   v    |  validate  | everything |           |   improve   |    version    |            |         |  approval  |  resolve  |  I've   |   worse    |
 |   w    |   always   |   wasn't   |           |    work     |   otherwise   |   switch   |         |    why     |     s     |    x    |   which    |
-|   x    | exception  |     w      |           |   except    |   explicit    |  exclude   |         |    exit    |     r     |         |  example   |
+|   x    |            |     w      |           |   except    |   explicit    |  exclude   |         |    exit    |     r     |         |  example   |
 |   a    |            |            |  address  |             |               |            |    e    |            |           |         |            |
 |   e    |            |            |     u     |             |               |            |    h    |            |           |         |            |
-|   h    |            |            |           |             |               |            |  "qu"   |            |           |         |            |
 |   i    |            |            | implement |             |               |            |         |            |           |         |            |
+|   h    |            |            |           |             |               |            |  "qu"   |            |           |         |            |
+|   u    |            |            |           |             |               |            |    h    |            |           |         |            |
 |   o    |            |            |     e     |             |               |            |    h    |            |           |         |            |
-|   u    |            |            |    #g     |             |               |            |    h    |            |           |         |            |
 |   y    |            |            |     r     |             |               |            |  only   |            |           |         |            |
 |  tab   |            |            |           |             |               |            |         |    and     |    the    |         |            |
 | enter  |            |            |           |             |               |            |         |    and     |    the    |         |            |
@@ -155,14 +155,21 @@ the last item wraps back to the first. Cycle entries are authored without the
 trailing auto-space.
 
 |   Cycle    |      next       |
-| :--------: | :-------------: |
+|:----------:|:---------------:|
+|  approve   |    approval     |
 |  disable   |     enable      |
+|   except   |    exception    |
+|  explain   |   explanation   |
+|  generate  |   generation    |
 | implement  | implementation  |
 | instrument | instrumentation |
+| elaborate  |   elaboration   |
+|  migrate   |    migration    |
 |  possible  |   impossible    |
+|  resolve   |   resolution    |
+|  separate  |   separation    |
 |   thanks   |    thank you    |
 |  validate  |   validation    |
-|   Gregor   | " Zeitlinger "  |
 
 ## Adaptives
 
@@ -403,7 +410,7 @@ trailing auto-space.
 | Media |         |         |         |   @gl   |         |         |         |         |
 | Media |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Media |         |         |         |         |         |         |         |         |
+| Media |         |         | "LGTM"  |         |         |         |         |         |
 | Media |         |         |   💎    |         |         |         |         |         |
 | Media |         |         | @gmail  |         |         |         |         |         |
 | Media |         |         |         |         |         |         |         |         |
@@ -411,11 +418,6 @@ trailing auto-space.
 | Media |         |         |         |         |         |         |         |         |
 | Media |         |   💎    |         |         |         |         |         |         |
 | Media |         |  @zeit  |         |         |         |         |         |         |
-| Media |         |         |         |         |         |         |         |         |
-|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Media |   #G    |         |         |         |         |         |         |         |
-| Media |   💎    |         |         |         |         |         |         |         |
-| Media |   #GL   |         |         |         |         |         |         |         |
 | Media |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Case  |         |         |         |         |         |         |         |         |
@@ -518,9 +520,6 @@ Exact-match symbol tokens such as `#g`, `#G`, and `#GL` must be declared here.
 | @gmail  | zeitlinger@gmail.com          |
 | @gl     | gregor.zeitlinger@grafana.com |
 | @zeit   | gregor@zeitlinger.de          |
-| #g      | gregor                        |
-| #G      | Grafana                       |
-| #GL     | Grafana Labs                  |
 
 ## Generator
 

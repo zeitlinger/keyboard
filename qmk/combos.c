@@ -144,10 +144,9 @@ const uint16_t PROGMEM C_RIGHT_RCSKC_R_combo[] = {KC_T, KC_D, COMBO_END};
 const uint16_t PROGMEM SUB_1_combo[] = {KC_ESC, KC_S, COMBO_END};
 const uint16_t PROGMEM SUB_2_combo[] = {KC_ESC, KC_S, COMBO_END};
 const uint16_t PROGMEM SUB_3_combo[] = {KC_D, KC_T, COMBO_END};
-const uint16_t PROGMEM SUB_4_combo[] = {KC_L, KC_N, COMBO_END};
-const uint16_t PROGMEM SUB_5_combo[] = {KC_F, KC_C, COMBO_END};
-const uint16_t PROGMEM SUB_6_combo[] = {KC_ESC, KC_S, COMBO_END};
-const uint16_t PROGMEM SUB_7_combo[] = {KC_S, MO(_RIGHT), COMBO_END};
+const uint16_t PROGMEM SUB_4_combo[] = {KC_W, KC_N, COMBO_END};
+const uint16_t PROGMEM SUB_5_combo[] = {KC_L, KC_N, COMBO_END};
+const uint16_t PROGMEM SUB_6_combo[] = {KC_F, KC_C, COMBO_END};
 
 enum combos {
     C_BASE_ING,
@@ -241,8 +240,7 @@ enum combos {
     SUB_3,
     SUB_4,
     SUB_5,
-    SUB_6,
-    SUB_7
+    SUB_6
 };
 
 combo_t key_combos[] = {
@@ -337,8 +335,7 @@ combo_t key_combos[] = {
     [SUB_3] = COMBO_ACTION(SUB_3_combo),
     [SUB_4] = COMBO_ACTION(SUB_4_combo),
     [SUB_5] = COMBO_ACTION(SUB_5_combo),
-    [SUB_6] = COMBO_ACTION(SUB_6_combo),
-    [SUB_7] = COMBO_ACTION(SUB_7_combo)
+    [SUB_6] = COMBO_ACTION(SUB_6_combo)
 };
 
 uint16_t COMBO_LEN = ARRAY_SIZE(key_combos);
@@ -346,7 +343,7 @@ uint16_t COMBO_LEN = ARRAY_SIZE(key_combos);
 uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {
     (void)combo;
     if (combo_index >= 0 && combo_index <= 15) return 50;
-    if (combo_index >= 16 && combo_index <= 92) return 300;
+    if (combo_index >= 16 && combo_index <= 91) return 300;
     return COMBO_TERM;
 }
 
@@ -368,7 +365,7 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     if (combo_index >= 75 && combo_index <= 85) return active_layer == _RIGHT;
     if (combo_index == 86) return active_layer == _LEFT;
     if (combo_index == 87) return active_layer == _LMODS;
-    if (combo_index >= 88 && combo_index <= 92) return active_layer == _MEDIA;
+    if (combo_index >= 88 && combo_index <= 91) return active_layer == _MEDIA;
     return true;
 }
 
@@ -376,19 +373,17 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     if (!pressed) return;
     switch (combo_index) {
     case SUB_1:
-        magic_decode_send(756); break; // "qu"
+        magic_decode_send(764); break; // "qu"
     case SUB_2:
-        magic_decode_send(65); break; // "Qu"
+        magic_decode_send(49); break; // "Qu"
     case SUB_3:
-        magic_decode_send(413); break; // "gregor.zeitlinger@grafana.com"
+        magic_decode_send(417); break; // "gregor.zeitlinger@grafana.com"
     case SUB_4:
-        magic_decode_send(957); break; // "zeitlinger@gmail.com"
+        magic_decode_send(37); break; // "LGTM"
     case SUB_5:
-        magic_decode_send(433); break; // "gregor@zeitlinger.de"
+        magic_decode_send(979); break; // "zeitlinger@gmail.com"
     case SUB_6:
-        magic_decode_send(32); break; // "Grafana"
-    case SUB_7:
-        magic_decode_send(38); break; // "Grafana Labs"
+        magic_decode_send(437); break; // "gregor@zeitlinger.de"
     case C_BASE_KC_B: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_B) : KC_B); break;
     case C_BASE_KC_G: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_G) : KC_G); break;
     case C_BASE_KC_K: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_K) : KC_K); break;
