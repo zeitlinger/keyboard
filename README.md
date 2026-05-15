@@ -155,7 +155,7 @@ the last item wraps back to the first. Cycle entries are authored without the
 trailing auto-space.
 
 |   Cycle    |      next       |
-|:----------:|:---------------:|
+| :--------: | :-------------: |
 |  approve   |    approval     |
 |  disable   |     enable      |
 |   except   |    exception    |
