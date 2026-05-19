@@ -121,7 +121,7 @@ Cell = what to emit.
 | :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :--------: | :-------: | :-----: | :--------: |
 | suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |   [next]   |  " the "  |  ". "   |     s      |
 |   b    | background | basically  |           |   become    | observability |            |         |  obsolete  |  because  |    d    |   before   |
-|   c    |     n      |   "'ll "   |           |   "n't "    |       d       |   "'ve "   |         |  comment   |  "'re "   |  "'d "  |   "'s "    |
+|   c    |     n      |   "'ll "   |           |   "n't "    |       d       |  comment   |         |   "'s "    |  "'re "   | "'ve "  |   "'d "    |
 |   d    |     c      |     h      |           |    don't    |    disable    | difficulty |         |   didn't   |  doesn't  |    f    |    does    |
 |   f    | confusing  |  conflict  |           | performance |    merged     |            |         |  focused   | following |    d    |            |
 |   g    |     t      |     f      |           |   suggest   |    change     |            |         |  generate  |     k     |    d    |    goes    |
@@ -204,7 +204,7 @@ trailing auto-space.
 |     o     |   o   |   e    |
 |     p     |   d   |   l    |
 |     p     |   n   |   p    |
-|     p     |   s   |   y    |
+|     p     |   y   |   s    |
 |     r     |   x   |   r    |
 |     s     |   d   |   p    |
 |     s     |   r   |   s    |
