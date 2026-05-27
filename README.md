@@ -132,7 +132,7 @@ Cell = what to emit.
 |   p    |     y      |     m      |           |   people    |   probably    | important  |         | production |     n     |    d    | Prometheus |
 |   s    |  someone   |     r      |           |  possible   |    support    |  similar   |         |  separate  |  "sion"   |    d    | something  |
 |   t    |     n      |     f      |           |    just     |    through    |  another   |         |   though   |  "tion"   | without |  thought   |
-|   v    |  validate  | everything |           |   improve   |    version    |            |         |  approval  |  resolve  |  I've   |   worse    |
+|   v    |  validate  | everything |           |   improve   |    version    |            |         |  approval  |  resolve  |         |   worse    |
 |   w    |   always   |   wasn't   |           |    work     |   otherwise   |   switch   |         |    why     |     s     |    x    |   which    |
 |   x    |            |     w      |           |   except    |   explicit    |  exclude   |         |    exit    |     r     |         |  example   |
 |   a    |            |            |  address  |             |               |            |    e    |            |           |         |            |
@@ -157,6 +157,7 @@ trailing auto-space.
 |   Cycle    |      next       |
 | :--------: | :-------------: |
 |  approve   |    approval     |
+|   become   |     became      |
 |  disable   |     enable      |
 |   except   |    exception    |
 |  explain   |   explanation   |
@@ -164,12 +165,14 @@ trailing auto-space.
 | implement  | implementation  |
 | instrument | instrumentation |
 | elaborate  |   elaboration   |
+|    know    |    knowledge    |
 |  migrate   |    migration    |
 |  possible  |   impossible    |
 |  resolve   |   resolution    |
 |  separate  |   separation    |
 |   thanks   |    thank you    |
 |  validate  |   validation    |
+|   worse    |      worst      |
 
 ## Adaptives
 
