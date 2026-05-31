@@ -343,8 +343,7 @@ private fun combos(
     layer: Layer,
     mustPressInOrder: Boolean = false,
 ): List<Combo> {
-    val keyTimeout =
-        timeout ?: layer.option.comboTimeout ?: throw IllegalStateException("no timeout for layer ${layer.name}")
+    val keyTimeout = timeout ?: comboTimeout(triggers, translator, layer)
     return Combo.of(
         type,
         source,
@@ -357,6 +356,32 @@ private fun combos(
         mustPressInOrder,
     )
 }
+
+private fun comboTimeout(
+    triggers: List<Key>,
+    translator: QmkTranslator,
+    layer: Layer,
+): Int =
+    when {
+        isVerticalCombo(triggers) -> {
+            translator.comboTimeouts["Vertical"]
+                ?: translator.comboTimeouts[BASE_LAYER_NAME]
+                ?: layer.option.comboTimeout
+                ?: translator.comboTimeouts["Other"]
+                ?: throw IllegalStateException("no vertical combo timeout")
+        }
+
+        else -> {
+            layer.option.comboTimeout
+                ?: translator.comboTimeouts["Other"]
+                ?: throw IllegalStateException("no timeout for layer ${layer.name}")
+        }
+    }
+
+private fun isVerticalCombo(triggers: List<Key>): Boolean =
+    triggers.size == 2 &&
+        triggers[0].pos.column == triggers[1].pos.column &&
+        kotlin.math.abs(triggers[0].pos.row - triggers[1].pos.row) == 1
 
 fun shifted(content: QmkKey): QmkKey = addMods(content, Modifier.Shift)
 

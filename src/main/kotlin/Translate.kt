@@ -61,6 +61,7 @@ class QmkTranslator(
     val magic: List<MagicInfo>,
     val originalKeys: MutableMap<KeyPosition, QmkKey>,
     val adaptives: MutableList<AdaptiveRule>,
+    val comboTimeouts: Map<String, Int>,
 ) {
     private val map: Map<String, String>
     val nonSimpleKeys = mutableMapOf<String, String>()

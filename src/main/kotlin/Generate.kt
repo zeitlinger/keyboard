@@ -627,7 +627,9 @@ private fun emitCombosC(
     customKeycodes: Set<String>,
     baseComboLayers: List<String>,
 ): String {
-    val sorted = combos.sortedBy { it.name }
+    // Sort by timeout first so vertical/fast combos are contiguous in the enum,
+    // keeping get_combo_term() compact.
+    val sorted = combos.sortedWith(compareBy<Combo> { it.timeout ?: Int.MAX_VALUE }.thenBy { it.name })
 
     // With COMBO_ONLY_FROM_LAYER _BASE, the matcher reads keycodes from
     // the base layer for any position. So rewrite each combo trigger to

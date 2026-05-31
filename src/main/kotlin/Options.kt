@@ -7,9 +7,10 @@ fun qmkTranslator(tables: Tables): QmkTranslator {
     val symbols = readSymbols(tables, implicitKeys, noHoldKeys, magics)
     val nonThumbs = getKeyTable(tables.getMulti("Layer").content)
     val columns = nonThumbs.values.first()[0][0].size
+    val comboTimeouts = comboTimeouts(tables)
     val options = options(tables, nonThumbs, columns)
 
-    val layerOptions = layerOption(tables)
+    val layerOptions = layerOption(tables, comboTimeouts)
 
     val layerNumbers =
         layerOptions
@@ -31,6 +32,7 @@ fun qmkTranslator(tables: Tables): QmkTranslator {
         magics,
         mutableMapOf(),
         mutableListOf(),
+        comboTimeouts,
     )
 }
 
@@ -128,13 +130,17 @@ private fun readSymbols(
     )
 }
 
-private fun layerOption(tables: Tables): Map<LayerName, LayerOption> {
-    val comboTimeouts =
-        tables
-            .getOptional("ComboTimeout")
-            ?.associate { it[0] to it[1].toInt() }
-            .orEmpty()
-    return tables
+private fun comboTimeouts(tables: Tables): Map<String, Int> =
+    tables
+        .getOptional("ComboTimeout")
+        ?.associate { it[0] to it[1].toInt() }
+        .orEmpty()
+
+private fun layerOption(
+    tables: Tables,
+    comboTimeouts: Map<String, Int>,
+): Map<LayerName, LayerOption> =
+    tables
         .getSingle("LayerOptions")
         .associateBy { it[0] }
         .mapValues {
@@ -148,11 +154,10 @@ private fun layerOption(tables: Tables): Map<LayerName, LayerOption> {
                     .filter { it.isNotBlank() }
                     .map { LayerFlag.valueOf(it) }
                     .toSet(),
-                comboTimeouts[it.key] ?: comboTimeouts[if (it.key == BASE_LAYER_NAME) BASE_LAYER_NAME else "Other"],
+                comboTimeouts[it.key] ?: comboTimeouts["Other"],
                 mutableMapOf(),
             )
         }
-}
 
 private fun options(
     tables: Tables,
