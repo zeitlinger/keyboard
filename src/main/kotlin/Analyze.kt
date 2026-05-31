@@ -30,8 +30,7 @@ val ignoreDuplicates =
         "spc",
         "shift",
         "*FnSym",
-        "\uD83D\uDC8E", // diamond
-    )
+    ) + COMBO_TRIGGERS
 
 val expectedNonPrintable =
     setOf(
@@ -123,7 +122,7 @@ private fun printMissingAndUnexpected(
 
                     it == LAYER_BLOCKED -> false
 
-                    it == COMBO_TRIGGER -> false
+                    isComboTrigger(it) -> false
 
                     it.matches("KC_F\\d{2}".toRegex()) -> false
 

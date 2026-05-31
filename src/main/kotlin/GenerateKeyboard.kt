@@ -98,7 +98,7 @@ data class Key(
 ) {
     fun isBlocked(): Boolean = keyWithModifier.isNo
 
-    fun isReal(): Boolean = !(isBlocked() || key.key == COMBO_TRIGGER || key.key == "KC_TRNS" || key.isNo)
+    fun isReal(): Boolean = !(isBlocked() || isComboTrigger(key) || key.key == "KC_TRNS" || key.isNo)
 }
 
 typealias Rows = List<List<Key>>

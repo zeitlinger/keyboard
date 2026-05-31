@@ -347,6 +347,27 @@ uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {
     return COMBO_TERM;
 }
 
+bool get_combo_must_press_in_order(uint16_t combo_index, combo_t *combo) {
+    (void)combo;
+    switch (combo_index) {
+    case C_BASE_KC_COMMA:
+    case C_BASE_KC_DOT:
+    case C_BASE_KC_DQUO:
+    case C_BASE_KC_J:
+    case C_BASE_KC_Q:
+    case C_BASE_KC_QUES:
+    case C_BASE_KC_QUOTE:
+    case C_BASE_KC_Z:
+    case C_BASE_UMUMLAUT_S:
+    case C_BASE_UPUMLAUT_AUMLAUT_A:
+    case C_BASE_UPUMLAUT_OUMLAUT_O:
+    case C_BASE_UPUMLAUT_UUMLAUT_U:
+        return true;
+    default:
+        return false;
+    }
+}
+
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
     uint8_t active_layer = combo_active_layer();
     if (combo_index == 0) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS;

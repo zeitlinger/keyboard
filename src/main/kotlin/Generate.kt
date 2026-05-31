@@ -781,6 +781,23 @@ private fun emitCombosC(
                     "}"
             }
         }
+    val mustPressInOrderCombos = sorted.filter { it.mustPressInOrder }
+    val getComboMustPressInOrder =
+        if (mustPressInOrderCombos.isEmpty()) {
+            "bool get_combo_must_press_in_order(uint16_t combo_index, combo_t *combo) { (void)combo_index; (void)combo; return false; }"
+        } else {
+            "bool get_combo_must_press_in_order(uint16_t combo_index, combo_t *combo) {\n" +
+                "    (void)combo;\n" +
+                "    switch (combo_index) {\n" +
+                mustPressInOrderCombos.joinToString("\n") { combo ->
+                    "    case ${combo.name}:"
+                } +
+                "\n        return true;\n" +
+                "    default:\n" +
+                "        return false;\n" +
+                "    }\n" +
+                "}"
+        }
     val shouldTriggerSignature =
         "bool combo_should_trigger(uint16_t combo_index, combo_t *combo, " +
             "uint16_t keycode, keyrecord_t *record)"
@@ -896,6 +913,8 @@ private fun emitCombosC(
         "uint16_t COMBO_LEN = ARRAY_SIZE(key_combos);",
         "",
         getComboTerm,
+        "",
+        getComboMustPressInOrder,
         "",
         shouldTrigger,
         "",

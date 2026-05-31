@@ -165,7 +165,7 @@ fun assertQmk(
     pos: KeyPosition,
 ): QmkKey =
     when {
-        key == COMBO_TRIGGER || qmkPrefixes.any { key.startsWith(it) } -> QmkKey.of(key)
+        isComboTrigger(key) || qmkPrefixes.any { key.startsWith(it) } -> QmkKey.of(key)
         else -> throw IllegalStateException("key not translated '$key' in $pos")
     }
 

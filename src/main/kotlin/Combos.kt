@@ -34,6 +34,7 @@ data class Combo(
     val authored: String,
     val triggers: List<Key>,
     val timeout: Int?,
+    val mustPressInOrder: Boolean,
 ) {
     companion object {
         fun of(
@@ -45,6 +46,7 @@ data class Combo(
             authored: String,
             triggers: List<Key>,
             timeout: Int? = 0,
+            mustPressInOrder: Boolean = false,
         ): List<Combo> {
             if (name.contains("DEAD")) {
                 return emptyList()
@@ -58,14 +60,24 @@ data class Combo(
                     }",
                 )
             }
-            return listOf(
-                Combo(type, name, homeLayer, result, authored, triggers.sortedBy { it.keyWithModifier.key }, timeout),
-            )
+            return listOf(Combo(type, name, homeLayer, result, authored, orderedTriggers, timeout, mustPressInOrder))
         }
     }
 }
 
 const val COMBO_TRIGGER = "\uD83D\uDC8E" // 💎
+
+// 💎L marks a combo trigger that must be pressed after the other combo keys.
+const val COMBO_TRIGGER_LAST = "${COMBO_TRIGGER}L"
+val COMBO_TRIGGERS = setOf(COMBO_TRIGGER, COMBO_TRIGGER_LAST)
+
+fun isComboTrigger(key: String): Boolean = key in COMBO_TRIGGERS
+
+fun isComboTrigger(key: QmkKey): Boolean = isComboTrigger(key.key)
+
+fun Key.isComboTrigger(): Boolean = isComboTrigger(key)
+
+fun Key.isComboTriggerLast(): Boolean = key.key == COMBO_TRIGGER_LAST
 
 val GOOD_COMBO_LAYERS: Map<String, (Int, String) -> Boolean> =
     mapOf(
@@ -127,7 +139,7 @@ private fun combo2Values(combos: List<Combo>): List<String> =
 
 private fun checkForDuplicateCombos(combos: List<Combo>) {
     combos
-        .groupBy { it.triggers.map { it.key.key } }
+        .groupBy { it.triggers.map { it.key.key }.sorted() }
         .filter { it.value.size > 1 }
         .forEach { (triggers, combos) ->
             throw IllegalStateException(
@@ -250,21 +262,38 @@ private fun customLayerCombos(
     layers: List<Layer>,
 ): List<Combo> {
     val definition = getLayerPart(def, hand, translator.options)
-    val comboIndexes = definition.mapIndexedNotNull { index, s -> if (s.key.key == COMBO_TRIGGER) index else null }
+    val comboIndexes = definition.mapIndexedNotNull { index, key -> if (key.isComboTrigger()) index else null }
 
     return definition
         .flatMapIndexed { comboIndex, key ->
             if (key.isReal()) {
-                val keys =
-                    layerBase
-                        .filterIndexed { index, _ -> index == comboIndex || index in comboIndexes }
+                val keys = orderedComboKeys(comboIndex, comboIndexes, definition, layerBase)
+                val mustPressInOrder = comboIndexes.any { definition[it].isComboTriggerLast() }
 
                 val source = if (layer.name == BASE_LAYER_NAME) ComboSource.Base else ComboSource.Layer
-                keyCombos(key, source, keys, translator, layer, layers)
+                keyCombos(key, source, keys, translator, layer, layers, mustPressInOrder)
             } else {
                 emptyList()
             }
         }.filter { it.triggers.size > 1 }
+}
+
+private fun orderedComboKeys(
+    comboIndex: Int,
+    comboIndexes: List<Int>,
+    definition: List<Key>,
+    layerBase: List<Key>,
+): List<Key> {
+    val lastComboIndexes = comboIndexes.filter { definition[it].isComboTriggerLast() }.toSet()
+    val first =
+        layerBase.filterIndexed { index, _ ->
+            index == comboIndex || (index in comboIndexes && index !in lastComboIndexes)
+        }
+    val last =
+        layerBase.filterIndexed { index, _ ->
+            index in lastComboIndexes
+        }
+    return first + last
 }
 
 private fun keyCombos(
@@ -274,12 +303,13 @@ private fun keyCombos(
     translator: QmkTranslator,
     layer: Layer,
     layers: List<Layer>,
+    mustPressInOrder: Boolean = false,
 ): List<Combo> {
     val qmkKey = translator.originalKeys[key.pos] ?: key.key
     val authored = translator.getKey(key.pos)
     val type = if (qmkKey.substitution != null) ComboType.Substitution else ComboType.Combo
     val name = type.name(layer.name, qmkKey.key)
-    return combos(type, source, name, qmkKey, authored, triggers, key.comboTimeout, translator, layers, layer)
+    return combos(type, source, name, qmkKey, authored, triggers, key.comboTimeout, translator, layers, layer, mustPressInOrder)
 }
 
 private fun combos(
@@ -293,6 +323,7 @@ private fun combos(
     translator: QmkTranslator,
     layers: List<Layer>,
     layer: Layer,
+    mustPressInOrder: Boolean = false,
 ): List<Combo> {
     val keyTimeout =
         timeout ?: layer.option.comboTimeout ?: throw IllegalStateException("no timeout for layer ${layer.name}")
@@ -305,6 +336,7 @@ private fun combos(
         authored,
         triggers,
         keyTimeout,
+        mustPressInOrder,
     )
 }
 
