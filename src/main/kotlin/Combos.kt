@@ -60,6 +60,12 @@ data class Combo(
                     }",
                 )
             }
+            val orderedTriggers =
+                if (mustPressInOrder) {
+                    triggers
+                } else {
+                    triggers.sortedBy { it.keyWithModifier.key }
+                }
             return listOf(Combo(type, name, homeLayer, result, authored, orderedTriggers, timeout, mustPressInOrder))
         }
     }
@@ -309,7 +315,19 @@ private fun keyCombos(
     val authored = translator.getKey(key.pos)
     val type = if (qmkKey.substitution != null) ComboType.Substitution else ComboType.Combo
     val name = type.name(layer.name, qmkKey.key)
-    return combos(type, source, name, qmkKey, authored, triggers, key.comboTimeout, translator, layers, layer, mustPressInOrder)
+    return combos(
+        type,
+        source,
+        name,
+        qmkKey,
+        authored,
+        triggers,
+        key.comboTimeout,
+        translator,
+        layers,
+        layer,
+        mustPressInOrder,
+    )
 }
 
 private fun combos(

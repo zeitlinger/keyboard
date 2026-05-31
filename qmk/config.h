@@ -9,7 +9,8 @@
 #define EXTRA_SHORT_COMBOS
 #define COMBO_TERM 50
 #define COMBO_TERM_PER_COMBO
-#define COMBO_COUNT 92
+#define COMBO_MUST_PRESS_IN_ORDER_PER_COMBO
+#define COMBO_COUNT 113
 #define COMBO_SHOULD_TRIGGER
 // Optional prototype path for migrating one combo at a time to a custom
 // position-based matcher. Leave disabled unless actively testing.
