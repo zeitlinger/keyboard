@@ -403,8 +403,32 @@ private fun suffixTapStatement(char: Char): String =
         else -> throw IllegalArgumentException("unsupported suffix character '$char'")
     }
 
-private fun magicCase(magic: MagicInfo): String =
-    """
+private fun magicCase(magic: MagicInfo): String {
+    val defaultBody = if (magic.trigger.key == "MAGIC_A") {
+        """
+            if (context_keycode != KC_NO && !is_magic_keycode(context_keycode)) {
+                tap_code16(context_keycode);
+                magic_repeat_keycode = context_keycode;
+                break;
+            }
+#ifdef TRACE_LOGIC
+            SEND_STRING("[M0:");
+            trace_keycode_label(magic_context_prepared);
+            SEND_STRING("]");
+#endif
+            break;
+        """.trimIndent()
+    } else {
+        """
+#ifdef TRACE_LOGIC
+            SEND_STRING("[M0:");
+            trace_keycode_label(magic_context_prepared);
+            SEND_STRING("]");
+#endif
+            break;
+        """.trimIndent()
+    }
+    return """
     case ${magic.trigger.key}: {
         if (allow_repeat && repeat_last_magic_key(${magic.trigger.key})) {
             return false;
@@ -415,12 +439,7 @@ private fun magicCase(magic: MagicInfo): String =
         switch (magic_context_prepared) {
 ${magicSwitch(magic.press)}
         default:
-#ifdef TRACE_LOGIC
-            SEND_STRING("[M0:");
-            trace_keycode_label(magic_context_prepared);
-            SEND_STRING("]");
-#endif
-            break;
+${defaultBody.prependIndent("            ")}
         }
         magic_capitalize_next = false;
         last_magic_trigger = ${magic.trigger.key};
@@ -429,6 +448,7 @@ ${magicSwitch(magic.press)}
         return false;
     }
     """.trimIndent()
+}
 
 private fun magicRepeatCases(translator: QmkTranslator): String =
     translator.magic
