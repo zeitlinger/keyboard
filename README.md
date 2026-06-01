@@ -320,8 +320,10 @@ Cell = what to emit.
   is replaceable. This is an explicit table-level override and drives the
   generated logic directly.
 - Single-char letter cells append or tap unless prefixed with `⌫` (e.g.
-  `a` + `e` yields `ae`, while `spc` + `⌫z` yields `z`).
-  Single-char punctuation/symbol cells do `⌫ + char` when the preceding key is
+  `a` + `e` yields `ae`, while `spc` + `⌫z` yields `z`). If `magic_a`
+  has no table match for the preceding key, it falls back to repeating that
+  last typed key; repeated presses of `magic_a` keep repeating it.
+- Single-char punctuation/symbol cells do `⌫ + char` when the preceding key is
   replaceable (typically a letter or `spc`), so `t` + `.` yields `.`. A
   repeated press of the same magic key then replays just the emitted letter or
   symbol, with no extra backspace. No suffix state.
