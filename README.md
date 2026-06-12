@@ -118,7 +118,7 @@ Cell = what to emit.
 - Orderded by hand - thumbs last.
 
 | Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |  magic_h   |  magic_i  | magic_j |  magic_k   |
-| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :--------: | :-------: | :-----: | :--------: |
+| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: |:-------:| :--------: | :-------: | :-----: | :--------: |
 | suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |   [next]   |  " the "  |  ". "   |     s      |
 |   b    | background | basically  |           |   become    | observability |            |         |  obsolete  |  because  |    d    |   before   |
 |   c    |     n      |   "'ll "   |           |   "n't "    |       d       |  comment   |         |   "'s "    |  "'re "   | "'ve "  |   "'d "    |
@@ -137,7 +137,7 @@ Cell = what to emit.
 |   x    |            |     w      |           |   except    |   explicit    |  exclude   |         |    exit    |     r     |         |  example   |
 |   a    |            |            |  address  |             |               |            |    e    |            |           |         |            |
 |   e    |            |            |     u     |             |               |            |    h    |            |           |         |            |
-|   i    |            |            | implement |             |               |            |         |            |           |         |            |
+|   i    |            |            | implement |             |               |            |   I'm   |            |           |         |            |
 |   h    |            |            |           |             |               |            |  "qu"   |            |           |         |            |
 |   u    |            |            |           |             |               |            |    h    |            |           |         |            |
 |   o    |            |            |     e     |             |               |            |    h    |            |           |         |            |
@@ -180,6 +180,7 @@ trailing auto-space.
 | :-------: | :---: | :----: |
 |     a     |   e   |   u    |
 |     b     |   d   |   s    |
+|     b     |   h   |   b    |
 |     c     |   d   |   c    |
 |     c     |   n   |   k    |
 |     d     |   c   |   v    |
@@ -188,23 +189,23 @@ trailing auto-space.
 |     e     |   h   |   e    |
 |     e     |   u   |   o    |
 |     f     |   d   |   f    |
+|     f     |   h   |   s    |
 |     g     |   d   |   n    |
 |     g     |   f   |   l    |
 |     g     |   t   |   g    |
 |     k     |   r   |   n    |
-|     l     |   b   |   k    |
-|     l     |   c   |   v    |
+|     l     |   b   |   w    |
 |     l     |   h   |   p    |
 |     l     |   r   |   l    |
 |     m     |   h   |   m    |
 |     m     |   r   |   pl   |
 |     m     |   t   |   b    |
+|     m     |   v   |   t    |
 |     n     |   h   |   n    |
 |     n     |   p   |   k    |
 |     n     |   r   |   g    |
 |     n     |   x   |   l    |
 |     o     |   h   |   o    |
-|     o     |   o   |   e    |
 |     p     |   d   |   l    |
 |     p     |   n   |   p    |
 |     p     |   y   |   s    |
