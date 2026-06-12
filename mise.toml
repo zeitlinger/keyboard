@@ -1,21 +1,20 @@
 [tools]
-java = "21"
+java = "26"
 jq = "latest"
 maven = "latest"
-node = "24.15.0"
 python = "3"
 uv = "latest"
 
 # Linters
 actionlint = "1.7.12"
-"aqua:grafana/flint" = "0.22.2"
+"aqua:grafana/flint" = "0.22.4"
 "aqua:jonwiggins/xmloxide" = "0.4.3"
-"aqua:owenlamont/ryl" = "0.9.1"
-editorconfig-checker = "3.6.1"
+"aqua:owenlamont/ryl" = "0.10.2"
+editorconfig-checker = "3.7.0"
 ktlint = "1.8.0"
 lychee = "0.24.2"
-ruff = "0.15.12"
-rumdl = "0.1.91"
+ruff = "0.15.15"
+rumdl = "0.2.4"
 taplo = "0.10.0"
 
 [tasks.generate]
