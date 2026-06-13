@@ -7,14 +7,14 @@ uv = "latest"
 
 # Linters
 actionlint = "1.7.12"
-"aqua:grafana/flint" = "0.22.4"
+"aqua:grafana/flint" = "0.22.5"
 "aqua:jonwiggins/xmloxide" = "0.4.3"
-"aqua:owenlamont/ryl" = "0.10.2"
+"aqua:owenlamont/ryl" = "0.16.0"
 editorconfig-checker = "3.7.0"
 ktlint = "1.8.0"
 lychee = "0.24.2"
-ruff = "0.15.15"
-rumdl = "0.2.4"
+ruff = "0.15.17"
+rumdl = "0.2.14"
 taplo = "0.10.0"
 
 [tasks.generate]
