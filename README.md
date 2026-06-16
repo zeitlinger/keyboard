@@ -322,23 +322,23 @@ Cell = what to emit.
 - Orderded by hand - thumbs last.
 
 | Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |  magic_h   |  magic_i  | magic_j |  magic_k   |
-| :----: |:----------:|:----------:| :-------: | :---------: | :-----------: | :--------: | :-----: | :--------: | :-------: | :-----: | :--------: |
+| :----: |:----------:|:----------:| :-------: | :---------: |:-------------:| :--------: | :-----: | :--------: | :-------: |:-------:| :--------: |
 | suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |   [next]   |  " the "  |  ". "   |     s      |
 |   b    | background |     h      |           |   become    | observability |            |         | basically  |  because  |    d    |   before   |
-|   c    |     n      |   "'ll "   |           |   "n't "    |       d       |  comment   |         |   "'s "    |  "'re "   | "'ve "  |   "'d "    |
-|   d    |     c      |     h      |           |    don't    |    disable    | difficulty |         |   didn't   |  doesn't  |    f    |    does    |
+|   c    |   "'ll "   |     n      |           |   "n't "    |    "'ve "     |  comment   |         |   "'s "    |  "'re "   |    d    |   "'d "    |
+|   d    |     f      |     h      |           |    don't    |    disable    | difficulty |         |   didn't   |  doesn't  |    c    |    does    |
 |   f    | confusing  |     h      |           | performance |    merged     |            |         |  focused   | following |    d    |  conflict  |
-|   g    |     t      |     f      |           |   suggest   |    change     |            |         |  generate  |     k     |    d    |    goes    |
+|   g    |     f      |     t      |           |   suggest   |    change     |            |         |  generate  |     k     |    d    |    goes    |
 |   k    |     r      |  question  |           |    think    |     task      |   thanks   |         |   update   |   know    |    x    |    knew    |
-|   l    |     m      |     h      |           |  language   |    already    | available  |         | elaborate  |     r     |    c    |     b      |
+|   l    |     r      |     h      |           |  language   |    already    | available  |         | elaborate  |     m     |    c    |     b      |
 |   m    |     r      |     h      |           |   migrate   |   multiple    |  mismatch  |         | instrument |  "ment"   |    l    |     v      |
 |   n    |     r      |     h      |           |    never    |   anything    |  explain   |         | understand |   won't   |    x    |     p      |
-|   p    |     y      |     m      |           |   people    |   probably    | important  |         | production |     n     |    d    | Prometheus |
-|   s    |  someone   |     r      |           |  possible   |    support    |  similar   |         |  separate  |  "sion"   |    d    | something  |
-|   t    |     n      |     f      |           |    just     |    through    |  another   |         |   though   |  "tion"   | without |  thought   |
+|   p    |     y      |     n      |           |   people    |   probably    | important  |         | production |     m     |    d    | Prometheus |
+|   s    |     r      |  someone   |           |  possible   |    support    |  similar   |         |  separate  |  "sion"   |    d    | something  |
+|   t    |     f      |     n      |           |    just     |    through    |  another   |         |   though   |  "tion"   | without |  thought   |
 |   v    |  validate  | everything |           |   improve   |    version    |            |         |  approval  |  resolve  |         |   worse    |
 |   w    |   always   |   wasn't   |           |    work     |   otherwise   |   switch   |         |    why     |     s     |    x    |   which    |
-|   x    |     w      |     h      |           |   except    |   explicit    |  exclude   |         |    exit    |     r     |         |  example   |
+|   x    |     r      |     h      |           |   except    |   explicit    |  exclude   |         |    exit    |     w     |         |  example   |
 |   a    |            |            |  address  |             |               |            |    e    |            |           |         |            |
 |   e    |            |            |     u     |             |               |            |    h    |            |           |         |            |
 |   i    |            |            | implement |             |               |            |   I'm   |            |           |         |            |

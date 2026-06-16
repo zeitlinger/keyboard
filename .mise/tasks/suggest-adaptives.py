@@ -1088,7 +1088,7 @@ def main():
         for v, val in variants.items():
             if v not in RIGHT_HAND_VARIANTS:
                 continue
-            if len(val) == 1 and val.isalpha() and val not in COMBO_KEYS:
+            if len(val) == 1 and val.isalpha():
                 output_variants.setdefault(val, set()).add(v)
     for letter in sorted(output_variants):
         used = ", ".join(v for v in VARIANTS if v in output_variants[letter])
