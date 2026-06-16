@@ -322,23 +322,23 @@ Cell = what to emit.
 - Orderded by hand - thumbs last.
 
 | Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |  magic_h   |  magic_i  | magic_j |  magic_k   |
-| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :--------: | :-------: | :-----: | :--------: |
+| :----: |:----------:|:----------:| :-------: | :---------: | :-----------: | :--------: | :-----: | :--------: | :-------: | :-----: | :--------: |
 | suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |   [next]   |  " the "  |  ". "   |     s      |
-|   b    | background | basically  |           |   become    | observability |            |         |  obsolete  |  because  |    d    |   before   |
+|   b    | background |     h      |           |   become    | observability |            |         | basically  |  because  |    d    |   before   |
 |   c    |     n      |   "'ll "   |           |   "n't "    |       d       |  comment   |         |   "'s "    |  "'re "   | "'ve "  |   "'d "    |
 |   d    |     c      |     h      |           |    don't    |    disable    | difficulty |         |   didn't   |  doesn't  |    f    |    does    |
-|   f    | confusing  |  conflict  |           | performance |    merged     |            |         |  focused   | following |    d    |            |
+|   f    | confusing  |     h      |           | performance |    merged     |            |         |  focused   | following |    d    |  conflict  |
 |   g    |     t      |     f      |           |   suggest   |    change     |            |         |  generate  |     k     |    d    |    goes    |
 |   k    |     r      |  question  |           |    think    |     task      |   thanks   |         |   update   |   know    |    x    |    knew    |
 |   l    |     m      |     h      |           |  language   |    already    | available  |         | elaborate  |     r     |    c    |     b      |
-|   m    |     r      |     h      |           |   migrate   |   multiple    |  mismatch  |         | instrument |  "ment"   |    l    |     t      |
+|   m    |     r      |     h      |           |   migrate   |   multiple    |  mismatch  |         | instrument |  "ment"   |    l    |     v      |
 |   n    |     r      |     h      |           |    never    |   anything    |  explain   |         | understand |   won't   |    x    |     p      |
 |   p    |     y      |     m      |           |   people    |   probably    | important  |         | production |     n     |    d    | Prometheus |
 |   s    |  someone   |     r      |           |  possible   |    support    |  similar   |         |  separate  |  "sion"   |    d    | something  |
 |   t    |     n      |     f      |           |    just     |    through    |  another   |         |   though   |  "tion"   | without |  thought   |
 |   v    |  validate  | everything |           |   improve   |    version    |            |         |  approval  |  resolve  |         |   worse    |
 |   w    |   always   |   wasn't   |           |    work     |   otherwise   |   switch   |         |    why     |     s     |    x    |   which    |
-|   x    |            |     w      |           |   except    |   explicit    |  exclude   |         |    exit    |     r     |         |  example   |
+|   x    |     w      |     h      |           |   except    |   explicit    |  exclude   |         |    exit    |     r     |         |  example   |
 |   a    |            |            |  address  |             |               |            |    e    |            |           |         |            |
 |   e    |            |            |     u     |             |               |            |    h    |            |           |         |            |
 |   i    |            |            | implement |             |               |            |   I'm   |            |           |         |            |

@@ -38,6 +38,29 @@ VARIANTS = tuple(sorted(MAGIC_POSITIONS))
 ADAPTIVE_ROW_RE = re.compile(r"\|\s*(\w)\s*\|\s*(\w+)\s*\|\s*(\w)\s*\|")
 MAGIC_ROW_RE = re.compile(r"^\|\s*(\w)\s*\|" + r"([^|]*)\|" * len(VARIANTS))
 ALIGNMENT_CELL_RE = re.compile(r":?-+:?")
+ADAPTIVE_SECTION_HEADINGS = ("## Adaptives", "## Adaptive keys")
+
+
+def is_adaptive_section_heading(line):
+    return any(line.startswith(heading) for heading in ADAPTIVE_SECTION_HEADINGS)
+
+
+def get_markdown_table_lines(first_cell):
+    """Return the raw lines for the markdown table whose header's first cell matches.
+
+    This mirrors the generator's behavior more closely than section-heading
+    detection: tables are keyed by the first header cell, e.g. `Adaptives`,
+    `Magic`, `Symbols`.
+    """
+    blocks = re.split(r"\n\s*\n", README.read_text())
+    for block in blocks:
+        lines = [line for line in block.splitlines() if line.strip()]
+        if not lines or not lines[0].lstrip().startswith("|"):
+            continue
+        cells = split_markdown_row(lines[0])
+        if cells and cells[0] == first_cell:
+            return lines
+    return []
 
 
 def load_existing_adaptives():
@@ -49,21 +72,16 @@ def load_existing_adaptives():
     """
     existing = {}
     compensation = set()
-    in_table = False
-    for line in README.read_text().splitlines():
-        if "## Adaptives" in line:
-            in_table = True
+    for line in get_markdown_table_lines("Adaptives"):
+        if is_alignment_row(line):
             continue
-        if in_table:
-            if line.startswith("##"):
-                break
-            m = ADAPTIVE_ROW_RE.match(line)
-            if m:
-                trigger, key, output = m.group(1), m.group(2), m.group(3)
-                if len(key) == 1:
-                    existing[(trigger, key)] = output
-                else:
-                    compensation.add((trigger, output))
+        m = ADAPTIVE_ROW_RE.match(line)
+        if m:
+            trigger, key, output = m.group(1), m.group(2), m.group(3)
+            if len(key) == 1:
+                existing[(trigger, key)] = output
+            else:
+                compensation.add((trigger, output))
     return existing, compensation
 
 
@@ -92,16 +110,10 @@ def rewrite_markdown_row(template_line, cells):
 
 
 def parse_multi_char_adaptives(lines):
-    in_adaptives = False
     rows = []
-    for line in lines:
+    for line in get_markdown_table_lines("Adaptives"):
         stripped = line.rstrip("\n")
-        if stripped.startswith("## Adaptives"):
-            in_adaptives = True
-            continue
-        if in_adaptives and stripped.startswith("## "):
-            break
-        if not in_adaptives:
+        if is_alignment_row(stripped):
             continue
         if m := ADAPTIVE_ROW_RE.match(stripped):
             if len(m.group(2)) > 1:
@@ -121,24 +133,19 @@ def load_magic_table():
     """
     table = {}
     quoted = set()
-    in_table = False
-    for line in README.read_text().splitlines():
-        if "## Magic Keys" in line:
-            in_table = True
+    for line in get_markdown_table_lines("Magic"):
+        if is_alignment_row(line):
             continue
-        if in_table:
-            if line.startswith("##"):
-                break
-            m = MAGIC_ROW_RE.match(line)
-            if m:
-                trigger = m.group(1)
-                table[trigger] = {
-                    v: m.group(i + 2).strip().strip('"') for i, v in enumerate(VARIANTS)
-                }
-                for i, v in enumerate(VARIANTS):
-                    raw = m.group(i + 2).strip()
-                    if raw.startswith('"') and raw.endswith('"'):
-                        quoted.add((trigger, v))
+        m = MAGIC_ROW_RE.match(line)
+        if m:
+            trigger = m.group(1)
+            table[trigger] = {
+                v: m.group(i + 2).strip().strip('"') for i, v in enumerate(VARIANTS)
+            }
+            for i, v in enumerate(VARIANTS):
+                raw = m.group(i + 2).strip()
+                if raw.startswith('"') and raw.endswith('"'):
+                    quoted.add((trigger, v))
     return table, quoted
 
 
@@ -373,7 +380,7 @@ def apply_to_readme(
             section = "magic"
             new_lines.append(line)
             continue
-        elif stripped.startswith("## Adaptives"):
+        elif is_adaptive_section_heading(stripped):
             section = "adaptives"
             adaptive_header_done = False
             new_lines.append(line)

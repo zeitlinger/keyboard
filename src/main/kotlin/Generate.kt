@@ -438,15 +438,17 @@ private fun adaptiveBlocks(
     rules: List<AdaptiveRule>,
     translator: QmkTranslator,
 ): List<String> =
-    rules.groupBy { it.key }.map { (key, entries) ->
-        val cases =
-            entries
-                .sortedBy { it.after.key }
-                .joinToString("\n") { rule ->
-                    "        case ${rule.after}: ${adaptiveAction(rule, translator)}"
-                }
-        "case $key:\n    switch (adaptive_prev_keycode) {\n$cases\n    }\n    break;"
-    }.sorted()
+    rules
+        .groupBy { it.key }
+        .map { (key, entries) ->
+            val cases =
+                entries
+                    .sortedBy { it.after.key }
+                    .joinToString("\n") { rule ->
+                        "        case ${rule.after}: ${adaptiveAction(rule, translator)}"
+                    }
+            "case $key:\n    switch (adaptive_prev_keycode) {\n$cases\n    }\n    break;"
+        }.sorted()
 
 private fun adaptiveAction(
     rule: AdaptiveRule,
