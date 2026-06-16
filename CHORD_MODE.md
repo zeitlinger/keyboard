@@ -1,7 +1,8 @@
 # Chord Mode
 
-This file keeps the old name, but the trie-based chord subsystem is gone. The current feature is a
-9-key magic expansion system driven by the `Magic Keys` table in [README.md](README.md#magic-keys).
+This file documents the magic-key expansion system — an 11-key, context-aware system driven by the
+`Magic Keys` table in [README.md](README.md#magic-keys). (It predates the rename and once used a
+trie-based "chord" subsystem, hence the filename.)
 
 ## Overview
 
@@ -15,7 +16,7 @@ Each physical magic key checks the previously emitted key and dispatches from th
 The basic pattern is:
 
 1. Type a normal key.
-2. Press one of the nine magic keys.
+2. Press one of the eleven magic keys.
 3. Firmware looks at the previous key and emits the cell content for that `(prev, magic)` pair.
 
 Examples from the current table:
@@ -27,7 +28,7 @@ Examples from the current table:
 
 ## Cell Semantics
 
-Rows are preceding keys. Columns are the nine physical magic keys.
+Rows are preceding keys. Columns are the eleven physical magic keys.
 
 ### Single-character cell
 
