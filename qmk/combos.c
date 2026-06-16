@@ -373,17 +373,17 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     if (!pressed) return;
     switch (combo_index) {
     case SUB_1:
-        magic_decode_send(773); break; // "qu"
+        magic_decode_send(777); break; // "qu"
     case SUB_2:
-        magic_decode_send(44); break; // "Qu"
+        magic_decode_send(48); break; // "Qu"
     case SUB_3:
-        magic_decode_send(418); break; // "gregor.zeitlinger@grafana.com"
+        magic_decode_send(422); break; // "gregor.zeitlinger@grafana.com"
     case SUB_4:
-        magic_decode_send(32); break; // "LGTM"
+        magic_decode_send(36); break; // "LGTM"
     case SUB_5:
-        magic_decode_send(993); break; // "zeitlinger@gmail.com"
+        magic_decode_send(997); break; // "zeitlinger@gmail.com"
     case SUB_6:
-        magic_decode_send(438); break; // "gregor@zeitlinger.de"
+        magic_decode_send(442); break; // "gregor@zeitlinger.de"
     case C_BASE_KC_B: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_B) : KC_B); break;
     case C_BASE_KC_G: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_G) : KC_G); break;
     case C_BASE_KC_K: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_K) : KC_K); break;

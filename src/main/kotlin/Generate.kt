@@ -446,7 +446,7 @@ private fun adaptiveBlocks(
                     "        case ${rule.after}: ${adaptiveAction(rule, translator)}"
                 }
         "case $key:\n    switch (adaptive_prev_keycode) {\n$cases\n    }\n    break;"
-    }
+    }.sorted()
 
 private fun adaptiveAction(
     rule: AdaptiveRule,
