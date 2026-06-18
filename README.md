@@ -23,7 +23,7 @@ keys:
 
 ## Features
 
-- **Magic keys** - type common words and phrases from a single letter plus one of eleven magic keys; 11 keys × ~26 preceding letters ≈ 300 possible expansions. See [Magic Keys](#magic-keys).
+- **Magic keys** - common words/phrases from one letter + a magic key (~300 expansions). See [Magic Keys](#magic-keys).
 - **Adaptive keys** - awkward letter pairs rewrite themselves automatically. See [Adaptive keys](#adaptive-keys).
 - **[Design Philosophy](DESIGN_PHILOSOPHY.md)** - the hardware, ergonomics, and design principles behind this layout.
 - **Home Row Mods** - modifiers on the home row for ergonomic access.
@@ -328,7 +328,7 @@ Cell = what to emit.
 - Orderded by hand - thumbs last.
 
 | Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |  magic_h   |  magic_i  | magic_j |  magic_k   |
-| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :--------: | :-------: | :-----: | :--------: |
+| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: |:----------:| :-------: | :-----: | :--------: |
 | suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |   [next]   |  " the "  |  ". "   |     s      |
 |   b    | background |     h      |           |   become    | observability |            |         | basically  |  because  |    d    |   before   |
 |   c    |   "'ll "   |     n      |           |   "n't "    |    "'ve "     |  comment   |         |   "'s "    |  "'re "   |    d    |   "'d "    |
@@ -336,7 +336,7 @@ Cell = what to emit.
 |   f    | confusing  |     h      |           | performance |    merged     |            |         |  focused   | following |    d    |  conflict  |
 |   g    |     f      |     t      |           |   suggest   |    change     |            |         |  generate  |     k     |    d    |    goes    |
 |   k    |     r      |  question  |           |    think    |     task      |   thanks   |         |   update   |   know    |    x    |    knew    |
-|   l    |     r      |     h      |           |  language   |    already    | available  |         | elaborate  |     m     |    c    |     b      |
+|   l    |     r      |     h      |           |  language   |    already    | available  |         |     n      |     m     |    c    |     b      |
 |   m    |     r      |     h      |           |   migrate   |   multiple    |  mismatch  |         | instrument |  "ment"   |    l    |     v      |
 |   n    |     r      |     h      |           |    never    |   anything    |  explain   |         | understand |   won't   |    x    |     p      |
 |   p    |     y      |     n      |           |   people    |   probably    | important  |         | production |     m     |    d    | Prometheus |
@@ -421,7 +421,6 @@ trailing auto-space.
 |  generate  |   generation    |
 | implement  | implementation  |
 | instrument | instrumentation |
-| elaborate  |   elaboration   |
 |    know    |    knowledge    |
 |  migrate   |    migration    |
 |  possible  |   impossible    |

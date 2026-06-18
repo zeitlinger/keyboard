@@ -324,6 +324,10 @@ url = "https://archive.apache.org/dist/maven/maven-3/3.9.16/binaries/apache-mave
 [tools.maven."platforms.windows-x64"]
 url = "https://archive.apache.org/dist/maven/maven-3/3.9.16/binaries/apache-maven-3.9.16-bin.tar.gz"
 
+[[tools."pipx:keymap-drawer"]]
+version = "0.23.0"
+backend = "pipx:keymap-drawer"
+
 [[tools.python]]
 version = "3.14.6"
 backend = "core:python"
