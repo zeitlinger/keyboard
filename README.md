@@ -328,7 +328,7 @@ Cell = what to emit.
 - Orderded by hand - thumbs last.
 
 | Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |  magic_h   |  magic_i  | magic_j |  magic_k   |
-| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: |:----------:| :-------: | :-----: | :--------: |
+| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :--------: | :-------: | :-----: | :--------: |
 | suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |   [next]   |  " the "  |  ". "   |     s      |
 |   b    | background |     h      |           |   become    | observability |            |         | basically  |  because  |    d    |   before   |
 |   c    |   "'ll "   |     n      |           |   "n't "    |    "'ve "     |  comment   |         |   "'s "    |  "'re "   |    d    |   "'d "    |
