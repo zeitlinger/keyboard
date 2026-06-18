@@ -1,0 +1,282 @@
+import java.io.File
+
+// Emits a keymap-drawer YAML (https://github.com/caksoylar/keymap-drawer) describing the layout,
+// so `keymap draw` can render per-layer SVGs. Grid labels come from the README cells (already
+// human-readable); combo badges come from the generated combo list.
+
+private const val MAGIC_GLYPH = "✦"
+
+// Emoji / multi-codepoint cells that don't render in the SVG font, mapped to plain glyphs.
+private val GLYPHS =
+    mapOf(
+        "⬅️⬅️" to "home",
+        "➡️➡️" to "end",
+        "⬆️⬆️" to "pgup",
+        "⬇️⬇️" to "pgdn",
+        "⬅️" to "←",
+        "➡️" to "→",
+        "⬆️" to "↑",
+        "⬇️" to "↓",
+        "↩️️" to "⏎",
+        "↩️" to "⏎",
+    )
+
+// Shift / auto-mod mechanics layers: they render as confusing near-empty deltas of the base layer
+// (their modifiers come from the LayerOptions table, not from cells), so they're left out of the
+// diagram. The README tables document them.
+private val SKIP_LAYERS = setOf("Left", "Right", "LMods", "RMods", "ANum", "CNum", "Case")
+
+private val UNICODE_NAMES =
+    mapOf(
+        "UMLAUT_A" to "ä",
+        "UMLAUT_O" to "ö",
+        "UMLAUT_U" to "ü",
+        "UMLAUT_S" to "ß",
+    )
+
+// Always double-quote: keymap labels are short and full of YAML-hostile characters
+// (=, <, >, -, ~, ?, #, :, brackets, quotes), so quoting unconditionally is safest.
+private fun yamlScalar(s: String): String = "\"" + s.replace("\\", "\\\\").replace("\"", "\\\"") + "\""
+
+// QMK punctuation keycodes -> the actual glyph (so ":" shows instead of "coln").
+private val SYMBOLS =
+    mapOf(
+        "COLN" to ":",
+        "SCLN" to ";",
+        "DOT" to ".",
+        "COMM" to ",",
+        "SLSH" to "/",
+        "BSLS" to "\\",
+        "MINS" to "-",
+        "EQL" to "=",
+        "LBRC" to "[",
+        "RBRC" to "]",
+        "QUOT" to "'",
+        "DQUO" to "\"",
+        "GRV" to "`",
+        "TILD" to "~",
+        "EXLM" to "!",
+        "AT" to "@",
+        "HASH" to "#",
+        "DLR" to "$",
+        "PERC" to "%",
+        "CIRC" to "^",
+        "AMPR" to "&",
+        "ASTR" to "*",
+        "LPRN" to "(",
+        "RPRN" to ")",
+        "UNDS" to "_",
+        "PLUS" to "+",
+        "LCBR" to "{",
+        "RCBR" to "}",
+        "PIPE" to "|",
+        "LABK" to "<",
+        "RABK" to ">",
+        "QUES" to "?",
+        "SLASH" to "/",
+        "BACKSLASH" to "\\",
+        "KP_MINUS" to "−",
+        "KP_PLUS" to "+",
+        "LGUI" to "Gui",
+        "RGUI" to "Gui",
+        "LCTL" to "Ctrl",
+        "RCTL" to "Ctrl",
+        "LSFT" to "Shift",
+        "RSFT" to "Shift",
+        "LALT" to "Alt",
+        "RALT" to "Alt",
+    )
+
+// Turn a raw QMK keycode/expression into something readable for a combo badge.
+private fun humanizeKeycode(raw: String): String {
+    val k = raw.trim()
+    GLYPHS[k]?.let { return it }
+    if (k.contains("MAGIC", ignoreCase = true)) return MAGIC_GLYPH
+    // Unicode helpers: UP(UMLAUT_a, UMLAUT_A) / UM(UMLAUT_s) — note the inner name may be lowercased.
+    Regex("^U[PM]\\(\\s*([A-Za-z_]+)").find(k)?.let { m ->
+        UNICODE_NAMES[m.groupValues[1].uppercase()]?.let { return it }
+    }
+    // Mod functions: C(KC_X) -> C-x; strip the L/R handedness prefix so LSA -> SA, RCS -> CS.
+    Regex("^([A-Z]+)\\((.+)\\)$").find(k)?.let { m ->
+        val raw1 = m.groupValues[1]
+        val mod = if (raw1.length > 1 && raw1[0] in "LR") raw1.substring(1) else raw1
+        return "$mod-${humanizeKeycode(m.groupValues[2])}"
+    }
+    val name = k.removePrefix("KC_").removePrefix("C_")
+    SYMBOLS[name.uppercase()]?.let { return it }
+    return name.lowercase()
+}
+
+// type is a keymap-drawer key class: null (normal), "held" (modifier / hold key, highlighted), or
+// "actlayer" (the key you hold to reach this layer, colored distinctly via the config).
+private data class DrawLabel(
+    val text: String,
+    val type: String? = null,
+)
+
+// Map a raw README cell to a display label.
+// Blank for combo triggers (drawn as badges), blocked (🛑) and dead keys; ✦ for magic keys;
+// the bare name for hold/layer prefixes (*Nav, $Num, @Sym, #Foo, >Base).
+private fun cellLabel(raw: String): DrawLabel {
+    val s = raw.trim()
+    GLYPHS[s]?.let { return DrawLabel(it) }
+    val blank = s.isEmpty() || s == COMBO_TRIGGER || s == LAYER_BLOCKED || s.startsWith("dead")
+    return when {
+        blank -> DrawLabel("")
+        s.startsWith("magic_") -> DrawLabel(MAGIC_GLYPH)
+        s.length > 1 && s[0] in setOf('*', '$', '@', '#', '>') -> DrawLabel(s.substring(1), "held")
+        else -> DrawLabel(s)
+    }
+}
+
+private fun fingerIdx(
+    col: Int,
+    columns: Int,
+): Int = if (col >= columns / 2) columns - col - 1 else col
+
+private fun modLabel(m: Modifier): String = if (m == Modifier.Meta) "Gui" else m.name
+
+// Every key held to reach this layer, following chained activations: a key that activates this
+// layer may itself live on another layer (e.g. Media is reached from within the Left layer), so we
+// recurse into that host layer's activation keys too.
+private fun activationPositions(
+    layer: Layer,
+    byName: Map<String, Layer>,
+    seen: MutableSet<String> = mutableSetOf(),
+): List<KeyPosition> {
+    if (!seen.add(layer.name)) return emptyList()
+    val result = mutableListOf<KeyPosition>()
+    for ((pos, act) in layer.option.reachable) {
+        if (act == LayerActivation.Hidden) continue
+        result += pos
+        val host = pos.layerName
+        if (host != BASE_LAYER_NAME && host != layer.name) {
+            byName[host]?.let { result += activationPositions(it, byName, seen) }
+        }
+    }
+    return result
+}
+
+// The home-row (or other) modifier this layer puts at (row, col), per the LayerOptions table.
+private fun layerModifier(
+    layer: Layer,
+    row: Int,
+    col: Int,
+    translator: QmkTranslator,
+): Modifier? {
+    val cols = translator.options.nonThumbColumns
+    val modMap = if (col < cols / 2) layer.option.leftModifier else layer.option.rightModifier
+    if (modMap.keys.none { it.row == row }) return null
+    return translator.options.homeRowPositions?.get(fingerIdx(col, cols))
+}
+
+// keymap-drawer position index for the physical ferris/sweep (LAYOUT_split_3x5_2): 5 columns per
+// hand, row-major (0..4 left, 5..9 right) for rows 0..2, then thumbs 30..33. Our grid drops the
+// inner columns, so left cols 0..3 -> 0..3 and right cols 4..7 -> 6..9 (physical inner columns 4
+// and 5 stay blank); thumb row (row 3) cols 2..5 -> 30..33.
+private fun kdIndex(
+    row: Int,
+    col: Int,
+): Int? =
+    when {
+        row in 0..2 && col in 0..3 -> row * 10 + col
+        row in 0..2 && col in 4..7 -> row * 10 + col + 2
+        row == 3 && col in 2..5 -> 30 + (col - 2)
+        else -> null
+    }
+
+private fun kdIndex(pos: KeyPosition): Int? = kdIndex(pos.row, pos.column)
+
+// A "vertical" combo joins two stacked keys in the same column on adjacent main rows; it reads
+// cleanly as a badge between the keys. Horizontal/diagonal/"direct" combos look confusing, so we
+// skip those (they're documented in the README).
+private fun isVerticalCombo(combo: Combo): Boolean {
+    if (combo.triggers.size != 2) return false
+    val a = combo.triggers[0].pos
+    val b = combo.triggers[1].pos
+    return a.column == b.column && a.row in 0..2 && b.row in 0..2 && kotlin.math.abs(a.row - b.row) == 1
+}
+
+private fun comboLabel(combo: Combo): String {
+    val key = combo.result.key
+    if (key.contains("MAGIC", ignoreCase = true)) return MAGIC_GLYPH
+    val sub = combo.result.substitution
+    if (sub != null) return sub.trim('"').ifEmpty { humanizeKeycode(key) }
+    return humanizeKeycode(key)
+}
+
+fun writeKeymapDrawerYaml(
+    dst: File,
+    visibleLayers: List<Layer>,
+    combos: List<Combo>,
+    translator: QmkTranslator,
+) {
+    val sb = StringBuilder()
+    sb.appendLine("# Generated for keymap-drawer (https://github.com/caksoylar/keymap-drawer).")
+    sb.appendLine("# Render with: keymap draw <this file>")
+    sb.appendLine("layout:")
+    sb.appendLine("  qmk_keyboard: ferris/sweep")
+    sb.appendLine("layers:")
+    val byName = visibleLayers.associateBy { it.name }
+    for (layer in visibleLayers.filterNot { it.name in SKIP_LAYERS }) {
+        val rawTable = translator.keys[layer.name]?.firstOrNull()
+        sb.appendLine("  ${yamlScalar(layer.name)}:")
+
+        fun cellAt(
+            r: Int,
+            c: Int,
+        ): String = rawTable?.getOrNull(r)?.getOrNull(c) ?: ""
+        // 34 physical slots; inner columns (indices 4,5 of each row) stay blank.
+        val slots = arrayOfNulls<DrawLabel>(34)
+        for (r in 0..2) {
+            for (c in 0..3) slots[r * 10 + c] = cellLabel(cellAt(r, c))
+            for (c in 4..7) slots[r * 10 + c + 2] = cellLabel(cellAt(r, c))
+        }
+        for (c in 2..5) slots[30 + (c - 2)] = cellLabel(cellAt(3, c))
+        // Overlay the modifiers this layer places on its rows (from the LayerOptions table) — those
+        // show up as 🛑/blank cells otherwise.
+        for (r in 0..2) {
+            for (c in 0..7) {
+                layerModifier(layer, r, c, translator)?.let { mod ->
+                    kdIndex(r, c)?.let { idx -> slots[idx] = DrawLabel(modLabel(mod), "held") }
+                }
+            }
+        }
+        // Overlay every key held to reach this layer — including chained activations (e.g. Media is
+        // reached from within the Left layer, which itself needs a held key) — in the base layer's
+        // held color, so the whole hold-combination is visible.
+        for (pos in activationPositions(layer, byName)) {
+            kdIndex(pos)?.let { idx -> slots[idx] = DrawLabel(layer.name, "held") }
+        }
+        for (slot in slots) {
+            val label = slot ?: DrawLabel("")
+            if (label.type != null && label.text.isNotEmpty()) {
+                sb.appendLine("    - {t: ${yamlScalar(label.text)}, type: ${label.type}}")
+            } else {
+                sb.appendLine("    - ${yamlScalar(label.text)}")
+            }
+        }
+    }
+
+    // Draw clean vertical (stacked) combos on every shown layer except Media. Skips the confusing
+    // horizontal/diagonal/"direct" combos; the README documents those.
+    val drawn =
+        combos
+            .filter { it.homeLayer !in SKIP_LAYERS && it.homeLayer != "Media" && isVerticalCombo(it) }
+            .mapNotNull { combo ->
+                if (combo.triggers.size != 2) return@mapNotNull null
+                val idx = combo.triggers.mapNotNull { kdIndex(it.pos) }
+                if (idx.size != 2) return@mapNotNull null
+                Triple(idx.sorted(), comboLabel(combo), combo.homeLayer)
+            }
+    if (drawn.isNotEmpty()) {
+        sb.appendLine("combos:")
+        for ((idx, label, homeLayer) in drawn) {
+            sb.appendLine(
+                "  - {p: [${idx[0]}, ${idx[1]}], k: ${yamlScalar(label)}, layers: [${yamlScalar(homeLayer)}]}",
+            )
+        }
+    }
+    dst.writeText(sb.toString())
+    System.err.println("wrote ${dst.path}")
+}
