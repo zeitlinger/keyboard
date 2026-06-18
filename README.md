@@ -5,7 +5,8 @@ A 34-key layout for the [Ferris Sweep](https://keebmaker.com/products/ferris-swe
 keys:
 
 - **Magic keys** — one key that emits different output depending on the key pressed *before* it: a
-  letter, a whole word, or a suffix. Eleven of them, covering 220+ words and phrases.
+  letter, a whole word, or a suffix. Eleven keys × the ~26 letters that can precede them (27 with
+  space) is room for getting on for 300 expansions — about half filled so far.
 - **Adaptive keys** — common letter pairs that automatically rewrite themselves into a more
   comfortable motion (e.g. `n` then `r` → `ng`), with no extra keypress.
 
@@ -22,7 +23,7 @@ keys:
 
 ## Features
 
-- **Magic keys** - type 220+ common words and phrases from a single letter plus one of eleven magic keys. See [Magic Keys](#magic-keys).
+- **Magic keys** - type common words and phrases from a single letter plus one of eleven magic keys; 11 keys × ~26 preceding letters ≈ 300 possible expansions. See [Magic Keys](#magic-keys).
 - **Adaptive keys** - awkward letter pairs rewrite themselves automatically. See [Adaptive keys](#adaptive-keys).
 - **[Design Philosophy](DESIGN_PHILOSOPHY.md)** - the hardware, ergonomics, and design principles behind this layout.
 - **Home Row Mods** - modifiers on the home row for ergonomic access.
@@ -580,7 +581,7 @@ The first two show what the *next* press does right after you type `n`:
 
   ![Everything reachable right after typing n](blog/after-n.svg)
 
-- **[`blog/codec.svg`](blog/codec.svg)** — how the magic dictionary is packed into flash: the 14 most
+- **[`blog/codec.svg`](blog/codec.svg)** — how the magic dictionary is packed into RAM: the 14 most
   frequent characters get a 4-bit code (two per byte), while a leading nibble of 14 or 15 escapes to a
   full 8-bit code (`0xE0`–`0xFF`, 32 slots), so the table roughly halves. See
   [`StringEncoding.kt`](src/main/kotlin/StringEncoding.kt) for the implementation. This one is a
