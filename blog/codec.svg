@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace">
+  <style>
+    .title { font-size: 26px; font-weight: 700; fill: #2b2f36; }
+    .sub   { font-size: 15px; fill: #6b7280; }
+    .lbl   { font-size: 15px; font-weight: 700; fill: #3a3f47; }
+    .note  { font-size: 14px; fill: #4b5159; }
+    .foot  { font-size: 12px; fill: #8b9098; }
+    .ch    { font-size: 24px; font-weight: 700; fill: #2b2f36; }
+    .hex   { font-size: 13px; fill: #6b7280; }
+    .bits  { font-size: 16px; font-weight: 700; fill: #2b2f36; }
+    .big   { font-size: 22px; font-weight: 700; fill: #355a9c; }
+    .chip  { font-size: 15px; font-weight: 700; fill: #2b2f36; }
+    rect.box  { fill: #eef0f3; stroke: #c4c9d0; stroke-width: 1.5; }
+    rect.blue { fill: #d6e3f8; stroke: #7fa3d8; stroke-width: 1.5; }
+    rect.pink { fill: #f7d6dc; stroke: #d895a1; stroke-width: 1.5; }
+    rect.byte { fill: #e7edf7; stroke: #9bb3da; stroke-width: 1.5; }
+    line.arr  { stroke: #9bb3da; stroke-width: 2; }
+  </style>
+
+  <rect x="0" y="0" width="900" height="620" fill="#ffffff"/>
+
+  <text x="40" y="44" class="title">Packing the dictionary — the 4/8-bit codec</text>
+  <text x="40" y="70" class="sub">200+ words live in the keyboard's tiny flash. The trick: spend fewer bits on the common letters.</text>
+
+  <!-- PLAIN -->
+  <text x="40" y="116" class="lbl">Plain text — one byte per character</text>
+  <g text-anchor="middle">
+    <rect class="box" x="40"  y="130" width="64" height="58" rx="8"/>
+    <text x="72"  y="162" class="ch">t</text><text x="72"  y="180" class="hex">0x74</text>
+    <rect class="box" x="116" y="130" width="64" height="58" rx="8"/>
+    <text x="148" y="162" class="ch">i</text><text x="148" y="180" class="hex">0x69</text>
+    <rect class="box" x="192" y="130" width="64" height="58" rx="8"/>
+    <text x="224" y="162" class="ch">o</text><text x="224" y="180" class="hex">0x6F</text>
+    <rect class="box" x="268" y="130" width="64" height="58" rx="8"/>
+    <text x="300" y="162" class="ch">n</text><text x="300" y="180" class="hex">0x6E</text>
+  </g>
+  <text x="360" y="166" class="note">= 4 bytes</text>
+
+  <!-- arrow -->
+  <line class="arr" x1="180" y1="206" x2="180" y2="236"/>
+  <polygon points="180,244 174,232 186,232" fill="#9bb3da"/>
+
+  <!-- PACKED -->
+  <text x="40" y="278" class="lbl">Packed — two common letters share one byte</text>
+  <g text-anchor="middle">
+    <rect class="byte" x="40"  y="292" width="160" height="74" rx="8"/>
+    <text x="120" y="318" class="ch" font-size="20">t  i</text>
+    <text x="120" y="340" class="bits">0001 0110</text>
+    <text x="120" y="358" class="hex">= 0x16</text>
+
+    <rect class="byte" x="212" y="292" width="160" height="74" rx="8"/>
+    <text x="292" y="318" class="ch" font-size="20">o  n</text>
+    <text x="292" y="340" class="bits">0011 0101</text>
+    <text x="292" y="358" class="hex">= 0x35</text>
+  </g>
+  <text x="400" y="326" class="note">= 2 bytes</text>
+  <text x="400" y="350" class="big">≈ half the size</text>
+
+  <!-- LEGEND -->
+  <text x="40" y="430" class="lbl">How the codes are assigned</text>
+  <g text-anchor="middle">
+    <rect class="blue" x="40" y="446" width="86" height="34" rx="8"/>
+    <text x="83" y="468" class="chip">0–13</text>
+    <rect class="pink" x="40" y="490" width="86" height="34" rx="8"/>
+    <text x="83" y="512" class="chip">14 · 15</text>
+  </g>
+  <text x="140" y="468" class="note">the 14 most frequent characters — 4 bits each (two per byte)</text>
+  <text x="140" y="512" class="note">first nibble 14 or 15 ⇒ read a whole byte: 16 × 2 = 32 rarer characters (0xE0–0xFF)</text>
+
+  <text x="40" y="558" class="note">A rare letter can't share a byte: a <tspan font-weight="700">0xF</tspan> marker closes the open pair, then the rare letter rides alone.</text>
+  <text x="40" y="580" class="note">Packing happens at build time — the keyboard only unpacks. Each word starts with a length byte.</text>
+  <text x="40" y="606" class="foot">Codes are ranked by frequency when the firmware is generated; the values shown here are illustrative.</text>
+</svg>

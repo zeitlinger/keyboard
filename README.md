@@ -566,7 +566,7 @@ time instead of showing everything at once. They use keymap-drawer's
 (positions and labels written by hand, not derived from the tables above), so they can highlight just
 the keys that matter and drop the rest. `mise run generate` re-renders them alongside `keymap.svg`.
 
-Both show what the *next* press does right after you type `n`:
+The first two show what the *next* press does right after you type `n`:
 
 - **[`blog/magic-words.yaml`](blog/magic-words.yaml)** — only the magic keys that complete a whole
   word (`✦1` understand, `✦2` never, …).
@@ -579,3 +579,11 @@ Both show what the *next* press does right after you type `n`:
   very letters the adaptives consume after `n`, so nothing becomes unreachable.
 
   ![Everything reachable right after typing n](blog/after-n.svg)
+
+- **[`blog/codec.svg`](blog/codec.svg)** — how the magic dictionary is packed into flash: the 14 most
+  frequent characters get a 4-bit code (two per byte), while a leading nibble of 14 or 15 escapes to a
+  full 8-bit code (`0xE0`–`0xFF`, 32 slots), so the table roughly halves. See
+  [`StringEncoding.kt`](src/main/kotlin/StringEncoding.kt) for the implementation. This one is a
+  hand-drawn SVG, not keymap-drawer output, so `mise run generate` leaves it untouched.
+
+  ![How the 4/8-bit codec packs the dictionary](blog/codec.svg)
