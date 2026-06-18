@@ -453,9 +453,7 @@ path.combo { stroke: #7f7f7f; }
 </g>
 <g transform="translate(221, 221) rotate(15.0)" class="key held keypos-30">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key held"/>
-<a href="#Nav">
-<text x="0" y="0" class="key held tap layer-activator">Nav</text>
-</a></g>
+</g>
 <g transform="translate(279, 245) rotate(30.0)" class="key keypos-31">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
 </g>
@@ -658,9 +656,7 @@ path.combo { stroke: #7f7f7f; }
 </g>
 <g transform="translate(451, 221) rotate(-15.0)" class="key held keypos-33">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key held"/>
-<a href="#FnSym">
-<text x="0" y="0" class="key held tap layer-activator">FnSym</text>
-</a></g>
+</g>
 <g class="combo combopos-0">
 <rect rx="6" ry="6" x="182" y="59" width="28" height="26" class="combo"/>
 <text x="196" y="72" class="combo tap">−</text>
@@ -832,9 +828,7 @@ path.combo { stroke: #7f7f7f; }
 </g>
 <g transform="translate(644, 193)" class="key held keypos-29">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key held"/>
-<a href="#Num">
-<text x="0" y="0" class="key held tap layer-activator">Num</text>
-</a></g>
+</g>
 <g transform="translate(221, 221) rotate(15.0)" class="key keypos-30">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
 <text x="0" y="0" class="key tap">.</text>
@@ -848,9 +842,7 @@ path.combo { stroke: #7f7f7f; }
 </g>
 <g transform="translate(451, 221) rotate(-15.0)" class="key held keypos-33">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key held"/>
-<a href="#Num">
-<text x="0" y="0" class="key held tap layer-activator">Num</text>
-</a></g>
+</g>
 <g class="combo combopos-0">
 <rect rx="6" ry="6" x="182" y="59" width="28" height="26" class="combo"/>
 <text x="196" y="72" class="combo tap">CS-v</text>
@@ -946,9 +938,7 @@ path.combo { stroke: #7f7f7f; }
 </g>
 <g transform="translate(588, 102)" class="key held keypos-18">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key held"/>
-<a href="#Media">
-<text x="0" y="0" class="key held tap layer-activator">Media</text>
-</a></g>
+</g>
 <g transform="translate(644, 137)" class="key keypos-19">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
 </g>
@@ -985,9 +975,7 @@ path.combo { stroke: #7f7f7f; }
 </g>
 <g transform="translate(644, 193)" class="key held keypos-29">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key held"/>
-<a href="#Media">
-<text x="0" y="0" class="key held tap layer-activator">Media</text>
-</a></g>
+</g>
 <g transform="translate(221, 221) rotate(15.0)" class="key keypos-30">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
 </g>
