@@ -2,6 +2,7 @@
 java = "26"
 jq = "latest"
 maven = "latest"
+"pipx:keymap-drawer" = "0.23.0"
 python = "3"
 uv = "latest"
 
@@ -26,6 +27,11 @@ run = [
   "keymap draw blog/after-n.yaml > blog/after-n.svg",
 ]
 
+# to optimize building svgs https://mise.jdx.dev/tasks/architecture.html#source-and-output-tracking
+#[tasks.build]
+#sources = ["src/**/*.ts", "package.json"]
+#outputs = ["dist/**/*"]
+#run = "npm run build"
 
 [tasks.suggest-combos]
 description = "Suggest magic-key expansions to add, ranked by typing benefit"
