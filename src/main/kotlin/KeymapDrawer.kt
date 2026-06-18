@@ -243,14 +243,14 @@ fun writeKeymapDrawerYaml(
             }
         }
         // Overlay every key held to reach this layer — including chained activations (e.g. Media is
-        // reached from within the Left layer, which itself needs a held key) — in the base layer's
-        // held color, so the whole hold-combination is visible.
+        // reached from within the Left layer, which itself needs a held key) — highlighted in the
+        // base layer's held color but left blank (no label), so the whole hold-combination is visible.
         for (pos in activationPositions(layer, byName)) {
-            kdIndex(pos)?.let { idx -> slots[idx] = DrawLabel(layer.name, "held") }
+            kdIndex(pos)?.let { idx -> slots[idx] = DrawLabel("", "held") }
         }
         for (slot in slots) {
             val label = slot ?: DrawLabel("")
-            if (label.type != null && label.text.isNotEmpty()) {
+            if (label.type != null) {
                 sb.appendLine("    - {t: ${yamlScalar(label.text)}, type: ${label.type}}")
             } else {
                 sb.appendLine("    - ${yamlScalar(label.text)}")
