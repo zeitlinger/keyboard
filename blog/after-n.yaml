@@ -1,5 +1,7 @@
-# Special-case blog diagram: what the next press produces right after you type `n`.
-# Hand-authored (not generated) — combines adaptive-key rewrites and magic-key expansions.
+# Blog diagram (full): everything the next press can do right after you type `n`.
+# Pink keys = adaptive rewrites on ordinary keys; ✦ badges = magic keys (combos + the two real
+# magic keys). The single-letter magics (✦r ✦h ✦x ✦p) are the compensation: the adaptives consume
+# r/h/x/p after n, and magic hands those letters back so every letter is still reachable.
 draw_config:
   dark_mode: false
   footer_text: '✦1 understand   ✦2 never   ✦3 anything   ✦4 explain   ✦5 won''t'
@@ -8,14 +10,14 @@ layout:
 layers:
   "After you type  n":
     - "esc"          # 0
-    - {t: "nl", h: "x", type: held}   # 1  adaptive: x -> nl
+    - {t: "l", type: held}   # 1  adaptive: x -> l  (nl)
     - "w"            # 2
     - ""             # 3
     - ""             # 4
     - ""             # 5
     - ""             # 6
-    - ""             # 7  magic_a (upper trigger of ✦2)
-    - ""             # 8  magic_b (upper trigger of ✦3)
+    - "✦r"           # 7  magic_a tap -> r
+    - "✦h"           # 8  magic_b tap -> h
     - ""             # 9
     - "s"            # 10
     - "c"            # 11
@@ -26,8 +28,8 @@ layers:
     - "a"            # 16
     - "e"            # 17
     - "i"            # 18
-    - {t: "nn", h: "h", type: held}   # 19  adaptive: h -> nn (also lower trigger of ✦4)
-    - ""             # 20  *Right
+    - {t: "n", type: held}   # 19  adaptive: h -> n  (nn)
+    - ""             # 20
     - "f"            # 21
     - "l"            # 22
     - "d"            # 23
@@ -36,14 +38,17 @@ layers:
     - "u"            # 26
     - "o"            # 27
     - "y"            # 28
-    - ""             # 29  *Left
-    - ""             # 30  *Nav
-    - {t: "ng", h: "r", type: held}   # 31  adaptive: r -> ng
+    - ""             # 29
+    - ""             # 30
+    - {t: "g", type: held}   # 31  adaptive: r -> g  (ng)
     - "spc"          # 32
-    - ""             # 33  *FnSym
+    - ""             # 33
 combos:
-  - {p: [16, 26], k: "✦1", layers: ["After you type  n"]}   # magic_h understand
-  - {p: [7, 17], k: "✦2", layers: ["After you type  n"]}   # magic_d never
-  - {p: [8, 18], k: "✦3", layers: ["After you type  n"]}   # magic_e anything
-  - {p: [9, 19], k: "✦4", layers: ["After you type  n"]}   # magic_f explain
-  - {p: [17, 27], k: "✦5", layers: ["After you type  n"]}   # magic_i won't
+  - {p: [16, 26], k: "✦1", layers: ["After you type  n"]}   # understand
+  - {p: [7, 17], k: "✦2", layers: ["After you type  n"]}   # never
+  - {p: [8, 18], k: "✦3", layers: ["After you type  n"]}   # anything
+  - {p: [9, 19], k: "✦4", layers: ["After you type  n"]}   # explain
+  - {p: [17, 27], k: "✦5", layers: ["After you type  n"]}   # won't
+  - {p: [18, 28], k: "✦x", layers: ["After you type  n"]}   # magic_j -> x
+  - {p: [19, 29], k: "✦p", layers: ["After you type  n"]}   # magic_k -> p
+  - {p: [1, 11], k: "k", type: "held", layers: ["After you type  n"]}   # adaptive: p-combo -> k (nk)
