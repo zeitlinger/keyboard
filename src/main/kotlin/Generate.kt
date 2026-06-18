@@ -229,6 +229,8 @@ fun run(args: GeneratorArgs) {
         ),
     )
 
+    writeKeymapDrawerYaml(File(dstDir, "keymap.yaml"), visible, combos, translator)
+
     if (args.printStats) {
         analyze(translator, layers)
     }

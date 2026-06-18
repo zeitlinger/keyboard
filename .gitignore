@@ -9,3 +9,6 @@ __pycache__/
 magic_stats.json
 *_words.tsv
 flash.log
+
+# keymap-drawer intermediate (rendered to keymap.svg by `mise run generate`)
+qmk/keymap.yaml

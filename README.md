@@ -60,6 +60,11 @@ Currently unused features:
 
 ## Layout
 
+![Generated layout — all layers](keymap.svg)
+
+*Rendered from the tables below with [keymap-drawer](https://github.com/caksoylar/keymap-drawer);
+regenerate with `mise run generate`.*
+
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 | :---: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
 | Base  |   esc   |    x    |    w    |  dead3  |  dead2  | magic_a | magic_b |  dead1  |

@@ -1,0 +1,5 @@
+# Styling for keymap-drawer (https://github.com/caksoylar/keymap-drawer).
+# Used by `mise run generate` (keymap draw -c keymap_drawer.config.yaml).
+draw_config:
+  footer_text: 'Generated with <a href="https://github.com/caksoylar/keymap-drawer">keymap-drawer</a>'
+  dark_mode: auto

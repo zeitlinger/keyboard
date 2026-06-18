@@ -19,7 +19,7 @@ taplo = "0.10.0"
 
 [tasks.generate]
 description = "Generate the keyboard files"
-run = "mvn compile exec:java"
+run = ["mvn compile exec:java", "keymap -c keymap_drawer.config.yaml draw qmk/keymap.yaml > keymap.svg"]
 
 
 [tasks.suggest-combos]
