@@ -1,0 +1,48 @@
+# Blog diagram (stripped): magic keys that finish a whole word after `n`.
+draw_config:
+  dark_mode: false
+  footer_text: '✦1 understand   ✦2 never   ✦3 anything   ✦4 explain   ✦5 won''t'
+layout:
+  qmk_keyboard: ferris/sweep
+layers:
+  "After n: magic finishes the word":
+    - "esc"   # 0
+    - "x"     # 1
+    - "w"     # 2
+    - ""      # 3
+    - ""      # 4
+    - ""      # 5
+    - ""      # 6
+    - ""      # 7
+    - ""      # 8
+    - ""      # 9
+    - "s"     # 10
+    - "c"     # 11
+    - "n"     # 12
+    - "t"     # 13
+    - ""      # 14
+    - ""      # 15
+    - "a"     # 16
+    - "e"     # 17
+    - "i"     # 18
+    - "h"     # 19
+    - ""      # 20
+    - "f"     # 21
+    - "l"     # 22
+    - "d"     # 23
+    - ""      # 24
+    - ""      # 25
+    - "u"     # 26
+    - "o"     # 27
+    - "y"     # 28
+    - ""      # 29
+    - ""      # 30
+    - "r"     # 31
+    - "spc"   # 32
+    - ""      # 33
+combos:
+  - {p: [16, 26], k: "✦1", layers: ["After n: magic finishes the word"]}   # understand
+  - {p: [7, 17], k: "✦2", layers: ["After n: magic finishes the word"]}   # never
+  - {p: [8, 18], k: "✦3", layers: ["After n: magic finishes the word"]}   # anything
+  - {p: [9, 19], k: "✦4", layers: ["After n: magic finishes the word"]}   # explain
+  - {p: [17, 27], k: "✦5", layers: ["After n: magic finishes the word"]}   # won't
