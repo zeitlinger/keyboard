@@ -556,3 +556,26 @@ Helper workflows for growing the magic vocabulary:
   `mise run suggest-magic-placements -- --prefer-row 'thank you=t' --prefer-row 'gregor=z' 'thank you' gregor`
 - Prefer `mise run ...` for these helper workflows; the implementations live under `scripts/`, not at repo root.
 - Run the interactive magic trainer directly with `uv run train.py` or `./train.py`, not through `mise`.
+
+## Blog diagrams
+
+`keymap.svg` above is the full, generated layout. For a blog post about this layout I also keep a
+couple of hand-authored, stripped-down diagrams under [`blog/`](blog/) — they teach one idea at a
+time instead of showing everything at once. They use keymap-drawer's
+[YAML input format](https://github.com/caksoylar/keymap-drawer#keymap-yaml-specification) directly
+(positions and labels written by hand, not derived from the tables above), so they can highlight just
+the keys that matter and drop the rest. `mise run generate` re-renders them alongside `keymap.svg`.
+
+Both show what the *next* press does right after you type `n`:
+
+- **[`blog/magic-words.yaml`](blog/magic-words.yaml)** — only the magic keys that complete a whole
+  word (`✦1` understand, `✦2` never, …).
+
+  ![After n, magic finishes the word](blog/magic-words.svg)
+
+- **[`blog/after-n.yaml`](blog/after-n.yaml)** — the full picture: pink keys are adaptives rewriting
+  ordinary keys (`x`/`h`/`r` → `l`/`n`/`g`), and the `✦` badges are magic keys. The single-letter
+  magics (`✦r ✦h ✦x ✦p`) hand back the very letters the adaptives consume after `n`, so nothing
+  becomes unreachable.
+
+  ![Everything reachable right after typing n](blog/after-n.svg)
