@@ -31,6 +31,7 @@ data class Combo(
     var name: String,
     val homeLayer: String,
     val result: QmkKey,
+    val authored: String,
     val triggers: List<Key>,
     val timeout: Int?,
 ) {
@@ -41,6 +42,7 @@ data class Combo(
             name: String,
             homeLayer: String,
             result: QmkKey,
+            authored: String,
             triggers: List<Key>,
             timeout: Int? = 0,
         ): List<Combo> {
@@ -56,7 +58,7 @@ data class Combo(
                     }",
                 )
             }
-            return listOf(Combo(type, name, homeLayer, result, triggers.sortedBy { it.keyWithModifier.key }, timeout))
+            return listOf(Combo(type, name, homeLayer, result, authored, triggers.sortedBy { it.keyWithModifier.key }, timeout))
         }
     }
 }
@@ -272,9 +274,10 @@ private fun keyCombos(
     layers: List<Layer>,
 ): List<Combo> {
     val qmkKey = translator.originalKeys[key.pos] ?: key.key
+    val authored = translator.getKey(key.pos)
     val type = if (qmkKey.substitution != null) ComboType.Substitution else ComboType.Combo
     val name = type.name(layer.name, qmkKey.key)
-    return combos(type, source, name, qmkKey, triggers, key.comboTimeout, translator, layers, layer)
+    return combos(type, source, name, qmkKey, authored, triggers, key.comboTimeout, translator, layers, layer)
 }
 
 private fun combos(
@@ -282,6 +285,7 @@ private fun combos(
     source: ComboSource,
     name: String,
     content: QmkKey,
+    authored: String,
     triggers: List<Key>,
     timeout: Int?,
     translator: QmkTranslator,
@@ -296,6 +300,7 @@ private fun combos(
         name,
         layer.name,
         content,
+        authored,
         triggers,
         keyTimeout,
     )

@@ -18,20 +18,34 @@ ruff = "0.15.17"
 rumdl = "0.2.14"
 taplo = "0.10.0"
 
+[tasks.compile]
+description = "Compile Kotlin"
+run = "mvn compile exec:java"
+
+[tasks.gen-keymap]
+description = "Generate Keymap svg"
+depends = ["compile"]
+sources = ["keymap_drawer.config.yaml", "qmk/keymap.yaml"]
+outputs = ["keymap.svg"]
+run = "keymap -c keymap_drawer.config.yaml draw qmk/keymap.yaml > keymap.svg"
+
+[tasks.gen-magic-words]
+description = "Generate Keymap svg"
+depends = ["compile"]
+sources = ["blog/magic-words.yaml"]
+outputs = ["blog/magic-words.svg"]
+run = "keymap draw blog/magic-words.yaml > blog/magic-words.svg"
+
+[tasks.gen-after-n]
+description = "Generate Keymap svg"
+depends = ["compile"]
+sources = ["blog/after-n.yaml"]
+outputs = ["blog/after-n.svg"]
+run = "keymap draw blog/after-n.yaml > blog/after-n.svg"
+
 [tasks.generate]
 description = "Generate the keyboard files"
-run = [
-  "mvn compile exec:java",
-  "keymap -c keymap_drawer.config.yaml draw qmk/keymap.yaml > keymap.svg",
-  "keymap draw blog/magic-words.yaml > blog/magic-words.svg",
-  "keymap draw blog/after-n.yaml > blog/after-n.svg",
-]
-
-# to optimize building svgs https://mise.jdx.dev/tasks/architecture.html#source-and-output-tracking
-#[tasks.build]
-#sources = ["src/**/*.ts", "package.json"]
-#outputs = ["dist/**/*"]
-#run = "npm run build"
+depends = ["compile", "gen-keymap", "gen-magic-words", "gen-after-n"]
 
 [tasks.suggest-combos]
 description = "Suggest magic-key expansions to add, ranked by typing benefit"

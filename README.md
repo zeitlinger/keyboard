@@ -67,7 +67,7 @@ Currently unused features:
 regenerate with `mise run generate`.*
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
-| :---: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
+| :---: |:-------:| :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
 | Base  |   esc   |    x    |    w    |  dead3  |  dead2  | magic_a | magic_b |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | \*Right |    f    |    l    |    d    |    u    |    o    |    y    | \*Left  |
@@ -169,7 +169,7 @@ regenerate with `mise run generate`.*
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |  dead3  |   C-x   |   C-v   |  CS-z   |  dead1  |   esc   |   ins   |  dead2  |
-|  Nav  |  copy   |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬇️    |   ⬆️    |   ➡️    |
+|  Nav  |   C-c   |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬇️    |   ⬆️    |   ➡️    |
 |  Nav  |   C-z   |   C-w   | tab ➡️  | win ➡️  |   ↩️️    |  bspc   |   del   |   tab   |
 |  Nav  |         |         |   🛑    |   🛑    |   spc   |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -465,7 +465,6 @@ Exact-match symbol tokens such as `#g`, `#G`, and `#GL` must be declared here.
 | 🔈      | KC_VOLD                       |
 | 🔆      | KC_BRIU                       |
 | 🔅      | KC_BRID                       |
-| copy    | C(KC_C)                       |
 | ä       | UP(UMLAUT_a, UMLAUT_A)        |
 | ö       | UP(UMLAUT_o, UMLAUT_O)        |
 | ü       | UP(UMLAUT_u, UMLAUT_U)        |

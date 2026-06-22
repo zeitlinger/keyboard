@@ -19,6 +19,7 @@ private val GLYPHS =
         "⬇️" to "↓",
         "↩️️" to "⏎",
         "↩️" to "⏎",
+        "pipe" to "|"
     )
 
 // Shift / auto-mod mechanics layers: they render as confusing near-empty deltas of the base layer
@@ -37,75 +38,6 @@ private val UNICODE_NAMES =
 // Always double-quote: keymap labels are short and full of YAML-hostile characters
 // (=, <, >, -, ~, ?, #, :, brackets, quotes), so quoting unconditionally is safest.
 private fun yamlScalar(s: String): String = "\"" + s.replace("\\", "\\\\").replace("\"", "\\\"") + "\""
-
-// QMK punctuation keycodes -> the actual glyph (so ":" shows instead of "coln").
-private val SYMBOLS =
-    mapOf(
-        "COLN" to ":",
-        "SCLN" to ";",
-        "DOT" to ".",
-        "COMM" to ",",
-        "SLSH" to "/",
-        "BSLS" to "\\",
-        "MINS" to "-",
-        "EQL" to "=",
-        "LBRC" to "[",
-        "RBRC" to "]",
-        "QUOT" to "'",
-        "DQUO" to "\"",
-        "GRV" to "`",
-        "TILD" to "~",
-        "EXLM" to "!",
-        "AT" to "@",
-        "HASH" to "#",
-        "DLR" to "$",
-        "PERC" to "%",
-        "CIRC" to "^",
-        "AMPR" to "&",
-        "ASTR" to "*",
-        "LPRN" to "(",
-        "RPRN" to ")",
-        "UNDS" to "_",
-        "PLUS" to "+",
-        "LCBR" to "{",
-        "RCBR" to "}",
-        "PIPE" to "|",
-        "LABK" to "<",
-        "RABK" to ">",
-        "QUES" to "?",
-        "SLASH" to "/",
-        "BACKSLASH" to "\\",
-        "KP_MINUS" to "−",
-        "KP_PLUS" to "+",
-        "LGUI" to "Gui",
-        "RGUI" to "Gui",
-        "LCTL" to "Ctrl",
-        "RCTL" to "Ctrl",
-        "LSFT" to "Shift",
-        "RSFT" to "Shift",
-        "LALT" to "Alt",
-        "RALT" to "Alt",
-    )
-
-// Turn a raw QMK keycode/expression into something readable for a combo badge.
-private fun humanizeKeycode(raw: String): String {
-    val k = raw.trim()
-    GLYPHS[k]?.let { return it }
-    if (k.contains("MAGIC", ignoreCase = true)) return MAGIC_GLYPH
-    // Unicode helpers: UP(UMLAUT_a, UMLAUT_A) / UM(UMLAUT_s) — note the inner name may be lowercased.
-    Regex("^U[PM]\\(\\s*([A-Za-z_]+)").find(k)?.let { m ->
-        UNICODE_NAMES[m.groupValues[1].uppercase()]?.let { return it }
-    }
-    // Mod functions: C(KC_X) -> C-x; strip the L/R handedness prefix so LSA -> SA, RCS -> CS.
-    Regex("^([A-Z]+)\\((.+)\\)$").find(k)?.let { m ->
-        val raw1 = m.groupValues[1]
-        val mod = if (raw1.length > 1 && raw1[0] in "LR") raw1.substring(1) else raw1
-        return "$mod-${humanizeKeycode(m.groupValues[2])}"
-    }
-    val name = k.removePrefix("KC_").removePrefix("C_")
-    SYMBOLS[name.uppercase()]?.let { return it }
-    return name.lowercase()
-}
 
 // type is a keymap-drawer key class: null (normal), "held" (modifier / hold key, highlighted), or
 // "actlayer" (the key you hold to reach this layer, colored distinctly via the config).
@@ -198,11 +130,10 @@ private fun isVerticalCombo(combo: Combo): Boolean {
 }
 
 private fun comboLabel(combo: Combo): String {
-    val key = combo.result.key
-    if (key.contains("MAGIC", ignoreCase = true)) return MAGIC_GLYPH
-    val sub = combo.result.substitution
-    if (sub != null) return sub.trim('"').ifEmpty { humanizeKeycode(key) }
-    return humanizeKeycode(key)
+    val authored = combo.authored.trim()
+    GLYPHS[authored]?.let { return it }
+    if (authored.startsWith("magic_")) return MAGIC_GLYPH
+    return authored.trim('"')
 }
 
 fun writeKeymapDrawerYaml(
