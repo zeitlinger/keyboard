@@ -10,6 +10,9 @@ keys:
 - **Adaptive keys** — common letter pairs that automatically rewrite themselves into a more
   comfortable motion (e.g. `n` then `r` → `ng`), with no extra keypress.
 
+📖 The whole story — why this layout exists and how you'd start your own — is in the blog post:
+[**The Secret World of Keyboard Wizardry**](blog/2026-06-13-magic-keyboard.md).
+
 > **The entire layout — keymap, combos, magic keys, adaptive keys — is generated from the tables in
 > this file.** `README.md` is the single source of truth: the Kotlin generator in
 > `src/main/kotlin/` reads these tables and emits the QMK firmware under `qmk/`. Edit the tables
@@ -67,7 +70,7 @@ Currently unused features:
 regenerate with `mise run generate`.*
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
-| :---: |:-------:| :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
+| :---: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
 | Base  |   esc   |    x    |    w    |  dead3  |  dead2  | magic_a | magic_b |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | \*Right |    f    |    l    |    d    |    u    |    o    |    y    | \*Left  |
@@ -555,34 +558,3 @@ Helper workflows for growing the magic vocabulary:
   `mise run suggest-magic-placements -- --prefer-row 'thank you=t' --prefer-row 'gregor=z' 'thank you' gregor`
 - Prefer `mise run ...` for these helper workflows; the implementations live under `scripts/`, not at repo root.
 - Run the interactive magic trainer directly with `uv run train.py` or `./train.py`, not through `mise`.
-
-## Blog diagrams
-
-`keymap.svg` above is the full, generated layout. For a blog post about this layout I also keep a
-couple of hand-authored, stripped-down diagrams under [`blog/`](blog/) — they teach one idea at a
-time instead of showing everything at once. They use keymap-drawer's
-[YAML input format](https://github.com/caksoylar/keymap-drawer#keymap-yaml-specification) directly
-(positions and labels written by hand, not derived from the tables above), so they can highlight just
-the keys that matter and drop the rest. `mise run generate` re-renders them alongside `keymap.svg`.
-
-The first two show what the *next* press does right after you type `n`:
-
-- **[`blog/magic-words.yaml`](blog/magic-words.yaml)** — only the magic keys that complete a whole
-  word (`✦1` understand, `✦2` never, …).
-
-  ![After n, magic finishes the word](blog/magic-words.svg)
-
-- **[`blog/after-n.yaml`](blog/after-n.yaml)** — the full picture: pink keys are adaptives rewriting
-  ordinary keys (`x`/`h`/`r`/`p` → `l`/`n`/`g`/`k`; `p` is a combo, so it shows as the pink `k`
-  badge), and the `✦` badges are magic keys. The single-letter magics (`✦r ✦h ✦x ✦p`) hand back the
-  very letters the adaptives consume after `n`, so nothing becomes unreachable.
-
-  ![Everything reachable right after typing n](blog/after-n.svg)
-
-- **[`blog/codec.svg`](blog/codec.svg)** — how the magic dictionary is packed to fit flash: the 14 most
-  frequent characters get a 4-bit code (two per byte), while a leading nibble of 14 or 15 escapes to a
-  full 8-bit code (`0xE0`–`0xFF`, 32 slots), so the table roughly halves. See
-  [`StringEncoding.kt`](src/main/kotlin/StringEncoding.kt) for the implementation. This one is a
-  hand-drawn SVG, not keymap-drawer output, so `mise run generate` leaves it untouched.
-
-  ![How the 4/8-bit codec packs the dictionary](blog/codec.svg)
