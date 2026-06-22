@@ -22,10 +22,11 @@ private val GLYPHS =
         "pipe" to "|",
     )
 
-// Shift / auto-mod mechanics layers: they render as confusing near-empty deltas of the base layer
-// (their modifiers come from the LayerOptions table, not from cells), so they're left out of the
-// diagram. The README tables document them.
-private val SKIP_LAYERS = setOf("Left", "Right", "LMods", "RMods", "ANum", "CNum", "Case")
+// Auto-mod mechanics layers: they render as confusing near-empty deltas of the base layer (their
+// modifiers come from the LayerOptions table, not from cells), so they're left out of the diagram.
+// The README tables document them. Left/Right are kept: they're the shifted-letter layers and read
+// cleanly when blank cells inherit the capitalized base letter.
+private val SKIP_LAYERS = setOf("LMods", "RMods", "ANum", "CNum", "Case")
 
 private val UNICODE_NAMES =
     mapOf(
@@ -149,6 +150,7 @@ fun writeKeymapDrawerYaml(
     sb.appendLine("  qmk_keyboard: ferris/sweep")
     sb.appendLine("layers:")
     val byName = visibleLayers.associateBy { it.name }
+    val cols = translator.options.nonThumbColumns
     for (layer in visibleLayers.filterNot { it.name in SKIP_LAYERS }) {
         val rawTable = translator.keys[layer.name]?.firstOrNull()
         sb.appendLine("  ${yamlScalar(layer.name)}:")
@@ -157,13 +159,37 @@ fun writeKeymapDrawerYaml(
             r: Int,
             c: Int,
         ): String = rawTable?.getOrNull(r)?.getOrNull(c) ?: ""
+
+        // Letters from the fallback layer (per LayerOptions Fallback Left/Right) are inherited on
+        // their side and capitalized when this layer is a shifted-letter layer (Left/Right).
+        val shifted = LayerFlag.Shifted in layer.option.flags
+
+        fun labelAt(
+            r: Int,
+            c: Int,
+        ): DrawLabel {
+            val own = cellLabel(cellAt(r, c))
+            if (own.text.isNotEmpty()) return own
+            val pos = KeyPosition(0, r, c, layer.name, cols)
+            val fb = fallbackLayer(pos, layer.option)?.let { translator.keys[it]?.firstOrNull() } ?: return own
+            val raw =
+                fb
+                    .getOrNull(r)
+                    ?.getOrNull(c)
+                    ?.trim()
+                    .orEmpty()
+            if (raw.length == 1 && raw[0].isLetter() && raw[0].isLowerCase()) {
+                return DrawLabel(if (shifted) raw.uppercase() else raw)
+            }
+            return own
+        }
         // 34 physical slots; inner columns (indices 4,5 of each row) stay blank.
         val slots = arrayOfNulls<DrawLabel>(34)
         for (r in 0..2) {
-            for (c in 0..3) slots[r * 10 + c] = cellLabel(cellAt(r, c))
-            for (c in 4..7) slots[r * 10 + c + 2] = cellLabel(cellAt(r, c))
+            for (c in 0..3) slots[r * 10 + c] = labelAt(r, c)
+            for (c in 4..7) slots[r * 10 + c + 2] = labelAt(r, c)
         }
-        for (c in 2..5) slots[30 + (c - 2)] = cellLabel(cellAt(3, c))
+        for (c in 2..5) slots[30 + (c - 2)] = labelAt(3, c)
         // Overlay the modifiers this layer places on its rows (from the LayerOptions table) — those
         // show up as 🛑/blank cells otherwise.
         for (r in 0..2) {
@@ -191,7 +217,7 @@ fun writeKeymapDrawerYaml(
 
     // Draw clean vertical (stacked) combos on every shown layer except Media. Skips the confusing
     // horizontal/diagonal/"direct" combos; the README documents those.
-    val drawn =
+    val ownDrawn =
         combos
             .filter { it.homeLayer !in SKIP_LAYERS && it.homeLayer != "Media" && isVerticalCombo(it) }
             .mapNotNull { combo ->
@@ -200,6 +226,28 @@ fun writeKeymapDrawerYaml(
                 if (idx.size != 2) return@mapNotNull null
                 Triple(idx.sorted(), comboLabel(combo), combo.homeLayer)
             }
+    // Inherit combos from a layer's fallback side (e.g. Base letter-combos on Left's left hand),
+    // uppercased when the host layer is Shifted. Both triggers must be on the same side as the
+    // matching fallback column in LayerOptions.
+    val inherited =
+        visibleLayers
+            .filterNot { it.name in SKIP_LAYERS }
+            .flatMap { host ->
+                val hostShifted = LayerFlag.Shifted in host.option.flags
+                combos
+                    .filter { it.homeLayer != host.name && isVerticalCombo(it) && it.triggers.size == 2 }
+                    .mapNotNull { combo ->
+                        val triggerPos = combo.triggers[0].pos.copy(layerName = host.name, columns = cols)
+                        if (combo.triggers[1].pos.column != triggerPos.column) return@mapNotNull null
+                        if (fallbackLayer(triggerPos, host.option) != combo.homeLayer) return@mapNotNull null
+                        val raw = combo.authored.trim().trim('"')
+                        if (raw.length != 1 || !raw[0].isLetter() || !raw[0].isLowerCase()) return@mapNotNull null
+                        val idx = combo.triggers.mapNotNull { kdIndex(it.pos) }
+                        if (idx.size != 2) return@mapNotNull null
+                        Triple(idx.sorted(), if (hostShifted) raw.uppercase() else raw, host.name)
+                    }
+            }
+    val drawn = ownDrawn + inherited
     if (drawn.isNotEmpty()) {
         sb.appendLine("combos:")
         for ((idx, label, homeLayer) in drawn) {
