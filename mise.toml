@@ -4,6 +4,7 @@ jq = "latest"
 maven = "latest"
 "pipx:keymap-drawer" = "0.23.0"
 python = "3"
+"aqua:linebender/resvg" = "0.47.0"
 uv = "latest"
 
 # Linters
@@ -27,25 +28,54 @@ description = "Generate Keymap svg"
 depends = ["compile"]
 sources = ["keymap_drawer.config.yaml", "qmk/keymap.yaml"]
 outputs = ["keymap.svg"]
-run = "keymap -c keymap_drawer.config.yaml draw qmk/keymap.yaml > keymap.svg"
+run = 'keymap -c "$KEYMAP_CONFIG" draw qmk/keymap.yaml > keymap.svg'
+
+[tasks.gen-base-layer]
+description = "Generate base-layer svg for the blog (Base layer only)"
+depends = ["compile"]
+sources = ["keymap_drawer.config.yaml", "qmk/keymap.yaml"]
+outputs = ["blog/base-layer.svg"]
+run = 'keymap -c "$KEYMAP_CONFIG" draw -s Base -- qmk/keymap.yaml > blog/base-layer.svg'
 
 [tasks.gen-magic-words]
 description = "Generate Keymap svg"
 depends = ["compile"]
-sources = ["blog/magic-words.yaml"]
+sources = ["keymap_drawer.config.yaml", "blog/magic-words.yaml"]
 outputs = ["blog/magic-words.svg"]
-run = "keymap draw blog/magic-words.yaml > blog/magic-words.svg"
+run = 'keymap -c "$KEYMAP_CONFIG" draw blog/magic-words.yaml > blog/magic-words.svg'
 
 [tasks.gen-after-n]
 description = "Generate Keymap svg"
 depends = ["compile"]
-sources = ["blog/after-n.yaml"]
+sources = ["keymap_drawer.config.yaml", "blog/after-n.yaml"]
 outputs = ["blog/after-n.svg"]
-run = "keymap draw blog/after-n.yaml > blog/after-n.svg"
+run = 'keymap -c "$KEYMAP_CONFIG" draw blog/after-n.yaml > blog/after-n.svg'
+
+# Render every blog SVG to a 2x PNG for Medium. codec.svg is a hand-authored
+# source; the rest come from the gen-* tasks above. keyboard.jpg is a photo
+# (static, not generated).
+[tasks.gen-blog-images]
+description = "Render blog SVGs to PNG (2x) for Medium"
+depends = ["gen-keymap", "gen-base-layer", "gen-magic-words", "gen-after-n"]
+sources = ["keymap.svg", "blog/base-layer.svg", "blog/magic-words.svg", "blog/after-n.svg", "blog/codec.svg"]
+outputs = [
+  "blog/images/layers.png",
+  "blog/images/base-layer.png",
+  "blog/images/magic-words.png",
+  "blog/images/after-n.png",
+  "blog/images/codec.png",
+]
+run = [
+  "resvg --zoom 2 keymap.svg blog/images/layers.png",
+  "resvg --zoom 2 blog/base-layer.svg blog/images/base-layer.png",
+  "resvg --zoom 2 blog/magic-words.svg blog/images/magic-words.png",
+  "resvg --zoom 2 blog/after-n.svg blog/images/after-n.png",
+  "resvg --zoom 2 blog/codec.svg blog/images/codec.png",
+]
 
 [tasks.generate]
 description = "Generate the keyboard files"
-depends = ["compile", "gen-keymap", "gen-magic-words", "gen-after-n"]
+depends = ["compile", "gen-keymap", "gen-base-layer", "gen-magic-words", "gen-after-n", "gen-blog-images"]
 
 [tasks.suggest-combos]
 description = "Suggest magic-key expansions to add, ranked by typing benefit"
@@ -69,3 +99,5 @@ run = "flint run --fix"
 
 [env]
 FLINT_CONFIG_DIR = ".github/config"
+# Shared keymap-drawer styling for every `keymap draw` task above.
+KEYMAP_CONFIG = "keymap_drawer.config.yaml"
