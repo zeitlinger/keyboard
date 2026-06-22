@@ -208,6 +208,11 @@ fun writeKeymapDrawerYaml(
             )
         }
     }
-    dst.writeText(sb.toString())
+    val content = sb.toString()
+    if (dst.exists() && dst.readText() == content) {
+        System.err.println("unchanged ${dst.path}")
+        return
+    }
+    dst.writeText(content)
     System.err.println("wrote ${dst.path}")
 }
