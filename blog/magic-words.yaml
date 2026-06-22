@@ -1,6 +1,5 @@
 # Blog diagram (stripped): magic keys that finish a whole word after `n`.
 draw_config:
-  dark_mode: false
   footer_text: '✦1 understand   ✦2 never   ✦3 anything   ✦4 explain   ✦5 won''t'
 layout:
   qmk_keyboard: ferris/sweep

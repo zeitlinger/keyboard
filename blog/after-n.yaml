@@ -3,7 +3,6 @@
 # magic keys). The single-letter magics (✦r ✦h ✦x ✦p) are the compensation: the adaptives consume
 # r/h/x/p after n, and magic hands those letters back so every letter is still reachable.
 draw_config:
-  dark_mode: false
   footer_text: '✦1 understand   ✦2 never   ✦3 anything   ✦4 explain   ✦5 won''t'
 layout:
   qmk_keyboard: ferris/sweep
