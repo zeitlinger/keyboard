@@ -58,7 +58,9 @@ data class Combo(
                     }",
                 )
             }
-            return listOf(Combo(type, name, homeLayer, result, authored, triggers.sortedBy { it.keyWithModifier.key }, timeout))
+            return listOf(
+                Combo(type, name, homeLayer, result, authored, triggers.sortedBy { it.keyWithModifier.key }, timeout),
+            )
         }
     }
 }

@@ -19,7 +19,7 @@ private val GLYPHS =
         "⬇️" to "↓",
         "↩️️" to "⏎",
         "↩️" to "⏎",
-        "pipe" to "|"
+        "pipe" to "|",
     )
 
 // Shift / auto-mod mechanics layers: they render as confusing near-empty deltas of the base layer

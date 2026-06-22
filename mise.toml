@@ -1,10 +1,10 @@
 [tools]
+"aqua:linebender/resvg" = "0.47.0"
 java = "26"
 jq = "latest"
 maven = "latest"
 "pipx:keymap-drawer" = "0.23.0"
 python = "3"
-"aqua:linebender/resvg" = "0.47.0"
 uv = "latest"
 
 # Linters
