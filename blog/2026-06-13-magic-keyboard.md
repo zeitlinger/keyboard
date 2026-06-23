@@ -611,6 +611,15 @@ reached by holding two right-hand keys — so the hand typing the digits never h
 are the held/activation keys for each layer; blue badges are combos. (The repo's `keymap.svg`
 renders every layer, media and case included, in one go — generated straight from the layout.)*
 
+The dedicated shift keys from earlier each open their own layer: **Left** (held with the right
+pinky) puts capitals and combo-letters on the left hand; **Right** mirrors it for the right hand.
+The opposite hand's bottom row turns into the other modifiers — Ctrl, Alt, Gui — so a one-handed
+chord like Shift+Alt+x is reachable without contorting. There's a wrinkle, though: the moment any
+of those other modifiers is held, the letters drop back to lowercase. Otherwise the only thing the
+shift layer could ever emit would be `A-X`, never `A-x` — and you'd have no way to type the
+unshifted modified key. Keeping the letters lowercase under a held modifier means `A-x` is the
+default; `AS-x` is what you get by *also* holding the original shift on top.
+
 ### Magic keys — implementation — KWL 5
 
 Mechanically, it's all custom code — the alternate-repeat key was the *inspiration*, not the
