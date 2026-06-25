@@ -3,12 +3,6 @@
 *I built a keyboard whose keys finish my words. Here's the rabbit hole that taught me how — and how
 you'd start your own.*
 
-<!-- REVIEWERS: full draft — all parts now in prose. See the PR description for what I'm asking.
-     KWL tags + ✋ Try-it boxes are intentional and ship.
-     Still pending: keyboard-layout images (one render per layer) + magic/adaptive GIFs — added later.
-     The "Production notes" section at the very bottom is not for publication; delete it and this
-     comment before publish. -->
-
 > *Once upon a time there was a little wizard who was hopelessly obsessed with the ordinary world —
 > and most of all with the clattering slab of plastic the outsiders spent their whole lives typing
 > on. "It works fine," the other wizards shrugged. "Fine," the little wizard agreed. "But not
@@ -36,11 +30,6 @@ day: you get to climb every floor in one afternoon, no enrolling for years, all 
 archmages who invent text-compression schemes to cram a whole dictionary into a sliver of keyboard
 memory. (Yes, that's a real spell. Yes, I cast it. We'll get there.) Just remember the one rule of
 the building — **you can't skip to the top floor.**
-
-> 🖼️ **[Image placeholder: the school of keyboard wizardry]** — an establishing illustration of a
-> wizard castle / school, to anchor the whole conceit. Content team to create; this is the post's
-> hero image. *Suggested caption: "Welcome to the school of keyboard wizardry. Mind the same-finger
-> bigrams on your way up."*
 
 And though all of this is dressed up as the story of my keyboard, it's really the other way round:
 the keyboard is just the worked example. The world is the point.
@@ -97,11 +86,6 @@ ways you've learned not to notice. Let me make you notice.
 >   index reaches inward for `t` while your middle stays on `e`, and the two fingers pull apart.
 > - **Scissor** — one finger reaching up while its neighbor folds down. Type "scram" (`cr`), then
 >   "seven" (`ve`); feel the awkward little tangle.
->
-> 🖼️ **[Image placeholder: awkward finger motions]** — a few close-up shots (or a simple annotated
-> figure) of a hand contorting through these motions on a normal keyboard: a finger doubling back on
-> itself (SFB), two fingers splayed sideways (lateral stretch), the scissor tangle. Show the strain.
-> *Suggested caption: "What Qwerty quietly asks your fingers to do all day."*
 
 And now the opposite — because you have good motions too, you've just never noticed them either:
 
@@ -127,12 +111,6 @@ posture that paves the road to carpal tunnel. There's also a subtler fossil hidi
 the rows are offset diagonally — *row stagger* — which exists only because old typewriters needed
 room for the levers underneath. Your fingers don't move diagonally. They're different lengths and
 they curl straight toward your palm, which is what *column* stagger respects.
-
-> 🖼️ **[Image placeholder: slab vs. split]** — a side-by-side comparison: a flat, row-staggered
-> rectangle (wrists bent inward, hands angled together) versus a split, tented, column-staggered board
-> (hands straight, angled apart). The contrast should make the ergonomic argument at a glance. A
-> diagram or two stock photos both work. *Suggested caption: "Left: one flat slab, both wrists bent to
-> meet it. Right: two halves, each meeting the hand where it already is."*
 
 The fixes are things the ergonomic world already broadly agrees on, even outside wizard circles:
 **split** the board so each hand sits at its own natural angle, **tent** it so your thumbs ride a
