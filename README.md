@@ -70,7 +70,7 @@ Currently unused features:
 regenerate with `mise run generate`.*
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
-| :---: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
+| :---: | :-----: | :-----: |:-------:| :-----: | :-----: |:-------:| :-----: |:-------:|
 | Base  |   esc   |    x    |    w    |  dead3  |  dead2  | magic_a | magic_b |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | \*Right |    f    |    l    |    d    |    u    |    o    |    y    | \*Left  |
@@ -106,7 +106,7 @@ regenerate with `mise run generate`.*
 | Right |         |         |         |  CS-r   |    '    |         |         |         |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right |         |         |    !    |         |         |   n't   |         |         |
+| Right |         |         |    !    |         |         |    !    |         |         |
 | Right |         |         |   💎    |         |         |   💎    |         |         |
 | Right |         |         |  CS-f   |         |         |    ,    |         |         |
 | Right |         |         |         |         |         |         |         |         |
@@ -118,7 +118,7 @@ regenerate with `mise run generate`.*
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |         |         |         |    `    |
 | Right |         |         |         |         |         |         |         |   💎    |
-| Right |         |         |         |         |         |         |         |   \_    |
+| Right |         |         |         |         |         |         |         |    ;    |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | RMods |         |         |         |         |         |    .    |    q    |         |
@@ -129,7 +129,7 @@ regenerate with `mise run generate`.*
 | Left  |         |         |         |         |  dead1  |         |         |         |
 | Left  |         |         |         |         | \*CNum  | \*Case  | \*Media |         |
 | Left  |    z    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
-| Left  |         |         |    ;    |         | \*ANum  |  \*Num  |         |         |
+| Left  |         |         |   \_    |         | \*ANum  |  \*Num  |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |  "qu"   |         |         |         |         |         |         |         |
 | Left  |   💎    |         |         |         |         |         |         |         |
@@ -331,10 +331,10 @@ Cell = what to emit.
 - Orderded by hand - thumbs last.
 
 | Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |  magic_h   |  magic_i  | magic_j |  magic_k   |
-| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :--------: | :-------: | :-----: | :--------: |
-| suffix |     ed     |     ly     |           |     n't     |       ?       |            |  ", "   |   [next]   |  " the "  |  ". "   |     s      |
+| :----: | :--------: |:----------:| :-------: |:-----------:| :-----------: | :--------: |:-------:|:----------:| :-------: | :-----: |:----------:|
+| suffix |     ed     |     s      |           |     n't     |       ?       |            |  ", "   |   [next]   |  " the "  |  ". "   |     ly     |
 |   b    | background |     h      |           |   become    | observability |            |         | basically  |  because  |    d    |   before   |
-|   c    |   "'ll "   |     n      |           |   "n't "    |    "'ve "     |  comment   |         |   "'s "    |  "'re "   |    d    |   "'d "    |
+|   c    |   "'ll "   |   "'s "    |           |   "n't "    |    "'ve "     |  comment   |         |     n      |  "'re "   |    d    |   "'d "    |
 |   d    |     f      |     h      |           |    don't    |    disable    | difficulty |         |   didn't   |  doesn't  |    c    |    does    |
 |   f    | confusing  |     h      |           | performance |    merged     |            |         |  focused   | following |    d    |  conflict  |
 |   g    |     f      |     t      |           |   suggest   |    change     |            |         |  generate  |     k     |    d    |    goes    |
@@ -342,9 +342,9 @@ Cell = what to emit.
 |   l    |     r      |     h      |           |  language   |    already    | available  |         |     n      |     m     |    c    |     b      |
 |   m    |     r      |     h      |           |   migrate   |   multiple    |  mismatch  |         | instrument |  "ment"   |    l    |     v      |
 |   n    |     r      |     h      |           |    never    |   anything    |  explain   |         | understand |   won't   |    x    |     p      |
-|   p    |     y      |     n      |           |   people    |   probably    | important  |         | production |     m     |    d    | Prometheus |
+|   p    |     y      | production |           |   people    |   probably    | important  |         |     n      |     m     |    d    | Prometheus |
 |   s    |     r      |  someone   |           |  possible   |    support    |  similar   |         |  separate  |  "sion"   |    d    | something  |
-|   t    |     f      |     n      |           |    just     |    through    |  another   |         |   though   |  "tion"   | without |  thought   |
+|   t    |     f      |   though   |           |    just     |    through    |  another   |         |     n      |  "tion"   | without |  thought   |
 |   v    |  validate  | everything |           |   improve   |    version    |            |         |  approval  |  resolve  |         |   worse    |
 |   w    |   always   |   wasn't   |           |    work     |   otherwise   |   switch   |         |    why     |     s     |    x    |   which    |
 |   x    |     r      |     h      |           |   except    |   explicit    |  exclude   |         |    exit    |     w     |         |  example   |
@@ -359,7 +359,7 @@ Cell = what to emit.
 | enter  |            |            |           |             |               |            |         |    and     |    the    |         |            |
 |   ,    |            |            |           |             |               |            |         |  " and "   |  " but "  |         |            |
 |  spc   |            |            | [dotSpc]  |             |               |            |   ⌫z    |    and     |    the    |         |            |
-|   r    |     "      |     ⌫q     |           |   ⌫"n't"    |      ⌫?       |     x      |   ⌫!    |     ⌫'     |    ⌫,     |   ⌫.    |     ⌫j     |
+|   r    |     "      |     ⌫q     |           |   ⌫"n't "   |      ⌫?       |     x      |   ⌫!    |     ⌫'     |    ⌫,     |   ⌫.    |     ⌫j     |
 
 ## Adaptive keys
 
