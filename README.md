@@ -485,7 +485,6 @@ Exact-match symbol tokens such as `#g`, `#G`, and `#GL` must be declared here.
 | magic_k | magic:MAGIC_K                 |
 | tab ➡️  | custom:NEXT_TAB NoHold        |
 | win ➡️  | custom:NEXT_WINDOW NoHold     |
-| n't     | custom:N_T                    |
 | ing     | custom:ING                    |
 | ver     | custom:PRINT_VERSION          |
 | CapW    | custom:CAPS_WORDS             |
