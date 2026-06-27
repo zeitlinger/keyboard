@@ -133,12 +133,12 @@ const uint16_t PROGMEM C_NUM_RCSKC_V_combo[] = {DEAD3, KC_T, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_KC_AT_combo[] = {DEAD2, KC_A, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_KC_COMMA_combo[] = {KC_E, KC_O, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_KC_DOT_combo[] = {KC_I, KC_Y, COMBO_END};
-const uint16_t PROGMEM C_RIGHT_KC_EXLM_combo[] = {KC_N, KC_W, COMBO_END};
+const uint16_t PROGMEM C_RIGHT_KC_EXLM_0_combo[] = {KC_N, KC_W, COMBO_END};
+const uint16_t PROGMEM C_RIGHT_KC_EXLM_1_combo[] = {MAGIC_A, KC_E, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_KC_GRAVE_combo[] = {DEAD1, KC_H, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_KC_QUES_combo[] = {MAGIC_B, KC_I, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_KC_QUOTE_combo[] = {KC_A, KC_U, COMBO_END};
-const uint16_t PROGMEM C_RIGHT_KC_UNDS_combo[] = {MO(_LEFT), KC_H, COMBO_END};
-const uint16_t PROGMEM C_RIGHT_N_T_combo[] = {MAGIC_A, KC_E, COMBO_END};
+const uint16_t PROGMEM C_RIGHT_KC_SEMICOLON_combo[] = {MO(_LEFT), KC_H, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_RCSKC_F_combo[] = {KC_N, KC_L, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_RCSKC_R_combo[] = {KC_T, KC_D, COMBO_END};
 const uint16_t PROGMEM SUB_1_combo[] = {KC_ESC, KC_S, COMBO_END};
@@ -227,12 +227,12 @@ enum combos {
     C_RIGHT_KC_AT,
     C_RIGHT_KC_COMMA,
     C_RIGHT_KC_DOT,
-    C_RIGHT_KC_EXLM,
+    C_RIGHT_KC_EXLM_0,
+    C_RIGHT_KC_EXLM_1,
     C_RIGHT_KC_GRAVE,
     C_RIGHT_KC_QUES,
     C_RIGHT_KC_QUOTE,
-    C_RIGHT_KC_UNDS,
-    C_RIGHT_N_T,
+    C_RIGHT_KC_SEMICOLON,
     C_RIGHT_RCSKC_F,
     C_RIGHT_RCSKC_R,
     SUB_1,
@@ -322,12 +322,12 @@ combo_t key_combos[] = {
     [C_RIGHT_KC_AT] = COMBO(C_RIGHT_KC_AT_combo, KC_AT),
     [C_RIGHT_KC_COMMA] = COMBO(C_RIGHT_KC_COMMA_combo, KC_COMMA),
     [C_RIGHT_KC_DOT] = COMBO(C_RIGHT_KC_DOT_combo, KC_DOT),
-    [C_RIGHT_KC_EXLM] = COMBO(C_RIGHT_KC_EXLM_combo, KC_EXLM),
+    [C_RIGHT_KC_EXLM_0] = COMBO(C_RIGHT_KC_EXLM_0_combo, KC_EXLM),
+    [C_RIGHT_KC_EXLM_1] = COMBO(C_RIGHT_KC_EXLM_1_combo, KC_EXLM),
     [C_RIGHT_KC_GRAVE] = COMBO(C_RIGHT_KC_GRAVE_combo, KC_GRAVE),
     [C_RIGHT_KC_QUES] = COMBO(C_RIGHT_KC_QUES_combo, KC_QUES),
     [C_RIGHT_KC_QUOTE] = COMBO(C_RIGHT_KC_QUOTE_combo, KC_QUOTE),
-    [C_RIGHT_KC_UNDS] = COMBO(C_RIGHT_KC_UNDS_combo, KC_UNDS),
-    [C_RIGHT_N_T] = COMBO(C_RIGHT_N_T_combo, N_T),
+    [C_RIGHT_KC_SEMICOLON] = COMBO(C_RIGHT_KC_SEMICOLON_combo, KC_SEMICOLON),
     [C_RIGHT_RCSKC_F] = COMBO(C_RIGHT_RCSKC_F_combo, RCS(KC_F)),
     [C_RIGHT_RCSKC_R] = COMBO(C_RIGHT_RCSKC_R_combo, RCS(KC_R)),
     [SUB_1] = COMBO_ACTION(SUB_1_combo),
@@ -373,7 +373,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     if (!pressed) return;
     switch (combo_index) {
     case SUB_1:
-        magic_decode_send(755); break; // "qu"
+        magic_decode_send(751); break; // "qu"
     case SUB_2:
         magic_decode_send(48); break; // "Qu"
     case SUB_3:
@@ -381,7 +381,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     case SUB_4:
         magic_decode_send(36); break; // "LGTM"
     case SUB_5:
-        magic_decode_send(975); break; // "zeitlinger@gmail.com"
+        magic_decode_send(971); break; // "zeitlinger@gmail.com"
     case SUB_6:
         magic_decode_send(427); break; // "gregor@zeitlinger.de"
     case C_BASE_KC_B: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_B) : KC_B); break;
