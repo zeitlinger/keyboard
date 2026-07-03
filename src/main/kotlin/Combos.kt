@@ -129,7 +129,7 @@ fun generateAllCombos(
 
 private fun combo2Positions(combos: List<Combo>): Set<Set<KeyPosition>> =
     combos
-        .filter { it.triggers.size == 2 }
+        .filter { it.triggers.size == 2 && !it.mustPressInOrder }
         .map { combo ->
             combo.triggers
                 .map { it.pos.copy(layerName = "Base") }

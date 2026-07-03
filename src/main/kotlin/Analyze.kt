@@ -134,6 +134,7 @@ private fun printMissingAndUnexpected(
         entry.value.remove("Num")
         entry.value.remove("LMods")
         entry.value.remove("RMods")
+        entry.value.remove("Vim")
     }
 
     val triLayer =
