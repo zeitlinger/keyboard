@@ -86,8 +86,7 @@ const uint16_t PROGMEM C_BASE_UPUMLAUT_OUMLAUT_O_combo[] = {KC_O, MO(_RIGHT), CO
 const uint16_t PROGMEM C_BASE_UPUMLAUT_UUMLAUT_U_combo[] = {KC_U, MO(_RIGHT), COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_AMPR_combo[] = {KC_C, KC_F, COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_ASTR_combo[] = {KC_N, KC_W, COMBO_END};
-const uint16_t PROGMEM C_FNSYM_KC_BACKSLASH_combo[] = {DEAD1, KC_H, COMBO_END};
-const uint16_t PROGMEM C_FNSYM_KC_CIRC_combo[] = {KC_ESC, KC_S, COMBO_END};
+const uint16_t PROGMEM C_FNSYM_KC_CIRC_combo[] = {DEAD1, KC_H, COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_DLR_combo[] = {KC_S, MO(_RIGHT), COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_EQUAL_combo[] = {KC_H, MO(_FNSYM), COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_F11_combo[] = {KC_N, KC_L, COMBO_END};
@@ -107,7 +106,7 @@ const uint16_t PROGMEM C_FNSYM_KC_RPRN_combo[] = {MAGIC_B, MO(_FNSYM), COMBO_END
 const uint16_t PROGMEM C_FNSYM_KC_SLASH_combo[] = {KC_O, KC_E, COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_TILD_combo[] = {KC_A, KC_U, COMBO_END};
 const uint16_t PROGMEM C_FNSYM_MO_NUM_combo[] = {MO(_FNSYM), MO(_LEFT), COMBO_END};
-const uint16_t PROGMEM C_LEFT_KC_COLN_combo[] = {MO(_RIGHT), KC_S, COMBO_END};
+const uint16_t PROGMEM C_LEFT_KC_Z_combo[] = {MO(_RIGHT), KC_S, COMBO_END};
 const uint16_t PROGMEM C_NAV_AKC_F12_combo[] = {KC_E, KC_I, COMBO_END};
 const uint16_t PROGMEM C_NAV_CKC_A_combo[] = {KC_W, KC_N, COMBO_END};
 const uint16_t PROGMEM C_NAV_CKC_B_combo[] = {KC_A, KC_I, COMBO_END};
@@ -132,10 +131,6 @@ const uint16_t PROGMEM C_NAV_RCSKC_C_combo[] = {KC_S, MO(_RIGHT), COMBO_END};
 const uint16_t PROGMEM C_NAV_RCSKC_N_combo[] = {KC_X, KC_C, COMBO_END};
 const uint16_t PROGMEM C_NAV_RCSKC_V_combo[] = {KC_T, DEAD3, COMBO_END};
 const uint16_t PROGMEM C_NAV_RCSKC_Z_combo[] = {DEAD3, MO(_NAV), COMBO_END};
-const uint16_t PROGMEM C_NAV_UMUMLAUT_S_combo[] = {DEAD1, KC_H, COMBO_END};
-const uint16_t PROGMEM C_NAV_UPUMLAUT_AUMLAUT_A_combo[] = {MAGIC_B, KC_I, COMBO_END};
-const uint16_t PROGMEM C_NAV_UPUMLAUT_OUMLAUT_O_combo[] = {KC_E, MAGIC_A, COMBO_END};
-const uint16_t PROGMEM C_NAV_UPUMLAUT_UUMLAUT_U_combo[] = {DEAD2, KC_A, COMBO_END};
 const uint16_t PROGMEM C_NUM_AKC_F1_combo[] = {KC_N, KC_W, COMBO_END};
 const uint16_t PROGMEM C_NUM_CKC_G_combo[] = {KC_T, KC_D, COMBO_END};
 const uint16_t PROGMEM C_NUM_LCAKC_L_combo[] = {KC_N, KC_L, COMBO_END};
@@ -143,24 +138,19 @@ const uint16_t PROGMEM C_NUM_LSAKC_B_combo[] = {KC_C, KC_F, COMBO_END};
 const uint16_t PROGMEM C_NUM_LSAKC_S_combo[] = {KC_S, MO(_RIGHT), COMBO_END};
 const uint16_t PROGMEM C_NUM_LSAKC_X_combo[] = {KC_C, KC_X, COMBO_END};
 const uint16_t PROGMEM C_NUM_RCSKC_V_combo[] = {DEAD3, KC_T, COMBO_END};
-const uint16_t PROGMEM C_RIGHT_KC_AT_combo[] = {DEAD2, KC_A, COMBO_END};
-const uint16_t PROGMEM C_RIGHT_KC_COMMA_combo[] = {KC_E, KC_O, COMBO_END};
-const uint16_t PROGMEM C_RIGHT_KC_DOT_combo[] = {KC_I, KC_Y, COMBO_END};
-const uint16_t PROGMEM C_RIGHT_KC_EXLM_0_combo[] = {KC_N, KC_W, COMBO_END};
-const uint16_t PROGMEM C_RIGHT_KC_EXLM_1_combo[] = {MAGIC_A, KC_E, COMBO_END};
-const uint16_t PROGMEM C_RIGHT_KC_GRAVE_combo[] = {DEAD1, KC_H, COMBO_END};
-const uint16_t PROGMEM C_RIGHT_KC_QUES_combo[] = {MAGIC_B, KC_I, COMBO_END};
-const uint16_t PROGMEM C_RIGHT_KC_QUOTE_combo[] = {KC_A, KC_U, COMBO_END};
-const uint16_t PROGMEM C_RIGHT_KC_SEMICOLON_combo[] = {MO(_LEFT), KC_H, COMBO_END};
+const uint16_t PROGMEM C_RIGHT_KC_AT_combo[] = {KC_A, KC_U, COMBO_END};
+const uint16_t PROGMEM C_RIGHT_KC_BACKSLASH_combo[] = {KC_I, MAGIC_B, COMBO_END};
+const uint16_t PROGMEM C_RIGHT_KC_EXLM_combo[] = {KC_E, KC_O, COMBO_END};
+const uint16_t PROGMEM C_RIGHT_KC_GRAVE_combo[] = {DEAD2, KC_A, COMBO_END};
+const uint16_t PROGMEM C_RIGHT_KC_J_combo[] = {MO(_LEFT), KC_H, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_RCSKC_F_combo[] = {KC_N, KC_L, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_RCSKC_R_combo[] = {KC_T, KC_D, COMBO_END};
 const uint16_t PROGMEM SUB_1_combo[] = {KC_C, MO(_LEFT), COMBO_END};
 const uint16_t PROGMEM SUB_10_combo[] = {KC_ESC, KC_S, COMBO_END};
-const uint16_t PROGMEM SUB_11_combo[] = {KC_ESC, KC_S, COMBO_END};
-const uint16_t PROGMEM SUB_12_combo[] = {KC_D, KC_T, COMBO_END};
-const uint16_t PROGMEM SUB_13_combo[] = {KC_W, KC_N, COMBO_END};
-const uint16_t PROGMEM SUB_14_combo[] = {KC_L, KC_N, COMBO_END};
-const uint16_t PROGMEM SUB_15_combo[] = {KC_F, KC_C, COMBO_END};
+const uint16_t PROGMEM SUB_11_combo[] = {KC_D, KC_T, COMBO_END};
+const uint16_t PROGMEM SUB_12_combo[] = {KC_W, KC_N, COMBO_END};
+const uint16_t PROGMEM SUB_13_combo[] = {KC_L, KC_N, COMBO_END};
+const uint16_t PROGMEM SUB_14_combo[] = {KC_F, KC_C, COMBO_END};
 const uint16_t PROGMEM SUB_2_combo[] = {KC_A, MO(_LEFT), COMBO_END};
 const uint16_t PROGMEM SUB_3_combo[] = {KC_L, MO(_LEFT), COMBO_END};
 const uint16_t PROGMEM SUB_4_combo[] = {KC_D, MO(_LEFT), COMBO_END};
@@ -202,7 +192,6 @@ enum combos {
     C_BASE_UPUMLAUT_UUMLAUT_U,
     C_FNSYM_KC_AMPR,
     C_FNSYM_KC_ASTR,
-    C_FNSYM_KC_BACKSLASH,
     C_FNSYM_KC_CIRC,
     C_FNSYM_KC_DLR,
     C_FNSYM_KC_EQUAL,
@@ -223,7 +212,7 @@ enum combos {
     C_FNSYM_KC_SLASH,
     C_FNSYM_KC_TILD,
     C_FNSYM_MO_NUM,
-    C_LEFT_KC_COLN,
+    C_LEFT_KC_Z,
     C_NAV_AKC_F12,
     C_NAV_CKC_A,
     C_NAV_CKC_B,
@@ -248,10 +237,6 @@ enum combos {
     C_NAV_RCSKC_N,
     C_NAV_RCSKC_V,
     C_NAV_RCSKC_Z,
-    C_NAV_UMUMLAUT_S,
-    C_NAV_UPUMLAUT_AUMLAUT_A,
-    C_NAV_UPUMLAUT_OUMLAUT_O,
-    C_NAV_UPUMLAUT_UUMLAUT_U,
     C_NUM_AKC_F1,
     C_NUM_CKC_G,
     C_NUM_LCAKC_L,
@@ -260,14 +245,10 @@ enum combos {
     C_NUM_LSAKC_X,
     C_NUM_RCSKC_V,
     C_RIGHT_KC_AT,
-    C_RIGHT_KC_COMMA,
-    C_RIGHT_KC_DOT,
-    C_RIGHT_KC_EXLM_0,
-    C_RIGHT_KC_EXLM_1,
+    C_RIGHT_KC_BACKSLASH,
+    C_RIGHT_KC_EXLM,
     C_RIGHT_KC_GRAVE,
-    C_RIGHT_KC_QUES,
-    C_RIGHT_KC_QUOTE,
-    C_RIGHT_KC_SEMICOLON,
+    C_RIGHT_KC_J,
     C_RIGHT_RCSKC_F,
     C_RIGHT_RCSKC_R,
     SUB_1,
@@ -276,7 +257,6 @@ enum combos {
     SUB_12,
     SUB_13,
     SUB_14,
-    SUB_15,
     SUB_2,
     SUB_3,
     SUB_4,
@@ -319,7 +299,6 @@ combo_t key_combos[] = {
     [C_BASE_UPUMLAUT_UUMLAUT_U] = COMBO(C_BASE_UPUMLAUT_UUMLAUT_U_combo, UP(UMLAUT_u, UMLAUT_U)),
     [C_FNSYM_KC_AMPR] = COMBO(C_FNSYM_KC_AMPR_combo, KC_AMPR),
     [C_FNSYM_KC_ASTR] = COMBO(C_FNSYM_KC_ASTR_combo, KC_ASTR),
-    [C_FNSYM_KC_BACKSLASH] = COMBO(C_FNSYM_KC_BACKSLASH_combo, KC_BACKSLASH),
     [C_FNSYM_KC_CIRC] = COMBO(C_FNSYM_KC_CIRC_combo, KC_CIRC),
     [C_FNSYM_KC_DLR] = COMBO(C_FNSYM_KC_DLR_combo, KC_DLR),
     [C_FNSYM_KC_EQUAL] = COMBO(C_FNSYM_KC_EQUAL_combo, KC_EQUAL),
@@ -340,7 +319,7 @@ combo_t key_combos[] = {
     [C_FNSYM_KC_SLASH] = COMBO(C_FNSYM_KC_SLASH_combo, KC_SLASH),
     [C_FNSYM_KC_TILD] = COMBO(C_FNSYM_KC_TILD_combo, KC_TILD),
     [C_FNSYM_MO_NUM] = COMBO(C_FNSYM_MO_NUM_combo, MO(_NUM)),
-    [C_LEFT_KC_COLN] = COMBO(C_LEFT_KC_COLN_combo, KC_COLN),
+    [C_LEFT_KC_Z] = COMBO(C_LEFT_KC_Z_combo, KC_Z),
     [C_NAV_AKC_F12] = COMBO(C_NAV_AKC_F12_combo, A(KC_F12)),
     [C_NAV_CKC_A] = COMBO(C_NAV_CKC_A_combo, C(KC_A)),
     [C_NAV_CKC_B] = COMBO(C_NAV_CKC_B_combo, C(KC_B)),
@@ -365,10 +344,6 @@ combo_t key_combos[] = {
     [C_NAV_RCSKC_N] = COMBO(C_NAV_RCSKC_N_combo, RCS(KC_N)),
     [C_NAV_RCSKC_V] = COMBO(C_NAV_RCSKC_V_combo, RCS(KC_V)),
     [C_NAV_RCSKC_Z] = COMBO(C_NAV_RCSKC_Z_combo, RCS(KC_Z)),
-    [C_NAV_UMUMLAUT_S] = COMBO(C_NAV_UMUMLAUT_S_combo, UM(UMLAUT_s)),
-    [C_NAV_UPUMLAUT_AUMLAUT_A] = COMBO(C_NAV_UPUMLAUT_AUMLAUT_A_combo, UP(UMLAUT_a, UMLAUT_A)),
-    [C_NAV_UPUMLAUT_OUMLAUT_O] = COMBO(C_NAV_UPUMLAUT_OUMLAUT_O_combo, UP(UMLAUT_o, UMLAUT_O)),
-    [C_NAV_UPUMLAUT_UUMLAUT_U] = COMBO(C_NAV_UPUMLAUT_UUMLAUT_U_combo, UP(UMLAUT_u, UMLAUT_U)),
     [C_NUM_AKC_F1] = COMBO(C_NUM_AKC_F1_combo, A(KC_F1)),
     [C_NUM_CKC_G] = COMBO(C_NUM_CKC_G_combo, C(KC_G)),
     [C_NUM_LCAKC_L] = COMBO(C_NUM_LCAKC_L_combo, LCA(KC_L)),
@@ -377,14 +352,10 @@ combo_t key_combos[] = {
     [C_NUM_LSAKC_X] = COMBO(C_NUM_LSAKC_X_combo, LSA(KC_X)),
     [C_NUM_RCSKC_V] = COMBO(C_NUM_RCSKC_V_combo, RCS(KC_V)),
     [C_RIGHT_KC_AT] = COMBO(C_RIGHT_KC_AT_combo, KC_AT),
-    [C_RIGHT_KC_COMMA] = COMBO(C_RIGHT_KC_COMMA_combo, KC_COMMA),
-    [C_RIGHT_KC_DOT] = COMBO(C_RIGHT_KC_DOT_combo, KC_DOT),
-    [C_RIGHT_KC_EXLM_0] = COMBO(C_RIGHT_KC_EXLM_0_combo, KC_EXLM),
-    [C_RIGHT_KC_EXLM_1] = COMBO(C_RIGHT_KC_EXLM_1_combo, KC_EXLM),
+    [C_RIGHT_KC_BACKSLASH] = COMBO(C_RIGHT_KC_BACKSLASH_combo, KC_BACKSLASH),
+    [C_RIGHT_KC_EXLM] = COMBO(C_RIGHT_KC_EXLM_combo, KC_EXLM),
     [C_RIGHT_KC_GRAVE] = COMBO(C_RIGHT_KC_GRAVE_combo, KC_GRAVE),
-    [C_RIGHT_KC_QUES] = COMBO(C_RIGHT_KC_QUES_combo, KC_QUES),
-    [C_RIGHT_KC_QUOTE] = COMBO(C_RIGHT_KC_QUOTE_combo, KC_QUOTE),
-    [C_RIGHT_KC_SEMICOLON] = COMBO(C_RIGHT_KC_SEMICOLON_combo, KC_SEMICOLON),
+    [C_RIGHT_KC_J] = COMBO(C_RIGHT_KC_J_combo, KC_J),
     [C_RIGHT_RCSKC_F] = COMBO(C_RIGHT_RCSKC_F_combo, RCS(KC_F)),
     [C_RIGHT_RCSKC_R] = COMBO(C_RIGHT_RCSKC_R_combo, RCS(KC_R)),
     [SUB_1] = COMBO_ACTION(SUB_1_combo),
@@ -393,7 +364,6 @@ combo_t key_combos[] = {
     [SUB_12] = COMBO_ACTION(SUB_12_combo),
     [SUB_13] = COMBO_ACTION(SUB_13_combo),
     [SUB_14] = COMBO_ACTION(SUB_14_combo),
-    [SUB_15] = COMBO_ACTION(SUB_15_combo),
     [SUB_2] = COMBO_ACTION(SUB_2_combo),
     [SUB_3] = COMBO_ACTION(SUB_3_combo),
     [SUB_4] = COMBO_ACTION(SUB_4_combo),
@@ -409,10 +379,10 @@ uint16_t COMBO_LEN = ARRAY_SIZE(key_combos);
 uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {
     (void)combo;
     if (combo_index >= 0 && combo_index <= 28) return 50;
-    if (combo_index >= 29 && combo_index <= 98) return 300;
-    if (combo_index == 99) return 50;
-    if (combo_index >= 100 && combo_index <= 105) return 300;
-    if (combo_index >= 106 && combo_index <= 113) return 50;
+    if (combo_index >= 29 && combo_index <= 89) return 300;
+    if (combo_index == 90) return 50;
+    if (combo_index >= 91 && combo_index <= 95) return 300;
+    if (combo_index >= 96 && combo_index <= 103) return 50;
     return COMBO_TERM;
 }
 
@@ -463,17 +433,16 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     if (combo_index >= 21 && combo_index <= 23) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS;
     if (combo_index >= 24 && combo_index <= 25) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
     if (combo_index >= 26 && combo_index <= 28) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
-    if (combo_index >= 29 && combo_index <= 51) return active_layer == _FNSYM;
-    if (combo_index == 52) return active_layer == _LEFT;
-    if (combo_index >= 53 && combo_index <= 80) return active_layer == _NAV;
-    if (combo_index >= 81 && combo_index <= 87) return active_layer == _NUM;
-    if (combo_index >= 88 && combo_index <= 98) return active_layer == _RIGHT;
-    if (combo_index == 99) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
-    if (combo_index == 100) return active_layer == _LEFT;
-    if (combo_index == 101) return active_layer == _LMODS;
-    if (combo_index >= 102 && combo_index <= 105) return active_layer == _MEDIA;
-    if (combo_index >= 106 && combo_index <= 108) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
-    if (combo_index >= 109 && combo_index <= 113) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
+    if (combo_index >= 29 && combo_index <= 50) return active_layer == _FNSYM;
+    if (combo_index == 51) return active_layer == _LEFT;
+    if (combo_index >= 52 && combo_index <= 75) return active_layer == _NAV;
+    if (combo_index >= 76 && combo_index <= 82) return active_layer == _NUM;
+    if (combo_index >= 83 && combo_index <= 89) return active_layer == _RIGHT;
+    if (combo_index == 90) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
+    if (combo_index == 91) return active_layer == _LEFT;
+    if (combo_index >= 92 && combo_index <= 95) return active_layer == _MEDIA;
+    if (combo_index >= 96 && combo_index <= 98) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
+    if (combo_index >= 99 && combo_index <= 103) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
     return true;
 }
 
@@ -483,16 +452,14 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     case SUB_1:
         magic_decode_send(678); break; // "oh"
     case SUB_10:
-        magic_decode_send(769); break; // "qu"
-    case SUB_11:
         magic_decode_send(41); break; // "Qu"
-    case SUB_12:
+    case SUB_11:
         magic_decode_send(406); break; // "gregor.zeitlinger@grafana.com"
-    case SUB_13:
+    case SUB_12:
         magic_decode_send(36); break; // "LGTM"
+    case SUB_13:
+        magic_decode_send(984); break; // "zeitlinger@gmail.com"
     case SUB_14:
-        magic_decode_send(989); break; // "zeitlinger@gmail.com"
-    case SUB_15:
         magic_decode_send(426); break; // "gregor@zeitlinger.de"
     case SUB_2:
         magic_decode_send(44); break; // "aa"
