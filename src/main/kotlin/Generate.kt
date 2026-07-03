@@ -404,8 +404,9 @@ private fun suffixTapStatement(char: Char): String =
     }
 
 private fun magicCase(magic: MagicInfo): String {
-    val defaultBody = if (magic.trigger.key == "MAGIC_A") {
-        """
+    val defaultBody =
+        if (magic.trigger.key == "MAGIC_A") {
+            """
             if (context_keycode != KC_NO && !is_magic_keycode(context_keycode)) {
                 tap_code16(context_keycode);
                 magic_repeat_keycode = context_keycode;
@@ -417,17 +418,17 @@ private fun magicCase(magic: MagicInfo): String {
             SEND_STRING("]");
 #endif
             break;
-        """.trimIndent()
-    } else {
-        """
+            """.trimIndent()
+        } else {
+            """
 #ifdef TRACE_LOGIC
             SEND_STRING("[M0:");
             trace_keycode_label(magic_context_prepared);
             SEND_STRING("]");
 #endif
             break;
-        """.trimIndent()
-    }
+            """.trimIndent()
+        }
     return """
     case ${magic.trigger.key}: {
         if (allow_repeat && repeat_last_magic_key(${magic.trigger.key})) {
@@ -447,7 +448,7 @@ ${defaultBody.prependIndent("            ")}
         set_last_keycode(magic_remembered_keycode);
         return false;
     }
-    """.trimIndent()
+        """.trimIndent()
 }
 
 private fun magicRepeatCases(translator: QmkTranslator): String =

@@ -86,13 +86,11 @@ const uint16_t PROGMEM C_BASE_UPUMLAUT_OUMLAUT_O_combo[] = {KC_O, MO(_RIGHT), CO
 const uint16_t PROGMEM C_BASE_UPUMLAUT_UUMLAUT_U_combo[] = {KC_U, MO(_RIGHT), COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_AMPR_combo[] = {KC_C, KC_F, COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_ASTR_combo[] = {KC_N, KC_W, COMBO_END};
-const uint16_t PROGMEM C_FNSYM_KC_CIRC_combo[] = {DEAD1, KC_H, COMBO_END};
+const uint16_t PROGMEM C_FNSYM_KC_CIRC_combo[] = {KC_T, KC_D, COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_DLR_combo[] = {KC_S, MO(_RIGHT), COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_EQUAL_combo[] = {KC_H, MO(_FNSYM), COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_F11_combo[] = {KC_N, KC_L, COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_HASH_combo[] = {KC_I, KC_Y, COMBO_END};
-const uint16_t PROGMEM C_FNSYM_KC_KP_MINUS_combo[] = {DEAD3, KC_T, COMBO_END};
-const uint16_t PROGMEM C_FNSYM_KC_KP_PLUS_combo[] = {KC_T, KC_D, COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_LABK_combo[] = {KC_E, MAGIC_A, COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_LCBR_combo[] = {KC_O, MO(_FNSYM), COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_LGUI_combo[] = {DEAD2, KC_A, COMBO_END};
@@ -124,6 +122,8 @@ const uint16_t PROGMEM C_NAV_CKC_Y_combo[] = {KC_T, KC_D, COMBO_END};
 const uint16_t PROGMEM C_NAV_CKC_Z_combo[] = {MO(_NAV), MO(_RIGHT), COMBO_END};
 const uint16_t PROGMEM C_NAV_KC_END_combo[] = {KC_H, MO(_LEFT), COMBO_END};
 const uint16_t PROGMEM C_NAV_KC_HOME_combo[] = {KC_U, KC_A, COMBO_END};
+const uint16_t PROGMEM C_NAV_KC_KP_MINUS_combo[] = {MAGIC_B, KC_I, COMBO_END};
+const uint16_t PROGMEM C_NAV_KC_KP_PLUS_combo[] = {KC_E, MAGIC_A, COMBO_END};
 const uint16_t PROGMEM C_NAV_KC_PGDN_combo[] = {KC_O, KC_E, COMBO_END};
 const uint16_t PROGMEM C_NAV_KC_PGUP_combo[] = {KC_Y, KC_I, COMBO_END};
 const uint16_t PROGMEM C_NAV_LCAKC_B_combo[] = {KC_E, KC_A, COMBO_END};
@@ -139,9 +139,9 @@ const uint16_t PROGMEM C_NUM_LSAKC_S_combo[] = {KC_S, MO(_RIGHT), COMBO_END};
 const uint16_t PROGMEM C_NUM_LSAKC_X_combo[] = {KC_C, KC_X, COMBO_END};
 const uint16_t PROGMEM C_NUM_RCSKC_V_combo[] = {DEAD3, KC_T, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_KC_AT_combo[] = {KC_A, KC_U, COMBO_END};
-const uint16_t PROGMEM C_RIGHT_KC_BACKSLASH_combo[] = {KC_I, MAGIC_B, COMBO_END};
+const uint16_t PROGMEM C_RIGHT_KC_BACKSLASH_combo[] = {MAGIC_B, KC_I, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_KC_EXLM_combo[] = {KC_E, KC_O, COMBO_END};
-const uint16_t PROGMEM C_RIGHT_KC_GRAVE_combo[] = {DEAD2, KC_A, COMBO_END};
+const uint16_t PROGMEM C_RIGHT_KC_GRAVE_combo[] = {KC_I, KC_Y, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_KC_J_combo[] = {MO(_LEFT), KC_H, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_RCSKC_F_combo[] = {KC_N, KC_L, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_RCSKC_R_combo[] = {KC_T, KC_D, COMBO_END};
@@ -197,8 +197,6 @@ enum combos {
     C_FNSYM_KC_EQUAL,
     C_FNSYM_KC_F11,
     C_FNSYM_KC_HASH,
-    C_FNSYM_KC_KP_MINUS,
-    C_FNSYM_KC_KP_PLUS,
     C_FNSYM_KC_LABK,
     C_FNSYM_KC_LCBR,
     C_FNSYM_KC_LGUI,
@@ -230,6 +228,8 @@ enum combos {
     C_NAV_CKC_Z,
     C_NAV_KC_END,
     C_NAV_KC_HOME,
+    C_NAV_KC_KP_MINUS,
+    C_NAV_KC_KP_PLUS,
     C_NAV_KC_PGDN,
     C_NAV_KC_PGUP,
     C_NAV_LCAKC_B,
@@ -304,8 +304,6 @@ combo_t key_combos[] = {
     [C_FNSYM_KC_EQUAL] = COMBO(C_FNSYM_KC_EQUAL_combo, KC_EQUAL),
     [C_FNSYM_KC_F11] = COMBO(C_FNSYM_KC_F11_combo, KC_F11),
     [C_FNSYM_KC_HASH] = COMBO(C_FNSYM_KC_HASH_combo, KC_HASH),
-    [C_FNSYM_KC_KP_MINUS] = COMBO(C_FNSYM_KC_KP_MINUS_combo, KC_KP_MINUS),
-    [C_FNSYM_KC_KP_PLUS] = COMBO(C_FNSYM_KC_KP_PLUS_combo, KC_KP_PLUS),
     [C_FNSYM_KC_LABK] = COMBO(C_FNSYM_KC_LABK_combo, KC_LABK),
     [C_FNSYM_KC_LCBR] = COMBO(C_FNSYM_KC_LCBR_combo, KC_LCBR),
     [C_FNSYM_KC_LGUI] = COMBO(C_FNSYM_KC_LGUI_combo, KC_LGUI),
@@ -337,6 +335,8 @@ combo_t key_combos[] = {
     [C_NAV_CKC_Z] = COMBO(C_NAV_CKC_Z_combo, C(KC_Z)),
     [C_NAV_KC_END] = COMBO(C_NAV_KC_END_combo, KC_END),
     [C_NAV_KC_HOME] = COMBO(C_NAV_KC_HOME_combo, KC_HOME),
+    [C_NAV_KC_KP_MINUS] = COMBO(C_NAV_KC_KP_MINUS_combo, KC_KP_MINUS),
+    [C_NAV_KC_KP_PLUS] = COMBO(C_NAV_KC_KP_PLUS_combo, KC_KP_PLUS),
     [C_NAV_KC_PGDN] = COMBO(C_NAV_KC_PGDN_combo, KC_PGDN),
     [C_NAV_KC_PGUP] = COMBO(C_NAV_KC_PGUP_combo, KC_PGUP),
     [C_NAV_LCAKC_B] = COMBO(C_NAV_LCAKC_B_combo, LCA(KC_B)),
@@ -433,9 +433,9 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     if (combo_index >= 21 && combo_index <= 23) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS;
     if (combo_index >= 24 && combo_index <= 25) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
     if (combo_index >= 26 && combo_index <= 28) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
-    if (combo_index >= 29 && combo_index <= 50) return active_layer == _FNSYM;
-    if (combo_index == 51) return active_layer == _LEFT;
-    if (combo_index >= 52 && combo_index <= 75) return active_layer == _NAV;
+    if (combo_index >= 29 && combo_index <= 48) return active_layer == _FNSYM;
+    if (combo_index == 49) return active_layer == _LEFT;
+    if (combo_index >= 50 && combo_index <= 75) return active_layer == _NAV;
     if (combo_index >= 76 && combo_index <= 82) return active_layer == _NUM;
     if (combo_index >= 83 && combo_index <= 89) return active_layer == _RIGHT;
     if (combo_index == 90) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;

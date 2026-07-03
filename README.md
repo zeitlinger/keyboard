@@ -71,14 +71,14 @@ Currently unused features:
 regenerate with `mise run generate`.*
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
-|:-----:| :-----: |:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
+| :---: | :-----: | :-----: | :-----: | :-----: | :-----: |:-------:| :-----: | :-----: |
 | Base  |   esc   |    x    |    w    |  dead3  |  dead2  | magic_a | magic_b |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | \*Right |    f    |    l    |    d    |    u    |    o    |    y    | \*Left  |
 | Base  |         |         |  \*Nav  |    r    |   spc   | \*FnSym |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |         |         |         |         |         |         |
-| Base  |    ß    |   "oh"  |  bspc   |    "    |  "aa"   |         |         |         |
+| Base  |    ß    |  "oh"   |  bspc   |    "    |  "aa"   |         |         |         |
 | Base  |         |         |  "lm"   |  "qu"   |    ,    |    .    |         |   💎L   |
 | Base  |         |         |         |    q    |    j    |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -107,12 +107,12 @@ regenerate with `mise run generate`.*
 | Base  | magic_g |         |         |         |         |         |         | magic_k |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right |         |         |         |         |  dead3  |         |    Q    |         |
+| Right |         |         |         |         |  dead3  |  .spc   |    Q    |         |
 | Right |         |   C-n   |   C-f   |   C-r   |         |         |         |         |
 | Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |   \_    |
 | Right |         |         |  A-f7   |  \*Vim  |    [    |    ]    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right |         |         |         |         |    `    |         |         |         |
+| Right |         |         |         |         |         |         |         |         |
 | Right |         |         |         |   💎    |   💎    |         |         |         |
 | Right |         |         |         |  CS-r   |    @    |         |         |         |
 | Right |         |         |         |         |         |         |         |         |
@@ -124,7 +124,7 @@ regenerate with `mise run generate`.*
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |         |         |    \    |         |
 | Right |         |         |         |         |         |         |   💎    |         |
-| Right |         |         |         |         |         |         |         |         |
+| Right |         |         |         |         |         |         |    `    |         |
 | Right |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |         |         |         |         |
@@ -152,9 +152,9 @@ regenerate with `mise run generate`.*
 | FnSym |   f8    |   f7    |   f6    |   f5    |    -    |    {    |    }    |  \*Num  |
 | FnSym |         |         |         |   f12   |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| FnSym |         |         |         |    ➖    |   win   |         |         |         |
+| FnSym |         |         |         |         |   win   |         |         |         |
 | FnSym |         |         |         |   💎    |   💎    |         |         |         |
-| FnSym |         |         |         |    ➕    |    ~    |         |         |         |
+| FnSym |         |         |         |   ^      |    ~    |         |         |         |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |         |         |   \*    |         |         |    <    |         |         |
@@ -167,14 +167,14 @@ regenerate with `mise run generate`.*
 | FnSym |         |    &    |         |         |         |         |    #    |         |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| FnSym |         |         |         |         |         |         |         |    ^    |
+| FnSym |         |         |         |         |         |         |         |         |
 | FnSym |   💎    |         |         |         |         |         |         |   💎    |
 | FnSym |    $    |         |         |         |         |         |         |    %    |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |  dead3  |   C-x   |   C-v   |  CS-z   |  dead1  |   esc   |   ins   |  dead2  |
 |  Nav  |   C-c   |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬇️    |   ⬆️    |   ➡️    |
-|  Nav  |   C-z   |   C-w   | tab ➡️  | win ➡️  |   ↩️️   |  bspc   |   del   |   tab   |
+|  Nav  |   C-z   |   C-w   | tab ➡️  | win ➡️  |   ↩️️    |  bspc   |   del   |   tab   |
 |  Nav  |         |         |   🛑    |   🛑    |   spc   |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |         |         |         |  CS-v   |         |         |         |         |
@@ -182,12 +182,12 @@ regenerate with `mise run generate`.*
 |  Nav  |         |         |         |   C-y   |  ⬅️⬅️   |         |         |         |
 |  Nav  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav  |         |         |   C-a   |         |         |         |         |         |
+|  Nav  |         |         |   C-a   |         |         |    ➕    |         |         |
 |  Nav  |         |         |   💎    |         |         |   💎    |         |         |
 |  Nav  |         |         |   C-d   |         |         |  ⬇️⬇️   |         |         |
 |  Nav  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav  |         |  CS-n   |         |         |         |         |         |         |
+|  Nav  |         |  CS-n   |         |         |         |         |   ➖    |         |
 |  Nav  |         |   💎    |         |         |         |         |   💎    |         |
 |  Nav  |         |   C-k   |         |         |         |         |  ⬆️⬆️   |         |
 |  Nav  |         |         |         |         |         |         |         |         |
@@ -339,7 +339,7 @@ Cell = what to emit.
 - Orderded by hand - thumbs last.
 
 | Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |  magic_h   |  magic_i  | magic_j |  magic_k  |
-| :----: |:----------:|:----------:| :-------: |:-----------:|:-------------:| :--------: | :-----: | :--------: | :-------: | :-----: | :-------: |
+| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :--------: | :-------: | :-----: | :-------: |
 | suffix |     ed     |     s      |           |     n't     |       ?       |            |  ", "   |   [next]   |  " the "  |  ". "   |    ly     |
 |   b    | background |     h      |           |   become    | observability |            |         | basically  |  because  |    d    |  before   |
 |   c    |   "'ll "   |   "'s "    |           |   "n't "    |    "'ve "     |  comment   |         |     n      |  "'re "   |    d    |   "'d "   |
@@ -447,7 +447,7 @@ trailing auto-space.
 Exact-match symbol tokens such as `#g`, `#G`, and `#GL` must be declared here.
 
 | Symbol  | Command                       |
-| ------- | ----------------------------- |
+| ------- |-------------------------------|
 | ⬅️      | KC_LEFT                       |
 | ⬅️⬅️    | KC_HOME                       |
 | ⬇️      | KC_DOWN                       |
@@ -494,6 +494,7 @@ Exact-match symbol tokens such as `#g`, `#G`, and `#GL` must be declared here.
 | magic_k | magic:MAGIC_K                 |
 | tab ➡️  | custom:NEXT_TAB NoHold        |
 | win ➡️  | custom:NEXT_WINDOW NoHold     |
+| .spc    | custom:DOT_SPC                |
 | ing     | custom:ING                    |
 | ver     | custom:PRINT_VERSION          |
 | CapW    | custom:CAPS_WORDS             |
@@ -516,7 +517,7 @@ Exact-match symbol tokens such as `#g`, `#G`, and `#GL` must be declared here.
 The order of the options is also the order of the layers in the layer stack.
 
 | LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags            |
-|:------------:| :-------------: | :-------------: | :-----------: |:--------------:|------------------|
+| :----------: | :-------------: | :-------------: | :-----------: | :------------: | ---------------- |
 |     Base     |                 |                 |               |                |                  |
 |     Left     |                 | BottomRow+LMods |     Base      |                | Shifted          |
 |    Right     | BottomRow+RMods |                 |               |      Base      | Shifted          |
