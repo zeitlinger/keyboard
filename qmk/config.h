@@ -10,7 +10,7 @@
 #define COMBO_TERM 50
 #define COMBO_TERM_PER_COMBO
 #define COMBO_MUST_PRESS_IN_ORDER_PER_COMBO
-#define COMBO_COUNT 113
+#define COMBO_COUNT 114
 #define COMBO_SHOULD_TRIGGER
 // Optional prototype path for migrating one combo at a time to a custom
 // position-based matcher. Leave disabled unless actively testing.
@@ -28,8 +28,8 @@
 #define UNICODE_SELECTED_MODES UNICODE_MODE_LINUX
 
 #define TRI_LAYER_LOWER_LAYER 1
-#define TRI_LAYER_UPPER_LAYER 6
-#define TRI_LAYER_ADJUST_LAYER 7
+#define TRI_LAYER_UPPER_LAYER 7
+#define TRI_LAYER_ADJUST_LAYER 8
 
 #undef LOCKING_SUPPORT_ENABLE
 #undef LOCKING_RESYNC_ENABLE

@@ -71,19 +71,19 @@ Currently unused features:
 regenerate with `mise run generate`.*
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
-| :---: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
+|:-----:| :-----: |:-------:| :-----: |:-------:|:-------:|:-------:|:-------:|:-------:|
 | Base  |   esc   |    x    |    w    |  dead3  |  dead2  | magic_a | magic_b |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | \*Right |    f    |    l    |    d    |    u    |    o    |    y    | \*Left  |
 | Base  |         |         |  \*Nav  |    r    |   spc   | \*FnSym |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |         |         |         |         |         |         |
-| Base  |    ß    |         |  bspc   |    "    |  "aa"   |         |         |         |
+| Base  |    ß    |   "oh"  |  bspc   |    "    |  "aa"   |         |         |         |
 | Base  |         |         |  "lm"   |  "qu"   |    ,    |    .    |         |   💎L   |
 | Base  |         |         |         |    q    |    j    |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |         |         |         |         |         |         |
-| Base  |         |         |         |         |    ä    |  "eh"   |  "oe"   |  "oh"   |
+| Base  |         |         |         |         |    ä    |  "eh"   |  "oe"   |  "hy"   |
 | Base  |   💎L   |         |  "lk"   |    ?    |    ü    |    ö    |  "eu"   |         |
 | Base  |         |         |         |    z    |    '    |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -108,9 +108,9 @@ regenerate with `mise run generate`.*
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |  dead1  |         |  dead3  |    "    |    q    |         |
-| Right |         |         |   C-f   |   C-r   |         |         |         |         |
+| Right |         |   C-n   |   C-f   |   C-r   |         |         |         |         |
 | Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |    j    |
-| Right |         |         |  A-f7   |   C-n   |    [    |    ]    |         |         |
+| Right |         |         |  A-f7   |  \*Vim  |    [    |    ]    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |    @    |         |         |         |
 | Right |         |         |         |   💎    |   💎    |         |         |         |
@@ -162,9 +162,9 @@ regenerate with `mise run generate`.*
 | FnSym |   f8    |   f7    |   f6    |   f5    |    -    |    {    |    }    |  \*Num  |
 | FnSym |         |         |         |   f12   |   🛑    |   🛑    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| FnSym |         |         |         |   ➖    |   win   |         |         |         |
+| FnSym |         |         |         |    ➖    |   win   |         |         |         |
 | FnSym |         |         |         |   💎    |   💎    |         |         |         |
-| FnSym |         |         |         |   ➕    |    ~    |         |         |         |
+| FnSym |         |         |         |    ➕    |    ~    |         |         |         |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |         |         |   \*    |         |         |    <    |         |         |
@@ -184,7 +184,7 @@ regenerate with `mise run generate`.*
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |  dead3  |   C-x   |   C-v   |  CS-z   |  dead1  |   esc   |   ins   |  dead2  |
 |  Nav  |   C-c   |   🛑    |   🛑    |   🛑    |   ⬅️    |   ⬇️    |   ⬆️    |   ➡️    |
-|  Nav  |   C-z   |   C-w   | tab ➡️  | win ➡️  |   ↩️️    |  bspc   |   del   |   tab   |
+|  Nav  |   C-z   |   C-w   | tab ➡️  | win ➡️  |   ↩️️   |  bspc   |   del   |   tab   |
 |  Nav  |         |         |   🛑    |   🛑    |   spc   |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |         |         |         |  CS-v   |    ü    |         |         |         |
@@ -226,6 +226,11 @@ regenerate with `mise run generate`.*
 |  Nav  |         |         |         |         |         |         |         |         |
 |  Nav  |         |         |         |         |   C-p   |         |   💎    |         |
 |  Nav  |         |         |         |         |         |         |         |         |
+|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+|  Vim  |         |         |         |         |         |         |         |         |
+|  Vim  |         |         |         |         |    h    |    j    |    k    |    l    |
+|  Vim  |         |         |         |         |         |         |         |         |
+|  Vim  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Num  |  dead1  |    ,    |    9    |  dead2  |         |         |         |         |
 |  Num  |    4    |    3    |    2    |    1    |         |         |         |         |
@@ -342,7 +347,7 @@ Cell = what to emit.
 - Orderded by hand - thumbs last.
 
 | Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |  magic_h   |  magic_i  | magic_j |  magic_k  |
-| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :-----: | :--------: | :-------: | :-----: | :-------: |
+| :----: | :--------: | :--------: | :-------: |:-----------:| :-----------: | :--------: | :-----: | :--------: | :-------: | :-----: | :-------: |
 | suffix |     ed     |     s      |           |     n't     |       ?       |            |  ", "   |   [next]   |  " the "  |  ". "   |    ly     |
 |   b    | background |     h      |           |   become    | observability |            |         | basically  |  because  |    d    |  before   |
 |   c    |   "'ll "   |   "'s "    |           |   "n't "    |    "'ve "     |  comment   |         |     n      |  "'re "   |    d    |   "'d "   |
@@ -370,7 +375,7 @@ Cell = what to emit.
 | enter  |            |            |           |             |               |            |         |    and     |    the    |         |           |
 |   ,    |            |            |           |             |               |            |         |  " and "   |  " but "  |         |           |
 |  spc   |            |            | [dotSpc]  |             |               |            |   ⌫z    |    and     |    the    |         |           |
-|   r    |     "      |     ⌫q     |           |   ⌫"n't "   |      ⌫?       |     x      |   ⌫!    |     ⌫'     |    ⌫,     |   ⌫.    |    ⌫j     |
+|   r    |     "      |     ⌫q     |           |             |      ⌫?       |     x      |   ⌫!    |     ⌫'     |    ⌫,     |   ⌫.    |    ⌫j     |
 
 ## Adaptive keys
 
@@ -518,13 +523,14 @@ Exact-match symbol tokens such as `#g`, `#G`, and `#GL` must be declared here.
 The order of the options is also the order of the layers in the layer stack.
 
 | LayerOptions | Modifiers Left  | Modifiers Right | Fallback Left | Fallback Right | Flags            |
-| :----------: | :-------------: | :-------------: | :-----------: | :------------: | ---------------- |
+|:------------:| :-------------: | :-------------: | :-----------: |:--------------:|------------------|
 |     Base     |                 |                 |               |                |                  |
 |     Left     |                 | BottomRow+LMods |     Base      |                | Shifted          |
 |    Right     | BottomRow+RMods |                 |               |      Base      | Shifted          |
 |    LMods     |                 | BottomRow+LMods |     Base      |                |                  |
 |    RMods     | BottomRow+RMods |                 |               |      Base      |                  |
 |     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |
+|     Vim      |     HomeRow     |                 |               |      Nav       |                  |
 |    FnSym     |                 |     HomeRow     |               |                | DirectComboRight |
 |     Num      |                 |    BottomRow    |               |                | TriLayer         |
 |     ANum     |                 |                 |               |                |                  |
