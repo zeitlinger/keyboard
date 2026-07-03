@@ -349,14 +349,14 @@ Cell = what to emit.
 - Orderded by hand - thumbs last.
 
 | Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |  magic_h   |  magic_i  | magic_j |  magic_k  |
-| :----: | :--------: | :--------: | :-------: |:-----------:| :-----------: | :--------: | :-----: | :--------: | :-------: | :-----: | :-------: |
+| :----: |:----------:|:----------:| :-------: |:-----------:|:-------------:| :--------: | :-----: | :--------: | :-------: | :-----: | :-------: |
 | suffix |     ed     |     s      |           |     n't     |       ?       |            |  ", "   |   [next]   |  " the "  |  ". "   |    ly     |
 |   b    | background |     h      |           |   become    | observability |            |         | basically  |  because  |    d    |  before   |
 |   c    |   "'ll "   |   "'s "    |           |   "n't "    |    "'ve "     |  comment   |         |     n      |  "'re "   |    d    |   "'d "   |
 |   d    |     f      |     h      |           |    don't    |    disable    | difficulty |         |   didn't   |  doesn't  |    c    |   does    |
 |   f    | confusing  |     h      |           | performance |    merged     |            |         |  focused   | following |    d    | conflict  |
 |   g    |     f      |     t      |           |   suggest   |    change     |            |         |  generate  |     k     |    d    |   goes    |
-|   k    |     r      |  question  |           |    think    |     task      |   thanks   |         |   update   |   know    |    x    |   knew    |
+|   k    |     y      |     h      |           |    think    |   question    |   thanks   |         |   update   |   know    |    x    |   knew    |
 |   l    |     r      |     h      |           |  language   |    already    | available  |         |     n      |     m     |    c    |     b     |
 |   m    |     r      |     h      |           |   migrate   |   multiple    |  mismatch  |         | instrument |  "ment"   |    l    |     v     |
 |   n    |     r      |     h      |           |    never    |   anything    |  explain   |         | understand |   won't   |    x    |     p     |
@@ -398,7 +398,8 @@ Cell = what to emit.
 |     g     |   d   |   n    |
 |     g     |   f   |   l    |
 |     g     |   t   |   g    |
-|     k     |   r   |   n    |
+|     k     |   h   |   n    |
+|     k     |   y   |   t    |
 |     l     |   b   |   w    |
 |     l     |   h   |   p    |
 |     l     |   r   |   l    |
