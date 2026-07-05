@@ -105,9 +105,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                          KC_COLN,              S(KC_R),            MO(_ANUM),             MO(_NUM)),
 	[_RIGHT] = LAYOUT_split_3x5_2(
                            KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                DEAD3,              S(KC_J),              S(KC_Q),             S(DEAD1),
-                           KC_NO,              C(KC_N),              C(KC_F),              C(KC_R), KC_NO, KC_NO,              S(KC_A),              S(KC_E),              S(KC_I),              S(KC_H),
+                           KC_NO,             A(KC_F7),              C(KC_F),              C(KC_R), KC_NO, KC_NO,              S(KC_A),              S(KC_E),              S(KC_I),              S(KC_H),
                            KC_NO, LM(_RMODS, MOD_LALT), LM(_RMODS, MOD_LCTL), LM(_RMODS, MOD_LSFT), KC_NO, KC_NO,              S(KC_U),              S(KC_O),              S(KC_Y),              KC_UNDS,
-                                        A(KC_F7),             MO(_VIM),      KC_LEFT_BRACKET,     KC_RIGHT_BRACKET),
+                                        MO(_VIM),              C(KC_N),      KC_LEFT_BRACKET,     KC_RIGHT_BRACKET),
 	[_LMODS] = LAYOUT_split_3x5_2(
                           KC_ESC,                 KC_X,                 KC_W,                DEAD3, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
                             KC_S,                 KC_C,                 KC_N,                 KC_T, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
