@@ -71,21 +71,21 @@ Currently unused features:
 regenerate with `mise run generate`.*
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
-| :---: | :-----: | :-----: | :-----: | :-----: | :-----: |:-------:| :-----: | :-----: |
+| :---: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
 | Base  |   esc   |    x    |    w    |  dead3  |  dead2  | magic_a | magic_b |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | \*Right |    f    |    l    |    d    |    u    |    o    |    y    | \*Left  |
 | Base  |         |         |  \*Nav  |    r    |   spc   | \*FnSym |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |         |         |         |         |         |         |
-| Base  |    ß    |  "oh"   |  bspc   |    "    |  "aa"   |         |         |         |
-| Base  |         |         |  "lm"   |  "qu"   |    ,    |    .    |         |   💎L   |
-| Base  |         |         |         |    q    |    j    |         |         |         |
+| Base  |    '    |    .    |    ,    |  bspc   |  "aa"   |  "eu"   |         |         |
+| Base  |         |    ?    |    "    |   ↩️️    |  "uh"   |  "oe"   |         |   💎L   |
+| Base  |         |         |         |    j    |    q    |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |         |         |         |         |         |         |
-| Base  |         |         |         |         |    ä    |  "eh"   |  "oe"   |  "hy"   |
-| Base  |   💎L   |         |  "lk"   |    ?    |    ü    |    ö    |  "eu"   |         |
-| Base  |         |         |         |    z    |    '    |         |         |         |
+| Base  |         |         |    ß    |    ä    |  "ae"   |  "eh"   |         |  "hy"   |
+| Base  |   💎L   |         |    ö    |    ü    |         |  "oh"   |  "yr"   |         |
+| Base  |         |         |         |  "qu"   |    z    |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |         |    v    |   ing   |         |         |         |
 | Base  |         |         |         |   💎    |   💎    |         |         |         |
@@ -154,7 +154,7 @@ regenerate with `mise run generate`.*
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |         |         |         |         |   win   |         |         |         |
 | FnSym |         |         |         |   💎    |   💎    |         |         |         |
-| FnSym |         |         |         |   ^      |    ~    |         |         |         |
+| FnSym |         |         |         |    ^    |    ~    |         |         |         |
 | FnSym |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |         |         |   \*    |         |         |    <    |         |         |
@@ -182,7 +182,7 @@ regenerate with `mise run generate`.*
 |  Nav  |         |         |         |   C-y   |  ⬅️⬅️   |         |         |         |
 |  Nav  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav  |         |         |   C-a   |         |         |    ➕    |         |         |
+|  Nav  |         |         |   C-a   |         |         |   ➕    |         |         |
 |  Nav  |         |         |   💎    |         |         |   💎    |         |         |
 |  Nav  |         |         |   C-d   |         |         |  ⬇️⬇️   |         |         |
 |  Nav  |         |         |         |         |         |         |         |         |
@@ -356,13 +356,13 @@ Cell = what to emit.
 |   v    |  validate  | everything |           |   improve   |    version    |            |         |  approval  |  resolve  |         |   worse   |
 |   w    |   always   |   wasn't   |           |    work     |   otherwise   |   switch   |         |    why     |     s     |    x    |   which   |
 |   x    |     r      |     h      |           |   except    |   explicit    |  exclude   |         |    exit    |     w     |         |  example  |
-|   a    |            |            |  address  |             |               |            |    e    |            |           |         |           |
-|   e    |            |            |     u     |             |               |            |    h    |            |           |         |           |
+|   a    |            |            |  address  |             |               |            |         |            |           |         |           |
+|   e    |            |            |           |             |               |            |         |            |           |         |           |
 |   i    |            |            | implement |             |               |            |   I'm   |            |           |         |           |
-|   h    |            |            |           |             |               |            |  "qu"   |            |           |         |           |
-|   u    |            |            |           |             |               |            |    h    |            |           |         |           |
-|   o    |            |            |     e     |             |               |            |    h    |            |           |         |           |
-|   y    |            |            |     r     |             |               |            |  only   |            |           |         |           |
+|   h    |            |            |           |             |               |            |         |            |           |         |           |
+|   u    |            |            |           |             |               |            |         |            |           |         |           |
+|   o    |            |            |           |             |               |            |         |            |           |         |           |
+|   y    |            |            |           |             |               |            |  only   |            |           |         |           |
 |  tab   |            |            |           |             |               |            |         |    and     |    the    |         |           |
 | enter  |            |            |           |             |               |            |         |    and     |    the    |         |           |
 |   ,    |            |            |           |             |               |            |         |  " and "   |  " but "  |         |           |
@@ -447,7 +447,7 @@ trailing auto-space.
 Exact-match symbol tokens such as `#g`, `#G`, and `#GL` must be declared here.
 
 | Symbol  | Command                       |
-| ------- |-------------------------------|
+| ------- | ----------------------------- |
 | ⬅️      | KC_LEFT                       |
 | ⬅️⬅️    | KC_HOME                       |
 | ⬇️      | KC_DOWN                       |

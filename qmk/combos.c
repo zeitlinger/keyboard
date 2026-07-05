@@ -57,20 +57,21 @@ static void combo_tap_logical(uint16_t keycode) {
 
 const uint16_t PROGMEM C_BASE_ING_combo[] = {DEAD2, KC_A, COMBO_END};
 const uint16_t PROGMEM C_BASE_KC_B_combo[] = {KC_C, KC_F, COMBO_END};
-const uint16_t PROGMEM C_BASE_KC_BSPC_combo[] = {KC_N, MO(_LEFT), COMBO_END};
-const uint16_t PROGMEM C_BASE_KC_COMMA_combo[] = {KC_U, MO(_LEFT), COMBO_END};
-const uint16_t PROGMEM C_BASE_KC_DOT_combo[] = {KC_O, MO(_LEFT), COMBO_END};
-const uint16_t PROGMEM C_BASE_KC_DQUO_combo[] = {KC_T, MO(_LEFT), COMBO_END};
+const uint16_t PROGMEM C_BASE_KC_BSPC_combo[] = {KC_T, MO(_LEFT), COMBO_END};
+const uint16_t PROGMEM C_BASE_KC_COMMA_combo[] = {KC_N, MO(_LEFT), COMBO_END};
+const uint16_t PROGMEM C_BASE_KC_DOT_combo[] = {KC_C, MO(_LEFT), COMBO_END};
+const uint16_t PROGMEM C_BASE_KC_DQUO_combo[] = {KC_L, MO(_LEFT), COMBO_END};
+const uint16_t PROGMEM C_BASE_KC_ENT_combo[] = {KC_D, MO(_LEFT), COMBO_END};
 const uint16_t PROGMEM C_BASE_KC_G_combo[] = {KC_L, KC_N, COMBO_END};
-const uint16_t PROGMEM C_BASE_KC_J_combo[] = {KC_SPC, MO(_LEFT), COMBO_END};
+const uint16_t PROGMEM C_BASE_KC_J_combo[] = {KC_R, MO(_LEFT), COMBO_END};
 const uint16_t PROGMEM C_BASE_KC_K_combo[] = {KC_D, KC_T, COMBO_END};
 const uint16_t PROGMEM C_BASE_KC_M_combo[] = {KC_N, KC_W, COMBO_END};
 const uint16_t PROGMEM C_BASE_KC_P_combo[] = {KC_C, KC_X, COMBO_END};
-const uint16_t PROGMEM C_BASE_KC_Q_combo[] = {KC_R, MO(_LEFT), COMBO_END};
-const uint16_t PROGMEM C_BASE_KC_QUES_combo[] = {KC_D, MO(_RIGHT), COMBO_END};
-const uint16_t PROGMEM C_BASE_KC_QUOTE_combo[] = {KC_SPC, MO(_RIGHT), COMBO_END};
+const uint16_t PROGMEM C_BASE_KC_Q_combo[] = {KC_SPC, MO(_LEFT), COMBO_END};
+const uint16_t PROGMEM C_BASE_KC_QUES_combo[] = {KC_F, MO(_LEFT), COMBO_END};
+const uint16_t PROGMEM C_BASE_KC_QUOTE_combo[] = {KC_S, MO(_LEFT), COMBO_END};
 const uint16_t PROGMEM C_BASE_KC_V_combo[] = {DEAD3, KC_T, COMBO_END};
-const uint16_t PROGMEM C_BASE_KC_Z_combo[] = {KC_R, MO(_RIGHT), COMBO_END};
+const uint16_t PROGMEM C_BASE_KC_Z_combo[] = {KC_SPC, MO(_RIGHT), COMBO_END};
 const uint16_t PROGMEM C_BASE_MAGIC_C_combo[] = {KC_ESC, KC_S, COMBO_END};
 const uint16_t PROGMEM C_BASE_MAGIC_D_combo[] = {KC_E, MAGIC_A, COMBO_END};
 const uint16_t PROGMEM C_BASE_MAGIC_E_combo[] = {KC_I, MAGIC_B, COMBO_END};
@@ -80,10 +81,10 @@ const uint16_t PROGMEM C_BASE_MAGIC_H_combo[] = {KC_A, KC_U, COMBO_END};
 const uint16_t PROGMEM C_BASE_MAGIC_I_combo[] = {KC_E, KC_O, COMBO_END};
 const uint16_t PROGMEM C_BASE_MAGIC_J_combo[] = {KC_I, KC_Y, COMBO_END};
 const uint16_t PROGMEM C_BASE_MAGIC_K_combo[] = {KC_H, MO(_LEFT), COMBO_END};
-const uint16_t PROGMEM C_BASE_UMUMLAUT_S_combo[] = {KC_S, MO(_LEFT), COMBO_END};
-const uint16_t PROGMEM C_BASE_UPUMLAUT_AUMLAUT_A_combo[] = {KC_A, MO(_RIGHT), COMBO_END};
-const uint16_t PROGMEM C_BASE_UPUMLAUT_OUMLAUT_O_combo[] = {KC_O, MO(_RIGHT), COMBO_END};
-const uint16_t PROGMEM C_BASE_UPUMLAUT_UUMLAUT_U_combo[] = {KC_U, MO(_RIGHT), COMBO_END};
+const uint16_t PROGMEM C_BASE_UMUMLAUT_S_combo[] = {KC_N, MO(_RIGHT), COMBO_END};
+const uint16_t PROGMEM C_BASE_UPUMLAUT_AUMLAUT_A_combo[] = {KC_T, MO(_RIGHT), COMBO_END};
+const uint16_t PROGMEM C_BASE_UPUMLAUT_OUMLAUT_O_combo[] = {KC_L, MO(_RIGHT), COMBO_END};
+const uint16_t PROGMEM C_BASE_UPUMLAUT_UUMLAUT_U_combo[] = {KC_D, MO(_RIGHT), COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_AMPR_combo[] = {KC_C, KC_F, COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_ASTR_combo[] = {KC_N, KC_W, COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_CIRC_combo[] = {KC_T, KC_D, COMBO_END};
@@ -145,19 +146,20 @@ const uint16_t PROGMEM C_RIGHT_KC_GRAVE_combo[] = {KC_I, KC_Y, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_KC_J_combo[] = {MO(_LEFT), KC_H, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_RCSKC_F_combo[] = {KC_N, KC_L, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_RCSKC_R_combo[] = {KC_T, KC_D, COMBO_END};
-const uint16_t PROGMEM SUB_1_combo[] = {KC_C, MO(_LEFT), COMBO_END};
-const uint16_t PROGMEM SUB_10_combo[] = {KC_ESC, KC_S, COMBO_END};
-const uint16_t PROGMEM SUB_11_combo[] = {KC_D, KC_T, COMBO_END};
-const uint16_t PROGMEM SUB_12_combo[] = {KC_W, KC_N, COMBO_END};
-const uint16_t PROGMEM SUB_13_combo[] = {KC_L, KC_N, COMBO_END};
-const uint16_t PROGMEM SUB_14_combo[] = {KC_F, KC_C, COMBO_END};
-const uint16_t PROGMEM SUB_2_combo[] = {KC_A, MO(_LEFT), COMBO_END};
-const uint16_t PROGMEM SUB_3_combo[] = {KC_L, MO(_LEFT), COMBO_END};
-const uint16_t PROGMEM SUB_4_combo[] = {KC_D, MO(_LEFT), COMBO_END};
-const uint16_t PROGMEM SUB_5_combo[] = {KC_E, MO(_RIGHT), COMBO_END};
-const uint16_t PROGMEM SUB_6_combo[] = {KC_I, MO(_RIGHT), COMBO_END};
+const uint16_t PROGMEM SUB_1_combo[] = {KC_A, MO(_LEFT), COMBO_END};
+const uint16_t PROGMEM SUB_10_combo[] = {KC_R, MO(_RIGHT), COMBO_END};
+const uint16_t PROGMEM SUB_11_combo[] = {KC_ESC, KC_S, COMBO_END};
+const uint16_t PROGMEM SUB_12_combo[] = {KC_D, KC_T, COMBO_END};
+const uint16_t PROGMEM SUB_13_combo[] = {KC_W, KC_N, COMBO_END};
+const uint16_t PROGMEM SUB_14_combo[] = {KC_L, KC_N, COMBO_END};
+const uint16_t PROGMEM SUB_15_combo[] = {KC_F, KC_C, COMBO_END};
+const uint16_t PROGMEM SUB_2_combo[] = {KC_E, MO(_LEFT), COMBO_END};
+const uint16_t PROGMEM SUB_3_combo[] = {KC_U, MO(_LEFT), COMBO_END};
+const uint16_t PROGMEM SUB_4_combo[] = {KC_O, MO(_LEFT), COMBO_END};
+const uint16_t PROGMEM SUB_5_combo[] = {KC_A, MO(_RIGHT), COMBO_END};
+const uint16_t PROGMEM SUB_6_combo[] = {KC_E, MO(_RIGHT), COMBO_END};
 const uint16_t PROGMEM SUB_7_combo[] = {KC_H, MO(_RIGHT), COMBO_END};
-const uint16_t PROGMEM SUB_8_combo[] = {KC_L, MO(_RIGHT), COMBO_END};
+const uint16_t PROGMEM SUB_8_combo[] = {KC_O, MO(_RIGHT), COMBO_END};
 const uint16_t PROGMEM SUB_9_combo[] = {KC_Y, MO(_RIGHT), COMBO_END};
 
 enum combos {
@@ -167,6 +169,7 @@ enum combos {
     C_BASE_KC_COMMA,
     C_BASE_KC_DOT,
     C_BASE_KC_DQUO,
+    C_BASE_KC_ENT,
     C_BASE_KC_G,
     C_BASE_KC_J,
     C_BASE_KC_K,
@@ -257,6 +260,7 @@ enum combos {
     SUB_12,
     SUB_13,
     SUB_14,
+    SUB_15,
     SUB_2,
     SUB_3,
     SUB_4,
@@ -274,6 +278,7 @@ combo_t key_combos[] = {
     [C_BASE_KC_COMMA] = COMBO(C_BASE_KC_COMMA_combo, KC_COMMA),
     [C_BASE_KC_DOT] = COMBO(C_BASE_KC_DOT_combo, KC_DOT),
     [C_BASE_KC_DQUO] = COMBO(C_BASE_KC_DQUO_combo, KC_DQUO),
+    [C_BASE_KC_ENT] = COMBO(C_BASE_KC_ENT_combo, KC_ENT),
     [C_BASE_KC_G] = COMBO_ACTION(C_BASE_KC_G_combo),
     [C_BASE_KC_J] = COMBO_ACTION(C_BASE_KC_J_combo),
     [C_BASE_KC_K] = COMBO_ACTION(C_BASE_KC_K_combo),
@@ -364,6 +369,7 @@ combo_t key_combos[] = {
     [SUB_12] = COMBO_ACTION(SUB_12_combo),
     [SUB_13] = COMBO_ACTION(SUB_13_combo),
     [SUB_14] = COMBO_ACTION(SUB_14_combo),
+    [SUB_15] = COMBO_ACTION(SUB_15_combo),
     [SUB_2] = COMBO_ACTION(SUB_2_combo),
     [SUB_3] = COMBO_ACTION(SUB_3_combo),
     [SUB_4] = COMBO_ACTION(SUB_4_combo),
@@ -378,11 +384,11 @@ uint16_t COMBO_LEN = ARRAY_SIZE(key_combos);
 
 uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {
     (void)combo;
-    if (combo_index >= 0 && combo_index <= 28) return 50;
-    if (combo_index >= 29 && combo_index <= 89) return 300;
-    if (combo_index == 90) return 50;
-    if (combo_index >= 91 && combo_index <= 95) return 300;
-    if (combo_index >= 96 && combo_index <= 103) return 50;
+    if (combo_index >= 0 && combo_index <= 29) return 50;
+    if (combo_index >= 30 && combo_index <= 90) return 300;
+    if (combo_index >= 91 && combo_index <= 92) return 50;
+    if (combo_index >= 93 && combo_index <= 97) return 300;
+    if (combo_index >= 98 && combo_index <= 105) return 50;
     return COMBO_TERM;
 }
 
@@ -393,6 +399,7 @@ bool get_combo_must_press_in_order(uint16_t combo_index, combo_t *combo) {
     case C_BASE_KC_COMMA:
     case C_BASE_KC_DOT:
     case C_BASE_KC_DQUO:
+    case C_BASE_KC_ENT:
     case C_BASE_KC_J:
     case C_BASE_KC_Q:
     case C_BASE_KC_QUES:
@@ -403,6 +410,7 @@ bool get_combo_must_press_in_order(uint16_t combo_index, combo_t *combo) {
     case C_BASE_UPUMLAUT_OUMLAUT_O:
     case C_BASE_UPUMLAUT_UUMLAUT_U:
     case SUB_1:
+    case SUB_10:
     case SUB_2:
     case SUB_3:
     case SUB_4:
@@ -421,28 +429,29 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     uint8_t active_layer = combo_active_layer();
     if (combo_index == 0) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS;
     if (combo_index == 1) return active_layer == _BASE || active_layer == _LEFT || active_layer == _LMODS || active_layer == _RMODS;
-    if (combo_index >= 2 && combo_index <= 5) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
-    if (combo_index >= 6 && combo_index <= 9) return active_layer == _BASE || active_layer == _LEFT || active_layer == _LMODS || active_layer == _RMODS;
-    if (combo_index == 11) return active_layer == _BASE || active_layer == _LEFT || active_layer == _LMODS || active_layer == _RMODS;
-    if (combo_index >= 12 && combo_index <= 13) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
-    if (combo_index >= 14 && combo_index <= 15) return active_layer == _BASE || active_layer == _LEFT || active_layer == _LMODS || active_layer == _RMODS;
-    if (combo_index >= 16 && combo_index <= 17) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS;
-    if (combo_index == 18) return active_layer == _BASE || active_layer == _RIGHT || combo_shift_active();
-    if (combo_index == 19) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS;
-    if (combo_index == 20) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
-    if (combo_index >= 21 && combo_index <= 23) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS;
-    if (combo_index >= 24 && combo_index <= 25) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
-    if (combo_index >= 26 && combo_index <= 28) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
-    if (combo_index >= 29 && combo_index <= 48) return active_layer == _FNSYM;
-    if (combo_index == 49) return active_layer == _LEFT;
-    if (combo_index >= 50 && combo_index <= 75) return active_layer == _NAV;
-    if (combo_index >= 76 && combo_index <= 82) return active_layer == _NUM;
-    if (combo_index >= 83 && combo_index <= 89) return active_layer == _RIGHT;
-    if (combo_index == 90) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
-    if (combo_index == 91) return active_layer == _LEFT;
-    if (combo_index >= 92 && combo_index <= 95) return active_layer == _MEDIA;
-    if (combo_index >= 96 && combo_index <= 98) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
-    if (combo_index >= 99 && combo_index <= 103) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
+    if (combo_index >= 2 && combo_index <= 6) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
+    if (combo_index >= 7 && combo_index <= 10) return active_layer == _BASE || active_layer == _LEFT || active_layer == _LMODS || active_layer == _RMODS;
+    if (combo_index == 12) return active_layer == _BASE || active_layer == _LEFT || active_layer == _LMODS || active_layer == _RMODS;
+    if (combo_index >= 13 && combo_index <= 14) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
+    if (combo_index >= 15 && combo_index <= 16) return active_layer == _BASE || active_layer == _LEFT || active_layer == _LMODS || active_layer == _RMODS;
+    if (combo_index >= 17 && combo_index <= 18) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS;
+    if (combo_index == 19) return active_layer == _BASE || active_layer == _RIGHT || combo_shift_active();
+    if (combo_index == 20) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS;
+    if (combo_index == 21) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
+    if (combo_index >= 22 && combo_index <= 24) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS;
+    if (combo_index == 25) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
+    if (combo_index >= 26 && combo_index <= 29) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
+    if (combo_index >= 30 && combo_index <= 49) return active_layer == _FNSYM;
+    if (combo_index == 50) return active_layer == _LEFT;
+    if (combo_index >= 51 && combo_index <= 76) return active_layer == _NAV;
+    if (combo_index >= 77 && combo_index <= 83) return active_layer == _NUM;
+    if (combo_index >= 84 && combo_index <= 90) return active_layer == _RIGHT;
+    if (combo_index == 91) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
+    if (combo_index == 92) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
+    if (combo_index == 93) return active_layer == _LEFT;
+    if (combo_index >= 94 && combo_index <= 97) return active_layer == _MEDIA;
+    if (combo_index >= 98 && combo_index <= 100) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
+    if (combo_index >= 101 && combo_index <= 105) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
     return true;
 }
 
@@ -450,33 +459,35 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     if (!pressed) return;
     switch (combo_index) {
     case SUB_1:
-        magic_decode_send(678); break; // "oh"
-    case SUB_10:
-        magic_decode_send(41); break; // "Qu"
-    case SUB_11:
-        magic_decode_send(406); break; // "gregor.zeitlinger@grafana.com"
-    case SUB_12:
-        magic_decode_send(36); break; // "LGTM"
-    case SUB_13:
-        magic_decode_send(984); break; // "zeitlinger@gmail.com"
-    case SUB_14:
-        magic_decode_send(426); break; // "gregor@zeitlinger.de"
-    case SUB_2:
         magic_decode_send(44); break; // "aa"
+    case SUB_10:
+        magic_decode_send(766); break; // "qu"
+    case SUB_11:
+        magic_decode_send(41); break; // "Qu"
+    case SUB_12:
+        magic_decode_send(408); break; // "gregor.zeitlinger@grafana.com"
+    case SUB_13:
+        magic_decode_send(36); break; // "LGTM"
+    case SUB_14:
+        magic_decode_send(986); break; // "zeitlinger@gmail.com"
+    case SUB_15:
+        magic_decode_send(428); break; // "gregor@zeitlinger.de"
+    case SUB_2:
+        magic_decode_send(302); break; // "eu"
     case SUB_3:
-        magic_decode_send(590); break; // "lm"
+        magic_decode_send(892); break; // "uh"
     case SUB_4:
-        magic_decode_send(769); break; // "qu"
+        magic_decode_send(665); break; // "oe"
     case SUB_5:
-        magic_decode_send(268); break; // "eh"
+        magic_decode_send(62); break; // "ae"
     case SUB_6:
-        magic_decode_send(668); break; // "oe"
+        magic_decode_send(270); break; // "eh"
     case SUB_7:
-        magic_decode_send(458); break; // "hy"
+        magic_decode_send(460); break; // "hy"
     case SUB_8:
-        magic_decode_send(587); break; // "lk"
+        magic_decode_send(675); break; // "oh"
     case SUB_9:
-        magic_decode_send(300); break; // "eu"
+        magic_decode_send(983); break; // "yr"
     case C_BASE_KC_B: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_B) : KC_B); break;
     case C_BASE_KC_G: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_G) : KC_G); break;
     case C_BASE_KC_J: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_J) : KC_J); break;
