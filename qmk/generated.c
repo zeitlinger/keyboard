@@ -642,7 +642,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_M: magic_tap_repeatable(KC_R); break;
                 case KC_N: magic_tap_repeatable(KC_R); break;
                 case KC_P: magic_tap_repeatable(KC_Y); break;
-                case KC_R: magic_replace_tap_repeatable(KC_DQUO); break;
                 case KC_S: magic_tap_repeatable(KC_R); break;
                 case KC_T: magic_tap_repeatable(KC_F); break;
                 case KC_V: magic_decode_send_suffix_cycle(MAGIC_STRING_A_L_I_D_A_T_E, 'e', MAGIC_STRING_V_A_L_I_D_A_T_E); /* emits "alidate " -> "validate " */ break;
@@ -680,7 +679,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_M: magic_tap_repeatable(KC_H); break;
                 case KC_N: magic_tap_repeatable(KC_H); break;
                 case KC_P: magic_decode_send_suffix_cycle(MAGIC_STRING_R_O_D_U_C_T_I_O_N, 'n', MAGIC_CYCLE_NONE); /* emits "roduction " -> "production " */ break;
-                case KC_R: magic_replace_tap_repeatable(KC_Q); break;
                 case KC_S: magic_decode_send_suffix_cycle(MAGIC_STRING_O_M_E_O_N_E, 'e', MAGIC_CYCLE_NONE); /* emits "omeone " -> "someone " */ break;
                 case KC_T: magic_decode_send_suffix_cycle(MAGIC_STRING_H_O_U_G_H, 'h', MAGIC_CYCLE_NONE); /* emits "hough " -> "though " */ break;
                 case KC_V: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_V_E_R_Y_T_H_I_N_G, 'g', MAGIC_CYCLE_NONE); /* emits "everything " */ break;
@@ -705,7 +703,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             switch (magic_context_prepared) {
                 case KC_A: magic_decode_send_suffix_cycle(MAGIC_STRING_D_D_R_E_S_S, 's', MAGIC_CYCLE_NONE); /* emits "ddress " -> "address " */ break;
                 case KC_I: magic_decode_send_suffix_cycle(MAGIC_STRING_M_P_L_E_M_E_N_T, 't', MAGIC_STRING_I_M_P_L_E_M_E_N_T); /* emits "mplement " -> "implement " */ break;
-                case KC_SPC: magic_replace_decode_send_cap(MAGIC_STRING_DOT, '\0'); /* emits ". " */ add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state(); break;
             default:
                             break;
             }
@@ -765,7 +762,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_M: magic_decode_send_suffix_cycle(MAGIC_STRING_U_L_T_I_P_L_E, 'e', MAGIC_CYCLE_NONE); /* emits "ultiple " -> "multiple " */ break;
                 case KC_N: magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_N_Y_T_H_I_N_G, 'g', MAGIC_CYCLE_NONE); /* emits "anything " */ break;
                 case KC_P: magic_decode_send_suffix_cycle(MAGIC_STRING_R_O_B_A_B_L_Y, 'y', MAGIC_CYCLE_NONE); /* emits "robably " -> "probably " */ break;
-                case KC_R: magic_replace_tap_repeatable(KC_QUES); break;
                 case KC_S: magic_decode_send_suffix_cycle(MAGIC_STRING_U_P_P_O_R_T, 't', MAGIC_CYCLE_NONE); /* emits "upport " -> "support " */ break;
                 case KC_T: magic_decode_send_suffix_cycle(MAGIC_STRING_H_R_O_U_G_H, 'h', MAGIC_CYCLE_NONE); /* emits "hrough " -> "through " */ break;
                 case KC_V: magic_decode_send_suffix_cycle(MAGIC_STRING_E_R_S_I_O_N, 'n', MAGIC_CYCLE_NONE); /* emits "ersion " -> "version " */ break;
@@ -795,7 +791,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_M: magic_decode_send_suffix_cycle(MAGIC_STRING_I_S_M_A_T_C_H, 'h', MAGIC_CYCLE_NONE); /* emits "ismatch " -> "mismatch " */ break;
                 case KC_N: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_P_L_A_I_N, 'n', MAGIC_STRING_E_X_P_L_A_I_N); /* emits "explain " */ break;
                 case KC_P: magic_replace_decode_send_cap_cycle(MAGIC_STRING_I_M_P_O_R_T_A_N_T, 't', MAGIC_CYCLE_NONE); /* emits "important " */ break;
-                case KC_R: magic_tap_repeatable(KC_X); break;
                 case KC_S: magic_decode_send_suffix_cycle(MAGIC_STRING_I_M_I_L_A_R, 'r', MAGIC_CYCLE_NONE); /* emits "imilar " -> "similar " */ break;
                 case KC_T: magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_N_O_T_H_E_R, 'r', MAGIC_CYCLE_NONE); /* emits "another " */ break;
                 case KC_W: magic_replace_decode_send_cap_cycle(MAGIC_STRING_S_W_I_T_C_H, 'h', MAGIC_CYCLE_NONE); /* emits "switch " */ break;
@@ -818,8 +813,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
             switch (magic_context_prepared) {
                 case KC_I: magic_replace_decode_send_cap_cycle(MAGIC_STRING_I_APOSTROPHE_M, 'm', MAGIC_CYCLE_NONE); /* emits "I'm " */ break;
-                case KC_R: magic_replace_tap_repeatable(KC_EXLM); break;
-                case KC_SPC: magic_replace_tap_repeatable(KC_Z); break;
+                case KC_SPC: magic_replace_decode_send_cap(MAGIC_STRING_DOT, '\0'); /* emits ". " */ add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state(); break;
                 case KC_Y: magic_replace_decode_send_cap_cycle(MAGIC_STRING_O_N_L_Y, 'y', MAGIC_CYCLE_NONE); /* emits "only " */ break;
             default:
                             break;
@@ -850,7 +844,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_M: magic_replace_decode_send_cap_cycle(MAGIC_STRING_I_N_S_T_R_U_M_E_N_T, 't', MAGIC_STRING_I_N_S_T_R_U_M_E_N_T); /* emits "instrument " */ break;
                 case KC_N: magic_replace_decode_send_cap_cycle(MAGIC_STRING_U_N_D_E_R_S_T_A_N_D, 'd', MAGIC_CYCLE_NONE); /* emits "understand " */ break;
                 case KC_P: magic_tap_repeatable(KC_N); break;
-                case KC_R: magic_replace_tap_repeatable(KC_QUOTE); break;
                 case KC_S: magic_decode_send_suffix_cycle(MAGIC_STRING_E_P_A_R_A_T_E, 'e', MAGIC_STRING_S_E_P_A_R_A_T_E); /* emits "eparate " -> "separate " */ break;
                 case KC_SPC: magic_decode_send_cap_cycle(MAGIC_STRING_A_N_D_2, 'd', MAGIC_CYCLE_NONE); /* emits "and " */ break;
                 case KC_T: magic_tap_repeatable(KC_N); break;
@@ -887,7 +880,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_M: magic_decode_send(MAGIC_STRING_E_N_T); /* emits "ent" -> "ment" */ break;
                 case KC_N: magic_replace_decode_send_cap_cycle(MAGIC_STRING_W_O_N_APOSTROPHE_T, 't', MAGIC_CYCLE_NONE); /* emits "won't " */ break;
                 case KC_P: magic_tap_repeatable(KC_M); break;
-                case KC_R: magic_replace_tap_repeatable(KC_COMMA); break;
                 case KC_S: magic_decode_send(MAGIC_STRING_I_O_N); /* emits "ion" -> "sion" */ break;
                 case KC_SPC: magic_decode_send_cap_cycle(MAGIC_STRING_T_H_E, 'e', MAGIC_CYCLE_NONE); /* emits "the " */ break;
                 case KC_T: magic_decode_send(MAGIC_STRING_I_O_N); /* emits "ion" -> "tion" */ break;
@@ -922,7 +914,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_M: magic_tap_repeatable(KC_L); break;
                 case KC_N: magic_tap_repeatable(KC_X); break;
                 case KC_P: magic_tap_repeatable(KC_D); break;
-                case KC_R: magic_replace_tap_repeatable(KC_DOT); break;
+                case KC_R: magic_tap_repeatable(KC_X); break;
                 case KC_S: magic_tap_repeatable(KC_D); break;
                 case KC_T: magic_replace_decode_send_cap_cycle(MAGIC_STRING_W_I_T_H_O_U_T, 't', MAGIC_CYCLE_NONE); /* emits "without " */ break;
                 case KC_W: magic_tap_repeatable(KC_X); break;
@@ -953,7 +945,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_M: magic_tap_repeatable(KC_V); break;
                 case KC_N: magic_tap_repeatable(KC_P); break;
                 case KC_P: magic_decode_send(MAGIC_STRING_P_L); /* emits "pl" -> "ppl" */ break;
-                case KC_R: magic_replace_tap_repeatable(KC_J); break;
                 case KC_S: magic_decode_send_suffix_cycle(MAGIC_STRING_O_M_E_T_H_I_N_G, 'g', MAGIC_CYCLE_NONE); /* emits "omething " -> "something " */ break;
                 case KC_T: magic_decode_send_suffix_cycle(MAGIC_STRING_H_O_U_G_H_T, 't', MAGIC_CYCLE_NONE); /* emits "hought " -> "thought " */ break;
                 case KC_V: magic_replace_decode_send_cap_cycle(MAGIC_STRING_W_O_R_S_E, 'e', MAGIC_STRING_W_O_R_S_E); /* emits "worse " */ break;

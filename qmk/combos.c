@@ -85,7 +85,7 @@ const uint16_t PROGMEM C_FNSYM_KC_PIPE_combo[] = {KC_X, KC_C, COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_RABK_combo[] = {KC_I, MAGIC_B, COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_SLASH_combo[] = {KC_O, KC_E, COMBO_END};
 const uint16_t PROGMEM C_FNSYM_KC_TILD_combo[] = {KC_A, KC_U, COMBO_END};
-const uint16_t PROGMEM C_LEFT_KC_Z_combo[] = {MO(_RIGHT), KC_S, COMBO_END};
+const uint16_t PROGMEM C_LEFT_KC_SEMICOLON_combo[] = {KC_S, MO(_RIGHT), COMBO_END};
 const uint16_t PROGMEM C_NAV_CKC_A_combo[] = {KC_W, KC_N, COMBO_END};
 const uint16_t PROGMEM C_NAV_CKC_D_combo[] = {KC_N, KC_L, COMBO_END};
 const uint16_t PROGMEM C_NAV_CKC_E_combo[] = {KC_S, KC_ESC, COMBO_END};
@@ -108,10 +108,9 @@ const uint16_t PROGMEM C_NUM_LSAKC_S_combo[] = {KC_S, MO(_RIGHT), COMBO_END};
 const uint16_t PROGMEM C_NUM_LSAKC_X_combo[] = {KC_C, KC_X, COMBO_END};
 const uint16_t PROGMEM C_NUM_RCSKC_V_combo[] = {DEAD3, KC_T, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_KC_AT_combo[] = {KC_A, KC_U, COMBO_END};
-const uint16_t PROGMEM C_RIGHT_KC_BACKSLASH_combo[] = {MAGIC_B, KC_I, COMBO_END};
+const uint16_t PROGMEM C_RIGHT_KC_BACKSLASH_combo[] = {KC_I, MAGIC_B, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_KC_EXLM_combo[] = {KC_E, KC_O, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_KC_GRAVE_combo[] = {KC_I, KC_Y, COMBO_END};
-const uint16_t PROGMEM C_RIGHT_KC_J_combo[] = {MO(_LEFT), KC_H, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_RCSKC_F_combo[] = {KC_N, KC_L, COMBO_END};
 const uint16_t PROGMEM C_RIGHT_RCSKC_R_combo[] = {KC_T, KC_D, COMBO_END};
 const uint16_t PROGMEM SUB_11_combo[] = {KC_ESC, KC_S, COMBO_END};
@@ -193,7 +192,7 @@ enum combos {
     C_FNSYM_KC_RABK,
     C_FNSYM_KC_SLASH,
     C_FNSYM_KC_TILD,
-    C_LEFT_KC_Z,
+    C_LEFT_KC_SEMICOLON,
     C_NAV_CKC_A,
     C_NAV_CKC_D,
     C_NAV_CKC_E,
@@ -219,7 +218,6 @@ enum combos {
     C_RIGHT_KC_BACKSLASH,
     C_RIGHT_KC_EXLM,
     C_RIGHT_KC_GRAVE,
-    C_RIGHT_KC_J,
     C_RIGHT_RCSKC_F,
     C_RIGHT_RCSKC_R,
     SUB_11,
@@ -302,7 +300,7 @@ combo_t key_combos[] = {
     [C_FNSYM_KC_RABK] = COMBO(C_FNSYM_KC_RABK_combo, KC_RABK),
     [C_FNSYM_KC_SLASH] = COMBO(C_FNSYM_KC_SLASH_combo, KC_SLASH),
     [C_FNSYM_KC_TILD] = COMBO(C_FNSYM_KC_TILD_combo, KC_TILD),
-    [C_LEFT_KC_Z] = COMBO(C_LEFT_KC_Z_combo, KC_Z),
+    [C_LEFT_KC_SEMICOLON] = COMBO(C_LEFT_KC_SEMICOLON_combo, KC_SEMICOLON),
     [C_NAV_CKC_A] = COMBO(C_NAV_CKC_A_combo, C(KC_A)),
     [C_NAV_CKC_D] = COMBO(C_NAV_CKC_D_combo, C(KC_D)),
     [C_NAV_CKC_E] = COMBO(C_NAV_CKC_E_combo, C(KC_E)),
@@ -328,7 +326,6 @@ combo_t key_combos[] = {
     [C_RIGHT_KC_BACKSLASH] = COMBO(C_RIGHT_KC_BACKSLASH_combo, KC_BACKSLASH),
     [C_RIGHT_KC_EXLM] = COMBO(C_RIGHT_KC_EXLM_combo, KC_EXLM),
     [C_RIGHT_KC_GRAVE] = COMBO(C_RIGHT_KC_GRAVE_combo, KC_GRAVE),
-    [C_RIGHT_KC_J] = COMBO(C_RIGHT_KC_J_combo, KC_J),
     [C_RIGHT_RCSKC_F] = COMBO(C_RIGHT_RCSKC_F_combo, RCS(KC_F)),
     [C_RIGHT_RCSKC_R] = COMBO(C_RIGHT_RCSKC_R_combo, RCS(KC_R)),
     [SUB_11] = COMBO_ACTION(SUB_11_combo),
@@ -384,8 +381,8 @@ uint16_t COMBO_LEN = ARRAY_SIZE(key_combos);
 
 uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {
     (void)combo;
-    if (combo_index >= 0 && combo_index <= 63) return 50;
-    if (combo_index >= 64 && combo_index <= 105) return 100;
+    if (combo_index >= 0 && combo_index <= 62) return 50;
+    if (combo_index >= 63 && combo_index <= 104) return 100;
     return COMBO_TERM;
 }
 
@@ -437,20 +434,20 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     if (combo_index == 30) return active_layer == _LEFT;
     if (combo_index >= 31 && combo_index <= 44) return active_layer == _NAV;
     if (combo_index >= 45 && combo_index <= 51) return active_layer == _NUM;
-    if (combo_index >= 52 && combo_index <= 58) return active_layer == _RIGHT;
-    if (combo_index == 59) return active_layer == _LEFT;
-    if (combo_index >= 60 && combo_index <= 63) return active_layer == _MEDIA;
-    if (combo_index >= 64 && combo_index <= 68) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
-    if (combo_index >= 69 && combo_index <= 70) return active_layer == _BASE || active_layer == _LEFT || active_layer == _LMODS || active_layer == _RMODS;
-    if (combo_index >= 71 && combo_index <= 72) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
-    if (combo_index == 73) return active_layer == _BASE || active_layer == _LEFT || active_layer == _LMODS || active_layer == _RMODS;
-    if (combo_index >= 74 && combo_index <= 77) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
-    if (combo_index >= 78 && combo_index <= 83) return active_layer == _FNSYM;
-    if (combo_index >= 84 && combo_index <= 95) return active_layer == _NAV;
-    if (combo_index == 96) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
-    if (combo_index == 97) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
-    if (combo_index >= 98 && combo_index <= 100) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
-    if (combo_index >= 101 && combo_index <= 105) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
+    if (combo_index >= 52 && combo_index <= 57) return active_layer == _RIGHT;
+    if (combo_index == 58) return active_layer == _LEFT;
+    if (combo_index >= 59 && combo_index <= 62) return active_layer == _MEDIA;
+    if (combo_index >= 63 && combo_index <= 67) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
+    if (combo_index >= 68 && combo_index <= 69) return active_layer == _BASE || active_layer == _LEFT || active_layer == _LMODS || active_layer == _RMODS;
+    if (combo_index >= 70 && combo_index <= 71) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
+    if (combo_index == 72) return active_layer == _BASE || active_layer == _LEFT || active_layer == _LMODS || active_layer == _RMODS;
+    if (combo_index >= 73 && combo_index <= 76) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
+    if (combo_index >= 77 && combo_index <= 82) return active_layer == _FNSYM;
+    if (combo_index >= 83 && combo_index <= 94) return active_layer == _NAV;
+    if (combo_index == 95) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
+    if (combo_index == 96) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
+    if (combo_index >= 97 && combo_index <= 99) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
+    if (combo_index >= 100 && combo_index <= 104) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
     return true;
 }
 
