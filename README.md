@@ -534,8 +534,8 @@ The order of the options is also the order of the layers in the layer stack.
 
 | ComboTimeout | Timeout |
 | :----------: | :-----: |
-|     Base     |   50    |
-|    Other     |   300   |
+|   Vertical   |   50    |
+|    Other     |   100   |
 
 ## Generator
 
