@@ -26,7 +26,7 @@ private val GLYPHS =
 // modifiers come from the LayerOptions table, not from cells), so they're left out of the diagram.
 // The README tables document them. Left/Right are kept: they're the shifted-letter layers and read
 // cleanly when blank cells inherit the capitalized base letter.
-private val SKIP_LAYERS = setOf("LMods", "RMods", "ANum", "CNum", "Case")
+private val SKIP_LAYERS = setOf("LMods", "RMods", "ANum", "CNum", "Case", "Vim")
 
 private val UNICODE_NAMES =
     mapOf(
