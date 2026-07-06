@@ -115,10 +115,14 @@ class QmkTranslator(
             }
 
     fun toQmkIgnoringPosition(translatedKey: String): String =
-        map.getOrDefault(
-            translatedKey.replaceFirstChar { it.titlecase() },
-            translatedKey,
-        )
+        if (translatedKey.length == 1 && translatedKey[0] in 'A'..'Z') {
+            "S(${map[translatedKey.uppercase()]})"
+        } else {
+            map.getOrDefault(
+                translatedKey.replaceFirstChar { it.titlecase() },
+                translatedKey,
+            )
+        }
 
     fun reachLayer(
         layerName: LayerName,

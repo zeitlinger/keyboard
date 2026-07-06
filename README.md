@@ -107,7 +107,7 @@ regenerate with `mise run generate`.*
 | Base  | magic_g |         |         |         |         |         |         | magic_k |
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Right |         |         |         |         |  dead3  |   S-j   |   S-q   |         |
+| Right |         |         |         |         |  dead3  |    J    |    Q    |         |
 | Right |         |  A-f7   |   C-f   |   C-r   |         |         |         |         |
 | Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |   \_    |
 | Right |         |         |  \*Vim  |   C-n   |    [    |    ]    |         |         |
@@ -134,7 +134,7 @@ regenerate with `mise run generate`.*
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |         |         |         |         |  dead1  |         |         |         |
 | Left  |         |         |         |         | \*CNum  | \*Case  | \*Media |         |
-| Left  |   S-z   |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
+| Left  |    Z    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
 | Left  |         |         |    :    |         | \*ANum  |  \*Num  |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |  "Qu"   |         |         |         |         |         |         |         |
