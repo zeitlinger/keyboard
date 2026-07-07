@@ -327,6 +327,161 @@ path.combo { stroke: #7f7f7f; }
 <rect rx="6" ry="6" x="630" y="152" width="28" height="26" class="combo"/>
 <text x="644" y="165" class="combo tap">✦</text>
 </g>
+<g class="combo combopos-16">
+<path d="M336,165 l-289,-26" class="combo"/>
+<path d="M336,165 l289,26" class="combo"/>
+<rect rx="6" ry="6" x="322" y="152" width="28" height="26" class="combo"/>
+<text x="336" y="165" class="combo tap">&#x27;</text>
+</g>
+<g class="combo combopos-17">
+<path d="M364,148 l-262,-43" class="combo"/>
+<path d="M364,148 l262,43" class="combo"/>
+<rect rx="6" ry="6" x="350" y="135" width="28" height="26" class="combo"/>
+<text x="364" y="148" class="combo tap">.</text>
+</g>
+<g class="combo combopos-18">
+<path d="M392,139 l-234,-51" class="combo"/>
+<path d="M392,139 l234,51" class="combo"/>
+<rect rx="6" ry="6" x="378" y="126" width="28" height="26" class="combo"/>
+<text x="392" y="139" class="combo tap">,</text>
+</g>
+<g class="combo combopos-19">
+<path d="M420,147 l-206,-43" class="combo"/>
+<path d="M420,147 l206,43" class="combo"/>
+<rect rx="6" ry="6" x="406" y="134" width="28" height="26" class="combo"/>
+<text x="420" y="147" class="combo tap">bspc</text>
+</g>
+<g class="combo combopos-20">
+<path d="M560,147 l-68,-37" class="combo"/>
+<path d="M560,147 l68,37" class="combo"/>
+<rect rx="6" ry="6" x="546" y="134" width="28" height="26" class="combo"/>
+<text x="560" y="147" class="combo tap">aa</text>
+</g>
+<g class="combo combopos-21">
+<path d="M588,139 l-43,-42" class="combo"/>
+<path d="M588,139 l43,42" class="combo"/>
+<rect rx="6" ry="6" x="574" y="126" width="28" height="26" class="combo"/>
+<text x="588" y="139" class="combo tap">eu</text>
+</g>
+<g class="combo combopos-22">
+<path d="M364,176 l-261,-16" class="combo"/>
+<path d="M364,176 l261,16" class="combo"/>
+<rect rx="6" ry="6" x="350" y="163" width="28" height="26" class="combo"/>
+<text x="364" y="176" class="combo tap">?</text>
+</g>
+<g class="combo combopos-23">
+<path d="M392,167 l-233,-25" class="combo"/>
+<path d="M392,167 l233,25" class="combo"/>
+<rect rx="6" ry="6" x="378" y="154" width="28" height="26" class="combo"/>
+</g>
+<g class="combo combopos-24">
+<path d="M420,175 l-205,-17" class="combo"/>
+<path d="M420,175 l205,17" class="combo"/>
+<rect rx="6" ry="6" x="406" y="162" width="28" height="26" class="combo"/>
+<text x="420" y="175" class="combo tap">⏎</text>
+</g>
+<g class="combo combopos-25">
+<path d="M560,175 l-66,-14" class="combo"/>
+<path d="M560,175 l66,14" class="combo"/>
+<rect rx="6" ry="6" x="546" y="162" width="28" height="26" class="combo"/>
+<text x="560" y="175" class="combo tap">uh</text>
+</g>
+<g class="combo combopos-26">
+<path d="M588,167 l-39,-19" class="combo"/>
+<path d="M588,167 l39,19" class="combo"/>
+<rect rx="6" ry="6" x="574" y="154" width="28" height="26" class="combo"/>
+<text x="588" y="167" class="combo tap">oe</text>
+</g>
+<g class="combo combopos-27">
+<path d="M462,219 l164,-23" class="combo"/>
+<path d="M462,219 l-164,23" class="combo"/>
+<rect rx="6" ry="6" x="448" y="206" width="28" height="26" class="combo"/>
+<text x="462" y="219" class="combo tap">j</text>
+</g>
+<g class="combo combopos-28">
+<path d="M518,219 l107,-22" class="combo"/>
+<path d="M518,219 l-107,22" class="combo"/>
+<rect rx="6" ry="6" x="504" y="206" width="28" height="26" class="combo"/>
+<text x="518" y="219" class="combo tap">q</text>
+</g>
+<g class="combo combopos-29">
+<path d="M84,139 l43,-42" class="combo"/>
+<path d="M84,139 l-43,42" class="combo"/>
+<rect rx="6" ry="6" x="70" y="126" width="28" height="26" class="combo"/>
+<text x="84" y="139" class="combo tap">ß</text>
+</g>
+<g class="combo combopos-30">
+<path d="M112,147 l68,-37" class="combo"/>
+<path d="M112,147 l-68,37" class="combo"/>
+<rect rx="6" ry="6" x="98" y="134" width="28" height="26" class="combo"/>
+<text x="112" y="147" class="combo tap">ä</text>
+</g>
+<g class="combo combopos-31">
+<path d="M252,147 l206,-43" class="combo"/>
+<path d="M252,147 l-206,43" class="combo"/>
+<rect rx="6" ry="6" x="238" y="134" width="28" height="26" class="combo"/>
+<text x="252" y="147" class="combo tap">ae</text>
+</g>
+<g class="combo combopos-32">
+<path d="M280,139 l234,-51" class="combo"/>
+<path d="M280,139 l-234,51" class="combo"/>
+<rect rx="6" ry="6" x="266" y="126" width="28" height="26" class="combo"/>
+<text x="280" y="139" class="combo tap">eh</text>
+</g>
+<g class="combo combopos-33">
+<path d="M308,148 l262,-43" class="combo"/>
+<path d="M308,148 l-262,43" class="combo"/>
+<rect rx="6" ry="6" x="294" y="135" width="28" height="26" class="combo"/>
+<text x="308" y="148" class="combo tap">I&#x27;m</text>
+</g>
+<g class="combo combopos-34">
+<path d="M336,165 l289,-26" class="combo"/>
+<path d="M336,165 l-289,26" class="combo"/>
+<rect rx="6" ry="6" x="322" y="152" width="28" height="26" class="combo"/>
+<text x="336" y="165" class="combo tap">hy</text>
+</g>
+<g class="combo combopos-35">
+<path d="M84,167 l-39,19" class="combo"/>
+<path d="M84,167 l39,-19" class="combo"/>
+<rect rx="6" ry="6" x="70" y="154" width="28" height="26" class="combo"/>
+<text x="84" y="167" class="combo tap">ö</text>
+</g>
+<g class="combo combopos-36">
+<path d="M112,175 l-66,14" class="combo"/>
+<path d="M112,175 l66,-14" class="combo"/>
+<rect rx="6" ry="6" x="98" y="162" width="28" height="26" class="combo"/>
+<text x="112" y="175" class="combo tap">ü</text>
+</g>
+<g class="combo combopos-37">
+<path d="M252,175 l-205,17" class="combo"/>
+<path d="M252,175 l205,-17" class="combo"/>
+<rect rx="6" ry="6" x="238" y="162" width="28" height="26" class="combo"/>
+<text x="252" y="175" class="combo tap">only</text>
+</g>
+<g class="combo combopos-38">
+<path d="M280,167 l-233,25" class="combo"/>
+<path d="M280,167 l233,-25" class="combo"/>
+<rect rx="6" ry="6" x="266" y="154" width="28" height="26" class="combo"/>
+<text x="280" y="167" class="combo tap">oh</text>
+</g>
+<g class="combo combopos-39">
+<path d="M308,176 l-261,16" class="combo"/>
+<path d="M308,176 l261,-16" class="combo"/>
+<rect rx="6" ry="6" x="294" y="163" width="28" height="26" class="combo"/>
+<text x="308" y="176" class="combo tap">yr</text>
+</g>
+<g class="combo combopos-40">
+<path d="M154,219 l-107,-22" class="combo"/>
+<path d="M154,219 l107,22" class="combo"/>
+<rect rx="6" ry="6" x="140" y="206" width="28" height="26" class="combo"/>
+<text x="154" y="219" class="combo tap">qu</text>
+</g>
+<g class="combo combopos-41">
+<path d="M210,219 l-164,-23" class="combo"/>
+<path d="M210,219 l164,23" class="combo"/>
+<rect rx="6" ry="6" x="196" y="206" width="28" height="26" class="combo"/>
+<text x="210" y="219" class="combo tap">z</text>
+</g>
 </g>
 </g>
 <text x="702.0" y="367.0" class="footer">Generated with <a href="https://github.com/caksoylar/keymap-drawer">keymap-drawer</a></text></svg>

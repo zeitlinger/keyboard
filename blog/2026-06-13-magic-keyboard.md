@@ -252,8 +252,11 @@ that's secretly about magic keys.
 ![My base layer](images/base-layer.png)
 
 *My base layer. The home row is `s c n t` / `a e i h`; every `✦` is a magic key, and the blue badges
-are combos (two keys pressed at once for a third). This diagram is generated straight from the layout
-with [keymap-drawer](https://github.com/caksoylar/keymap-drawer) — more on that in the appendix.*
+are combos (two keys pressed at once for a third). The rare letters `j`, `q`, `z` and the German
+`ä`, `ö`, `ü`, `ß` don't earn a base-layer spot — they live in *directional combos* with the two
+pinky "diamond" keys (the `*Left` / `*Right` layer holds), pressed last. This diagram is generated
+straight from the layout with [keymap-drawer](https://github.com/caksoylar/keymap-drawer) — more on
+that in the appendix.*
 
 One detail worth a second look: see where `r` sits — on the **thumb**, not a finger. That's a fairly
 recent move in layout design, the *alpha thumb*, and it's increasingly regarded as a step forward.
