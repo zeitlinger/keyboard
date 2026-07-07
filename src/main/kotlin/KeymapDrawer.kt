@@ -131,13 +131,12 @@ private fun isVerticalCombo(combo: Combo): Boolean {
 }
 
 // A "directional" (💎L) combo pairs a pinky layer-hold trigger with a base key. The pair is what
-// matters, not the geometry — so we draw them even though the two positions aren't stacked.
+// matters, not the geometry, so we surface them as their own pseudo-layer blocks (see
+// writeDirectionalPseudoLayers) instead of drawing arcs across the base layer.
 private fun isDirectionalCombo(combo: Combo): Boolean {
     if (combo.triggers.size != 2 || !combo.mustPressInOrder) return false
     return combo.triggers.all { kdIndex(it.pos) != null }
 }
-
-private fun isDrawableCombo(combo: Combo): Boolean = isVerticalCombo(combo) || isDirectionalCombo(combo)
 
 private fun comboLabel(combo: Combo): String {
     val authored = combo.authored.trim()
@@ -224,11 +223,43 @@ fun writeKeymapDrawerYaml(
         }
     }
 
+    // Directional (💎L) base combos read badly as arcs across the base layer, so we emit them as
+    // two pseudo-layer blocks — one per diamond (left-pinky, right-pinky) — mirroring the
+    // README's extra 4-row blocks. Each pseudo-layer shows the combo output at each partner key's
+    // position, and highlights the diamond with a 💎L badge.
+    val directionals =
+        combos.filter { it.homeLayer == BASE_LAYER_NAME && isDirectionalCombo(it) }
+    if (directionals.isNotEmpty()) {
+        // Order matches the README: right-pinky diamond first, then left-pinky diamond.
+        val diamonds = listOf("💎 right pinky" to (cols - 1), "💎 left pinky" to 0)
+        for ((name, diamondCol) in diamonds) {
+            val group = directionals.filter { c ->
+                c.triggers.any { it.pos.row == 2 && it.pos.column == diamondCol }
+            }
+            if (group.isEmpty()) continue
+            val slots = arrayOfNulls<DrawLabel>(34)
+            kdIndex(2, diamondCol)?.let { slots[it] = DrawLabel("💎L", "held") }
+            for (combo in group) {
+                val other = combo.triggers.first { !(it.pos.row == 2 && it.pos.column == diamondCol) }
+                kdIndex(other.pos)?.let { slots[it] = DrawLabel(comboLabel(combo)) }
+            }
+            sb.appendLine("  ${yamlScalar(name)}:")
+            for (slot in slots) {
+                val label = slot ?: DrawLabel("")
+                if (label.type != null) {
+                    sb.appendLine("    - {t: ${yamlScalar(label.text)}, type: ${label.type}}")
+                } else {
+                    sb.appendLine("    - ${yamlScalar(label.text)}")
+                }
+            }
+        }
+    }
+
     // Draw clean vertical (stacked) combos on every shown layer except Media. Skips the confusing
     // horizontal/diagonal/"direct" combos; the README documents those.
     val ownDrawn =
         combos
-            .filter { it.homeLayer !in SKIP_LAYERS && it.homeLayer != "Media" && isDrawableCombo(it) }
+            .filter { it.homeLayer !in SKIP_LAYERS && it.homeLayer != "Media" && isVerticalCombo(it) }
             .mapNotNull { combo ->
                 if (combo.triggers.size != 2) return@mapNotNull null
                 val idx = combo.triggers.mapNotNull { kdIndex(it.pos) }

@@ -35,7 +35,7 @@ description = "Generate base-layer svg for the blog (Base layer only)"
 depends = ["compile"]
 sources = ["keymap_drawer.config.yaml", "qmk/keymap.yaml"]
 outputs = ["blog/base-layer.svg"]
-run = 'keymap -c "$KEYMAP_CONFIG" draw -s Base -- qmk/keymap.yaml > blog/base-layer.svg'
+run = 'keymap -c "$KEYMAP_CONFIG" draw -s Base "💎 right pinky" "💎 left pinky" -- qmk/keymap.yaml > blog/base-layer.svg'
 
 [tasks.gen-magic-words]
 description = "Generate Keymap svg"
