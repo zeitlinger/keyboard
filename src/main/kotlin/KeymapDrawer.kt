@@ -130,6 +130,15 @@ private fun isVerticalCombo(combo: Combo): Boolean {
     return a.column == b.column && a.row in 0..2 && b.row in 0..2 && kotlin.math.abs(a.row - b.row) == 1
 }
 
+// A "directional" (💎L) combo pairs a pinky layer-hold trigger with a base key. The pair is what
+// matters, not the geometry — so we draw them even though the two positions aren't stacked.
+private fun isDirectionalCombo(combo: Combo): Boolean {
+    if (combo.triggers.size != 2 || !combo.mustPressInOrder) return false
+    return combo.triggers.all { kdIndex(it.pos) != null }
+}
+
+private fun isDrawableCombo(combo: Combo): Boolean = isVerticalCombo(combo) || isDirectionalCombo(combo)
+
 private fun comboLabel(combo: Combo): String {
     val authored = combo.authored.trim()
     GLYPHS[authored]?.let { return it }
@@ -219,7 +228,7 @@ fun writeKeymapDrawerYaml(
     // horizontal/diagonal/"direct" combos; the README documents those.
     val ownDrawn =
         combos
-            .filter { it.homeLayer !in SKIP_LAYERS && it.homeLayer != "Media" && isVerticalCombo(it) }
+            .filter { it.homeLayer !in SKIP_LAYERS && it.homeLayer != "Media" && isDrawableCombo(it) }
             .mapNotNull { combo ->
                 if (combo.triggers.size != 2) return@mapNotNull null
                 val idx = combo.triggers.mapNotNull { kdIndex(it.pos) }
