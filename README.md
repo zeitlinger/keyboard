@@ -79,12 +79,12 @@ regenerate with `mise run generate`.*
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |         |         |         |         |         |         |
 | Base  |    '    |    .    |    ,    |  bspc   |  "aa"   |  "eu"   |         |         |
-| Base  |         |    ?    |    "    |   ↩️️    |  "uh"   |  "oe"   |         |   💎L   |
+| Base  |   🛑    |    ?    |    "    |   ↩️️    |  "uh"   |  "oe"   |         |   💎L   |
 | Base  |         |         |         |    j    |    q    |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |         |         |         |         |         |         |
-| Base  |         |         |    ß    |    ä    |  "ae"   |  "eh"   |         |  "hy"   |
-| Base  |   💎L   |         |    ö    |    ü    |         |  "oh"   |  "yr"   |         |
+| Base  |         |         |    ß    |    ä    |  "ae"   |  "eh"   | "I'm "  |  "hy"   |
+| Base  |   💎L   |         |    ö    |    ü    | "only " |  "oh"   |  "yr"   |   🛑    |
 | Base  |         |         |         |  "qu"   |    z    |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |         |    v    |   ing   |         |         |         |
@@ -338,36 +338,36 @@ Cell = what to emit.
 - Row "r" is reserved for future use.  
 - Orderded by hand - thumbs last.
 
-| Magic  |  magic_a   |  magic_b   |  magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g  |  magic_h   |  magic_i  | magic_j |  magic_k  |
-| :----: | :--------: | :--------: | :-------: | :---------: | :-----------: | :--------: | :------: | :--------: | :-------: | :-----: | :-------: |
-| suffix |     ed     |     s      |           |     n't     |       ?       |            |   ", "   |   [next]   |  " the "  |  ". "   |    ly     |
-|   b    | background |     h      |           |   become    | observability |            |          | basically  |  because  |    d    |  before   |
-|   c    |   "'ll "   |   "'s "    |           |   "n't "    |    "'ve "     |  comment   |          |     n      |  "'re "   |    d    |   "'d "   |
-|   d    |     f      |     h      |           |    don't    |    disable    | difficulty |          |   didn't   |  doesn't  |    c    |   does    |
-|   f    | confusing  |     h      |           | performance |    merged     |            |          |  focused   | following |    d    | conflict  |
-|   g    |     f      |     t      |           |   suggest   |    change     |            |          |  generate  |     k     |    d    |   goes    |
-|   k    |     y      |     h      |           |    think    |   question    |   thanks   |          |   update   |   know    |    x    |   knew    |
-|   l    |     r      |     h      |           |  language   |    already    | available  |          |     n      |     m     |    c    |     b     |
-|   m    |     r      |     h      |           |   migrate   |   multiple    |  mismatch  |          | instrument |  "ment"   |    l    |     v     |
-|   n    |     r      |     h      |           |    never    |   anything    |  explain   |          | understand |   won't   |    x    |     p     |
-|   p    |     y      | production |           |   people    |   probably    | important  |          |     n      |     m     |    d    |   "ppl"   |
-|   s    |     r      |  someone   |           |  possible   |    support    |  similar   |          |  separate  |  "sion"   |    d    | something |
-|   t    |     f      |   though   |           |    just     |    through    |  another   |          |     n      |  "tion"   | without |  thought  |
-|   v    |  validate  | everything |           |   improve   |    version    |            |          |  approval  |  resolve  |         |   worse   |
-|   w    |   always   |   wasn't   |           |    work     |   otherwise   |   switch   |          |    why     |     s     |    x    |   which   |
-|   x    |     r      |     h      |           |   except    |   explicit    |  exclude   |          |    exit    |     w     |         |  example  |
-|   a    |            |            |  address  |             |               |            |          |            |           |         |           |
-|   e    |            |            |           |             |               |            |          |            |           |         |           |
-|   i    |            |            | implement |             |               |            |   I'm    |            |           |         |           |
-|   h    |            |            |           |             |               |            |          |            |           |         |           |
-|   u    |            |            |           |             |               |            |          |            |           |         |           |
-|   o    |            |            |           |             |               |            |          |            |           |         |           |
-|   y    |            |            |           |             |               |            |   only   |            |           |         |           |
-|  tab   |            |            |           |             |               |            |          |    and     |    the    |         |           |
-| enter  |            |            |           |             |               |            |          |    and     |    the    |         |           |
-|   ,    |            |            |           |             |               |            |          |  " and "   |  " but "  |         |           |
-|  spc   |            |            |           |             |               |            | [dotSpc] |    and     |    the    |         |           |
-|   r    |            |            |           |             |               |            |          |            |           |    x    |           |
+| Magic  |  magic_a  |  magic_b   | magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |  magic_h   |  magic_i  | magic_j | magic_k |
+| :----: | :-------: | :--------: | :------: | :---------: | :-----------: | :--------: | :-----: |:----------:| :-------: | :-----: | :-----: |
+| suffix |    ed     |     s      |          |     n't     |       ?       |            |  ", "   |   [next]   |  " the "  |  ". "   |   ly    |
+|   b    |  disable  |     h      |          |  possible   | observability |            |         |   become   |  because  |    d    |         |
+|   c    |  "'ll "   |   "'s "    |          |   "n't "    |    "'ve "     |   "'d "    |         |     n      |  "'re "   |    d    |         |
+|   d    |     f     |     h      |          |    don't    |     does      | difficulty |         |   didn't   |  doesn't  |    c    |         |
+|   f    | confusing |     h      |          | performance |    merged     |            |         |  focused   | following |    d    |         |
+|   g    |     f     |     t      |          |   suggest   |    change     |            |         |    goes    |     k     |    d    |         |
+|   k    |     y     |     h      |          |    think    |   question    |   thanks   |         |   update   |   know    |    x    |         |
+|   l    |     r     |     h      |          |  language   |    already    |     b      |         |     n      |     m     |    c    |         |
+|   m    |     r     |     h      |          |  implement  |   multiple    |     v      |         | instrument |  "ment"   |    l    |         |
+|   n    |     r     |     h      |          |    never    |   anything    |     p      |         | understand |   won't   |    x    |         |
+|   p    |     y     |   "ppl"    |          |   people    |    example    |  explain   |         |     n      |     m     |    d    |         |
+|   s    |     r     |  someone   |          |  something  |    support    |  similar   |         |  separate  |  "sion"   |    d    |         |
+|   t    |     f     |   though   |          |    just     |    through    |  another   |         |     n      |  "tion"   | thought |         |
+|   v    | validate  | everything |          |   improve   |    version    |            |         |   worse    |  resolve  |         |         |
+|   w    |  always   |   wasn't   |          |    knew     |   otherwise   |   switch   |         |    why     |     s     |    x    |         |
+|   x    |     r     |     h      |          |   except    |   explicit    |  exclude   |         |    exit    |     w     |         |         |
+|   a    |           |            |          |             |               |            |         |            |           |         |         |
+|   e    |           |            |          |             |               |            |         |            |           |         |         |
+|   i    |           |            |          |             |               |            |         |            |           |         |         |
+|   h    |           |            |          |             |               |            |         |            |           |         |         |
+|   u    |           |            |          |             |               |            |         |            |           |         |         |
+|   o    |           |            |          |             |               |            |         |            |           |         |         |
+|   y    |           |            |          |             |               |            |         |            |           |         |         |
+|  tab   |           |            |          |             |               |            |         |    and     |    the    |         |         |
+| enter  |           |            |          |             |               |            |         |    and     |    the    |         |         |
+|   ,    |           |            |          |             |               |            |         |  " and "   |  " but "  |         |         |
+|  spc   |           |            | [dotSpc] |             |               |            |         |    and     |    the    |         |         |
+|   r    |  migrate  |  address   |          |  generate   |   probably    | important  |         |  approval  |           |    x    |         |
 
 ## Adaptive keys
 

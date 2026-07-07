@@ -14,244 +14,208 @@ static bool magic_context_key_emitted = true;
 #define MAGIC_STRING_APOSTROPHE_R_E 18
 #define MAGIC_STRING_APOSTROPHE_S 22
 #define MAGIC_STRING_APOSTROPHE_V_E 25
-#define MAGIC_STRING_A_A 44
-#define MAGIC_STRING_A_C_K_G_R_O_U_N_D 46
-#define MAGIC_STRING_A_D_D_R_E_S_S 55
-#define MAGIC_STRING_A_E 62
-#define MAGIC_STRING_A_L_I_D_A_T_E 64
-#define MAGIC_STRING_A_L_R_E_A_D_Y 70
-#define MAGIC_STRING_A_L_W_A_Y_S 77
+#define MAGIC_STRING_A_A 45
+#define MAGIC_STRING_A_D_D_R_E_S_S 47
+#define MAGIC_STRING_A_E 54
+#define MAGIC_STRING_A_L_I_D_A_T_E 56
+#define MAGIC_STRING_A_L_R_E_A_D_Y 62
+#define MAGIC_STRING_A_L_W_A_Y_S 69
 #define MAGIC_STRING_A_N_D 0
-#define MAGIC_STRING_A_N_D_2 83
-#define MAGIC_STRING_A_N_G_U_A_G_E 87
-#define MAGIC_STRING_A_N_O_T_H_E_R 92
-#define MAGIC_STRING_A_N_Y_T_H_I_N_G 97
-#define MAGIC_STRING_A_P_P_R_O_V_A_L 103
-#define MAGIC_STRING_A_P_P_R_O_V_E 111
-#define MAGIC_STRING_A_S_I_C_A_L_L_Y 118
-#define MAGIC_STRING_A_S_N_APOSTROPHE_T 126
-#define MAGIC_STRING_A_V_A_I_L_A_B_L_E 131
-#define MAGIC_STRING_B_A_C_K_G_R_O_U_N_D 139
-#define MAGIC_STRING_B_A_S_I_C_A_L_L_Y 149
-#define MAGIC_STRING_B_E_C_A_M_E 158
-#define MAGIC_STRING_B_E_C_A_U_S_E 164
-#define MAGIC_STRING_B_E_C_O_M_E 171
-#define MAGIC_STRING_B_E_F_O_R_E 177
+#define MAGIC_STRING_A_N_D_2 75
+#define MAGIC_STRING_A_N_G_U_A_G_E 79
+#define MAGIC_STRING_A_N_O_T_H_E_R 84
+#define MAGIC_STRING_A_N_Y_T_H_I_N_G 89
+#define MAGIC_STRING_A_P_P_R_O_V_A_L 95
+#define MAGIC_STRING_A_P_P_R_O_V_E 102
+#define MAGIC_STRING_A_S_N_APOSTROPHE_T 108
+#define MAGIC_STRING_B_E_C_A_M_E 113
+#define MAGIC_STRING_B_E_C_A_U_S_E 120
+#define MAGIC_STRING_B_E_C_O_M_E 127
 #define MAGIC_STRING_B_U_T 5
-#define MAGIC_STRING_C_H_A_N_G_E 183
-#define MAGIC_STRING_C_O_M_M_E_N_T 188
-#define MAGIC_STRING_C_O_N_F_L_I_C_T 194
-#define MAGIC_STRING_C_O_N_F_U_S_I_N_G 201
+#define MAGIC_STRING_C_H_A_N_G_E 134
+#define MAGIC_STRING_C_O_N_F_U_S_I_N_G 139
 #define MAGIC_STRING_DOT 29
-#define MAGIC_STRING_D_D_R_E_S_S 208
-#define MAGIC_STRING_D_I_D_N_APOSTROPHE_T 214
-#define MAGIC_STRING_D_I_F_F_I_C_U_L_T_Y 221
-#define MAGIC_STRING_D_I_S_A_B_L_E 232
-#define MAGIC_STRING_D_O_E_S 239
-#define MAGIC_STRING_D_O_E_S_N_APOSTROPHE_T 243
-#define MAGIC_STRING_D_O_N_APOSTROPHE_T 249
-#define MAGIC_STRING_E_C_A_U_S_E 254
-#define MAGIC_STRING_E_C_O_M_E 260
-#define MAGIC_STRING_E_F_O_R_E 265
-#define MAGIC_STRING_E_H 270
-#define MAGIC_STRING_E_N_A_B_L_E 272
-#define MAGIC_STRING_E_N_E_R_A_T_E 278
-#define MAGIC_STRING_E_N_T 283
-#define MAGIC_STRING_E_O_P_L_E 286
-#define MAGIC_STRING_E_P_A_R_A_T_E 291
-#define MAGIC_STRING_E_R_S_I_O_N 297
-#define MAGIC_STRING_E_U 302
-#define MAGIC_STRING_E_V_E_R 304
-#define MAGIC_STRING_E_V_E_R_Y_T_H_I_N_G 309
-#define MAGIC_STRING_E_X_A_M_P_L_E 317
-#define MAGIC_STRING_E_X_C_E_P_T 324
-#define MAGIC_STRING_E_X_C_E_P_T_I_O_N 331
-#define MAGIC_STRING_E_X_C_L_U_D_E 340
-#define MAGIC_STRING_E_X_I_T 347
-#define MAGIC_STRING_E_X_P_L_A_I_N 352
-#define MAGIC_STRING_E_X_P_L_A_N_A_T_I_O_N 359
-#define MAGIC_STRING_E_X_P_L_I_C_I_T 368
-#define MAGIC_STRING_F_O_C_U_S_E_D 376
-#define MAGIC_STRING_F_O_L_L_O_W_I_N_G 384
-#define MAGIC_STRING_G_E_N_E_R_A_T_E 391
-#define MAGIC_STRING_G_E_N_E_R_A_T_I_O_N 397
-#define MAGIC_STRING_G_O_E_S 404
-#define MAGIC_STRING_G_R_E_G_O_R_DOT_Z_E_I_T_L_I_N_G_E_R_U0040_G_R_A_F_A_N_A_DOT_C_O_M 408
-#define MAGIC_STRING_G_R_E_G_O_R_U0040_Z_E_I_T_L_I_N_G_E_R_DOT_D_E 428
-#define MAGIC_STRING_H_I_C_H 442
-#define MAGIC_STRING_H_O_U_G_H 446
-#define MAGIC_STRING_H_O_U_G_H_T 450
-#define MAGIC_STRING_H_R_O_U_G_H 455
-#define MAGIC_STRING_H_Y 460
-#define MAGIC_STRING_H_Y_2 463
+#define MAGIC_STRING_D_I_D_N_APOSTROPHE_T 146
+#define MAGIC_STRING_D_I_F_F_I_C_U_L_T_Y 153
+#define MAGIC_STRING_D_I_S_A_B_L_E 164
+#define MAGIC_STRING_D_O_E_S 171
+#define MAGIC_STRING_D_O_E_S_N_APOSTROPHE_T 175
+#define MAGIC_STRING_D_O_N_APOSTROPHE_T 181
+#define MAGIC_STRING_E_C_A_U_S_E 186
+#define MAGIC_STRING_E_C_O_M_E 192
+#define MAGIC_STRING_E_H 198
+#define MAGIC_STRING_E_N_A_B_L_E 200
+#define MAGIC_STRING_E_N_T 206
+#define MAGIC_STRING_E_O_P_L_E 209
+#define MAGIC_STRING_E_P_A_R_A_T_E 213
+#define MAGIC_STRING_E_R_S_I_O_N 218
+#define MAGIC_STRING_E_U 223
+#define MAGIC_STRING_E_V_E_R 225
+#define MAGIC_STRING_E_V_E_R_Y_T_H_I_N_G 230
+#define MAGIC_STRING_E_X_A_M_P_L_E 238
+#define MAGIC_STRING_E_X_C_E_P_T 245
+#define MAGIC_STRING_E_X_C_E_P_T_I_O_N 251
+#define MAGIC_STRING_E_X_C_L_U_D_E 259
+#define MAGIC_STRING_E_X_I_T 266
+#define MAGIC_STRING_E_X_P_L_A_I_N 271
+#define MAGIC_STRING_E_X_P_L_A_N_A_T_I_O_N 277
+#define MAGIC_STRING_E_X_P_L_I_C_I_T 285
+#define MAGIC_STRING_F_O_C_U_S_E_D 293
+#define MAGIC_STRING_F_O_L_L_O_W_I_N_G 301
+#define MAGIC_STRING_G_E_N_E_R_A_T_E 308
+#define MAGIC_STRING_G_E_N_E_R_A_T_I_O_N 314
+#define MAGIC_STRING_G_O_E_S 321
+#define MAGIC_STRING_G_R_E_G_O_R_DOT_Z_E_I_T_L_I_N_G_E_R_U0040_G_R_A_F_A_N_A_DOT_C_O_M 325
+#define MAGIC_STRING_G_R_E_G_O_R_U0040_Z_E_I_T_L_I_N_G_E_R_DOT_D_E 346
+#define MAGIC_STRING_H_O_U_G_H 360
+#define MAGIC_STRING_H_O_U_G_H_T 364
+#define MAGIC_STRING_H_R_O_U_G_H 369
+#define MAGIC_STRING_H_Y 374
+#define MAGIC_STRING_H_Y_2 377
 #define MAGIC_STRING_I_APOSTROPHE_M 32
-#define MAGIC_STRING_I_D_N_APOSTROPHE_T 467
-#define MAGIC_STRING_I_F_F_I_C_U_L_T_Y 473
-#define MAGIC_STRING_I_G_R_A_T_E 483
-#define MAGIC_STRING_I_M_I_L_A_R 488
-#define MAGIC_STRING_I_M_P_L_E_M_E_N_T 493
-#define MAGIC_STRING_I_M_P_L_E_M_E_N_T_A_T_I_O_N 500
-#define MAGIC_STRING_I_M_P_O_R_T_A_N_T 509
-#define MAGIC_STRING_I_M_P_O_S_S_I_B_L_E 516
-#define MAGIC_STRING_I_M_P_R_O_V_E 524
-#define MAGIC_STRING_I_N_S_T_R_U_M_E_N_T 530
-#define MAGIC_STRING_I_N_S_T_R_U_M_E_N_T_A_T_I_O_N 537
-#define MAGIC_STRING_I_O_N 546
-#define MAGIC_STRING_I_S_A_B_L_E 549
-#define MAGIC_STRING_I_S_M_A_T_C_H 555
-#define MAGIC_STRING_J_U_S_T 561
-#define MAGIC_STRING_K_N_E_W 565
-#define MAGIC_STRING_K_N_O_W 570
-#define MAGIC_STRING_K_N_O_W_L_E_D_G_E 575
-#define MAGIC_STRING_L_A_N_G_U_A_G_E 583
-#define MAGIC_STRING_L_G_T_M 36
-#define MAGIC_STRING_M_E_N_T 589
-#define MAGIC_STRING_M_E_R_G_E_D 592
-#define MAGIC_STRING_M_I_G_R_A_T_E 598
-#define MAGIC_STRING_M_I_G_R_A_T_I_O_N 603
-#define MAGIC_STRING_M_I_S_M_A_T_C_H 609
-#define MAGIC_STRING_M_P_L_E_M_E_N_T 615
-#define MAGIC_STRING_M_U_L_T_I_P_L_E 622
-#define MAGIC_STRING_N_APOSTROPHE_T 629
-#define MAGIC_STRING_N_E_V_E_R 633
-#define MAGIC_STRING_N_E_W 638
-#define MAGIC_STRING_N_O_W 642
-#define MAGIC_STRING_O_B_S_E_R_V_A_B_I_L_I_T_Y 646
-#define MAGIC_STRING_O_C_U_S_E_D 658
-#define MAGIC_STRING_O_E 665
-#define MAGIC_STRING_O_E_S 667
-#define MAGIC_STRING_O_E_S_N_APOSTROPHE_T 670
-#define MAGIC_STRING_O_H 675
-#define MAGIC_STRING_O_L_L_O_W_I_N_G 677
-#define MAGIC_STRING_O_M_E_O_N_E 683
-#define MAGIC_STRING_O_M_E_T_H_I_N_G 688
-#define MAGIC_STRING_O_M_M_E_N_T 694
-#define MAGIC_STRING_O_N_APOSTROPHE_T 699
-#define MAGIC_STRING_O_N_L_Y 703
-#define MAGIC_STRING_O_R_K 708
-#define MAGIC_STRING_O_T_H_E_R_W_I_S_E 712
-#define MAGIC_STRING_P_E_O_P_L_E 719
-#define MAGIC_STRING_P_E_R_F_O_R_M_A_N_C_E 725
-#define MAGIC_STRING_P_L 734
-#define MAGIC_STRING_P_O_S_S_I_B_L_E 737
-#define MAGIC_STRING_P_P_L 744
-#define MAGIC_STRING_P_R_O_B_A_B_L_Y 748
-#define MAGIC_STRING_P_R_O_D_U_C_T_I_O_N 757
-#define MAGIC_STRING_Q_U 41
-#define MAGIC_STRING_Q_U_2 766
-#define MAGIC_STRING_Q_U_E_S_T_I_O_N 769
-#define MAGIC_STRING_R_E_S_O_L_U_T_I_O_N 775
-#define MAGIC_STRING_R_E_S_O_L_V_E 782
-#define MAGIC_STRING_R_O_B_A_B_L_Y 788
-#define MAGIC_STRING_R_O_D_U_C_T_I_O_N 796
-#define MAGIC_STRING_S_E_P_A_R_A_T_E 804
-#define MAGIC_STRING_S_E_P_A_R_A_T_I_O_N 810
-#define MAGIC_STRING_S_I_M_I_L_A_R 817
-#define MAGIC_STRING_S_I_O_N 822
-#define MAGIC_STRING_S_O_M_E_O_N_E 825
-#define MAGIC_STRING_S_O_M_E_T_H_I_N_G 830
-#define MAGIC_STRING_S_U_G_G_E_S_T 836
-#define MAGIC_STRING_S_U_P_P_O_R_T 841
-#define MAGIC_STRING_S_W_I_T_C_H 847
-#define MAGIC_STRING_T_H_A_N_K_S 861
-#define MAGIC_STRING_T_H_A_N_K_Y_O_U 853
-#define MAGIC_STRING_T_H_E 866
-#define MAGIC_STRING_T_H_I_N_K 869
-#define MAGIC_STRING_T_H_O_U_G_H 874
-#define MAGIC_STRING_T_H_O_U_G_H_T 879
-#define MAGIC_STRING_T_H_R_O_U_G_H 884
-#define MAGIC_STRING_T_I_O_N 889
-#define MAGIC_STRING_U_H 892
-#define MAGIC_STRING_U_L_T_I_P_L_E 894
-#define MAGIC_STRING_U_N_D_E_R_S_T_A_N_D 900
-#define MAGIC_STRING_U_P_D_A_T_E 908
-#define MAGIC_STRING_U_P_P_O_R_T 914
-#define MAGIC_STRING_V_A_L_I_D_A_T_E 920
-#define MAGIC_STRING_V_A_L_I_D_A_T_I_O_N 927
-#define MAGIC_STRING_V_E_R_S_I_O_N 935
-#define MAGIC_STRING_W_A_S_N_APOSTROPHE_T 941
-#define MAGIC_STRING_W_H_I_C_H 947
-#define MAGIC_STRING_W_H_Y 952
-#define MAGIC_STRING_W_I_T_H_O_U_T 957
-#define MAGIC_STRING_W_O_N_APOSTROPHE_T 963
-#define MAGIC_STRING_W_O_R_K 968
-#define MAGIC_STRING_W_O_R_S_E 973
-#define MAGIC_STRING_W_O_R_S_T 978
-#define MAGIC_STRING_Y_R 983
-#define MAGIC_STRING_Z_E_I_T_L_I_N_G_E_R_U0040_G_M_A_I_L_DOT_C_O_M 986
+#define MAGIC_STRING_I_D_N_APOSTROPHE_T 381
+#define MAGIC_STRING_I_F_F_I_C_U_L_T_Y 387
+#define MAGIC_STRING_I_M_I_L_A_R 397
+#define MAGIC_STRING_I_M_P_L_E_M_E_N_T 403
+#define MAGIC_STRING_I_M_P_L_E_M_E_N_T_A_T_I_O_N 411
+#define MAGIC_STRING_I_M_P_O_R_T_A_N_T 422
+#define MAGIC_STRING_I_M_P_O_S_S_I_B_L_E 429
+#define MAGIC_STRING_I_M_P_R_O_V_E 438
+#define MAGIC_STRING_I_N_S_T_R_U_M_E_N_T 445
+#define MAGIC_STRING_I_N_S_T_R_U_M_E_N_T_A_T_I_O_N 452
+#define MAGIC_STRING_I_O_N 462
+#define MAGIC_STRING_J_U_S_T 465
+#define MAGIC_STRING_K_N_E_W 469
+#define MAGIC_STRING_K_N_O_W 474
+#define MAGIC_STRING_K_N_O_W_L_E_D_G_E 479
+#define MAGIC_STRING_L_A_N_G_U_A_G_E 487
+#define MAGIC_STRING_L_G_T_M 37
+#define MAGIC_STRING_M_E_N_T 493
+#define MAGIC_STRING_M_E_R_G_E_D 497
+#define MAGIC_STRING_M_I_G_R_A_T_E 503
+#define MAGIC_STRING_M_I_G_R_A_T_I_O_N 509
+#define MAGIC_STRING_M_U_L_T_I_P_L_E 516
+#define MAGIC_STRING_N_APOSTROPHE_T 522
+#define MAGIC_STRING_N_E_V_E_R 526
+#define MAGIC_STRING_N_O_W 531
+#define MAGIC_STRING_O_B_S_E_R_V_A_B_I_L_I_T_Y 535
+#define MAGIC_STRING_O_C_U_S_E_D 547
+#define MAGIC_STRING_O_E 554
+#define MAGIC_STRING_O_E_S 556
+#define MAGIC_STRING_O_E_S_N_APOSTROPHE_T 559
+#define MAGIC_STRING_O_H 564
+#define MAGIC_STRING_O_L_L_O_W_I_N_G 566
+#define MAGIC_STRING_O_M_E_O_N_E 572
+#define MAGIC_STRING_O_M_E_T_H_I_N_G 578
+#define MAGIC_STRING_O_N_APOSTROPHE_T 585
+#define MAGIC_STRING_O_N_L_Y 589
+#define MAGIC_STRING_O_T_H_E_R_W_I_S_E 594
+#define MAGIC_STRING_P_E_O_P_L_E 601
+#define MAGIC_STRING_P_E_R_F_O_R_M_A_N_C_E 606
+#define MAGIC_STRING_P_L 615
+#define MAGIC_STRING_P_O_S_S_I_B_L_E 617
+#define MAGIC_STRING_P_P_L 624
+#define MAGIC_STRING_P_R_O_B_A_B_L_Y 627
+#define MAGIC_STRING_Q_U 42
+#define MAGIC_STRING_Q_U_2 636
+#define MAGIC_STRING_Q_U_E_S_T_I_O_N 639
+#define MAGIC_STRING_R_E_S_O_L_U_T_I_O_N 645
+#define MAGIC_STRING_R_E_S_O_L_V_E 652
+#define MAGIC_STRING_S_E_P_A_R_A_T_E 658
+#define MAGIC_STRING_S_E_P_A_R_A_T_I_O_N 664
+#define MAGIC_STRING_S_I_M_I_L_A_R 671
+#define MAGIC_STRING_S_I_O_N 677
+#define MAGIC_STRING_S_O_M_E_O_N_E 680
+#define MAGIC_STRING_S_O_M_E_T_H_I_N_G 686
+#define MAGIC_STRING_S_U_G_G_E_S_T 693
+#define MAGIC_STRING_S_U_P_P_O_R_T 698
+#define MAGIC_STRING_S_W_I_T_C_H 703
+#define MAGIC_STRING_T_H_A_N_K_S 717
+#define MAGIC_STRING_T_H_A_N_K_Y_O_U 709
+#define MAGIC_STRING_T_H_E 722
+#define MAGIC_STRING_T_H_I_N_K 725
+#define MAGIC_STRING_T_H_O_U_G_H 730
+#define MAGIC_STRING_T_H_O_U_G_H_T 735
+#define MAGIC_STRING_T_H_R_O_U_G_H 740
+#define MAGIC_STRING_T_I_O_N 745
+#define MAGIC_STRING_U_H 748
+#define MAGIC_STRING_U_L_T_I_P_L_E 750
+#define MAGIC_STRING_U_N_D_E_R_S_T_A_N_D 755
+#define MAGIC_STRING_U_P_D_A_T_E 763
+#define MAGIC_STRING_U_P_P_O_R_T 768
+#define MAGIC_STRING_V_A_L_I_D_A_T_E 773
+#define MAGIC_STRING_V_A_L_I_D_A_T_I_O_N 780
+#define MAGIC_STRING_V_E_R_S_I_O_N 788
+#define MAGIC_STRING_W_A_S_N_APOSTROPHE_T 794
+#define MAGIC_STRING_W_H_Y 800
+#define MAGIC_STRING_W_O_N_APOSTROPHE_T 805
+#define MAGIC_STRING_W_O_R_S_E 810
+#define MAGIC_STRING_W_O_R_S_T 815
+#define MAGIC_STRING_Y_R 820
+#define MAGIC_STRING_Z_E_I_T_L_I_N_G_E_R_U0040_G_M_A_I_L_DOT_C_O_M 823
 
 static const char magic_char_4bit[] = {
-    ' ', 'e', 'o', 't', 'n', 'a', 'i', 'r', 'l', 's', 'g', 'u', 'm', 'h'
+    ' ', 'e', 'o', 'n', 't', 'i', 'a', 'r', 'l', 's', 'g', 'p', 'u', 'h'
 };
 
 static const char magic_char_extended[] = {
-    'p', 'c', 'd', 'b', 'w', 'y', '\'', 'v', 'f', 'k', 'x', '.', '@', 'z', 'q', 'G', 'I', 'L', 'M', 'Q', 'T', 'j'
+    'm', 'd', 'c', '\'', 'w', 'y', 'b', 'v', 'f', 'x', 'k', '.', '@', 'z', 'q', 'G', 'I', 'L', 'M', 'Q', 'T', 'j'
 };
 
 static const uint8_t magic_string_data[] = {
-    0x05, 0x05, 0x4f, 0xe2, 0x00, 0x05, 0x0f, 0xe3, 0xb3, 0x00, 0x03, 0xe6, 0xe2, 0x00, 0x04, 0xe6,
-    0x88, 0x00, 0x04, 0xe6, 0x71, 0x00, 0x03, 0xe6, 0x90, 0x04, 0xe6, 0xe7, 0x10, 0x02, 0xeb, 0x00,
-    0x04, 0xf0, 0xe6, 0xc0, 0x04, 0xf1, 0xef, 0xf4, 0xf2, 0x02, 0xf3, 0xb0, 0x02, 0x55, 0x0a, 0x5f,
-    0xe1, 0xe9, 0xa7, 0x2b, 0x4f, 0xe2, 0x00, 0x08, 0x5f, 0xe2, 0xe2, 0x71, 0x99, 0x00, 0x02, 0x51,
-    0x08, 0x58, 0x6f, 0xe2, 0x53, 0x10, 0x08, 0x58, 0x71, 0x5f, 0xe2, 0xe5, 0x00, 0x07, 0x58, 0xe4,
-    0x5f, 0xe5, 0x90, 0x04, 0x54, 0xe2, 0x00, 0x08, 0x54, 0xab, 0x5a, 0x10, 0x08, 0x54, 0x23, 0xd1,
-    0x70, 0x09, 0x54, 0xe5, 0x3d, 0x64, 0xa0, 0x09, 0x5f, 0xe0, 0xe0, 0x72, 0xe7, 0x58, 0x00, 0x08,
-    0x5f, 0xe0, 0xe0, 0x72, 0xe7, 0x10, 0x09, 0x59, 0x6f, 0xe1, 0x58, 0x8f, 0xe5, 0x00, 0x06, 0x59,
-    0x4f, 0xe6, 0x30, 0x0a, 0x5f, 0xe7, 0x56, 0x85, 0xe3, 0x81, 0x00, 0x0b, 0xe3, 0x5f, 0xe1, 0xe9,
-    0xa7, 0x2b, 0x4f, 0xe2, 0x00, 0x0a, 0xe3, 0x59, 0x6f, 0xe1, 0x58, 0x8f, 0xe5, 0x00, 0x07, 0xe3,
-    0x1f, 0xe1, 0x5c, 0x10, 0x08, 0xe3, 0x1f, 0xe1, 0x5b, 0x91, 0x00, 0x07, 0xe3, 0x1f, 0xe1, 0x2c,
-    0x10, 0x07, 0xe3, 0x1f, 0xe8, 0x27, 0x10, 0x07, 0xe1, 0xd5, 0x4a, 0x10, 0x08, 0xe1, 0x2c, 0xc1,
-    0x43, 0x00, 0x09, 0xe1, 0x24, 0xe8, 0x86, 0xe1, 0x30, 0x0a, 0xe1, 0x24, 0xe8, 0xb9, 0x64, 0xa0,
-    0x07, 0xe2, 0xe2, 0x71, 0x99, 0x00, 0x07, 0xe2, 0x6f, 0xe2, 0x4f, 0xe6, 0x30, 0x0b, 0xe2, 0x6f,
-    0xe8, 0xe8, 0x6f, 0xe1, 0xb8, 0x3f, 0xe5, 0x00, 0x08, 0xe2, 0x69, 0x5f, 0xe3, 0x81, 0x00, 0x05,
-    0xe2, 0x21, 0x90, 0x08, 0xe2, 0x21, 0x94, 0xe6, 0x30, 0x06, 0xe2, 0x24, 0xe6, 0x30, 0x07, 0x1f,
-    0xe1, 0x5b, 0x91, 0x00, 0x06, 0x1f, 0xe1, 0x2c, 0x10, 0x06, 0x1f, 0xe8, 0x27, 0x10, 0x02, 0x1d,
-    0x07, 0x14, 0x5f, 0xe3, 0x81, 0x00, 0x08, 0x14, 0x17, 0x53, 0x10, 0x03, 0x14, 0x30, 0x06, 0x12,
-    0xe0, 0x81, 0x00, 0x08, 0x1f, 0xe0, 0x57, 0x53, 0x10, 0x07, 0x17, 0x96, 0x24, 0x00, 0x02, 0x1b,
-    0x05, 0x1f, 0xe7, 0x17, 0x00, 0x0b, 0x1f, 0xe7, 0x17, 0xe5, 0x3d, 0x64, 0xa0, 0x08, 0x1f, 0xea,
-    0x5c, 0xe0, 0x81, 0x00, 0x07, 0x1f, 0xea, 0xe1, 0x1f, 0xe0, 0x30, 0x0a, 0x1f, 0xea, 0xe1, 0x1f,
-    0xe0, 0x36, 0x24, 0x00, 0x08, 0x1f, 0xea, 0xe1, 0x8b, 0xe2, 0x10, 0x05, 0x1f, 0xea, 0x63, 0x00,
-    0x08, 0x1f, 0xea, 0xe0, 0x85, 0x64, 0x00, 0x0c, 0x1f, 0xea, 0xe0, 0x85, 0x45, 0x36, 0x24, 0x00,
-    0x09, 0x1f, 0xea, 0xe0, 0x86, 0xe1, 0x63, 0x00, 0x08, 0xe8, 0x2f, 0xe1, 0xb9, 0x1f, 0xe2, 0x00,
-    0x0a, 0xe8, 0x28, 0x82, 0xe4, 0x64, 0xa0, 0x09, 0xa1, 0x41, 0x75, 0x31, 0x00, 0x0b, 0xa1, 0x41,
-    0x75, 0x36, 0x24, 0x00, 0x05, 0xa2, 0x19, 0x00, 0x1d, 0xa7, 0x1a, 0x27, 0xeb, 0xed, 0x16, 0x38,
-    0x64, 0xa1, 0x7f, 0xec, 0xa7, 0x5f, 0xe8, 0x54, 0x5f, 0xeb, 0xe1, 0x2c, 0x14, 0xa7, 0x1a, 0x27,
-    0xec, 0xed, 0x16, 0x38, 0x64, 0xa1, 0x7f, 0xeb, 0xe2, 0x10, 0x05, 0xd6, 0xe1, 0xd0, 0x06, 0xd2,
-    0xba, 0xd0, 0x07, 0xd2, 0xba, 0xd3, 0x00, 0x07, 0xd7, 0x2b, 0xad, 0x00, 0x02, 0xdf, 0xe5, 0x03,
-    0xdf, 0xe5, 0x00, 0x06, 0x6f, 0xe2, 0x4f, 0xe6, 0x30, 0x0a, 0x6f, 0xe8, 0xe8, 0x6f, 0xe1, 0xb8,
-    0x3f, 0xe5, 0x00, 0x07, 0x6a, 0x75, 0x31, 0x00, 0x07, 0x6c, 0x68, 0x57, 0x00, 0x0a, 0x6c, 0xe0,
-    0x81, 0xc1, 0x43, 0x00, 0x0f, 0x6c, 0xe0, 0x81, 0xc1, 0x43, 0x53, 0x62, 0x40, 0x0a, 0x6c, 0xe0,
-    0x27, 0x35, 0x43, 0x00, 0x0b, 0x6c, 0xe0, 0x29, 0x96, 0xe3, 0x81, 0x00, 0x08, 0x6c, 0xe0, 0x72,
-    0xe7, 0x10, 0x0b, 0x64, 0x93, 0x7b, 0xc1, 0x43, 0x00, 0x10, 0x64, 0x93, 0x7b, 0xc1, 0x43, 0x53,
-    0x62, 0x40, 0x03, 0x62, 0x40, 0x07, 0x69, 0x5f, 0xe3, 0x81, 0x00, 0x08, 0x69, 0xc5, 0x3f, 0xe1,
-    0xd0, 0x05, 0xf5, 0xb9, 0x30, 0x05, 0xe9, 0x41, 0xe4, 0x00, 0x05, 0xe9, 0x42, 0xe4, 0x00, 0x0a,
-    0xe9, 0x42, 0xe4, 0x81, 0xe2, 0xa1, 0x00, 0x09, 0x85, 0x4a, 0xb5, 0xa1, 0x00, 0x04, 0xc1, 0x43,
-    0x07, 0xc1, 0x7a, 0x1f, 0xe2, 0x00, 0x08, 0xc6, 0xa7, 0x53, 0x10, 0x0a, 0xc6, 0xa7, 0x53, 0x62,
-    0x40, 0x09, 0xc6, 0x9c, 0x53, 0xe1, 0xd0, 0x09, 0xcf, 0xe0, 0x81, 0xc1, 0x43, 0x00, 0x09, 0xcb,
-    0x83, 0x6f, 0xe0, 0x81, 0x00, 0x04, 0x4f, 0xe6, 0x30, 0x06, 0x41, 0xe7, 0x17, 0x00, 0x04, 0x41,
-    0xe4, 0x00, 0x04, 0x42, 0xe4, 0x00, 0x0e, 0x2f, 0xe3, 0x91, 0x7f, 0xe7, 0x5f, 0xe3, 0x68, 0x63,
-    0xe5, 0x00, 0x07, 0x2f, 0xe1, 0xb9, 0x1f, 0xe2, 0x00, 0x02, 0x21, 0x04, 0x21, 0x90, 0x07, 0x21,
-    0x94, 0xe6, 0x30, 0x02, 0x2d, 0x09, 0x28, 0x82, 0xe4, 0x64, 0xa0, 0x07, 0x2c, 0x12, 0x41, 0x00,
-    0x09, 0x2c, 0x13, 0xd6, 0x4a, 0x00, 0x07, 0x2c, 0xc1, 0x43, 0x00, 0x05, 0x24, 0xe6, 0x30, 0x05,
-    0x24, 0x8f, 0xe5, 0x00, 0x04, 0x27, 0xe9, 0x00, 0x0a, 0x23, 0xd1, 0x7f, 0xe4, 0x69, 0x10, 0x07,
-    0xe0, 0x12, 0xe0, 0x81, 0x00, 0x0c, 0xe0, 0x17, 0xe8, 0x27, 0xc5, 0x4f, 0xe1, 0x10, 0x02, 0xe0,
-    0x80, 0x09, 0xe0, 0x29, 0x96, 0xe3, 0x81, 0x00, 0x03, 0xe0, 0xe0, 0x80, 0x09, 0xe0, 0x72, 0xe3,
-    0x5f, 0xe3, 0x8f, 0xe5, 0x00, 0x0b, 0xe0, 0x72, 0xe2, 0xbf, 0xe1, 0x36, 0x24, 0x00, 0x02, 0xee,
-    0xb0, 0x09, 0xee, 0xb1, 0x93, 0x62, 0x40, 0x0b, 0x71, 0x92, 0x8b, 0x36, 0x24, 0x00, 0x08, 0x71,
-    0x92, 0x8f, 0xe7, 0x10, 0x08, 0x72, 0xe3, 0x5f, 0xe3, 0x8f, 0xe5, 0x00, 0x0a, 0x72, 0xe2, 0xbf,
-    0xe1, 0x36, 0x24, 0x00, 0x09, 0x91, 0xe0, 0x57, 0x53, 0x10, 0x0b, 0x91, 0xe0, 0x57, 0x53, 0x62,
-    0x40, 0x08, 0x96, 0xc6, 0x85, 0x70, 0x04, 0x96, 0x24, 0x08, 0x92, 0xc1, 0x24, 0x10, 0x0a, 0x92,
-    0xc1, 0x3d, 0x64, 0xa0, 0x08, 0x9b, 0xaa, 0x19, 0x30, 0x08, 0x9b, 0xe0, 0xe0, 0x27, 0x30, 0x07,
-    0x9f, 0xe4, 0x63, 0xe1, 0xd0, 0x0a, 0x3d, 0x54, 0xe9, 0x0f, 0xe5, 0x2b, 0x00, 0x07, 0x3d, 0x54,
-    0xe9, 0x90, 0x04, 0x3d, 0x10, 0x06, 0x3d, 0x64, 0xe9, 0x00, 0x07, 0x3d, 0x2b, 0xad, 0x00, 0x08,
-    0x3d, 0x2b, 0xad, 0x30, 0x08, 0x3d, 0x72, 0xba, 0xd0, 0x04, 0x36, 0x24, 0x02, 0xbd, 0x08, 0xb8,
-    0x36, 0xe0, 0x81, 0x00, 0x0b, 0xb4, 0xe2, 0x17, 0x93, 0x54, 0xe2, 0x00, 0x07, 0xbf, 0xe0, 0xe2,
-    0x53, 0x10, 0x07, 0xbf, 0xe0, 0xe0, 0x27, 0x30, 0x09, 0xe7, 0x58, 0x6f, 0xe2, 0x53, 0x10, 0x0b,
-    0xe7, 0x58, 0x6f, 0xe2, 0x53, 0x62, 0x40, 0x08, 0xe7, 0x17, 0x96, 0x24, 0x00, 0x07, 0xe4, 0x59,
-    0x4f, 0xe6, 0x30, 0x06, 0xe4, 0xd6, 0xe1, 0xd0, 0x04, 0xe4, 0xdf, 0xe5, 0x00, 0x08, 0xe4, 0x63,
-    0xd2, 0xb3, 0x00, 0x06, 0xe4, 0x24, 0xe6, 0x30, 0x05, 0xe4, 0x27, 0xe9, 0x00, 0x06, 0xe4, 0x27,
-    0x91, 0x00, 0x06, 0xe4, 0x27, 0x93, 0x00, 0x02, 0xe5, 0x70, 0x14, 0xed, 0x16, 0x38, 0x64, 0xa1,
-    0x7f, 0xec, 0xac, 0x56, 0x8f, 0xeb, 0xe1, 0x2c
+    0x05, 0x06, 0x3f, 0xe1, 0x00, 0x05, 0x0f, 0xe6, 0xc4, 0x00, 0x03, 0xe3, 0xe1, 0x00, 0x04, 0xe3,
+    0x88, 0x00, 0x04, 0xe3, 0x71, 0x00, 0x03, 0xe3, 0x90, 0x04, 0xe3, 0xe7, 0x10, 0x02, 0xeb, 0x00,
+    0x04, 0xf0, 0xe3, 0xe0, 0x00, 0x04, 0xf1, 0xef, 0xf4, 0xf2, 0x02, 0xf3, 0xc0, 0x02, 0x66, 0x08,
+    0x6f, 0xe1, 0xe1, 0x71, 0x99, 0x00, 0x02, 0x61, 0x08, 0x68, 0x5f, 0xe1, 0x64, 0x10, 0x08, 0x68,
+    0x71, 0x6f, 0xe1, 0xe5, 0x00, 0x07, 0x68, 0xe4, 0x6f, 0xe5, 0x90, 0x04, 0x63, 0xe1, 0x00, 0x08,
+    0x63, 0xac, 0x6a, 0x10, 0x08, 0x63, 0x24, 0xd1, 0x70, 0x09, 0x63, 0xe5, 0x4d, 0x53, 0xa0, 0x09,
+    0x6b, 0xb7, 0x2f, 0xe7, 0x68, 0x00, 0x08, 0x6b, 0xb7, 0x2f, 0xe7, 0x10, 0x06, 0x69, 0x3f, 0xe3,
+    0x40, 0x07, 0xe6, 0x1f, 0xe2, 0x6f, 0xe0, 0x10, 0x08, 0xe6, 0x1f, 0xe2, 0x6c, 0x91, 0x00, 0x07,
+    0xe6, 0x1f, 0xe2, 0x2f, 0xe0, 0x10, 0x07, 0xe2, 0xd6, 0x3a, 0x10, 0x0a, 0xe2, 0x23, 0xe8, 0xc9,
+    0x53, 0xa0, 0x07, 0xe1, 0x5f, 0xe1, 0x3f, 0xe3, 0x40, 0x0b, 0xe1, 0x5f, 0xe8, 0xe8, 0x5f, 0xe2,
+    0xc8, 0x4f, 0xe5, 0x00, 0x08, 0xe1, 0x59, 0x6f, 0xe6, 0x81, 0x00, 0x05, 0xe1, 0x21, 0x90, 0x08,
+    0xe1, 0x21, 0x93, 0xe3, 0x40, 0x06, 0xe1, 0x23, 0xe3, 0x40, 0x07, 0x1f, 0xe2, 0x6c, 0x91, 0x00,
+    0x06, 0x1f, 0xe2, 0x2f, 0xe0, 0x10, 0x02, 0x1d, 0x07, 0x13, 0x6f, 0xe6, 0x81, 0x00, 0x03, 0x13,
+    0x40, 0x06, 0x12, 0xb8, 0x10, 0x08, 0x1b, 0x67, 0x64, 0x10, 0x07, 0x17, 0x95, 0x23, 0x00, 0x02,
+    0x1c, 0x05, 0x1f, 0xe7, 0x17, 0x00, 0x0b, 0x1f, 0xe7, 0x17, 0xe5, 0x4d, 0x53, 0xa0, 0x08, 0x1f,
+    0xe9, 0x6f, 0xe0, 0xb8, 0x10, 0x07, 0x1f, 0xe9, 0xe2, 0x1b, 0x40, 0x0a, 0x1f, 0xe9, 0xe2, 0x1b,
+    0x45, 0x23, 0x00, 0x08, 0x1f, 0xe9, 0xe2, 0x8c, 0xe1, 0x10, 0x05, 0x1f, 0xe9, 0x54, 0x00, 0x08,
+    0x1f, 0xe9, 0xb8, 0x65, 0x30, 0x0c, 0x1f, 0xe9, 0xb8, 0x63, 0x64, 0x52, 0x30, 0x09, 0x1f, 0xe9,
+    0xb8, 0x5f, 0xe2, 0x54, 0x00, 0x08, 0xe8, 0x2f, 0xe2, 0xc9, 0x1f, 0xe1, 0x00, 0x0a, 0xe8, 0x28,
+    0x82, 0xe4, 0x53, 0xa0, 0x09, 0xa1, 0x31, 0x76, 0x41, 0x00, 0x0b, 0xa1, 0x31, 0x76, 0x45, 0x23,
+    0x00, 0x05, 0xa2, 0x19, 0x00, 0x1d, 0xa7, 0x1a, 0x27, 0xeb, 0xed, 0x15, 0x48, 0x53, 0xa1, 0x7f,
+    0xec, 0xa7, 0x6f, 0xe8, 0x63, 0x6f, 0xeb, 0xe2, 0x2f, 0xe0, 0x14, 0xa7, 0x1a, 0x27, 0xec, 0xed,
+    0x15, 0x48, 0x53, 0xa1, 0x7f, 0xeb, 0xe1, 0x10, 0x06, 0xd2, 0xca, 0xd0, 0x07, 0xd2, 0xca, 0xd4,
+    0x00, 0x07, 0xd7, 0x2c, 0xad, 0x00, 0x02, 0xdf, 0xe5, 0x03, 0xdf, 0xe5, 0x00, 0x06, 0x5f, 0xe1,
+    0x3f, 0xe3, 0x40, 0x0a, 0x5f, 0xe8, 0xe8, 0x5f, 0xe2, 0xc8, 0x4f, 0xe5, 0x00, 0x07, 0x5f, 0xe0,
+    0x58, 0x67, 0x00, 0x0a, 0x5f, 0xe0, 0xb8, 0x1f, 0xe0, 0x13, 0x40, 0x0f, 0x5f, 0xe0, 0xb8, 0x1f,
+    0xe0, 0x13, 0x46, 0x45, 0x23, 0x00, 0x0a, 0x5f, 0xe0, 0xb2, 0x74, 0x63, 0x40, 0x0b, 0x5f, 0xe0,
+    0xb2, 0x99, 0x5f, 0xe6, 0x81, 0x00, 0x08, 0x5f, 0xe0, 0xb7, 0x2f, 0xe7, 0x10, 0x0b, 0x53, 0x94,
+    0x7c, 0xe0, 0x13, 0x40, 0x10, 0x53, 0x94, 0x7c, 0xe0, 0x13, 0x46, 0x45, 0x23, 0x00, 0x03, 0x52,
+    0x30, 0x05, 0xf5, 0xc9, 0x40, 0x05, 0xea, 0x31, 0xe4, 0x00, 0x05, 0xea, 0x32, 0xe4, 0x00, 0x0a,
+    0xea, 0x32, 0xe4, 0x81, 0xe1, 0xa1, 0x00, 0x09, 0x86, 0x3a, 0xc6, 0xa1, 0x00, 0x04, 0xe0, 0x13,
+    0x40, 0x07, 0xe0, 0x17, 0xa1, 0xe1, 0x00, 0x08, 0xe0, 0x5a, 0x76, 0x41, 0x00, 0x0a, 0xe0, 0x5a,
+    0x76, 0x45, 0x23, 0x00, 0x09, 0xe0, 0xc8, 0x45, 0xb8, 0x10, 0x04, 0x3f, 0xe3, 0x40, 0x06, 0x31,
+    0xe7, 0x17, 0x00, 0x04, 0x32, 0xe4, 0x00, 0x0e, 0x2f, 0xe6, 0x91, 0x7f, 0xe7, 0x6f, 0xe6, 0x58,
+    0x54, 0xe5, 0x00, 0x07, 0x2f, 0xe2, 0xc9, 0x1f, 0xe1, 0x00, 0x02, 0x21, 0x04, 0x21, 0x90, 0x07,
+    0x21, 0x93, 0xe3, 0x40, 0x02, 0x2d, 0x09, 0x28, 0x82, 0xe4, 0x53, 0xa0, 0x07, 0x2f, 0xe0, 0x12,
+    0x31, 0x00, 0x09, 0x2f, 0xe0, 0x14, 0xd5, 0x3a, 0x00, 0x05, 0x23, 0xe3, 0x40, 0x05, 0x23, 0x8f,
+    0xe5, 0x00, 0x0a, 0x24, 0xd1, 0x7f, 0xe4, 0x59, 0x10, 0x07, 0xb1, 0x2b, 0x81, 0x00, 0x0c, 0xb1,
+    0x7f, 0xe8, 0x27, 0xe0, 0x63, 0xe2, 0x10, 0x02, 0xb8, 0x09, 0xb2, 0x99, 0x5f, 0xe6, 0x81, 0x00,
+    0x03, 0xbb, 0x80, 0x09, 0xb7, 0x2f, 0xe6, 0x6f, 0xe6, 0x8f, 0xe5, 0x00, 0x02, 0xee, 0xc0, 0x09,
+    0xee, 0xc1, 0x94, 0x52, 0x30, 0x0b, 0x71, 0x92, 0x8c, 0x45, 0x23, 0x00, 0x08, 0x71, 0x92, 0x8f,
+    0xe7, 0x10, 0x09, 0x91, 0xb6, 0x76, 0x41, 0x00, 0x0b, 0x91, 0xb6, 0x76, 0x45, 0x23, 0x00, 0x08,
+    0x95, 0xe0, 0x58, 0x67, 0x00, 0x04, 0x95, 0x23, 0x08, 0x92, 0xe0, 0x12, 0x31, 0x00, 0x0a, 0x92,
+    0xe0, 0x14, 0xd5, 0x3a, 0x00, 0x08, 0x9c, 0xaa, 0x19, 0x40, 0x08, 0x9c, 0xbb, 0x27, 0x40, 0x07,
+    0x9f, 0xe4, 0x54, 0xe2, 0xd0, 0x0a, 0x4d, 0x63, 0xea, 0x0f, 0xe5, 0x2c, 0x00, 0x07, 0x4d, 0x63,
+    0xea, 0x90, 0x04, 0x4d, 0x10, 0x06, 0x4d, 0x53, 0xea, 0x00, 0x07, 0x4d, 0x2c, 0xad, 0x00, 0x08,
+    0x4d, 0x2c, 0xad, 0x40, 0x08, 0x4d, 0x72, 0xca, 0xd0, 0x04, 0x45, 0x23, 0x02, 0xcd, 0x08, 0xc8,
+    0x45, 0xb8, 0x10, 0x0b, 0xc3, 0xe1, 0x17, 0x94, 0x63, 0xe1, 0x00, 0x07, 0xcb, 0xe1, 0x64, 0x10,
+    0x07, 0xcb, 0xb2, 0x74, 0x00, 0x09, 0xe7, 0x68, 0x5f, 0xe1, 0x64, 0x10, 0x0b, 0xe7, 0x68, 0x5f,
+    0xe1, 0x64, 0x52, 0x30, 0x08, 0xe7, 0x17, 0x95, 0x23, 0x00, 0x07, 0xe4, 0x69, 0x3f, 0xe3, 0x40,
+    0x04, 0xe4, 0xdf, 0xe5, 0x00, 0x06, 0xe4, 0x23, 0xe3, 0x40, 0x06, 0xe4, 0x27, 0x91, 0x00, 0x06,
+    0xe4, 0x27, 0x94, 0x00, 0x02, 0xe5, 0x70, 0x14, 0xed, 0x15, 0x48, 0x53, 0xa1, 0x7f, 0xec, 0xaf,
+    0xe0, 0x65, 0x8f, 0xeb, 0xe2, 0x2f, 0xe0
 };
 
 static void magic_decode_send_skip(uint16_t offset, uint8_t skip_chars) {
@@ -632,7 +596,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_repeat_keycode = KC_NO;
             uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
             switch (magic_context_prepared) {
-                case KC_B: magic_decode_send_suffix_cycle(MAGIC_STRING_A_C_K_G_R_O_U_N_D, 'd', MAGIC_CYCLE_NONE); /* emits "ackground " -> "background " */ break;
+                case KC_B: magic_replace_decode_send_cap_cycle(MAGIC_STRING_D_I_S_A_B_L_E, 'e', MAGIC_STRING_D_I_S_A_B_L_E); /* emits "disable " */ break;
                 case KC_C: magic_replace_decode_send_cap_cycle(MAGIC_STRING_APOSTROPHE_L_L, '\0', MAGIC_CYCLE_NONE); /* emits "'ll " */ break;
                 case KC_D: magic_tap_repeatable(KC_F); break;
                 case KC_F: magic_replace_decode_send_cap_cycle(MAGIC_STRING_C_O_N_F_U_S_I_N_G, 'g', MAGIC_CYCLE_NONE); /* emits "confusing " */ break;
@@ -642,6 +606,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_M: magic_tap_repeatable(KC_R); break;
                 case KC_N: magic_tap_repeatable(KC_R); break;
                 case KC_P: magic_tap_repeatable(KC_Y); break;
+                case KC_R: magic_replace_decode_send_cap_cycle(MAGIC_STRING_M_I_G_R_A_T_E, 'e', MAGIC_STRING_M_I_G_R_A_T_E); /* emits "migrate " */ break;
                 case KC_S: magic_tap_repeatable(KC_R); break;
                 case KC_T: magic_tap_repeatable(KC_F); break;
                 case KC_V: magic_decode_send_suffix_cycle(MAGIC_STRING_A_L_I_D_A_T_E, 'e', MAGIC_STRING_V_A_L_I_D_A_T_E); /* emits "alidate " -> "validate " */ break;
@@ -678,7 +643,8 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_L: magic_tap_repeatable(KC_H); break;
                 case KC_M: magic_tap_repeatable(KC_H); break;
                 case KC_N: magic_tap_repeatable(KC_H); break;
-                case KC_P: magic_decode_send_suffix_cycle(MAGIC_STRING_R_O_D_U_C_T_I_O_N, 'n', MAGIC_CYCLE_NONE); /* emits "roduction " -> "production " */ break;
+                case KC_P: magic_decode_send(MAGIC_STRING_P_L); /* emits "pl" -> "ppl" */ break;
+                case KC_R: magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_D_D_R_E_S_S, 's', MAGIC_CYCLE_NONE); /* emits "address " */ break;
                 case KC_S: magic_decode_send_suffix_cycle(MAGIC_STRING_O_M_E_O_N_E, 'e', MAGIC_CYCLE_NONE); /* emits "omeone " -> "someone " */ break;
                 case KC_T: magic_decode_send_suffix_cycle(MAGIC_STRING_H_O_U_G_H, 'h', MAGIC_CYCLE_NONE); /* emits "hough " -> "though " */ break;
                 case KC_V: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_V_E_R_Y_T_H_I_N_G, 'g', MAGIC_CYCLE_NONE); /* emits "everything " */ break;
@@ -701,8 +667,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_repeat_keycode = KC_NO;
             uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
             switch (magic_context_prepared) {
-                case KC_A: magic_decode_send_suffix_cycle(MAGIC_STRING_D_D_R_E_S_S, 's', MAGIC_CYCLE_NONE); /* emits "ddress " -> "address " */ break;
-                case KC_I: magic_decode_send_suffix_cycle(MAGIC_STRING_M_P_L_E_M_E_N_T, 't', MAGIC_STRING_I_M_P_L_E_M_E_N_T); /* emits "mplement " -> "implement " */ break;
+                case KC_SPC: magic_replace_decode_send_cap(MAGIC_STRING_DOT, '\0'); /* emits ". " */ add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state(); break;
             default:
                             break;
             }
@@ -720,20 +685,21 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_repeat_keycode = KC_NO;
             uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
             switch (magic_context_prepared) {
-                case KC_B: magic_decode_send_suffix_cycle(MAGIC_STRING_E_C_O_M_E, 'e', MAGIC_STRING_B_E_C_O_M_E); /* emits "ecome " -> "become " */ break;
+                case KC_B: magic_replace_decode_send_cap_cycle(MAGIC_STRING_P_O_S_S_I_B_L_E, 'e', MAGIC_STRING_P_O_S_S_I_B_L_E); /* emits "possible " */ break;
                 case KC_C: magic_replace_decode_send_cap_cycle(MAGIC_STRING_N_APOSTROPHE_T, '\0', MAGIC_CYCLE_NONE); /* emits "n't " */ break;
                 case KC_D: magic_decode_send_suffix_cycle(MAGIC_STRING_O_N_APOSTROPHE_T, 't', MAGIC_CYCLE_NONE); /* emits "on't " -> "don't " */ break;
                 case KC_F: magic_replace_decode_send_cap_cycle(MAGIC_STRING_P_E_R_F_O_R_M_A_N_C_E, 'e', MAGIC_CYCLE_NONE); /* emits "performance " */ break;
                 case KC_G: magic_replace_decode_send_cap_cycle(MAGIC_STRING_S_U_G_G_E_S_T, 't', MAGIC_CYCLE_NONE); /* emits "suggest " */ break;
                 case KC_K: magic_replace_decode_send_cap_cycle(MAGIC_STRING_T_H_I_N_K, 'k', MAGIC_CYCLE_NONE); /* emits "think " */ break;
                 case KC_L: magic_decode_send_suffix_cycle(MAGIC_STRING_A_N_G_U_A_G_E, 'e', MAGIC_CYCLE_NONE); /* emits "anguage " -> "language " */ break;
-                case KC_M: magic_decode_send_suffix_cycle(MAGIC_STRING_I_G_R_A_T_E, 'e', MAGIC_STRING_M_I_G_R_A_T_E); /* emits "igrate " -> "migrate " */ break;
+                case KC_M: magic_replace_decode_send_cap_cycle(MAGIC_STRING_I_M_P_L_E_M_E_N_T, 't', MAGIC_STRING_I_M_P_L_E_M_E_N_T); /* emits "implement " */ break;
                 case KC_N: magic_decode_send_suffix_cycle(MAGIC_STRING_E_V_E_R, 'r', MAGIC_CYCLE_NONE); /* emits "ever " -> "never " */ break;
                 case KC_P: magic_decode_send_suffix_cycle(MAGIC_STRING_E_O_P_L_E, 'e', MAGIC_CYCLE_NONE); /* emits "eople " -> "people " */ break;
-                case KC_S: magic_replace_decode_send_cap_cycle(MAGIC_STRING_P_O_S_S_I_B_L_E, 'e', MAGIC_STRING_P_O_S_S_I_B_L_E); /* emits "possible " */ break;
+                case KC_R: magic_replace_decode_send_cap_cycle(MAGIC_STRING_G_E_N_E_R_A_T_E, 'e', MAGIC_STRING_G_E_N_E_R_A_T_E); /* emits "generate " */ break;
+                case KC_S: magic_decode_send_suffix_cycle(MAGIC_STRING_O_M_E_T_H_I_N_G, 'g', MAGIC_CYCLE_NONE); /* emits "omething " -> "something " */ break;
                 case KC_T: magic_replace_decode_send_cap_cycle(MAGIC_STRING_J_U_S_T, 't', MAGIC_CYCLE_NONE); /* emits "just " */ break;
                 case KC_V: magic_replace_decode_send_cap_cycle(MAGIC_STRING_I_M_P_R_O_V_E, 'e', MAGIC_CYCLE_NONE); /* emits "improve " */ break;
-                case KC_W: magic_decode_send_suffix_cycle(MAGIC_STRING_O_R_K, 'k', MAGIC_CYCLE_NONE); /* emits "ork " -> "work " */ break;
+                case KC_W: magic_replace_decode_send_cap_cycle(MAGIC_STRING_K_N_E_W, 'w', MAGIC_CYCLE_NONE); /* emits "knew " */ break;
                 case KC_X: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_C_E_P_T, 't', MAGIC_STRING_E_X_C_E_P_T); /* emits "except " */ break;
             default:
                             break;
@@ -754,14 +720,15 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             switch (magic_context_prepared) {
                 case KC_B: magic_replace_decode_send_cap_cycle(MAGIC_STRING_O_B_S_E_R_V_A_B_I_L_I_T_Y, 'y', MAGIC_CYCLE_NONE); /* emits "observability " */ break;
                 case KC_C: magic_replace_decode_send_cap_cycle(MAGIC_STRING_APOSTROPHE_V_E, '\0', MAGIC_CYCLE_NONE); /* emits "'ve " */ break;
-                case KC_D: magic_decode_send_suffix_cycle(MAGIC_STRING_I_S_A_B_L_E, 'e', MAGIC_STRING_D_I_S_A_B_L_E); /* emits "isable " -> "disable " */ break;
+                case KC_D: magic_decode_send_suffix_cycle(MAGIC_STRING_O_E_S, 's', MAGIC_CYCLE_NONE); /* emits "oes " -> "does " */ break;
                 case KC_F: magic_replace_decode_send_cap_cycle(MAGIC_STRING_M_E_R_G_E_D, 'd', MAGIC_CYCLE_NONE); /* emits "merged " */ break;
                 case KC_G: magic_replace_decode_send_cap_cycle(MAGIC_STRING_C_H_A_N_G_E, 'e', MAGIC_CYCLE_NONE); /* emits "change " */ break;
                 case KC_K: magic_replace_decode_send_cap_cycle(MAGIC_STRING_Q_U_E_S_T_I_O_N, 'n', MAGIC_CYCLE_NONE); /* emits "question " */ break;
                 case KC_L: magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_L_R_E_A_D_Y, 'y', MAGIC_CYCLE_NONE); /* emits "already " */ break;
                 case KC_M: magic_decode_send_suffix_cycle(MAGIC_STRING_U_L_T_I_P_L_E, 'e', MAGIC_CYCLE_NONE); /* emits "ultiple " -> "multiple " */ break;
                 case KC_N: magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_N_Y_T_H_I_N_G, 'g', MAGIC_CYCLE_NONE); /* emits "anything " */ break;
-                case KC_P: magic_decode_send_suffix_cycle(MAGIC_STRING_R_O_B_A_B_L_Y, 'y', MAGIC_CYCLE_NONE); /* emits "robably " -> "probably " */ break;
+                case KC_P: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_A_M_P_L_E, 'e', MAGIC_CYCLE_NONE); /* emits "example " */ break;
+                case KC_R: magic_replace_decode_send_cap_cycle(MAGIC_STRING_P_R_O_B_A_B_L_Y, 'y', MAGIC_CYCLE_NONE); /* emits "probably " */ break;
                 case KC_S: magic_decode_send_suffix_cycle(MAGIC_STRING_U_P_P_O_R_T, 't', MAGIC_CYCLE_NONE); /* emits "upport " -> "support " */ break;
                 case KC_T: magic_decode_send_suffix_cycle(MAGIC_STRING_H_R_O_U_G_H, 'h', MAGIC_CYCLE_NONE); /* emits "hrough " -> "through " */ break;
                 case KC_V: magic_decode_send_suffix_cycle(MAGIC_STRING_E_R_S_I_O_N, 'n', MAGIC_CYCLE_NONE); /* emits "ersion " -> "version " */ break;
@@ -784,13 +751,14 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_repeat_keycode = KC_NO;
             uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
             switch (magic_context_prepared) {
-                case KC_C: magic_decode_send_suffix_cycle(MAGIC_STRING_O_M_M_E_N_T, 't', MAGIC_CYCLE_NONE); /* emits "omment " -> "comment " */ break;
+                case KC_C: magic_replace_decode_send_cap_cycle(MAGIC_STRING_APOSTROPHE_D, '\0', MAGIC_CYCLE_NONE); /* emits "'d " */ break;
                 case KC_D: magic_decode_send_suffix_cycle(MAGIC_STRING_I_F_F_I_C_U_L_T_Y, 'y', MAGIC_CYCLE_NONE); /* emits "ifficulty " -> "difficulty " */ break;
                 case KC_K: magic_replace_decode_send_cap_cycle(MAGIC_STRING_T_H_A_N_K_S, 's', MAGIC_STRING_T_H_A_N_K_S); /* emits "thanks " */ break;
-                case KC_L: magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_V_A_I_L_A_B_L_E, 'e', MAGIC_CYCLE_NONE); /* emits "available " */ break;
-                case KC_M: magic_decode_send_suffix_cycle(MAGIC_STRING_I_S_M_A_T_C_H, 'h', MAGIC_CYCLE_NONE); /* emits "ismatch " -> "mismatch " */ break;
-                case KC_N: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_P_L_A_I_N, 'n', MAGIC_STRING_E_X_P_L_A_I_N); /* emits "explain " */ break;
-                case KC_P: magic_replace_decode_send_cap_cycle(MAGIC_STRING_I_M_P_O_R_T_A_N_T, 't', MAGIC_CYCLE_NONE); /* emits "important " */ break;
+                case KC_L: magic_tap_repeatable(KC_B); break;
+                case KC_M: magic_tap_repeatable(KC_V); break;
+                case KC_N: magic_tap_repeatable(KC_P); break;
+                case KC_P: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_P_L_A_I_N, 'n', MAGIC_STRING_E_X_P_L_A_I_N); /* emits "explain " */ break;
+                case KC_R: magic_replace_decode_send_cap_cycle(MAGIC_STRING_I_M_P_O_R_T_A_N_T, 't', MAGIC_CYCLE_NONE); /* emits "important " */ break;
                 case KC_S: magic_decode_send_suffix_cycle(MAGIC_STRING_I_M_I_L_A_R, 'r', MAGIC_CYCLE_NONE); /* emits "imilar " -> "similar " */ break;
                 case KC_T: magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_N_O_T_H_E_R, 'r', MAGIC_CYCLE_NONE); /* emits "another " */ break;
                 case KC_W: magic_replace_decode_send_cap_cycle(MAGIC_STRING_S_W_I_T_C_H, 'h', MAGIC_CYCLE_NONE); /* emits "switch " */ break;
@@ -812,9 +780,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_repeat_keycode = KC_NO;
             uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
             switch (magic_context_prepared) {
-                case KC_I: magic_replace_decode_send_cap_cycle(MAGIC_STRING_I_APOSTROPHE_M, 'm', MAGIC_CYCLE_NONE); /* emits "I'm " */ break;
-                case KC_SPC: magic_replace_decode_send_cap(MAGIC_STRING_DOT, '\0'); /* emits ". " */ add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state(); break;
-                case KC_Y: magic_replace_decode_send_cap_cycle(MAGIC_STRING_O_N_L_Y, 'y', MAGIC_CYCLE_NONE); /* emits "only " */ break;
+        
             default:
                             break;
             }
@@ -832,23 +798,24 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_repeat_keycode = KC_NO;
             uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
             switch (magic_context_prepared) {
-                case KC_B: magic_decode_send_suffix_cycle(MAGIC_STRING_A_S_I_C_A_L_L_Y, 'y', MAGIC_CYCLE_NONE); /* emits "asically " -> "basically " */ break;
+                case KC_B: magic_decode_send_suffix_cycle(MAGIC_STRING_E_C_O_M_E, 'e', MAGIC_STRING_B_E_C_O_M_E); /* emits "ecome " -> "become " */ break;
                 case KC_C: magic_tap_repeatable(KC_N); break;
                 case KC_COMMA: magic_decode_send_cap_cycle(MAGIC_STRING_A_N_D, '\0', MAGIC_CYCLE_NONE); /* emits " and " */ break;
                 case KC_D: magic_decode_send_suffix_cycle(MAGIC_STRING_I_D_N_APOSTROPHE_T, 't', MAGIC_CYCLE_NONE); /* emits "idn't " -> "didn't " */ break;
                 case KC_ENT: magic_decode_send_cap_cycle(MAGIC_STRING_A_N_D_2, 'd', MAGIC_CYCLE_NONE); /* emits "and " */ break;
                 case KC_F: magic_decode_send_suffix_cycle(MAGIC_STRING_O_C_U_S_E_D, 'd', MAGIC_CYCLE_NONE); /* emits "ocused " -> "focused " */ break;
-                case KC_G: magic_decode_send_suffix_cycle(MAGIC_STRING_E_N_E_R_A_T_E, 'e', MAGIC_STRING_G_E_N_E_R_A_T_E); /* emits "enerate " -> "generate " */ break;
+                case KC_G: magic_decode_send_suffix_cycle(MAGIC_STRING_O_E_S, 's', MAGIC_CYCLE_NONE); /* emits "oes " -> "goes " */ break;
                 case KC_K: magic_replace_decode_send_cap_cycle(MAGIC_STRING_U_P_D_A_T_E, 'e', MAGIC_CYCLE_NONE); /* emits "update " */ break;
                 case KC_L: magic_tap_repeatable(KC_N); break;
                 case KC_M: magic_replace_decode_send_cap_cycle(MAGIC_STRING_I_N_S_T_R_U_M_E_N_T, 't', MAGIC_STRING_I_N_S_T_R_U_M_E_N_T); /* emits "instrument " */ break;
                 case KC_N: magic_replace_decode_send_cap_cycle(MAGIC_STRING_U_N_D_E_R_S_T_A_N_D, 'd', MAGIC_CYCLE_NONE); /* emits "understand " */ break;
                 case KC_P: magic_tap_repeatable(KC_N); break;
+                case KC_R: magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_P_P_R_O_V_A_L, 'l', MAGIC_STRING_A_P_P_R_O_V_A_L); /* emits "approval " */ break;
                 case KC_S: magic_decode_send_suffix_cycle(MAGIC_STRING_E_P_A_R_A_T_E, 'e', MAGIC_STRING_S_E_P_A_R_A_T_E); /* emits "eparate " -> "separate " */ break;
                 case KC_SPC: magic_decode_send_cap_cycle(MAGIC_STRING_A_N_D_2, 'd', MAGIC_CYCLE_NONE); /* emits "and " */ break;
                 case KC_T: magic_tap_repeatable(KC_N); break;
                 case KC_TAB: magic_decode_send_cap_cycle(MAGIC_STRING_A_N_D_2, 'd', MAGIC_CYCLE_NONE); /* emits "and " */ break;
-                case KC_V: magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_P_P_R_O_V_A_L, 'l', MAGIC_STRING_A_P_P_R_O_V_A_L); /* emits "approval " */ break;
+                case KC_V: magic_replace_decode_send_cap_cycle(MAGIC_STRING_W_O_R_S_E, 'e', MAGIC_STRING_W_O_R_S_E); /* emits "worse " */ break;
                 case KC_W: magic_decode_send_suffix_cycle(MAGIC_STRING_H_Y_2, 'y', MAGIC_CYCLE_NONE); /* emits "hy " -> "why " */ break;
                 case KC_X: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_I_T, 't', MAGIC_CYCLE_NONE); /* emits "exit " */ break;
             default:
@@ -916,7 +883,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_P: magic_tap_repeatable(KC_D); break;
                 case KC_R: magic_tap_repeatable(KC_X); break;
                 case KC_S: magic_tap_repeatable(KC_D); break;
-                case KC_T: magic_replace_decode_send_cap_cycle(MAGIC_STRING_W_I_T_H_O_U_T, 't', MAGIC_CYCLE_NONE); /* emits "without " */ break;
+                case KC_T: magic_decode_send_suffix_cycle(MAGIC_STRING_H_O_U_G_H_T, 't', MAGIC_CYCLE_NONE); /* emits "hought " -> "thought " */ break;
                 case KC_W: magic_tap_repeatable(KC_X); break;
             default:
                             break;
@@ -935,21 +902,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_repeat_keycode = KC_NO;
             uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
             switch (magic_context_prepared) {
-                case KC_B: magic_decode_send_suffix_cycle(MAGIC_STRING_E_F_O_R_E, 'e', MAGIC_CYCLE_NONE); /* emits "efore " -> "before " */ break;
-                case KC_C: magic_replace_decode_send_cap_cycle(MAGIC_STRING_APOSTROPHE_D, '\0', MAGIC_CYCLE_NONE); /* emits "'d " */ break;
-                case KC_D: magic_decode_send_suffix_cycle(MAGIC_STRING_O_E_S, 's', MAGIC_CYCLE_NONE); /* emits "oes " -> "does " */ break;
-                case KC_F: magic_replace_decode_send_cap_cycle(MAGIC_STRING_C_O_N_F_L_I_C_T, 't', MAGIC_CYCLE_NONE); /* emits "conflict " */ break;
-                case KC_G: magic_decode_send_suffix_cycle(MAGIC_STRING_O_E_S, 's', MAGIC_CYCLE_NONE); /* emits "oes " -> "goes " */ break;
-                case KC_K: magic_decode_send_suffix_cycle(MAGIC_STRING_N_E_W, 'w', MAGIC_CYCLE_NONE); /* emits "new " -> "knew " */ break;
-                case KC_L: magic_tap_repeatable(KC_B); break;
-                case KC_M: magic_tap_repeatable(KC_V); break;
-                case KC_N: magic_tap_repeatable(KC_P); break;
-                case KC_P: magic_decode_send(MAGIC_STRING_P_L); /* emits "pl" -> "ppl" */ break;
-                case KC_S: magic_decode_send_suffix_cycle(MAGIC_STRING_O_M_E_T_H_I_N_G, 'g', MAGIC_CYCLE_NONE); /* emits "omething " -> "something " */ break;
-                case KC_T: magic_decode_send_suffix_cycle(MAGIC_STRING_H_O_U_G_H_T, 't', MAGIC_CYCLE_NONE); /* emits "hought " -> "thought " */ break;
-                case KC_V: magic_replace_decode_send_cap_cycle(MAGIC_STRING_W_O_R_S_E, 'e', MAGIC_STRING_W_O_R_S_E); /* emits "worse " */ break;
-                case KC_W: magic_decode_send_suffix_cycle(MAGIC_STRING_H_I_C_H, 'h', MAGIC_CYCLE_NONE); /* emits "hich " -> "which " */ break;
-                case KC_X: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_A_M_P_L_E, 'e', MAGIC_CYCLE_NONE); /* emits "example " */ break;
+        
             default:
                             break;
             }
