@@ -142,7 +142,12 @@ private fun comboLabel(combo: Combo): String {
     val authored = combo.authored.trim()
     GLYPHS[authored]?.let { return it }
     if (authored.startsWith("magic_")) return MAGIC_GLYPH
-    return authored.trim('"')
+    // Strip the wrapping quotes off multi-char string labels ("aa" -> aa) but preserve a literal
+    // double-quote authored as `"`.
+    if (authored.length >= 2 && authored.startsWith('"') && authored.endsWith('"')) {
+        return authored.substring(1, authored.length - 1)
+    }
+    return authored
 }
 
 fun writeKeymapDrawerYaml(
