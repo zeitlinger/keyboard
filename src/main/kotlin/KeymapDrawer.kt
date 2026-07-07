@@ -238,9 +238,10 @@ fun writeKeymapDrawerYaml(
         // Order matches the README: right-pinky shift first, then left-pinky shift.
         val shifts = listOf("right shift" to (cols - 1), "left shift" to 0)
         for ((name, diamondCol) in shifts) {
-            val group = directionals.filter { c ->
-                c.triggers.any { it.pos.row == 2 && it.pos.column == diamondCol }
-            }
+            val group =
+                directionals.filter { c ->
+                    c.triggers.any { it.pos.row == 2 && it.pos.column == diamondCol }
+                }
             if (group.isEmpty()) continue
             val slots = arrayOfNulls<DrawLabel>(34)
             kdIndex(2, diamondCol)?.let { slots[it] = DrawLabel("⇧", "held") }
