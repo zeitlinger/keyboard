@@ -35,7 +35,14 @@ description = "Generate base-layer svg for the blog (Base layer only)"
 depends = ["compile"]
 sources = ["keymap_drawer.config.yaml", "qmk/keymap.yaml"]
 outputs = ["blog/base-layer.svg"]
-run = 'keymap -c "$KEYMAP_CONFIG" draw -s Base "right shift" "left shift" -- qmk/keymap.yaml > blog/base-layer.svg'
+run = 'keymap -c "$KEYMAP_CONFIG" draw -s Base -- qmk/keymap.yaml > blog/base-layer.svg'
+
+[tasks.gen-base-layer-full]
+description = "Generate base-layer svg with directional-combo pseudo-layers for the appendix"
+depends = ["compile"]
+sources = ["keymap_drawer.config.yaml", "qmk/keymap.yaml"]
+outputs = ["blog/base-layer-full.svg"]
+run = 'keymap -c "$KEYMAP_CONFIG" draw -s Base "right shift" "left shift" -- qmk/keymap.yaml > blog/base-layer-full.svg'
 
 [tasks.gen-magic-words]
 description = "Generate Keymap svg"
@@ -56,11 +63,12 @@ run = 'keymap -c "$KEYMAP_CONFIG" draw blog/after-n.yaml > blog/after-n.svg'
 # (static, not generated).
 [tasks.gen-blog-images]
 description = "Render blog SVGs to PNG (2x) for Medium"
-depends = ["gen-keymap", "gen-base-layer", "gen-magic-words", "gen-after-n"]
-sources = ["keymap.svg", "blog/base-layer.svg", "blog/magic-words.svg", "blog/after-n.svg", "blog/codec.svg"]
+depends = ["gen-keymap", "gen-base-layer", "gen-base-layer-full", "gen-magic-words", "gen-after-n"]
+sources = ["keymap.svg", "blog/base-layer.svg", "blog/base-layer-full.svg", "blog/magic-words.svg", "blog/after-n.svg", "blog/codec.svg"]
 outputs = [
   "blog/images/layers.png",
   "blog/images/base-layer.png",
+  "blog/images/base-layer-full.png",
   "blog/images/magic-words.png",
   "blog/images/after-n.png",
   "blog/images/codec.png",
@@ -68,6 +76,7 @@ outputs = [
 run = [
   "resvg --zoom 2 keymap.svg blog/images/layers.png",
   "resvg --zoom 2 blog/base-layer.svg blog/images/base-layer.png",
+  "resvg --zoom 2 blog/base-layer-full.svg blog/images/base-layer-full.png",
   "resvg --zoom 2 blog/magic-words.svg blog/images/magic-words.png",
   "resvg --zoom 2 blog/after-n.svg blog/images/after-n.png",
   "resvg --zoom 2 blog/codec.svg blog/images/codec.png",
@@ -75,7 +84,7 @@ run = [
 
 [tasks.generate]
 description = "Generate the keyboard files"
-depends = ["compile", "gen-keymap", "gen-base-layer", "gen-magic-words", "gen-after-n", "gen-blog-images"]
+depends = ["compile", "gen-keymap", "gen-base-layer", "gen-base-layer-full", "gen-magic-words", "gen-after-n", "gen-blog-images"]
 
 [tasks.suggest-combos]
 description = "Suggest magic-key expansions to add, ranked by typing benefit"
