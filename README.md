@@ -33,6 +33,13 @@ keys:
 - **Window/Tab Switching** - fast application and tab switching.
 - **X-Case** - multiple case conversion modes (camelCase, snake_case, etc.).
 
+## Overview
+
+![Generated layout — all layers](keymap.svg)
+
+*Rendered from the tables below with [keymap-drawer](https://github.com/caksoylar/keymap-drawer);
+regenerate with `mise run generate`.*
+
 ## Reading the layout
 
 How to read this layout:
@@ -64,11 +71,6 @@ Currently unused features:
 > **Note**: The layout is generated from this file directly.
 
 ## Layout
-
-![Generated layout — all layers](keymap.svg)
-
-*Rendered from the tables below with [keymap-drawer](https://github.com/caksoylar/keymap-drawer);
-regenerate with `mise run generate`.*
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
 | :---: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
