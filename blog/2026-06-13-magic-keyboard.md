@@ -251,12 +251,12 @@ that's secretly about magic keys.
 
 ![My base layer](images/base-layer.png)
 
-*My base layer. The home row is `s c n t` / `a e i h`; every `✦` is a magic key, and the blue badges
-are combos (two keys pressed at once for a third). The rare letters `j`, `q`, `z` and the German
-`ä`, `ö`, `ü`, `ß` don't earn a base-layer spot — they live in *directional combos* with the two
-pinky "diamond" keys (the `*Left` / `*Right` layer holds), pressed last. This diagram is generated
-straight from the layout with [keymap-drawer](https://github.com/caksoylar/keymap-drawer) — more on
-that in the appendix.*
+*My base layer. Home row `s c n t` / `a e i h`; each `✦` is a magic key and the blue badges are
+combos (two keys pressed at once for a third). Generated straight from the layout with
+[keymap-drawer](https://github.com/caksoylar/keymap-drawer) — more on that in the appendix.*
+
+You may wonder where the rare letters live: `j`, `q`, `z`, and the German `ä`, `ö`, `ü`, `ß` don't
+earn a base-layer spot. They're reached with a small trick I'll explain in the appendix.
 
 One detail worth a second look: see where `r` sits — on the **thumb**, not a finger. That's a fairly
 recent move in layout design, the *alpha thumb*, and it's increasingly regarded as a step forward.
@@ -589,8 +589,11 @@ case conversion, and the shift behavior above.
 under the right hand (held from the left), with window/tab switching and editor shortcuts on the
 left. **FnSym** carries the function keys and symbols. **Num** is a numpad under the left hand,
 reached by holding two right-hand keys — so the hand typing the digits never has to move. Pink keys
-are the held/activation keys for each layer; blue badges are combos. (The repo's `keymap.svg`
-renders every layer, media and case included, in one go — generated straight from the layout.)*
+are the held/activation keys for each layer; blue badges are combos. Further down, **right shift**
+and **left shift** aren't real layers — they're the *directional combos* explained below, each
+showing where the rare letters (`j`, `q`, `z`, `ä`, `ö`, `ü`, `ß`) land relative to their shift key
+(⇧). (The repo's `keymap.svg` renders every layer, media and case included, in one go — generated
+straight from the layout.)*
 
 The dedicated shift keys from earlier each open their own layer: **Left** (held with the right
 pinky) puts capitals and combo-letters on the left hand; **Right** mirrors it for the right hand.
@@ -600,6 +603,15 @@ of those other modifiers is held, the letters drop back to lowercase. Otherwise 
 shift layer could ever emit would be `A-X`, never `A-x` — and you'd have no way to type the
 unshifted modified key. Keeping the letters lowercase under a held modifier means `A-x` is the
 default; `AS-x` is what you get by *also* holding the original shift on top.
+
+Those same shift keys pull double duty for a second trick: **directional combos**. Tap a partner
+key first and *then* the shift, and instead of the shifted letter, the firmware fires a combo —
+that's how `j`, `q`, `z`, and the German umlauts reach me without eating a base-layer slot (the two
+"right shift" / "left shift" mini-boards under the main layers picture show which partner produces
+which letter). Order matters: QMK combos default to "either order", but that would collide with the
+normal shift-plus-letter case (hold shift, then tap a letter, get uppercase). So the combo only
+fires when the shift is the *last* key pressed — anything that arrives after the shift is already
+held stays a plain shifted letter.
 
 ### Magic keys — implementation — KWL 5
 
