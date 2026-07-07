@@ -71,7 +71,7 @@ Currently unused features:
 regenerate with `mise run generate`.*
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
-| :---: | :-----: | :-----: | :-----: | :-----: | :-----: |:-------:|:-------:| :-----: |
+| :---: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
 | Base  |   esc   |    x    |    w    |  dead3  |  dead2  | magic_a | magic_b |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | \*Right |    f    |    l    |    d    |    u    |    o    |    y    | \*Left  |
@@ -182,12 +182,12 @@ regenerate with `mise run generate`.*
 |  Nav  |         |         |         |   C-y   |  ⬅️⬅️   |         |         |         |
 |  Nav  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav  |         |         |   C-a   |         |         |    ➕    |         |         |
+|  Nav  |         |         |   C-a   |         |         |   ➕    |         |         |
 |  Nav  |         |         |   💎    |         |         |   💎    |         |         |
 |  Nav  |         |         |   C-d   |         |         |  ⬇️⬇️   |         |         |
 |  Nav  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-|  Nav  |         |  CS-n   |         |         |         |         |    ➖    |         |
+|  Nav  |         |  CS-n   |         |         |         |         |   ➖    |         |
 |  Nav  |         |   💎    |         |         |         |         |   💎    |         |
 |  Nav  |         |   C-k   |         |         |         |         |  ⬆️⬆️   |         |
 |  Nav  |         |         |         |         |         |         |         |         |
