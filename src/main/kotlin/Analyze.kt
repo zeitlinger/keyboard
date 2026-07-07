@@ -91,8 +91,7 @@ private fun printMissingAndUnexpected(
     val want =
         (
             CharRange('!', '~')
-                .map { it }
-                .map { translator.toQmk(it.toString(), invalidPos).key }
+                .map { translator.toQmk(it.toString().lowercase(), invalidPos).key }
         ) +
             expectedNonPrintable +
             (1..12)
