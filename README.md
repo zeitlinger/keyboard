@@ -73,13 +73,13 @@ Currently unused features:
 ## Layout
 
 | Layer | L. Pin. | L. Ring | L. Mid. | L. Ind. | R. Ind. | R. Mid. | R. Ring | R. Pin. |
-| :---: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
+| :---: | :-----: |:-------:| :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
 | Base  |   esc   |    x    |    w    |  dead3  |  dead2  | magic_a | magic_b |  dead1  |
 | Base  |    s    |    c    |    n    |    t    |    a    |    e    |    i    |    h    |
 | Base  | \*Right |    f    |    l    |    d    |    u    |    o    |    y    | \*Left  |
 | Base  |         |         |  \*Nav  |    r    |   spc   | \*FnSym |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Base  |         |         |         |         |         |         |         |         |
+| Base  |         |    ?↩️️   |  "wl"   |         |         |         |         |         |
 | Base  |    '    |    .    |    ,    |  bspc   |  "aa"   |  "eu"   |         |         |
 | Base  |   🛑    |    ?    |    "    |   ↩️️    |  "uh"   |  "oe"   |         |   💎L   |
 | Base  |         |         |         |    j    |    q    |         |         |         |
@@ -110,7 +110,7 @@ Currently unused features:
 | Base  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |  dead3  |    J    |    Q    |         |
-| Right |         |  A-f7   |   C-f   |   C-r   |         |         |         |         |
+| Right |         |  CS-c   |   C-f   |   C-r   |         |         |         |         |
 | Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |   \_    |
 | Right |         |         |  \*Vim  |   C-n   |    [    |    ]    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
@@ -196,7 +196,7 @@ Currently unused features:
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |   C-e   |         |         |         |         |         |         |         |
 |  Nav  |   💎    |         |         |         |         |         |         |   💎    |
-|  Nav  |  CS-c   |         |         |         |         |         |         |  ➡️➡️   |
+|  Nav  |  A-f7   |         |         |         |         |         |         |  ➡️➡️   |
 |  Nav  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 |  Nav  |         |         |         |         |         |         |         |         |
@@ -497,6 +497,7 @@ Exact-match symbol tokens such as `#g`, `#G`, and `#GL` must be declared here.
 | tab ➡️  | custom:NEXT_TAB NoHold        |
 | win ➡️  | custom:NEXT_WINDOW NoHold     |
 | ing     | custom:ING                    |
+| ?↩️️     | custom:Q_ENT                  |
 | ver     | custom:PRINT_VERSION          |
 | CapW    | custom:CAPS_WORDS             |
 | sn_case | custom:SNAKE_CASE             |
