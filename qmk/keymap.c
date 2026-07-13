@@ -423,7 +423,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         return false;
     #endif
-    #ifdef _HANDLER_ING
     #ifdef _HANDLER_Q_ENT
     case _HANDLER_Q_ENT:
         if (record->event.pressed) {
