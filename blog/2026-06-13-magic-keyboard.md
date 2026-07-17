@@ -1,7 +1,7 @@
 # The Secret World of Keyboard Wizardry
 
 *I built a keyboard whose keys finish my words. Here's the rabbit hole that taught me how — and how
-you'd start your own.*
+you can start building your own.*
 
 > *Once upon a time there was a little wizard who was hopelessly obsessed with the ordinary world —
 > and most of all with the clattering slab of plastic the outsiders spent their whole lives typing
@@ -9,35 +9,47 @@ you'd start your own.*
 > perfect." And so — as wizards obsessed with the ordinary world tend to do — he set out to build the
 > perfect keyboard.*
 
-That was a few years ago. The wizard was me. The keyboard on my desk now has 34 keys whose letters
-refuse to hold still — tap one and it becomes a different letter depending on what I typed a heartbeat
-before; tap another and a whole word appears, "because", "didn't", "production", out of a single
-press. It finishes my words before I do and rewrites my fumbles mid-keystroke, all from fewer than
-half the keys under your hands right now. After three years I still catch myself grinning at it.
+That was a few years ago. The wizard was me.
 
-Why build a custom keyboard layout, you might ask? What an outsider's question.
+Fast forward to today, and the keyboard on my desk has 34 keys with letters that never stay the same.
+Tap one key and it becomes a different letter depending on what I typed a heartbeat before; tap
+another and a whole word (e.g., "because," "didn't," "production") appears from a single press. It
+finishes my words before I do and it rewrites my fumbles mid-keystroke, all the while using less than
+half the keys that are under your hands right now.
 
-Here's the thing I didn't expect when I started: you don't get from that clattering ordinary slab to a
-keyboard like mine in one leap. You get there by *levels*. First you learn to even see what's wrong.
-Then you learn to measure it. Then you build your own layout, and meet your first spell. Then you
-start inventing spells of your own. Each level rewires your hands a little more than the last, and
-you cannot rush them — every wizard who tries to jump straight to the deep magic just gets
-overwhelmed and quits. It is, in other words, less a hobby than a little school of wizardry, with
-years you pass through one at a time. Outsider, apprentice, adept, wizard, archmage.
+After three years, I still catch myself grinning at it.
 
-So I won't lecture you on *why* — I'll walk you through the school. Think of this as its open-door
-day: you get to climb every floor in one afternoon, no enrolling for years, all the way up to the
-archmages who invent text-compression schemes to cram a whole dictionary into a sliver of keyboard
-memory. (Yes, that's a real spell. Yes, I cast it. We'll get there.) Just remember the one rule of
-the building — **you can't skip to the top floor.**
+Now, you may be like that other wizard in our story — fine with your clumsy, clattering keys. But if
+you're drawn to the magic that comes in the pursuit of keyboard perfection, then you're in the right
+place. But beware: you can't just jump from a plastic monolith to a keyboard line in one leap. Like
+any good wizard-in-training, you'll have to hone your craft by learning about the tools at your
+disposal — and even about yourself.
+
+So think of it less like a hobby and more like a little school of wizardry, with years you pass through
+one at a time: outsider, apprentice, adept, wizard, archmage. And you're in luck, because today's the
+open house.
+
+## The five levels of keyboard wizardry
+
+When you think of the journey to keyboard perfection, you have to go through several levels. For
+starters, you have to understand what's wrong in the first place. Then you learn to measure it. Next,
+you build your own layout — and meet your first "spell." And from there, you start inventing spells
+of your own. Each level rewires your hands a little more than the last, and none of these levels can
+be rushed — every wizard who tries to jump straight to the deep magic just gets overwhelmed and
+quits.
+
+So today I'll take you on a little tour. You get to climb every floor in one afternoon — no enrollment
+needed — all the way up to the archmages who invent text-compression schemes to cram a whole
+dictionary into a sliver of keyboard memory. (Yes, that's a real spell. Yes, I cast it. We'll get
+there.) Just remember the one rule of the building — **you can't skip to the top floor.**
 
 And though all of this is dressed up as the story of my keyboard, it's really the other way round:
-the keyboard is just the worked example. The world is the point.
+the keyboard is just the working example. The world is the point.
 
 > **The curriculum — your Keyboard Wizard Level (KWL, pronounced "cool").** Every section is tagged
 > with the level it belongs to, so you always know which floor of the school you're on:
 >
-> - **KWL 1 — Outsider.** You've never questioned Qwerty. We'll show you why it quietly fights your
+> - **KWL 1 — Outsider.** You've never questioned QWERTY. We'll show you why it quietly fights your
 >   hands all day.
 > - **KWL 2 — Apprentice.** You learn to *see*: rolls, same-finger bigrams, lateral stretches — the
 >   metrics that separate a good layout from a bad one.
@@ -59,22 +71,22 @@ the keyboard is just the worked example. The world is the point.
 
 ## Part 1 — The ground floor: why your keyboard fights you (KWL 1)
 
-### What's wrong with Qwerty — KWL 1
+### What's wrong with QWERTY — KWL 1
 
 Our first stop is the ground floor, where every outsider lives — myself included, for most of my life.
 And the first thing they teach you here is that the keyboard you've used every day since childhood
 was never designed for your hands.
 
-You've probably heard that Qwerty was built to *slow typists down* and stop old typewriters from
+You've probably heard that QWERTY was built to *slow typists down* and stop old typewriters from
 jamming. It's a great story, and it's historically shaky. The fairer truth is gentler: Christopher
-Sholes laid out Qwerty in the **1870s**, and it was simply the *first* arrangement that worked well
+Sholes laid out QWERTY in the **1870s**, and it was simply the *first* arrangement that worked well
 enough to win — a pioneering solution to a genuinely hard mechanical problem. Nobody was thinking
 about your tendons. Why would they? They'd just invented the machine.
 
 So the layout you inherited is a 150-year-old compromise that happens to fight your fingers in small
 ways you've learned not to notice. Let me make you notice.
 
-> **✋ Try it — feel what's wrong (on your normal Qwerty keyboard).** Each awkward motion has a name —
+> **✋ Try it — feel what's wrong (on your normal QWERTY keyboard).** Each awkward motion has a name —
 > don't bother memorising them (there's a glossary at the end), just *feel* each one as you type it
 > slowly:
 >
@@ -96,7 +108,7 @@ And now the opposite — because you have good motions too, you've just never no
 > index, which is the comfiest kind. Now type "the", then "and" —
 > feel your hands trade off, one resting while the other works. That's **alternation**. Those two
 > motions are what a good layout is built from: no scrambling, splaying, or crossing — just flow.
-> Qwerty hands them to you by accident, in a lucky handful of words; a good layout makes them the rule
+> QWERTY hands them to you by accident, in a lucky handful of words; a good layout makes them the rule
 > instead of the exception.
 
 You've been fighting your keyboard for years and never knew any of it had a name. Now you've felt it —
@@ -110,9 +122,9 @@ The letters are only half the problem. The other half is the slab itself.
 A normal keyboard is one flat rectangle, so both your hands come at it from the same direction. To
 reach it, your wrists bend inward and tilt up — and they hold that bent pose all day. That's the
 posture that paves the road to carpal tunnel. There's also a subtler fossil hiding in plain sight:
-the rows are offset diagonally — *row stagger* — which exists only because old typewriters needed
-room for the levers underneath. Your fingers don't move diagonally. They're different lengths and
-they curl straight toward your palm, which is what *column* stagger respects.
+the rows are offset diagonally — a pattern known as *row stagger* — which exists only because old
+typewriters needed room for the levers underneath. Your fingers don't move diagonally. They're
+different lengths and they curl straight toward your palm, which is what *column* stagger respects.
 
 The fixes are things the ergonomic world already broadly agrees on, even outside wizard circles:
 **split** the board so each hand sits at its own natural angle, **tent** it so your thumbs ride a
@@ -129,7 +141,7 @@ everything that's wrong with the keyboard under your hands. The climb starts her
 ## Part 2 — Apprentice years: learning to see, and my first layouts (KWL 2)
 
 Down on the ground floor you *felt* the problems and learned their names. An apprentice's next move
-is to stop trusting feel alone and start **counting**.
+is to stop trusting the feel alone and start **counting**.
 
 Every one of those motions can be measured. There's a whole cottage industry of layout analyzers that
 take any arrangement of letters and hand you back the numbers: its same-finger-bigram percentage, its
@@ -152,7 +164,7 @@ columns were enough of a stretch that I dropped them, leaving effectively **14 k
 3D-printed stand, wearing low-profile Choc switches. No number row, no function row — everything else
 lives on layers.*
 
-The physical setup turned out to matter as much as the letters. About 10° of tenting so each half
+The physical setup turned out to matter as much as the letters. I use about 10 degrees of tenting so each half
 angles inward, a slight negative tilt so my wrists don't crane upward, and wrist rests so they don't
 float. Get that geometry right and your hands complain far less than a flat slab ever let them — not
 zero strain, but a different league.
@@ -208,8 +220,8 @@ I think), then settled on Nerps around April 2023, and over the following year w
 Gold** to **Hands Down Vibranium**, where I live today. I lifted keymap tricks from
 [**T-34**](https://www.jonashietala.se/blog/2021/06/03/the-t-34-keyboard-layout/) along the way.
 
-> **🔍 Expert aside — why the base layout already beats Qwerty (safe to skip).** Before I added a
-> single trick, Hands Down Vibranium was already a different world from Qwerty — and it's worth seeing
+> **🔍 Expert aside — why the base layout already beats QWERTY (safe to skip).** Before I added a
+> single trick, Hands Down Vibranium was already a different world from QWERTY — and it's worth seeing
 > *why*, because none of it is magic, just better placement:
 >
 > - **The common letters are on the home row.** `s c n t` under the left hand, `a e i h` under the
@@ -235,8 +247,8 @@ Gold** to **Hands Down Vibranium**, where I live today. I lifted keymap tricks f
 > | Outward rolls                           |         12%          |  19%   |
 > | Alternation *(higher is better)*        |       **36%**        |  21%   |
 >
-> Vibranium wins every awkward-motion row — an SFB is about an eighth as likely as on Qwerty, a
-> lateral stretch a twelfth — and it trades Qwerty's even roll split for a heavy *inward* lean (the
+> Vibranium wins every awkward-motion row — an SFB is about an eighth as likely as on QWERTY, a
+> lateral stretch a twelfth — and it trades QWERTY's even roll split for a heavy *inward* lean (the
 > comfy direction). All structural, no special keys.
 >
 > And 0.57% is just the *base*, before I add a single trick of my own. Everything from here on is
@@ -349,7 +361,7 @@ you — it just reads what you typed before it: `r` after `l` is "ll", `r` after
 diagram further down shows the full `n` case; every other letter has its own.)
 
 > **✋ Try it — feel the win.** Remember the same-finger ache from the very first box? Type "ll" on
-> Qwerty right now: that's your ring finger, hammered twice in the same spot. Now type a quick
+> QWERTY right now: that's your ring finger, hammered twice in the same spot. Now type a quick
 > two-finger roll instead — "lk", or "po" — one finger, then its neighbor. Feel how the roll *flows*
 > where the double *stutters*. That's the difference, on every "ll" I type, forever.
 
@@ -383,7 +395,7 @@ Time for the honest accounting — the part where I try hard not to sell you any
 ### The honest scorecard — KWL 1
 
 **Speed?** Not the headline reason — and not really what a layout is for. Raw speed is mostly
-*practice*: plenty of blazing-fast typists run Qwerty, and the genuinely fastest people alive use
+*practice*: plenty of blazing-fast typists run QWERTY, and the genuinely fastest people alive use
 stenotype machines, not a cleverer arrangement of letters. What a good layout buys you isn't speed,
 it's **headroom** — with the same-finger collisions and awkward stretches designed out, the layout
 stops being the thing that caps you. I keep getting slowly faster and haven't hit a ceiling yet — but
@@ -404,7 +416,7 @@ instead of a little finger-journey. Doubled letters roll off two fingers instead
 
 And the same-finger stutter — that one finger scrambling up and down in place — is **essentially
 gone**. Two things did it: the base layout barely has it to begin with (Vibranium's 0.57% next to
-Qwerty's ~4.4%, from the table in Part 2), and the adaptives clean up the few collisions I built in on
+QWERTY's ~4.4%, from the table in Part 2), and the adaptives clean up the few collisions I built in on
 purpose, like `n`/`g`. I almost never feel one.
 
 The cost? **Time, and plenty of it.** This took years, and I'm still learning the deep end. You can't
@@ -427,7 +439,7 @@ a modern, well-optimized layout.
 And watch for the real trap, the one that nearly got me: **analysis paralysis.** This hobby will
 happily let you spend months comparing metric tables and never actually learn a layout. Resist it.
 The top contenders trade the crown every year — which is exactly the tell that the differences
-between them are tiny, certainly next to the gulf between any of them and Qwerty. So the worst move
+between them are tiny, certainly next to the gulf between any of them and QWERTY. So the worst move
 is to keep choosing. Pick one and commit; if you just want a name so you can stop deliberating, take
 **[enthium](https://github.com/sunaku/enthium)** and go.
 
@@ -475,7 +487,7 @@ one. (The **glossary** comes first, for anything that tripped you up.)
 A few words this post leans on. The slippery one is **"layout"**, which keyboard folk use for three
 different things — I try to keep them straight:
 
-- **Letter layout** — the *arrangement of letters* (Qwerty, Dvorak, Colemak, Hands Down). When
+- **Letter layout** — the *arrangement of letters* (QWERTY, Dvorak, Colemak, Hands Down). When
   someone says "I switched layouts," this is usually what they mean.
 - **Keymap** (or *full layout*) — *everything* the keyboard does: the letter layout plus all the
   layers, combos, magic and adaptive keys, and thumb keys. This is what I actually built, and what a
@@ -516,7 +528,7 @@ The machinery:
 
 ### The world of alternative layouts — KWL 4
 
-Custom layouts have a family tree. Qwerty begat Dvorak, Dvorak's ideas fed Colemak, Colemak begat
+Custom layouts have a family tree. QWERTY begat Dvorak, Dvorak's ideas fed Colemak, Colemak begat
 Colemak-DH, and the last few years brought a wave of optimizer-designed layouts — Gallium, Graphite,
 Sturdy, Canary, Nerps, the Hands Down family, enthium. If those names mean nothing to you yet,
 [getreuer's guide](https://getreuer.info/posts/keyboards/alt-layouts/) profiles them all; they're
@@ -673,7 +685,7 @@ If this gave you the itch, here's where to scratch it.
 - [keybr.com](https://www.keybr.com) — adaptive lessons that build touch-typing from zero.
 - [Monkeytype](https://monkeytype.com) — speed and accuracy testing once your fingers know the layout.
 - [ngram-type](https://ranelpadon.github.io/ngram-type/) — drill the most common bigrams, trigrams,
-  and words until they're reflex.
+  and words until they're reflexive.
 - [gfruit's words filter](https://gfruit.github.io/typing/words-filter.html) — generate practice text
   loaded with specific bigrams, characters, or fingers, to drill a layout's weak spots.
 
