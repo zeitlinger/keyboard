@@ -446,6 +446,8 @@ ${defaultBody.prependIndent("            ")}
         magic_capitalize_next = false;
         last_magic_trigger = ${magic.trigger.key};
         last_magic_repeat_keycode = magic_repeat_keycode;
+        prev_keycode = last_keycode;
+        last_keycode = magic_remembered_keycode;
         set_last_keycode(magic_remembered_keycode);
         return false;
     }
