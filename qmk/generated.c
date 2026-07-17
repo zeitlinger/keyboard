@@ -624,13 +624,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                             }
                             break;
             }
-            magic_capitalize_next = false;
-            last_magic_trigger = MAGIC_A;
-            last_magic_repeat_keycode = magic_repeat_keycode;
-            prev_keycode = last_keycode;
-            last_keycode = magic_remembered_keycode;
-            set_last_keycode(magic_remembered_keycode);
-            return false;
+            break;
         }
         case MAGIC_B: {
             if (allow_repeat && repeat_last_magic_key(MAGIC_B)) {
@@ -659,13 +653,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             default:
                             break;
             }
-            magic_capitalize_next = false;
-            last_magic_trigger = MAGIC_B;
-            last_magic_repeat_keycode = magic_repeat_keycode;
-            prev_keycode = last_keycode;
-            last_keycode = magic_remembered_keycode;
-            set_last_keycode(magic_remembered_keycode);
-            return false;
+            break;
         }
         case MAGIC_C: {
             if (allow_repeat && repeat_last_magic_key(MAGIC_C)) {
@@ -679,13 +667,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             default:
                             break;
             }
-            magic_capitalize_next = false;
-            last_magic_trigger = MAGIC_C;
-            last_magic_repeat_keycode = magic_repeat_keycode;
-            prev_keycode = last_keycode;
-            last_keycode = magic_remembered_keycode;
-            set_last_keycode(magic_remembered_keycode);
-            return false;
+            break;
         }
         case MAGIC_D: {
             if (allow_repeat && repeat_last_magic_key(MAGIC_D)) {
@@ -714,13 +696,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             default:
                             break;
             }
-            magic_capitalize_next = false;
-            last_magic_trigger = MAGIC_D;
-            last_magic_repeat_keycode = magic_repeat_keycode;
-            prev_keycode = last_keycode;
-            last_keycode = magic_remembered_keycode;
-            set_last_keycode(magic_remembered_keycode);
-            return false;
+            break;
         }
         case MAGIC_E: {
             if (allow_repeat && repeat_last_magic_key(MAGIC_E)) {
@@ -749,13 +725,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             default:
                             break;
             }
-            magic_capitalize_next = false;
-            last_magic_trigger = MAGIC_E;
-            last_magic_repeat_keycode = magic_repeat_keycode;
-            prev_keycode = last_keycode;
-            last_keycode = magic_remembered_keycode;
-            set_last_keycode(magic_remembered_keycode);
-            return false;
+            break;
         }
         case MAGIC_F: {
             if (allow_repeat && repeat_last_magic_key(MAGIC_F)) {
@@ -780,13 +750,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             default:
                             break;
             }
-            magic_capitalize_next = false;
-            last_magic_trigger = MAGIC_F;
-            last_magic_repeat_keycode = magic_repeat_keycode;
-            prev_keycode = last_keycode;
-            last_keycode = magic_remembered_keycode;
-            set_last_keycode(magic_remembered_keycode);
-            return false;
+            break;
         }
         case MAGIC_G: {
             if (allow_repeat && repeat_last_magic_key(MAGIC_G)) {
@@ -800,13 +764,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             default:
                             break;
             }
-            magic_capitalize_next = false;
-            last_magic_trigger = MAGIC_G;
-            last_magic_repeat_keycode = magic_repeat_keycode;
-            prev_keycode = last_keycode;
-            last_keycode = magic_remembered_keycode;
-            set_last_keycode(magic_remembered_keycode);
-            return false;
+            break;
         }
         case MAGIC_H: {
             if (allow_repeat && repeat_last_magic_key(MAGIC_H)) {
@@ -839,13 +797,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             default:
                             break;
             }
-            magic_capitalize_next = false;
-            last_magic_trigger = MAGIC_H;
-            last_magic_repeat_keycode = magic_repeat_keycode;
-            prev_keycode = last_keycode;
-            last_keycode = magic_remembered_keycode;
-            set_last_keycode(magic_remembered_keycode);
-            return false;
+            break;
         }
         case MAGIC_I: {
             if (allow_repeat && repeat_last_magic_key(MAGIC_I)) {
@@ -877,13 +829,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             default:
                             break;
             }
-            magic_capitalize_next = false;
-            last_magic_trigger = MAGIC_I;
-            last_magic_repeat_keycode = magic_repeat_keycode;
-            prev_keycode = last_keycode;
-            last_keycode = magic_remembered_keycode;
-            set_last_keycode(magic_remembered_keycode);
-            return false;
+            break;
         }
         case MAGIC_J: {
             if (allow_repeat && repeat_last_magic_key(MAGIC_J)) {
@@ -910,13 +856,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             default:
                             break;
             }
-            magic_capitalize_next = false;
-            last_magic_trigger = MAGIC_J;
-            last_magic_repeat_keycode = magic_repeat_keycode;
-            prev_keycode = last_keycode;
-            last_keycode = magic_remembered_keycode;
-            set_last_keycode(magic_remembered_keycode);
-            return false;
+            break;
         }
         case MAGIC_K: {
             if (allow_repeat && repeat_last_magic_key(MAGIC_K)) {
@@ -930,17 +870,18 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             default:
                             break;
             }
-            magic_capitalize_next = false;
-            last_magic_trigger = MAGIC_K;
-            last_magic_repeat_keycode = magic_repeat_keycode;
-            prev_keycode = last_keycode;
-            last_keycode = magic_remembered_keycode;
-            set_last_keycode(magic_remembered_keycode);
-            return false;
+            break;
         }
     default:
         return true;
     }
+    magic_capitalize_next = false;
+    last_magic_trigger = keycode;
+    last_magic_repeat_keycode = magic_repeat_keycode;
+    prev_keycode = last_keycode;
+    last_keycode = magic_remembered_keycode;
+    set_last_keycode(magic_remembered_keycode);
+    return false;
 }
 
 bool process_record_generated(uint16_t keycode, keyrecord_t *record) {

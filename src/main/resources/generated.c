@@ -159,6 +159,13 @@ ${magic}
     default:
         return true;
     }
+    magic_capitalize_next = false;
+    last_magic_trigger = keycode;
+    last_magic_repeat_keycode = magic_repeat_keycode;
+    prev_keycode = last_keycode;
+    last_keycode = magic_remembered_keycode;
+    set_last_keycode(magic_remembered_keycode);
+    return false;
 }
 
 bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
