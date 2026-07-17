@@ -4,7 +4,7 @@
 you can start building your own.*
 
 > *Once upon a time there was a little wizard who was hopelessly obsessed with the ordinary world —
-> and most of all with the clattering slab of plastic the outsiders spent their whole lives typing
+> and most of all with the clattering slab of plastic most people spent their whole lives typing
 > on. "It works fine," the other wizards shrugged. "Fine," the little wizard agreed. "But not
 > perfect." And so — as wizards obsessed with the ordinary world tend to do — he set out to build the
 > perfect keyboard.*
@@ -26,7 +26,7 @@ any good wizard-in-training, you'll have to hone your craft by learning about th
 disposal — and even about yourself.
 
 So think of it less like a hobby and more like a little school of wizardry, with years you pass through
-one at a time: outsider, apprentice, adept, wizard, archmage. And you're in luck, because today's the
+one at a time: newcomer, apprentice, adept, wizard, archmage. And you're in luck, because today's the
 open house.
 
 ## The five levels of keyboard wizardry
@@ -49,7 +49,7 @@ the keyboard is just the working example. The world is the point.
 > **The curriculum — your Keyboard Wizard Level (KWL, pronounced "cool").** Every section is tagged
 > with the level it belongs to, so you always know which floor of the school you're on:
 >
-> - **KWL 1 — Outsider.** You've never questioned QWERTY. We'll show you why it quietly fights your
+> - **KWL 1 — Newcomer.** You've never questioned QWERTY. We'll show you why it quietly fights your
 >   hands all day.
 > - **KWL 2 — Apprentice.** You learn to *see*: rolls, same-finger bigrams, lateral stretches — the
 >   metrics that separate a good layout from a bad one.
@@ -69,11 +69,11 @@ the keyboard is just the working example. The world is the point.
 
 ---
 
-## Part 1 — The ground floor: why your keyboard fights you (KWL 1)
+## Level 1 — The ground floor: why your keyboard fights you (KWL 1)
 
 ### What's wrong with QWERTY — KWL 1
 
-Our first stop is the ground floor, where every outsider lives — myself included, for most of my life.
+Our first stop is the ground floor, where every newcomer starts — myself included, for most of my life.
 And the first thing they teach you here is that the keyboard you've used every day since childhood
 was never designed for your hands.
 
@@ -138,16 +138,17 @@ everything that's wrong with the keyboard under your hands. The climb starts her
 
 ---
 
-## Part 2 — Apprentice years: learning to see, and my first layouts (KWL 2)
+## Level 2 — Apprentice years: learning to see, and my first layouts (KWL 2)
 
 Down on the ground floor you *felt* the problems and learned their names. An apprentice's next move
-is to stop trusting the feel alone and start **counting**.
+is to stop trusting the feel alone and start measuring what's wrong: counting how often those awkward
+motions occur.
 
 Every one of those motions can be measured. There's a whole cottage industry of layout analyzers that
 take any arrangement of letters and hand you back the numbers: its same-finger-bigram percentage, its
 rolls and alternation, its finger and hand load. "This feels nicer" becomes a figure you can chase,
 compare and
-optimize — and that's the moment you stop being an outsider. (Every term in this post is collected in the
+optimize — and that's the moment you stop being a newcomer. (Every term in this post is collected in the
 **Glossary** near the end, if one ever trips you up.)
 
 And then, of course, you start tinkering.
@@ -261,7 +262,7 @@ that's secretly about magic keys.
 
 ---
 
-## Part 3 — The magic floor: keys that do more than one thing (KWL 3)
+## Level 3 — The magic floor: keys that do more than one thing (KWL 3)
 
 ![My base layer](images/base-layer.png)
 
@@ -388,7 +389,7 @@ The numbered `✦` keys finish whole words (see the legend).*
 
 ---
 
-## Part 4 — Graduation: was it worth it?
+## Graduation — was it worth it?
 
 Time for the honest accounting — the part where I try hard not to sell you anything.
 
