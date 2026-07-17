@@ -51,8 +51,8 @@ sources = ["keymap_drawer.config.yaml", "blog/after-n.yaml"]
 outputs = ["blog/after-n.svg"]
 run = 'keymap -c "$KEYMAP_CONFIG" draw blog/after-n.yaml > blog/after-n.svg'
 
-# Render every blog SVG to a 2x PNG for Medium. codec.svg and bad-motions.svg
-# are hand-authored sources; the rest come from the gen-* tasks above.
+# Render every blog SVG to a 2x PNG for Medium. codec.svg, bad-motions.svg, and
+# slab-vs-split.svg are hand-authored sources; the rest come from gen-* tasks.
 # keyboard.jpg is a photo (static, not generated).
 [tasks.gen-blog-images]
 description = "Render blog SVGs to PNG (2x) for Medium"
@@ -64,6 +64,7 @@ sources = [
   "blog/after-n.svg",
   "blog/codec.svg",
   "blog/bad-motions.svg",
+  "blog/slab-vs-split.svg",
 ]
 outputs = [
   "blog/images/layers.png",
@@ -72,6 +73,7 @@ outputs = [
   "blog/images/after-n.png",
   "blog/images/codec.png",
   "blog/images/bad-motions.png",
+  "blog/images/slab-vs-split.png",
 ]
 run = [
   "resvg --zoom 2 keymap.svg blog/images/layers.png",
@@ -79,6 +81,7 @@ run = [
   "resvg --zoom 2 blog/magic-words.svg blog/images/magic-words.png",
   "resvg --zoom 2 blog/after-n.svg blog/images/after-n.png",
   "resvg --zoom 2 blog/codec.svg blog/images/codec.png",
+  "resvg --zoom 2 --sans-serif-family 'DejaVu Sans' blog/slab-vs-split.svg blog/images/slab-vs-split.png",
   # The SVG uses a web font with no local resvg fallback; map sans-serif so
   # text is retained in the generated PNG.
   "resvg --zoom 2 --sans-serif-family 'DejaVu Sans' blog/bad-motions.svg blog/images/bad-motions.png",

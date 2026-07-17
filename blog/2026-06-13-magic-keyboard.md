@@ -126,6 +126,8 @@ the rows are offset diagonally — a pattern known as *row stagger* — which ex
 typewriters needed room for the levers underneath. Your fingers don't move diagonally. They're
 different lengths and they curl straight toward your palm, which is what *column* stagger respects.
 
+![Slab versus split keyboard geometry](images/slab-vs-split.png)
+
 The fixes are things the ergonomic world already broadly agrees on, even outside wizard circles:
 **split** the board so each hand sits at its own natural angle, **tent** it so your thumbs ride a
 little higher than your pinkies, and **shrink** it so nothing is ever far from home.
