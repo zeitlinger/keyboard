@@ -1,9 +1,7 @@
 import java.io.File
 import java.util.concurrent.TimeUnit
 
-fun readGitVersion(
-    name: String,
-): String {
+fun readGitVersion(name: String): String {
     val version = "git rev-parse HEAD".runCommand().trim()
     return GIT_VERSION_TEMPLATE.format(version, name)
 }

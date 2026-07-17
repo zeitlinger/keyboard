@@ -99,7 +99,7 @@ ways you've learned not to notice. Let me make you notice.
 > - **Scissor** — one finger reaching up while its neighbor folds down. Type "scram" (`cr`), then
 >   "seven" (`ve`); feel the awkward little tangle.
 
-![Bad motions](images/bad-motions.png) 
+![Bad motions](images/bad-motions.png)
 
 And now the opposite — because you have good motions too, you've just never noticed them either:
 
