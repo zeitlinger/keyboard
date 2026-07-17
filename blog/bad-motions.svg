@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" style="background-color: #111217; font-family: 'Grafana Grotesk', Inter, Roboto, sans-serif;">
+  <!-- Background Grid/Accents -->
+  <rect width="100%" height="100%" fill="#111217" />
+  <line x1="0" y1="50" x2="800" y2="50" stroke="#22252b" stroke-width="2" />
+  <text x="40" y="32" fill="#9fa3a9" font-size="14" font-weight="600" letter-spacing="1">KEYSTROKE KINEMATICS / QWERTY MICRO-STRAINS</text>
+
+  <g transform="translate(100, 100)">
+    <!-- Base Keys (Muted, Dark Mode) -->
+    <!-- Number Row -->
+    <g fill="#1e2025" stroke="#333842" stroke-width="2" rx="6">
+      <rect x="0" y="0" width="60" height="60" rx="8"/> <text x="30" y="36" fill="#7b8087" font-size="18" text-anchor="middle" stroke="none">1</text>
+      <rect x="70" y="0" width="60" height="60" rx="8"/> <text x="100" y="36" fill="#7b8087" font-size="18" text-anchor="middle" stroke="none">2</text>
+      <rect x="140" y="0" width="60" height="60" rx="8"/> <text x="170" y="36" fill="#7b8087" font-size="18" text-anchor="middle" stroke="none">3</text>
+      <rect x="210" y="0" width="60" height="60" rx="8"/> <text x="240" y="36" fill="#7b8087" font-size="18" text-anchor="middle" stroke="none">4</text>
+      <rect x="280" y="0" width="60" height="60" rx="8"/> <text x="310" y="36" fill="#7b8087" font-size="18" text-anchor="middle" stroke="none">5</text>
+    </g>
+
+    <!-- Top Row -->
+    <g fill="#1e2025" stroke="#333842" stroke-width="2" rx="6">
+      <rect x="30" y="70" width="60" height="60" rx="8"/> <text x="60" y="106" fill="#cdd1d5" font-size="18" text-anchor="middle" stroke="none">Q</text>
+      <!-- W (SFS Highlight) -->
+      <rect x="100" y="70" width="60" height="60" rx="8" fill="#2d2218" stroke="#ff9830"/> <text x="130" y="106" fill="#ff9830" font-size="18" text-anchor="middle" stroke="none">W</text>
+      <!-- E (SFB & LSB Highlight) -->
+      <rect x="170" y="70" width="60" height="60" rx="8" fill="#2c1a1e" stroke="#e02f44"/> <text x="200" y="106" fill="#e02f44" font-size="18" text-anchor="middle" stroke="none">E</text>
+      <!-- R (Scissor Highlight) -->
+      <rect x="240" y="70" width="60" height="60" rx="8" fill="#18272b" stroke="#32d1df"/> <text x="270" y="106" fill="#32d1df" font-size="18" text-anchor="middle" stroke="none">R</text>
+      <!-- T (LSB Highlight) -->
+      <rect x="310" y="70" width="60" height="60" rx="8" fill="#2a2918" stroke="#fce83a"/> <text x="340" y="106" fill="#fce83a" font-size="18" text-anchor="middle" stroke="none">T</text>
+    </g>
+
+    <!-- Home Row -->
+    <g fill="#1e2025" stroke="#333842" stroke-width="2" rx="6">
+      <rect x="45" y="140" width="60" height="60" rx="8"/> <text x="75" y="176" fill="#cdd1d5" font-size="18" text-anchor="middle" stroke="none">A</text>
+      <!-- S (SFS Highlight) -->
+      <rect x="115" y="140" width="60" height="60" rx="8" fill="#2d2218" stroke="#ff9830"/> <text x="145" y="176" fill="#ff9830" font-size="18" text-anchor="middle" stroke="none">S</text>
+      <!-- D (SFB Highlight) -->
+      <rect x="185" y="140" width="60" height="60" rx="8" fill="#2c1a1e" stroke="#e02f44"/> <text x="215" y="176" fill="#e02f44" font-size="18" text-anchor="middle" stroke="none">D</text>
+      <rect x="255" y="140" width="60" height="60" rx="8"/> <text x="285" y="176" fill="#cdd1d5" font-size="18" text-anchor="middle" stroke="none">F</text>
+      <rect x="325" y="140" width="60" height="60" rx="8"/> <text x="355" y="176" fill="#cdd1d5" font-size="18" text-anchor="middle" stroke="none">G</text>
+    </g>
+
+    <!-- Bottom Row -->
+    <g fill="#1e2025" stroke="#333842" stroke-width="2" rx="6">
+      <rect x="70" y="210" width="60" height="60" rx="8"/> <text x="100" y="246" fill="#cdd1d5" font-size="18" text-anchor="middle" stroke="none">Z</text>
+      <rect x="140" y="210" width="60" height="60" rx="8"/> <text x="170" y="246" fill="#cdd1d5" font-size="18" text-anchor="middle" stroke="none">X</text>
+      <!-- C (Scissor Highlight) -->
+      <rect x="210" y="210" width="60" height="60" rx="8" fill="#18272b" stroke="#32d1df"/> <text x="240" y="246" fill="#32d1df" font-size="18" text-anchor="middle" stroke="none">C</text>
+      <rect x="280" y="210" width="60" height="60" rx="8"/> <text x="310" y="246" fill="#cdd1d5" font-size="18" text-anchor="middle" stroke="none">V</text>
+      <rect x="350" y="210" width="60" height="60" rx="8"/> <text x="380" y="246" fill="#cdd1d5" font-size="18" text-anchor="middle" stroke="none">B</text>
+    </g>
+
+    <!-- Data-Viz Vectors (The Grafana Look) -->
+    <defs>
+      <marker id="arrowRed" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#e02f44" /></marker>
+      <marker id="arrowOrange" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#ff9830" /></marker>
+      <marker id="arrowYellow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#fce83a" /></marker>
+    </defs>
+
+    <!-- SFB: E to D -->
+    <path d="M 195 125 C 180 135, 180 155, 205 145" fill="none" stroke="#e02f44" stroke-width="3" marker-end="url(#arrowRed)" marker-start="url(#arrowRed)"/>
+
+    <!-- SFS: W to S (skipping A) -->
+    <path d="M 115 115 C 90 140, 90 160, 125 165" fill="none" stroke="#ff9830" stroke-width="3" stroke-dasharray="6,4" marker-end="url(#arrowOrange)"/>
+
+    <!-- LSB: E and T Pulling Apart -->
+    <path d="M 235 90 L 305 90" fill="none" stroke="#fce83a" stroke-width="3" marker-end="url(#arrowYellow)" marker-start="url(#arrowYellow)"/>
+
+    <!-- Scissor: R and C -->
+    <line x1="260" y1="125" x2="250" y2="215" stroke="#32d1df" stroke-width="3" />
+    <circle cx="260" cy="125" r="4" fill="#32d1df"/>
+    <circle cx="250" cy="215" r="4" fill="#32d1df"/>
+  </g>
+
+  <!-- Grafana-Style Legend Container -->
+  <g transform="translate(500, 100)" font-size="14">
+    <rect x="0" y="0" width="250" height="230" rx="8" fill="#181a1f" stroke="#22252b" stroke-width="2"/>
+
+    <!-- Legend Items -->
+    <circle cx="25" cy="35" r="6" fill="#e02f44" />
+    <text x="45" y="40" fill="#cdd1d5" font-weight="bold">SFB (Same-Finger Bigram)</text>
+    <text x="45" y="60" fill="#7b8087" font-size="12">Continuous jam in place (E ↔ D)</text>
+
+    <circle cx="25" cy="90" r="6" fill="#ff9830" />
+    <text x="45" y="95" fill="#cdd1d5" font-weight="bold">SFS (Same-Finger Skip)</text>
+    <text x="45" y="115" fill="#7b8087" font-size="12">Finger jumping rows (W → S)</text>
+
+    <circle cx="25" cy="145" r="6" fill="#fce83a" />
+    <text x="45" y="150" fill="#cdd1d5" font-weight="bold">LSB (Lateral Stretch)</text>
+    <text x="45" y="170" fill="#7b8087" font-size="12">Adjacent fingers pulled apart (E, T)</text>
+
+    <circle cx="25" cy="200" r="6" fill="#32d1df" />
+    <text x="45" y="205" fill="#cdd1d5" font-weight="bold">Scissor Tangle</text>
+    <text x="45" y="225" fill="#7b8087" font-size="12">Diagonal awkward stretch (R, C)</text>
+  </g>
+</svg>
