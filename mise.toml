@@ -81,7 +81,7 @@ run = [
   "resvg --zoom 2 blog/codec.svg blog/images/codec.png",
   # The SVG uses a web font with no local resvg fallback; map sans-serif so
   # text is retained in the generated PNG.
-  "resvg --sans-serif-family 'DejaVu Sans' blog/bad-motions.svg blog/images/bad-motions.png",
+  "resvg --zoom 2 --sans-serif-family 'DejaVu Sans' blog/bad-motions.svg blog/images/bad-motions.png",
 ]
 
 [tasks.generate]

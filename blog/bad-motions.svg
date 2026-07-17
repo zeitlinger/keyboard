@@ -73,7 +73,7 @@
 
   <!-- Grafana-Style Legend Container -->
   <g transform="translate(500, 100)" font-size="14">
-    <rect x="0" y="0" width="250" height="230" rx="8" fill="#181a1f" stroke="#22252b" stroke-width="2"/>
+    <rect x="0" y="0" width="270" height="250" rx="8" fill="#181a1f" stroke="#22252b" stroke-width="2"/>
 
     <!-- Legend Items -->
     <circle cx="25" cy="35" r="6" fill="#e02f44" />
