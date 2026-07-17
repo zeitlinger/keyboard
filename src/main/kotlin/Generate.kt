@@ -409,6 +409,7 @@ private fun magicCase(magic: MagicInfo): String {
             """
             if (context_keycode != KC_NO && !is_magic_keycode(context_keycode)) {
                 tap_code16(context_keycode);
+                magic_remembered_keycode = context_keycode;
                 magic_repeat_keycode = context_keycode;
                 break;
             }
@@ -1000,6 +1001,7 @@ private fun magicCommand(
             val bracketName = resolvedDef.removeSurrounding("[", "]")
             MagicCommand(
                 bracketCommand(bracketName, pos, stringOffsetConstants),
+                rememberedKeycode = if (bracketName == "dotSpc") "KC_SPC" else null,
                 reverseSafe = bracketName == "dotSpc",
             )
         }
@@ -1055,7 +1057,16 @@ private fun magicCommand(
                 } else {
                     annotateMagicSend("magic_decode_send_cap_cycle($offset, $suffix, $cycleOffset);", emitted, output)
                 }
-            MagicCommand(send, reverseSafe = shouldReplace)
+            // Word-output helpers remember their trailing space themselves.
+            // Prefix-stripped literals use the plain decoder, so retain their
+            // actual final character here (e.g. "ment" -> KC_T).
+            val rememberedKeycode =
+                if (output.last() == ' ' && !(quoted && outputStartsWithPreceding)) {
+                    null
+                } else {
+                    translator.toQmk(output.last().toString(), pos).key
+                }
+            MagicCommand(send, rememberedKeycode = rememberedKeycode, reverseSafe = shouldReplace)
         }
 
         else -> {
@@ -1437,6 +1448,7 @@ static void magic_decode_send_cap_cycle(uint16_t offset, char suffix, uint16_t c
         add_oneshot_mods(MOD_BIT(KC_LSFT));
     }
     magic_decode_send(offset);
+    magic_remembered_keycode = KC_SPC;
     if (suffix != '\0') {
         set_suffix_word_state(suffix, cycle_offset, capitalize);
     }
@@ -1446,6 +1458,7 @@ static void magic_decode_send_cap_cycle(uint16_t offset, char suffix, uint16_t c
 static void magic_decode_send_suffix_cycle(uint16_t offset, char suffix, uint16_t cycle_offset) {
     bool capitalize = magic_capitalize_next;
     magic_decode_send(offset);
+    magic_remembered_keycode = KC_SPC;
     set_suffix_word_state(suffix, cycle_offset, capitalize);
     magic_capitalize_next = false;
 }

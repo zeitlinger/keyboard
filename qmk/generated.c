@@ -7,6 +7,7 @@ int layer = _BASE;
 
 static bool magic_capitalize_next = false;
 static bool magic_context_key_emitted = true;
+static uint16_t magic_remembered_keycode = KC_NO;
 
 // Magic string decoder lookup tables
 #define MAGIC_STRING_APOSTROPHE_D 10
@@ -372,6 +373,7 @@ static void magic_decode_send_cap_cycle(uint16_t offset, char suffix, uint16_t c
         add_oneshot_mods(MOD_BIT(KC_LSFT));
     }
     magic_decode_send(offset);
+    magic_remembered_keycode = KC_SPC;
     if (suffix != '\0') {
         set_suffix_word_state(suffix, cycle_offset, capitalize);
     }
@@ -381,6 +383,7 @@ static void magic_decode_send_cap_cycle(uint16_t offset, char suffix, uint16_t c
 static void magic_decode_send_suffix_cycle(uint16_t offset, char suffix, uint16_t cycle_offset) {
     bool capitalize = magic_capitalize_next;
     magic_decode_send(offset);
+    magic_remembered_keycode = KC_SPC;
     set_suffix_word_state(suffix, cycle_offset, capitalize);
     magic_capitalize_next = false;
 }
@@ -424,7 +427,6 @@ static uint16_t prev_keycode = KC_NO;
 static uint16_t last_keycode = KC_NO;
 static uint16_t last_magic_trigger = KC_NO;
 static uint16_t last_magic_repeat_keycode = KC_NO;
-static uint16_t magic_remembered_keycode = KC_NO;
 static uint16_t magic_repeat_keycode = KC_NO;
 
 static inline uint16_t unshift_letter_keycode(uint16_t keycode) {
@@ -616,6 +618,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             default:
                             if (context_keycode != KC_NO && !is_magic_keycode(context_keycode)) {
                                 tap_code16(context_keycode);
+                                magic_remembered_keycode = context_keycode;
                                 magic_repeat_keycode = context_keycode;
                                 break;
                             }
@@ -644,7 +647,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_L: magic_tap_repeatable(KC_H); break;
                 case KC_M: magic_tap_repeatable(KC_H); break;
                 case KC_N: magic_tap_repeatable(KC_H); break;
-                case KC_P: magic_decode_send(MAGIC_STRING_P_L); /* emits "pl" -> "ppl" */ break;
+                case KC_P: magic_decode_send(MAGIC_STRING_P_L); /* emits "pl" -> "ppl" */ magic_remembered_keycode = KC_L; break;
                 case KC_R: magic_replace_decode_send_cap_cycle(MAGIC_STRING_A_D_D_R_E_S_S, 's', MAGIC_CYCLE_NONE); /* emits "address " */ break;
                 case KC_S: magic_decode_send_suffix_cycle(MAGIC_STRING_O_M_E_O_N_E, 'e', MAGIC_CYCLE_NONE); /* emits "omeone " -> "someone " */ break;
                 case KC_T: magic_decode_send_suffix_cycle(MAGIC_STRING_H_O_U_G_H, 'h', MAGIC_CYCLE_NONE); /* emits "hough " -> "though " */ break;
@@ -668,7 +671,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             magic_repeat_keycode = KC_NO;
             uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
             switch (magic_context_prepared) {
-                case KC_SPC: magic_replace_decode_send_cap(MAGIC_STRING_DOT, '\0'); /* emits ". " */ add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state(); break;
+                case KC_SPC: magic_replace_decode_send_cap(MAGIC_STRING_DOT, '\0'); /* emits ". " */ add_oneshot_mods(MOD_BIT(KC_LSFT)); clear_suffix_state(); magic_remembered_keycode = KC_SPC; break;
             default:
                             break;
             }
@@ -845,12 +848,12 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_G: magic_tap_repeatable(KC_K); break;
                 case KC_K: magic_decode_send_suffix_cycle(MAGIC_STRING_N_O_W, 'w', MAGIC_STRING_K_N_O_W); /* emits "now " -> "know " */ break;
                 case KC_L: magic_tap_repeatable(KC_M); break;
-                case KC_M: magic_decode_send(MAGIC_STRING_E_N_T); /* emits "ent" -> "ment" */ break;
+                case KC_M: magic_decode_send(MAGIC_STRING_E_N_T); /* emits "ent" -> "ment" */ magic_remembered_keycode = KC_T; break;
                 case KC_N: magic_replace_decode_send_cap_cycle(MAGIC_STRING_W_O_N_APOSTROPHE_T, 't', MAGIC_CYCLE_NONE); /* emits "won't " */ break;
                 case KC_P: magic_tap_repeatable(KC_M); break;
-                case KC_S: magic_decode_send(MAGIC_STRING_I_O_N); /* emits "ion" -> "sion" */ break;
+                case KC_S: magic_decode_send(MAGIC_STRING_I_O_N); /* emits "ion" -> "sion" */ magic_remembered_keycode = KC_N; break;
                 case KC_SPC: magic_decode_send_cap_cycle(MAGIC_STRING_T_H_E, 'e', MAGIC_CYCLE_NONE); /* emits "the " */ break;
-                case KC_T: magic_decode_send(MAGIC_STRING_I_O_N); /* emits "ion" -> "tion" */ break;
+                case KC_T: magic_decode_send(MAGIC_STRING_I_O_N); /* emits "ion" -> "tion" */ magic_remembered_keycode = KC_N; break;
                 case KC_TAB: magic_decode_send_cap_cycle(MAGIC_STRING_T_H_E, 'e', MAGIC_CYCLE_NONE); /* emits "the " */ break;
                 case KC_V: magic_replace_decode_send_cap_cycle(MAGIC_STRING_R_E_S_O_L_V_E, 'e', MAGIC_STRING_R_E_S_O_L_V_E); /* emits "resolve " */ break;
                 case KC_W: magic_tap_repeatable(KC_S); break;

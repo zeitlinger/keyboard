@@ -7,6 +7,7 @@ int layer = _BASE;
 
 static bool magic_capitalize_next = false;
 static bool magic_context_key_emitted = true;
+static uint16_t magic_remembered_keycode = KC_NO;
 
 ${magicStringDecoder}
 ${magicCycleData}
@@ -22,7 +23,6 @@ static uint16_t prev_keycode = KC_NO;
 static uint16_t last_keycode = KC_NO;
 static uint16_t last_magic_trigger = KC_NO;
 static uint16_t last_magic_repeat_keycode = KC_NO;
-static uint16_t magic_remembered_keycode = KC_NO;
 static uint16_t magic_repeat_keycode = KC_NO;
 
 static inline uint16_t unshift_letter_keycode(uint16_t keycode) {
