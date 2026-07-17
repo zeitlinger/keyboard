@@ -34,7 +34,7 @@ fun main() {
             GitFile(cfg),
             GitFile(res),
             File("target/qmk"),
-            readGitVersion(GitFile(cfg), cfg.name),
+            readGitVersion(cfg.name),
             false,
         ),
     )

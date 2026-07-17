@@ -47,9 +47,9 @@ adaptives, chords) and produces QMK C code.
 
 The generator runs twice: once to `qmk/` (with placeholder version) and once
 to `target/qmk/` (with git version). Only `target/qmk/` should be used for
-actual firmware builds. The second run requires a clean git working tree (it
-embeds the git hash); with uncommitted changes, `mise run generate` exits
-non-zero but `qmk/` is still updated by the first run.
+actual firmware builds. Generation itself does not require a clean git working
+tree. `mise run flash` checks for uncommitted changes immediately before
+flashing.
 
 **Do NOT edit `qmk/generated.c` or `qmk/combos.def` directly.** These are
 committed for reference only. The real sources are:
