@@ -71,7 +71,7 @@ habits, develop a feel for what works, and design around your own hands.
 
 ## Level 1: The ground floor: why your keyboard fights you (KWL 1)
 
-### What's wrong with QWERTY: KWL 1
+### What's wrong with QWERTY
 
 Our first stop is the ground floor, where every newcomer starts, myself included for most of my life.
 And the first thing they teach you here is that the keyboard you've used every day since childhood
@@ -115,7 +115,7 @@ You've been fighting your keyboard for years and never knew any of it had a name
 That *feeling*, far more than the vocabulary, is the whole reason the rest of this school exists.
 (Upstairs, the apprentices learn to do something even better than name these motions: count them.)
 
-### What's wrong with the keyboard *shape*: KWL 1
+### What's wrong with the keyboard *shape*
 
 The letters are only half the problem. The other half is the slab itself.
 
@@ -155,7 +155,7 @@ optimize, and that's the moment you stop being a newcomer. (Every term in this p
 
 And then, of course, you start tinkering.
 
-### The rabbit hole opens: the Ferris Sweep (KWL 2)
+### The rabbit hole opens: the Ferris Sweep
 
 My gateway drug was a **[Ferris Sweep](https://keebmaker.com/products/ferris-sweep)**, a 34-key
 split. Thirty-four keys, compared with over a hundred on my old keyboard. And I'd soon use even fewer: the two inner
@@ -175,7 +175,7 @@ not zero strain, but it is a different league.
 One rabbit hole I'll happily signpost and *not* go down: designing and 3D-printing your own board.
 That's a different madness, and this story is long enough.
 
-### Finding a comfortable posture: KWL 2
+### Finding a comfortable posture
 
 The first surprise was *which* problems hurt most. I'd assumed the letters were everything; instead
 the villains were **lateral stretch** and **pinky strain**. My hands hated reaching sideways, and
@@ -200,7 +200,7 @@ never misfires, and that comes down to the switches: **Kailh Choc Light Blue ("g
 linear**, feather-light and tightly spaced, no gap between caps. With those, combos felt natural,
 and I could drop the obvious-but-clumsy alternative of spilling half my letters onto a second layer.
 
-### First attempts at a layout: KWL 2
+### First attempts at a layout
 
 Building a layout is really two quests that barely overlap: the *letters*, and everything around
 them, the layers of symbols, navigation, numbers and thumb keys. Like a lot of people, I started
@@ -281,7 +281,7 @@ Your thumbs are strong and, on an ordinary keyboard, almost wasted; they only ev
 bar. Promote one to a real letter and you've effectively added a ninth finger to the rotation, which
 means fewer same-finger bigrams for the other eight to absorb.
 
-### Whoa #1: Magic Keys (KWL 3)
+### Whoa #1: Magic Keys
 
 Every magic key on my board grew from one idea in getreuer's writing: **[Magic
 Sturdy](https://getreuer.info/posts/keyboards/alt-layouts/#magic-sturdy)**. Getreuer had taken a
@@ -325,7 +325,7 @@ little Python trainer and drilled them like flashcards. Months later I still red
 up and forgot. But the ones that stuck, stuck deep. I don't think "magic key" anymore; I think the
 word, and it appears.
 
-### Whoa #2: Adaptive Keys (KWL 3)
+### Whoa #2: Adaptive Keys
 
 Magic keys have a cost you can't optimize away: nearly all of them are *combos*, two keys pressed at
 once, and a combo, however light, is always a touch more effort and a touch less certain than a
@@ -394,7 +394,7 @@ The numbered `✦` keys finish whole words (see the legend).*
 
 Time for the honest accounting, the part where I try hard not to sell you anything.
 
-### The honest scorecard: KWL 1
+### The honest scorecard
 
 **Speed?** Not the headline reason, and not really what a layout is for. Raw speed is mostly
 *practice*: plenty of blazing-fast typists run QWERTY, and the genuinely fastest people alive use
@@ -425,7 +425,7 @@ The cost? **Time, and plenty of it.** This took years, and I'm still learning th
 justify that on a stopwatch. You justify it the way you justify any craft: because the doing of it is
 worth something to you.
 
-### So should *you* do it? (KWL 1)
+### So should *you* do it?
 
 Yes, with your ambition scaled honestly, because "build a custom keyboard" hides a dozen separate
 decisions of wildly different value.
@@ -528,7 +528,7 @@ The machinery:
 > magic, for readers who want to *build* something like this, not just read about it. If it's more
 > than you wanted, don't worry: you've already seen the whole school. This is just the spellbook.
 
-### The world of alternative layouts: KWL 4
+### The world of alternative layouts
 
 Custom layouts have a [family tree](https://www.reddit.com/r/KeyboardLayouts/comments/11g3xlx/keyboard_layout_family_tree/). QWERTY begat Dvorak, Dvorak's ideas fed Colemak, Colemak begat
 Colemak-DH, and the last few years brought a wave of optimizer-designed layouts: Gallium, Graphite,
@@ -542,7 +542,7 @@ were starting clean today I'd look hard at [enthium](https://github.com/sunaku/e
 
 The resources at the bottom of this post are the rest of the map I wish I'd had on day one.
 
-### How big the magic table actually got: KWL 4
+### How big the magic table actually got
 
 The eleven magic keys aren't eleven tricks. Of those, only two are plain keys and the other nine are
 combos; each emits something different depending on the key you pressed just before it. So the capacity
@@ -560,7 +560,7 @@ does the same for related forms rather than endings: press again and "know" step
 Keys` and `Cycle` tables in the [repo README](https://github.com/zeitlinger/keyboard), the single
 source of truth the firmware is generated from.
 
-### QMK: the firmware (KWL 4)
+### QMK: the firmware
 
 All of this runs on [QMK](https://docs.qmk.fm/), the open-source firmware for programmable keyboards.
 It does far more than ZMK and the rest, but it's also low-level C, and once I went past the basics,
@@ -569,7 +569,7 @@ the slightly unusual thing this whole post has been hinting at: I **generate the
 markdown tables in my README**. The README *is* the layout; a Kotlin generator turns it into QMK
 code. Edit a table, regenerate, flash.
 
-### Hands Down Vibranium: KWL 4
+### Hands Down Vibranium
 
 My base letter layout is a variant of
 [Hands Down](https://sites.google.com/alanreiser.com/handsdown) called Vibranium, chosen for its
@@ -581,7 +581,7 @@ posture phase had already ruled out. The base layer's home row settles into `s c
 down is easy, so it carries common letters as well; the rarer ones live up on the top-row stretch and
 on combos.
 
-### Layer design: KWL 5
+### Layer design
 
 A 34-key board lives or dies by its layers. The one firm rule I follow: **no home-row mods on the
 base layer.** Home-row mods, where a key is a letter on tap and a modifier on hold (see
@@ -629,7 +629,7 @@ normal shift-plus-letter case (hold shift, then tap a letter, get uppercase). So
 fires when the shift is the *last* key pressed. Anything that arrives after the shift is already
 held stays a plain shifted letter.
 
-### Magic keys: implementation (KWL 5)
+### Magic keys: implementation
 
 Mechanically, it's all custom code. The alternate-repeat key was the *inspiration*, not the
 implementation. On each magic press the firmware looks at the last keycode and dispatches from a
@@ -654,7 +654,7 @@ do it again tomorrow.
 rarer characters keep a full 8-bit code. Two common letters in the space of one, roughly halving the
 dictionary's storage space so the firmware still fits in flash.*
 
-### Adaptive keys: implementation (KWL 5)
+### Adaptive keys: implementation
 
 Adaptives are the mirror image of magic keys. A magic key waits for its own deliberate press; an
 adaptive fires automatically when a specific *pair* of keys is typed, rewriting the second key's
