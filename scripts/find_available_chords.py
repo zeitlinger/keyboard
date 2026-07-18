@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from feel import (  # noqa: E402
+from scripts.feel import (  # noqa: E402
     COMBO_KEYS,
     LAYOUT,
     MAGIC_POSITIONS,

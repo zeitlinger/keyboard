@@ -15,7 +15,7 @@ from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parents[2]))
-from feel import (
+from scripts.feel import (
     LAYOUT,
     COMBO_KEYS,
     MAGIC_POSITIONS,

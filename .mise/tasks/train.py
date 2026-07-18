@@ -4,6 +4,10 @@
 # dependencies = ["rich", "wordfreq"]
 # ///
 
+# [MISE] description="Learn magic combos"
+# Keep the trainer's colour-coded hints visible even when the shell exports NO_COLOR for other mise tasks.
+# [MISE] env = { NO_COLOR = '',  FORCE_COLOR = '1' }
+
 from __future__ import annotations
 
 import json
@@ -17,7 +21,9 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
 
-from feel import COMBO_KEYS, MAGIC_POSITIONS, load_adaptives
+sys.path.insert(0, str(Path(__file__).parents[2]))
+
+from scripts.feel import COMBO_KEYS, MAGIC_POSITIONS, load_adaptives
 from scripts.find_available_chords import (
     PRECEDING_POSITIONS,
     README,
