@@ -44,6 +44,24 @@ ACTIVE_SET_SIZE = 5
 GRADUATION_STREAK = 3
 STALE_DAYS = 7
 
+# Keep these assignments stable: the point is to build a visual association
+# between a physical magic key and its trigger, not to pick a new colour for
+# every hint.  The first six colours are bright variants so they remain
+# readable on both dark and light terminal themes.
+MAGIC_COLORS = {
+    "a": "bright_red",
+    "b": "bright_green",
+    "c": "bright_yellow",
+    "d": "bright_blue",
+    "e": "bright_magenta",
+    "f": "bright_cyan",
+    "g": "red",
+    "h": "green",
+    "i": "yellow",
+    "j": "blue",
+    "k": "magenta",
+}
+
 console = Console()
 _tty = None
 
@@ -58,6 +76,7 @@ Usage:
 Controls:
   type the trigger for the shown output
   type the output itself as an alternative answer
+  new entries are taught in small groups sharing one magic key
   q to quit
 """
 
@@ -191,13 +210,37 @@ def format_trigger(trigger: str) -> str:
     return f"{row_labels.get(row, row)}+{column}"
 
 
+def format_trigger_text(trigger: str) -> Text:
+    row, column = trigger.split("+", 1)
+    row_labels = {
+        "spc": "space",
+        "enter": "enter",
+        "tab": "tab",
+        ",": "comma",
+    }
+    text = Text(f"{row_labels.get(row, row)}+", style="dim")
+    text.append(column, style=f"bold {MAGIC_COLORS.get(column, 'white')}")
+    return text
+
+
 def format_triggers(triggers: tuple[str, ...]) -> str:
     return ", ".join(format_trigger(trigger) for trigger in triggers)
 
 
-def render_trigger_hint(trigger: str) -> str:
+def format_triggers_text(triggers: tuple[str, ...]) -> Text:
+    text = Text()
+    for index, trigger in enumerate(triggers):
+        if index:
+            text.append(", ", style="dim")
+        text.append(format_trigger_text(trigger))
+    return text
+
+
+def render_trigger_hint(trigger: str) -> Text:
     row, column_letter = trigger.split("+", 1)
     marks: dict[tuple[int, int], str] = {}
+    mark_styles: dict[tuple[int, int], str] = {}
+    background_marks: set[tuple[int, int]] = set()
     combo_sources = {
         (0, 1): [(0, 0), (0, 2)],
         (1, 1): [(1, 0), (1, 2)],
@@ -217,21 +260,33 @@ def render_trigger_hint(trigger: str) -> str:
         (7, 3): [(7, 2), (7, 4)],
     }
 
+    def mark(
+        position: tuple[int, int],
+        style: str = "bold white",
+        *,
+        background: bool = False,
+    ) -> None:
+        marks[position] = "x"
+        mark_styles[position] = style
+        if background:
+            background_marks.add(position)
+
     row_pos = PRECEDING_POSITIONS.get(row)
     if row_pos is not None:
         if row in COMBO_KEYS:
             for source_pos in combo_sources.get(row_pos, []):
-                marks[source_pos] = "x"
+                mark(source_pos)
         else:
-            marks[row_pos] = "x"
+            mark(row_pos)
 
     magic_pos = MAGIC_POSITIONS.get(f"magic_{column_letter}")
+    magic_style = f"bold bright_white on {MAGIC_COLORS.get(column_letter, 'white')}"
     if magic_pos is not None:
         if magic_pos in combo_sources:
             for source_pos in combo_sources[magic_pos]:
-                marks[source_pos] = "x"
+                mark(source_pos, magic_style, background=True)
         else:
-            marks[magic_pos] = "x"
+            mark(magic_pos, magic_style, background=True)
 
     col_offsets = [4, 2, 0, 2, 4]
     left_x = [0, 6, 12, 18, 24]
@@ -267,24 +322,47 @@ def render_trigger_hint(trigger: str) -> str:
     ]
 
     x_margin = 2
-    stamped_slots = [(x + x_margin, y, " ") for x, y in empty_slots]
+    stamped_slots = [(x + x_margin, y, " ", "dim", False) for x, y in empty_slots]
     for pos, (x, y) in position_to_slot.items():
-        stamped_slots.append((x + x_margin, y, marks.get(pos, " ")))
+        stamped_slots.append(
+            (
+                x + x_margin,
+                y,
+                marks.get(pos, " "),
+                mark_styles.get(pos, "dim"),
+                pos in background_marks,
+            )
+        )
 
-    max_x = max(x for x, _, _ in stamped_slots) + 5
-    max_y = max(y for _, y, _ in stamped_slots) + 3
+    max_x = max(x for x, _, _, _, _ in stamped_slots) + 5
+    max_y = max(y for _, y, _, _, _ in stamped_slots) + 3
     canvas = [[" " for _ in range(max_x)] for _ in range(max_y)]
+    styles: dict[tuple[int, int], str] = {}
 
-    def stamp_box(x: int, y: int, value: str) -> None:
+    def stamp_box(x: int, y: int, value: str, style: str, background: bool) -> None:
         glyphs = ("┌───┐", f"│ {value} │", "└───┘")
         for dy, glyph in enumerate(glyphs):
             for dx, char in enumerate(glyph):
                 canvas[y + dy][x + dx] = char
+                if value != " " and (background or (dy == 1 and dx == 2)):
+                    styles[(x + dx, y + dy)] = style
 
-    for x, y, value in stamped_slots:
-        stamp_box(x, y, value)
+    for x, y, value, style, background in stamped_slots:
+        stamp_box(x, y, value, style, background)
 
-    return "\n".join("".join(line).rstrip() for line in canvas if "".join(line).strip())
+    rendered = Text()
+    for line_index, line in enumerate(canvas):
+        plain_line = "".join(line).rstrip()
+        if not plain_line:
+            continue
+        if rendered:
+            rendered.append("\n")
+        line_text = Text(plain_line, style="dim")
+        for (x, y), style in styles.items():
+            if y == line_index and x < len(plain_line):
+                line_text.stylize(style, x, x + 1)
+        rendered.append(line_text)
+    return rendered
 
 
 def trainer_value_multiplier(output: str) -> float:
@@ -397,16 +475,63 @@ def record_answer(stats: dict, output: str, correct: bool) -> dict:
     return entry
 
 
-def update_active_set(active: list[str], stats: dict, all_outputs: list[str]) -> None:
+def entry_magic(entry: MagicEntry) -> str:
+    return entry.best_trigger.split("+", 1)[1]
+
+
+def update_active_set(
+    active: list[str],
+    stats: dict,
+    all_outputs: list[str],
+    entries: dict[str, MagicEntry],
+    active_magic: str | None,
+) -> str | None:
+    """Keep the active learning batch focused on one physical magic key."""
     for output in [item for item in active if is_mastered(stats.get(item, {}))]:
         active.remove(output)
+
+    if active_magic not in MAGIC_COLORS:
+        active_magic = None
+
+    if (
+        active
+        and active_magic is not None
+        and any(entry_magic(entries[item]) != active_magic for item in active)
+    ):
+        # Discard only the active-list membership, not the learning stats. The
+        # entries will be picked up again in their magic-key group.
+        active.clear()
+
+    if not active:
+        if active_magic is None or not any(
+            entry_magic(entries[item]) == active_magic
+            and not is_mastered(stats.get(item, {}))
+            for item in all_outputs
+        ):
+            active_magic = next(
+                (
+                    entry_magic(entries[item])
+                    for item in all_outputs
+                    if not is_mastered(stats.get(item, {}))
+                ),
+                None,
+            )
+
+    if active_magic is None:
+        return None
+
     unseen = [
         item
         for item in all_outputs
-        if item not in active and not is_mastered(stats.get(item, {}))
+        if (
+            item not in active
+            and entry_magic(entries[item]) == active_magic
+            and not is_mastered(stats.get(item, {}))
+        )
     ]
     while len(active) < ACTIVE_SET_SIZE and unseen:
         active.append(unseen.pop(0))
+    return active_magic
 
 
 def output_priority(
@@ -463,7 +588,12 @@ def pick_output(
     return min(pool, key=sort_key)
 
 
-def header_panel(active: list[str], stats: dict, all_outputs: list[str]) -> Panel:
+def header_panel(
+    active: list[str],
+    stats: dict,
+    all_outputs: list[str],
+    active_magic: str | None,
+) -> Panel:
     all_stats = [value for value in stats.values() if isinstance(value, dict)]
     mastered = [item for item in all_outputs if is_mastered(stats.get(item, {}))]
     stale_count = sum(1 for item in mastered if is_stale(stats.get(item, {})))
@@ -477,6 +607,12 @@ def header_panel(active: list[str], stats: dict, all_outputs: list[str]) -> Pane
     if stale_count:
         text.append(f"   Refresh: {stale_count}", style="bold yellow")
     text.append(f"   Acc: {accuracy}", style="dim")
+    if active_magic:
+        text.append("   Focus: ", style="dim")
+        text.append(
+            f"magic_{active_magic}",
+            style=f"bold {MAGIC_COLORS.get(active_magic, 'white')}",
+        )
     return Panel(text, title="[bold blue]Magic Trainer[/]", expand=False)
 
 
@@ -509,7 +645,8 @@ def show_prompt(
         f"  Type trigger or word, then press Enter: [bold yellow]{output}[/]{info}"
     )
     if stat.get("recent_misses", 0) >= 2:
-        console.print(f"  [dim]Accepted triggers: {format_triggers(entry.triggers)}[/]")
+        console.print("  [dim]Accepted triggers:[/] ", end="")
+        console.print(format_triggers_text(entry.triggers))
     console.print()
     console.print("  [blue]>[/] ", end="")
 
@@ -534,18 +671,21 @@ def run() -> None:
 
     active: list[str] = stats.get("_active", [])
     active = [item for item in active if item in entries]
-    unmastered_new = [
-        item
-        for item in all_outputs
-        if item not in active and not is_mastered(stats.get(item, {}))
-    ]
-    while len(active) < ACTIVE_SET_SIZE and unmastered_new:
-        active.append(unmastered_new.pop(0))
+    active_magic = stats.get("_active_magic")
+    if active_magic not in MAGIC_COLORS:
+        active_magics = {entry_magic(entries[item]) for item in active}
+        if len(active_magics) == 1:
+            active_magic = active_magics.pop()
+        else:
+            active.clear()
+            active_magic = None
 
     last_output: str | None = None
     try:
         while True:
-            update_active_set(active, stats, all_outputs)
+            active_magic = update_active_set(
+                active, stats, all_outputs, entries, active_magic
+            )
             mastered = [
                 item for item in all_outputs if is_mastered(stats.get(item, {}))
             ]
@@ -556,7 +696,10 @@ def run() -> None:
             output = pick_output(active, stats, entries, all_outputs, last_output)
             last_output = output
             show_prompt(
-                entries, output, stats, header_panel(active, stats, all_outputs)
+                entries,
+                output,
+                stats,
+                header_panel(active, stats, all_outputs, active_magic),
             )
             answer = tty_input().strip()
             if answer == "q":
@@ -584,25 +727,28 @@ def run() -> None:
                 console.print("  [dim]press enter to continue[/] ", end="")
                 tty_input()
             else:
-                console.print(
-                    f"  [bold yellow]✗  expected one of: {format_triggers(entries[output].triggers)}  "
-                    f"(you typed: {answer or '?'})[/]"
-                )
-                for line in render_trigger_hint(
+                console.print("  [bold yellow]✗  expected one of:[/] ", end="")
+                console.print(format_triggers_text(entries[output].triggers), end="")
+                console.print(f"  [dim](you typed: {answer or '?'})[/]")
+                console.print("  [dim]The coloured x marks the magic key.[/]")
+                hint = render_trigger_hint(
                     preferred_hint_trigger(entries[output].triggers)
-                ).splitlines():
-                    console.print(f"  [dim]{line}[/]")
+                )
+                for line in hint.split("\n"):
+                    console.print("  ", line)
                 console.print()
                 console.print("  [dim]press enter to continue[/] ", end="")
                 tty_input()
 
             stats["_active"] = active
+            stats["_active_magic"] = active_magic
             save_stats(stats)
 
     except (KeyboardInterrupt, EOFError):
         pass
 
     stats["_active"] = active
+    stats["_active_magic"] = active_magic
     save_stats(stats)
     console.print("\n[dim]Stats saved.[/]")
 
