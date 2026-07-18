@@ -6,6 +6,7 @@
 // Defined in generated.c.
 void magic_decode_send(uint16_t offset);
 static void remember_real_keycode(uint16_t keycode);
+static void clear_last_keycode(void);
 static inline void clear_suffix_state(void);
 bool process_record_generated(uint16_t keycode, keyrecord_t *record);
 bool process_record_user(uint16_t keycode, keyrecord_t *record);
@@ -472,41 +473,41 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     if (!pressed) return;
     switch (combo_index) {
     case SUB_14:
-        magic_decode_send(42); break; // "Qu"
+        magic_decode_send(42); clear_last_keycode(); break; // "Qu"
     case SUB_15:
-        magic_decode_send(321); break; // "gregor.zeitlinger@grafana.com"
+        magic_decode_send(321); clear_last_keycode(); break; // "gregor.zeitlinger@grafana.com"
     case SUB_16:
-        magic_decode_send(37); break; // "LGTM"
+        magic_decode_send(37); clear_last_keycode(); break; // "LGTM"
     case SUB_17:
-        magic_decode_send(817); break; // "zeitlinger@gmail.com"
+        magic_decode_send(817); clear_last_keycode(); break; // "zeitlinger@gmail.com"
     case SUB_18:
-        magic_decode_send(342); break; // "gregor@zeitlinger.de"
+        magic_decode_send(342); clear_last_keycode(); break; // "gregor@zeitlinger.de"
     case SUB_1:
-        magic_decode_send(796); break; // "wl"
+        magic_decode_send(796); clear_last_keycode(); break; // "wl"
     case SUB_10:
-        magic_decode_send(585); break; // "only "
+        magic_decode_send(585); clear_last_keycode(); break; // "only "
     case SUB_11:
-        magic_decode_send(560); break; // "oh"
+        magic_decode_send(560); clear_last_keycode(); break; // "oh"
     case SUB_12:
-        magic_decode_send(814); break; // "yr"
+        magic_decode_send(814); clear_last_keycode(); break; // "yr"
     case SUB_13:
-        magic_decode_send(627); break; // "qu"
+        magic_decode_send(627); clear_last_keycode(); break; // "qu"
     case SUB_2:
-        magic_decode_send(45); break; // "aa"
+        magic_decode_send(45); clear_last_keycode(); break; // "aa"
     case SUB_3:
-        magic_decode_send(219); break; // "eu"
+        magic_decode_send(219); clear_last_keycode(); break; // "eu"
     case SUB_4:
-        magic_decode_send(739); break; // "uh"
+        magic_decode_send(739); clear_last_keycode(); break; // "uh"
     case SUB_5:
-        magic_decode_send(550); break; // "oe"
+        magic_decode_send(550); clear_last_keycode(); break; // "oe"
     case SUB_6:
-        magic_decode_send(54); break; // "ae"
+        magic_decode_send(54); clear_last_keycode(); break; // "ae"
     case SUB_7:
-        magic_decode_send(198); break; // "eh"
+        magic_decode_send(198); clear_last_keycode(); break; // "eh"
     case SUB_8:
-        magic_decode_send(32); break; // "I'm "
+        magic_decode_send(32); clear_last_keycode(); break; // "I'm "
     case SUB_9:
-        magic_decode_send(370); break; // "hy"
+        magic_decode_send(370); clear_last_keycode(); break; // "hy"
     case C_BASE_KC_B: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_B) : KC_B); break;
     case C_BASE_KC_G: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_G) : KC_G); break;
     case C_BASE_KC_K: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_K) : KC_K); break;

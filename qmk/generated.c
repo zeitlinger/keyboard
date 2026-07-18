@@ -482,6 +482,15 @@ static void remember_real_keycode(uint16_t keycode) {
     last_magic_repeat_keycode = KC_NO;
 }
 
+// Multi-key substitutions (such as the eh combo) do not have one logical
+// keycode that can safely be used as adaptive context for the next key.
+static void clear_last_keycode(void) {
+    last_keycode = KC_NO;
+    last_magic_trigger = KC_NO;
+    last_magic_repeat_keycode = KC_NO;
+    set_last_keycode(KC_NO);
+}
+
 bool tap(uint16_t keycode) {
     tap_code16(keycode);
     set_last_keycode(keycode);

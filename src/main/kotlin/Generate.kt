@@ -707,7 +707,10 @@ private fun emitCombosC(
                 "#ifdef TRACE_LOGIC\n" +
                 "        SEND_STRING(\"[CS]\");\n" +
                 "#endif\n" +
-                "        magic_decode_send($offset); break; // ${combo.result.substitution}"
+                // A substitution emits multiple logical keys. Do not leave the
+                // preceding physical key available to trigger an adaptive on
+                // the next keypress (for example, m + eh + r must not become mpl).
+                "        magic_decode_send($offset); clear_last_keycode(); break; // ${combo.result.substitution}"
         }
     val letterCases =
         sorted.filter { isLetterCombo(it) }.map { combo ->
@@ -857,6 +860,7 @@ private fun emitCombosC(
         "// Defined in generated.c.",
         "void magic_decode_send(uint16_t offset);",
         "static void remember_real_keycode(uint16_t keycode);",
+        "static void clear_last_keycode(void);",
         "static inline void clear_suffix_state(void);",
         "bool process_record_generated(uint16_t keycode, keyrecord_t *record);",
         "bool process_record_user(uint16_t keycode, keyrecord_t *record);",
