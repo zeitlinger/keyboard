@@ -91,9 +91,11 @@ run = [
 description = "Generate the keyboard files"
 depends = ["compile", "gen-keymap", "gen-base-layer", "gen-magic-words", "gen-after-n", "gen-blog-images"]
 
-[tasks.suggest-combos]
-description = "Suggest magic-key expansions to add, ranked by typing benefit"
-run = "uv run .mise/tasks/suggest-combos.py"
+[tasks.train]
+description = "Learn magic combos"
+# Keep the trainer's colour-coded hints visible even when the shell exports
+# NO_COLOR for other mise tasks.
+run = "NO_COLOR= FORCE_COLOR=1 uv run train.py"
 
 [tasks.flash]
 description = "Flash the keyboard"

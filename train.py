@@ -85,6 +85,13 @@ def clear_screen() -> None:
     print("\033[H\033[2J\033[3J", end="", flush=True)
 
 
+def flush_console() -> None:
+    # mise may connect the task's output through a pipe rather than a TTY.
+    # Flush prompts explicitly so the trainer does not look stuck while
+    # waiting for the next line of input.
+    console.file.flush()
+
+
 def tty_input() -> str:
     global _tty
 
@@ -649,6 +656,7 @@ def show_prompt(
         console.print(format_triggers_text(entry.triggers))
     console.print()
     console.print("  [blue]>[/] ", end="")
+    flush_console()
 
 
 def run() -> None:
@@ -725,6 +733,7 @@ def run() -> None:
                     console.print("  [bold white]✓ Correct![/]")
                 console.print()
                 console.print("  [dim]press enter to continue[/] ", end="")
+                flush_console()
                 tty_input()
             else:
                 console.print("  [bold yellow]✗  expected one of:[/] ", end="")
@@ -738,6 +747,7 @@ def run() -> None:
                     console.print("  ", line)
                 console.print()
                 console.print("  [dim]press enter to continue[/] ", end="")
+                flush_console()
                 tty_input()
 
             stats["_active"] = active
