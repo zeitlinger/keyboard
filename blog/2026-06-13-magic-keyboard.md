@@ -531,7 +531,7 @@ The machinery:
 
 ### The world of alternative layouts — KWL 4
 
-Custom layouts have a family tree. QWERTY begat Dvorak, Dvorak's ideas fed Colemak, Colemak begat
+Custom layouts have a [family tree](https://www.reddit.com/r/KeyboardLayouts/comments/11g3xlx/keyboard_layout_family_tree/). QWERTY begat Dvorak, Dvorak's ideas fed Colemak, Colemak begat
 Colemak-DH, and the last few years brought a wave of optimizer-designed layouts — Gallium, Graphite,
 Sturdy, Canary, Nerps, the Hands Down family, enthium. If those names mean nothing to you yet,
 [getreuer's guide](https://getreuer.info/posts/keyboards/alt-layouts/) profiles them all; they're
