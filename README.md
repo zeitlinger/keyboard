@@ -341,7 +341,7 @@ Cell = what to emit.
 - Orderded by hand - thumbs last.
 
 | Magic  |  magic_a  |  magic_b   | magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |  magic_h   |  magic_i  | magic_j | magic_k |
-| :----: | :-------: | :--------: | :------: | :---------: | :-----------: | :--------: | :-----: | :--------: | :-------: | :-----: | :-----: |
+| :----: | :-------: | :--------: | :------: | :---------: | :-----------: |:----------:| :-----: | :--------: | :-------: | :-----: | :-----: |
 | suffix |    ed     |     s      |          |     n't     |       ?       |            |  ", "   |   [next]   |  " the "  |  ". "   |   ly    |
 |   b    |  disable  |     h      |          |  possible   | observability |            |         |   become   |  because  |    d    |         |
 |   c    |  "'ll "   |   "'s "    |          |   "n't "    |    "'ve "     |   "'d "    |         |     n      |  "'re "   |    d    |         |
@@ -354,7 +354,7 @@ Cell = what to emit.
 |   n    |     r     |     h      |          |    never    |   anything    |     p      |         | understand |   won't   |    x    |         |
 |   p    |     y     |   "ppl"    |          |    apply    |    example    |  explain   |         |     n      |     m     |    d    |         |
 |   s    |     r     |  someone   |          |  something  |    support    |  similar   |         |  separate  |  "sion"   |    d    |         |
-|   t    |     f     |   though   |          |    just     |    through    |  another   |         |     n      |  "tion"   | thought |         |
+|   t    |     f     |   though   |          |    just     |    through    |     z      |         |     n      |  "tion"   | thought |         |
 |   v    | validate  | everything |          |   improve   |    version    |            |         |   worse    |  resolve  |         |         |
 |   w    |  always   |   wasn't   |          |    knew     |   otherwise   |   switch   |         |    why     |     s     |    x    |         |
 |   x    |     r     |     h      |          |   except    |   explicit    |  exclude   |         |    exit    |     w     |         |         |

@@ -77,7 +77,7 @@ Our first stop is the ground floor, where every newcomer starts — myself inclu
 And the first thing they teach you here is that the keyboard you've used every day since childhood
 was never designed for your hands.
 
-You've probably heard that QWERTY was built to *slow typists down* and stop old typewriters from
+You've probably heard that [QWERTY](https://www.smithsonianmag.com/innovation/origins-qwerty-keyboard-typewriter-180982726/) was built to *slow typists down* and stop old typewriters from
 jamming. It's a great story, and it's historically shaky. The fairer truth is gentler: Christopher
 Sholes laid out QWERTY in the **1870s**, and it was simply the *first* arrangement that worked well
 enough to win — a pioneering solution to a genuinely hard mechanical problem. Nobody was thinking
@@ -297,7 +297,7 @@ follow-up, why stop at the handful getreuer shipped? I kept adding cases — aft
 some point it stopped being "Magic Sturdy, ported" and became its own beast. I renamed it
 **magic**, and I now have eleven of them.
 
-> **Short detour: stenography.** Court stenographers — the people transcribing a trial in real
+> **Short detour: [stenography](https://opensteno.org/).** Court stenographers — the people transcribing a trial in real
 > time — hit 200 words a minute and beyond. They don't type letters; they *chord*: press a handful
 > of keys at once for a whole syllable or word, which a dictionary expands into text. It's the
 > fastest anyone types by hand. Magic keys are that idea shrunk to fit a normal keyboard: a tiny,
