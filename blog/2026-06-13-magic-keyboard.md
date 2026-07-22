@@ -724,8 +724,8 @@ If this gave you the itch, here's where to scratch it.
 
 ### Layout lists: browse what others have built
 
-- [keymapdb](https://keymapdb.com/): Complete *keymaps* (layers, combos, magic — not just the letters) to mine for ideas.  
-- [Keyboard layout wiki](https://layouts.wiki/): The friendly on-ramp, and a catalog of letter layouts with write-ups.  
+- [keymapdb](https://keymapdb.com/): Complete *keymaps* (layers, combos, magic — not just the letters) to mine for ideas.
+- [Keyboard layout wiki](https://layouts.wiki/): The friendly on-ramp, and a catalog of letter layouts with write-ups.
 - [Cyanophage](https://cyanophage.github.io/): Popular layouts side by side, with their stats.
 
 ### Community
