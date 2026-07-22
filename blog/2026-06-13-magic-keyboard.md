@@ -51,21 +51,21 @@ the keyboard is just the working example. The real point is learning to notice h
 habits, develop a feel for what works, and design around your own hands.
 
 > **The curriculum: your Keyboard Wizard Level (KWL, pronounced "cool").** Every section is tagged
-> with the level it belongs to, so you always know which floor of the school you're on:  
-> 
+> with the level it belongs to, so you always know which floor of the school you're on:
+>
 > - **KWL 1: Newcomer.** You've never questioned QWERTY. We'll show you why it quietly fights your
->   hands all day.  
+>   hands all day.
 > - **KWL 2: Apprentice.** You learn to *see*: rolls, same-finger bigrams, lateral stretches, the
->   metrics that separate a good layout from a bad one.  
+>   metrics that separate a good layout from a bad one.
 > - **KWL 3: Adept.** You meet your first *spell*, the humble repeat key, and watch it grow into
->   keys that finish your words for you.  
+>   keys that finish your words for you.
 > - **KWL 4: Wizard.** You stop borrowing spells and start inventing them: tricks tuned to your own
->   hands, your own words, your own keyboard.  
+>   hands, your own words, your own keyboard.
 > - **KWL 5: Archmage.** The deep (slightly unhinged) magic, like inventing a 4/8-bit encoding to
 >   fit your word dictionary into a few kilobytes of keyboard memory.
 >
 > Follow the main story for the whole climb; the Appendix at the end is the restricted section, where
-> the deeper KWL 4–5 spellbooks live.  
+> the deeper KWL 4–5 spellbooks live.
 >
 > And watch for **✋ Try it** boxes: put your hands on whatever keyboard you have and *do* the
 > motion. This school is felt in the fingers, not read on the page. The early boxes let you feel
@@ -94,14 +94,14 @@ ways you've learned not to notice. Let me make you notice.
 
 > **✋ Try it: feel what's wrong (on your normal QWERTY keyboard).** Each awkward motion has a name;
 > don't bother memorizing them (there's a glossary at the end), just *feel* each one as you type it
-> slowly:  
-> 
+> slowly:
+>
 > - **Same-finger bigram (SFB):** one finger hitting two keys in a row. Type "unjust" (`un`), then
->   "edited" (`ed`); feel the finger scramble up and down in place with no break.  
+>   "edited" (`ed`); feel the finger scramble up and down in place with no break.
 > - **Same-finger skipgram (SFS):** the same finger again, one key apart. Type "was": your ring
->   finger hits `w`, another finger takes `a`, then the *same* ring finger darts back for `s`.  
+>   finger hits `w`, another finger takes `a`, then the *same* ring finger darts back for `s`.
 > - **Lateral-stretch bigram (LSB):** two adjacent fingers splayed sideways. Type "get" (`et`): your
->   index reaches inward for `t` while your middle stays on `e`, and the two fingers pull apart.  
+>   index reaches inward for `t` while your middle stays on `e`, and the two fingers pull apart.
 > - **Scissor:** one finger reaching up while its neighbor folds down. Type "scram" (`cr`), then
 >   "seven" (`ve`); feel the awkward little tangle.
 
@@ -232,20 +232,20 @@ Gold** to **Hands Down Vibranium**, where I live today. I lifted keymap tricks f
 
 > **🔍 Expert aside: why the base layout already beats QWERTY (safe to skip).** Before I added a
 > single trick, Hands Down Vibranium was already a different world from QWERTY, and it's worth seeing
-> *why*, because none of it is magic, just better placement:  
-> 
+> *why*, because none of it is magic, just better placement:
+>
 > - **The common letters are on the home row.** `s c n t` under the left hand, `a e i h` under the
 >   right: that's seven of English's eight most frequent letters sitting where your fingers already
->   rest. You barely leave home.  
+>   rest. You barely leave home.
 > - **Common chunks fall out as rolls.** "you" is three adjacent keys rolling inward (`y`→`o`→`u`); so
->   are `fl`, `nt`, `ld`. Whole pieces of English become one smooth finger-sweep instead of a scramble.  
+>   are `fl`, `nt`, `ld`. Whole pieces of English become one smooth finger-sweep instead of a scramble.
 > - **`h` sits on the vowel hand's pinky**, and that's deliberate. `h` is almost always followed by a
 >   vowel ("he" alone is \~1.7% of all bigrams; "ha", "hi", "ho" pile on more), and with the vowels
 >   just inboard, every one of those becomes a clean inward roll: `he`, `ha`, `hi`, `ho` all sweep
 >   from the pinky toward the index.
 >
 > The numbers bear it out. Using the same analyzer and English text, open it yourself on
-> [Cyanophage](https://cyanophage.github.io/):  
+> [Cyanophage](https://cyanophage.github.io/):
 > 
 
 | Metric *(lower is better unless noted)* | Hands Down Vibranium | QWERTY |
@@ -261,7 +261,7 @@ Gold** to **Hands Down Vibranium**, where I live today. I lifted keymap tricks f
 >
 > Vibranium wins every awkward-motion row. An SFB is about an eighth as likely as on QWERTY, and a
 > lateral stretch a twelfth as likely. It trades QWERTY's even roll split for a heavy inward lean (the
-> comfy direction). All structural, no special keys.  
+> comfy direction). All structural, no special keys.
 >
 > And 0.57% is just the base, before I add a single trick of my own. Everything from here on is
 > gravy on an already-good layout.
@@ -516,10 +516,10 @@ different things. I try to keep them straight:
 
 The motions an apprentice learns to count:
 
-- **Same-finger bigram (SFB):** Two keys in a row typed by one finger. Cramped and slow; minimize.  
-- **Same-finger skipgram (SFS):** The same finger again, one key apart.  
-- **Lateral-stretch bigram (LSB):** Two adjacent fingers pulled sideways to reach.  
-- **Scissor:** One finger reaching up while a neighbor folds down.  
+- **Same-finger bigram (SFB):** Two keys in a row typed by one finger. Cramped and slow; minimize.
+- **Same-finger skipgram (SFS):** The same finger again, one key apart.
+- **Lateral-stretch bigram (LSB):** Two adjacent fingers pulled sideways to reach.
+- **Scissor:** One finger reaching up while a neighbor folds down.
 - **Roll:** Fingers firing in sequence across one hand. An **in-roll** runs toward the index, an
   **out-roll** toward the pinky; in-rolls generally feel better, and layouts like Hands Down deliberately favor them.
 - **Alternation:** The hands taking turns. All good; maximize. (For
@@ -529,11 +529,11 @@ The motions an apprentice learns to count:
 
 The machinery:
 
-- **Layer:** A second meaning for every key, reached by holding a key (like `Fn`).  
-- **Combo:** Pressing two keys at once for a third output (a *chord*, in steno terms).  
-- **Home-row mod (HRM):** A home-row key that's a letter on tap and a modifier on hold.  
-- **Magic key:** A key whose output depends on the key you pressed *before* it.  
-- **Adaptive key:** A letter pair that rewrites itself automatically into a comfier motion.  
+- **Layer:** A second meaning for every key, reached by holding a key (like `Fn`).
+- **Combo:** Pressing two keys at once for a third output (a *chord*, in steno terms).
+- **Home-row mod (HRM):** A home-row key that's a letter on tap and a modifier on hold.
+- **Magic key:** A key whose output depends on the key you pressed *before* it.
+- **Adaptive key:** A letter pair that rewrites itself automatically into a comfier motion.
 - **Tenting:** Angling the two halves so the thumbs ride higher than the pinkies.
 
 ---
@@ -696,7 +696,7 @@ If this gave you the itch, here's where to scratch it.
 ### Read this first
 
 - [Getreuer's keyboard tour](https://getreuer.info/posts/keyboards/tour/index.html): A friendly
-  intro to split keyboards and what makes them comfortable. Start here if the hardware is new to you.  
+  intro to split keyboards and what makes them comfortable. Start here if the hardware is new to you.
 - [Getreuer's guide to alternative layouts](https://getreuer.info/posts/keyboards/alt-layouts/): The
   single best introduction to the *letters*, plus its
   [glossary](https://getreuer.info/posts/keyboards/glossary/) for the metrics.
@@ -704,21 +704,21 @@ If this gave you the itch, here's where to scratch it.
 ### Theory
 
 - [The Keyboard Layouts Doc](https://docs.google.com/document/d/1W0jhfqJI2ueJ2FNseR4YAFpNfsUM-_FlREHbpNGmC2o):
-  Deep, exhaustive typing and layout theory.  
+  Deep, exhaustive typing and layout theory.
 - [Dreymar's Big Bag](https://dreymar.colemak.org/): Mods and tricks.
 
 ### Trainers: learn and drill
 
-- [keybr.com](https://www.keybr.com): Adaptive lessons that build touch-typing from zero.  
-- [Monkeytype](https://monkeytype.com): Speed and accuracy testing once your fingers know the layout.  
+- [keybr.com](https://www.keybr.com): Adaptive lessons that build touch-typing from zero.
+- [Monkeytype](https://monkeytype.com): Speed and accuracy testing once your fingers know the layout.
 - [ngram-type](https://ranelpadon.github.io/ngram-type/):Drill the most common bigrams, trigrams,
-  and words until they're reflexive.  
+  and words until they're reflexive.
 - [gfruit's words filter](https://gfruit.github.io/typing/words-filter.html): Generate practice text
   loaded with specific bigrams, characters, or fingers, to drill a layout's weak spots.
 
 ### Analyzers: score a set of letters
 
-- [oxeylyzer](https://github.com/O-X-E-Y/oxeylyzer):A fast analyzer you run locally.  
+- [oxeylyzer](https://github.com/O-X-E-Y/oxeylyzer):A fast analyzer you run locally.
 - [Tanamr's spreadsheet](https://docs.google.com/spreadsheets/d/1yBwRpn3Gkp8qHje_cwDj6tcZ2ReqC9rfvsioXzt1xdg):
   The full zoo of analyzers, if you want to go deeper.
 
@@ -731,8 +731,8 @@ If this gave you the itch, here's where to scratch it.
 ### Community
 
 - [AKL (Alternate Keyboard Layouts) Discord](https://discord.gg/keyboard-layouts): The main hub,
-  with channels for Colemak, Dvorak, Monkeytype and more.  
-- [Hands Down Discord](https://discord.gg/xwTMKZEy): The Hands Down family has its own server.  
+  with channels for Colemak, Dvorak, Monkeytype and more.
+- [Hands Down Discord](https://discord.gg/xwTMKZEy): The Hands Down family has its own server.
 - **Questions about my layout?** I'm on both the AKL and Hands Down Discords as `@gregor.zeitlinger` — say hi.
 
 ### My layout
