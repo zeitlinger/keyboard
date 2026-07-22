@@ -2,7 +2,7 @@
 
 # The Secret World of Keyboard Wizardry
 
-*I built a keyboard whose keys finish my words. Here's the rabbit hole that taught me to build one, 
+*I built a keyboard whose keys finish my words. Here's the rabbit hole that taught me to build one,
 and how you can start building your own.*
 
 > *Once upon a time there was a little wizard who was hopelessly obsessed with the ordinary world,
@@ -13,41 +13,41 @@ and how you can start building your own.*
 
 That was a few years ago. The wizard was me.
 
-Fast forward to today, and the keyboard on my desk has 34 keys with letters that never stay the same. 
+Fast forward to today, and the keyboard on my desk has 34 keys with letters that never stay the same.
 Tap one key and it becomes a different letter depending on what I typed a heartbeat before; tap
-another and a whole word (e.g., "because," "didn't," "production") appears from a single press. It 
-finishes my words before I do and it rewrites my fumbles mid-keystroke, all the while using less than 
+another and a whole word (e.g., "because," "didn't," "production") appears from a single press. It
+finishes my words before I do and it rewrites my fumbles mid-keystroke, all the while using less than
 half the keys that are under your hands right now.
 
 After three years, I still catch myself grinning at it.
 
-Now, you may be like that other wizard in our story, fine with your clumsy, clattering keys. But if 
-you're drawn to the magic that comes in the pursuit of keyboard perfection, then you're in the right 
-place. But beware: you can't just jump from a standard keyboard to a custom 34-key layout in one leap. Like 
-any good wizard-in-training, you'll have to hone your craft by learning about the tools at your 
+Now, you may be like that other wizard in our story, fine with your clumsy, clattering keys. But if
+you're drawn to the magic that comes in the pursuit of keyboard perfection, then you're in the right
+place. But beware: you can't just jump from a standard keyboard to a custom 34-key layout in one leap. Like
+any good wizard-in-training, you'll have to hone your craft by learning about the tools at your
 disposal, and even about yourself.
 
-So think of it less like a hobby and more like a little school of wizardry, with years you pass through 
-one at a time: newcomer, apprentice, adept, wizard, archmage. And you're in luck, because today's the 
+So think of it less like a hobby and more like a little school of wizardry, with years you pass through
+one at a time: newcomer, apprentice, adept, wizard, archmage. And you're in luck, because today's the
 open house.
 
 ## The five levels of keyboard wizardry
 
-When you think of the journey to keyboard perfection, you have to go through several levels. For 
-starters, you have to understand what's wrong in the first place. Then you learn to measure it. Next, 
-you build your own layout, and meet your first "spell." And from there, you start inventing spells 
+When you think of the journey to keyboard perfection, you have to go through several levels. For
+starters, you have to understand what's wrong in the first place. Then you learn to measure it. Next,
+you build your own layout, and meet your first "spell." And from there, you start inventing spells
 of your own.
 
-Each level rewires your hands a little more than the last, and none of these levels can 
+Each level rewires your hands a little more than the last, and none of these levels can
 be rushed. Every wizard who tries to jump straight to the deep magic just gets overwhelmed and quits.
 
-So today I'll take you on a little tour. You get to climb every floor in one afternoon, with no enrollment 
-needed, all the way up to the archmages who invent text-compression schemes to cram a whole 
-dictionary into a sliver of keyboard memory. (Yes, that's a real spell. Yes, I cast it. We'll get 
+So today I'll take you on a little tour. You get to climb every floor in one afternoon, with no enrollment
+needed, all the way up to the archmages who invent text-compression schemes to cram a whole
+dictionary into a sliver of keyboard memory. (Yes, that's a real spell. Yes, I cast it. We'll get
 there.) Just remember the one rule of the building: **you can't skip to the top floor.**
 
-And though all of this is dressed up as the story of my keyboard, it's really the other way round: 
-the keyboard is just the working example. The real point is learning to notice how tools shape your 
+And though all of this is dressed up as the story of my keyboard, it's really the other way round:
+the keyboard is just the working example. The real point is learning to notice how tools shape your
 habits, develop a feel for what works, and design around your own hands.
 
 > **The curriculum: your Keyboard Wizard Level (KWL, pronounced "cool").** Every section is tagged
@@ -77,16 +77,19 @@ habits, develop a feel for what works, and design around your own hands.
 
 ### What's wrong with QWERTY
 
-Our first stop is the ground floor, where every newcomer starts, myself included for most of my life. 
-And the first thing they teach you here is that the keyboard you've used every day since childhood 
+Our first stop is the ground floor, where every newcomer starts, myself included for most of my life.
+And the first thing they teach you here is that the keyboard you've used every day since childhood
 was never designed for your hands.
 
-You've probably heard that [QWERTY](https://www.smithsonianmag.com/innovation/origins-qwerty-keyboard-typewriter-180982726/) was built to *slow typists down* and stop old typewriters from jamming. It's a great story, and it's historically shaky. The fairer truth is gentler: Christopher 
-Sholes laid out QWERTY in the **1870s**, and it was simply the *first* arrangement that worked well 
-enough to win, a pioneering solution to a genuinely hard mechanical problem. Nobody was thinking 
+You've probably heard that
+[QWERTY](https://www.smithsonianmag.com/innovation/origins-qwerty-keyboard-typewriter-180982726/)
+was built to *slow typists down* and stop old typewriters from
+jamming. It's a great story, and it's historically shaky. The fairer truth is gentler: Christopher
+Sholes laid out QWERTY in the **1870s**, and it was simply the *first* arrangement that worked well
+enough to win, a pioneering solution to a genuinely hard mechanical problem. Nobody was thinking
 about your tendons. Why would they? They'd just invented the machine.
 
-So the layout you inherited is a 150-year-old compromise that happens to fight your fingers in small 
+So the layout you inherited is a 150-year-old compromise that happens to fight your fingers in small
 ways you've learned not to notice. Let me make you notice.
 
 > **✋ Try it: feel what's wrong (on your normal QWERTY keyboard).** Each awkward motion has a name;
@@ -113,49 +116,48 @@ And now the opposite: because you have good motions too, you've just never notic
 > no scrambling, splaying, or crossing, just flow. QWERTY hands them to you by accident, in a lucky handful
 > of words; a good layout makes them the rule instead of the exception.
 
-You've been fighting your keyboard for years and never knew any of it had a name. Now you've felt it. 
-That *feeling*, far more than the vocabulary, is the whole reason the rest of this school exists. 
+You've been fighting your keyboard for years and never knew any of it had a name. Now you've felt it.
+That *feeling*, far more than the vocabulary, is the whole reason the rest of this school exists.
 (Upstairs, the apprentices learn to do something even better than name these motions: count them.)
 
 ### What's wrong with the keyboard *shape*
 
 The letters are only half the problem. The other half is the slab itself.
 
-A normal keyboard is one flat rectangle, so both your hands come at it from the same direction. To 
-reach it, your wrists bend inward and tilt up, and they hold that bent pose all day. That can 
-contribute to wrist discomfort. There's also a subtler fossil hiding in plain sight: the rows are 
-offset diagonally, a pattern known as *row stagger*, which exists only because old 
-typewriters needed room for the levers underneath. Your fingers don't move diagonally. They're 
+A normal keyboard is one flat rectangle, so both your hands come at it from the same direction. To
+reach it, your wrists bend inward and tilt up, and they hold that bent pose all day. That can
+contribute to wrist discomfort. There's also a subtler fossil hiding in plain sight: the rows are
+offset diagonally, a pattern known as *row stagger*, which exists only because old
+typewriters needed room for the levers underneath. Your fingers don't move diagonally. They're
 different lengths and they curl straight toward your palm, which is what *column* stagger respects.
 
 ![Slab versus split keyboard geometry](images/slab-vs-split.png)
 
-The fixes are things the ergonomic world already broadly agrees on, even outside wizard circles: 
-**split** the board so each hand sits at its own natural angle, **tent** it so your thumbs ride a 
+The fixes are things the ergonomic world already broadly agrees on, even outside wizard circles:
+**split** the board so each hand sits at its own natural angle, **tent** it so your thumbs ride a
 little higher than your pinkies, and **shrink** it so nothing is ever far from home.
 
-That last one creates a delicious puzzle. Shrink the board far enough and you have fewer keys than 
-you have letters,
-symbols, numbers, and arrows to put on them. The way out is **layers**: like the 
-`Fn` key you already know,
-each physical key gets a second meaning when you hold a modifier. Tuck 
+That last one creates a delicious puzzle. Shrink the board far enough and you have fewer keys than
+you have letters, symbols, numbers, and arrows to put on them. The way out is **layers**: like the
+`Fn` key you already know, each physical key gets a second meaning when you hold a modifier. Tuck
 that idea away; you'll meet it again on the higher floors.
 
-That's the whole ground floor: you've now *felt* everything that's wrong with the keyboard under your hands. The climb starts here.
+That's the whole ground floor: you've now *felt* everything that's wrong with the keyboard under
+your hands. The climb starts here.
 
 ---
 
 ## Level 2\. Apprentice years: learning to see, and my first layouts (KWL 2\)
 
-Down on the ground floor you *felt* the problems and learned their names. An apprentice's next move 
-is to stop trusting the feel alone and start measuring what's wrong: counting how often those awkward 
+Down on the ground floor you *felt* the problems and learned their names. An apprentice's next move
+is to stop trusting the feel alone and start measuring what's wrong: counting how often those awkward
 motions occur.
 
-Every one of those motions can be measured. There's a whole cottage industry of layout analyzers that 
-take any arrangement of letters and hand you back the numbers: its same-finger-bigram percentage, its 
-rolls and alternation, its finger and hand load. "This feels nicer" becomes a figure you can chase, 
-compare and 
-optimize, and that's the moment you stop being a newcomer. (Every term in 
+Every one of those motions can be measured. There's a whole cottage industry of layout analyzers that
+take any arrangement of letters and hand you back the numbers: its same-finger-bigram percentage, its
+rolls and alternation, its finger and hand load. "This feels nicer" becomes a figure you can chase,
+compare and
+optimize, and that's the moment you stop being a newcomer. (Every term in
 this post, including "same-finger-bigram", is collected in the
 **Glossary** near the end, if one ever trips you up.)
 
@@ -163,19 +165,19 @@ And then, of course, you start tinkering.
 
 ### The rabbit hole opens: the Ferris Sweep
 
-My gateway drug was a [**Ferris Sweep**](https://keebmaker.com/products/ferris-sweep), a 34-key 
+My gateway drug was a [**Ferris Sweep**](https://keebmaker.com/products/ferris-sweep), a 34-key
 split. Thirty-four keys, compared with over a hundred on my old keyboard. And I'd soon use even fewer: the two inner
 columns were enough of a stretch that I dropped them, leaving effectively **14 keys per hand**.
 
 ![My Ferris Sweep: two halves, tented on 3D-printed stands, with low-profile Choc switches](images/keyboard.jpg)
 
-*The actual board on my desk: a 34-key Ferris Sweep, split into two halves, each tented on a 
-3D-printed stand, wearing low-profile Choc switches. No number row or function row. Everything else 
+*The actual board on my desk: a 34-key Ferris Sweep, split into two halves, each tented on a
+3D-printed stand, wearing low-profile Choc switches. No number row or function row. Everything else
 lives on layers.*
 
 The physical setup turned out to matter as much as the letters. I use about 10 degrees of tenting so each half
-angles inward, a slight negative tilt so my wrists don't crane upward, and wrist rests so they don't 
-float. Get that geometry right and your hands complain far less than a flat slab ever let them. It is 
+angles inward, a slight negative tilt so my wrists don't crane upward, and wrist rests so they don't
+float. Get that geometry right and your hands complain far less than a flat slab ever let them. It is
 not zero strain, but it is a different league.
 
 One rabbit hole I'll happily signpost and *not* go down: designing and 3D-printing your own board.
@@ -200,35 +202,35 @@ Do the arithmetic and the squeeze appears: no inner columns, no top row for two 
 I no longer had even 26 comfortable keys, never mind room for shift, punctuation, and everything else.
 
 What broke the logjam was **vertical combos**: press two stacked keys at once and get a third letter.
-(This is real chording: pressing keys simultaneously for a single output. Stenographers do the same 
-trick for whole words; we'll meet them up on the magic floor.) Combos only work if pressing two keys 
-together is effortless and 
+(This is real chording: pressing keys simultaneously for a single output. Stenographers do the same
+trick for whole words; we'll meet them up on the magic floor.) Combos only work if pressing two keys
+together is effortless and
 never misfires, and that comes down to the switches: **Kailh Choc Light Blue ("gChoc"), 20-gram
-linear**, feather-light and tightly spaced, no gap between caps. With those, combos felt natural, 
+linear**, feather-light and tightly spaced, no gap between caps. With those, combos felt natural,
 and I could drop the obvious-but-clumsy alternative of spilling half my letters onto a second layer.
 
 ### First attempts at a layout
 
-Building a layout is really two quests that barely overlap: the *letters*, and everything around 
-them, the layers of symbols, navigation, numbers and thumb keys. Like a lot of people, I started 
-from [Miryoku](https://github.com/manna-harbour/miryoku), a popular layer system for tiny keyboards. 
-(Despite the name, it isn't a letter layout: it ships with QWERTY and expects you to drop in whatever 
-letters you please. That tripped me up early on.) My board has drifted so far since that nothing of 
-Miryoku really survives in it now, but it was the doorway in. The letters were the other quest, and 
+Building a layout is really two quests that barely overlap: the *letters*, and everything around
+them, the layers of symbols, navigation, numbers and thumb keys. Like a lot of people, I started
+from [Miryoku](https://github.com/manna-harbour/miryoku), a popular layer system for tiny keyboards.
+(Despite the name, it isn't a letter layout: it ships with QWERTY and expects you to drop in whatever
+letters you please. That tripped me up early on.) My board has drifted so far since that nothing of
+Miryoku really survives in it now, but it was the doorway in. The letters were the other quest, and
 the harder one.
 
-And that one started somewhere genuinely unhinged. My first committed experiment, back in March 2023, 
-was eight keys in a row with the *whole alphabet split across four stacked layers*. The theory was 
-that if no letter sat more than a layer-tap away, my fingers would barely move. It was, predictably, 
-miserable to type on, and I dropped it fast. But the instinct behind it, minimizing movement above 
+And that one started somewhere genuinely unhinged. My first committed experiment, back in March 2023,
+was eight keys in a row with the *whole alphabet split across four stacked layers*. The theory was
+that if no letter sat more than a layer-tap away, my fingers would barely move. It was, predictably,
+miserable to type on, and I dropped it fast. But the instinct behind it, minimizing movement above
 all else, is the thread running through everything I built afterwards.
 
-From there came a run of real layouts. I typed on [**Canary**](https://github.com/Apsu/Canary) for a 
-while (before [**Nerps**](https://www.reddit.com/r/KeyboardLayouts/comments/tpwyjc/sertain_nerts_nerps_low_redirect_low_sfb_low/), 
-I think), then settled on Nerps around April 2023, and over the following year worked through **Hands Down 
+From there came a run of real layouts. I typed on [**Canary**](https://github.com/Apsu/Canary) for a
+while (before [**Nerps**](https://www.reddit.com/r/KeyboardLayouts/comments/tpwyjc/sertain_nerts_nerps_low_redirect_low_sfb_low/),
+I think), then settled on Nerps around April 2023, and over the following year worked through **Hands Down
 Gold** to **Hands Down Vibranium**, where I live today. I lifted keymap tricks from [**T-34**](https://www.jonashietala.se/blog/2021/06/03/the-t-34-keyboard-layout/) along the way.
 
-> **🔍 Expert aside: why the base layout already beats QWERTY (safe to skip).** Before I added a 
+> **🔍 Expert aside: why the base layout already beats QWERTY (safe to skip).** Before I added a
 > single trick, Hands Down Vibranium was already a different world from QWERTY, and it's worth seeing
 > *why*, because none of it is magic, just better placement:  
 > 
@@ -275,16 +277,17 @@ that's secretly about magic keys.
 
 ![My base layer](images/base-layer.png)
 
-*My base layer. Home row `s c n t` / `a e i h`; each `✦` is a magic key and the blue badges are 
-combos (two keys pressed at once for a third). Generated straight from the layout with [keymap-drawer](https://github.com/caksoylar/keymap-drawer); more on that in the appendix.*
+*My base layer. Home row `s c n t` / `a e i h`; each `✦` is a magic key and the blue badges are
+combos (two keys pressed at once for a third). Generated straight from the layout with
+[keymap-drawer](https://github.com/caksoylar/keymap-drawer); more on that in the appendix.*
 
-You may wonder where the rare letters live: `j`, `q`, `z`, and the German `ä`, `ö`, `ü`, `ß` don't 
+You may wonder where the rare letters live: `j`, `q`, `z`, and the German `ä`, `ö`, `ü`, `ß` don't
 earn a base-layer spot. They're reached with a small trick I'll explain in the appendix.
 
-One detail worth a second look: see where `r` sits: on the **thumb**, not a finger. That's a fairly 
-recent move in layout design, the *alpha thumb*, and it's increasingly regarded as a step forward. 
-Your thumbs are strong and, on an ordinary keyboard, almost wasted; they only ever hit the space 
-bar. Promote one to a real letter and you've effectively added a ninth finger to the rotation, which 
+One detail worth a second look: see where `r` sits: on the **thumb**, not a finger. That's a fairly
+recent move in layout design, the *alpha thumb*, and it's increasingly regarded as a step forward.
+Your thumbs are strong and, on an ordinary keyboard, almost wasted; they only ever hit the space
+bar. Promote one to a real letter and you've effectively added a ninth finger to the rotation, which
 means fewer same-finger bigrams for the other eight to absorb.
 
 ### Whoa \#1: magic keys
@@ -292,14 +295,14 @@ means fewer same-finger bigrams for the other eight to absorb.
 Every magic key on my board grew from one idea in Getreuer's writing: [**Magic
 Sturdy**](https://getreuer.info/posts/keyboards/alt-layouts/#magic-sturdy). Getreuer had taken a
 humble QMK primitive he'd built, the *alternate-repeat key*, which guesses the most useful key to
-follow whatever you just pressed, and tuned it for the Sturdy layout into a single "magic" key. Tap 
-it after a space and it types "the"; after `m`, "ent"; after `t`, "ion". One key, no fixed letter, 
+follow whatever you just pressed, and tuned it for the Sturdy layout into a single "magic" key. Tap
+it after a space and it types "the"; after `m`, "ent"; after `t`, "ion". One key, no fixed letter,
 pure context. The first time I saw it, something clicked.
 
 I became slightly obsessed. If one key could read the previous keystroke and pick a smart
 follow-up, why stop at the handful Getreuer shipped? I kept adding cases: after *this* key, do
 *that*, until that single borrowed key had grown into a lookup table with a column of its own. At
-some point it stopped being "Magic Sturdy, ported" and became its own beast. I renamed it 
+some point it stopped being "Magic Sturdy, ported" and became its own beast. I renamed it
 **magic**, and I now have eleven of them.
 
 > **Short detour: [stenography](https://opensteno.org/).** Court stenographers, the people transcribing a trial in real
@@ -315,8 +318,8 @@ I was going and rewrote what I'd already typed.
 
 ![After n, magic finishes the word](images/magic-words.png)
 
-*Just one slice of the table: five of the magic keys that fire after `n`, the ones that finish a 
-whole word. Each `✦` is a magic key (nearly all are combos, two keys at once); the legend shows the 
+*Just one slice of the table: five of the magic keys that fire after `n`, the ones that finish a
+whole word. Each `✦` is a magic key (nearly all are combos, two keys at once); the legend shows the
 word. Every other letter has its own row of expansions.*
 
 > **✋ Try it: feel the win.** On your keyboard, type "the "; that's *four* keystrokes (t, h, e,
@@ -325,21 +328,21 @@ word. Every other letter has its own row of expansions.*
 > "the " is one magic tap (space \+ magic). Count how many times you'd type "the", "and", "ing", and "tion" in this
 > paragraph alone, then multiply by a career.
 
-The honest catch: there is no free lunch in muscle memory. Eleven magic keys, each meaning something 
-different depending on the letter before it, is a *lot* to hold in your fingers. I wrote myself a 
-little Python trainer and drilled them like flashcards. Months later I still rediscover ones I set 
-up and forgot. But the ones that stuck, stuck deep. I don't think "magic key" anymore; I think the 
+The honest catch: there is no free lunch in muscle memory. Eleven magic keys, each meaning something
+different depending on the letter before it, is a *lot* to hold in your fingers. I wrote myself a
+little Python trainer and drilled them like flashcards. Months later I still rediscover ones I set
+up and forgot. But the ones that stuck, stuck deep. I don't think "magic key" anymore; I think the
 word, and it appears.
 
 #### Whoa \#2: adaptive keys
 
-Magic keys have a cost you can't optimize away: nearly all of them are *combos*, two keys pressed at 
-once, and a combo, however light, is always a touch more effort and a touch less certain than a 
-single real key. (You have to learn each one, sure, but as you'll see, the alternative needs 
+Magic keys have a cost you can't optimize away: nearly all of them are *combos*, two keys pressed at
+once, and a combo, however light, is always a touch more effort and a touch less certain than a
+single real key. (You have to learn each one, sure, but as you'll see, the alternative needs
 learning just as much, so that's a wash.) The real prize is getting a common sequence onto **ordinary keys** instead of
 spending a combo on it.
 
-So here's the question I kept circling: could the keyboard fix the awkward stuff using the plain keys 
+So here's the question I kept circling: could the keyboard fix the awkward stuff using the plain keys
 I'm *already pressing*?
 
 That's an **adaptive key**, a term I'm borrowing straight from
@@ -355,19 +358,19 @@ than you typed it.
 
 Let me show you the one that converted me. On my layout, `n` and `g` live on the same finger. If you
 know anything about layouts, that should make you wince: the `n` and `g` of "song", "long", and "finger"
-landing on one finger is a beginner mistake, a same-finger bigram waiting to happen on every other 
+landing on one finger is a beginner mistake, a same-finger bigram waiting to happen on every other
 word.
 
 It's not a mistake. It's bait.
 
-Because I never actually type `n` then `g`. I type `n` then `r`, a finger then the thumb (remember, 
-`r` is the alpha thumb), a clean little roll, and the adaptive emits "ng". The same-finger collision I 
-designed *into* the layout never fires. I get to put `g` somewhere comfortable precisely *because* the 
-adaptive guarantees I'll 
+Because I never actually type `n` then `g`. I type `n` then `r`, a finger then the thumb (remember,
+`r` is the alpha thumb), a clean little roll, and the adaptive emits "ng". The same-finger collision I
+designed *into* the layout never fires. I get to put `g` somewhere comfortable precisely *because* the
+adaptive guarantees I'll
 never reach for it the hard way.
 
-The same trick handles doubled letters. Type `l`, then `r`, and out comes "ll". Same `r` key, mind 
-you; it just reads what you typed before it: `r` after `l` is "ll", `r` after `n` is "ng". (The 
+The same trick handles doubled letters. Type `l`, then `r`, and out comes "ll". Same `r` key, mind
+you; it just reads what you typed before it: `r` after `l` is "ll", `r` after `n` is "ng". (The
 diagram further down shows the full `n` case; every other letter has its own.)
 
 > **✋ Try it: feel the win.** Remember the same-finger ache from the very first box? Type "ll" on
@@ -375,25 +378,25 @@ diagram further down shows the full `n` case; every other letter has its own.)
 > two-finger roll instead: "lk", or "po"; one finger, then its neighbor. Feel how the roll *flows*
 > where the double *stutters*. That's the difference, on every "ll" I type, forever.
 
-This was the genuinely surprising part. I expected adaptives to be a clever space-saving hack. I 
-didn't expect rolling two fingers to feel *better* than pressing one finger twice, but it does, 
+This was the genuinely surprising part. I expected adaptives to be a clever space-saving hack. I
+didn't expect rolling two fingers to feel *better* than pressing one finger twice, but it does,
 every time, and now a plain doubled letter feels slow to me.
 
-There's no free lunch, of course. The `r` key is now "spoken for" after certain letters, so on the 
-rare occasion I genuinely want a literal "lr", I fall back to a magic key, a reflexive habit I'm honestly 
-still building. But "lr" is vanishingly rare and "ll" and "ng" are everywhere. The whole layout is 
-one long bet on what you *actually* type: make the common motions effortless, and let the rare ones 
+There's no free lunch, of course. The `r` key is now "spoken for" after certain letters, so on the
+rare occasion I genuinely want a literal "lr", I fall back to a magic key, a reflexive habit I'm honestly
+still building. But "lr" is vanishingly rare and "ll" and "ng" are everywhere. The whole layout is
+one long bet on what you *actually* type: make the common motions effortless, and let the rare ones
 pay a small toll.
 
 Here's the whole bet in one picture: everything the *next* press can do once you've typed `n`:
 
 ![Everything reachable right after typing n](images/after-n.png)
 
-*Pink keys are **adaptives** rewriting ordinary keys: after `n`, pressing `x`/`h`/`r`/`p` quietly 
-emits `l`/`n`/`g`/`k` (so you get "nl", "nn", "ng", "nk" as clean rolls; `p` is itself a combo, so 
-its rewrite shows as the pink `k` badge). The `✦` badges are **magic** keys. And here's the trick 
-that makes it safe: the adaptives eat `r`, `h`, `x`, `p` after `n`, so `✦r`, `✦h`, `✦x`, `✦p` hand 
-those exact letters straight back. Nothing becomes unreachable; the common case just gets cheaper. 
+*Pink keys are **adaptives** rewriting ordinary keys: after `n`, pressing `x`/`h`/`r`/`p` quietly
+emits `l`/`n`/`g`/`k` (so you get "nl", "nn", "ng", "nk" as clean rolls; `p` is itself a combo, so
+its rewrite shows as the pink `k` badge). The `✦` badges are **magic** keys. And here's the trick
+that makes it safe: the adaptives eat `r`, `h`, `x`, `p` after `n`, so `✦r`, `✦h`, `✦x`, `✦p` hand
+those exact letters straight back. Nothing becomes unreachable; the common case just gets cheaper.
 The numbered `✦` keys finish whole words (see the legend).*
 
 ---
@@ -408,16 +411,16 @@ Time for an honest accounting, the part where I try hard not to sell you anythin
 *practice*: plenty of blazing-fast typists run QWERTY, and the genuinely fastest people alive
 use stenotype machines, not a cleverer arrangement of letters.
 
-What a good layout buys you isn't speed, 
-it's **headroom**. With the same-finger collisions and awkward stretches designed out, the layout 
-stops being the thing that caps you. I keep getting slowly faster and haven't hit a ceiling yet, but 
-that's the layout staying out of the way, not pushing. It won't make you fast on its own; it just 
+What a good layout buys you isn't speed,
+it's **headroom**. With the same-finger collisions and awkward stretches designed out, the layout
+stops being the thing that caps you. I keep getting slowly faster and haven't hit a ceiling yet, but
+that's the layout staying out of the way, not pushing. It won't make you fast on its own; it just
 won't hold you back.
 
 **And the elephant in the room: why not just talk to your computer?** Fair question. If all you want
 is words on a screen as fast as possible, dictation and AI transcription now beat every keyboard,
 mine included. That's exactly *why* this is a niche. A custom layout was never really about
-throughput. It's about the things voice is bad at: code and symbols, surgical editing, working in a 
+throughput. It's about the things voice is bad at: code and symbols, surgical editing, working in a
 silent room, not narrating your password to a cloud. And, honestly, about the plain joy of the craft.
 
 So what *did* I get? **Comfort, every single day.** It's hard to reduce to one number, but the wins
@@ -519,8 +522,10 @@ The motions an apprentice learns to count:
 - **Scissor:** One finger reaching up while a neighbor folds down.  
 - **Roll:** Fingers firing in sequence across one hand. An **in-roll** runs toward the index, an
   **out-roll** toward the pinky; in-rolls generally feel better, and layouts like Hands Down deliberately favor them.
-- **Alternation:** The hands taking turns. All good; maximize. (For rigorous definitions of all of these, see Getreuer's [glossary](https://getreuer.info/posts/keyboards/glossary/).)  
-- **Finger & hand load:** How typing is spread across the fingers and the two hands. A good layout keeps the weak pinkies light and the two hands roughly balanced.
+- **Alternation:** The hands taking turns. All good; maximize. (For
+  rigorous definitions of all of these, see Getreuer's [glossary](https://getreuer.info/posts/keyboards/glossary/).)  
+- **Finger & hand load:** How typing is spread across the fingers and the two hands. A good layout keeps the weak
+- pinkies light and the two hands roughly balanced.
 
 The machinery:
 
@@ -541,7 +546,9 @@ The machinery:
 
 ### The world of alternative layouts
 
-Custom layouts have a [family tree](https://www.reddit.com/r/KeyboardLayouts/comments/11g3xlx/keyboard_layout_family_tree/). QWERTY begat Dvorak, Dvorak's ideas fed Colemak, Colemak begat
+Custom layouts have a
+[family tree](https://www.reddit.com/r/KeyboardLayouts/comments/11g3xlx/keyboard_layout_family_tree/).
+QWERTY begat Dvorak, Dvorak's ideas fed Colemak, Colemak begat
 Colemak-DH, and the last few years brought a wave of optimizer-designed layouts: Gallium, Graphite,
 Sturdy, Canary, Nerps, the Hands Down family, enthium. If those names mean nothing to you yet,
 [Getreuer's guide](https://getreuer.info/posts/keyboards/alt-layouts/) profiles them all; they're
@@ -594,7 +601,8 @@ on combos.
 ### Layer design
 
 A 34-key board lives or dies by its layers. The one firm rule I follow: **no home-row mods on the
-base layer.** Home-row mods, where a key is a letter on tap and a modifier on hold (see [precondition's guide](https://precondition.github.io/home-row-mods) for the full rundown), are too
+base layer.** Home-row mods, where a key is a letter on tap and a modifier on hold (see
+[precondition's guide](https://precondition.github.io/home-row-mods) for the full rundown), are too
 timing-sensitive for fast prose; you end up with spurious Ctrls mid-word.
 
 People do tame them with tricks like Getreuer's [Achordion](https://getreuer.info/posts/keyboards/achordion/),
