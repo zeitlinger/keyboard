@@ -39,7 +39,6 @@ enum custom_keycodes {
     NEXT_TAB,
     NEXT_WINDOW,
     ING,
-    Q_ENT,
     PRINT_VERSION,
     CAPS_WORDS,
     SNAKE_CASE,
@@ -74,7 +73,6 @@ enum custom_keycodes {
 #define _HANDLER_NEXT_TAB NEXT_TAB
 #define _HANDLER_NEXT_WINDOW NEXT_WINDOW
 #define _HANDLER_ING ING
-#define _HANDLER_Q_ENT Q_ENT
 #define _HANDLER_PRINT_VERSION PRINT_VERSION
 #define _HANDLER_CAPS_WORDS CAPS_WORDS
 #define _HANDLER_SNAKE_CASE SNAKE_CASE

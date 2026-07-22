@@ -79,14 +79,14 @@ Currently unused features:
 | Base  | \*Right |    f    |    l    |    d    |    u    |    o    |    y    | \*Left  |
 | Base  |         |         |  \*Nav  |    r    |   spc   | \*FnSym |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Base  |         |   ?↩️️   |  "wl"   |         |         |         |         |         |
-| Base  |    '    |    .    |    ,    |  bspc   |  "aa"   |  "eu"   |         |         |
+| Base  |         |         |  "wl"   |         |         |         |         |         |
+| Base  |    '    |    .    |    ,    |  bspc   |         |         |         |         |
 | Base  |   🛑    |    ?    |    "    |   ↩️️    |  "uh"   |  "oe"   |         |   💎L   |
 | Base  |         |         |         |    j    |    q    |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Base  |         |         |         |         |         |         |         |         |
-| Base  |         |         |    ß    |    ä    |  "ae"   |  "eh"   | "I'm "  |  "hy"   |
-| Base  |   💎L   |         |    ö    |    ü    | "only " |  "oh"   |  "yr"   |   🛑    |
+| Base  |         |         |         |         |         |    ä    |    ß    |         |
+| Base  |         |         |         |         |  "ae"   |  "eh"   | "I'm "  |  "hy"   |
+| Base  |   💎L   |         |    ö    |    ü    |  "eu"   |  "oh"   |  "yr"   |   🛑    |
 | Base  |         |         |         |  "qu"   |    z    |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Base  |         |         |         |    v    |   ing   |         |         |         |
@@ -341,23 +341,23 @@ Cell = what to emit.
 - Orderded by hand - thumbs last.
 
 | Magic  |  magic_a  |  magic_b   | magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |  magic_h   |  magic_i  | magic_j | magic_k |
-| :----: | :-------: | :--------: | :------: | :---------: | :-----------: | :--------: | :-----: | :--------: | :-------: | :-----: | :-----: |
+| :----: | :-------: | :--------: | :------: | :---------: | :-----------: |:----------:| :-----: | :--------: | :-------: | :-----: | :-----: |
 | suffix |    ed     |     s      |          |     n't     |       ?       |            |  ", "   |   [next]   |  " the "  |  ". "   |   ly    |
 |   b    |  disable  |     h      |          |  possible   | observability |            |         |   become   |  because  |    d    |         |
 |   c    |  "'ll "   |   "'s "    |          |   "n't "    |    "'ve "     |   "'d "    |         |     n      |  "'re "   |    d    |         |
 |   d    |     f     |     h      |          |    don't    |     does      | difficulty |         |   didn't   |  doesn't  |    c    |         |
-|   f    | confusing |     h      |          | performance |    merged     |            |         |  focused   | following |    d    |         |
-|   g    |     f     |     t      |          |   suggest   |    change     |            |         |    goes    |     k     |    d    |         |
+|   f    | confusing |     h      |          | performance |               |            |         |  focused   | following |    d    |         |
+|   g    |     f     |     t      |          |   suggest   |    change     |  generate  |         |    goes    |     k     |    d    |         |
 |   k    |     y     |     h      |          |    think    |   question    |   thanks   |         |   update   |   know    |    x    |         |
 |   l    |     r     |     h      |          |  language   |    already    |     b      |         |     n      |     m     |    c    |         |
 |   m    |     r     |     h      |          |  implement  |   multiple    |     v      |         | instrument |  "ment"   |    l    |         |
-|   n    |     r     |     h      |          |    never    |   anything    |     p      |         | understand |   won't   |    x    |         |
-|   p    |     y     |   "ppl"    |          |    apply    |    example    |  explain   |         |     n      |     m     |    d    |         |
+|   n    |     r     |     h      |          |    only     |   anything    |     p      |         | understand |   won't   |    x    |         |
+|   p    |     y     |   "ppl"    |          |    apply    |    example    |  explicit  |         |     n      |     m     |    d    |         |
 |   s    |     r     |  someone   |          |  something  |    support    |  similar   |         |  separate  |  "sion"   |    d    |         |
 |   t    |     f     |   though   |          |    just     |    through    |     z      |         |     n      |  "tion"   | thought |         |
 |   v    | validate  | everything |          |   improve   |    version    |            |         |   worse    |  resolve  |         |         |
 |   w    |  always   |   wasn't   |          |    knew     |   otherwise   |   switch   |         |    why     |     s     |    x    |         |
-|   x    |     r     |     h      |          |   except    |   explicit    |  exclude   |         |    exit    |     w     |         |         |
+|   x    |     r     |     h      |          |   except    |    explain    |  exclude   |         |    exit    |     w     |         |         |
 |   a    |           |            |          |             |               |            |         |            |           |         |         |
 |   e    |           |            |          |             |               |            |         |            |           |         |         |
 |   i    |           |            |          |             |               |            |         |            |           |         |         |
@@ -369,7 +369,7 @@ Cell = what to emit.
 | enter  |           |            |          |             |               |            |         |    and     |    the    |         |         |
 |   ,    |           |            |          |             |               |            |         |  " and "   |  " but "  |         |         |
 |  spc   |           |            | [dotSpc] |             |               |            |         |    and     |    the    |         |         |
-|   r    |  migrate  |  address   |          |  generate   |   probably    | important  |         |  approval  |           |    x    |         |
+|   r    |  migrate  |  address   |          |    merge    |   probably    | important  |         |  approval  |           |    x    |         |
 
 ## Adaptive keys
 
@@ -497,7 +497,6 @@ Exact-match symbol tokens such as `#g`, `#G`, and `#GL` must be declared here.
 | tab ➡️  | custom:NEXT_TAB NoHold        |
 | win ➡️  | custom:NEXT_WINDOW NoHold     |
 | ing     | custom:ING                    |
-| ?↩️️     | custom:Q_ENT                  |
 | ver     | custom:PRINT_VERSION          |
 | CapW    | custom:CAPS_WORDS             |
 | sn_case | custom:SNAKE_CASE             |
