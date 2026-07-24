@@ -369,7 +369,7 @@ Cell = what to emit.
 | enter  |           |            |          |             |               |            |         |    and     |    the    |         |         |
 |   ,    |           |            |          |             |               |            |         |  " and "   |  " but "  |         |         |
 |  spc   |           |            | [dotSpc] |             |               |            |         |    and     |    the    |         |         |
-|   r    |  thread   |  address   |          |    merge    |   probably    | important  |         |  approval  |           |    x    |         |
+|   r    |  migrate  |  address   |          |    merge    |   probably    | important  |         |  approval  |  thread   |    x    |         |
 
 ## Adaptive keys
 
