@@ -466,17 +466,17 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     case SUB_14:
         magic_decode_send(37); clear_last_keycode(); break; // "LGTM"
     case SUB_15:
-        magic_decode_send(809); clear_last_keycode(); break; // "zeitlinger@gmail.com"
+        magic_decode_send(815); clear_last_keycode(); break; // "zeitlinger@gmail.com"
     case SUB_16:
         magic_decode_send(340); clear_last_keycode(); break; // "gregor@zeitlinger.de"
     case SUB_1:
-        magic_decode_send(788); clear_last_keycode(); break; // "wl"
+        magic_decode_send(794); clear_last_keycode(); break; // "wl"
     case SUB_10:
-        magic_decode_send(806); clear_last_keycode(); break; // "yr"
+        magic_decode_send(812); clear_last_keycode(); break; // "yr"
     case SUB_11:
         magic_decode_send(619); clear_last_keycode(); break; // "qu"
     case SUB_2:
-        magic_decode_send(731); clear_last_keycode(); break; // "uh"
+        magic_decode_send(737); clear_last_keycode(); break; // "uh"
     case SUB_3:
         magic_decode_send(542); clear_last_keycode(); break; // "oe"
     case SUB_4:

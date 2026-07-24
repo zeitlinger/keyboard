@@ -344,21 +344,6 @@ private fun magicSuffixStatements(suffix: String): String {
             """.trimIndent()
         }
 
-        "," -> {
-            """
-            tap_code16(KC_BSPC); tap_comma_space();
-            clear_suffix_state();
-            """.trimIndent()
-        }
-
-        "n't" -> {
-            """
-            tap_code16(KC_BSPC); tap_n_t(); tap_code16(KC_SPC);
-            last_magic_char = 't';
-            clear_suffix_cycle_state();
-            """.trimIndent()
-        }
-
         "ed" -> {
             """
             tap_code16(KC_BSPC);
@@ -367,7 +352,6 @@ private fun magicSuffixStatements(suffix: String): String {
             } else {
                 tap_code16(KC_E); tap_code16(KC_D); tap_code16(KC_SPC);
             }
-            last_magic_char = 'd';
             clear_suffix_cycle_state();
             """.trimIndent()
         }
@@ -376,7 +360,6 @@ private fun magicSuffixStatements(suffix: String): String {
             val taps = suffix.map(::suffixTapStatement).joinToString(" ")
             """
             tap_code16(KC_BSPC); $taps tap_code16(KC_SPC);
-            last_magic_char = '${suffix.last()}';
             clear_suffix_cycle_state();
             """.trimIndent()
         }
