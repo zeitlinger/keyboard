@@ -552,14 +552,11 @@ static bool process_magic_suffix(uint16_t keycode) {
     case MAGIC_H:
         return process_magic_cycle_next();
     case MAGIC_I:
-        tap_code16(KC_BSPC); tap_code16(KC_T); tap_code16(KC_H); tap_code16(KC_E); tap_code16(KC_SPC);
-        clear_suffix_cycle_state();
-        return true;
-    case MAGIC_J:
-        tap_code16(KC_BSPC); tap_dot_space();
-        add_oneshot_mods(MOD_BIT(KC_LSFT));
+        tap_code16(KC_T); tap_code16(KC_H); tap_code16(KC_E);; tap_code16(KC_SPC);
         clear_suffix_state();
         return true;
+    case MAGIC_J:
+        tap_code16(KC_BSPC); return true;
     case MAGIC_K:
         tap_code16(KC_BSPC); tap_code16(KC_L); tap_code16(KC_Y); tap_code16(KC_SPC);
         clear_suffix_cycle_state();

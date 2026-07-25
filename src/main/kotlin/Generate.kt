@@ -331,7 +331,7 @@ private fun magicSuffixStatements(suffix: String): String {
         val literal = extractString(suffix)
         val taps = literal.map(::suffixTapStatement).joinToString(" ")
         return """
-            tap_code16(KC_BSPC); $taps
+            $taps; tap_code16(KC_SPC);
             clear_suffix_state();
             """.trimIndent()
     }
@@ -369,6 +369,7 @@ private fun magicSuffixStatements(suffix: String): String {
 private fun suffixBracketCommand(name: String): String =
     when (name) {
         "next" -> "return process_magic_cycle_next();"
+        "bspc" -> "tap_code16(KC_BSPC); return true;"
         else -> throw IllegalArgumentException("unknown suffix bracket token '[$name]'")
     }
 
