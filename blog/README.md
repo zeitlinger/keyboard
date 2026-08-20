@@ -25,8 +25,8 @@ The next two show what the *next* press does right after you type `n`:
 
   ![After n, magic finishes the word](magic-words.svg)
 
-- **[`after-n.yaml`](after-n.yaml)** — the full picture: pink keys are adaptives rewriting ordinary
-  keys (`x`/`h`/`r`/`p` → `l`/`n`/`g`/`k`; `p` is a combo, so it shows as the pink `k` badge), and the
+- **[`after-n.yaml`](after-n.yaml)** — the full picture: red keys are adaptives rewriting ordinary
+  keys (`x`/`h`/`r`/`p` → `l`/`n`/`g`/`k`; `p` is a combo, so it shows as the red `k` badge), and the
   `✦` badges are magic keys. The single-letter magics (`✦r ✦h ✦x ✦p`) hand back the very letters the
   adaptives consume after `n`, so nothing becomes unreachable.
 

@@ -392,9 +392,9 @@ Here's the whole bet in one picture: everything the *next* press can do once you
 
 ![Everything reachable right after typing n](images/after-n.png)
 
-*Pink keys are **adaptives** rewriting ordinary keys: after `n`, pressing `x`/`h`/`r`/`p` quietly
+*Red keys are **adaptives** rewriting ordinary keys: after `n`, pressing `x`/`h`/`r`/`p` quietly
 emits `l`/`n`/`g`/`k` (so you get "nl", "nn", "ng", "nk" as clean rolls; `p` is itself a combo, so
-its rewrite shows as the pink `k` badge). The `✦` badges are **magic** keys. And here's the trick
+its rewrite shows as the red `k` badge). The `✦` badges are **magic** keys. And here's the trick
 that makes it safe: the adaptives eat `r`, `h`, `x`, `p` after `n`, so `✦r`, `✦h`, `✦x`, `✦p` hand
 those exact letters straight back. Nothing becomes unreachable; the common case just gets cheaper.
 The numbered `✦` keys finish whole words (see the legend).*
@@ -623,7 +623,7 @@ case conversion, and the shift behavior above.
 *The four working layers, top to bottom. **Base** is the letters. **Nav** puts arrows and editing
 under the right hand (held from the left), with window/tab switching and editor shortcuts on the
 left. **FnSym** carries the function keys and symbols. **Num** is a numpad under the left hand,
-reached by holding two right-hand keys, so the hand typing the digits never has to move. Pink keys
+reached by holding two right-hand keys, so the hand typing the digits never has to move. Red keys
 are the held/activation keys for each layer; blue badges are combos. Further down, **right shift**
 and **left shift** aren't real layers; they're the directional combos explained below, each
 showing where the rare letters (`j`, `q`, `z`, `ä`, `ö`, `ü`, `ß`) land relative to their shift key
