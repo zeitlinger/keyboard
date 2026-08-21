@@ -71,6 +71,9 @@ habits, develop a feel for what works, and design around your own hands.
 > motion. This school is felt in the fingers, not read on the page. The early boxes let you feel
 > what's *wrong*; the later ones let you feel what each spell *wins*.
 
+*Experts can go straight to [when a layout stops being
+static](#expert-side-entrance-when-a-layout-stops-being-static).*
+
 ---
 
 ## Level 1\. The ground floor: why your keyboard fights you (KWL 1\)
@@ -273,6 +276,25 @@ that's secretly about magic keys.
 
 ---
 
+## Expert side entrance: when a layout stops being static
+
+Already familiar with alternative layouts and their metrics? You've found the one exception to the
+no-skipping rule. My new argument starts when a layout stops being a static mapping. After trying
+Pascal Getreuer's [Magic
+Sturdy](https://getreuer.info/posts/keyboards/alt-layouts/#magic-sturdy) key, I kept pushing the idea:
+context-dependent firmware can optimize around almost any awkward motion—pinky load and scissors
+first, then even luxuries like repeated letters—until complexity, not the conventional score,
+becomes the limiting factor.
+
+`timeout` is a small example of the trade-off. Physical `e`→`u` emits "eo"; the displaced literal
+"eu" is still available through `u` followed by left Shift. But in `timeout`, the adaptive route
+becomes physical `e`→`u`→`u`. So I deliberately accept the `e`→`o` SFB and take the comfortable
+`o`→`u` roll that follows. Optimizing one pair in isolation can make the whole sequence worse.
+
+If that's the question you came for, keep reading: Level 3 follows the idea from magic keys into adaptives.
+
+---
+
 ## Level 3: The magic floor: keys that do more than one thing (KWL 3\)
 
 ![My base layer](images/base-layer.png)
@@ -348,9 +370,11 @@ I'm *already pressing*?
 That's an **adaptive key**, a term I'm borrowing straight from
 [**Hands Down**](https://sites.google.com/alanreiser.com/handsdown#h.3fq4ywspvw1g), which defines
 them as keys that "alter the characters sent based on the sequence and speed of keys typed to
-eliminate awkward fingering sequences." Mine lean on the *sequence* alone, though, never the speed. I
-avoid timing-sensitive tricks on principle (it's the same reason I never adopted home-row mods), so an
-adaptive fires purely on *which* keys you press, not how fast.
+eliminate awkward fingering sequences." Mine lean on the *sequence* rather than the speed: an
+adaptive fires based on *which* keys you press. Some non-vertical combos elsewhere on the board do
+need to be pressed within a short window, but that timing only decides whether the combo fires. It
+never turns an intended letter into a modifier—the tap-versus-hold failure mode that made home-row
+mods problematic for me.
 
 Where a magic key is a combo you reach for, an adaptive rides on two ordinary keystrokes: type a certain
 pair and it quietly rewrites the output. No combo, no special key, just normal typing that comes out better
@@ -607,7 +631,7 @@ timing-sensitive for fast prose; you end up with spurious Ctrls mid-word.
 
 People do tame them with tricks like Getreuer's [Achordion](https://getreuer.info/posts/keyboards/achordion/),
 but I'd rather
-sidestep the timing problem entirely. I keep dedicated shift keys on the lower pinkies, one on each
+sidestep that tap-versus-hold problem entirely. I keep dedicated shift keys on the lower pinkies, one on each
 hand, just like the left and right shift on a traditional keyboard. Hold one and the lower row exposes
 the other modifiers, right next to the finger that triggered them. Modifiers only sit on the home row on the *other* layers,
 and there it's harmless: those keys aren't doubling as letters, so there's no tap-versus-hold guess to
