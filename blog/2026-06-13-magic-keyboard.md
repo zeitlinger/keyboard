@@ -434,7 +434,7 @@ one row in an analyzer.
 Designing a good magic table is one problem; remembering it is another. Run `uv run .mise/tasks/train.py` to
 launch the repository's Python trainer; it treats the `Magic` table in `README.md` as its syllabus.
 It selects five useful entries at a time that share a physical magic key, so a session teaches a
-small physical association instead of throwing eleven unrelated positions at me. 
+small physical association instead of throwing eleven unrelated positions at me.
 
 An entry graduates after a streak of three correct answers. The trainer then brings it back for
 review once it has gone stale—currently seven days. Correct and total attempts, streaks, recent
@@ -454,17 +454,22 @@ source code and uses `wordfreq`; `suggest-chords` merges configured TSV sources,
 `suggest-chat-chords` specifically combines local chat with source text. The magic-placement tool
 ranks explicit words by saved keystrokes, output difficulty, slot feel, and placement bonuses.
 
+> **Important caveat:** the physical-feel model is not a universal ergonomics law. It encodes my
+> Ferris Sweep geometry, posture and unused positions, finger and row preferences, and judgments
+> about good rolls, useful combos, and awkward motions. Another keyboard — or another pair of
+> hands — would need different assumptions and weights before its rankings could be trusted.
+
 The scripts print a plan; they are not an automatic truth machine. In particular,
 `suggest-adaptives.py` only changes the README when invoked with `--apply`. I still read the report,
 try the candidate in real words, and reject things that look good in a corpus but feel wrong in my
 hands. A corpus tells me what is common; it cannot tell me whether a key is easy to find when I am
 tired, or whether a new meaning collides with a spell I already know.
 
-One useful report is headed **Lead Magic per Output Key**. It reverses the current `Magic` table and
-lists the right-hand magic variants used for each single-letter output. In the current table each
-output has one such variant, so “used” and “lead” coincide. Keeping that responsibility visible makes
-recovery predictable and lets the suggester prefer a comfortable slot rather than scattering the
-same letter across the board. The current compact map (output → lead magic) is:
+One useful report is headed **Lead Magic per Output Key**. It reveals a simple rule: each output letter
+has one consistent magic key. `t` is always produced with `magic_b`, `n` with `magic_h`, `r` with
+`magic_a`, and so on. That stable responsibility is easy to learn: once you know which magic key
+belongs to a letter, you can call it back without consulting the whole layout. It also makes adaptive
+recovery predictable when an ordinary route has been displaced. The current grouped map is:
 
 | Lead magic | Output letters     |
 | :--------- | :----------------- |
@@ -475,11 +480,9 @@ same letter across the board. The current compact map (output → lead magic) is
 | `magic_i`  | `k`, `m`, `s`, `w` |
 | `magic_j`  | `c`, `d`, `l`, `x` |
 
-The empty magic columns are omitted. In the other direction, that is exactly `b:f, c:j, d:j,
-f:a, h:b, k:i, l:j, m:i, n:h, p:f, r:a, s:i, t:b, v:f, w:i, x:j, y:a, z:f`. This is not a new
-letter layout or a commandment: it is a stable single-letter output and letter-responsibility map.
-When an adaptive displaces a literal, that same stable geography doubles as a recovery map, making
-the dynamic layer easier to reason about.
+The empty magic columns are omitted. This is not a new letter layout or a commandment; it is a stable
+letter-responsibility map. When an adaptive displaces a literal, that same map gives the literal a
+predictable way back.
 
 ### Every shortcut needs an escape hatch
 
@@ -490,11 +493,11 @@ route is wrong. I can then move the entry, add a better adaptive, or remove it a
 context-sensitive rule also increases the number of interactions I have to understand, so the
 complexity budget matters as much as another tiny reduction in SFBs.
 
-The safety rule is that nothing common—or even an odd literal—should become unreachable. If an
+The safety rule is that nothing common — or even an odd literal — should become unreachable. If an
 adaptive borrows a physical key, a magic route gives the literal back; that is why after `n`, for
 example, the magic versions of `r`, `h`, `x`, and `p` return those exact letters. The displaced `eu`
 in `timeout` has its own escape too. Every clever shortcut gets a recovery path, and every recovery
-path gets practiced. Otherwise the spell is not compression; it is merely hiding a key.
+path gets practiced. Otherwise, the spell is not compression; it is merely hiding a key.
 
 ---
 
