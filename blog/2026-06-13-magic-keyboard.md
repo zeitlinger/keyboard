@@ -64,15 +64,16 @@ habits, develop a feel for what works, and design around your own hands.
 > - **KWL 5: Archmage.** The deep (slightly unhinged) magic, like inventing a 4/8-bit encoding to
 >   fit your word dictionary into a few kilobytes of keyboard memory.
 >
-> Follow the main story for the whole climb; the Appendix at the end is the restricted section, where
-> the deeper KWL 4–5 spellbooks live.
+> Follow the main story through KWL 4; the Appendix at the end is the restricted reference shelf,
+> with one explicitly marked KWL 5 spell.
 >
 > And watch for **✋ Try it** boxes: put your hands on whatever keyboard you have and *do* the
 > motion. This school is felt in the fingers, not read on the page. The early boxes let you feel
 > what's *wrong*; the later ones let you feel what each spell *wins*.
 
-*Experts can go straight to [when a layout stops being
-static](#expert-side-entrance-when-a-layout-stops-being-static).*
+*Experts can start at [Level 3, the magic floor](#level-3-the-magic-floor-keys-that-do-more-than-one-thing-kwl-3);
+the [wizard workshop](#level-4-wizard-workshop-designing-and-learning-a-dynamic-layout-kwl-4) follows immediately
+after.*
 
 ---
 
@@ -276,25 +277,6 @@ that's secretly about magic keys.
 
 ---
 
-## Expert side entrance: when a layout stops being static
-
-Already familiar with alternative layouts and their metrics? You've found the one exception to the
-no-skipping rule. My new argument starts when a layout stops being a static mapping. After trying
-Pascal Getreuer's [Magic
-Sturdy](https://getreuer.info/posts/keyboards/alt-layouts/#magic-sturdy) key, I kept pushing the idea:
-context-dependent firmware can optimize around almost any awkward motion—pinky load and scissors
-first, then even luxuries like repeated letters—until complexity, not the conventional score,
-becomes the limiting factor.
-
-`timeout` is a small example of the trade-off. Physical `e`→`u` emits "eo"; the displaced literal
-"eu" is still available through `u` followed by left Shift. But in `timeout`, the adaptive route
-becomes physical `e`→`u`→`u`. So I deliberately accept the `e`→`o` SFB and take the comfortable
-`o`→`u` roll that follows. Optimizing one pair in isolation can make the whole sequence worse.
-
-If that's the question you came for, keep reading: Level 3 follows the idea from magic keys into adaptives.
-
----
-
 ## Level 3: The magic floor: keys that do more than one thing (KWL 3\)
 
 ![My base layer](images/base-layer.png)
@@ -356,7 +338,7 @@ little Python trainer and drilled them like flashcards. Months later I still red
 up and forgot. But the ones that stuck, stuck deep. I don't think "magic key" anymore; I think the
 word, and it appears.
 
-#### Whoa \#2: adaptive keys
+### Whoa \#2: adaptive keys
 
 Magic keys have a cost you can't optimize away: nearly all of them are *combos*, two keys pressed at
 once, and a combo, however light, is always a touch more effort and a touch less certain than a
@@ -422,6 +404,97 @@ its rewrite shows as the red `k` badge). The `✦` badges are **magic** keys. An
 that makes it safe: the adaptives eat `r`, `h`, `x`, `p` after `n`, so `✦r`, `✦h`, `✦x`, `✦p` hand
 those exact letters straight back. Nothing becomes unreachable; the common case just gets cheaper.
 The numbered `✦` keys finish whole words (see the legend).*
+
+---
+
+## Level 4\. Wizard workshop: designing and learning a dynamic layout (KWL 4)
+
+Already familiar with alternative layouts and their metrics? You've found the one exception to the
+no-skipping rule. This is where a layout stops being a static mapping. After trying Pascal Getreuer's
+[Magic Sturdy](https://getreuer.info/posts/keyboards/alt-layouts/#magic-sturdy) key, I kept pushing
+the idea: context-dependent firmware can optimize around almost any awkward motion—pinky load and
+scissors first, then even luxuries like repeated letters—until complexity, not the conventional
+layout score, becomes the limiting factor.
+
+### Optimize the sequence, not the pair
+
+`timeout` is a small example of the trade-off. Physical `e`→`u` emits "eo"; the displaced literal
+"eu" is still available through `u` followed by left Shift. But in `timeout`, the adaptive route
+becomes physical `e`→`u`→`u`. So I deliberately accept the `e`→`o` SFB and take the comfortable
+`o`→`u` roll that follows. Optimizing one pair in isolation can make the whole sequence worse.
+
+That is the important timeout lesson: a bigram is not the unit my fingers experience. A shortcut
+has to be judged in the words and trigrams around it. A faster-looking first transition can make the
+next key awkward, steal a common literal, or force an escape on the very word that motivated the
+change. The best spell is the one that makes the *whole* sequence feel better, not the one that wins
+one row in an analyzer.
+
+### How I learn the spells
+
+Designing a good magic table is one problem; remembering it is another. Run `uv run .mise/tasks/train.py` to
+launch the repository's Python trainer; it treats the `Magic` table in `README.md` as its syllabus.
+It selects five useful entries at a time that share a physical magic key, so a session teaches a
+small physical association instead of throwing eleven unrelated positions at me. 
+
+An entry graduates after a streak of three correct answers. The trainer then brings it back for
+review once it has gone stale—currently seven days. Correct and total attempts, streaks, recent
+misses, and review timestamps are persisted in `.mise/tasks/magic_stats.json`, so quitting does not
+erase the work. It also keeps the physical side visible: the magic-key colors stay consistent and
+the prompt draws a little layout hint showing where the trigger and magic key live. The point is to
+remember *a motion attached to a word*, not to memorize an abstract spreadsheet.
+
+### Suggestions are advisers, not oracles
+
+The other half of the workshop is a handful of Python scripts. Run `mise run suggest-adaptives` for
+adaptive candidates, `mise run suggest-combos` for magic-key expansions, `mise run suggest-chords`
+for chord candidates, `mise run suggest-chat-chords` for local-chat-plus-source candidates, and
+`mise run suggest-magic-placements` to place an explicit word list. The adaptive suggester uses
+bigram frequencies, following trigrams, and the physical-feel model. `suggest-combos` scans
+source code and uses `wordfreq`; `suggest-chords` merges configured TSV sources, while
+`suggest-chat-chords` specifically combines local chat with source text. The magic-placement tool
+ranks explicit words by saved keystrokes, output difficulty, slot feel, and placement bonuses.
+
+The scripts print a plan; they are not an automatic truth machine. In particular,
+`suggest-adaptives.py` only changes the README when invoked with `--apply`. I still read the report,
+try the candidate in real words, and reject things that look good in a corpus but feel wrong in my
+hands. A corpus tells me what is common; it cannot tell me whether a key is easy to find when I am
+tired, or whether a new meaning collides with a spell I already know.
+
+One useful report is headed **Lead Magic per Output Key**. It reverses the current `Magic` table and
+lists the right-hand magic variants used for each single-letter output. In the current table each
+output has one such variant, so “used” and “lead” coincide. Keeping that responsibility visible makes
+recovery predictable and lets the suggester prefer a comfortable slot rather than scattering the
+same letter across the board. The current compact map (output → lead magic) is:
+
+| Lead magic | Output letters     |
+| :--------- | :----------------- |
+| `magic_a`  | `f`, `r`, `y`      |
+| `magic_b`  | `h`, `t`           |
+| `magic_f`  | `b`, `p`, `v`, `z` |
+| `magic_h`  | `n`                |
+| `magic_i`  | `k`, `m`, `s`, `w` |
+| `magic_j`  | `c`, `d`, `l`, `x` |
+
+The empty magic columns are omitted. In the other direction, that is exactly `b:f, c:j, d:j,
+f:a, h:b, k:i, l:j, m:i, n:h, p:f, r:a, s:i, t:b, v:f, w:i, x:j, y:a, z:f`. This is not a new
+letter layout or a commandment: it is a stable single-letter output and letter-responsibility map.
+When an adaptive displaces a literal, that same stable geography doubles as a recovery map, making
+the dynamic layer easier to reason about.
+
+### Every shortcut needs an escape hatch
+
+This is a feedback loop, not a one-time optimization. I start with a corpus suggestion, put it in
+the README, regenerate the firmware, train it, and then notice what goes wrong in actual typing. A
+missed word might mean the spell is useful but needs practice; a repeated miss might mean its physical
+route is wrong. I can then move the entry, add a better adaptive, or remove it and try again. Each new
+context-sensitive rule also increases the number of interactions I have to understand, so the
+complexity budget matters as much as another tiny reduction in SFBs.
+
+The safety rule is that nothing common—or even an odd literal—should become unreachable. If an
+adaptive borrows a physical key, a magic route gives the literal back; that is why after `n`, for
+example, the magic versions of `r`, `h`, `x`, and `p` return those exact letters. The displaced `eu`
+in `timeout` has its own escape too. Every clever shortcut gets a recovery path, and every recovery
+path gets practiced. Otherwise the spell is not compression; it is merely hiding a key.
 
 ---
 
@@ -511,13 +584,13 @@ good: that's how it started for me, too.
 > after, because the perfect keyboard, like all the best quests, was never really the point. The
 > climb was.*
 
-So here's your choice. Everything up to now has been KWL 1 to 3: the why, the craft, the working
-magic. You could stop here with the whole story and go build *something*; no shame in it.
+So here's your choice. Everything up to now is KWL 1 to 4: the why, the craft, the working magic,
+and the wizard workshop. You could stop here with the whole story and go build *something*; no shame
+in it.
 
-Or you could climb the last two floors. **KWL 4–5 is the restricted section**, where I stop
-explaining the magic and start showing the wiring: how the layers fit together, how magic and
-adaptive keys actually work in the firmware, and the gloriously unhinged dictionary-compression trick
-that crams it all onto the board.
+Or you can enter the restricted section. The Appendix is a reference shelf rather than another level:
+it keeps the ecosystem, wiring, layers, and firmware implementation notes in one place. The
+gloriously unhinged dictionary-compression trick is the one part explicitly marked KWL 5.
 
 And if you'd rather *build* than read, the **further-reading** list
 at the very end is the toolkit of layouts, trainers, analyzers, and communities that I wish I'd had on day
@@ -562,11 +635,13 @@ The machinery:
 
 ---
 
-## Appendix: the restricted section (KWL 4–5 spellbooks)
+## Appendix: the restricted section
 
-> Welcome to the restricted section. Everything from here is KWL 4–5: the mechanics behind the
-> magic, for readers who want to *build* something like this, not just read about it. If it's more
-> than you wanted, don't worry: you've already seen the whole school. This is just the spellbook.
+> Welcome to the restricted section. The KWL 4 workshop above is complete; this appendix is not a
+> second level or a hidden exam. It is a reference shelf for the ecosystem and implementation
+> details behind the magic, for readers who want to *build* something like this, not just read about
+> it. The dictionary codec is the one topic here explicitly marked KWL 5. If this is more than you
+> wanted, don't worry: you've already seen the whole school.
 
 ### The world of alternative layouts
 
@@ -680,6 +755,8 @@ held stays a plain shifted letter.
 Mechanically, it's all custom code. The alternate-repeat key was the *inspiration*, not the
 implementation. On each magic press the firmware looks at the last keycode and dispatches from a
 generated lookup: tap a letter, emit a word; tap again, chain a suffix.
+
+#### KWL 5: the dictionary codec
 
 The hard part is *space*. The whole firmware has to fit the atmega32u4's flash, about 28 KB once the
 bootloader takes its cut, and mine fills it to the brim: 94%, with only \~1.5 KB to spare. A couple
