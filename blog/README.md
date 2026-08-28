@@ -32,12 +32,12 @@ The next two show what the *next* press does right after you type `n`:
 
   ![Everything reachable right after typing n](after-n.svg)
 
-- **[`after-n-promo.svg`](after-n-promo.svg)** — a vertical, Reddit-friendly composite of the actual
-  generated base-layer and after-`n` diagrams, preserving their real Ferris Sweep geometry. It pairs
-  the base layout with the context-specific state immediately after `n`, where the thumb `r` key
-  produces `ng`; `mise run generate` renders its 2× PNG.
+- **`images/after-n-promo.png`** — a vertical, Reddit-friendly composite of the actual generated
+  base-layer and after-`n` diagrams, preserving their real Ferris Sweep geometry. It pairs the base
+  layout with the context-specific state immediately after `n`, where the thumb `r` key produces
+  `ng`; `mise run generate` composes its 2× PNG with a narrow dark divider.
 
-  ![Base layout and the state after typing n](after-n-promo.svg)
+  ![Base layout and the state after typing n](images/after-n-promo.png)
 
 - **[`codec.svg`](codec.svg)** — how the magic dictionary is packed to fit flash: the 14 most frequent
   characters get a 4-bit code (two per byte), while a leading nibble of 14 or 15 escapes to a full
