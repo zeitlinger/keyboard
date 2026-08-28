@@ -293,4 +293,4 @@ path.combo { stroke: #7f7f7f; }
 </g>
 </g>
 </g>
-<text x="702.0" y="367.0" class="footer"><tspan x="702" dy="-1.2em">✦1 understand   ✦2 never   ✦3 anything   ✦4 explain   ✦5 won't</tspan><tspan x="702" dy="1.2em">Generated with <a href="https://github.com/caksoylar/keymap-drawer">keymap-drawer</a></tspan></text></svg>
+<text x="702.0" y="367.0" class="footer">✦1 understand   ✦2 never   ✦3 anything   ✦4 explain   ✦5 won't</text></svg>

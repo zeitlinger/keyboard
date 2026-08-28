@@ -52,10 +52,11 @@ outputs = ["blog/after-n.svg"]
 run = 'keymap -c "$KEYMAP_CONFIG" draw blog/after-n.yaml > blog/after-n.svg'
 
 [tasks.gen-after-n-promo]
-description = "Render the compact after-n promo diagram"
-sources = ["blog/after-n-promo.svg"]
+description = "Render the stacked base-and-after-n promo composite"
+depends = ["gen-base-layer", "gen-after-n"]
+sources = ["blog/after-n-promo.svg", "blog/base-layer.svg", "blog/after-n.svg"]
 outputs = ["blog/images/after-n-promo.png"]
-run = "resvg --zoom 2 --sans-serif-family 'DejaVu Sans' blog/after-n-promo.svg blog/images/after-n-promo.png"
+run = "resvg --zoom 2 --sans-serif-family 'DejaVu Sans' --resources-dir blog blog/after-n-promo.svg blog/images/after-n-promo.png"
 
 # Render every blog SVG to a 2x PNG for Medium. codec.svg, bad-motions.svg, and
 # slab-vs-split.svg are hand-authored sources; the rest come from gen-* tasks.

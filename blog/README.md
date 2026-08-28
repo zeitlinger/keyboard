@@ -32,9 +32,10 @@ The next two show what the *next* press does right after you type `n`:
 
   ![Everything reachable right after typing n](after-n.svg)
 
-- **[`after-n-promo.svg`](after-n-promo.svg)** — a compact, self-contained introduction: it pairs
+- **[`after-n-promo.svg`](after-n-promo.svg)** — a vertical, Reddit-friendly composite of the actual
+  generated base-layer and after-`n` diagrams, preserving their real Ferris Sweep geometry. It pairs
   the base layout with the context-specific state immediately after `n`, where the thumb `r` key
-  produces `ng`. The source is hand-authored; `mise run generate` renders its 2× PNG.
+  produces `ng`; `mise run generate` renders its 2× PNG.
 
   ![Base layout and the state after typing n](after-n-promo.svg)
 
