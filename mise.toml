@@ -96,7 +96,15 @@ run = [
 
 [tasks.generate]
 description = "Generate the keyboard files"
-depends = ["compile", "gen-keymap", "gen-base-layer", "gen-magic-words", "gen-after-n", "gen-after-n-promo", "gen-blog-images"]
+depends = [
+  "compile",
+  "gen-keymap",
+  "gen-base-layer",
+  "gen-magic-words",
+  "gen-after-n",
+  "gen-after-n-promo",
+  "gen-blog-images",
+]
 
 [tasks.flash]
 description = "Flash the keyboard"
