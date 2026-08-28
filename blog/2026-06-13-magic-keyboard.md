@@ -415,13 +415,19 @@ layout score, becomes the limiting factor.
 
 ### Optimize the sequence, not the pair
 
-Some non-vertical combos elsewhere on the board do need to be pressed within a short window, but
-that timing only decides whether the combo fires. It never turns an intended letter into a
-modifier—the tap-versus-hold failure mode that made home-row mods problematic for me.
+Optimizing one SFB at a time can backfire. In `timeout`, I can avoid the `e`→`o` SFB: on this layout,
+`u` immediately after `e` writes `eo`, so the physical sequence `t i m e u u t` —
+the first `u` emitting `eo`, the second repeating it — produces the word. But that replaces the SFB
+with a same-key repeat, `u`→`u`. I prefer typing `time` | `out`: one SFB, followed by the much
+better `o`→`u` inward roll. The whole sequence matters more than one pair’s score.
 
-Optimizing one SFB at a time can backfire. In `timeout`, I can avoid the `e`→`o` SFB: on this layout, `u` immediately after `e` writes `eo`, so the physical sequence `t i m e u u t` produces the word. But that replaces the SFB with a same-key repeat, `u`→`u`. I prefer typing `time` | `out`: one SFB, followed by the much better `o`→`u` inward roll. The whole sequence matters more than one pair’s score.
+So I don’t try to compute an “effective” score at all. Base-layout stats, for what they’re worth:
+[Hands Down Vibranium](https://cyanophage.github.io/#hd-vibranium).
 
-For that reason, I’m not even going to try to calculate an “effective” score—but you can see the [Hands Down Vibranium base-layout stats](https://cyanophage.github.io/#hd-vibranium) here.
+The most common objection to all of this is timing. Some non-vertical combos elsewhere on the board do
+need to be pressed within a short window, but that timing only decides whether the combo fires. It
+never turns an intended letter into a modifier—the tap-versus-hold failure mode that made home-row
+mods problematic for me, and the reason they appear nowhere on my base layer.
 
 ### How I learn the spells
 
