@@ -51,12 +51,18 @@ sources = ["keymap_drawer.config.yaml", "blog/after-n.yaml"]
 outputs = ["blog/after-n.svg"]
 run = 'keymap -c "$KEYMAP_CONFIG" draw blog/after-n.yaml > blog/after-n.svg'
 
+[tasks.gen-after-n-promo]
+description = "Render the compact after-n promo diagram"
+sources = ["blog/after-n-promo.svg"]
+outputs = ["blog/images/after-n-promo.png"]
+run = "resvg --zoom 2 --sans-serif-family 'DejaVu Sans' blog/after-n-promo.svg blog/images/after-n-promo.png"
+
 # Render every blog SVG to a 2x PNG for Medium. codec.svg, bad-motions.svg, and
 # slab-vs-split.svg are hand-authored sources; the rest come from gen-* tasks.
 # keyboard.jpg is a photo (static, not generated).
 [tasks.gen-blog-images]
 description = "Render blog SVGs to PNG (2x) for Medium"
-depends = ["gen-keymap", "gen-base-layer", "gen-magic-words", "gen-after-n"]
+depends = ["gen-keymap", "gen-base-layer", "gen-magic-words", "gen-after-n", "gen-after-n-promo"]
 sources = [
   "keymap.svg",
   "blog/base-layer.svg",
@@ -71,6 +77,7 @@ outputs = [
   "blog/images/base-layer.png",
   "blog/images/magic-words.png",
   "blog/images/after-n.png",
+  "blog/images/after-n-promo.png",
   "blog/images/codec.png",
   "blog/images/bad-motions.png",
   "blog/images/slab-vs-split.png",
@@ -89,7 +96,7 @@ run = [
 
 [tasks.generate]
 description = "Generate the keyboard files"
-depends = ["compile", "gen-keymap", "gen-base-layer", "gen-magic-words", "gen-after-n", "gen-blog-images"]
+depends = ["compile", "gen-keymap", "gen-base-layer", "gen-magic-words", "gen-after-n", "gen-after-n-promo", "gen-blog-images"]
 
 [tasks.flash]
 description = "Flash the keyboard"

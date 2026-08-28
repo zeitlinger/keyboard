@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">A context-aware keyboard: base layer and after typing n</title>
+  <desc id="desc">Two Ferris Sweep keyboard states. On the base layer n and l combine to g. After typing n, the thumb r key produces ng.</desc>
+  <style>
+    text { font-family: Inter, Arial, sans-serif; fill: #263238; }
+    .heading { font-size: 25px; font-weight: 700; }
+    .sub { font-size: 15px; fill: #66747c; }
+    .key { fill: #f1f4f5; stroke: #c5ced2; stroke-width: 2; }
+    .label { font-size: 17px; font-weight: 600; text-anchor: middle; dominant-baseline: middle; }
+    .muted { fill: #f7f8f8; stroke: #dce2e4; }
+    .highlight { fill: #d9eff0; stroke: #159a9c; stroke-width: 3; }
+    .highlight2 { fill: #ffe3d1; stroke: #e26932; stroke-width: 3; }
+    .badge { fill: #159a9c; }
+    .badge2 { fill: #e26932; }
+    .badgeText { fill: white; font-size: 13px; font-weight: 700; text-anchor: middle; dominant-baseline: middle; }
+    .formula { font-size: 18px; font-weight: 700; text-anchor: middle; }
+    .footer { fill: #eef2f3; }
+    .footerText { font-size: 17px; text-anchor: middle; fill: #46545a; }
+  </style>
+  <rect width="1200" height="560" fill="white"/>
+  <text x="300" y="45" class="heading" text-anchor="middle">Base layer</text>
+  <text x="900" y="45" class="heading" text-anchor="middle">After typing n</text>
+  <text x="300" y="72" class="sub" text-anchor="middle">the normal layout</text>
+  <text x="900" y="72" class="sub" text-anchor="middle">the next press gets a new meaning</text>
+  <path d="M548 220h104l-18-12m18 12-18 12" fill="none" stroke="#8a999f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <g id="board-base" transform="translate(46 100)">
+    <!-- Ferris Sweep: three gently staggered rows, split around the centre -->
+    <g class="muted">
+      <rect x="0" y="55" width="42" height="42" rx="6"/><rect x="48" y="35" width="42" height="42" rx="6"/><rect x="96" y="25" width="42" height="42" rx="6"/><rect x="144" y="35" width="42" height="42" rx="6"/><rect x="192" y="55" width="42" height="42" rx="6"/>
+      <rect x="278" y="55" width="42" height="42" rx="6"/><rect x="326" y="35" width="42" height="42" rx="6"/><rect x="374" y="25" width="42" height="42" rx="6"/><rect x="422" y="35" width="42" height="42" rx="6"/><rect x="470" y="55" width="42" height="42" rx="6"/>
+      <rect x="0" y="103" width="42" height="42" rx="6"/><rect x="48" y="83" width="42" height="42" rx="6"/><rect x="96" y="73" width="42" height="42" rx="6"/><rect x="144" y="83" width="42" height="42" rx="6"/><rect x="192" y="103" width="42" height="42" rx="6"/>
+      <rect x="278" y="103" width="42" height="42" rx="6"/><rect x="326" y="83" width="42" height="42" rx="6"/><rect x="374" y="73" width="42" height="42" rx="6"/><rect x="422" y="83" width="42" height="42" rx="6"/><rect x="470" y="103" width="42" height="42" rx="6"/>
+      <rect x="0" y="151" width="42" height="42" rx="6"/><rect x="48" y="131" width="42" height="42" rx="6"/><rect x="96" y="121" width="42" height="42" rx="6"/><rect x="144" y="131" width="42" height="42" rx="6"/><rect x="192" y="151" width="42" height="42" rx="6"/>
+      <rect x="278" y="151" width="42" height="42" rx="6"/><rect x="326" y="131" width="42" height="42" rx="6"/><rect x="374" y="121" width="42" height="42" rx="6"/><rect x="422" y="131" width="42" height="42" rx="6"/><rect x="470" y="151" width="42" height="42" rx="6"/>
+    </g>
+    <g class="label"><text x="0" y="76">⎋</text><text x="48" y="56">x</text><text x="96" y="46">w</text><text x="374" y="46">✦</text><text x="422" y="56">✦</text><text x="0" y="124">s</text><text x="48" y="104">c</text><text x="96" y="94">n</text><text x="144" y="104">t</text><text x="326" y="104">a</text><text x="374" y="94">e</text><text x="422" y="104">i</text><text x="470" y="124">h</text><text x="48" y="152">f</text><text x="96" y="142">l</text><text x="144" y="152">d</text><text x="278" y="172">u</text><text x="326" y="152">o</text><text x="374" y="142">y</text></g>
+    <rect x="96" y="73" width="42" height="42" rx="6" class="highlight"/><text x="117" y="94" class="label">n</text>
+    <rect x="96" y="121" width="42" height="42" rx="6" class="highlight"/><text x="117" y="142" class="label">l</text>
+    <g class="muted"><rect x="200" y="195" width="42" height="42" rx="6" transform="rotate(15 221 216)"/><rect x="258" y="219" width="42" height="42" rx="6" transform="rotate(30 279 240)"/><rect x="393" y="219" width="42" height="42" rx="6" transform="rotate(-30 414 240)"/><rect x="451" y="195" width="42" height="42" rx="6" transform="rotate(-15 477 216)"/></g>
+    <rect x="74" y="211" width="116" height="30" rx="15" class="badge"/><text x="132" y="226" class="badgeText">n + l = g</text>
+  </g>
+  <g id="board-after" transform="translate(646 100)">
+    <g class="muted">
+    </g>
+    <!-- same silhouette, kept explicit so this file stays standalone -->
+    <g class="key muted"><rect x="0" y="55" width="42" height="42" rx="6"/><rect x="48" y="35" width="42" height="42" rx="6"/><rect x="96" y="25" width="42" height="42" rx="6"/><rect x="144" y="35" width="42" height="42" rx="6"/><rect x="192" y="55" width="42" height="42" rx="6"/><rect x="278" y="55" width="42" height="42" rx="6"/><rect x="326" y="35" width="42" height="42" rx="6"/><rect x="374" y="25" width="42" height="42" rx="6"/><rect x="422" y="35" width="42" height="42" rx="6"/><rect x="470" y="55" width="42" height="42" rx="6"/><rect x="0" y="103" width="42" height="42" rx="6"/><rect x="48" y="83" width="42" height="42" rx="6"/><rect x="96" y="73" width="42" height="42" rx="6"/><rect x="144" y="83" width="42" height="42" rx="6"/><rect x="192" y="103" width="42" height="42" rx="6"/><rect x="278" y="103" width="42" height="42" rx="6"/><rect x="326" y="83" width="42" height="42" rx="6"/><rect x="374" y="73" width="42" height="42" rx="6"/><rect x="422" y="83" width="42" height="42" rx="6"/><rect x="470" y="103" width="42" height="42" rx="6"/><rect x="0" y="151" width="42" height="42" rx="6"/><rect x="48" y="131" width="42" height="42" rx="6"/><rect x="96" y="121" width="42" height="42" rx="6"/><rect x="144" y="131" width="42" height="42" rx="6"/><rect x="192" y="151" width="42" height="42" rx="6"/><rect x="278" y="151" width="42" height="42" rx="6"/><rect x="326" y="131" width="42" height="42" rx="6"/><rect x="374" y="121" width="42" height="42" rx="6"/><rect x="422" y="131" width="42" height="42" rx="6"/><rect x="470" y="151" width="42" height="42" rx="6"/></g>
+    <g class="label"><text x="0" y="76">⎋</text><text x="48" y="56">x</text><text x="96" y="46">w</text><text x="374" y="46">✦</text><text x="422" y="56">✦</text><text x="0" y="124">s</text><text x="48" y="104">c</text><text x="96" y="94">n</text><text x="144" y="104">t</text><text x="326" y="104">a</text><text x="374" y="94">e</text><text x="422" y="104">i</text><text x="470" y="124">h</text><text x="48" y="152">f</text><text x="96" y="142">l</text><text x="144" y="152">d</text><text x="278" y="172">u</text><text x="326" y="152">o</text><text x="374" y="142">y</text></g>
+    <g class="muted"><rect x="200" y="195" width="42" height="42" rx="6" transform="rotate(15 221 216)"/><rect x="258" y="219" width="42" height="42" rx="6" transform="rotate(30 279 240)"/><rect x="393" y="219" width="42" height="42" rx="6" transform="rotate(-30 414 240)"/><rect x="451" y="195" width="42" height="42" rx="6" transform="rotate(-15 477 216)"/></g>
+    <g transform="translate(258 240) rotate(30)"><rect x="-21" y="-21" width="42" height="42" rx="6" class="highlight2"/><text x="0" y="-5" class="label" transform="rotate(-30)">r</text><text x="0" y="13" class="badgeText" transform="rotate(-30)">→ng</text></g>
+    <rect x="334" y="211" width="122" height="30" rx="15" class="badge2"/><text x="395" y="226" class="badgeText">n → r = ng</text>
+  </g>
+  <rect x="70" y="420" width="1060" height="70" rx="12" class="footer"/>
+  <text x="600" y="450" class="footerText">The right board is the context-specific next-press state:</text>
+  <text x="600" y="474" class="footerText">one key can do something different because you just typed n.</text>
+</svg>
