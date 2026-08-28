@@ -16,6 +16,7 @@
     .formula { font-size: 18px; font-weight: 700; text-anchor: middle; }
     .footer { fill: #eef2f3; }
     .footerText { font-size: 17px; text-anchor: middle; fill: #46545a; }
+    .attribution { font-size: 12px; fill: #829097; }
   </style>
   <rect width="1200" height="560" fill="white"/>
   <text x="300" y="45" class="heading" text-anchor="middle">Base layer</text>
@@ -52,4 +53,5 @@
   <rect x="70" y="420" width="1060" height="70" rx="12" class="footer"/>
   <text x="600" y="450" class="footerText">The right board is the context-specific next-press state:</text>
   <text x="600" y="474" class="footerText">one key can do something different because you just typed n.</text>
+  <text x="1130" y="530" class="attribution" text-anchor="end"><a href="https://github.com/caksoylar/keymap-drawer">Generated with keymap-drawer</a></text>
 </svg>
