@@ -353,10 +353,7 @@ That's an **adaptive key**, a term I'm borrowing straight from
 [**Hands Down**](https://sites.google.com/alanreiser.com/handsdown#h.3fq4ywspvw1g), which defines
 them as keys that "alter the characters sent based on the sequence and speed of keys typed to
 eliminate awkward fingering sequences." Mine lean on the *sequence* rather than the speed: an
-adaptive fires based on *which* keys you press. Some non-vertical combos elsewhere on the board do
-need to be pressed within a short window, but that timing only decides whether the combo fires. It
-never turns an intended letter into a modifier—the tap-versus-hold failure mode that made home-row
-mods problematic for me.
+adaptive fires based on *which* keys you press.
 
 Where a magic key is a combo you reach for, an adaptive rides on two ordinary keystrokes: type a certain
 pair and it quietly rewrites the output. No combo, no special key, just normal typing that comes out better
@@ -418,16 +415,13 @@ layout score, becomes the limiting factor.
 
 ### Optimize the sequence, not the pair
 
-`timeout` is a small example of the trade-off. Physical `e`→`u` emits "eo"; the displaced literal
-"eu" is still available through `u` followed by left Shift. But in `timeout`, the adaptive route
-becomes physical `e`→`u`→`u`. So I deliberately accept the `e`→`o` SFB and take the comfortable
-`o`→`u` roll that follows. Optimizing one pair in isolation can make the whole sequence worse.
+Some non-vertical combos elsewhere on the board do need to be pressed within a short window, but
+that timing only decides whether the combo fires. It never turns an intended letter into a
+modifier—the tap-versus-hold failure mode that made home-row mods problematic for me.
 
-That is the important timeout lesson: a bigram is not the unit my fingers experience. A shortcut
-has to be judged in the words and trigrams around it. A faster-looking first transition can make the
-next key awkward, steal a common literal, or force an escape on the very word that motivated the
-change. The best spell is the one that makes the *whole* sequence feel better, not the one that wins
-one row in an analyzer.
+Optimizing one SFB at a time can backfire. In `timeout`, I can avoid the `e`→`o` SFB: on this layout, `u` immediately after `e` writes `eo`, so the physical sequence `t i m e u u t` produces the word. But that replaces the SFB with a same-key repeat, `u`→`u`. I prefer typing `time` | `out`: one SFB, followed by the much better `o`→`u` inward roll. The whole sequence matters more than one pair’s score.
+
+For that reason, I’m not even going to try to calculate an “effective” score—but you can see the [Hands Down Vibranium base-layout stats](https://cyanophage.github.io/#hd-vibranium) here.
 
 ### How I learn the spells
 
