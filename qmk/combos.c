@@ -466,19 +466,19 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     case SUB_14:
         magic_decode_send(37); clear_last_keycode(); break; // "LGTM"
     case SUB_15:
-        magic_decode_send(821); clear_last_keycode(); break; // "zeitlinger@gmail.com"
+        magic_decode_send(820); clear_last_keycode(); break; // "zeitlinger@gmail.com"
     case SUB_16:
         magic_decode_send(346); clear_last_keycode(); break; // "gregor@zeitlinger.de"
     case SUB_1:
-        magic_decode_send(800); clear_last_keycode(); break; // "wl"
+        magic_decode_send(799); clear_last_keycode(); break; // "wl"
     case SUB_10:
-        magic_decode_send(818); clear_last_keycode(); break; // "yr"
+        magic_decode_send(817); clear_last_keycode(); break; // "yr"
     case SUB_11:
-        magic_decode_send(625); clear_last_keycode(); break; // "qu"
+        magic_decode_send(624); clear_last_keycode(); break; // "qu"
     case SUB_2:
-        magic_decode_send(743); clear_last_keycode(); break; // "uh"
+        magic_decode_send(742); clear_last_keycode(); break; // "uh"
     case SUB_3:
-        magic_decode_send(548); clear_last_keycode(); break; // "oe"
+        magic_decode_send(553); clear_last_keycode(); break; // "oe"
     case SUB_4:
         magic_decode_send(52); clear_last_keycode(); break; // "ae"
     case SUB_5:
@@ -486,11 +486,11 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     case SUB_6:
         magic_decode_send(32); clear_last_keycode(); break; // "I'm "
     case SUB_7:
-        magic_decode_send(374); clear_last_keycode(); break; // "hy"
+        magic_decode_send(379); clear_last_keycode(); break; // "hy"
     case SUB_8:
         magic_decode_send(228); clear_last_keycode(); break; // "eu"
     case SUB_9:
-        magic_decode_send(558); clear_last_keycode(); break; // "oh"
+        magic_decode_send(563); clear_last_keycode(); break; // "oh"
     case C_BASE_KC_B: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_B) : KC_B); break;
     case C_BASE_KC_G: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_G) : KC_G); break;
     case C_BASE_KC_K: combo_tap_logical(combo_active_layer() == _LEFT ? S(KC_K) : KC_K); break;
