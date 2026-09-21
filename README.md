@@ -342,8 +342,8 @@ Cell = what to emit.
 
 | Magic  |  magic_a  |  magic_b   | magic_c  |   magic_d   |    magic_e    |  magic_f   | magic_g |  magic_h   |   magic_i   | magic_j  | magic_k |
 | :----: | :-------: | :--------: | :------: | :---------: | :-----------: | :--------: | :-----: | :--------: | :---------: | :------: | :-----: |
-| suffix |    ed     |     s      |          |     n't     |       ?       |            |    ,    |   [next]   |    "the"    |  [bspc]  |   ly    |
-|   c    |  "'ll "   |   "'s "    |          |   "n't "    |    "'ve "     |   "'d "    |         |     n      |   "'re "    |    d     |         |
+| suffix |    ed     |     ?      |          |     n't     |       s       |            |    ,    |   [next]   |    "the"    |  [bspc]  |   ly    |
+|   c    |  "'ll "   |   "'ve "   |          |   "n't "    |     "'s "     |   "'d "    |         |     n      |   "'re "    |    d     |         |
 |   b    |  disable  |     h      |          |  possible   | observability |            |         |   become   |   because   |    d     |         |
 |   d    |     f     |     h      |          |    don't    |     does      | difficulty |         |   didn't   |   doesn't   |    c     |         |
 |   f    | confusing |     h      |          | performance |    before     |            |         |  focused   |  following  |    d     |         |
