@@ -225,7 +225,12 @@ fun run(args: GeneratorArgs) {
             "magicSuffixes" to magicSuffixCases(translator, magicTable).prependIndent("    "),
             "magicExclusions" to translator.magic.map { "case ${it.trigger.key}:" }.indented(8),
             "magicRepeats" to magicRepeatCases(translator),
-            "adaptives" to adaptiveBlocks(translator.adaptives, translator).indented(12),
+            "adaptivesEnabled" to
+                layers
+                    .filter { LayerFlag.NoAdaptives in it.option.flags }
+                    .joinToString(" && ") { "layer != ${it.name.const()}" }
+                    .ifEmpty { "true" },
+            "adaptives" to adaptiveBlocks(translator.adaptives, translator).indented(16),
         ),
     )
 

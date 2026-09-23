@@ -295,6 +295,20 @@ On all other layers, the modifiers are as shown in the table below.
 | Ctrl               | Middle |
 | Shift              | Index  |
 
+### Literal lowercase
+
+Hold a pinky Shift layer key, then the index Shift on the same hand, to type
+literal lowercase with the opposite hand. For example, `t` produces `T` with
+the pinky alone and `t` with the additional index key held. Adaptives are disabled
+on the modifier layers (`LMods`/`RMods`), including letter combos, so `sd` stays
+`sd` and you can type `sdk` literally. Releasing the index key restores the
+shifted layer while the pinky remains held.
+
+The index key enters the unshifted modifier layer without adding a Shift modifier;
+its punctuation is therefore unshifted too. For Ctrl/Alt+Shift shortcuts, hold
+Ctrl/Alt before the index Shift. Ordinary Shift remains available on those
+modifier layers. Magic mappings are unchanged.
+
 ## Window and Tab switching
 
 - win ➡️ and tab ➡️ are used to Short windows and tabs.
@@ -522,8 +536,8 @@ The order of the options is also the order of the layers in the layer stack.
 |     Base     |                 |                 |               |                |                  |
 |     Left     |                 | BottomRow+LMods |     Base      |                | Shifted          |
 |    Right     | BottomRow+RMods |                 |               |      Base      | Shifted          |
-|    LMods     |                 | BottomRow+LMods |     Base      |                |                  |
-|    RMods     | BottomRow+RMods |                 |               |      Base      |                  |
+|    LMods     |                 | BottomRow+LMods |     Base      |                | NoAdaptives      |
+|    RMods     | BottomRow+RMods |                 |               |      Base      | NoAdaptives      |
 |     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |
 |     Vim      |     HomeRow     |                 |               |      Nav       |                  |
 |    FnSym     |                 |     HomeRow     |               |                | DirectComboRight |

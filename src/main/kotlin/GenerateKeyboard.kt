@@ -66,7 +66,7 @@ enum class LayerActivation(
     fun isToggle(): Boolean = this == Toggle || this == ChangeDefault
 }
 
-enum class LayerFlag { Alternate, Shifted, DirectComboLeft, DirectComboRight, TriLayer }
+enum class LayerFlag { Alternate, Shifted, NoAdaptives, DirectComboLeft, DirectComboRight, TriLayer }
 
 typealias LayerName = String
 

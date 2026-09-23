@@ -72,9 +72,15 @@ private fun applyModTap(
                     if (!key.isNo) {
                         throw IllegalStateException("key $key not allowed for mod tap with layer switch at $pos")
                     }
-                    QmkKey.of(
-                        "LM(${translator.reachLayer(targetLayer, pos, LayerActivation.ModTap).const()}, ${mod.mask})",
-                    )
+                    val layer = translator.reachLayer(targetLayer, pos, LayerActivation.ModTap).const()
+                    val shiftedLayer = LayerFlag.Shifted in translator.layerOptions.getValue(pos.layerName).flags
+                    // The index Shift on a shifted layer is a literal lowercase escape.
+                    // Keep ordinary Shift available after entering the modifier layer with Ctrl/Alt.
+                    if (mod == Modifier.Shift && shiftedLayer) {
+                        QmkKey.of("MO($layer)")
+                    } else {
+                        QmkKey.of("LM($layer, ${mod.mask})")
+                    }
                 }
 
                 else -> {

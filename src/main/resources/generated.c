@@ -197,9 +197,11 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
         // Adaptive keys: runs after combo resolution in process_record_user,
         // so combo components are suppressed and prev_keycode reflects the
         // resolved combo keycode (e.g. KC_P not KC_C).
-        uint16_t adaptive_prev_keycode = unshift_letter_keycode(prev_keycode);
-        switch (keycode) {
+        if (${adaptivesEnabled}) {
+            uint16_t adaptive_prev_keycode = unshift_letter_keycode(prev_keycode);
+            switch (keycode) {
 ${adaptives}
+            }
         }
     }
     if (record->tap.count) {
