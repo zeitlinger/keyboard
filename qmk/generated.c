@@ -82,140 +82,142 @@ static uint16_t magic_remembered_keycode = KC_NO;
 #define MAGIC_STRING_I_M_P_O_R_T_A_N_T 427
 #define MAGIC_STRING_I_M_P_O_S_S_I_B_L_E 434
 #define MAGIC_STRING_I_M_P_R_O_V_E 443
-#define MAGIC_STRING_I_N_S_T_R_U_M_E_N_T 450
-#define MAGIC_STRING_I_N_S_T_R_U_M_E_N_T_A_T_I_O_N 457
-#define MAGIC_STRING_I_O_N 467
-#define MAGIC_STRING_J_U_S_T 470
-#define MAGIC_STRING_K_N_E_W 474
-#define MAGIC_STRING_K_N_O_W 479
-#define MAGIC_STRING_K_N_O_W_L_E_D_G_E 484
-#define MAGIC_STRING_L_A_N_G_U_A_G_E 492
+#define MAGIC_STRING_I_N_S_T_R_U_C_T_I_O_N 450
+#define MAGIC_STRING_I_N_S_T_R_U_M_E_N_T 458
+#define MAGIC_STRING_I_N_S_T_R_U_M_E_N_T_A_T_I_O_N 465
+#define MAGIC_STRING_I_O_N 475
+#define MAGIC_STRING_J_U_S_T 478
+#define MAGIC_STRING_K_N_E_W 482
+#define MAGIC_STRING_K_N_O_W 487
+#define MAGIC_STRING_K_N_O_W_L_E_D_G_E 492
+#define MAGIC_STRING_L_A_N_G_U_A_G_E 500
 #define MAGIC_STRING_L_G_T_M 37
-#define MAGIC_STRING_M_E_N_T 498
-#define MAGIC_STRING_M_E_R_G_E 502
-#define MAGIC_STRING_M_I_G_R_A_T_E 507
-#define MAGIC_STRING_M_I_G_R_A_T_I_O_N 513
-#define MAGIC_STRING_M_U_L_T_I_P_L_E 520
-#define MAGIC_STRING_N_APOSTROPHE_T 526
-#define MAGIC_STRING_N_O_W 530
-#define MAGIC_STRING_O_B_S_E_R_V_A_B_I_L_I_T_Y 534
-#define MAGIC_STRING_O_C_U_S_E_D 546
-#define MAGIC_STRING_O_E 553
-#define MAGIC_STRING_O_E_S 555
-#define MAGIC_STRING_O_E_S_N_APOSTROPHE_T 558
-#define MAGIC_STRING_O_H 563
-#define MAGIC_STRING_O_L_L_O_W_I_N_G 565
-#define MAGIC_STRING_O_M_E_T_H_I_N_G 571
-#define MAGIC_STRING_O_N_APOSTROPHE_T 578
-#define MAGIC_STRING_O_N_L_Y 582
-#define MAGIC_STRING_O_T_H_E_R_W_I_S_E 587
-#define MAGIC_STRING_P_E_R_F_O_R_M_A_N_C_E 594
-#define MAGIC_STRING_P_L 603
-#define MAGIC_STRING_P_O_S_S_I_B_L_E 605
-#define MAGIC_STRING_P_P_L 612
-#define MAGIC_STRING_P_R_O_B_A_B_L_Y 615
+#define MAGIC_STRING_M_E_N_T 506
+#define MAGIC_STRING_M_E_R_G_E 510
+#define MAGIC_STRING_M_I_G_R_A_T_E 515
+#define MAGIC_STRING_M_I_G_R_A_T_I_O_N 521
+#define MAGIC_STRING_M_U_L_T_I_P_L_E 528
+#define MAGIC_STRING_N_APOSTROPHE_T 534
+#define MAGIC_STRING_N_O_W 538
+#define MAGIC_STRING_O_B_S_E_R_V_A_B_I_L_I_T_Y 542
+#define MAGIC_STRING_O_C_U_S_E_D 554
+#define MAGIC_STRING_O_E 561
+#define MAGIC_STRING_O_E_S 563
+#define MAGIC_STRING_O_E_S_N_APOSTROPHE_T 566
+#define MAGIC_STRING_O_H 571
+#define MAGIC_STRING_O_L_L_O_W_I_N_G 573
+#define MAGIC_STRING_O_M_E_T_H_I_N_G 579
+#define MAGIC_STRING_O_N_APOSTROPHE_T 586
+#define MAGIC_STRING_O_N_L_Y 590
+#define MAGIC_STRING_O_T_H_E_R_W_I_S_E 595
+#define MAGIC_STRING_P_E_R_F_O_R_M_A_N_C_E 602
+#define MAGIC_STRING_P_L 611
+#define MAGIC_STRING_P_O_S_S_I_B_L_E 613
+#define MAGIC_STRING_P_P_L 620
+#define MAGIC_STRING_P_P_Y 623
+#define MAGIC_STRING_P_R_O_B_A_B_L_Y 626
+#define MAGIC_STRING_P_Y 635
 #define MAGIC_STRING_Q_U 42
-#define MAGIC_STRING_Q_U_2 624
-#define MAGIC_STRING_Q_U_E_S_T_I_O_N 627
-#define MAGIC_STRING_R_E_S_O_L_U_T_I_O_N 633
-#define MAGIC_STRING_R_E_S_O_L_V_E 640
-#define MAGIC_STRING_S_E_P_A_R_A_T_E 646
-#define MAGIC_STRING_S_E_P_A_R_A_T_I_O_N 652
-#define MAGIC_STRING_S_H_O_U_L_D 659
-#define MAGIC_STRING_S_I_M_I_L_A_R 665
-#define MAGIC_STRING_S_I_O_N 671
-#define MAGIC_STRING_S_O_M_E_T_H_I_N_G 674
-#define MAGIC_STRING_S_U_G_G_E_S_T 681
-#define MAGIC_STRING_S_U_P_P_O_R_T 686
-#define MAGIC_STRING_S_W_I_T_C_H 691
-#define MAGIC_STRING_T_H_A_N_K_S 705
-#define MAGIC_STRING_T_H_A_N_K_Y_O_U 697
-#define MAGIC_STRING_T_H_E 710
-#define MAGIC_STRING_T_H_I_N_K 713
-#define MAGIC_STRING_T_H_O_U_G_H 718
-#define MAGIC_STRING_T_H_O_U_G_H_T 723
-#define MAGIC_STRING_T_H_R_E_A_D 728
-#define MAGIC_STRING_T_H_R_O_U_G_H 734
-#define MAGIC_STRING_T_I_O_N 739
-#define MAGIC_STRING_U_H 742
-#define MAGIC_STRING_U_L_T_I_P_L_E 744
-#define MAGIC_STRING_U_N_D_E_R_S_T_A_N_D 749
-#define MAGIC_STRING_U_P_D_A_T_E 757
-#define MAGIC_STRING_U_P_P_O_R_T 762
-#define MAGIC_STRING_V_A_L_I_D_A_T_E 767
-#define MAGIC_STRING_V_A_L_I_D_A_T_I_O_N 774
-#define MAGIC_STRING_V_E_R_S_I_O_N 782
-#define MAGIC_STRING_W_A_S_N_APOSTROPHE_T 788
-#define MAGIC_STRING_W_H_Y 794
-#define MAGIC_STRING_W_L 799
-#define MAGIC_STRING_W_O_N_APOSTROPHE_T 802
-#define MAGIC_STRING_W_O_R_S_E 807
-#define MAGIC_STRING_W_O_R_S_T 812
-#define MAGIC_STRING_Y_R 817
-#define MAGIC_STRING_Z_E_I_T_L_I_N_G_E_R_U0040_G_M_A_I_L_DOT_C_O_M 820
+#define MAGIC_STRING_Q_U_2 638
+#define MAGIC_STRING_Q_U_E_S_T_I_O_N 641
+#define MAGIC_STRING_R_E_S_O_L_U_T_I_O_N 647
+#define MAGIC_STRING_R_E_S_O_L_V_E 654
+#define MAGIC_STRING_S_E_P_A_R_A_T_E 660
+#define MAGIC_STRING_S_E_P_A_R_A_T_I_O_N 666
+#define MAGIC_STRING_S_H_O_U_L_D 673
+#define MAGIC_STRING_S_I_M_I_L_A_R 679
+#define MAGIC_STRING_S_I_O_N 685
+#define MAGIC_STRING_S_O_M_E_T_H_I_N_G 688
+#define MAGIC_STRING_S_U_G_G_E_S_T 695
+#define MAGIC_STRING_S_U_P_P_O_R_T 700
+#define MAGIC_STRING_S_W_I_T_C_H 705
+#define MAGIC_STRING_T_H_A_N_K_S 719
+#define MAGIC_STRING_T_H_A_N_K_Y_O_U 711
+#define MAGIC_STRING_T_H_E 724
+#define MAGIC_STRING_T_H_I_N_K 727
+#define MAGIC_STRING_T_H_O_U_G_H 732
+#define MAGIC_STRING_T_H_O_U_G_H_T 737
+#define MAGIC_STRING_T_H_R_O_U_G_H 742
+#define MAGIC_STRING_T_I_O_N 747
+#define MAGIC_STRING_U_H 750
+#define MAGIC_STRING_U_L_T_I_P_L_E 752
+#define MAGIC_STRING_U_N_D_E_R_S_T_A_N_D 757
+#define MAGIC_STRING_U_P_D_A_T_E 765
+#define MAGIC_STRING_U_P_P_O_R_T 770
+#define MAGIC_STRING_V_A_L_I_D_A_T_E 775
+#define MAGIC_STRING_V_A_L_I_D_A_T_I_O_N 782
+#define MAGIC_STRING_V_E_R_S_I_O_N 790
+#define MAGIC_STRING_W_A_S_N_APOSTROPHE_T 796
+#define MAGIC_STRING_W_H_Y 802
+#define MAGIC_STRING_W_L 807
+#define MAGIC_STRING_W_O_N_APOSTROPHE_T 810
+#define MAGIC_STRING_W_O_R_S_E 815
+#define MAGIC_STRING_W_O_R_S_T 820
+#define MAGIC_STRING_Y_R 825
+#define MAGIC_STRING_Z_E_I_T_L_I_N_G_E_R_U0040_G_M_A_I_L_DOT_C_O_M 828
 
 static const char magic_char_4bit[] = {
-    ' ', 'e', 't', 'o', 'n', 'i', 'a', 'l', 'r', 's', 'g', 'u', 'p', 'h'
+    ' ', 'e', 't', 'n', 'o', 'i', 'a', 'l', 'r', 's', 'u', 'g', 'p', 'h'
 };
 
 static const char magic_char_extended[] = {
-    'd', 'm', 'c', '\'', 'w', 'y', 'b', 'f', 'v', 'x', 'k', '.', '@', 'z', 'q', 'G', 'I', 'L', 'M', 'Q', 'T', 'j'
+    'd', 'm', 'c', 'y', '\'', 'w', 'b', 'f', 'v', 'x', 'k', '.', '@', 'z', 'q', 'G', 'I', 'L', 'M', 'Q', 'T', 'j'
 };
 
 static const uint8_t magic_string_data[] = {
-    0x05, 0x06, 0x4f, 0xe0, 0x00, 0x05, 0x0f, 0xe6, 0xb2, 0x00, 0x03, 0xe3, 0xe0, 0x00, 0x04, 0xe3,
-    0x77, 0x00, 0x04, 0xe3, 0x81, 0x00, 0x03, 0xe3, 0x90, 0x04, 0xe3, 0xe8, 0x10, 0x02, 0xeb, 0x00,
-    0x04, 0xf0, 0xe3, 0xe1, 0x00, 0x04, 0xf1, 0xef, 0xf4, 0xf2, 0x02, 0xf3, 0xb0, 0x08, 0x6f, 0xe0,
+    0x05, 0x06, 0x3f, 0xe0, 0x00, 0x05, 0x0f, 0xe6, 0xa2, 0x00, 0x03, 0xe4, 0xe0, 0x00, 0x04, 0xe4,
+    0x77, 0x00, 0x04, 0xe4, 0x81, 0x00, 0x03, 0xe4, 0x90, 0x04, 0xe4, 0xe8, 0x10, 0x02, 0xeb, 0x00,
+    0x04, 0xf0, 0xe4, 0xe1, 0x00, 0x04, 0xf1, 0xef, 0xf4, 0xf2, 0x02, 0xf3, 0xa0, 0x08, 0x6f, 0xe0,
     0xe0, 0x81, 0x99, 0x00, 0x02, 0x61, 0x08, 0x67, 0x5f, 0xe0, 0x62, 0x10, 0x08, 0x67, 0x81, 0x6f,
-    0xe0, 0xe5, 0x00, 0x07, 0x67, 0xe4, 0x6f, 0xe5, 0x90, 0x04, 0x64, 0xe0, 0x00, 0x08, 0x64, 0xab,
-    0x6a, 0x10, 0x09, 0x64, 0xe5, 0x2d, 0x54, 0xa0, 0x06, 0x6c, 0xc7, 0xe5, 0x00, 0x09, 0x6c, 0xc8,
-    0x3f, 0xe8, 0x67, 0x00, 0x08, 0x6c, 0xc8, 0x3f, 0xe8, 0x10, 0x06, 0x69, 0x4f, 0xe3, 0x20, 0x07,
-    0xe6, 0x1f, 0xe2, 0x6f, 0xe1, 0x10, 0x08, 0xe6, 0x1f, 0xe2, 0x6b, 0x91, 0x00, 0x07, 0xe6, 0x1f,
-    0xe2, 0x3f, 0xe1, 0x10, 0x07, 0xe6, 0x1f, 0xe7, 0x38, 0x10, 0x07, 0xe2, 0xd6, 0x4a, 0x10, 0x0a,
-    0xe2, 0x34, 0xe7, 0xb9, 0x54, 0xa0, 0x07, 0xe0, 0x5f, 0xe0, 0x4f, 0xe3, 0x20, 0x0b, 0xe0, 0x5f,
-    0xe7, 0xe7, 0x5f, 0xe2, 0xb7, 0x2f, 0xe5, 0x00, 0x08, 0xe0, 0x59, 0x6f, 0xe6, 0x71, 0x00, 0x05,
-    0xe0, 0x31, 0x90, 0x08, 0xe0, 0x31, 0x94, 0xe3, 0x20, 0x06, 0xe0, 0x34, 0xe3, 0x20, 0x07, 0x1f,
-    0xe2, 0x6b, 0x91, 0x00, 0x06, 0x1f, 0xe2, 0x3f, 0xe1, 0x10, 0x02, 0x1d, 0x07, 0x14, 0x6f, 0xe6,
-    0x71, 0x00, 0x08, 0x14, 0x18, 0x62, 0x10, 0x03, 0x14, 0x20, 0x08, 0x1c, 0x68, 0x62, 0x10, 0x07,
-    0x18, 0x95, 0x34, 0x00, 0x02, 0x1b, 0x0b, 0x1f, 0xe8, 0x18, 0xe5, 0x2d, 0x54, 0xa0, 0x08, 0x1f,
+    0xe0, 0xe3, 0x00, 0x07, 0x67, 0xe5, 0x6f, 0xe3, 0x90, 0x04, 0x63, 0xe0, 0x00, 0x08, 0x63, 0xba,
+    0x6b, 0x10, 0x09, 0x63, 0xe3, 0x2d, 0x53, 0xb0, 0x06, 0x6c, 0xc7, 0xe3, 0x00, 0x09, 0x6c, 0xc8,
+    0x4f, 0xe8, 0x67, 0x00, 0x08, 0x6c, 0xc8, 0x4f, 0xe8, 0x10, 0x06, 0x69, 0x3f, 0xe4, 0x20, 0x07,
+    0xe6, 0x1f, 0xe2, 0x6f, 0xe1, 0x10, 0x08, 0xe6, 0x1f, 0xe2, 0x6a, 0x91, 0x00, 0x07, 0xe6, 0x1f,
+    0xe2, 0x4f, 0xe1, 0x10, 0x07, 0xe6, 0x1f, 0xe7, 0x48, 0x10, 0x07, 0xe2, 0xd6, 0x3b, 0x10, 0x0a,
+    0xe2, 0x43, 0xe7, 0xa9, 0x53, 0xb0, 0x07, 0xe0, 0x5f, 0xe0, 0x3f, 0xe4, 0x20, 0x0b, 0xe0, 0x5f,
+    0xe7, 0xe7, 0x5f, 0xe2, 0xa7, 0x2f, 0xe3, 0x00, 0x08, 0xe0, 0x59, 0x6f, 0xe6, 0x71, 0x00, 0x05,
+    0xe0, 0x41, 0x90, 0x08, 0xe0, 0x41, 0x93, 0xe4, 0x20, 0x06, 0xe0, 0x43, 0xe4, 0x20, 0x07, 0x1f,
+    0xe2, 0x6a, 0x91, 0x00, 0x06, 0x1f, 0xe2, 0x4f, 0xe1, 0x10, 0x02, 0x1d, 0x07, 0x13, 0x6f, 0xe6,
+    0x71, 0x00, 0x08, 0x13, 0x18, 0x62, 0x10, 0x03, 0x13, 0x20, 0x08, 0x1c, 0x68, 0x62, 0x10, 0x07,
+    0x18, 0x95, 0x43, 0x00, 0x02, 0x1a, 0x0b, 0x1f, 0xe8, 0x18, 0xe3, 0x2d, 0x53, 0xb0, 0x08, 0x1f,
     0xe9, 0x6f, 0xe1, 0xc7, 0x10, 0x07, 0x1f, 0xe9, 0xe2, 0x1c, 0x20, 0x0a, 0x1f, 0xe9, 0xe2, 0x1c,
-    0x25, 0x34, 0x00, 0x08, 0x1f, 0xe9, 0xe2, 0x7b, 0xe0, 0x10, 0x05, 0x1f, 0xe9, 0x52, 0x00, 0x08,
-    0x1f, 0xe9, 0xc7, 0x65, 0x40, 0x0c, 0x1f, 0xe9, 0xc7, 0x64, 0x62, 0x53, 0x40, 0x09, 0x1f, 0xe9,
-    0xc7, 0x5f, 0xe2, 0x52, 0x00, 0x08, 0xe7, 0x3f, 0xe2, 0xb9, 0x1f, 0xe0, 0x00, 0x0a, 0xe7, 0x37,
-    0x73, 0xe4, 0x54, 0xa0, 0x09, 0xa1, 0x41, 0x86, 0x21, 0x00, 0x0b, 0xa1, 0x41, 0x86, 0x25, 0x34,
-    0x00, 0x05, 0xa3, 0x19, 0x00, 0x1d, 0xa8, 0x1a, 0x38, 0xeb, 0xed, 0x15, 0x27, 0x54, 0xa1, 0x8f,
-    0xec, 0xa8, 0x6f, 0xe7, 0x64, 0x6f, 0xeb, 0xe2, 0x3f, 0xe1, 0x14, 0xa8, 0x1a, 0x38, 0xec, 0xed,
-    0x15, 0x27, 0x54, 0xa1, 0x8f, 0xeb, 0xe0, 0x10, 0x06, 0xd3, 0xba, 0xd0, 0x07, 0xd3, 0xba, 0xd2,
-    0x00, 0x06, 0xd3, 0xb7, 0xe0, 0x00, 0x07, 0xd8, 0x3b, 0xad, 0x00, 0x02, 0xdf, 0xe5, 0x03, 0xdf,
-    0xe5, 0x00, 0x06, 0x5f, 0xe0, 0x4f, 0xe3, 0x20, 0x0a, 0x5f, 0xe7, 0xe7, 0x5f, 0xe2, 0xb7, 0x2f,
-    0xe5, 0x00, 0x07, 0x5f, 0xe1, 0x57, 0x68, 0x00, 0x0a, 0x5f, 0xe1, 0xc7, 0x1f, 0xe1, 0x14, 0x20,
-    0x0f, 0x5f, 0xe1, 0xc7, 0x1f, 0xe1, 0x14, 0x26, 0x25, 0x34, 0x00, 0x0a, 0x5f, 0xe1, 0xc3, 0x82,
-    0x64, 0x20, 0x0b, 0x5f, 0xe1, 0xc3, 0x99, 0x5f, 0xe6, 0x71, 0x00, 0x08, 0x5f, 0xe1, 0xc8, 0x3f,
-    0xe8, 0x10, 0x0b, 0x54, 0x92, 0x8b, 0xe1, 0x14, 0x20, 0x10, 0x54, 0x92, 0x8b, 0xe1, 0x14, 0x26,
-    0x25, 0x34, 0x00, 0x03, 0x53, 0x40, 0x05, 0xf5, 0xb9, 0x20, 0x05, 0xea, 0x41, 0xe4, 0x00, 0x05,
-    0xea, 0x43, 0xe4, 0x00, 0x0a, 0xea, 0x43, 0xe4, 0x71, 0xe0, 0xa1, 0x00, 0x09, 0x76, 0x4a, 0xb6,
-    0xa1, 0x00, 0x04, 0xe1, 0x14, 0x20, 0x06, 0xe1, 0x18, 0xa1, 0x00, 0x08, 0xe1, 0x5a, 0x86, 0x21,
-    0x00, 0x0a, 0xe1, 0x5a, 0x86, 0x25, 0x34, 0x00, 0x09, 0xe1, 0xb7, 0x25, 0xc7, 0x10, 0x04, 0x4f,
-    0xe3, 0x20, 0x04, 0x43, 0xe4, 0x00, 0x0e, 0x3f, 0xe6, 0x91, 0x8f, 0xe8, 0x6f, 0xe6, 0x57, 0x52,
-    0xe5, 0x00, 0x07, 0x3f, 0xe2, 0xb9, 0x1f, 0xe0, 0x00, 0x02, 0x31, 0x04, 0x31, 0x90, 0x07, 0x31,
-    0x94, 0xe3, 0x20, 0x02, 0x3d, 0x09, 0x37, 0x73, 0xe4, 0x54, 0xa0, 0x09, 0x3f, 0xe1, 0x12, 0xd5,
-    0x4a, 0x00, 0x05, 0x34, 0xe3, 0x20, 0x05, 0x34, 0x7f, 0xe5, 0x00, 0x0a, 0x32, 0xd1, 0x8f, 0xe4,
-    0x59, 0x10, 0x0c, 0xc1, 0x8f, 0xe7, 0x38, 0xe1, 0x64, 0xe2, 0x10, 0x02, 0xc7, 0x09, 0xc3, 0x99,
-    0x5f, 0xe6, 0x71, 0x00, 0x03, 0xcc, 0x70, 0x09, 0xc8, 0x3f, 0xe6, 0x6f, 0xe6, 0x7f, 0xe5, 0x00,
-    0x02, 0xee, 0xb0, 0x09, 0xee, 0xb1, 0x92, 0x53, 0x40, 0x0b, 0x81, 0x93, 0x7b, 0x25, 0x34, 0x00,
-    0x08, 0x81, 0x93, 0x7f, 0xe8, 0x10, 0x09, 0x91, 0xc6, 0x86, 0x21, 0x00, 0x0b, 0x91, 0xc6, 0x86,
-    0x25, 0x34, 0x00, 0x07, 0x9d, 0x3b, 0x7f, 0xe0, 0x00, 0x08, 0x95, 0xe1, 0x57, 0x68, 0x00, 0x04,
-    0x95, 0x34, 0x0a, 0x93, 0xe1, 0x12, 0xd5, 0x4a, 0x00, 0x08, 0x9b, 0xaa, 0x19, 0x20, 0x08, 0x9b,
-    0xcc, 0x38, 0x20, 0x07, 0x9f, 0xe4, 0x52, 0xe2, 0xd0, 0x0a, 0x2d, 0x64, 0xea, 0x0f, 0xe5, 0x3b,
-    0x00, 0x07, 0x2d, 0x64, 0xea, 0x90, 0x04, 0x2d, 0x10, 0x06, 0x2d, 0x54, 0xea, 0x00, 0x07, 0x2d,
-    0x3b, 0xad, 0x00, 0x08, 0x2d, 0x3b, 0xad, 0x20, 0x07, 0x2d, 0x81, 0x6f, 0xe0, 0x00, 0x08, 0x2d,
-    0x83, 0xba, 0xd0, 0x04, 0x25, 0x34, 0x02, 0xbd, 0x08, 0xb7, 0x25, 0xc7, 0x10, 0x0b, 0xb4, 0xe0,
-    0x18, 0x92, 0x64, 0xe0, 0x00, 0x07, 0xbc, 0xe0, 0x62, 0x10, 0x07, 0xbc, 0xc3, 0x82, 0x00, 0x09,
-    0xe8, 0x67, 0x5f, 0xe0, 0x62, 0x10, 0x0b, 0xe8, 0x67, 0x5f, 0xe0, 0x62, 0x53, 0x40, 0x08, 0xe8,
-    0x18, 0x95, 0x34, 0x00, 0x07, 0xe4, 0x69, 0x4f, 0xe3, 0x20, 0x04, 0xe4, 0xdf, 0xe5, 0x00, 0x02,
-    0xe4, 0x70, 0x06, 0xe4, 0x34, 0xe3, 0x20, 0x06, 0xe4, 0x38, 0x91, 0x00, 0x06, 0xe4, 0x38, 0x92,
-    0x00, 0x02, 0xe5, 0x80, 0x14, 0xed, 0x15, 0x27, 0x54, 0xa1, 0x8f, 0xec, 0xaf, 0xe1, 0x65, 0x7f,
-    0xeb, 0xe2, 0x3f, 0xe1
+    0x25, 0x43, 0x00, 0x08, 0x1f, 0xe9, 0xe2, 0x7a, 0xe0, 0x10, 0x05, 0x1f, 0xe9, 0x52, 0x00, 0x08,
+    0x1f, 0xe9, 0xc7, 0x65, 0x30, 0x0c, 0x1f, 0xe9, 0xc7, 0x63, 0x62, 0x54, 0x30, 0x09, 0x1f, 0xe9,
+    0xc7, 0x5f, 0xe2, 0x52, 0x00, 0x08, 0xe7, 0x4f, 0xe2, 0xa9, 0x1f, 0xe0, 0x00, 0x0a, 0xe7, 0x47,
+    0x74, 0xe5, 0x53, 0xb0, 0x09, 0xb1, 0x31, 0x86, 0x21, 0x00, 0x0b, 0xb1, 0x31, 0x86, 0x25, 0x43,
+    0x00, 0x05, 0xb4, 0x19, 0x00, 0x1d, 0xb8, 0x1b, 0x48, 0xeb, 0xed, 0x15, 0x27, 0x53, 0xb1, 0x8f,
+    0xec, 0xb8, 0x6f, 0xe7, 0x63, 0x6f, 0xeb, 0xe2, 0x4f, 0xe1, 0x14, 0xb8, 0x1b, 0x48, 0xec, 0xed,
+    0x15, 0x27, 0x53, 0xb1, 0x8f, 0xeb, 0xe0, 0x10, 0x06, 0xd4, 0xab, 0xd0, 0x07, 0xd4, 0xab, 0xd2,
+    0x00, 0x06, 0xd4, 0xa7, 0xe0, 0x00, 0x07, 0xd8, 0x4a, 0xbd, 0x00, 0x02, 0xdf, 0xe3, 0x03, 0xdf,
+    0xe3, 0x00, 0x06, 0x5f, 0xe0, 0x3f, 0xe4, 0x20, 0x0a, 0x5f, 0xe7, 0xe7, 0x5f, 0xe2, 0xa7, 0x2f,
+    0xe3, 0x00, 0x07, 0x5f, 0xe1, 0x57, 0x68, 0x00, 0x0a, 0x5f, 0xe1, 0xc7, 0x1f, 0xe1, 0x13, 0x20,
+    0x0f, 0x5f, 0xe1, 0xc7, 0x1f, 0xe1, 0x13, 0x26, 0x25, 0x43, 0x00, 0x0a, 0x5f, 0xe1, 0xc4, 0x82,
+    0x63, 0x20, 0x0b, 0x5f, 0xe1, 0xc4, 0x99, 0x5f, 0xe6, 0x71, 0x00, 0x08, 0x5f, 0xe1, 0xc8, 0x4f,
+    0xe8, 0x10, 0x0c, 0x53, 0x92, 0x8a, 0xe2, 0x25, 0x43, 0x00, 0x0b, 0x53, 0x92, 0x8a, 0xe1, 0x13,
+    0x20, 0x10, 0x53, 0x92, 0x8a, 0xe1, 0x13, 0x26, 0x25, 0x43, 0x00, 0x03, 0x54, 0x30, 0x05, 0xf5,
+    0xa9, 0x20, 0x05, 0xea, 0x31, 0xe5, 0x00, 0x05, 0xea, 0x34, 0xe5, 0x00, 0x0a, 0xea, 0x34, 0xe5,
+    0x71, 0xe0, 0xb1, 0x00, 0x09, 0x76, 0x3b, 0xa6, 0xb1, 0x00, 0x04, 0xe1, 0x13, 0x20, 0x06, 0xe1,
+    0x18, 0xb1, 0x00, 0x08, 0xe1, 0x5b, 0x86, 0x21, 0x00, 0x0a, 0xe1, 0x5b, 0x86, 0x25, 0x43, 0x00,
+    0x09, 0xe1, 0xa7, 0x25, 0xc7, 0x10, 0x04, 0x3f, 0xe4, 0x20, 0x04, 0x34, 0xe5, 0x00, 0x0e, 0x4f,
+    0xe6, 0x91, 0x8f, 0xe8, 0x6f, 0xe6, 0x57, 0x52, 0xe3, 0x00, 0x07, 0x4f, 0xe2, 0xa9, 0x1f, 0xe0,
+    0x00, 0x02, 0x41, 0x04, 0x41, 0x90, 0x07, 0x41, 0x93, 0xe4, 0x20, 0x02, 0x4d, 0x09, 0x47, 0x74,
+    0xe5, 0x53, 0xb0, 0x09, 0x4f, 0xe1, 0x12, 0xd5, 0x3b, 0x00, 0x05, 0x43, 0xe4, 0x20, 0x05, 0x43,
+    0x7f, 0xe3, 0x00, 0x0a, 0x42, 0xd1, 0x8f, 0xe5, 0x59, 0x10, 0x0c, 0xc1, 0x8f, 0xe7, 0x48, 0xe1,
+    0x63, 0xe2, 0x10, 0x02, 0xc7, 0x09, 0xc4, 0x99, 0x5f, 0xe6, 0x71, 0x00, 0x03, 0xcc, 0x70, 0x03,
+    0xcc, 0xe3, 0x09, 0xc8, 0x4f, 0xe6, 0x6f, 0xe6, 0x7f, 0xe3, 0x00, 0x02, 0xcf, 0xe3, 0x02, 0xee,
+    0xa0, 0x09, 0xee, 0xa1, 0x92, 0x54, 0x30, 0x0b, 0x81, 0x94, 0x7a, 0x25, 0x43, 0x00, 0x08, 0x81,
+    0x94, 0x7f, 0xe8, 0x10, 0x09, 0x91, 0xc6, 0x86, 0x21, 0x00, 0x0b, 0x91, 0xc6, 0x86, 0x25, 0x43,
+    0x00, 0x07, 0x9d, 0x4a, 0x7f, 0xe0, 0x00, 0x08, 0x95, 0xe1, 0x57, 0x68, 0x00, 0x04, 0x95, 0x43,
+    0x0a, 0x94, 0xe1, 0x12, 0xd5, 0x3b, 0x00, 0x08, 0x9a, 0xbb, 0x19, 0x20, 0x08, 0x9a, 0xcc, 0x48,
+    0x20, 0x07, 0x9f, 0xe5, 0x52, 0xe2, 0xd0, 0x0a, 0x2d, 0x63, 0xea, 0x0f, 0xe3, 0x4a, 0x00, 0x07,
+    0x2d, 0x63, 0xea, 0x90, 0x04, 0x2d, 0x10, 0x06, 0x2d, 0x53, 0xea, 0x00, 0x07, 0x2d, 0x4a, 0xbd,
+    0x00, 0x08, 0x2d, 0x4a, 0xbd, 0x20, 0x08, 0x2d, 0x84, 0xab, 0xd0, 0x04, 0x25, 0x43, 0x02, 0xad,
+    0x08, 0xa7, 0x25, 0xc7, 0x10, 0x0b, 0xa3, 0xe0, 0x18, 0x92, 0x63, 0xe0, 0x00, 0x07, 0xac, 0xe0,
+    0x62, 0x10, 0x07, 0xac, 0xc4, 0x82, 0x00, 0x09, 0xe8, 0x67, 0x5f, 0xe0, 0x62, 0x10, 0x0b, 0xe8,
+    0x67, 0x5f, 0xe0, 0x62, 0x54, 0x30, 0x08, 0xe8, 0x18, 0x95, 0x43, 0x00, 0x07, 0xe5, 0x69, 0x3f,
+    0xe4, 0x20, 0x04, 0xe5, 0xdf, 0xe3, 0x00, 0x02, 0xe5, 0x70, 0x06, 0xe5, 0x43, 0xe4, 0x20, 0x06,
+    0xe5, 0x48, 0x91, 0x00, 0x06, 0xe5, 0x48, 0x92, 0x00, 0x02, 0xe3, 0x80, 0x14, 0xed, 0x15, 0x27,
+    0x53, 0xb1, 0x8f, 0xec, 0xbf, 0xe1, 0x65, 0x7f, 0xeb, 0xe2, 0x4f, 0xe1
 };
 
 static void magic_decode_send_skip(uint16_t offset, uint8_t skip_chars) {
@@ -536,7 +538,7 @@ static bool process_magic_suffix(uint16_t keycode) {
         clear_suffix_cycle_state();
         return true;
     case MAGIC_B:
-        tap_code16(KC_BSPC); tap_code16(KC_S); tap_code16(KC_SPC);
+        tap_code16(KC_BSPC); tap_code16(KC_QUES); tap_code16(KC_SPC);
         clear_suffix_cycle_state();
         return true;
     case MAGIC_D:
@@ -544,7 +546,7 @@ static bool process_magic_suffix(uint16_t keycode) {
         clear_suffix_cycle_state();
         return true;
     case MAGIC_E:
-        tap_code16(KC_BSPC); tap_code16(KC_QUES); tap_code16(KC_SPC);
+        tap_code16(KC_BSPC); tap_code16(KC_S); tap_code16(KC_SPC);
         clear_suffix_cycle_state();
         return true;
     case MAGIC_G:
@@ -635,7 +637,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
             switch (magic_context_prepared) {
                 case KC_B: magic_tap_repeatable(KC_H); break;
-                case KC_C: magic_replace_decode_send_cap_cycle(MAGIC_STRING_APOSTROPHE_S, '\0', MAGIC_CYCLE_NONE); /* emits "'s " */ break;
+                case KC_C: magic_replace_decode_send_cap_cycle(MAGIC_STRING_APOSTROPHE_V_E, '\0', MAGIC_CYCLE_NONE); /* emits "'ve " */ break;
                 case KC_D: magic_tap_repeatable(KC_H); break;
                 case KC_F: magic_tap_repeatable(KC_H); break;
                 case KC_G: magic_tap_repeatable(KC_T); break;
@@ -707,7 +709,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
             uint16_t magic_context_prepared = magic_prepare_last_keycode(context_keycode);
             switch (magic_context_prepared) {
                 case KC_B: magic_replace_decode_send_cap_cycle(MAGIC_STRING_O_B_S_E_R_V_A_B_I_L_I_T_Y, 'y', MAGIC_CYCLE_NONE); /* emits "observability " */ break;
-                case KC_C: magic_replace_decode_send_cap_cycle(MAGIC_STRING_APOSTROPHE_V_E, '\0', MAGIC_CYCLE_NONE); /* emits "'ve " */ break;
+                case KC_C: magic_replace_decode_send_cap_cycle(MAGIC_STRING_APOSTROPHE_S, '\0', MAGIC_CYCLE_NONE); /* emits "'s " */ break;
                 case KC_D: magic_decode_send_suffix_cycle(MAGIC_STRING_O_E_S, 's', MAGIC_CYCLE_NONE); /* emits "oes " -> "does " */ break;
                 case KC_F: magic_replace_decode_send_cap_cycle(MAGIC_STRING_B_E_F_O_R_E, 'e', MAGIC_CYCLE_NONE); /* emits "before " */ break;
                 case KC_G: magic_replace_decode_send_cap_cycle(MAGIC_STRING_C_H_A_N_G_E, 'e', MAGIC_CYCLE_NONE); /* emits "change " */ break;
@@ -742,7 +744,6 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_L: magic_tap_repeatable(KC_B); break;
                 case KC_M: magic_tap_repeatable(KC_V); break;
                 case KC_N: magic_tap_repeatable(KC_P); break;
-                case KC_P: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_P_L_I_C_I_T, 't', MAGIC_CYCLE_NONE); /* emits "explicit " */ break;
                 case KC_R: magic_replace_decode_send_cap_cycle(MAGIC_STRING_I_M_P_O_R_T_A_N_T, 't', MAGIC_CYCLE_NONE); /* emits "important " */ break;
                 case KC_S: magic_decode_send_suffix_cycle(MAGIC_STRING_I_M_I_L_A_R, 'r', MAGIC_CYCLE_NONE); /* emits "imilar " -> "similar " */ break;
                 case KC_T: magic_tap_repeatable(KC_Z); break;
@@ -814,13 +815,13 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_D: magic_decode_send_suffix_cycle(MAGIC_STRING_O_E_S_N_APOSTROPHE_T, 't', MAGIC_CYCLE_NONE); /* emits "oesn't " -> "doesn't " */ break;
                 case KC_ENT: magic_decode_send_cap_cycle(MAGIC_STRING_T_H_E, 'e', MAGIC_CYCLE_NONE); /* emits "the " */ break;
                 case KC_F: magic_decode_send_suffix_cycle(MAGIC_STRING_O_L_L_O_W_I_N_G, 'g', MAGIC_CYCLE_NONE); /* emits "ollowing " -> "following " */ break;
-                case KC_G: magic_tap_repeatable(KC_K); break;
+                case KC_G: magic_tap_repeatable(KC_M); break;
                 case KC_K: magic_decode_send_suffix_cycle(MAGIC_STRING_N_O_W, 'w', MAGIC_STRING_K_N_O_W); /* emits "now " -> "know " */ break;
                 case KC_L: magic_tap_repeatable(KC_M); break;
                 case KC_M: magic_decode_send(MAGIC_STRING_E_N_T); /* emits "ent" -> "ment" */ magic_remembered_keycode = KC_T; break;
                 case KC_N: magic_replace_decode_send_cap_cycle(MAGIC_STRING_W_O_N_APOSTROPHE_T, 't', MAGIC_CYCLE_NONE); /* emits "won't " */ break;
-                case KC_P: magic_tap_repeatable(KC_M); break;
-                case KC_R: magic_replace_decode_send_cap_cycle(MAGIC_STRING_T_H_R_E_A_D, 'd', MAGIC_CYCLE_NONE); /* emits "thread " */ break;
+                case KC_P: magic_decode_send(MAGIC_STRING_P_Y); /* emits "py" -> "ppy" */ magic_remembered_keycode = KC_Y; break;
+                case KC_R: magic_replace_decode_send_cap_cycle(MAGIC_STRING_I_N_S_T_R_U_C_T_I_O_N, 'n', MAGIC_CYCLE_NONE); /* emits "instruction " */ break;
                 case KC_S: magic_decode_send(MAGIC_STRING_I_O_N); /* emits "ion" -> "sion" */ magic_remembered_keycode = KC_N; break;
                 case KC_SPC: magic_decode_send_cap_cycle(MAGIC_STRING_T_H_E, 'e', MAGIC_CYCLE_NONE); /* emits "the " */ break;
                 case KC_T: magic_decode_send(MAGIC_STRING_I_O_N); /* emits "ion" -> "tion" */ magic_remembered_keycode = KC_N; break;
@@ -844,6 +845,7 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_B: magic_tap_repeatable(KC_D); break;
                 case KC_C: magic_tap_repeatable(KC_D); break;
                 case KC_D: magic_tap_repeatable(KC_C); break;
+                case KC_ENT: magic_tap_repeatable(KC_BSPC); break;
                 case KC_F: magic_tap_repeatable(KC_D); break;
                 case KC_G: magic_tap_repeatable(KC_D); break;
                 case KC_K: magic_tap_repeatable(KC_X); break;
@@ -853,8 +855,11 @@ static bool process_magic_key_with_context(uint16_t keycode, uint16_t context_ke
                 case KC_P: magic_tap_repeatable(KC_D); break;
                 case KC_R: magic_tap_repeatable(KC_X); break;
                 case KC_S: magic_tap_repeatable(KC_D); break;
+                case KC_SPC: magic_tap_repeatable(KC_BSPC); break;
                 case KC_T: magic_decode_send_suffix_cycle(MAGIC_STRING_H_O_U_G_H_T, 't', MAGIC_CYCLE_NONE); /* emits "hought " -> "thought " */ break;
+                case KC_TAB: magic_tap_repeatable(KC_BSPC); break;
                 case KC_W: magic_tap_repeatable(KC_X); break;
+                case KC_X: magic_replace_decode_send_cap_cycle(MAGIC_STRING_E_X_P_L_I_C_I_T, 't', MAGIC_CYCLE_NONE); /* emits "explicit " */ break;
             default:
                             break;
             }
@@ -891,111 +896,113 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
         // Adaptive keys: runs after combo resolution in process_record_user,
         // so combo components are suppressed and prev_keycode reflects the
         // resolved combo keycode (e.g. KC_P not KC_C).
-        uint16_t adaptive_prev_keycode = unshift_letter_keycode(prev_keycode);
-        switch (keycode) {
-            case KC_B:
-                switch (adaptive_prev_keycode) {
-                    case KC_L: return tap_adaptive(KC_B, KC_W);
-                }
-                break;
-            case KC_C:
-                switch (adaptive_prev_keycode) {
-                    case KC_D: return tap_adaptive(KC_C, KC_V);
-                }
-                break;
-            case KC_D:
-                switch (adaptive_prev_keycode) {
-                    case KC_B: return tap_adaptive(KC_D, KC_S);
-                    case KC_C: return tap_adaptive(KC_D, KC_C);
-                    case KC_F: return tap_adaptive(KC_D, KC_F);
-                    case KC_G: return tap_adaptive(KC_D, KC_N);
-                    case KC_P: return tap_adaptive(KC_D, KC_L);
-                    case KC_S: return tap_adaptive(KC_D, KC_P);
-                }
-                break;
-            case KC_E:
-                switch (adaptive_prev_keycode) {
-                    case KC_A: return tap_adaptive(KC_E, KC_U);
-                }
-                break;
-            case KC_F:
-                switch (adaptive_prev_keycode) {
-                    case KC_D: return tap_adaptive(KC_F, KC_D);
-                    case KC_G: return tap_adaptive(KC_F, KC_L);
-                    case KC_T: return tap_adaptive(KC_F, KC_W);
-                }
-                break;
-            case KC_H:
-                switch (adaptive_prev_keycode) {
-                    case KC_B: return tap_adaptive(KC_H, KC_B);
-                    case KC_D: return tap_adaptive(KC_H, KC_G);
-                    case KC_E: return tap_adaptive(KC_H, KC_E);
-                    case KC_F: return tap_adaptive(KC_H, KC_S);
-                    case KC_K: return tap_adaptive(KC_H, KC_N);
-                    case KC_L: return tap_adaptive(KC_H, KC_P);
-                    case KC_M: return tap_adaptive(KC_H, KC_M);
-                    case KC_N: return tap_adaptive(KC_H, KC_N);
-                    case KC_O: return tap_adaptive(KC_H, KC_O);
-                    case KC_U: return tap_adaptive(KC_H, KC_A);
-                    case KC_X: tap_code16(KC_P); return tap_adaptive(KC_H, KC_L);
-                }
-                break;
-            case KC_N:
-                switch (adaptive_prev_keycode) {
-                    case KC_C: return tap_adaptive(KC_N, KC_K);
-                    case KC_P: return tap_adaptive(KC_N, KC_P);
-                    case KC_T: return tap_adaptive(KC_N, KC_T);
-                }
-                break;
-            case KC_P:
-                switch (adaptive_prev_keycode) {
-                    case KC_N: return tap_adaptive(KC_P, KC_K);
-                }
-                break;
-            case KC_R:
-                switch (adaptive_prev_keycode) {
-                    case KC_L: return tap_adaptive(KC_R, KC_L);
-                    case KC_M: tap_code16(KC_P); return tap_adaptive(KC_R, KC_L);
-                    case KC_N: return tap_adaptive(KC_R, KC_G);
-                    case KC_S: return tap_adaptive(KC_R, KC_S);
-                    case KC_X: return tap_adaptive(KC_R, KC_C);
-                    case KC_Y: return tap_adaptive(KC_R, KC_I);
-                }
-                break;
-            case KC_T:
-                switch (adaptive_prev_keycode) {
-                    case KC_G: return tap_adaptive(KC_T, KC_G);
-                    case KC_M: return tap_adaptive(KC_T, KC_B);
-                }
-                break;
-            case KC_U:
-                switch (adaptive_prev_keycode) {
-                    case KC_E: return tap_adaptive(KC_U, KC_O);
-                }
-                break;
-            case KC_V:
-                switch (adaptive_prev_keycode) {
-                    case KC_M: return tap_adaptive(KC_V, KC_T);
-                }
-                break;
-            case KC_W:
-                switch (adaptive_prev_keycode) {
-                    case KC_X: return tap_adaptive(KC_W, KC_P);
-                }
-                break;
-            case KC_X:
-                switch (adaptive_prev_keycode) {
-                    case KC_N: return tap_adaptive(KC_X, KC_L);
-                    case KC_R: return tap_adaptive(KC_X, KC_R);
-                    case KC_W: return tap_adaptive(KC_X, KC_N);
-                }
-                break;
-            case KC_Y:
-                switch (adaptive_prev_keycode) {
-                    case KC_K: return tap_adaptive(KC_Y, KC_T);
-                    case KC_P: return tap_adaptive(KC_Y, KC_S);
-                }
-                break;
+        if (layer != _LMODS && layer != _RMODS) {
+            uint16_t adaptive_prev_keycode = unshift_letter_keycode(prev_keycode);
+            switch (keycode) {
+                case KC_B:
+                    switch (adaptive_prev_keycode) {
+                        case KC_L: return tap_adaptive(KC_B, KC_W);
+                    }
+                    break;
+                case KC_C:
+                    switch (adaptive_prev_keycode) {
+                        case KC_D: return tap_adaptive(KC_C, KC_V);
+                    }
+                    break;
+                case KC_D:
+                    switch (adaptive_prev_keycode) {
+                        case KC_B: return tap_adaptive(KC_D, KC_S);
+                        case KC_C: return tap_adaptive(KC_D, KC_C);
+                        case KC_F: return tap_adaptive(KC_D, KC_F);
+                        case KC_G: return tap_adaptive(KC_D, KC_N);
+                        case KC_P: return tap_adaptive(KC_D, KC_L);
+                        case KC_S: return tap_adaptive(KC_D, KC_P);
+                    }
+                    break;
+                case KC_E:
+                    switch (adaptive_prev_keycode) {
+                        case KC_A: return tap_adaptive(KC_E, KC_U);
+                    }
+                    break;
+                case KC_F:
+                    switch (adaptive_prev_keycode) {
+                        case KC_D: return tap_adaptive(KC_F, KC_D);
+                        case KC_G: return tap_adaptive(KC_F, KC_L);
+                        case KC_T: return tap_adaptive(KC_F, KC_W);
+                    }
+                    break;
+                case KC_H:
+                    switch (adaptive_prev_keycode) {
+                        case KC_B: return tap_adaptive(KC_H, KC_B);
+                        case KC_D: return tap_adaptive(KC_H, KC_G);
+                        case KC_E: return tap_adaptive(KC_H, KC_E);
+                        case KC_F: return tap_adaptive(KC_H, KC_S);
+                        case KC_K: return tap_adaptive(KC_H, KC_N);
+                        case KC_L: return tap_adaptive(KC_H, KC_P);
+                        case KC_M: return tap_adaptive(KC_H, KC_M);
+                        case KC_N: return tap_adaptive(KC_H, KC_N);
+                        case KC_O: return tap_adaptive(KC_H, KC_O);
+                        case KC_U: return tap_adaptive(KC_H, KC_A);
+                        case KC_X: tap_code16(KC_P); return tap_adaptive(KC_H, KC_L);
+                    }
+                    break;
+                case KC_N:
+                    switch (adaptive_prev_keycode) {
+                        case KC_C: return tap_adaptive(KC_N, KC_K);
+                        case KC_P: return tap_adaptive(KC_N, KC_P);
+                        case KC_T: return tap_adaptive(KC_N, KC_T);
+                    }
+                    break;
+                case KC_P:
+                    switch (adaptive_prev_keycode) {
+                        case KC_N: return tap_adaptive(KC_P, KC_K);
+                    }
+                    break;
+                case KC_R:
+                    switch (adaptive_prev_keycode) {
+                        case KC_L: return tap_adaptive(KC_R, KC_L);
+                        case KC_M: tap_code16(KC_P); return tap_adaptive(KC_R, KC_L);
+                        case KC_N: return tap_adaptive(KC_R, KC_G);
+                        case KC_S: return tap_adaptive(KC_R, KC_S);
+                        case KC_X: return tap_adaptive(KC_R, KC_C);
+                        case KC_Y: return tap_adaptive(KC_R, KC_I);
+                    }
+                    break;
+                case KC_T:
+                    switch (adaptive_prev_keycode) {
+                        case KC_G: return tap_adaptive(KC_T, KC_G);
+                        case KC_M: return tap_adaptive(KC_T, KC_B);
+                    }
+                    break;
+                case KC_U:
+                    switch (adaptive_prev_keycode) {
+                        case KC_E: return tap_adaptive(KC_U, KC_O);
+                    }
+                    break;
+                case KC_V:
+                    switch (adaptive_prev_keycode) {
+                        case KC_M: return tap_adaptive(KC_V, KC_T);
+                    }
+                    break;
+                case KC_W:
+                    switch (adaptive_prev_keycode) {
+                        case KC_X: return tap_adaptive(KC_W, KC_P);
+                    }
+                    break;
+                case KC_X:
+                    switch (adaptive_prev_keycode) {
+                        case KC_N: return tap_adaptive(KC_X, KC_L);
+                        case KC_R: return tap_adaptive(KC_X, KC_R);
+                        case KC_W: return tap_adaptive(KC_X, KC_N);
+                    }
+                    break;
+                case KC_Y:
+                    switch (adaptive_prev_keycode) {
+                        case KC_K: return tap_adaptive(KC_Y, KC_T);
+                        case KC_P: return tap_adaptive(KC_Y, KC_S);
+                    }
+                    break;
+            }
         }
     }
     if (record->tap.count) {

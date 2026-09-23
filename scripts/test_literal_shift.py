@@ -10,6 +10,21 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class LiteralShiftTest(unittest.TestCase):
+    def test_backspace_in_ordinary_magic_rows(self):
+        generated = (ROOT / "qmk/generated.c").read_text()
+        magic = generated.split("case MAGIC_J: {", 1)[1].split("case MAGIC_K: {", 1)[0]
+        for preceding in ("KC_TAB", "KC_ENT", "KC_SPC"):
+            with self.subTest(preceding=preceding):
+                self.assertIn(
+                    f"case {preceding}: magic_tap_repeatable(KC_BSPC); break;",
+                    magic,
+                )
+        # Keep the existing suffix behavior separate and unchanged.
+        suffix = generated.split("static bool process_magic_suffix(", 1)[1].split(
+            "static bool is_magic_keycode(", 1
+        )[0]
+        self.assertIn("tap_code16(KC_BSPC); return true;", suffix)
+
     def test_layer_entry_and_regular_shift(self):
         layout = (ROOT / "qmk/layout.h").read_text()
         for shifted, literal, letter in (

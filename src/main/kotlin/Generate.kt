@@ -986,6 +986,12 @@ private fun magicCommand(
     val spec = parseMagicSpec(def, translator, pos)
     val resolvedDef = spec.resolvedDef
     return when {
+        resolvedDef == "[bspc]" -> {
+            // An explicit backspace deletes once, including after a space.
+            // Remember it like other single-key magic outputs so it can repeat.
+            magicTapCommand(QmkKey.of("KC_BSPC"), precedingChar, replaceable = false, forceReplace = spec.forceReplace)
+        }
+
         isBracketToken(resolvedDef) -> {
             val bracketName = resolvedDef.removeSurrounding("[", "]")
             MagicCommand(
