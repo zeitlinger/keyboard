@@ -151,13 +151,13 @@ Currently unused features:
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | LLit  |         |         |         |         |         |         |         |         |
 | LLit  |         |         |         |         |         |         |         |         |
-| LLit  |    z    |         |         |         |   🛑    | S-ctrl  |  S-alt  |   🛑    |
+| LLit  |         |         |         |         |   🛑    | S-ctrl  |  S-alt  |   🛑    |
 | LLit  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| RLit  |         |         |         |         |         |    j    |    q    |         |
+| RLit  |         |         |         |         |         |         |         |         |
 | RLit  |         |         |         |         |         |         |         |         |
 | RLit  |   🛑    |  S-alt  | S-ctrl  |   🛑    |         |         |         |         |
-| RLit  |         |         |         |         |    [    |    ]    |         |         |
+| RLit  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |  dead2  |   f10   |   f9    |  dead2  |  dead3  |    (    |    )    |  dead1  |
 | FnSym |   f4    |   f3    |   f2    |   f1    |   🛑    |   🛑    |   🛑    |    =    |
@@ -553,8 +553,8 @@ The order of the options is also the order of the layers in the layer stack.
 |    Right     | BottomRow+RMods |                 |               |      Base      | Shifted          |
 |    LMods     |                 | BottomRow+LMods |     Base      |                | NoAdaptives      |
 |    RMods     | BottomRow+RMods |                 |               |      Base      | NoAdaptives      |
-|     LLit     |                 |                 |     Base      |                | NoAdaptives      |
-|     RLit     |                 |                 |               |      Base      | NoAdaptives      |
+|     LLit     |                 |                 |     LMods      |                | NoAdaptives      |
+|     RLit     |                 |                 |               |      RMods      | NoAdaptives      |
 |     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |
 |     Vim      |     HomeRow     |                 |               |      Nav       |                  |
 |    FnSym     |                 |     HomeRow     |               |                | DirectComboRight |
