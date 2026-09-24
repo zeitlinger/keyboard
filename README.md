@@ -111,7 +111,7 @@ Currently unused features:
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |  dead3  |    J    |    Q    |         |
 | Right |         |  CS-c   |   C-f   |   C-r   |         |         |         |         |
-| Right |   🛑    |   🛑    |   🛑    |   🛑    |         |         |         |   \_    |
+| Right |   🛑    |   🛑    |   🛑    |  *RLit  |         |         |         |   \_    |
 | Right |         |         |  \*Vim  |   C-n   |    [    |    ]    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Right |         |         |         |         |         |         |         |         |
@@ -136,7 +136,7 @@ Currently unused features:
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |         |         |         |         |  dead1  |         |         |         |
 | Left  |         |         |         |         | \*CNum  | \*Case  | \*Media |         |
-| Left  |    Z    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
+| Left  |    Z    |         |         |         |  *LLit  |   🛑    |   🛑    |   🛑    |
 | Left  |         |         |    :    |         | \*ANum  |  \*Num  |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Left  |  "Qu"   |         |         |         |         |         |         |         |
@@ -148,6 +148,16 @@ Currently unused features:
 | LMods |         |         |         |         |         |         |         |         |
 | LMods |    z    |         |         |         |   🛑    |   🛑    |   🛑    |   🛑    |
 | LMods |         |         |         |         |         |         |         |         |
+|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| LLit  |         |         |         |         |         |         |         |         |
+| LLit  |         |         |         |         |         |         |         |         |
+| LLit  |    z    |         |         |         |   🛑    |  ctrl   |   alt   |   🛑    |
+| LLit  |         |         |         |         |         |         |         |         |
+|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| RLit  |         |         |         |         |         |    j    |    q    |         |
+| RLit  |         |         |         |         |         |         |         |         |
+| RLit  |   🛑    |   alt   |  ctrl   |   🛑    |         |         |         |         |
+| RLit  |         |         |         |         |    [    |    ]    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |  dead2  |   f10   |   f9    |  dead2  |  dead3  |    (    |    )    |  dead1  |
 | FnSym |   f4    |   f3    |   f2    |   f1    |   🛑    |   🛑    |   🛑    |    =    |
@@ -300,14 +310,16 @@ On all other layers, the modifiers are as shown in the table below.
 Hold a pinky Shift layer key, then the index Shift on the same hand, to type
 literal lowercase with the opposite hand. For example, `t` produces `T` with
 the pinky alone and `t` with the additional index key held. Adaptives are disabled
-on the modifier layers (`LMods`/`RMods`), including letter combos, so `sd` stays
+on `LMods`/`RMods` and the literal layers, including letter combos, so `sd` stays
 `sd` and you can type `sdk` literally. Releasing the index key restores the
 shifted layer while the pinky remains held.
 
-The index key enters the unshifted modifier layer without adding a Shift modifier;
-its punctuation is therefore unshifted too. For Ctrl/Alt+Shift shortcuts, hold
-Ctrl/Alt before the index Shift. Ordinary Shift remains available on those
-modifier layers. Magic mappings are unchanged.
+The index key enters a dedicated literal layer, leaving `LMods`/`RMods` available
+for ordinary shortcuts. On a literal layer, holding Ctrl or Alt adds a separate
+right Shift until the last such modifier is released, so `Ctrl+e` and `Alt+e`
+are shifted shortcuts while plain `e` remains lowercase. These layer-specific
+Ctrl/Alt keys do not change modifier behavior on the shared `LMods`/`RMods`
+layers. Magic mappings are unchanged.
 
 ## Window and Tab switching
 
@@ -478,6 +490,8 @@ Exact-match symbol tokens such as `#g`, `#G`, and `#GL` must be declared here.
 | del     | KC_DEL                        |
 | spc     | KC_SPC                        |
 | esc     | KC_ESC                        |
+| ctrl    | KC_LCTL                       |
+| alt     | KC_LALT                       |
 | ↩️️      | KC_ENT                        |
 | enter   | KC_ENT                        |
 | bspc    | KC_BSPC                       |
@@ -538,6 +552,8 @@ The order of the options is also the order of the layers in the layer stack.
 |    Right     | BottomRow+RMods |                 |               |      Base      | Shifted          |
 |    LMods     |                 | BottomRow+LMods |     Base      |                | NoAdaptives      |
 |    RMods     | BottomRow+RMods |                 |               |      Base      | NoAdaptives      |
+|     LLit     |                 |                 |     Base      |                | NoAdaptives      |
+|     RLit     |                 |                 |               |      Base      | NoAdaptives      |
 |     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |
 |     Vim      |     HomeRow     |                 |               |      Nav       |                  |
 |    FnSym     |                 |     HomeRow     |               |                | DirectComboRight |

@@ -15,14 +15,16 @@
 #define _RIGHT 2
 #define _LMODS 3
 #define _RMODS 4
-#define _NAV 5
-#define _VIM 6
-#define _FNSYM 7
-#define _NUM 8
-#define _ANUM 9
-#define _CNUM 10
-#define _MEDIA 11
-#define _CASE 12
+#define _LLIT 5
+#define _RLIT 6
+#define _NAV 7
+#define _VIM 8
+#define _FNSYM 9
+#define _NUM 10
+#define _ANUM 11
+#define _CNUM 12
+#define _MEDIA 13
+#define _CASE 14
 
 enum custom_keycodes {
 	MAGIC_A = SAFE_RANGE,
@@ -51,11 +53,11 @@ enum custom_keycodes {
     DEAD1,
     DEAD2,
     DEAD3,
-    _LMODS_S,
     _LMODS_C,
     _LMODS_A,
     _RMODS_A,
     _RMODS_C,
+    _LMODS_S,
     _RMODS_S
 };
 
@@ -85,11 +87,11 @@ enum custom_keycodes {
 #define _HANDLER_DEAD1 DEAD1
 #define _HANDLER_DEAD2 DEAD2
 #define _HANDLER_DEAD3 DEAD3
-#define _HANDLER__LMODS_S _LMODS_S
 #define _HANDLER__LMODS_C _LMODS_C
 #define _HANDLER__LMODS_A _LMODS_A
 #define _HANDLER__RMODS_A _RMODS_A
 #define _HANDLER__RMODS_C _RMODS_C
+#define _HANDLER__LMODS_S _LMODS_S
 #define _HANDLER__RMODS_S _RMODS_S
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -101,12 +103,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_LEFT] = LAYOUT_split_3x5_2(
                        S(KC_ESC),              S(KC_X),              S(KC_W),             S(DEAD3), KC_NO, KC_NO,                DEAD1,                KC_NO,                KC_NO,                KC_NO,
                          S(KC_S),              S(KC_C),              S(KC_N),              S(KC_T), KC_NO, KC_NO,            MO(_CNUM),            MO(_CASE),           MO(_MEDIA),                KC_NO,
-                         S(KC_Z),              S(KC_F),              S(KC_L),              S(KC_D), KC_NO, KC_NO,           MO(_LMODS), LM(_LMODS, MOD_LCTL), LM(_LMODS, MOD_LALT),                KC_NO,
+                         S(KC_Z),              S(KC_F),              S(KC_L),              S(KC_D), KC_NO, KC_NO,            MO(_LLIT), LM(_LMODS, MOD_LCTL), LM(_LMODS, MOD_LALT),                KC_NO,
                                          KC_COLN,              S(KC_R),            MO(_ANUM),             MO(_NUM)),
 	[_RIGHT] = LAYOUT_split_3x5_2(
                            KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                DEAD3,              S(KC_J),              S(KC_Q),             S(DEAD1),
                            KC_NO,            RCS(KC_C),              C(KC_F),              C(KC_R), KC_NO, KC_NO,              S(KC_A),              S(KC_E),              S(KC_I),              S(KC_H),
-                           KC_NO, LM(_RMODS, MOD_LALT), LM(_RMODS, MOD_LCTL),           MO(_RMODS), KC_NO, KC_NO,              S(KC_U),              S(KC_O),              S(KC_Y),              KC_UNDS,
+                           KC_NO, LM(_RMODS, MOD_LALT), LM(_RMODS, MOD_LCTL),            MO(_RLIT), KC_NO, KC_NO,              S(KC_U),              S(KC_O),              S(KC_Y),              KC_UNDS,
                                         MO(_VIM),              C(KC_N),      KC_LEFT_BRACKET,     KC_RIGHT_BRACKET),
 	[_LMODS] = LAYOUT_split_3x5_2(
                           KC_ESC,                 KC_X,                 KC_W,                DEAD3, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
@@ -117,6 +119,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                            KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                DEAD2,                 KC_J,                 KC_Q,                DEAD1,
                            KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                 KC_A,                 KC_E,                 KC_I,                 KC_H,
                            KC_NO, LM(_RMODS, MOD_LALT), LM(_RMODS, MOD_LCTL), LM(_RMODS, MOD_LSFT), KC_NO, KC_NO,                 KC_U,                 KC_O,                 KC_Y,                KC_NO,
+                                           KC_NO,                KC_NO,      KC_LEFT_BRACKET,     KC_RIGHT_BRACKET),
+	[_LLIT] = LAYOUT_split_3x5_2(
+                          KC_ESC,                 KC_X,                 KC_W,                DEAD3, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+                            KC_S,                 KC_C,                 KC_N,                 KC_T, KC_NO, KC_NO,                KC_NO,                KC_NO,                KC_NO,                KC_NO,
+                            KC_Z,                 KC_F,                 KC_L,                 KC_D, KC_NO, KC_NO,                KC_NO,              KC_LCTL,              KC_LALT,                KC_NO,
+                                           KC_NO,                 KC_R,                KC_NO,                KC_NO),
+	[_RLIT] = LAYOUT_split_3x5_2(
+                           KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                DEAD2,                 KC_J,                 KC_Q,                DEAD1,
+                           KC_NO,                KC_NO,                KC_NO,                KC_NO, KC_NO, KC_NO,                 KC_A,                 KC_E,                 KC_I,                 KC_H,
+                           KC_NO,              KC_LALT,              KC_LCTL,                KC_NO, KC_NO, KC_NO,                 KC_U,                 KC_O,                 KC_Y,                KC_NO,
                                            KC_NO,                KC_NO,      KC_LEFT_BRACKET,     KC_RIGHT_BRACKET),
 	[_NAV] = LAYOUT_split_3x5_2(
                            DEAD3,              C(KC_X),              C(KC_V),            RCS(KC_Z), KC_NO, KC_NO,                DEAD1,               KC_ESC,               KC_INS,                DEAD2,

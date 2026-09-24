@@ -896,7 +896,7 @@ bool process_record_generated(uint16_t keycode, keyrecord_t *record) {
         // Adaptive keys: runs after combo resolution in process_record_user,
         // so combo components are suppressed and prev_keycode reflects the
         // resolved combo keycode (e.g. KC_P not KC_C).
-        if (layer != _LMODS && layer != _RMODS) {
+        if (layer != _LMODS && layer != _RMODS && layer != _LLIT && layer != _RLIT) {
             uint16_t adaptive_prev_keycode = unshift_letter_keycode(prev_keycode);
             switch (keycode) {
                 case KC_B:

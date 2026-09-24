@@ -426,15 +426,15 @@ bool get_combo_must_press_in_order(uint16_t combo_index, combo_t *combo) {
 
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
     uint8_t active_layer = combo_active_layer();
-    if (combo_index == 0) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS;
-    if (combo_index >= 1 && combo_index <= 4) return active_layer == _BASE || active_layer == _LEFT || active_layer == _LMODS || active_layer == _RMODS;
-    if (combo_index == 6) return active_layer == _BASE || active_layer == _LEFT || active_layer == _LMODS || active_layer == _RMODS;
-    if (combo_index >= 7 && combo_index <= 8) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS;
+    if (combo_index == 0) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LLIT || active_layer == _RLIT;
+    if (combo_index >= 1 && combo_index <= 4) return active_layer == _BASE || active_layer == _LEFT || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LLIT || active_layer == _RLIT;
+    if (combo_index == 6) return active_layer == _BASE || active_layer == _LEFT || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LLIT || active_layer == _RLIT;
+    if (combo_index >= 7 && combo_index <= 8) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LLIT || active_layer == _RLIT;
     if (combo_index == 9) return active_layer == _BASE || active_layer == _RIGHT || combo_shift_active();
-    if (combo_index == 10) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS;
-    if (combo_index == 11) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
-    if (combo_index >= 12 && combo_index <= 14) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS;
-    if (combo_index == 15) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
+    if (combo_index == 10) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LLIT || active_layer == _RLIT;
+    if (combo_index == 11) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LLIT || active_layer == _RLIT || active_layer == _RIGHT;
+    if (combo_index >= 12 && combo_index <= 14) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LLIT || active_layer == _RLIT;
+    if (combo_index == 15) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LLIT || active_layer == _RLIT || active_layer == _LEFT;
     if (combo_index >= 16 && combo_index <= 29) return active_layer == _FNSYM;
     if (combo_index == 30) return active_layer == _LEFT;
     if (combo_index >= 31 && combo_index <= 44) return active_layer == _NAV;
@@ -442,17 +442,17 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     if (combo_index >= 52 && combo_index <= 57) return active_layer == _RIGHT;
     if (combo_index == 58) return active_layer == _LEFT;
     if (combo_index >= 59 && combo_index <= 62) return active_layer == _MEDIA;
-    if (combo_index >= 63 && combo_index <= 67) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
-    if (combo_index >= 68 && combo_index <= 69) return active_layer == _BASE || active_layer == _LEFT || active_layer == _LMODS || active_layer == _RMODS;
-    if (combo_index >= 70 && combo_index <= 71) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
-    if (combo_index == 72) return active_layer == _BASE || active_layer == _LEFT || active_layer == _LMODS || active_layer == _RMODS;
-    if (combo_index >= 73 && combo_index <= 76) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
+    if (combo_index >= 63 && combo_index <= 67) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LLIT || active_layer == _RLIT || active_layer == _LEFT;
+    if (combo_index >= 68 && combo_index <= 69) return active_layer == _BASE || active_layer == _LEFT || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LLIT || active_layer == _RLIT;
+    if (combo_index >= 70 && combo_index <= 71) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LLIT || active_layer == _RLIT || active_layer == _LEFT;
+    if (combo_index == 72) return active_layer == _BASE || active_layer == _LEFT || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LLIT || active_layer == _RLIT;
+    if (combo_index >= 73 && combo_index <= 76) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LLIT || active_layer == _RLIT || active_layer == _RIGHT;
     if (combo_index >= 77 && combo_index <= 82) return active_layer == _FNSYM;
     if (combo_index >= 83 && combo_index <= 94) return active_layer == _NAV;
-    if (combo_index == 95) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
-    if (combo_index >= 96 && combo_index <= 97) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
-    if (combo_index >= 98 && combo_index <= 99) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LEFT;
-    if (combo_index >= 100 && combo_index <= 105) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _RIGHT;
+    if (combo_index == 95) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LLIT || active_layer == _RLIT || active_layer == _LEFT;
+    if (combo_index >= 96 && combo_index <= 97) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LLIT || active_layer == _RLIT || active_layer == _RIGHT;
+    if (combo_index >= 98 && combo_index <= 99) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LLIT || active_layer == _RLIT || active_layer == _LEFT;
+    if (combo_index >= 100 && combo_index <= 105) return active_layer == _BASE || active_layer == _LMODS || active_layer == _RMODS || active_layer == _LLIT || active_layer == _RLIT || active_layer == _RIGHT;
     return true;
 }
 

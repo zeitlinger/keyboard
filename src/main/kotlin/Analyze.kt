@@ -50,6 +50,8 @@ val expectedNonPrintable =
         "KC_ESC",
         "KC_BSPC",
         "KC_SPC",
+        "KC_LCTL",
+        "KC_LALT",
         // Media / brightness keys
         "KC_MPLY",
         "KC_MNXT",
