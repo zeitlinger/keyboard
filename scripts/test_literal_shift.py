@@ -72,10 +72,7 @@ class LiteralShiftTest(unittest.TestCase):
                     shared = "LMODS" if shifted == "LEFT" else "RMODS"
                     self.assertIn(f"LM(_{shared}, {mod})", shifted_keys)
 
-                # The literal layer has ordinary Ctrl/Alt keycodes; keymap.c
-                # supplies a separately owned Shift while either is held.
-                self.assertIn("KC_LCTL", literal_keys)
-                self.assertIn("KC_LALT", literal_keys)
+                # Literal Ctrl/Alt are encoded directly as shifted modifiers.
                 self.assertNotIn("LM(_", literal_keys)
 
         left_shifted = self.layer_keys(layout, "LEFT")
@@ -105,7 +102,7 @@ class LiteralShiftTest(unittest.TestCase):
             [key for i, key in enumerate(left_shared) if i not in left_mod_cells],
             [key for i, key in enumerate(left_literal) if i not in left_mod_cells],
         )
-        self.assertEqual(left_literal[26:29], ["KC_NO", "KC_LCTL", "KC_LALT"])
+        self.assertEqual(left_literal[26:29], ["KC_NO", "S(KC_LCTL)", "S(KC_LALT)"])
         self.assertEqual(left_literal[13], "KC_T")
 
         right_shared = self.layer_keys(layout, "RMODS")
@@ -116,13 +113,13 @@ class LiteralShiftTest(unittest.TestCase):
             [key for i, key in enumerate(right_shared) if i not in right_mod_cells],
             [key for i, key in enumerate(right_literal) if i not in right_mod_cells],
         )
-        self.assertEqual(right_literal[21:24], ["KC_LALT", "KC_LCTL", "KC_NO"])
+        self.assertEqual(right_literal[21:24], ["S(KC_LALT)", "S(KC_LCTL)", "KC_NO"])
         self.assertEqual(right_literal[17], "KC_E")
 
         keymap_c = (ROOT / "qmk/keymap.c").read_text()
-        self.assertIn("literal_modifier_count", keymap_c)
-        self.assertIn("literal_modifier_mask[row][col]", keymap_c)
-        self.assertIn("restore_literal_modifiers_after_clear();", keymap_c)
+        self.assertNotIn("update_literal_shift", keymap_c)
+        self.assertNotIn("is_literal_layer", keymap_c)
+        self.assertNotIn("post_process_record_user", keymap_c)
 
     def test_letter_combos_use_the_adaptive_guard(self):
         combos = (ROOT / "qmk/combos.c").read_text()
@@ -215,138 +212,6 @@ int main(void) {
         with tempfile.TemporaryDirectory() as directory:
             source = Path(directory) / "literal_shift.c"
             binary = Path(directory) / "literal_shift"
-            source.write_text(harness)
-            subprocess.run(
-                [
-                    "cc",
-                    "-std=c99",
-                    "-Wall",
-                    "-Wextra",
-                    "-Werror",
-                    str(source),
-                    "-o",
-                    str(binary),
-                ],
-                check=True,
-            )
-            subprocess.run([str(binary)], check=True)
-
-    def test_literal_modifier_lifetime(self):
-        keymap = (ROOT / "qmk/keymap.c").read_text()
-        helper = (
-            "static uint8_t literal_modifier_mask"
-            + keymap.split("static uint8_t literal_modifier_mask", 1)[1].split(
-                "// Suffix state machine", 1
-            )[0]
-        )
-        harness = (
-            r"""
-#include <assert.h>
-#include <stdbool.h>
-#include <stdint.h>
-#define MATRIX_ROWS 8
-#define MATRIX_COLS 8
-enum { KC_LCTL = 1, KC_LALT = 2, KC_RSFT = 3, KC_LSFT = 4 };
-enum { _BASE = 0, _LLIT = 6, _RLIT = 7, _LMODS = 8 };
-#define MOD_BIT(kc) ((uint8_t)(1u << (kc)))
-typedef struct { uint8_t row, col; } keypos_t;
-typedef struct { bool pressed; keypos_t key; } event_t;
-typedef struct { event_t event; } keyrecord_t;
-static uint8_t layer_state = _BASE, default_layer_state = 0, mods = 0;
-static uint8_t get_highest_layer(uint8_t state) { return state; }
-static uint8_t get_mods(void) { return mods; }
-static void register_code(uint16_t keycode) { mods |= MOD_BIT(keycode); }
-static void unregister_code(uint16_t keycode) { mods &= (uint8_t)~MOD_BIT(keycode); }
-static void register_mods(uint8_t mask) { mods |= mask; }
-"""
-            + "\n"
-            + helper
-            + r"""
-static keyrecord_t event(bool pressed, uint8_t row, uint8_t col) {
-    keyrecord_t record = {.event = {.pressed = pressed, .key = {row, col}}};
-    return record;
-}
-static void press(uint16_t keycode, uint8_t row, uint8_t col) {
-    keyrecord_t record = event(true, row, col);
-    update_literal_shift(keycode, &record);
-    mods |= MOD_BIT(keycode); // QMK's normal modifier-key handling.
-}
-static void release(uint16_t keycode, uint8_t row, uint8_t col) {
-    keyrecord_t record = event(false, row, col);
-    update_literal_shift(keycode, &record);
-    mods &= (uint8_t)~MOD_BIT(keycode);
-}
-int main(void) {
-    layer_state = _LLIT;
-    press(KC_LALT, 2, 6);
-    assert((mods & (MOD_BIT(KC_LALT) | MOD_BIT(KC_RSFT))) ==
-           (MOD_BIT(KC_LALT) | MOD_BIT(KC_RSFT)));
-    press(KC_LCTL, 2, 5);
-    release(KC_LALT, 2, 6);
-    assert((mods & MOD_BIT(KC_RSFT)) && (mods & MOD_BIT(KC_LCTL)));
-    mods = 0; // layer_state_set_user's clear_mods() on a return to Base.
-    layer_state = _BASE;
-    restore_literal_modifiers_after_clear();
-    assert((mods & (MOD_BIT(KC_RSFT) | MOD_BIT(KC_LCTL))) ==
-           (MOD_BIT(KC_RSFT) | MOD_BIT(KC_LCTL)));
-    release(KC_LCTL, 2, 5); // Release after the literal layer is gone.
-    assert(mods == 0);
-
-    // A pre-existing real right Shift is preserved while the literal helper
-    // is held; if clear_mods() removes it, the helper owns its restored copy.
-    layer_state = _LLIT;
-    mods = MOD_BIT(KC_RSFT);
-    press(KC_LALT, 2, 6);
-    release(KC_LALT, 2, 6);
-    assert(mods == MOD_BIT(KC_RSFT));
-    press(KC_LALT, 2, 6);
-    mods = 0;
-    layer_state = _BASE;
-    restore_literal_modifiers_after_clear();
-    release(KC_LALT, 2, 6);
-    assert(mods == 0);
-
-    // A physical left Shift remains independent from the helper's right Shift.
-    layer_state = _LLIT;
-    mods = MOD_BIT(KC_LSFT);
-    press(KC_LCTL, 2, 5);
-    assert((mods & MOD_BIT(KC_LSFT)) && (mods & MOD_BIT(KC_RSFT)));
-    release(KC_LCTL, 2, 5);
-    assert(mods == MOD_BIT(KC_LSFT));
-
-    // Ctrl and Alt overlap across both literal hands; either release order
-    // keeps Shift until the final modifier key is released.
-    layer_state = _LLIT;
-    mods = 0;
-    press(KC_LALT, 2, 6);
-    layer_state = _RLIT;
-    press(KC_LCTL, 2, 2);
-    release(KC_LCTL, 2, 2);
-    assert(mods & MOD_BIT(KC_RSFT));
-    release(KC_LALT, 2, 6);
-    assert(!(mods & MOD_BIT(KC_RSFT)));
-
-    layer_state = _LLIT;
-    mods = 0;
-    press(KC_LALT, 2, 6);
-    press(KC_LCTL, 2, 5);
-    release(KC_LALT, 2, 6);
-    assert((mods & MOD_BIT(KC_RSFT)) && (mods & MOD_BIT(KC_LCTL)));
-    release(KC_LCTL, 2, 5);
-    assert(!(mods & MOD_BIT(KC_RSFT)));
-
-    // Ordinary shared modifier layers do not acquire the helper Shift.
-    layer_state = _LMODS;
-    mods = 0;
-    press(KC_LALT, 2, 6);
-    assert(!(mods & MOD_BIT(KC_RSFT)));
-    return 0;
-}
-"""
-        )
-        with tempfile.TemporaryDirectory() as directory:
-            source = Path(directory) / "literal_modifiers.c"
-            binary = Path(directory) / "literal_modifiers"
             source.write_text(harness)
             subprocess.run(
                 [

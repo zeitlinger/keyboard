@@ -33,59 +33,6 @@ const uint32_t PROGMEM unicode_map[] = {
 #include "casemodes.h"
 #include "combos.c"
 
-// Literal layers add a temporary right Shift while their Ctrl/Alt keys are
-// held. Keeping that Shift on the right side leaves the layout's left-side
-// Shift key and ordinary LMods/RMods modifier behavior untouched.
-static uint8_t literal_modifier_mask[MATRIX_ROWS][MATRIX_COLS];
-static uint8_t literal_modifier_count = 0;
-static bool literal_shift_was_held = false;
-
-static bool is_literal_layer(void) {
-    uint8_t active_layer = get_highest_layer(layer_state | default_layer_state);
-    return active_layer == _LLIT || active_layer == _RLIT;
-}
-
-static void update_literal_shift(uint16_t keycode, keyrecord_t *record) {
-    uint8_t row = record->event.key.row;
-    uint8_t col = record->event.key.col;
-    if (row >= MATRIX_ROWS || col >= MATRIX_COLS) return;
-
-    if (record->event.pressed && is_literal_layer() &&
-        (keycode == KC_LCTL || keycode == KC_LALT)) {
-        if (literal_modifier_mask[row][col] == 0) {
-            if (literal_modifier_count == 0) {
-                literal_shift_was_held = (get_mods() & MOD_BIT(KC_RSFT)) != 0;
-                if (!literal_shift_was_held) register_code(KC_RSFT);
-            }
-            literal_modifier_mask[row][col] = MOD_BIT(keycode == KC_LCTL ? KC_LCTL : KC_LALT);
-            literal_modifier_count++;
-        }
-    } else if (!record->event.pressed && literal_modifier_mask[row][col] != 0) {
-        literal_modifier_mask[row][col] = 0;
-        literal_modifier_count--;
-        if (literal_modifier_count == 0) {
-            if (!literal_shift_was_held) unregister_code(KC_RSFT);
-            literal_shift_was_held = false;
-        }
-    }
-}
-
-static void restore_literal_modifiers_after_clear(void) {
-    if (literal_modifier_count == 0) return;
-    uint8_t mods = MOD_BIT(KC_RSFT);
-    for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
-        for (uint8_t col = 0; col < MATRIX_COLS; col++) {
-            if (literal_modifier_mask[row][col] != 0) {
-                mods |= literal_modifier_mask[row][col];
-            }
-        }
-    }
-    register_mods(mods);
-    // clear_mods() erased every old Shift source. From here, the helper owns
-    // the re-applied right Shift and must release it on the final key-up.
-    literal_shift_was_held = false;
-}
-
 // Suffix state machine: set when a word-magic fires. Next magic press is
 // interpreted as a suffix chain (ed/ly/s/n't/ing) or exit (./,).
 static bool suffix_active = false;
@@ -407,8 +354,6 @@ bool process_switcher(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    update_literal_shift(keycode, record);
-
 #ifdef USE_CUSTOM_COMBO_POC
     if (!process_custom_combo_poc(keycode, record)) {
         return false;
@@ -513,10 +458,6 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     case _BASE:
         is_one_shot_mouse_active = false;
         clear_mods();
-        // Returning to Base clears transient QMK modifiers. Reapply any
-        // literal Ctrl/Alt keys still physically held so the action remains
-        // stable until the corresponding release event arrives.
-        restore_literal_modifiers_after_clear();
         break;
     }
     if (is_window_switcher_active) {

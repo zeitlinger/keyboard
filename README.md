@@ -151,12 +151,12 @@ Currently unused features:
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | LLit  |         |         |         |         |         |         |         |         |
 | LLit  |         |         |         |         |         |         |         |         |
-| LLit  |    z    |         |         |         |   🛑    |  ctrl   |   alt   |   🛑    |
+| LLit  |    z    |         |         |         |   🛑    | S-ctrl  |  S-alt  |   🛑    |
 | LLit  |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | RLit  |         |         |         |         |         |    j    |    q    |         |
 | RLit  |         |         |         |         |         |         |         |         |
-| RLit  |   🛑    |   alt   |  ctrl   |   🛑    |         |         |         |         |
+| RLit  |   🛑    |  S-alt  | S-ctrl  |   🛑    |         |         |         |         |
 | RLit  |         |         |         |         |    [    |    ]    |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | FnSym |  dead2  |   f10   |   f9    |  dead2  |  dead3  |    (    |    )    |  dead1  |
@@ -315,11 +315,12 @@ on `LMods`/`RMods` and the literal layers, including letter combos, so `sd` stay
 shifted layer while the pinky remains held.
 
 The index key enters a dedicated literal layer, leaving `LMods`/`RMods` available
-for ordinary shortcuts. On a literal layer, holding Ctrl or Alt adds a separate
-right Shift until the last such modifier is released, so `Ctrl+e` and `Alt+e`
-are shifted shortcuts while plain `e` remains lowercase. These layer-specific
-Ctrl/Alt keys do not change modifier behavior on the shared `LMods`/`RMods`
-layers. Magic mappings are unchanged.
+for ordinary shortcuts. On a literal layer, Ctrl and Alt are mapped directly as
+Shift+Ctrl and Shift+Alt, so `Ctrl+e`, `Alt+e`, and `Ctrl+Alt+e` are shifted
+shortcuts while plain `e` remains lowercase. If both are held and one is
+released first, Shift may be cleared while the other remains held; that overlap
+behavior is acceptable. These layer-specific mappings do not change modifier
+behavior on shared `LMods`/`RMods`. Magic mappings are unchanged.
 
 ## Window and Tab switching
 
