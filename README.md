@@ -553,8 +553,8 @@ The order of the options is also the order of the layers in the layer stack.
 |    Right     | BottomRow+RMods |                 |               |      Base      | Shifted          |
 |    LMods     |                 | BottomRow+LMods |     Base      |                | NoAdaptives      |
 |    RMods     | BottomRow+RMods |                 |               |      Base      | NoAdaptives      |
-|     LLit     |                 |                 |     LMods      |                | NoAdaptives      |
-|     RLit     |                 |                 |               |      RMods      | NoAdaptives      |
+|     LLit     |                 |                 |     LMods     |                | NoAdaptives      |
+|     RLit     |                 |                 |               |     RMods      | NoAdaptives      |
 |     Nav      |     HomeRow     |                 |               |                | DirectComboLeft  |
 |     Vim      |     HomeRow     |                 |               |      Nav       |                  |
 |    FnSym     |                 |     HomeRow     |               |                | DirectComboRight |
