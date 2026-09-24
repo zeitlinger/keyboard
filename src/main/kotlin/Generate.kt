@@ -250,15 +250,7 @@ fun run(args: GeneratorArgs) {
                 baseLayer,
                 translator.symbols.customKeycodes.keys
                     .toSet(),
-                layers
-                    .filter {
-                        it.name != BASE_LAYER_NAME &&
-                            LayerFlag.Shifted !in it.option.flags &&
-                            (
-                                it.option.leftFallbackLayer == BASE_LAYER_NAME ||
-                                    it.option.rightFallbackLayer == BASE_LAYER_NAME
-                            )
-                    }.map { it.name },
+                emptyList(),
             ),
         ),
     )
