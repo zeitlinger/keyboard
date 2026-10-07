@@ -644,7 +644,7 @@ private fun emitCombosC(
                 combo.type == ComboType.Combo &&
                 isLetter(combo.result)
         if (isLetterBase) {
-            return (listOf("_BASE", "_LEFT", "_LMODS") + baseComboLayers.map { "_${it.uppercase()}" })
+            return (listOf("_BASE", "_LEFT", "_LMODS", "_LLIT") + baseComboLayers.map { "_${it.uppercase()}" })
                 .distinct()
                 .joinToString(" || ") { "active_layer == $it" }
         }
