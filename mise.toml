@@ -1,6 +1,6 @@
 [tools]
 "aqua:linebender/resvg" = "0.47.0"
-java = "26"
+java = "lts"
 jq = "latest"
 maven = "latest"
 "pipx:keymap-drawer" = "0.23.0"
@@ -18,6 +18,7 @@ lychee = "0.24.2"
 ruff = "0.15.17"
 rumdl = "0.2.14"
 taplo = "0.10.0"
+"pipx:qmk" = "latest"
 
 [tasks.compile]
 description = "Compile Kotlin"

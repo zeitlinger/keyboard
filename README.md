@@ -279,14 +279,19 @@ Currently unused features:
 | Media |         |         |         |   @gl   |         |         |         |         |
 | Media |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Media |         |         | "LGTM"  |         |         |         |         |         |
+| Media |         |         |  zeit   |         |         |         |         |         |
 | Media |         |         |   💎    |         |         |         |         |         |
 | Media |         |         | @gmail  |         |         |         |         |         |
 | Media |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Media |         |         |         |         |         |         |         |         |
+| Media |         | gregor  |         |         |         |         |         |         |
 | Media |         |   💎    |         |         |         |         |         |         |
 | Media |         |  @zeit  |         |         |         |         |         |         |
+| Media |         |         |         |         |         |         |         |         |
+|       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| Media |         |         |         |         |         |         |         |         |
+| Media |   💎    |         |         |         |         |         |         |         |
+| Media | "LGTM"  |         |         |         |         |         |         |         |
 | Media |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | Case  |         |         |         |         |         |         |         |         |
@@ -385,12 +390,12 @@ Cell = what to emit.
 |   v    | validate  | everything |          |   improve   |    version    |            |         |   worse    |   resolve   |          |         |
 |   w    |  always   |   wasn't   |          |    knew     |   otherwise   |   switch   |         |    why     |      s      |    x     |         |
 |   x    |     r     |     h      |          |   except    |    explain    |  exclude   |         |    exit    |      w      | explicit |         |
-|   a    |           |            |          |             |               |            |         |            |             |          |         |
-|   e    |           |            |          |             |               |            |         |            |             |          |         |
+|   a    |           |            |    a     |             |               |            |         |            |             |          |         |
+|   e    |           |            |    h     |             |               |            |         |            |             |          |         |
 |   i    |           |            |          |             |               |            |         |            |             |          |         |
-|   h    |           |            |          |             |               |            |         |            |             |          |         |
-|   u    |           |            |          |             |               |            |         |            |             |          |         |
-|   o    |           |            |          |             |               |            |         |            |             |          |         |
+|   h    |           |            |    y     |             |               |            |         |            |             |          |         |
+|   u    |           |            |   "eu"   |             |               |            |         |            |             |          |         |
+|   o    |           |            |    h     |             |               |            |         |            |             |          |         |
 |   y    |           |            |          |             |               |            |         |            |             |          |         |
 |  tab   |           |            |          |             |               |            |         |    and     |     the     |  [bspc]  |         |
 | enter  |           |            |          |             |               |            |         |    and     |     the     |  [bspc]  |         |
@@ -541,6 +546,7 @@ Exact-match symbol tokens such as `#g`, `#G`, and `#GL` must be declared here.
 | @gmail  | zeitlinger@gmail.com          |
 | @gl     | gregor.zeitlinger@grafana.com |
 | @zeit   | gregor@zeitlinger.de          |
+| zeit    | zeitlinger                    |
 
 ## Options
 
