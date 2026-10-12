@@ -284,7 +284,7 @@ Currently unused features:
 | Media |         |         | @gmail  |         |         |         |         |         |
 | Media |         |         |         |         |         |         |         |         |
 |       | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| Media |         | gregor  |         |         |         |         |         |         |
+| Media |         |"gregor" |         |         |         |         |         |         |
 | Media |         |   💎    |         |         |         |         |         |         |
 | Media |         |  @zeit  |         |         |         |         |         |         |
 | Media |         |         |         |         |         |         |         |         |
