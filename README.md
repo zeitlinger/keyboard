@@ -384,7 +384,7 @@ Cell = what to emit.
 |   l    |     r     |     h      |          |  language   |    already    |     b      |         |     n      |      m      |    c     |         |
 |   m    |     r     |     h      |          |  implement  |   multiple    |     v      |         | instrument |   "ment"    |    l     |         |
 |   n    |     r     |     h      |          |    only     |   anything    |     p      |         | understand |    won't    |    x     |         |
-|   p    |     y     |   "ppl"    |          |    apply    |    example    |            |         |     n      |    "ppy"    |    d     |         |
+|   p    |           |            |  "ppl"   |    apply    |    example    |            |         |     n      |             |    d     |         |
 |   s    |     r     |   should   |          |  something  |    support    |  similar   |         |  separate  |   "sion"    |    d     |         |
 |   t    |     f     |   though   |          |    just     |    through    |     z      |         |     n      |   "tion"    | thought  |         |
 |   v    | validate  | everything |          |   improve   |    version    |            |         |   worse    |   resolve   |          |         |
@@ -438,8 +438,8 @@ Cell = what to emit.
 |     o     |   h   |   o    |
 |     p     |   d   |   l    |
 |     p     |   n   |   p    |
-|     p     |   y   |   s    |
-|     r     |   x   |   r    |
+|     r     |   f   |   r    |
+|     r     |   x   |   f    |
 |     s     |   d   |   p    |
 |     s     |   r   |   s    |
 |     t     |   f   |   w    |
@@ -449,6 +449,7 @@ Cell = what to emit.
 |     x     |   h   |   pl   |
 |     x     |   r   |   c    |
 |     x     |   w   |   p    |
+|     x     |   y   |   cl  |
 |     y     |   r   |   i    |
 
 ## Cycle

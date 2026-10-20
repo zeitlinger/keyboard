@@ -470,9 +470,9 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     case SUB_13:
         magic_decode_send(329); clear_last_keycode(); break; // "gregor.zeitlinger@grafana.com"
     case SUB_14:
-        magic_decode_send(832); clear_last_keycode(); break; // "zeitlinger"
+        magic_decode_send(826); clear_last_keycode(); break; // "zeitlinger"
     case SUB_15:
-        magic_decode_send(839); clear_last_keycode(); break; // "zeitlinger@gmail.com"
+        magic_decode_send(833); clear_last_keycode(); break; // "zeitlinger@gmail.com"
     case SUB_16:
         magic_decode_send(325); clear_last_keycode(); break; // "gregor"
     case SUB_17:
@@ -480,13 +480,13 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     case SUB_18:
         magic_decode_send(37); clear_last_keycode(); break; // "LGTM"
     case SUB_1:
-        magic_decode_send(811); clear_last_keycode(); break; // "wl"
+        magic_decode_send(805); clear_last_keycode(); break; // "wl"
     case SUB_10:
-        magic_decode_send(829); clear_last_keycode(); break; // "yr"
+        magic_decode_send(823); clear_last_keycode(); break; // "yr"
     case SUB_11:
-        magic_decode_send(642); clear_last_keycode(); break; // "qu"
+        magic_decode_send(636); clear_last_keycode(); break; // "qu"
     case SUB_2:
-        magic_decode_send(754); clear_last_keycode(); break; // "uh"
+        magic_decode_send(748); clear_last_keycode(); break; // "uh"
     case SUB_3:
         magic_decode_send(565); clear_last_keycode(); break; // "oe"
     case SUB_4:
